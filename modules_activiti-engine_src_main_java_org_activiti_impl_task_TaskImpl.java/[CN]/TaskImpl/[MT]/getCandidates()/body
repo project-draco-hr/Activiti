@@ -1,0 +1,9 @@
+{
+  Set<TaskInvolvement> potentialOwners=new HashSet<TaskInvolvement>();
+  for (  TaskInvolvement taskInvolvement : getTaskInvolvements()) {
+    if (TaskInvolvementType.CANDIDATE.equals(taskInvolvement.getType())) {
+      potentialOwners.add(taskInvolvement);
+    }
+  }
+  return potentialOwners;
+}

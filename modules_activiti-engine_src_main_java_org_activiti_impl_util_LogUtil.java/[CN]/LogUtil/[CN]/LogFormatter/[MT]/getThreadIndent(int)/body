@@ -1,0 +1,13 @@
+{
+  Integer threadIdInteger=new Integer(threadId);
+  String threadIndent=threadIndents.get(threadIdInteger);
+  if (threadIndent == null) {
+    StringBuilder stringBuilder=new StringBuilder();
+    for (int i=0; i < threadIndents.size(); i++) {
+      stringBuilder.append("  ");
+    }
+    threadIndent=stringBuilder.toString();
+    threadIndents.put(threadIdInteger,threadIndent);
+  }
+  return threadIndent;
+}

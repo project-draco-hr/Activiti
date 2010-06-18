@@ -1,0 +1,10 @@
+{
+  List<Transition> outgoingTransitions=execution.getOutgoingTransitions();
+  for (  Transition transition : outgoingTransitions) {
+    Condition condition=transition.getCondition();
+    if ((condition == null) || (condition.evaluate(execution))) {
+      return transition;
+    }
+  }
+  throw new ActivitiException("no transition for which the condition resolved to true: " + outgoingTransitions);
+}

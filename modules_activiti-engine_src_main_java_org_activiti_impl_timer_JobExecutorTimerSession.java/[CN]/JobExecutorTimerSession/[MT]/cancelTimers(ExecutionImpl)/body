@@ -1,0 +1,7 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  List<TimerImpl> timers=persistenceSession.findTimersByExecutionId(execution.getId());
+  for (  TimerImpl timer : timers) {
+    persistenceSession.delete(timer);
+  }
+}

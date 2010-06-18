@@ -1,0 +1,8 @@
+{
+  List<ProcessDefinitionImpl> processDefinitions=new ArrayList<ProcessDefinitionImpl>();
+  List<String> ids=sqlSession.selectList(statement("selectProcessDefinitionIdsByDeployment"),deploymentId);
+  for (  String id : ids) {
+    processDefinitions.add(findProcessDefinitionById(id));
+  }
+  return processDefinitions;
+}

@@ -1,0 +1,12 @@
+{
+  if (!isActive) {
+    log.info("Ignoring request to shut down non-active JobExecutor");
+    return;
+  }
+  isActive=false;
+  log.info("Shutting down the JobExecutor");
+  jobAcquisitionThread.shutdown();
+  threadPoolExecutor.shutdown();
+  threadPoolExecutor=null;
+  jobAcquisitionThread=null;
+}

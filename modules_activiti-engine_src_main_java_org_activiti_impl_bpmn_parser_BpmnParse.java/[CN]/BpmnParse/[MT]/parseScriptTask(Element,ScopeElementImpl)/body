@@ -1,0 +1,14 @@
+{
+  ActivityImpl activity=parseAndCreateActivityOnScopeElement(scriptTaskElement,scopeElement);
+  String script=null;
+  String language=null;
+  Element scriptElement=scriptTaskElement.element("script");
+  if (scriptElement != null) {
+    script=scriptElement.getText();
+    language=scriptTaskElement.attribute("scriptFormat");
+    if (language == null) {
+      language=ScriptingEngines.DEFAULT_EXPRESSION_LANGUAGE;
+    }
+  }
+  activity.setActivityBehavior(new ScriptTaskActivity(script,language));
+}

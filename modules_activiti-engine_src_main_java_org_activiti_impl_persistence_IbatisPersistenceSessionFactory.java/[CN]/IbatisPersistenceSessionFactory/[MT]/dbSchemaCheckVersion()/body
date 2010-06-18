@@ -1,0 +1,35 @@
+{
+  SqlSession sqlSession=sqlSessionFactory.openSession(ExecutorType.BATCH);
+  boolean success=false;
+  try {
+    String dbVersion=(String)sqlSession.selectOne(statement("selectDbSchemaVersion"));
+    if (!ProcessEngine.VERSION.equals(dbVersion)) {
+      throw new ActivitiWrongDbException(ProcessEngine.VERSION,dbVersion);
+    }
+    success=true;
+  }
+ catch (  Exception e) {
+    String exceptionMessage=e.getMessage();
+    if ((exceptionMessage.indexOf("Table") != -1) && (exceptionMessage.indexOf("not found") != -1)) {
+      throw new ActivitiException("no activiti tables in db.  set property db.schema.strategy=create-drop in activiti.properties for automatic schema creation",e);
+    }
+ else {
+      if (e instanceof RuntimeException) {
+        throw (RuntimeException)e;
+      }
+ else {
+        throw new ActivitiException("couldn't get db schema version",e);
+      }
+    }
+  }
+ finally {
+    if (success) {
+      sqlSession.commit(true);
+    }
+ else {
+      sqlSession.rollback(true);
+    }
+    sqlSession.close();
+  }
+  log.fine("activiti db schema check successful");
+}

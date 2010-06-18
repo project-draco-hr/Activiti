@@ -1,0 +1,14 @@
+{
+  if (inputStream == null) {
+    throw new ActivitiException("inputStream is null");
+  }
+  Properties properties=new Properties();
+  try {
+    properties.load(inputStream);
+  }
+ catch (  IOException e) {
+    throw new ActivitiException("problem while reading activiti configuration properties " + e.getMessage(),e);
+  }
+  configureFromProperties(properties);
+  return this;
+}

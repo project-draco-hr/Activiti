@@ -1,0 +1,9 @@
+{
+  this.command=command;
+  this.commandContextFactory=commandContextFactory;
+  this.transactionContext=commandContextFactory.getProcessEngineConfiguration().getTransactionContextFactory().openTransactionContext(this);
+  this.persistenceSession=commandContextFactory.getProcessEngineConfiguration().getPersistenceSessionFactory().openPersistenceSession(this);
+  this.messageSession=commandContextFactory.getProcessEngineConfiguration().getMessageSessionFactory().openMessageSession(this);
+  this.timerSession=commandContextFactory.getProcessEngineConfiguration().getTimerSessionFactory().openTimerSession(this);
+  getContextStack(true).push(this);
+}

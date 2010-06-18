@@ -1,0 +1,11 @@
+{
+  ExecutionImpl innerScope=(ExecutionImpl)execution;
+  ExecutionImpl outerScope=innerScope.getParent();
+  if (innerScope.hasVariable(sourceVariableName)) {
+    Object value=innerScope.getVariable(sourceVariableName);
+    outerScope.setVariable(destinationVariableName,value);
+  }
+ else {
+    throw new ActivitiException("Couldn't destroy variable " + sourceVariableName + ", since it does not exist");
+  }
+}

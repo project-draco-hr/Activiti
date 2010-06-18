@@ -1,0 +1,13 @@
+{
+  ActivityImpl activity=execution.getActivity();
+  ActivityBehavior activityBehavior=activity.getActivityBehavior();
+  try {
+    activityBehavior.execute(execution);
+  }
+ catch (  RuntimeException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new ActivitiException("couldn't start activity '" + activity.getName() + "': "+ e.getMessage(),e);
+  }
+}

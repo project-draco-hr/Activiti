@@ -1,0 +1,13 @@
+{
+  TaskQuery query=taskService.createTaskQuery().candidateUser("kermit");
+  assertEquals(11,query.count());
+  assertEquals(11,query.list().size());
+  assertEquals(2,query.paginatedList(0,2).size());
+  assertEquals(2,query.paginatedList(2,2).size());
+  assertEquals(3,query.paginatedList(4,3).size());
+  assertEquals(1,query.paginatedList(10,3).size());
+  assertEquals(1,query.paginatedList(10,1).size());
+  assertEquals(0,query.paginatedList(-1,-1).size());
+  assertEquals(0,query.paginatedList(11,2).size());
+  assertEquals(11,query.paginatedList(0,15).size());
+}

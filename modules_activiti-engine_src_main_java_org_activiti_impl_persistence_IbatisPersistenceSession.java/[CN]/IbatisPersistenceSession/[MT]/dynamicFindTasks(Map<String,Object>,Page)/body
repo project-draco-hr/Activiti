@@ -1,0 +1,9 @@
+{
+  final String query=statement("selectTaskByDynamicCriteria");
+  if (page == null) {
+    return sqlSession.selectList(query,params);
+  }
+ else {
+    return sqlSession.selectList(query,params,new RowBounds(page.getOffset(),page.getMaxResults()));
+  }
+}

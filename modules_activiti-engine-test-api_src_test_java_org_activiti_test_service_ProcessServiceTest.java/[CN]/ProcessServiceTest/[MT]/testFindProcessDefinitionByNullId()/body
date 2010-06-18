@@ -1,0 +1,9 @@
+{
+  try {
+    processService.findProcessDefinitionById(null);
+    fail();
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("Couldn't find process definiton",e.getMessage());
+  }
+}

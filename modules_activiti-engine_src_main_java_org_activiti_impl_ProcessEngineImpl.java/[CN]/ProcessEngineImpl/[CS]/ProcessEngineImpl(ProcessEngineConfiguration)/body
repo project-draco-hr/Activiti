@@ -1,0 +1,26 @@
+{
+  this.processEngineConfiguration=processEngineConfiguration;
+  this.name=processEngineConfiguration.getProcessEngineName();
+  this.processService=processEngineConfiguration.getProcessService();
+  this.identityService=processEngineConfiguration.getIdentityService();
+  this.taskService=processEngineConfiguration.getTaskService();
+  this.managementService=processEngineConfiguration.getManagementService();
+  this.dbSchemaStrategy=processEngineConfiguration.getDbSchemaStrategy();
+  this.jobExecutor=processEngineConfiguration.getJobExecutor();
+  this.persistenceSessionFactory=processEngineConfiguration.getPersistenceSessionFactory();
+  if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy) {
+    persistenceSessionFactory.dbSchemaCreate();
+  }
+ else   if (DbSchemaStrategy.CHECK_VERSION == dbSchemaStrategy) {
+    persistenceSessionFactory.dbSchemaCheckVersion();
+  }
+  if (name == null) {
+    log.info("default activiti ProcessEngine created");
+  }
+ else {
+    log.info("ProcessEngine " + name + " created");
+  }
+  if ((jobExecutor != null) && (processEngineConfiguration.isJobExecutorAutoActivate())) {
+    jobExecutor.start();
+  }
+}

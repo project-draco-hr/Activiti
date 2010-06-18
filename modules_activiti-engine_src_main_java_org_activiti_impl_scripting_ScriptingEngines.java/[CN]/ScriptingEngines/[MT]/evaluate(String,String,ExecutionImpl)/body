@@ -1,0 +1,13 @@
+{
+  Bindings bindings=createBindings(execution);
+  ScriptEngine scriptEngine=scriptEngineManager.getEngineByName(language);
+  if (scriptEngine == null) {
+    throw new ActivitiException("Can't find scripting engine for '" + language + "'");
+  }
+  try {
+    return scriptEngine.eval(script,bindings);
+  }
+ catch (  ScriptException e) {
+    throw new ActivitiException("problem evaluating script: " + e.getMessage(),e);
+  }
+}

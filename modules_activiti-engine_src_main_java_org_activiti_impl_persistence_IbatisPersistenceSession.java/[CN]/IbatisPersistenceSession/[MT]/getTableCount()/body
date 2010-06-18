@@ -1,0 +1,12 @@
+{
+  Map<String,Long> tableCount=new HashMap<String,Long>();
+  try {
+    for (    String tableName : tableNames) {
+      tableCount.put(tableName,getTableCount(tableName));
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't get table counts",e);
+  }
+  return tableCount;
+}

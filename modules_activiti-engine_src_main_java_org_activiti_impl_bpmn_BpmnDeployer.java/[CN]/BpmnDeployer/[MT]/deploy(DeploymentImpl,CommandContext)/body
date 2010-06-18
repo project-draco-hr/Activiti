@@ -1,0 +1,18 @@
+{
+  Map<String,ByteArrayImpl> resources=deployment.getResources();
+  for (  String resourceName : resources.keySet()) {
+    LOG.info("Processing resource " + resourceName);
+    if (resourceName.endsWith(BPMN_RESOURCE_SUFFIX)) {
+      ByteArrayImpl resource=resources.get(resourceName);
+      byte[] bytes=resource.getBytes();
+      ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
+      BpmnParse bpmnParse=BpmnParser.INSTANCE.createParse().processDefinitionClass(ProcessDefinitionDbImpl.class).commandContext(commandContext).sourceInputStream(inputStream).execute();
+      ProcessCache processCache=commandContext.getProcessCache();
+      for (      ProcessDefinitionImpl processDefinition : bpmnParse.getProcessDefinitions()) {
+        processDefinition.setDeployment(deployment);
+        processDefinition.setNew(deployment.isNew());
+        processCache.setProcessDefinition(processDefinition);
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  try {
+    InputStream inputStream=resource.openStream();
+    ProcessEngine processEngine=new DbProcessEngineBuilder().configureFromPropertiesInputStream(inputStream).buildProcessEngine();
+    return processEngine;
+  }
+ catch (  IOException e) {
+    throw new ActivitiException("couldn't open resource stream: " + e.getMessage(),e);
+  }
+}

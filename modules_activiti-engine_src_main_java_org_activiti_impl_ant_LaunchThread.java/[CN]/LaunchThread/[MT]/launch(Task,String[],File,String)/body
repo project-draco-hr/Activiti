@@ -1,0 +1,13 @@
+{
+  if (cmd == null) {
+    throw new BuildException("cmd is null");
+  }
+  try {
+    LaunchThread launchThread=new LaunchThread(task,cmd,dir,launchCompleteText);
+    launchThread.start();
+    launchThread.join();
+  }
+ catch (  Exception e) {
+    throw new BuildException("couldn't launch cmd: " + cmdString(cmd),e);
+  }
+}

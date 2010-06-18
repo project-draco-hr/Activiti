@@ -1,0 +1,13 @@
+{
+  this.processService.setCmdExecutor(commandExecutor);
+  this.identityService.setCmdExecutor(commandExecutor);
+  this.taskService.setCmdExecutor(commandExecutor);
+  this.managementService.setCmdExecutor(commandExecutor);
+  this.idGenerator.setCmdExecutor(commandExecutor);
+  this.processCache.setDeployerManager(deployerManager);
+  this.jobExecutor.setCommandExecutor(commandExecutor);
+  this.persistenceSessionFactory.setDbidGenerator(idGenerator);
+  this.commandExecutor.setProcessEngineConfiguration(this);
+  this.commandContextFactory.setProcessEngineConfiguration(this);
+  return new ProcessEngineImpl(this);
+}

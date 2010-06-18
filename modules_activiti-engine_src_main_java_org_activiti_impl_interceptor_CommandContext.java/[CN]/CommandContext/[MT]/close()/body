@@ -1,0 +1,59 @@
+{
+  try {
+    try {
+      try {
+        try {
+          if (exception == null) {
+            persistenceSession.flush();
+            messageSession.flush();
+          }
+        }
+ catch (        Throwable exception) {
+          exception(exception);
+        }
+ finally {
+          try {
+            if (exception == null) {
+              transactionContext.commit();
+            }
+          }
+ catch (          Throwable exception) {
+            exception(exception);
+          }
+          if (exception != null) {
+            transactionContext.rollback();
+          }
+        }
+      }
+ catch (      Throwable exception) {
+        exception(exception);
+      }
+ finally {
+        messageSession.close();
+      }
+    }
+ catch (    Throwable exception) {
+      exception(exception);
+    }
+ finally {
+      persistenceSession.close();
+    }
+  }
+ catch (  Throwable exception) {
+    exception(exception);
+  }
+ finally {
+    getContextStack(true).pop();
+  }
+  if (exception != null) {
+    if (exception instanceof Error) {
+      throw (Error)exception;
+    }
+ else     if (exception instanceof RuntimeException) {
+      throw (RuntimeException)exception;
+    }
+ else {
+      throw new ActivitiException("exception while executing command " + command,exception);
+    }
+  }
+}

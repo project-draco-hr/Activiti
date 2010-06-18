@@ -1,0 +1,16 @@
+{
+  if (variableInstances == null) {
+    List<VariableInstance> variableInstanceList=null;
+    if (execution != null) {
+      variableInstanceList=CommandContext.getCurrent().getPersistenceSession().findVariablesByExecutionId(execution.getId());
+    }
+ else {
+      variableInstanceList=CommandContext.getCurrent().getPersistenceSession().findVariablesByTaskId(task.getId());
+    }
+    variableInstances=new HashMap<String,VariableInstance>();
+    for (    VariableInstance variableInstance : variableInstanceList) {
+      variableInstances.put(variableInstance.getName(),variableInstance);
+    }
+  }
+  return variableInstances;
+}

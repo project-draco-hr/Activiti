@@ -1,0 +1,9 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  List<String> groupIds=new ArrayList<String>();
+  List<GroupImpl> groups=persistenceSession.findGroupsByUser(userId);
+  for (  GroupImpl group : groups) {
+    groupIds.add(group.getId());
+  }
+  return persistenceSession.findCandidateTasks(userId,groupIds);
+}

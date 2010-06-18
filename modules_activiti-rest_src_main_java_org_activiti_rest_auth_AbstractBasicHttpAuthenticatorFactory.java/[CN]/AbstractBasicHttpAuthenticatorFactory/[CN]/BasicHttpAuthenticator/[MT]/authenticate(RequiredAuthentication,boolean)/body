@@ -1,0 +1,37 @@
+{
+  boolean authenticated=false;
+  HttpServletResponse res=servletRes.getHttpServletResponse();
+  if (isGuest && RequiredAuthentication.guest == required) {
+    authenticated=true;
+  }
+ else   if (authorization != null && authorization.length() > 0) {
+    try {
+      String[] authorizationParts=authorization.split(" ");
+      if (!authorizationParts[0].equalsIgnoreCase("basic")) {
+        throw new WebScriptException("Authorization '" + authorizationParts[0] + "' not supported.");
+      }
+      String decodedAuthorisation=new String(Base64.decode(authorizationParts[1]));
+      String[] parts=decodedAuthorisation.split(":");
+      if (parts.length == 2) {
+        try {
+          authenticated=doAuthenticate(parts[0],parts[1]);
+          if (authenticated) {
+            if (!doAuthorize(parts[0],required)) {
+              authenticated=false;
+            }
+          }
+        }
+ catch (        AuthenticationException ae) {
+          throw ae;
+        }
+      }
+    }
+ catch (    RuntimeException e) {
+    }
+  }
+  if (!authenticated) {
+    res.setStatus(401);
+    res.setHeader("WWW-Authenticate","Basic realm=\"" + basicRealm + "\"");
+  }
+  return authenticated;
+}

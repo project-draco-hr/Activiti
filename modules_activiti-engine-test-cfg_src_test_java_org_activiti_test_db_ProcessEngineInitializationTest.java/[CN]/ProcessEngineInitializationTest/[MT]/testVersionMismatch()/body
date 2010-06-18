@@ -1,0 +1,38 @@
+{
+  ProcessEngineImpl processEngine=(ProcessEngineImpl)new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CREATE_DROP).buildProcessEngine();
+  PersistenceSessionFactory persistenceSessionFactory=processEngine.getPersistenceSessionFactory();
+  SqlSessionFactory sqlSessionFactory=((IbatisPersistenceSessionFactory)persistenceSessionFactory).getSqlSessionFactory();
+  SqlSession sqlSession=sqlSessionFactory.openSession();
+  boolean success=false;
+  try {
+    Map<String,Object> parameters=new HashMap<String,Object>();
+    parameters.put("name","schema.version");
+    parameters.put("value","25.7");
+    parameters.put("revision",new Integer(1));
+    parameters.put("newRevision",new Integer(2));
+    sqlSession.update("updateProperty",parameters);
+    success=true;
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't update db schema version",e);
+  }
+ finally {
+    if (success) {
+      sqlSession.commit(true);
+    }
+ else {
+      sqlSession.rollback(true);
+    }
+    sqlSession.close();
+  }
+  try {
+    new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).buildProcessEngine();
+    fail("expected exception");
+  }
+ catch (  ActivitiWrongDbException e) {
+    assertExceptionMessage("version mismatch",e);
+    assertEquals("25.7",e.getDbVersion());
+    assertEquals(ProcessEngine.VERSION,e.getLibraryVersion());
+  }
+  processEngine.close();
+}

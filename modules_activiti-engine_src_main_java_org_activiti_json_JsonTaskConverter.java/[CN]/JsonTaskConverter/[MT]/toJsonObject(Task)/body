@@ -1,0 +1,24 @@
+{
+  TaskImpl taskImpl=(TaskImpl)task;
+  JSONObject jsonObject=new JSONObject();
+  jsonObject.put("id",taskImpl.getId());
+  jsonObject.put("dbversion",taskImpl.getRevision());
+  jsonObject.put("assignee",taskImpl.getAssignee());
+  jsonObject.put("name",taskImpl.getName());
+  jsonObject.put("priority",taskImpl.getPriority());
+  jsonObject.put("createTime",taskImpl.getCreateTime());
+  jsonObject.put("skippable",taskImpl.isSkippable());
+  if (taskImpl.getStartDeadline() != null) {
+    jsonObject.put("startDeadline",taskImpl.getStartDeadline());
+  }
+  if (taskImpl.getCompletionDeadline() != null) {
+    jsonObject.put("completionDeadline",taskImpl.getCompletionDeadline());
+  }
+  if (taskImpl.getExecutionId() != null) {
+    jsonObject.put("execution",taskImpl.getExecutionId());
+  }
+  if (taskImpl.getProcessDefinitionId() != null) {
+    jsonObject.put("processDefinition",taskImpl.getProcessDefinitionId());
+  }
+  return jsonObject;
+}

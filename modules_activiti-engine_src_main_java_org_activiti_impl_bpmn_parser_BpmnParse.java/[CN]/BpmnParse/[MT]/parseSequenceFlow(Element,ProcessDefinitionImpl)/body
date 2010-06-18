@@ -1,0 +1,20 @@
+{
+  for (  Element sequenceFlowElement : processElement.elements("sequenceFlow")) {
+    String id=sequenceFlowElement.attribute("id");
+    String sourceRef=sequenceFlowElement.attribute("sourceRef");
+    String destinationRef=sequenceFlowElement.attribute("targetRef");
+    ActivityImpl sourceActivity=processDefinition.findActivity(sourceRef);
+    ActivityImpl destinationActivity=processDefinition.findActivity(destinationRef);
+    if (sourceActivity == null) {
+      throw new ActivitiException("Invalid source of sequence flow '" + id + "'");
+    }
+    if (destinationActivity == null) {
+      throw new ActivitiException("Invalid destination of sequence flow '" + id + "'");
+    }
+    TransitionImpl transition=sourceActivity.createTransition();
+    transition.setId(id);
+    transition.setName(sequenceFlowElement.attribute("name"));
+    transition.setDestination(destinationActivity);
+    parseSequenceFlowConditionExpression(sequenceFlowElement,transition);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  BoundaryTimerEventActivity boundaryTimerEventActivity=new BoundaryTimerEventActivity();
+  boundaryTimerEventActivity.setInterrupting(interrupting);
+  Element timeDuration=timerEventDefinition.element("timeDuration");
+  String timeDurationText=null;
+  if (timeDuration != null) {
+    timeDurationText=timeDuration.getText();
+  }
+  TimerDeclarationImpl timerDeclaration=timerActivity.getParent().createTimerDeclaration(timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
+  timerDeclaration.setBusinessCalendarRef(DurationBusinessCalendar.NAME);
+  timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
+  timerActivity.setActivityBehavior(boundaryTimerEventActivity);
+}

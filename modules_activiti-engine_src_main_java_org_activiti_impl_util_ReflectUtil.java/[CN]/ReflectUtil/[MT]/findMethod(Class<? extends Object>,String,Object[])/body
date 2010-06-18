@@ -1,0 +1,12 @@
+{
+  for (  Method method : clazz.getDeclaredMethods()) {
+    if (method.getName().equals(methodName) && matches(method.getParameterTypes(),args)) {
+      return method;
+    }
+  }
+  Class<?> superClass=clazz.getSuperclass();
+  if (superClass != null) {
+    return findMethod(superClass,methodName,args);
+  }
+  return null;
+}

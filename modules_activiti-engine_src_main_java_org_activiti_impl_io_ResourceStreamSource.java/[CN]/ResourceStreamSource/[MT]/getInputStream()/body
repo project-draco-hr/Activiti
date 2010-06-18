@@ -1,0 +1,10 @@
+{
+  if (classLoader == null) {
+    classLoader=Thread.currentThread().getContextClassLoader();
+  }
+  InputStream inputStream=classLoader.getResourceAsStream(resource);
+  if (inputStream == null) {
+    throw new ActivitiException("resource '" + resource + "' doesn't exist");
+  }
+  return inputStream;
+}

@@ -1,0 +1,12 @@
+{
+  if (embeddedProcessInstance == null) {
+    embeddedProcessInstance=new ExecutionImpl(getProcessDefinition());
+  }
+  if (variables != null) {
+    for (    String key : variables.keySet()) {
+      embeddedProcessInstance.setVariable(key,variables.get(key));
+    }
+  }
+  embeddedProcessInstance.startEmbedded();
+  serializeExecutionTree();
+}

@@ -1,0 +1,5 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  persistenceSession.insert(message);
+  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification());
+}

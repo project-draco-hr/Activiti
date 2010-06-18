@@ -1,0 +1,12 @@
+{
+  for (  PersistentObject updatedObject : updatedObjects) {
+    Class<?> updatedObjectClass=updatedObject.getClass();
+    String updateStatementId=findUpdateStatementId(updatedObjectClass);
+    if (updateStatementId == null) {
+      throw new ActivitiException("no update statement id for " + updatedObject.getClass());
+    }
+    log.fine("updating: " + updatedObjectClass + "["+ updatedObject.getId()+ "]");
+    sqlSession.update(ibatisPersistenceSession.statement(updateStatementId),updatedObject);
+  }
+  updatedObjects.clear();
+}

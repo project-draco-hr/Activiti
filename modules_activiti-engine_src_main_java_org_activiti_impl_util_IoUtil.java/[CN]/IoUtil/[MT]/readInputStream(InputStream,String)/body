@@ -1,0 +1,15 @@
+{
+  ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+  byte[] buffer=new byte[16 * 1024];
+  try {
+    int bytesRead=inputStream.read(buffer);
+    while (bytesRead != -1) {
+      outputStream.write(buffer,0,bytesRead);
+      bytesRead=inputStream.read(buffer);
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't read input stream " + inputStreamName,e);
+  }
+  return outputStream.toByteArray();
+}

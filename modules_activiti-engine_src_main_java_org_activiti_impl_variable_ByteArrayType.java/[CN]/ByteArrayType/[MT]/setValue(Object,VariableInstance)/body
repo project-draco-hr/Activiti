@@ -1,0 +1,12 @@
+{
+  ByteArrayImpl byteArray=variableInstance.getByteArrayValue();
+  byte[] bytes=(byte[])value;
+  if (byteArray == null) {
+    byteArray=new ByteArrayImpl(this,bytes);
+    CommandContext.getCurrent().getPersistenceSession().insert(byteArray);
+    variableInstance.setByteArrayValue(byteArray);
+  }
+ else {
+    byteArray.setBytes(bytes);
+  }
+}

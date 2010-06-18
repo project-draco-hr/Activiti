@@ -1,0 +1,8 @@
+{
+  for (  ActivityExecution joinedExecution : joinedExecutions) {
+    joinedExecution.end();
+  }
+  ActivityExecution outgoingExecution=scopeInstance.createExecution();
+  outgoingExecution.setActivity(joinActivity);
+  outgoingExecution.takeDefaultOutgoingTransition();
+}

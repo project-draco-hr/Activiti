@@ -1,0 +1,56 @@
+{
+  if (userEndpointId == null) {
+    userEndpointId=this.endpointId;
+  }
+  ActivitiUser user=null;
+  try {
+    String currentUserId=context.getUserId();
+    if (currentUserId == null) {
+      currentUserId=userId;
+    }
+    HttpSession session=ServletUtil.getSession();
+    Connector connector=FrameworkUtil.getConnector(session,currentUserId,userEndpointId);
+    Response response=connector.call("/user/" + URLEncoder.encode(userId));
+    if (Status.STATUS_OK != response.getStatus().getCode()) {
+      throw new UserFactoryException("Unable to create user - failed to retrieve user info: " + response.getStatus().getMessage(),(Exception)response.getStatus().getException());
+    }
+    if (response.getStatus().getCode() == ResponseStatus.STATUS_OK) {
+      JSONObject userJson=new JSONObject(response.getResponse());
+      response=connector.call("/user/" + URLEncoder.encode(userId) + "/groups");
+      if (Status.STATUS_OK != response.getStatus().getCode()) {
+        throw new UserFactoryException("Unable to create user - failed to retrieve group info: " + response.getStatus().getMessage(),(Exception)response.getStatus().getException());
+      }
+      JSONObject result=new JSONObject(response.getResponse());
+      JSONArray groupsArray=result.getJSONArray("data");
+      JSONObject groupObject;
+      HashMap<String,String> securityGroups=new HashMap<String,String>();
+      HashMap<String,String> assignmentGroups=new HashMap<String,String>();
+      for (int i=0, il=groupsArray.length(); i < il; i++) {
+        groupObject=(JSONObject)groupsArray.get(i);
+        if (groupObject.getString("type").equals(securityRoleGroupTypeId)) {
+          securityGroups.put(groupObject.getString("id"),groupObject.getString("name"));
+        }
+ else         if (groupObject.getString("type").equals(assignmentGroupTypeId)) {
+          assignmentGroups.put(groupObject.getString("id"),groupObject.getString("name"));
+        }
+      }
+      Map<String,Boolean> capabilities=new HashMap<String,Boolean>();
+      capabilities.put(User.CAPABILITY_ADMIN,securityGroups.containsKey(adminGroupId));
+      capabilities.put(User.CAPABILITY_GUEST,false);
+      capabilities.put(User.CAPABILITY_MUTABLE,false);
+      user=new ActivitiUser(userJson.getString("id"),capabilities);
+      user.setFirstName(userJson.getString("firstName"));
+      user.setLastName(userJson.getString("lastName"));
+      user.setEmail(userJson.getString("email"));
+      user.setSecurityRoleGroups(securityGroups);
+      user.setAssignmentGroups(assignmentGroups);
+    }
+ else {
+      throw new UserFactoryException("Code '" + response.getStatus().getCode() + "' received while loading user object.");
+    }
+  }
+ catch (  Exception ex) {
+    throw new UserFactoryException("Unable to retrieve user from repository",ex);
+  }
+  return user;
+}

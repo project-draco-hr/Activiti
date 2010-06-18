@@ -1,0 +1,9 @@
+{
+  try {
+    ClassLoader classLoader=getClassLoader();
+    return Class.forName(className,true,classLoader);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't load class " + className,e);
+  }
+}

@@ -1,0 +1,5 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  ByteArrayImpl resource=persistenceSession.findDeploymentResource(deploymentId,resourceName);
+  return new ByteArrayInputStream(resource.getBytes());
+}

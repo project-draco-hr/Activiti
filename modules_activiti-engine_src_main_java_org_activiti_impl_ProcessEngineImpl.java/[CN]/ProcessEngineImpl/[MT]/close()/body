@@ -1,0 +1,8 @@
+{
+  if ((jobExecutor != null) && (jobExecutor.isActive())) {
+    jobExecutor.shutdown();
+  }
+  if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy) {
+    persistenceSessionFactory.dbSchemaDrop();
+  }
+}

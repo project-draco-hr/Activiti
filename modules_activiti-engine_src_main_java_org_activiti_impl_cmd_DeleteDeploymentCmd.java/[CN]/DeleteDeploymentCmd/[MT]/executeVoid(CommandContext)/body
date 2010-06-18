@@ -1,0 +1,17 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  if (!cascade) {
+    persistenceSession.deleteDeployment(deploymentId);
+  }
+ else {
+    List<ProcessDefinitionImpl> procDefs=persistenceSession.findProcessDefinitionsByDeployment(deploymentId);
+    for (    ProcessDefinitionImpl processDefinition : procDefs) {
+      List<DbExecutionImpl> executions=persistenceSession.findRootExecutionsByProcessDefintion(processDefinition.getId());
+      for (      DbExecutionImpl execution : executions) {
+        execution.end();
+      }
+    }
+    persistenceSession.flush();
+    persistenceSession.deleteDeployment(deploymentId);
+  }
+}

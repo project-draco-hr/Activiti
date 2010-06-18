@@ -1,0 +1,24 @@
+{
+  String id=propertyElement.attribute("id");
+  String name=propertyElement.attribute("name");
+  if (name == null) {
+    if (id == null) {
+      throw new ActivitiException("Invalid property usage on line " + propertyElement.getLine() + ": no id or name specified.");
+    }
+ else {
+      name=id;
+    }
+  }
+  String itemSubjectRef=propertyElement.attribute("itemSubjectRef");
+  String type=null;
+  if (itemSubjectRef != null) {
+    Element itemDefinitionRef=itemDefinitions.get(itemSubjectRef);
+    if (itemDefinitionRef != null) {
+      type=itemDefinitionRef.attribute("structureRef");
+    }
+ else {
+      throw new ActivitiException("Invalid itemDefinition reference: " + itemSubjectRef + " not found");
+    }
+  }
+  parsePropertyCustomExtensions(activity,propertyElement,name,type);
+}

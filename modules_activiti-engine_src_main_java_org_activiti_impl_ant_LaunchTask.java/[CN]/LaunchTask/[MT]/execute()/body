@@ -1,0 +1,11 @@
+{
+  if (dir == null) {
+    throw new BuildException("dir attribute is required with the launch task");
+  }
+  if (script == null) {
+    throw new BuildException("script attribute is required with the launch task");
+  }
+  String executable=getExecutable();
+  String[] cmd=new String[]{executable};
+  LaunchThread.launch(this,cmd,dir,msg);
+}

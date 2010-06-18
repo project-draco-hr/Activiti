@@ -1,0 +1,49 @@
+{
+  Map<Thread,StackTraceElement[]> threads=Thread.getAllStackTraces();
+  for (  Thread t : threads.keySet()) {
+    String name=t.getName();
+    if ("Signal Dispatcher".equals(name) || "Reference Handler".equals(name) || "main".equals(name)|| "Finalizer".equals(name)) {
+      continue;
+    }
+    if ("ReaderThread".equals(name)) {
+      continue;
+    }
+    StackTraceElement[] st=threads.get(t);
+    Matcher tpm=threadPoolPattern.matcher(name);
+    if (tpm.find()) {
+      int tpn=Integer.parseInt(tpm.group(1));
+      ThreadPoolSnapshot tps=null;
+      for (      ThreadPoolSnapshot s : pools) {
+        if (s.threadPoolNumber == tpn) {
+          tps=s;
+          break;
+        }
+      }
+      if (tps == null) {
+        tps=new ThreadPoolSnapshot(tpn);
+        pools.add(tps);
+      }
+      tps.threadCount++;
+      if (st.length == 0 || st[0].toString().indexOf(".park(") > -1) {
+      }
+ else {
+        tps.threadsActive++;
+      }
+      continue;
+    }
+    if (st.length == 0) {
+      System.err.println(t);
+      continue;
+    }
+    StackTraceElement lastST=st[st.length - 1];
+    if (lastST.getClassName().equals(JobAcquisitionThread.class.getName())) {
+      running.add(PENDING_JOBS_FETCHER);
+      continue;
+    }
+    running.add(name + " " + st[st.length - 1].getClassName());
+    System.out.println(name);
+    for (    StackTraceElement e : st) {
+      System.out.println("\t" + e);
+    }
+  }
+}

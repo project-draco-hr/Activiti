@@ -1,0 +1,16 @@
+{
+  if (isInitialized) {
+    Map<String,ProcessEngine> engines=new HashMap<String,ProcessEngine>(processEngines);
+    processEngines=Collections.unmodifiableMap(Collections.EMPTY_MAP);
+    for (    String processEngineName : engines.keySet()) {
+      ProcessEngine processEngine=engines.get(processEngineName);
+      try {
+        processEngine.close();
+      }
+ catch (      Exception e) {
+        log.log(Level.SEVERE,"exception while closing " + (processEngineName == null ? "the default process engine" : "process engine " + processEngineName),e);
+      }
+    }
+    isInitialized=false;
+  }
+}

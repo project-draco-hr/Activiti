@@ -1,0 +1,9 @@
+{
+  ObjectProcessDefinition processDefinition=ProcessDefinitionBuilder.createProcessDefinition().createActivity("start").initial().behavior(new Automatic()).transition("checkCredit").endActivity().createActivity("checkCredit").behavior(new Decision()).transition("takeToGolf",new ExpressionCondition("${creditRating=='Aaa-'}")).transition("askDaughterOut",new ExpressionCondition("${creditRating=='AAA+'}")).transition("ignore").endActivity().createActivity("takeToGolf").behavior(new WaitState()).endActivity().createActivity("askDaughterOut").behavior(new WaitState()).endActivity().createActivity("ignore").behavior(new WaitState()).endActivity().endProcessDefinition();
+  ObjectProcessInstance processInstance=processDefinition.createProcessInstance().variable("creditRating","Aaa-").start();
+  assertTrue(processInstance.isActive("takeToGolf"));
+  processInstance=processDefinition.createProcessInstance().variable("creditRating","AAA+").start();
+  assertTrue(processInstance.isActive("askDaughterOut"));
+  processInstance=processDefinition.createProcessInstance().variable("creditRating","bb-").start();
+  assertTrue(processInstance.isActive("ignore"));
+}

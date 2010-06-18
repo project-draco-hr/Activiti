@@ -1,0 +1,12 @@
+{
+  deployProcessResource("org/activiti/test/service/oneTaskProcess.bpmn20.xml");
+  List<ProcessDefinition> processDefinitions=processService.findProcessDefinitions();
+  assertEquals(1,processDefinitions.size());
+  ProcessDefinition processDefinition=processDefinitions.get(0);
+  assertEquals("oneTaskProcess",processDefinition.getKey());
+  assertNotNull(processDefinition.getId());
+  ProcessInstance processInstance=processService.startProcessInstanceById(processDefinition.getId());
+  assertNotNull(processInstance);
+  assertEquals(1,processInstance.getActivityNames().size());
+  assertEquals("theTask",processInstance.getActivityNames().get(0));
+}

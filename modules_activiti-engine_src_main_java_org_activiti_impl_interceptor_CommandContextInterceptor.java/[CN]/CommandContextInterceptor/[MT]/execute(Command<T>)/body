@@ -1,0 +1,24 @@
+{
+  log.fine("");
+  log.fine("=== starting command " + command + " ===========================================");
+  CommandContext commandContext=commandContextFactory.createCommandContext(command);
+  try {
+    T result=next.execute(command);
+    return result;
+  }
+ catch (  Throwable exception) {
+    commandContext.exception(exception);
+    if (exception instanceof RuntimeException) {
+      throw (RuntimeException)exception;
+    }
+ else     if (exception instanceof Error) {
+      throw (Error)exception;
+    }
+    throw new ActivitiException(exception.getMessage(),exception);
+  }
+ finally {
+    commandContext.close();
+    log.fine("=== command " + command + " finished ===========================================");
+    log.fine("");
+  }
+}

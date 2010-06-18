@@ -1,0 +1,10 @@
+{
+  ClassLoader contextClassLoader=Thread.currentThread().getContextClassLoader();
+  PooledDataSource dataSource=new PooledDataSource(contextClassLoader,"org.hsqldb.jdbcDriver","jdbc:hsqldb:.","sa","");
+  TransactionFactory transactionFactory=new JdbcTransactionFactory();
+  Environment environment=new Environment("development",transactionFactory,dataSource);
+  Configuration configuration=new Configuration(environment);
+  configuration.setLazyLoadingEnabled(false);
+  SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(configuration);
+  assertNotNull(sqlSessionFactory);
+}

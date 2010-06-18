@@ -1,0 +1,22 @@
+{
+  String os=System.getProperty("os.name").toLowerCase();
+  String dirPath=dir.getAbsolutePath();
+  String base=dirPath + FILESEPARATOR + script;
+  if (isExecutable(base)) {
+    return base;
+  }
+  if (os.indexOf("windows") != -1) {
+    if (isExecutable(base + ".exe")) {
+      return base + ".exe";
+    }
+    if (isExecutable(base + ".bat")) {
+      return base + ".bat";
+    }
+  }
+  if (os.indexOf("linux") != -1 || os.indexOf("mac") != -1) {
+    if (isExecutable(base + ".sh")) {
+      return base + ".sh";
+    }
+  }
+  throw new BuildException("couldn't find executable for script " + base);
+}

@@ -1,0 +1,9 @@
+{
+  deserializeExecutionTree();
+  List<Activity> activities=embeddedProcessInstance.getProcessInstance().getActivities();
+  List<String> activityNames=new ArrayList<String>();
+  for (  Activity activity : activities) {
+    activityNames.add(activity.getId());
+  }
+  return activityNames;
+}

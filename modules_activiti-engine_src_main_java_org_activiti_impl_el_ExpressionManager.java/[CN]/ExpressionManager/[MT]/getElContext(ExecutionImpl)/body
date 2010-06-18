@@ -1,0 +1,12 @@
+{
+  ELContext elContext=null;
+synchronized (execution) {
+    elContext=(ELContext)execution.getCachedElContext();
+    if (elContext != null) {
+      return elContext;
+    }
+    elContext=createExecutionElContext(execution);
+    execution.setCachedElContext(elContext);
+  }
+  return elContext;
+}

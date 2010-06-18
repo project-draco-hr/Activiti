@@ -1,0 +1,51 @@
+{
+  SqlSession sqlSession=sqlSessionFactory.openSession(ExecutorType.BATCH);
+  boolean success=false;
+  try {
+    Connection connection=sqlSession.getConnection();
+    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+    String resource="org/activiti/db/" + operation + "/activiti.h2."+ operation+ ".sql";
+    InputStream inputStream=classLoader.getResourceAsStream(resource);
+    if (inputStream == null) {
+      throw new ActivitiException("resource '" + resource + "' is not available for creating the schema");
+    }
+    Exception exception=null;
+    byte[] bytes=IoUtil.readInputStream(inputStream,resource);
+    String ddlStatements=new String(bytes);
+    StringTokenizer tokenizer=new StringTokenizer(ddlStatements,";");
+    while (tokenizer.hasMoreTokens()) {
+      String ddlStatement=tokenizer.nextToken().trim();
+      if (!ddlStatement.startsWith("#")) {
+        Statement jdbcStatement=connection.createStatement();
+        try {
+          log.fine("\n" + ddlStatement);
+          jdbcStatement.execute(ddlStatement);
+          jdbcStatement.close();
+        }
+ catch (        Exception e) {
+          if (exception == null) {
+            exception=e;
+          }
+          log.log(Level.SEVERE,"problem during schema " + operation + ", statement '"+ ddlStatement,e);
+        }
+      }
+    }
+    if (exception != null) {
+      throw exception;
+    }
+    success=true;
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't create db schema",e);
+  }
+ finally {
+    if (success) {
+      sqlSession.commit(true);
+    }
+ else {
+      sqlSession.rollback(true);
+    }
+    sqlSession.close();
+  }
+  log.fine("activiti db schema creation successful");
+}

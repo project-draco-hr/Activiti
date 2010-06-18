@@ -1,0 +1,18 @@
+{
+  try {
+    this.databaseName=databaseName;
+    initializeDatabaseStatements(databaseName);
+    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+    InputStream inputStream=classLoader.getResourceAsStream("org/activiti/db/ibatis/activiti.ibatis.mem.conf.xml");
+    Reader reader=new InputStreamReader(inputStream);
+    sqlSessionFactory=new SqlSessionFactoryBuilder().build(reader);
+    PooledDataSource originalPooledDatasource=(PooledDataSource)this.sqlSessionFactory.getConfiguration().getEnvironment().getDataSource();
+    DataSource newUnpooledDataSource=new UnpooledDataSource(jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+    Field dataSourceField=PooledDataSource.class.getDeclaredField("dataSource");
+    dataSourceField.setAccessible(true);
+    dataSourceField.set(originalPooledDatasource,newUnpooledDataSource);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error while building ibatis SqlSessionFactory: " + e.getMessage(),e);
+  }
+}

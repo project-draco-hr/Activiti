@@ -1,0 +1,6 @@
+{
+  deployProcessForThisTestMethod();
+  ProcessInstance pi=processService.startProcessInstanceByKey("setScriptVariableThroughExecution");
+  assertNull(processService.getVariable(pi.getId(),"scriptVar"));
+  assertEquals("test123",processService.getVariable(pi.getId(),"myVar"));
+}

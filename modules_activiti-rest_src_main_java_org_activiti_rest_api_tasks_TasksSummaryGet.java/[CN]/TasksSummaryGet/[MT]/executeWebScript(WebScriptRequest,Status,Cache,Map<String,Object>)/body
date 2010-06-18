@@ -1,0 +1,14 @@
+{
+  String user=getMandatoryString(req,"user");
+  TaskService ts=getTaskService();
+  List<Group> groups=getIdentityService().findGroupsByUserAndType(user,config.getAssignmentGroupTypeId());
+  Map<String,Long> unassignedByGroup=new HashMap<String,Long>();
+  long tasksInGroup;
+  for (  Group group : groups) {
+    tasksInGroup=ts.createTaskQuery().candidateGroup(group.getId()).count();
+    unassignedByGroup.put(group.getId(),tasksInGroup);
+  }
+  model.put("unassignedByGroup",unassignedByGroup);
+  model.put("unassigned",ts.createTaskQuery().candidateUser(user).count());
+  model.put("assigned",ts.createTaskQuery().assignee(user).count());
+}

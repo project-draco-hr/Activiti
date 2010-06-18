@@ -1,0 +1,9 @@
+{
+  try {
+    Constructor<?> constructor=getType().getDeclaredConstructor(parameterTypes);
+    return constructor.newInstance(new Object[]{commandContext});
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't instantiate class " + typeName,e);
+  }
+}

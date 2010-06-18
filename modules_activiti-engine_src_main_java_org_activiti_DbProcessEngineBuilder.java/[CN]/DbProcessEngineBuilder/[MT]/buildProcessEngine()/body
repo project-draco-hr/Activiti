@@ -1,0 +1,25 @@
+{
+  if (databaseName == null) {
+    throw new ActivitiException("no database specified");
+  }
+  if (jdbcDriver == null) {
+    throw new ActivitiException("no jdbc driver specified");
+  }
+  if (jdbcUrl == null) {
+    throw new ActivitiException("no jdbc url specified");
+  }
+  if (jdbcUsername == null) {
+    throw new ActivitiException("no jdbc username specified");
+  }
+  if (jdbcPassword == null) {
+    throw new ActivitiException("no jdbc password specified");
+  }
+  PersistenceSessionFactory persistenceSessionFactory=new IbatisPersistenceSessionFactory(databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+  ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
+  processEngineConfiguration.setProcessEngineName(processEngineName);
+  processEngineConfiguration.setPersistenceSessionFactory(persistenceSessionFactory);
+  processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
+  processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
+  ProcessEngineImpl processEngine=processEngineConfiguration.buildProcessEngine();
+  return processEngine;
+}

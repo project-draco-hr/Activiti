@@ -1,0 +1,6 @@
+{
+  deployProcessForThisTestMethod();
+  ProcessInstance processInstance=processService.startProcessInstanceByKey("startToEnd");
+  assertProcessInstanceEnded(processInstance.getId());
+  assertTrue(processInstance.isEnded());
+}

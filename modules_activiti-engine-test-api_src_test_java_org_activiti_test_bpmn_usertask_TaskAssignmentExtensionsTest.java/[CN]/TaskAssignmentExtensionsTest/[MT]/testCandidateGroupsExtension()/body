@@ -1,0 +1,13 @@
+{
+  deployProcessForThisTestMethod();
+  processService.startProcessInstanceByKey("candidateGroupsExtension");
+  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  assertEquals(1,tasks.size());
+  assertEquals("make profit",tasks.get(0).getName());
+  tasks=taskService.findUnassignedTasks("fozzie");
+  assertEquals(1,tasks.size());
+  assertEquals("make profit",tasks.get(0).getName());
+  TaskQuery query=taskService.createTaskQuery();
+  assertEquals(1,query.candidateGroup("management").count());
+  assertEquals(1,query.candidateGroup("accountancy").count());
+}

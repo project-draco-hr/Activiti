@@ -1,0 +1,10 @@
+{
+  String procInstString=getEmbeddedState();
+  if (procInstString != null && procInstString.length() > 0) {
+    String[] splittedSerialization=procInstString.split(",");
+    String activityId=splittedSerialization[0].replace("activity:","");
+    ProcessDefinitionImpl processDefinitionImpl=getProcessDefinition();
+    embeddedProcessInstance=new ExecutionImpl(processDefinitionImpl);
+    embeddedProcessInstance.setActivity(processDefinitionImpl.findActivity(activityId));
+  }
+}

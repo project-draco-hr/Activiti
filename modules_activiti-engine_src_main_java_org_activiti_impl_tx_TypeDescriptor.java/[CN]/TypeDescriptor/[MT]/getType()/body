@@ -1,0 +1,9 @@
+{
+  try {
+    ClassLoader contextClassLoader=Thread.currentThread().getContextClassLoader();
+    return Class.forName(typeName,true,contextClassLoader);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't load class " + typeName,e);
+  }
+}

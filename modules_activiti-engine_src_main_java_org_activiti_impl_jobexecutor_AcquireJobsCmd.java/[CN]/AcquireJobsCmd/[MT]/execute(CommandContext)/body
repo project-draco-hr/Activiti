@@ -1,0 +1,23 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  JobExecutor jobExecutor=commandContext.getJobExecutor();
+  String lockOwner=jobExecutor.getLockOwner();
+  int lockTimeInMillis=jobExecutor.getLockTimeInMillis();
+  int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
+  AcquiredJobs acquiredJobs=new AcquiredJobs();
+  List<JobImpl> jobs=persistenceSession.findNextJobsToExecute(maxJobsPerAcquisition);
+  for (  JobImpl job : jobs) {
+    List<String> jobIds=new ArrayList<String>();
+    if (job != null) {
+      job.setLockOwner(lockOwner);
+      GregorianCalendar gregorianCalendar=new GregorianCalendar();
+      gregorianCalendar.add(Calendar.MILLISECOND,lockTimeInMillis);
+      job.setLockExpirationTime(gregorianCalendar.getTime());
+      jobIds.add(job.getId());
+      if (job.isExclusive()) {
+      }
+    }
+    acquiredJobs.addJobIds(jobIds);
+  }
+  return acquiredJobs;
+}

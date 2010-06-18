@@ -1,0 +1,32 @@
+{
+  IdentityService identityService=processEngine.getIdentityService();
+  Group sales=identityService.newGroup("sales");
+  identityService.saveGroup(sales);
+  Group development=identityService.newGroup("development");
+  identityService.saveGroup(development);
+  User johndoe=identityService.newUser("johndoe");
+  identityService.saveUser(johndoe);
+  User joesmoe=identityService.newUser("joesmoe");
+  identityService.saveUser(joesmoe);
+  User jackblack=identityService.newUser("jackblack");
+  identityService.saveUser(jackblack);
+  identityService.createMembership("johndoe","sales");
+  identityService.createMembership("joesmoe","sales");
+  identityService.createMembership("joesmoe","development");
+  identityService.createMembership("jackblack","development");
+  List<Group> groups=identityService.findGroupsByUser("johndoe");
+  assertEquals(createStringSet("sales"),getGroupIds(groups));
+  groups=identityService.findGroupsByUser("joesmoe");
+  assertEquals(createStringSet("sales","development"),getGroupIds(groups));
+  groups=identityService.findGroupsByUser("jackblack");
+  assertEquals(createStringSet("development"),getGroupIds(groups));
+  List<User> users=identityService.findUsersByGroup("sales");
+  assertEquals(createStringSet("johndoe","joesmoe"),getUserIds(users));
+  users=identityService.findUsersByGroup("development");
+  assertEquals(createStringSet("joesmoe","jackblack"),getUserIds(users));
+  identityService.deleteGroup("sales");
+  identityService.deleteGroup("development");
+  identityService.deleteUser("jackblack");
+  identityService.deleteUser("joesmoe");
+  identityService.deleteUser("johndoe");
+}

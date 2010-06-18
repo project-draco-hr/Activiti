@@ -1,0 +1,9 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  JobImpl job=persistenceSession.findJobById(jobId);
+  job.setRetries(job.getRetries() - 1);
+  job.setLockOwner(null);
+  job.setLockExpirationTime(null);
+  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification());
+  return null;
+}

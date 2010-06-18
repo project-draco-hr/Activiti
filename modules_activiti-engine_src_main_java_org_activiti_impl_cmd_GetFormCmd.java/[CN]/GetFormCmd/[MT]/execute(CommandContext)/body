@@ -1,0 +1,41 @@
+{
+  ProcessCache processCache=commandContext.getProcessCache();
+  ProcessDefinitionImpl processDefinition=null;
+  TaskImpl task=null;
+  ExecutionImpl execution=null;
+  FormReference formReference=null;
+  if (taskId != null) {
+    PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+    task=persistenceSession.findTask(taskId);
+    if (task == null) {
+      throw new ActivitiException("No task found for id = '" + taskId + "'");
+    }
+    execution=task.getExecution();
+    processDefinition=processCache.findProcessDefinitionById(task.getProcessDefinitionId());
+    formReference=execution.getActivity().getFormReference();
+  }
+ else   if (processDefinitionId != null) {
+    processDefinition=processCache.findProcessDefinitionById(processDefinitionId);
+    if (processDefinition == null) {
+      throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
+    }
+    formReference=processDefinition.getInitial().getFormReference();
+  }
+ else   if (processDefinitionKey != null) {
+    processDefinition=processCache.findProcessDefinitionByKey(processDefinitionKey);
+    if (processDefinition == null) {
+      throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
+    }
+    formReference=processDefinition.getInitial().getFormReference();
+  }
+  DeploymentImpl deployment=processDefinition.getDeployment();
+  Object result=null;
+  if (formReference != null) {
+    String formLanguage=formReference.getLanguage();
+    String form=formReference.getForm();
+    String formTemplateString=getFormTemplateString(form,deployment);
+    ScriptingEngines scriptingEngines=commandContext.getScriptingEngines();
+    result=scriptingEngines.evaluate(formTemplateString,formLanguage,execution);
+  }
+  return result;
+}

@@ -1,0 +1,7 @@
+{
+  DbExecutionImpl execution=(DbExecutionImpl)sqlSession.selectOne(statement("selectExecution"),executionId);
+  if (execution != null) {
+    execution=(DbExecutionImpl)loaded.add(execution);
+  }
+  return execution;
+}

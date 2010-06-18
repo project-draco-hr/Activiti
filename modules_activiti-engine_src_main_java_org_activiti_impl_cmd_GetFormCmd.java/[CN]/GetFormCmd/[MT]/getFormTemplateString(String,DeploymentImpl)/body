@@ -1,0 +1,8 @@
+{
+  ByteArrayImpl formResourceByteArray=deployment.getResource(formResource);
+  if (formResourceByteArray == null) {
+    throw new ActivitiException("form '" + formResource + "' not available in "+ deployment);
+  }
+  byte[] formResourceBytes=formResourceByteArray.getBytes();
+  return new String(formResourceBytes);
+}

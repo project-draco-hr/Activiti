@@ -1,0 +1,12 @@
+{
+  if (contextStack != null) {
+    ListIterator<Object> iterator=contextStack.listIterator(contextStack.size());
+    while (iterator.hasPrevious()) {
+      Object obj=iterator.previous();
+      if (clazz.isInstance(obj)) {
+        return clazz.cast(obj);
+      }
+    }
+  }
+  return null;
+}

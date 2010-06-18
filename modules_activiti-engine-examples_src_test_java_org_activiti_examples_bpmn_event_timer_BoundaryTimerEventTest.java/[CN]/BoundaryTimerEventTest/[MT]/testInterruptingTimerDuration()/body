@@ -1,0 +1,10 @@
+{
+  deployProcessForThisTestMethod();
+  ProcessInstance pi=processService.startProcessInstanceByKey("interruptingBoundaryTimer");
+  Task task=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
+  assertEquals("First line support",task.getName());
+  Clock.setCurrentTime(new Date(System.currentTimeMillis() + (5 * 60 * 60* 1000)));
+  waitForJobExecutorToProcessAllJobs(10000L,250);
+  task=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
+  assertEquals("Second line support",task.getName());
+}

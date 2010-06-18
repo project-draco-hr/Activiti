@@ -1,0 +1,11 @@
+{
+  this.target=target;
+  this.stateFieldName=stateFieldName;
+  this.processDefinition=(ProcessDefinitionImpl)processDefinition;
+  if (initialize) {
+    processInstance=(ExecutionImpl)processDefinition.createProcessInstance();
+    processInstance.setVariable("this",target);
+    processInstance.start();
+    serialize();
+  }
+}

@@ -1,0 +1,14 @@
+{
+  Map<String,Long> tableCounts=processEngine.getManagementService().getTableCount();
+  StringBuilder outputMessage=new StringBuilder();
+  for (  String table : tableCounts.keySet()) {
+    Long count=tableCounts.get(table);
+    if (!table.equals("ACT_PROPERTY") && count != 0L) {
+      outputMessage.append(table + ":" + count+ " record(s) ");
+    }
+  }
+  if (outputMessage.length() > 0) {
+    outputMessage.insert(0,"Database not clean! ");
+    throw new ActivitiException(outputMessage.toString());
+  }
+}

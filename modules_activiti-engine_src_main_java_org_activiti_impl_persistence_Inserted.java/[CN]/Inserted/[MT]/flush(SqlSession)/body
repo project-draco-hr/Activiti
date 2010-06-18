@@ -1,0 +1,12 @@
+{
+  for (  PersistentObject insertedObject : insertedObjects) {
+    Class<?> insertedObjectClass=insertedObject.getClass();
+    String insertStatementId=findInsertStatementId(insertedObjectClass);
+    if (insertStatementId == null) {
+      throw new ActivitiException("no insert statement id for " + insertedObject.getClass());
+    }
+    log.fine("inserting: " + insertedObjectClass + "["+ insertedObject.getId()+ "]");
+    sqlSession.insert(ibatisPersistenceSession.statement(insertStatementId),insertedObject);
+  }
+  insertedObjects.clear();
+}

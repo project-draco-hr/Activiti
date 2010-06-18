@@ -1,0 +1,54 @@
+{
+  List<File> files=new ArrayList<File>();
+  if (file != null) {
+    files.add(file);
+  }
+  if (fileSets != null) {
+    for (    FileSet fileSet : fileSets) {
+      DirectoryScanner directoryScanner=fileSet.getDirectoryScanner(getProject());
+      File baseDir=directoryScanner.getBasedir();
+      String[] includedFiles=directoryScanner.getIncludedFiles();
+      String[] excludedFiles=directoryScanner.getExcludedFiles();
+      List<String> excludedFilesList=Arrays.asList(excludedFiles);
+      for (      String includedFile : includedFiles) {
+        if (!excludedFilesList.contains(includedFile)) {
+          files.add(new File(baseDir,includedFile));
+        }
+      }
+    }
+  }
+  Thread currentThread=Thread.currentThread();
+  ClassLoader originalClassLoader=currentThread.getContextClassLoader();
+  currentThread.setContextClassLoader(DeployBarTask.class.getClassLoader());
+  LogUtil.readJavaUtilLoggingConfigFromClasspath();
+  try {
+    log("Initializing process engine " + processEngineName);
+    ProcessEngines.init();
+    ProcessEngine processEngine=ProcessEngines.getProcessEngine(processEngineName);
+    if (processEngine == null) {
+      throw new ActivitiException("Could not find a process engine with name '" + processEngineName + "'");
+    }
+    ProcessService processService=processEngine.getProcessService();
+    log("Starting to deploy " + files.size() + " files");
+    for (    File file : files) {
+      String path=file.getAbsolutePath();
+      log("Handling file " + path);
+      try {
+        FileInputStream inputStream=new FileInputStream(file);
+        try {
+          log("deploying bar " + path);
+          processService.newDeployment().name(file.getName()).addZipInputStream(new ZipInputStream(inputStream)).deploy();
+        }
+  finally {
+          inputStream.close();
+        }
+      }
+ catch (      Exception e) {
+        throw new BuildException("couldn't deploy bar " + path + ": "+ e.getMessage(),e);
+      }
+    }
+  }
+  finally {
+    currentThread.setContextClassLoader(originalClassLoader);
+  }
+}

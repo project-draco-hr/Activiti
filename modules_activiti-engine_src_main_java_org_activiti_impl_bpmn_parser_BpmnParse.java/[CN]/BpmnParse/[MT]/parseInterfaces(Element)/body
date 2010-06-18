@@ -1,0 +1,12 @@
+{
+  for (  Element interfaceElement : definitionsElement.elements("interface")) {
+    String id=interfaceElement.attribute("id");
+    String name=interfaceElement.attribute("name");
+    BpmnInterface bpmnInterface=new BpmnInterface(id,name);
+    for (    Element operationElement : interfaceElement.elements("operation")) {
+      Operation operation=parseOperation(operationElement,bpmnInterface);
+      bpmnInterface.addOperation(operation);
+    }
+    bpmnInterfaces.put(id,bpmnInterface);
+  }
+}

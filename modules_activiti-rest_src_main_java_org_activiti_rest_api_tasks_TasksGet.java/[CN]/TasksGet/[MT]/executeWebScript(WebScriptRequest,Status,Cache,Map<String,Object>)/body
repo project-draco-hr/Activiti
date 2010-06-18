@@ -1,0 +1,24 @@
+{
+  String personalTaskUserId=getString(req,"assignee");
+  String candidateTaskUserId=getString(req,"candidate");
+  String candidateGroupId=getString(req,"candidate-group");
+  int start=getInt(req,"start",0);
+  int size=getInt(req,"size",10);
+  TaskQuery tq=getTaskService().createTaskQuery();
+  if (personalTaskUserId != null) {
+    tq.assignee(personalTaskUserId);
+  }
+ else   if (candidateTaskUserId != null) {
+    tq.candidateUser(candidateTaskUserId);
+  }
+ else   if (candidateGroupId != null) {
+    tq.candidateGroup(candidateGroupId);
+  }
+ else {
+    throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Tasks must be filtered with 'assignee', 'candidate' or 'candidate-group'");
+  }
+  model.put("tasks",tq.paginatedList(start,size));
+  model.put("start",start);
+  model.put("total",tq.count());
+  model.put("size",size);
+}

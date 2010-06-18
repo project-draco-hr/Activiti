@@ -1,0 +1,10 @@
+{
+  if (first == null) {
+    first=commandExecutor;
+  }
+  if (last != null) {
+    ((Interceptor)last).setNext(commandExecutor);
+  }
+  last=commandExecutor;
+  return this;
+}

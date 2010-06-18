@@ -1,0 +1,9 @@
+{
+  try {
+    deployProcessForThisTestMethod();
+    fail("Duplicate assignee declaration should throw an exception");
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("duplicate assignee declaration",e.getMessage());
+  }
+}

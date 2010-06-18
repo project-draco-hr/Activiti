@@ -1,0 +1,9 @@
+{
+  if (e == null) {
+    return false;
+  }
+  if (e instanceof SQLException) {
+    return true;
+  }
+  return containsSqlException(e.getCause());
+}

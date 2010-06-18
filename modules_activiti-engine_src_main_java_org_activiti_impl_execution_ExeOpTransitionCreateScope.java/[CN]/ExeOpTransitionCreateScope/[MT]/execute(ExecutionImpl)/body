@@ -1,0 +1,13 @@
+{
+  ExecutionImpl propagatingExecution=null;
+  ActivityImpl activity=execution.getActivity();
+  if (activity.isScope()) {
+    propagatingExecution=(ExecutionImpl)execution.createScope();
+    ActivityImpl scopeActivityPointer=activity.getParentActivity();
+    execution.setActivity(scopeActivityPointer);
+  }
+ else {
+    propagatingExecution=execution;
+  }
+  propagatingExecution.performOperation(ExeOp.TRANSITION_NOTIFY_LISTENER_START);
+}

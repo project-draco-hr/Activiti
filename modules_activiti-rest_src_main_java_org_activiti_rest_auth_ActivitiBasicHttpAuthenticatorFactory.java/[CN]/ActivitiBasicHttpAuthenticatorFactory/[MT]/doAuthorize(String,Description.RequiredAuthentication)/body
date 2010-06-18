@@ -1,0 +1,25 @@
+{
+  List<String> grantedGroupIds=new ArrayList<String>();
+  if (role == Description.RequiredAuthentication.user) {
+    grantedGroupIds.add(config.getUserGroupId());
+    grantedGroupIds.add(config.getManagerGroupId());
+    grantedGroupIds.add(config.getAdminGroupId());
+  }
+ else   if (role == Description.RequiredAuthentication.admin) {
+    grantedGroupIds.add(config.getAdminGroupId());
+  }
+  if (grantedGroupIds.size() == 0) {
+    return true;
+  }
+ else {
+    List<Group> userGroups=ProcessEngines.getProcessEngine(config.getEngine()).getIdentityService().findGroupsByUserAndType(username,config.getSecurityRoleGroupTypeId());
+    for (    Group group : userGroups) {
+      for (      String grantedGroupId : grantedGroupIds) {
+        if (group.getId().equals(grantedGroupId)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}

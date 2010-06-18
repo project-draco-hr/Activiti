@@ -1,0 +1,46 @@
+{
+  if (configurationProperties == null) {
+    throw new ActivitiException("configurationProperties is null");
+  }
+  String processEngineName=configurationProperties.getProperty("process.engine.name");
+  if (processEngineName != null) {
+    this.processEngineName=processEngineName;
+  }
+  String databaseName=configurationProperties.getProperty("database");
+  if (databaseName != null) {
+    this.databaseName=databaseName;
+  }
+  String jdbcDriver=configurationProperties.getProperty("jdbc.driver");
+  if (jdbcDriver != null) {
+    this.jdbcDriver=jdbcDriver;
+  }
+  String jdbcUrl=configurationProperties.getProperty("jdbc.url");
+  if (jdbcUrl != null) {
+    this.jdbcUrl=jdbcUrl;
+  }
+  String jdbcUsername=configurationProperties.getProperty("jdbc.username");
+  if (jdbcUsername != null) {
+    this.jdbcUsername=jdbcUsername;
+  }
+  String jdbcPassword=configurationProperties.getProperty("jdbc.password");
+  if (jdbcPassword != null) {
+    this.jdbcPassword=jdbcPassword;
+  }
+  String dbSchemaStrategy=configurationProperties.getProperty("db.schema.strategy");
+  if (dbSchemaStrategy != null) {
+    if ("create-drop".equals(dbSchemaStrategy)) {
+      this.dbSchemaStrategy=DbSchemaStrategy.CREATE_DROP;
+    }
+ else     if ("check-version".equals(dbSchemaStrategy)) {
+      this.dbSchemaStrategy=DbSchemaStrategy.CHECK_VERSION;
+    }
+ else {
+      throw new ActivitiException("unknown db.schema.strategy: '" + dbSchemaStrategy + "': should be 'create-drop' or 'check-version'");
+    }
+  }
+  String jobExecutorAutoActivate=configurationProperties.getProperty("job.executor.auto.activate");
+  if ((jobExecutorAutoActivate != null) && (("false".equals(jobExecutorAutoActivate)) || ("disabled".equals(jobExecutorAutoActivate)) || ("off".equals(jobExecutorAutoActivate)))) {
+    this.jobExecutorAutoActivate=false;
+  }
+  return this;
+}

@@ -1,0 +1,11 @@
+{
+  ScriptingEngines scriptingEngines=ScriptingEngines.getScriptingEngines();
+  Object result=scriptingEngines.evaluate(expression,language,(ExecutionImpl)execution);
+  if (result == null) {
+    throw new ActivitiException("condition expression returns null: " + expression);
+  }
+  if (!(result instanceof Boolean)) {
+    throw new ActivitiException("condition expression returns non-Boolean: " + result + " ("+ result.getClass().getName()+ ")");
+  }
+  return (Boolean)result;
+}

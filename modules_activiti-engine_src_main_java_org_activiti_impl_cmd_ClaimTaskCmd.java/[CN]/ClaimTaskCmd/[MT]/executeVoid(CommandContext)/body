@@ -1,0 +1,18 @@
+{
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  TaskImpl task=persistenceSession.findTask(taskId);
+  if (task == null) {
+    throw new ActivitiException("Cannot find task with id " + taskId);
+  }
+  if (task.getAssignee() != null) {
+    throw new ActivitiException("Task " + taskId + " is already claimed by someone else");
+  }
+ else {
+    if (persistenceSession.isValidUser(userId)) {
+      task.setAssignee(userId);
+    }
+ else {
+      throw new ActivitiException("Cannot claim task " + taskId + ": user "+ userId+ " unknown.");
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  for (  Element boundaryEventElement : parentElement.elements("boundaryEvent")) {
+    String attachedToRef=boundaryEventElement.attribute("attachedToRef");
+    if (attachedToRef == null || attachedToRef.equals("")) {
+      throw new ActivitiException("AttachedToRef is required when using a timerEventDefinition");
+    }
+    String id=boundaryEventElement.attribute("id");
+    if (LOG.isLoggable(Level.FINE)) {
+      LOG.fine("Parsing boundary event " + id);
+    }
+    ProcessDefinitionImpl procDef=findContextualObject(ProcessDefinitionImpl.class);
+    ActivityImpl parentActivity=procDef.findActivity(attachedToRef);
+    if (parentActivity == null) {
+      throw new ActivitiException("Invalid reference in boundary timer event: " + attachedToRef);
+    }
+    ActivityImpl nestedActivity=parentActivity.createActivity(id);
+    nestedActivity.setName(boundaryEventElement.attribute("name"));
+    String cancelActivity=boundaryEventElement.attribute("cancelActivity","true");
+    boolean interrupting=cancelActivity.equals("true") ? true : false;
+    Element timerEventDefinition=boundaryEventElement.element("timerEventDefinition");
+    if (timerEventDefinition != null) {
+      parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,nestedActivity);
+    }
+ else {
+      throw new ActivitiException("Unsupported boundary event type");
+    }
+  }
+}

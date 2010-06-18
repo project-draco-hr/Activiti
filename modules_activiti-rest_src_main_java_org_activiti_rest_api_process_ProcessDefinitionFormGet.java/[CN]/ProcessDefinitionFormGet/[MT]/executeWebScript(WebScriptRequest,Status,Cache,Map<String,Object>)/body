@@ -1,0 +1,15 @@
+{
+  String processDefinitionId=getMandatoryPathParameter(req,"processDefinitionId");
+  Object processDefinitionForm=getProcessService().getStartFormById(processDefinitionId);
+  if (processDefinitionForm != null) {
+    if (processDefinitionForm instanceof String) {
+      model.put("form",processDefinitionForm);
+    }
+ else {
+      throw new WebScriptException(Status.STATUS_NOT_IMPLEMENTED,"The form for process definitionForm '" + processDefinitionForm + "' cannot be rendered using the rest api.");
+    }
+  }
+ else {
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no form for process definitionForm '" + processDefinitionForm + "'.");
+  }
+}

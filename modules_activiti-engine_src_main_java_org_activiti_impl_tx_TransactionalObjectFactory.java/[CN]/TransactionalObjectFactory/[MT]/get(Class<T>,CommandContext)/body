@@ -1,0 +1,12 @@
+{
+  T object=(T)cache.get(type);
+  if (object == null) {
+    Descriptor descriptor=descriptors.get(type);
+    if (descriptor == null) {
+      throw new ActivitiException("no transactional object descriptor for '" + type.getName() + "'");
+    }
+    object=(T)descriptor.getObject(transactionalContext,this);
+    cache.put(type,object);
+  }
+  return object;
+}

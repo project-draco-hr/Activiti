@@ -1,0 +1,11 @@
+{
+  deployProcessForThisTestMethod();
+  ProcessInstance processInstance=processService.startProcessInstanceByKey("taskAssigneeProcess");
+  List<Task> tasks=taskService.findAssignedTasks("kermit");
+  assertEquals(1,tasks.size());
+  Task myTask=tasks.get(0);
+  assertEquals("Schedule meeting",myTask.getName());
+  assertEquals("Schedule an engineering meeting for next week with the new hire.",myTask.getDescription());
+  taskService.complete(myTask.getId());
+  assertProcessInstanceEnded(processInstance.getId());
+}

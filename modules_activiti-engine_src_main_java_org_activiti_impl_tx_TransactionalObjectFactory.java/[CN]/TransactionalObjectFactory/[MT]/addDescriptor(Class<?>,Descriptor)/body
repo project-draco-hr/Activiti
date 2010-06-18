@@ -1,0 +1,9 @@
+{
+  this.descriptors.put(type,descriptor);
+  if (type.getSuperclass() != null) {
+    addDescriptor(type.getSuperclass(),descriptor);
+  }
+  for (  Class<?> interfaceType : type.getInterfaces()) {
+    addDescriptor(interfaceType,descriptor);
+  }
+}

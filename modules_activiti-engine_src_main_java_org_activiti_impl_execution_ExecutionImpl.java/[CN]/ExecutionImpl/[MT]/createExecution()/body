@@ -1,0 +1,28 @@
+{
+  if (!isConcurrencyScope) {
+    throw new ActivitiException("this method should not be available on concurrent executions (==non-scope instances)");
+  }
+  if (hasExecutions()) {
+    ExecutionImpl concurrentExecution=createChildExecution();
+    concurrentExecution.setConcurrencyScope(false);
+    return concurrentExecution;
+  }
+ else   if (isActive) {
+    ExecutionImpl clonedExecution=createChildExecution();
+    clonedExecution.setActivity(activity);
+    clonedExecution.setTransition(transition);
+    clonedExecution.setConcurrencyScope(false);
+    setActive(false);
+    setTransition(null);
+    ExecutionImpl concurrentExecution=createChildExecution();
+    concurrentExecution.setConcurrencyScope(false);
+    if (nextOperation != null) {
+      nextOperation=new ExeOpTransferOperationLoop(clonedExecution,nextOperation);
+    }
+    return concurrentExecution;
+  }
+ else {
+    isActive=true;
+    return this;
+  }
+}

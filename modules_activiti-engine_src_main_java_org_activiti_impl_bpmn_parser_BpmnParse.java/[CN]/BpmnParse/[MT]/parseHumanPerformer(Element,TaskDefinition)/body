@@ -1,0 +1,12 @@
+{
+  List<Element> humanPerformerElements=taskElement.elements(HUMAN_PERFORMER);
+  if (humanPerformerElements.size() > 1) {
+    throw new ActivitiException("Invalid task definition: multiple " + HUMAN_PERFORMER + " sub elements defined for "+ taskDefinition.getName());
+  }
+ else   if (humanPerformerElements.size() == 1) {
+    Element humanPerformerElement=humanPerformerElements.get(0);
+    if (humanPerformerElement != null) {
+      parseHumanPerformerResourceAssignment(humanPerformerElement,taskDefinition);
+    }
+  }
+}

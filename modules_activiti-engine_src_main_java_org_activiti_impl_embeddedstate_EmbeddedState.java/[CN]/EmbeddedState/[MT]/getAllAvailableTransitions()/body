@@ -1,0 +1,13 @@
+{
+  deserializeExecutionTree();
+  if (embeddedProcessInstance != null) {
+    List<String> availableTransitions=new ArrayList<String>();
+    for (    Transition transition : embeddedProcessInstance.getOutgoingTransitions()) {
+      if (!availableTransitions.contains(transition.getId())) {
+        availableTransitions.add(transition.getId());
+      }
+    }
+    return availableTransitions;
+  }
+  return Collections.emptyList();
+}

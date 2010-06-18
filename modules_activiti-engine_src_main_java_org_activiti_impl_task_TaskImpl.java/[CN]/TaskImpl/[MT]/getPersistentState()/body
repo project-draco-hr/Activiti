@@ -1,0 +1,19 @@
+{
+  Map<String,Object> persistentState=new HashMap<String,Object>();
+  persistentState.put("assignee",this.assignee);
+  persistentState.put("name",this.name);
+  persistentState.put("priority",this.priority);
+  if (createTime != null) {
+    persistentState.put("createTime",this.createTime);
+  }
+  if (startDeadline != null) {
+    persistentState.put("startDeadline",this.startDeadline);
+  }
+  if (completionDeadline != null) {
+    persistentState.put("completionDeadline",this.completionDeadline);
+  }
+  if (skippable) {
+    persistentState.put("skippable",Boolean.TRUE);
+  }
+  return persistentState;
+}

@@ -1,0 +1,10 @@
+{
+  if (updatedObjectClass == null) {
+    return null;
+  }
+  String updateStatementId=updateStatementIds.get(updatedObjectClass);
+  if (updateStatementId == null) {
+    return findUpdateStatementId(updatedObjectClass.getSuperclass());
+  }
+  return updateStatementId;
+}

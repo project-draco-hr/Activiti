@@ -1,0 +1,15 @@
+{
+  Element conditionExprElement=seqFlowElement.element("conditionExpression");
+  if (conditionExprElement != null) {
+    String expr=conditionExprElement.getText();
+    String type=conditionExprElement.attributeNS(BpmnParser.XSI_NS,"type");
+    if (type != null && !type.equals("tFormalExpression")) {
+      throw new ActivitiException("Invalid type on conditionExpression (" + conditionExprElement.getLine() + "). "+ "Only tFormalExpression is currently supported");
+    }
+    String language=conditionExprElement.attribute("language");
+    if (language == null) {
+      language=ScriptingEngines.DEFAULT_EXPRESSION_LANGUAGE;
+    }
+    seqFlow.setCondition(new ExpressionCondition(expr,language));
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (!isConcurrencyScope) {
+    getParent().removeExecution(this);
+  }
+ else {
+    isActive=false;
+  }
+  ended=true;
+  List<ExecutionImpl> childExecutions=new ArrayList<ExecutionImpl>(getExecutions());
+  for (  ExecutionImpl childExecution : childExecutions) {
+    childExecution.end();
+  }
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    Class<? extends Object> clazz=target.getClass();
+    Method method=findMethod(clazz,methodName,args);
+    method.setAccessible(true);
+    method.invoke(target,args);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't invoke " + methodName + " on "+ target,e);
+  }
+}

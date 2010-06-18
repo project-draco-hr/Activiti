@@ -1,0 +1,21 @@
+{
+  execution.setActive(false);
+  Activity joinActivity=execution.getActivity();
+  List<ActivityExecution> joinedExecutions=new ArrayList<ActivityExecution>();
+  ConcurrencyScope scopeInstance=execution.getConcurrencyScope();
+  List<? extends ActivityExecution> concurrentExecutions=scopeInstance.getExecutions();
+  for (  ActivityExecution concurrentExecution : concurrentExecutions) {
+    if (concurrentExecution.getActivity() == joinActivity) {
+      joinedExecutions.add(concurrentExecution);
+    }
+  }
+  int nbrOfExecutionsToJoin=execution.getIncomingTransitions().size();
+  int nbrOfExecutionsJoined=joinedExecutions.size();
+  if (nbrOfExecutionsJoined == nbrOfExecutionsToJoin) {
+    log.fine("join '" + joinActivity.getId() + "' activates: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");
+    activate(scopeInstance,joinActivity,joinedExecutions);
+  }
+ else   if (log.isLoggable(Level.FINE)) {
+    log.fine("join '" + joinActivity.getId() + "' does not activate: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");
+  }
+}

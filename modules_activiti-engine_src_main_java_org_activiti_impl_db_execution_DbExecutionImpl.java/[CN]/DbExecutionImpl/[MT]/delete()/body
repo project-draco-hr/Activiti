@@ -1,0 +1,12 @@
+{
+  PersistenceSession persistenceSession=CommandContext.getCurrent().getPersistenceSession();
+  Set<String> variableNames=new HashSet<String>(variableMap.getVariableNames());
+  for (  String variableName : variableNames) {
+    variableMap.deleteVariable(variableName);
+  }
+  List<TaskImpl> tasks=persistenceSession.findTasksByExecution(id);
+  for (  TaskImpl task : tasks) {
+    task.delete();
+  }
+  persistenceSession.delete(this);
+}

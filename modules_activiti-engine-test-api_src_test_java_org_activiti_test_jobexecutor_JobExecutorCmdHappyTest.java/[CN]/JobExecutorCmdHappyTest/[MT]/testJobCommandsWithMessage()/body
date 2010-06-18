@@ -1,0 +1,23 @@
+{
+  ProcessEngineImpl processEngineImpl=(ProcessEngineImpl)processEngine;
+  CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutor();
+  String jobId=commandExecutor.execute(new Command<String>(){
+    public String execute(    CommandContext commandContext){
+      MessageImpl message=createTweetMessage("i'm coding a test");
+      commandContext.getMessageSession().send(message);
+      return message.getId();
+    }
+  }
+);
+  AcquiredJobs acquiredJobs=commandExecutor.execute(new AcquireJobsCmd());
+  List<List<String>> jobIdsList=acquiredJobs.getJobIdsList();
+  assertEquals(1,jobIdsList.size());
+  List<String> jobIds=jobIdsList.get(0);
+  List<String> expectedJobIds=new ArrayList<String>();
+  expectedJobIds.add(jobId);
+  assertEquals(expectedJobIds,new ArrayList<String>(jobIds));
+  assertEquals(0,tweetHandler.getMessages().size());
+  commandExecutor.execute(new ExecuteJobsCmd(jobId));
+  assertEquals("i'm coding a test",tweetHandler.getMessages().get(0));
+  assertEquals(1,tweetHandler.getMessages().size());
+}

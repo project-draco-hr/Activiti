@@ -1,0 +1,10 @@
+{
+  if (deletedObjectClass == null) {
+    return null;
+  }
+  String deleteStatementId=deleteStatementIds.get(deletedObjectClass);
+  if (deleteStatementId == null) {
+    return findDeleteStatementId(deletedObjectClass.getSuperclass());
+  }
+  return deleteStatementId;
+}

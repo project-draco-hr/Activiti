@@ -1,0 +1,9 @@
+{
+  try {
+    Class<?> clazz=loadClass(className);
+    return clazz.newInstance();
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't instantiate class " + className,e);
+  }
+}

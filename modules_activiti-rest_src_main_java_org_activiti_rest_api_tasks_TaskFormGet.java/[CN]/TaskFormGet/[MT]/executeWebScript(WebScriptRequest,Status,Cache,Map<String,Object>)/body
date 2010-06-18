@@ -1,0 +1,15 @@
+{
+  String taskId=getMandatoryPathParameter(req,"taskId");
+  Object taskForm=getTaskService().getTaskForm(taskId);
+  if (taskForm != null) {
+    if (taskForm instanceof String) {
+      model.put("form",taskForm);
+    }
+ else {
+      throw new WebScriptException(Status.STATUS_NOT_IMPLEMENTED,"The form for task '" + taskId + "' cannot be rendered using the rest api.");
+    }
+  }
+ else {
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no form for task '" + taskId + "'.");
+  }
+}

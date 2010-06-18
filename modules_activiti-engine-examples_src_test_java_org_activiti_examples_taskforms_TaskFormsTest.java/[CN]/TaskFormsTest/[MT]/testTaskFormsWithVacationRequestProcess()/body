@@ -1,0 +1,14 @@
+{
+  deployVacationRequestProcess();
+  Object startForm=processService.getStartFormByKey("vacationRequest");
+  assertNotNull(startForm);
+  Map<String,Object> parameters=new HashMap<String,Object>();
+  parameters.put("employeeName","kermit");
+  parameters.put("numberOfDays","4");
+  parameters.put("vacationMotivation","I'm tired");
+  processService.startProcessInstanceByKey("vacationRequest",parameters);
+  Task task=taskService.createTaskQuery().candidateGroup("management").singleResult();
+  assertEquals("Vacation request by kermit",task.getDescription());
+  Object taskForm=taskService.getTaskForm(task.getId());
+  assertNotNull(taskForm);
+}

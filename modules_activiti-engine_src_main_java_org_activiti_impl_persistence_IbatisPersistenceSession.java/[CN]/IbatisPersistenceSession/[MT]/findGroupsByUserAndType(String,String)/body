@@ -1,0 +1,6 @@
+{
+  Map<String,Object> parameters=new HashMap<String,Object>();
+  parameters.put("userId",userId);
+  parameters.put("groupType",groupType);
+  return sqlSession.selectList(statement("selectGroupsByUserAndType"),parameters);
+}

@@ -1,0 +1,10 @@
+{
+  Object key=getKey(persistentObject);
+  LoadedObject loadedObject=loadedObjects.get(key);
+  if (loadedObject != null) {
+    return loadedObject.getPersistentObject();
+  }
+  loadedObject=new LoadedObject(persistentObject);
+  loadedObjects.put(key,loadedObject);
+  return persistentObject;
+}

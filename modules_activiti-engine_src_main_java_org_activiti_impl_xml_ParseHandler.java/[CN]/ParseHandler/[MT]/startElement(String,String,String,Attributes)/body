@@ -1,0 +1,10 @@
+{
+  Element element=new Element(uri,localName,qName,attributes,locator);
+  if (elementStack.isEmpty()) {
+    parse.rootElement=element;
+  }
+ else {
+    elementStack.peek().add(element);
+  }
+  elementStack.push(element);
+}

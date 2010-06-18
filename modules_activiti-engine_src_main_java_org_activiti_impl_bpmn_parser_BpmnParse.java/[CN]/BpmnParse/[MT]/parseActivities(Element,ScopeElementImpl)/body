@@ -1,0 +1,19 @@
+{
+  for (  Element activityElement : parentElement.elements()) {
+    if (activityElement.getTagName().equals("exclusiveGateway")) {
+      parseExclusiveGateway(activityElement,scopeElement);
+    }
+ else     if (activityElement.getTagName().equals("scriptTask")) {
+      parseScriptTask(activityElement,scopeElement);
+    }
+ else     if (activityElement.getTagName().equals("serviceTask")) {
+      parseServiceTask(activityElement,scopeElement);
+    }
+ else     if (activityElement.getTagName().equals("task")) {
+      parseTask(activityElement,scopeElement);
+    }
+ else     if (activityElement.getTagName().equals("userTask")) {
+      parseUserTask(activityElement,scopeElement);
+    }
+  }
+}

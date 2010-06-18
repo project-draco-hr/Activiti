@@ -1,0 +1,15 @@
+{
+  boolean authenticated=false;
+  try {
+    CredentialVault vault=FrameworkUtil.getCredentialVault(request.getSession(),username);
+    Credentials credentials=vault.newCredentials(endpointId);
+    credentials.setProperty(Credentials.CREDENTIAL_USERNAME,username);
+    credentials.setProperty(Credentials.CREDENTIAL_PASSWORD,password);
+    AuthenticatingConnector connector=(AuthenticatingConnector)FrameworkUtil.getConnector(request.getSession(),username,endpointId);
+    authenticated=connector.handshake();
+  }
+ catch (  Throwable ex) {
+    ex.printStackTrace();
+  }
+  return authenticated;
+}

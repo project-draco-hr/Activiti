@@ -1,0 +1,7 @@
+{
+  deployProcessForThisTestMethod();
+  int[] inputArray=new int[]{1,2,3,4,5};
+  ProcessInstance pi=processService.startProcessInstanceByKey("scriptExecution",CollectionUtil.singletonMap("inputArray",inputArray));
+  Integer result=(Integer)processService.getVariable(pi.getId(),"sum");
+  assertEquals(15,result.intValue());
+}

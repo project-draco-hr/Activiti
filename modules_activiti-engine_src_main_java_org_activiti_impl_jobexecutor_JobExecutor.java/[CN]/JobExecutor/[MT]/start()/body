@@ -1,0 +1,20 @@
+{
+  if (isActive) {
+    log.info("Ignoring duplicate JobExecutor start invocation");
+    return;
+  }
+ else {
+    isActive=true;
+    if (jobAcquisitionThread == null) {
+      jobAcquisitionThread=new JobAcquisitionThread(this);
+    }
+    if (threadPoolQueue == null) {
+      threadPoolQueue=new ArrayBlockingQueue<Runnable>(queueSize);
+    }
+    if (threadPoolExecutor == null) {
+      threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,0L,TimeUnit.MILLISECONDS,threadPoolQueue);
+    }
+    log.fine("JobExecutor is starting the JobAcquisitionThread");
+    jobAcquisitionThread.start();
+  }
+}

@@ -1,0 +1,15 @@
+{
+  deployProcessForThisTestMethod();
+  ProcessInstance pi=processService.startProcessInstanceByKey("testUserTaskDstProperty");
+  List<Execution> childExecutions=processService.findChildExecutions(pi.getId());
+  String childExecutionId=childExecutions.get(0).getId();
+  Map<String,Object> vars=processService.getVariables(childExecutionId);
+  assertEquals(1,vars.size());
+  assertTrue(vars.containsKey("taskVar"));
+  assertTrue(processService.getVariables(pi.getId()).isEmpty());
+  processService.setVariable(childExecutionId,"taskVar","myValue");
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+  vars=processService.getVariables(pi.getId());
+  assertEquals(1,vars.size());
+  assertTrue(vars.containsKey("processVar"));
+}

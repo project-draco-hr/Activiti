@@ -1,0 +1,20 @@
+{
+  if (!isInitialized) {
+    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+    Enumeration<URL> resources=null;
+    try {
+      resources=classLoader.getResources("activiti.properties");
+    }
+ catch (    IOException e) {
+      throw new ActivitiException("can't find activiti.properties resources on the classpath: " + System.getProperty("java.class.path"),e);
+    }
+    while (resources.hasMoreElements()) {
+      URL resource=resources.nextElement();
+      initProcessEnginFromResource(resource);
+    }
+    isInitialized=true;
+  }
+ else {
+    log.info("Process engines already initialized");
+  }
+}

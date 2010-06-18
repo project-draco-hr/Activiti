@@ -1,0 +1,20 @@
+{
+  List<Element> startEventElements=parentElement.elements("startEvent");
+  if (startEventElements.size() > 1) {
+    throw new ActivitiException("Multiple start events are currently unsupported");
+  }
+ else   if (startEventElements.size() > 0) {
+    Element startEventElement=startEventElements.get(0);
+    String id=startEventElement.attribute("id");
+    String name=startEventElement.attribute("name");
+    ActivityImpl activity=scopeElement.createActivity(id);
+    activity.setName(name);
+    scopeElement.getProcessDefinition().setInitial(activity);
+    String form=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
+    String formLanguage=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form-language",ScriptingEngines.DEFAULT_EXPRESSION_LANGUAGE);
+    if (form != null) {
+      activity.setFormReference(new FormReference(form,formLanguage));
+    }
+    activity.setActivityBehavior(new NoneStartEventActivity());
+  }
+}

@@ -1,0 +1,14 @@
+{
+  TaskQuery query=taskService.createTaskQuery().candidateGroup("management");
+  assertEquals(3,query.count());
+  assertEquals(3,query.list().size());
+  try {
+    query.singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  query=taskService.createTaskQuery().candidateGroup("sales");
+  assertEquals(0,query.count());
+  assertEquals(0,query.list().size());
+}

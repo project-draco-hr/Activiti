@@ -1,0 +1,29 @@
+{
+  ProcessEngineInfo processEngineInfo=processEngineInfosByResourceUrl.get(resourceUrl);
+  if (processEngineInfo != null) {
+    processEngineInfos.remove(processEngineInfo);
+    if (processEngineInfo.getException() == null) {
+      String processEngineName=processEngineInfo.getName();
+      processEngines.remove(processEngineName);
+      processEngineInfosByName.remove(processEngineName);
+    }
+    processEngineInfosByResourceUrl.remove(processEngineInfo.getResourceUrl());
+  }
+  String resourceUrlString=resourceUrl.toString();
+  try {
+    log.info("initializing process engine for resource " + resourceUrl);
+    ProcessEngine processEngine=buildProcessEngine(resourceUrl);
+    String processEngineName=processEngine.getName();
+    log.info("initialised process engine " + processEngineName);
+    processEngineInfo=new ProcessEngineInfoImpl(processEngineName,resourceUrlString,null);
+    processEngines.put(processEngineName,processEngine);
+    processEngineInfosByName.put(processEngineName,processEngineInfo);
+  }
+ catch (  Throwable e) {
+    log.info("Exception while initializing process engine :" + e.getMessage());
+    processEngineInfo=new ProcessEngineInfoImpl(null,resourceUrlString,getExceptionString(e));
+  }
+  processEngineInfosByResourceUrl.put(resourceUrlString,processEngineInfo);
+  processEngineInfos.add(processEngineInfo);
+  return processEngineInfo;
+}

@@ -1,0 +1,8 @@
+{
+  deployProcessForThisTestMethod();
+  processService.startProcessInstanceByKey("candidateUsersExtension");
+  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  assertEquals(1,tasks.size());
+  tasks=taskService.findUnassignedTasks("gonzo");
+  assertEquals(1,tasks.size());
+}

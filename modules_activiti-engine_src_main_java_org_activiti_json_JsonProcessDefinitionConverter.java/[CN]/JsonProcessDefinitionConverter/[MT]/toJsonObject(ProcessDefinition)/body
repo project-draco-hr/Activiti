@@ -1,0 +1,12 @@
+{
+  ProcessDefinitionImpl processDefinitionImpl=(ProcessDefinitionImpl)processDefinition;
+  JSONObject jsonObject=new JSONObject();
+  jsonObject.put("id",processDefinitionImpl.getId());
+  if (processDefinitionImpl.getKey() != null) {
+    jsonObject.put("key",processDefinitionImpl.getKey());
+  }
+  if (processDefinitionImpl.getDeployment() != null) {
+    jsonObject.put("deploymentId",processDefinitionImpl.getDeployment().getId());
+  }
+  return jsonObject;
+}

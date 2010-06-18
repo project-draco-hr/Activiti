@@ -1,0 +1,21 @@
+{
+  Element raeElement=performerElement.element(RESOURCE_ASSIGNMENT_EXPR);
+  if (raeElement != null) {
+    Element feElement=raeElement.element(FORMAL_EXPRESSION);
+    if (feElement != null) {
+      String[] assignmentExpressions=splitCommaSeparatedExpression(feElement.getText());
+      for (      String assignmentExpression : assignmentExpressions) {
+        assignmentExpression=assignmentExpression.trim();
+        if (assignmentExpression.startsWith(USER_PREFIX)) {
+          taskDefinition.addCandidateUserId(getAssignmentId(assignmentExpression,USER_PREFIX));
+        }
+ else         if (assignmentExpression.startsWith(GROUP_PREFIX)) {
+          taskDefinition.addCandidateGroupId(getAssignmentId(assignmentExpression,GROUP_PREFIX));
+        }
+ else {
+          taskDefinition.addCandidateGroupId(assignmentExpression);
+        }
+      }
+    }
+  }
+}

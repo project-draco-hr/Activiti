@@ -1,0 +1,9 @@
+{
+  super.setUp();
+  deployProcessResource("org/activiti/test/processinstance/oneTaskProcess.bpmn20.xml");
+  deployProcessResource("org/activiti/test/processinstance/oneTaskProcess2.bpmn20.xml");
+  for (int i=0; i < 4; i++) {
+    processService.startProcessInstanceByKey(PROCESS_KEY);
+  }
+  processService.startProcessInstanceByKey(PROCESS_KEY_2);
+}

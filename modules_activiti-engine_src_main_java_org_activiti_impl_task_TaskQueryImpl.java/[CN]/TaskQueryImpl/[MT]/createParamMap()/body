@@ -1,0 +1,22 @@
+{
+  Map<String,Object> params=new HashMap<String,Object>();
+  if (name != null) {
+    params.put("name",name);
+  }
+  if (assignee != null) {
+    params.put("assignee",assignee);
+  }
+  if (candidateUser != null) {
+    params.put("candidateUser",candidateUser);
+    if (candidateGroup == null) {
+      params.put("candidateGroups",getGroupsForCandidateUser(candidateUser));
+    }
+  }
+  if (candidateGroup != null) {
+    params.put("candidateGroups",Collections.singletonList(candidateGroup));
+  }
+  if (processInstanceId != null) {
+    params.put("processInstanceId",processInstanceId);
+  }
+  return params;
+}

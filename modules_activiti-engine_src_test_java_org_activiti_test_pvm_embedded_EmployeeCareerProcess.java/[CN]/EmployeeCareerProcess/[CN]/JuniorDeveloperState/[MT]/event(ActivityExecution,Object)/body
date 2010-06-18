@@ -1,0 +1,18 @@
+{
+  String eventString=(String)event;
+  if (eventString.equals("3 years of experience")) {
+    execution.take("enoughYears");
+  }
+ else   if (eventString.equals("evaluated")) {
+    Employee emp=getEmployee(execution);
+    int nrOfPerfectEvaluations=0;
+    for (    Integer evaluation : emp.getEvaluations()) {
+      if (evaluation >= 9) {
+        nrOfPerfectEvaluations++;
+      }
+    }
+    if (nrOfPerfectEvaluations >= 2) {
+      execution.take("birdWithGoldenEggs");
+    }
+  }
+}

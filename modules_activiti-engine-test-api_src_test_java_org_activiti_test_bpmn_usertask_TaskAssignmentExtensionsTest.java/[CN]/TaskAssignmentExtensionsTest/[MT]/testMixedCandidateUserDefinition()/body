@@ -1,0 +1,12 @@
+{
+  deployProcessForThisTestMethod();
+  processService.startProcessInstanceByKey("mixedCandidateUser");
+  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  assertEquals(1,tasks.size());
+  tasks=taskService.findUnassignedTasks("fozzie");
+  assertEquals(1,tasks.size());
+  tasks=taskService.findUnassignedTasks("gonzo");
+  assertEquals(1,tasks.size());
+  tasks=taskService.findUnassignedTasks("mispiggy");
+  assertEquals(0,tasks.size());
+}

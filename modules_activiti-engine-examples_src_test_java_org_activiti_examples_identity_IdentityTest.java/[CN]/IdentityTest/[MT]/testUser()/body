@@ -1,0 +1,14 @@
+{
+  IdentityService identityService=processEngine.getIdentityService();
+  User user=identityService.newUser("johndoe");
+  user.setFirstName("John");
+  user.setLastName("Doe");
+  user.setEmail("johndoe@alfresco.com");
+  identityService.saveUser(user);
+  user=identityService.findUser("johndoe");
+  assertEquals("johndoe",user.getId());
+  assertEquals("John",user.getFirstName());
+  assertEquals("Doe",user.getLastName());
+  assertEquals("johndoe@alfresco.com",user.getEmail());
+  identityService.deleteUser("johndoe");
+}

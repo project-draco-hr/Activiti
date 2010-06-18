@@ -1,0 +1,22 @@
+{
+  ProcessCache processCache=commandContext.getProcessCache();
+  ProcessDefinitionImpl processDefinition=null;
+  if (processDefinitionId != null) {
+    processDefinition=processCache.findProcessDefinitionById(processDefinitionId);
+    if (processDefinition == null) {
+      throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
+    }
+  }
+ else {
+    processDefinition=processCache.findProcessDefinitionByKey(processDefinitionKey);
+    if (processDefinition == null) {
+      throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
+    }
+  }
+  ExecutionImpl processInstance=processDefinition.createProcessInstance();
+  if (variables != null) {
+    processInstance.setVariables(variables);
+  }
+  processInstance.start();
+  return processInstance;
+}

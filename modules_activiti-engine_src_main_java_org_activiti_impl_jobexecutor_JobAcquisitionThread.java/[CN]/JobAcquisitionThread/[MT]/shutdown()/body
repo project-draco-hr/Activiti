@@ -1,0 +1,13 @@
+{
+  if (isActive) {
+    log.info(getName() + " is shutting down");
+    isActive=false;
+    interrupt();
+    try {
+      join();
+    }
+ catch (    InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+}

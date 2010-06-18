@@ -1,0 +1,11 @@
+{
+  TableMetaData tableMetaData=managementService.getTableMetaData("ACT_TASK");
+  assertEquals(tableMetaData.getColumnNames().size(),tableMetaData.getColumnTypes().size());
+  assertEquals(13,tableMetaData.getColumnNames().size());
+  int assigneeIndex=tableMetaData.getColumnNames().indexOf("ASSIGNEE_");
+  int createTimeIndex=tableMetaData.getColumnNames().indexOf("CREATE_TIME_");
+  assertTrue(assigneeIndex >= 0);
+  assertTrue(createTimeIndex >= 0);
+  assertEquals("VARCHAR",tableMetaData.getColumnTypes().get(assigneeIndex));
+  assertEquals("TIMESTAMP",tableMetaData.getColumnTypes().get(createTimeIndex));
+}

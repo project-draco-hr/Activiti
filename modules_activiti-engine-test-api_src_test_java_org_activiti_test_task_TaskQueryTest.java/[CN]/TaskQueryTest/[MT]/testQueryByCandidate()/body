@@ -1,0 +1,20 @@
+{
+  TaskQuery query=taskService.createTaskQuery().candidateUser("kermit");
+  assertEquals(11,query.count());
+  assertEquals(11,query.list().size());
+  try {
+    query.singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  query=taskService.createTaskQuery().candidateUser("fozzie");
+  assertEquals(3,query.count());
+  assertEquals(3,query.list().size());
+  try {
+    query.singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

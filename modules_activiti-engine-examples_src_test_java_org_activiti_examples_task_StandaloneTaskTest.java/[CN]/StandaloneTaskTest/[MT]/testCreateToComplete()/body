@@ -1,0 +1,19 @@
+{
+  Task task=taskService.newTask();
+  task.setName("testTask");
+  taskService.saveTask(task);
+  String taskId=task.getId();
+  taskService.addCandidateUser(taskId,"kermit");
+  taskService.addCandidateUser(taskId,"gonzo");
+  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  assertEquals(1,tasks.size());
+  assertEquals("testTask",tasks.get(0).getName());
+  tasks=taskService.findUnassignedTasks("gonzo");
+  assertEquals(1,tasks.size());
+  assertEquals("testTask",tasks.get(0).getName());
+  taskService.claim(taskId,"kermit");
+  assertTrue(taskService.findUnassignedTasks("kermit").isEmpty());
+  assertTrue(taskService.findUnassignedTasks("gonzo").isEmpty());
+  taskService.complete(taskId);
+  assertNull(taskService.findTask(taskId));
+}

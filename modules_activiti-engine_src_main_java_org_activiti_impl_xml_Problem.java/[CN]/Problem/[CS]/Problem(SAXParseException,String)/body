@@ -1,0 +1,14 @@
+{
+  Throwable exception=e;
+  while (exception != null) {
+    if (this.errorMessage == null) {
+      this.errorMessage=exception.getMessage();
+    }
+ else {
+      this.errorMessage+=": " + exception.getMessage();
+    }
+    exception=exception.getCause();
+  }
+  this.line=e.getLineNumber();
+  this.column=e.getColumnNumber();
+}

@@ -1,0 +1,14 @@
+{
+  int spaceIndex=singleUnitQuantity.indexOf(" ");
+  if (spaceIndex == -1 || singleUnitQuantity.length() < spaceIndex + 1) {
+    throw new ActivitiException("invalid duedate format: " + singleUnitQuantity);
+  }
+  String quantityText=singleUnitQuantity.substring(0,spaceIndex);
+  Integer quantity=new Integer(quantityText);
+  String unitText=singleUnitQuantity.substring(spaceIndex + 1).trim().toLowerCase();
+  int unit=units.get(unitText);
+  GregorianCalendar calendar=new GregorianCalendar();
+  calendar.setTime(startDate);
+  calendar.add(unit,quantity);
+  return calendar.getTime();
+}
