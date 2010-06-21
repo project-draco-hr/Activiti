@@ -1,6 +1,6 @@
 {
   DbExecutionImpl childExecution=new DbExecutionImpl(parent);
-  CommandContext.getCurrent().getPersistenceSession().insert(childExecution);
   childExecution.setProcessInstance(parent.getProcessInstance());
+  CommandContext.getCurrent().getPersistenceSession().insert(childExecution);
   return childExecution;
 }

@@ -1,0 +1,8 @@
+{
+  ActivityExecution outgoingExecution=execution.getConcurrencyScope().createExecution();
+  outgoingExecution.setActivity(execution.getActivity());
+  for (  ActivityExecution joinedExecution : joinedExecutions) {
+    joinedExecution.end();
+  }
+  return outgoingExecution;
+}

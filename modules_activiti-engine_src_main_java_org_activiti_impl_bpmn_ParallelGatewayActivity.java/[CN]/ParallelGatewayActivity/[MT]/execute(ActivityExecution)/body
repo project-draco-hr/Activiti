@@ -1,0 +1,27 @@
+{
+  int nbrOfExecutionsToJoin=execution.getIncomingTransitions().size();
+  if (nbrOfExecutionsToJoin == 1) {
+    if (log.isLoggable(Level.FINE)) {
+      log.fine("Only one incoming sequence flow found for parallel gateway " + execution.getActivity().getId());
+    }
+    fork(execution);
+  }
+ else {
+    Activity joinActivity=execution.getActivity();
+    List<ActivityExecution> joinedExecutions=new ArrayList<ActivityExecution>();
+    List<? extends ActivityExecution> concurrentExecutions=execution.getConcurrencyScope().getExecutions();
+    for (    ActivityExecution concurrentExecution : concurrentExecutions) {
+      if (concurrentExecution.getActivity().equals(joinActivity)) {
+        joinedExecutions.add(concurrentExecution);
+      }
+    }
+    int nbrOfExecutionsJoined=joinedExecutions.size();
+    if (log.isLoggable(Level.FINE)) {
+      log.fine(nbrOfExecutionsJoined + " of " + nbrOfExecutionsToJoin+ " joined");
+    }
+    if (nbrOfExecutionsJoined == nbrOfExecutionsToJoin) {
+      ActivityExecution outgoingExecution=join(execution,joinedExecutions);
+      fork(outgoingExecution);
+    }
+  }
+}

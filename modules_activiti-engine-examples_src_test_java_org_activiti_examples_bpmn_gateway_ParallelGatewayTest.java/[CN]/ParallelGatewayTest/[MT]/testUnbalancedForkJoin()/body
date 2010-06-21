@@ -1,0 +1,17 @@
+{
+  deployProcessForThisTestMethod();
+  ProcessInstance pi=processService.startProcessInstanceByKey("UnbalancedForkJoin");
+  TaskQuery query=taskService.createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
+  List<Task> tasks=query.list();
+  assertEquals(3,tasks.size());
+  taskService.complete(tasks.get(0).getId());
+  assertEquals(2,query.count());
+  taskService.complete(tasks.get(1).getId());
+  tasks=query.list();
+  assertEquals(2,tasks.size());
+  assertEquals("Task 4",tasks.get(1));
+  for (  Task t : tasks) {
+    taskService.complete(t.getId());
+  }
+  assertProcessInstanceEnded(pi.getId());
+}

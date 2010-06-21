@@ -18,5 +18,14 @@
   if (processInstanceId != null) {
     params.put("processInstanceId",processInstanceId);
   }
+  if (sortColumn != null) {
+    params.put("sortColumn",sortColumn);
+    if (sortOrder.equals(SortOrder.ASCENDING)) {
+      params.put("sortOrder","asc");
+    }
+ else {
+      params.put("sortOrder","desc");
+    }
+  }
   return params;
 }
