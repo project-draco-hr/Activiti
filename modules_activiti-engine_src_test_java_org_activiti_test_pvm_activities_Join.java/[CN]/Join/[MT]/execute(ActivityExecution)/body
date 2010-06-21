@@ -2,7 +2,7 @@
   execution.setActive(false);
   Activity joinActivity=execution.getActivity();
   List<ActivityExecution> joinedExecutions=new ArrayList<ActivityExecution>();
-  ConcurrencyScope scopeInstance=execution.getConcurrencyScope();
+  ConcurrencyController scopeInstance=execution.getConcurrencyController();
   List<? extends ActivityExecution> concurrentExecutions=scopeInstance.getExecutions();
   for (  ActivityExecution concurrentExecution : concurrentExecutions) {
     if (concurrentExecution.getActivity() == joinActivity) {

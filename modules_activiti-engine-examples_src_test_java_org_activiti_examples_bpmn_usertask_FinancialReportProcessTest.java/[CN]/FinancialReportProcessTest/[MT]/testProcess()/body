@@ -1,5 +1,5 @@
 {
-  Deployment deployment=processService.newDeployment().addClasspathResource("org/activiti/examples/bpmn/usertask/FinancialReportProcess.bpmn20.xml").deploy();
+  Deployment deployment=processService.createDeployment().addClasspathResource("org/activiti/examples/bpmn/usertask/FinancialReportProcess.bpmn20.xml").deploy();
   registerDeployment(deployment.getId());
   ProcessInstance processInstance=processService.startProcessInstanceByKey("financialReport");
   List<Task> tasks=taskService.findUnassignedTasks("fozzie");

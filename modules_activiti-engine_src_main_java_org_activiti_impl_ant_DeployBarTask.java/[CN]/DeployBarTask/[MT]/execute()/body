@@ -37,7 +37,7 @@
         FileInputStream inputStream=new FileInputStream(file);
         try {
           log("deploying bar " + path);
-          processService.newDeployment().name(file.getName()).addZipInputStream(new ZipInputStream(inputStream)).deploy();
+          processService.createDeployment().name(file.getName()).addZipInputStream(new ZipInputStream(inputStream)).deploy();
         }
   finally {
           inputStream.close();

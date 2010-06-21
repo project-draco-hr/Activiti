@@ -1,0 +1,8 @@
+{
+  DbExecutionImpl execution=commandContext.getPersistenceSession().findExecution(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution " + executionId + " doesn't exist");
+  }
+  execution.event(eventData);
+  return null;
+}
