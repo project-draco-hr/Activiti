@@ -1,9 +1,6 @@
 {
-  try {
-    deployProcessForThisTestMethod();
-    fail("Duplicate assignee declaration should throw an exception");
-  }
- catch (  ActivitiException e) {
-    assertTextPresent("duplicate assignee declaration",e.getMessage());
-  }
+  exception.expect(ActivitiException.class);
+  exception.expectMessage("duplicate assignee declaration for task");
+  String resource=ActivitiTestCase.getProcessDefinitionResource(getClass(),"testDuplicateAssigneeDeclaration");
+  processEngine.getProcessService().createDeployment().name(resource).addClasspathResource(resource).deploy();
 }

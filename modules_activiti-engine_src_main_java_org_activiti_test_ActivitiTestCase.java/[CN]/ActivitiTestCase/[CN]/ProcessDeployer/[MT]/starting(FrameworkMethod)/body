@@ -1,0 +1,8 @@
+{
+  if (method.getAnnotation(ProcessDeclared.class) != null) {
+    String name=method.getName();
+    String resource=getProcessDefinitionResource(method.getMethod().getDeclaringClass(),name);
+    log.fine("deploying bpmn process resource " + resource);
+    deployProcessResource(resource);
+  }
+}

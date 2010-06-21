@@ -1,5 +1,4 @@
 {
-  deployProcessForThisTestMethod();
   ProcessInstance pi=processService.startProcessInstanceByKey("interruptingBoundaryTimer");
   Task task=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("First line support",task.getName());

@@ -2,10 +2,6 @@
   ProcessInstanceQuery query=processService.createProcessInstanceQuery();
   assertEquals(5,query.count());
   assertEquals(5,query.list().size());
-  try {
-    query.singleResult();
-    fail();
-  }
- catch (  ActivitiException e) {
-  }
+  exception.expect(ActivitiException.class);
+  query.singleResult();
 }

@@ -1,13 +1,5 @@
 {
-  try {
-    new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/connection/activiti.properties").buildProcessEngine();
-    fail("expected exception");
-  }
- catch (  RuntimeException e) {
-    if (!containsSqlException(e)) {
-      StringWriter stringWriter=new StringWriter();
-      e.printStackTrace(new PrintWriter(stringWriter));
-      fail("expected sql exception.  but was: " + stringWriter.toString());
-    }
-  }
+  exception.expect(RuntimeException.class);
+  exception.expect(new SqlExceptionMatcher());
+  new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/connection/activiti.properties").buildProcessEngine();
 }

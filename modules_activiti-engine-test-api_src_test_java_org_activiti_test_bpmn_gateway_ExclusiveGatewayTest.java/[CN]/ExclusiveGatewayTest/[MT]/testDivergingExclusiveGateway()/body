@@ -1,5 +1,4 @@
 {
-  deployProcessForThisTestMethod();
   for (int i=1; i <= 3; i++) {
     ProcessInstance pi=processService.startProcessInstanceByKey("exclusiveGwDiverging",CollectionUtil.singletonMap("input",i));
     assertEquals("Task " + i,taskService.createTaskQuery().singleResult().getName());
