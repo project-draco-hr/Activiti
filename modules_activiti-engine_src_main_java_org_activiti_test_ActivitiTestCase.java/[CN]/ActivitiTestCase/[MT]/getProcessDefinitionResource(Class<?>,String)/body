@@ -1,3 +1,6 @@
 {
-  return type.getName().replace('.','/') + "." + name+ "."+ BpmnDeployer.BPMN_RESOURCE_SUFFIX;
+  String path=type.getName();
+  path=path.substring(0,path.lastIndexOf(type.getSimpleName()) - 1);
+  System.err.println(path);
+  return path.replace('.','/') + "/" + name;
 }

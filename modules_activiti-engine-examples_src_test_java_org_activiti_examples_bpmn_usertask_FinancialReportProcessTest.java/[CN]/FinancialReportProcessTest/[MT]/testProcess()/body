@@ -1,6 +1,4 @@
 {
-  Deployment deployment=processService.createDeployment().addClasspathResource("org/activiti/examples/bpmn/usertask/FinancialReportProcess.bpmn20.xml").deploy();
-  registerDeployment(deployment.getId());
   ProcessInstance processInstance=processService.startProcessInstanceByKey("financialReport");
   List<Task> tasks=taskService.findUnassignedTasks("fozzie");
   assertEquals(1,tasks.size());
@@ -17,5 +15,4 @@
   assertEquals("Verify monthly financial report",tasks.get(0).getName());
   taskService.complete(tasks.get(0).getId());
   assertProcessInstanceEnded(processInstance.getId());
-  deleteDeploymentsCascade(Collections.singletonList(deployment.getId()));
 }

@@ -1,5 +1,4 @@
 {
-  deployProcessResource("org/activiti/test/service/twoTasksProcess.bpmn20.xml");
   ProcessInstance processInstance=processService.startProcessInstanceByKey("twoTasksProcess");
   Task task=taskService.createTaskQuery().singleResult();
   assertEquals("First task",task.getName());
