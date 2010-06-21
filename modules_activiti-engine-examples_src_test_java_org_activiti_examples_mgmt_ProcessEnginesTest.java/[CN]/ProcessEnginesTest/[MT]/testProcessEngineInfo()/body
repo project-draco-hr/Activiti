@@ -1,5 +1,4 @@
 {
-  ProcessEngines.init();
   List<ProcessEngineInfo> processEngineInfos=ProcessEngines.getProcessEngineInfos();
   assertEquals(1,processEngineInfos.size());
   ProcessEngineInfo processEngineInfo=processEngineInfos.get(0);
@@ -8,5 +7,4 @@
   assertNotNull(processEngineInfo.getResourceUrl());
   ProcessEngine processEngine=ProcessEngines.getProcessEngine(ProcessEngines.NAME_DEFAULT);
   assertNotNull(processEngine);
-  ProcessEngines.destroy();
 }

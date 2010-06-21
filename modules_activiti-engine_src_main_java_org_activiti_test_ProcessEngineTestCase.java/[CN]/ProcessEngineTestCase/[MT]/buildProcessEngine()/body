@@ -1,11 +1,4 @@
 {
-  if (processEngine != null) {
-    if (configurationResource != null && processEngineConfigurationResource != null && !configurationResource.equals(processEngineConfigurationResource)) {
-      log.fine("Configuration Resource has changed");
-      log.fine("Refreshing the Process Engine");
-      closeProcessEngine();
-    }
-  }
   if (processEngine == null) {
     log.fine("Creating process engine: " + configurationResource);
     processEngine=new DbProcessEngineBuilder().configureFromPropertiesResource(configurationResource).buildProcessEngine();
