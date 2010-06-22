@@ -1,6 +1,6 @@
 {
   exception.expect(ActivitiException.class);
   exception.expectMessage("Attribute 'invalidAttribute' is not allowed to appear in element 'process'");
-  String resource=ResourceUtils.getProcessDefinitionResource(getClass(),(getClass().getSimpleName() + ".testInvalidProcessDefinition.bpmn20.xml"));
+  String resource=ProcessDeployer.getBpmnProcessDefinitionResource(getClass(),"testInvalidProcessDefinition");
   processEngineBuilder.getProcessService().createDeployment().name(resource).addClasspathResource(resource).deploy();
 }

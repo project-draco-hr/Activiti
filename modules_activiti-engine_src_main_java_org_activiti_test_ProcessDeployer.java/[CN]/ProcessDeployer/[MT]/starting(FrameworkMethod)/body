@@ -6,7 +6,7 @@
     resources=resources.length == 0 ? process.value() : resources;
     if (resources.length == 0) {
       String name=method.getName();
-      String resource=ResourceUtils.getBpmnProcessDefinitionResource(method.getMethod().getDeclaringClass(),name);
+      String resource=ProcessDeployer.getBpmnProcessDefinitionResource(method.getMethod().getDeclaringClass(),name);
       log.fine("deploying bpmn process resource: " + resource);
       createDeployment().name(resource).addClasspathResource(resource).deploy();
     }
@@ -17,7 +17,7 @@
           resource=resource.substring(1);
         }
  else {
-          resource=ResourceUtils.getProcessDefinitionResource(method.getMethod().getDeclaringClass(),resource);
+          resource=getProcessDefinitionResource(method.getMethod().getDeclaringClass(),resource);
         }
         builder.addClasspathResource(resource);
       }

@@ -1,12 +1,13 @@
 {
   deployer.getProcessService().startProcessInstanceByKey("candidateGroupsExtension");
-  List<Task> tasks=deployer.getTaskService().findUnassignedTasks("kermit");
+  TaskService taskService=deployer.getTaskService();
+  List<Task> tasks=taskService.findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
   assertEquals("make profit",tasks.get(0).getName());
-  tasks=deployer.getTaskService().findUnassignedTasks("fozzie");
+  tasks=taskService.findUnassignedTasks("fozzie");
   assertEquals(1,tasks.size());
   assertEquals("make profit",tasks.get(0).getName());
-  TaskQuery query=deployer.getTaskService().createTaskQuery();
+  TaskQuery query=taskService.createTaskQuery();
   assertEquals(1,query.candidateGroup("management").count());
   assertEquals(1,query.candidateGroup("accountancy").count());
 }
