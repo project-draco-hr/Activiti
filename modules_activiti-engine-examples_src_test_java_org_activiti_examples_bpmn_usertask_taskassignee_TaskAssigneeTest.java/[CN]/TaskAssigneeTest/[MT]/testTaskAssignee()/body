@@ -1,8 +1,10 @@
 {
   ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("taskAssigneeProcess");
+  deployer.expectProcessEnds(processInstance.getId());
   List<Task> tasks=deployer.getTaskService().findAssignedTasks("kermit");
   assertEquals(1,tasks.size());
   Task myTask=tasks.get(0);
   assertEquals("Schedule meeting",myTask.getName());
   assertEquals("Schedule an engineering meeting for next week with the new hire.",myTask.getDescription());
+  deployer.getTaskService().complete(myTask.getId());
 }
