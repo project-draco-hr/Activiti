@@ -6,6 +6,5 @@
   assertNotNull(processDefinition.getId());
   ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceById(processDefinition.getId());
   assertNotNull(processInstance);
-  assertEquals(1,processInstance.getActivityNames().size());
-  assertEquals("theTask",processInstance.getActivityNames().get(0));
+  assertNotNull(deployer.getTaskService().createTaskQuery().singleResult());
 }
