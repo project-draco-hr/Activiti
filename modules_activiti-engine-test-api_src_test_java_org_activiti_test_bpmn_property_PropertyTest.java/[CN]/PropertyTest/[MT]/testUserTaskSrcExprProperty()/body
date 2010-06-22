@@ -1,14 +1,2 @@
 {
-  final String address="TestStreet 123 90210 Beverly-Hills";
-  Order order=new Order(address);
-  Map<String,Object> vars=new HashMap<String,Object>();
-  vars.put("order",order);
-  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("testUserTaskSrcExprProperty",vars);
-  List<Execution> childExecutions=deployer.getProcessService().findChildExecutions(pi.getId());
-  String childExecutionId=childExecutions.get(0).getId();
-  assertEquals(address,deployer.getProcessService().getVariable(childExecutionId,"orderAddress"));
-  assertNull(deployer.getProcessService().getVariable(pi.getId(),"orderAddress"));
-  deployer.getTaskService().complete(deployer.getTaskService().createTaskQuery().singleResult().getId());
-  assertNull(deployer.getProcessService().getVariable(pi.getId(),"orderAddress"));
-  assertNotNull(deployer.getProcessService().getVariable(pi.getId(),"order"));
 }

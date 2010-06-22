@@ -1,0 +1,7 @@
+{
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("receiveTask");
+  Execution execution=deployer.getProcessService().findExecutionInActivity(pi.getId(),"waitState");
+  assertNotNull(execution);
+  deployer.getProcessService().sendEvent(execution.getId());
+  deployer.expectProcessEnds(pi.getId());
+}

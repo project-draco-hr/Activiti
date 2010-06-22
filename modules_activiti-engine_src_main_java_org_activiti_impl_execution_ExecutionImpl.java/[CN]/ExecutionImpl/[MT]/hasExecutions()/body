@@ -1,3 +1,8 @@
 {
-  return !getExecutions().isEmpty();
+  for (  ExecutionImpl execution : getExecutions()) {
+    if (!execution.isEnded()) {
+      return true;
+    }
+  }
+  return false;
 }
