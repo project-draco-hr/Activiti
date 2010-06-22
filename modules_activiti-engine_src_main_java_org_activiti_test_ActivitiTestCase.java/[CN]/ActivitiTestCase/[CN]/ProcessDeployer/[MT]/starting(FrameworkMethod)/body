@@ -7,7 +7,7 @@
       String name=method.getName();
       String resource=ResourceUtils.getBpmnProcessDefinitionResource(method.getMethod().getDeclaringClass(),name);
       log.fine("deploying bpmn process resource: " + resource);
-      deployProcessResource(resource);
+      createDeployment().name(resource).addClasspathResource(resource).deploy();
     }
  else {
       DeploymentBuilder builder=processEngineBuilder.getProcessService().createDeployment();

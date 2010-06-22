@@ -4,7 +4,7 @@
   exception.expect(ActivitiException.class);
   exception.expectMessage("Database not clean");
   try {
-    processEngineBuilder.checkDbIsClean();
+    processEngineBuilder.assertDatabaseIsClean();
   }
   finally {
     processEngineBuilder.getProcessEngine().getProcessService().deleteDeploymentCascade(deployment.getId());

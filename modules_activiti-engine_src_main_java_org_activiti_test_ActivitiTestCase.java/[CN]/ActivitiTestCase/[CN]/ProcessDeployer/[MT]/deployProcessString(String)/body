@@ -1,3 +1,4 @@
 {
-  deployProcessString("xmlString." + BpmnDeployer.BPMN_RESOURCE_SUFFIX,xmlString);
+  String resourceName="xmlString." + BpmnDeployer.BPMN_RESOURCE_SUFFIX;
+  createDeployment().name(resourceName).addString(resourceName,xmlString).deploy();
 }
