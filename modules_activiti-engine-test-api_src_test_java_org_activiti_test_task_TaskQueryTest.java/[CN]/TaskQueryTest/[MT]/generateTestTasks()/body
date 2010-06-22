@@ -1,32 +1,32 @@
 {
   List<String> ids=new ArrayList<String>();
   for (int i=0; i < 6; i++) {
-    Task task=processEngineBuilder.getTaskService().newTask();
+    Task task=deployer.getTaskService().newTask();
     task.setName("testTask");
-    processEngineBuilder.getTaskService().saveTask(task);
+    deployer.getTaskService().saveTask(task);
     ids.add(task.getId());
-    processEngineBuilder.getTaskService().addCandidateUser(task.getId(),"kermit");
+    deployer.getTaskService().addCandidateUser(task.getId(),"kermit");
   }
-  Task task=processEngineBuilder.getTaskService().newTask();
-  processEngineBuilder.getTaskService().saveTask(task);
-  processEngineBuilder.getTaskService().setAssignee(task.getId(),"gonzo");
+  Task task=deployer.getTaskService().newTask();
+  deployer.getTaskService().saveTask(task);
+  deployer.getTaskService().setAssignee(task.getId(),"gonzo");
   ids.add(task.getId());
   for (int i=0; i < 2; i++) {
-    task=processEngineBuilder.getTaskService().newTask();
-    processEngineBuilder.getTaskService().saveTask(task);
-    processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"management");
+    task=deployer.getTaskService().newTask();
+    deployer.getTaskService().saveTask(task);
+    deployer.getTaskService().addCandidateGroup(task.getId(),"management");
     ids.add(task.getId());
   }
   for (int i=0; i < 2; i++) {
-    task=processEngineBuilder.getTaskService().newTask();
-    processEngineBuilder.getTaskService().saveTask(task);
-    processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"accountancy");
+    task=deployer.getTaskService().newTask();
+    deployer.getTaskService().saveTask(task);
+    deployer.getTaskService().addCandidateGroup(task.getId(),"accountancy");
     ids.add(task.getId());
   }
-  task=processEngineBuilder.getTaskService().newTask();
-  processEngineBuilder.getTaskService().saveTask(task);
-  processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"management");
-  processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"accountancy");
+  task=deployer.getTaskService().newTask();
+  deployer.getTaskService().saveTask(task);
+  deployer.getTaskService().addCandidateGroup(task.getId(),"management");
+  deployer.getTaskService().addCandidateGroup(task.getId(),"accountancy");
   ids.add(task.getId());
   return ids;
 }

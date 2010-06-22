@@ -1,7 +1,7 @@
 {
-  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("singleCandidateGroup");
-  processEngineBuilder.expectProcessEnds(processInstance.getId());
-  TaskService taskService=processEngineBuilder.getTaskService();
+  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("singleCandidateGroup");
+  deployer.expectProcessEnds(processInstance.getId());
+  TaskService taskService=deployer.getTaskService();
   List<Task> tasks=taskService.findAssignedTasks(KERMIT);
   assertTrue(tasks.isEmpty());
   tasks=taskService.findUnassignedTasks(KERMIT);

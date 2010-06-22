@@ -1,13 +1,13 @@
 {
-  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("twoTasksProcess");
-  Task task=processEngineBuilder.getTaskService().createTaskQuery().singleResult();
+  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("twoTasksProcess");
+  Task task=deployer.getTaskService().createTaskQuery().singleResult();
   assertEquals("First task",task.getName());
   Map<String,Object> taskParams=new HashMap<String,Object>();
   taskParams.put("myParam","myValue");
-  processEngineBuilder.getTaskService().complete(task.getId(),taskParams);
-  task=processEngineBuilder.getTaskService().createTaskQuery().singleResult();
+  deployer.getTaskService().complete(task.getId(),taskParams);
+  task=deployer.getTaskService().createTaskQuery().singleResult();
   assertEquals("Second task",task.getName());
-  Map<String,Object> variables=processEngineBuilder.getProcessService().getVariables(processInstance.getId());
+  Map<String,Object> variables=deployer.getProcessService().getVariables(processInstance.getId());
   assertEquals(1,variables.size());
   assertEquals("myValue",variables.get("myParam"));
 }

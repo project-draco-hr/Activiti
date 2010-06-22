@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("startToEnd");
-  processEngineBuilder.expectProcessEnds(processInstance.getId());
+  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("startToEnd");
+  deployer.expectProcessEnds(processInstance.getId());
   assertTrue(processInstance.isEnded());
 }

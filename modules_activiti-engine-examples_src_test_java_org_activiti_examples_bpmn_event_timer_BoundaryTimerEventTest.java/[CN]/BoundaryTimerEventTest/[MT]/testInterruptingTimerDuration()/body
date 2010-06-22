@@ -1,9 +1,9 @@
 {
-  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("interruptingBoundaryTimer");
-  Task task=processEngineBuilder.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("interruptingBoundaryTimer");
+  Task task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("First line support",task.getName());
   Clock.setCurrentTime(new Date(System.currentTimeMillis() + (5 * 60 * 60* 1000)));
-  new JobExecutorPoller(processEngineBuilder.getProcessEngine()).waitForJobExecutorToProcessAllJobs(10000L,250);
-  task=processEngineBuilder.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  new JobExecutorPoller(deployer.getProcessEngine()).waitForJobExecutorToProcessAllJobs(10000L,250);
+  task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Second line support",task.getName());
 }

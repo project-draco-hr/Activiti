@@ -1,10 +1,10 @@
 {
-  List<ProcessDefinition> processDefinitions=processEngineBuilder.getProcessService().findProcessDefinitions();
+  List<ProcessDefinition> processDefinitions=deployer.getProcessService().findProcessDefinitions();
   assertEquals(1,processDefinitions.size());
   ProcessDefinition processDefinition=processDefinitions.get(0);
   assertEquals("oneTaskProcess",processDefinition.getKey());
   assertNotNull(processDefinition.getId());
-  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceById(processDefinition.getId());
+  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceById(processDefinition.getId());
   assertNotNull(processInstance);
   assertEquals(1,processInstance.getActivityNames().size());
   assertEquals("theTask",processInstance.getActivityNames().get(0));

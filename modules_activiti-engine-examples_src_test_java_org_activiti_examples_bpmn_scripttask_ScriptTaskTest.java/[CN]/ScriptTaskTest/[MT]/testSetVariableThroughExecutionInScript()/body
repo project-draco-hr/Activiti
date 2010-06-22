@@ -1,5 +1,5 @@
 {
-  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("setScriptVariableThroughExecution");
-  assertNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"scriptVar"));
-  assertEquals("test123",processEngineBuilder.getProcessService().getVariable(pi.getId(),"myVar"));
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("setScriptVariableThroughExecution");
+  assertNull(deployer.getProcessService().getVariable(pi.getId(),"scriptVar"));
+  assertEquals("test123",deployer.getProcessService().getVariable(pi.getId(),"myVar"));
 }

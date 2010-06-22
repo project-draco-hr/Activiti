@@ -1,21 +1,21 @@
 {
   Map<String,Object> vars=new HashMap<String,Object>();
   vars.put("inputVar","test");
-  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("testUserTaskSrcProperty",vars);
-  assertNotNull(processEngineBuilder.getTaskService().createTaskQuery().singleResult());
-  List<Execution> childExecutions=processEngineBuilder.getProcessService().findChildExecutions(pi.getId());
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("testUserTaskSrcProperty",vars);
+  assertNotNull(deployer.getTaskService().createTaskQuery().singleResult());
+  List<Execution> childExecutions=deployer.getProcessService().findChildExecutions(pi.getId());
   assertEquals(1,childExecutions.size());
   Execution childExecution=childExecutions.get(0);
-  assertEquals("test",processEngineBuilder.getProcessService().getVariable(childExecution.getId(),"myVar"));
-  assertNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"myVar"));
-  assertEquals("test",processEngineBuilder.getProcessService().getVariable(childExecution.getId(),"inputVar"));
-  assertEquals("test",processEngineBuilder.getProcessService().getVariable(pi.getId(),"inputVar"));
-  processEngineBuilder.getProcessService().setVariable(childExecution.getId(),"myVar","new_value");
-  assertEquals("new_value",processEngineBuilder.getProcessService().getVariable(childExecution.getId(),"myVar"));
-  assertEquals("test",processEngineBuilder.getProcessService().getVariable(childExecution.getId(),"inputVar"));
-  assertNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"myVar"));
-  processEngineBuilder.getTaskService().complete(processEngineBuilder.getTaskService().createTaskQuery().singleResult().getId());
-  for (  Execution execution : processEngineBuilder.getProcessService().findChildExecutions(pi.getId())) {
-    assertNull(processEngineBuilder.getProcessService().getVariable(execution.getId(),"myVar"));
+  assertEquals("test",deployer.getProcessService().getVariable(childExecution.getId(),"myVar"));
+  assertNull(deployer.getProcessService().getVariable(pi.getId(),"myVar"));
+  assertEquals("test",deployer.getProcessService().getVariable(childExecution.getId(),"inputVar"));
+  assertEquals("test",deployer.getProcessService().getVariable(pi.getId(),"inputVar"));
+  deployer.getProcessService().setVariable(childExecution.getId(),"myVar","new_value");
+  assertEquals("new_value",deployer.getProcessService().getVariable(childExecution.getId(),"myVar"));
+  assertEquals("test",deployer.getProcessService().getVariable(childExecution.getId(),"inputVar"));
+  assertNull(deployer.getProcessService().getVariable(pi.getId(),"myVar"));
+  deployer.getTaskService().complete(deployer.getTaskService().createTaskQuery().singleResult().getId());
+  for (  Execution execution : deployer.getProcessService().findChildExecutions(pi.getId())) {
+    assertNull(deployer.getProcessService().getVariable(execution.getId(),"myVar"));
   }
 }

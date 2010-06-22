@@ -1,7 +1,7 @@
 {
   Runnable verifier=new Runnable(){
     public void run(){
-      Assert.assertNull("An active execution with id " + processInstanceId + " was found.",processEngine.getProcessService().findProcessInstanceById(processInstanceId));
+      assertThat("An active execution with id " + processInstanceId + " was found.",processEngine.getProcessService().findProcessInstanceById(processInstanceId),nullValue());
     }
   }
 ;

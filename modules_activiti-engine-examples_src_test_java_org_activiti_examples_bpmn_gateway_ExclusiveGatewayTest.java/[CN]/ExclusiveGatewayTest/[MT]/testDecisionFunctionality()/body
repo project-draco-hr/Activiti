@@ -1,20 +1,20 @@
 {
   Map<String,Object> variables=new HashMap<String,Object>();
   variables.put("input",1);
-  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
-  Task task=processEngineBuilder.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
+  Task task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Send e-mail for more information",task.getName());
   variables.put("input",2);
-  pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
-  task=processEngineBuilder.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  pi=deployer.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
+  task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Check account balance",task.getName());
   variables.put("input",3);
-  pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
-  task=processEngineBuilder.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  pi=deployer.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
+  task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Call customer",task.getName());
   variables.put("input",4);
   try {
-    processEngineBuilder.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
+    deployer.getProcessService().startProcessInstanceByKey("exclusiveGateway",variables);
     fail();
   }
  catch (  ActivitiException e) {

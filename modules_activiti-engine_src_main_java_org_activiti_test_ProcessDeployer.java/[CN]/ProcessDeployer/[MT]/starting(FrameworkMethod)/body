@@ -1,4 +1,5 @@
 {
+  super.starting(method);
   ProcessDeclared process=method.getAnnotation(ProcessDeclared.class);
   if (process != null) {
     String[] resources=process.resources();
@@ -10,7 +11,7 @@
       createDeployment().name(resource).addClasspathResource(resource).deploy();
     }
  else {
-      DeploymentBuilder builder=processEngineBuilder.getProcessService().createDeployment();
+      DeploymentBuilder builder=getProcessService().createDeployment();
       for (      String resource : resources) {
         if (resource.startsWith("/")) {
           resource=resource.substring(1);

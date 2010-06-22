@@ -1,14 +1,14 @@
 {
-  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("testUserTaskDstProperty");
-  List<Execution> childExecutions=processEngineBuilder.getProcessService().findChildExecutions(pi.getId());
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("testUserTaskDstProperty");
+  List<Execution> childExecutions=deployer.getProcessService().findChildExecutions(pi.getId());
   String childExecutionId=childExecutions.get(0).getId();
-  Map<String,Object> vars=processEngineBuilder.getProcessService().getVariables(childExecutionId);
+  Map<String,Object> vars=deployer.getProcessService().getVariables(childExecutionId);
   assertEquals(1,vars.size());
   assertTrue(vars.containsKey("taskVar"));
-  assertTrue(processEngineBuilder.getProcessService().getVariables(pi.getId()).isEmpty());
-  processEngineBuilder.getProcessService().setVariable(childExecutionId,"taskVar","myValue");
-  processEngineBuilder.getTaskService().complete(processEngineBuilder.getTaskService().createTaskQuery().singleResult().getId());
-  vars=processEngineBuilder.getProcessService().getVariables(pi.getId());
+  assertTrue(deployer.getProcessService().getVariables(pi.getId()).isEmpty());
+  deployer.getProcessService().setVariable(childExecutionId,"taskVar","myValue");
+  deployer.getTaskService().complete(deployer.getTaskService().createTaskQuery().singleResult().getId());
+  vars=deployer.getProcessService().getVariables(pi.getId());
   assertEquals(1,vars.size());
   assertTrue(vars.containsKey("processVar"));
 }

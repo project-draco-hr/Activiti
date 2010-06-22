@@ -2,18 +2,18 @@
   Order order=new Order();
   Map<String,Object> vars=new HashMap<String,Object>();
   vars.put("order",order);
-  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("testUserTaskDstExprProperty",vars);
-  List<Execution> childExecutions=processEngineBuilder.getProcessService().findChildExecutions(pi.getId());
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("testUserTaskDstExprProperty",vars);
+  List<Execution> childExecutions=deployer.getProcessService().findChildExecutions(pi.getId());
   String childExecutionId=childExecutions.get(0).getId();
-  vars=processEngineBuilder.getProcessService().getVariables(childExecutionId);
+  vars=deployer.getProcessService().getVariables(childExecutionId);
   assertEquals(1,vars.size());
   assertTrue(vars.containsKey("orderAddress"));
-  vars=processEngineBuilder.getProcessService().getVariables(pi.getId());
+  vars=deployer.getProcessService().getVariables(pi.getId());
   assertEquals(1,vars.size());
   assertTrue(vars.containsKey("order"));
-  processEngineBuilder.getProcessService().setVariable(childExecutionId,"orderAddress","testAddress");
-  processEngineBuilder.getTaskService().complete(processEngineBuilder.getTaskService().createTaskQuery().singleResult().getId());
-  assertEquals(1,processEngineBuilder.getProcessService().getVariables(pi.getId()).size());
-  Order orderAfterComplete=(Order)processEngineBuilder.getProcessService().getVariable(pi.getId(),"order");
+  deployer.getProcessService().setVariable(childExecutionId,"orderAddress","testAddress");
+  deployer.getTaskService().complete(deployer.getTaskService().createTaskQuery().singleResult().getId());
+  assertEquals(1,deployer.getProcessService().getVariables(pi.getId()).size());
+  Order orderAfterComplete=(Order)deployer.getProcessService().getVariable(pi.getId(),"order");
   assertEquals("testAddress",orderAfterComplete.getAddress());
 }

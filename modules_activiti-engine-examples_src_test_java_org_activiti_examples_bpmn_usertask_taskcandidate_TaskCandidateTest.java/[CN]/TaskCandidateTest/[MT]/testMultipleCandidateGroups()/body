@@ -1,7 +1,7 @@
 {
-  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("multipleCandidatesGroup");
-  processEngineBuilder.expectProcessEnds(processInstance.getId());
-  TaskService taskService=processEngineBuilder.getTaskService();
+  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("multipleCandidatesGroup");
+  deployer.expectProcessEnds(processInstance.getId());
+  TaskService taskService=deployer.getTaskService();
   List<Task> tasks=taskService.findAssignedTasks(KERMIT);
   assertTrue(tasks.isEmpty());
   tasks=taskService.findAssignedTasks(GONZO);

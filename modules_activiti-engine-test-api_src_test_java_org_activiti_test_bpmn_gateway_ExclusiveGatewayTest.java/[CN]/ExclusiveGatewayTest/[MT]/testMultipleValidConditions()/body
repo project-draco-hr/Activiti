@@ -1,4 +1,4 @@
 {
-  processEngineBuilder.getProcessService().startProcessInstanceByKey("exclusiveGwMultipleValidConditions",CollectionUtil.singletonMap("input",5));
-  assertEquals("Task 2",processEngineBuilder.getTaskService().createTaskQuery().singleResult().getName());
+  deployer.getProcessService().startProcessInstanceByKey("exclusiveGwMultipleValidConditions",CollectionUtil.singletonMap("input",5));
+  assertEquals("Task 2",deployer.getTaskService().createTaskQuery().singleResult().getName());
 }

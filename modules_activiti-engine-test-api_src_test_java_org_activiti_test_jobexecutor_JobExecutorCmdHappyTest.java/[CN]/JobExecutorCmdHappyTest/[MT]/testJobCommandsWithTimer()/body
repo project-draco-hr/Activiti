@@ -1,6 +1,6 @@
 {
   Clock.setCurrentTime(new Date(SOME_TIME));
-  ProcessEngineImpl processEngineImpl=(ProcessEngineImpl)processEngineBuilder.getProcessEngine();
+  ProcessEngineImpl processEngineImpl=(ProcessEngineImpl)deployer.getProcessEngine();
   CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
