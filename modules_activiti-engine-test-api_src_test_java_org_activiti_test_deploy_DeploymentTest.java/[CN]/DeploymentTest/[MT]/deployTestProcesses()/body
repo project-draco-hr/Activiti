@@ -2,9 +2,9 @@
   final String idrDeploymentName="idrDeployment";
   final String expenseDeploymentName="expenseDeployment";
   final String hiringDeploymentName="hiringDeployment";
-  Deployment deployment1=processService.createDeployment().name(idrDeploymentName).addString("idr_process01.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"IDR1")).addString("idr_process02.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"IDR2")).deploy();
-  Deployment deployment2=processService.createDeployment().name(expenseDeploymentName).addString("expense_proc.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"EXP")).deploy();
-  Deployment deployment3=processService.createDeployment().name(hiringDeploymentName).addString("hiring_process.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"HIR")).addString("hiring_remote_employee.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"HIR_REM")).addString("hiring_process_sales.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"HIR_SAL")).deploy();
+  Deployment deployment1=processEngineBuilder.getProcessService().createDeployment().name(idrDeploymentName).addString("idr_process01.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"IDR1")).addString("idr_process02.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"IDR2")).deploy();
+  Deployment deployment2=processEngineBuilder.getProcessService().createDeployment().name(expenseDeploymentName).addString("expense_proc.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"EXP")).deploy();
+  Deployment deployment3=processEngineBuilder.getProcessService().createDeployment().name(hiringDeploymentName).addString("hiring_process.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"HIR")).addString("hiring_remote_employee.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"HIR_REM")).addString("hiring_process_sales.bpmn20.xml",MINIMAL_PROC_DEF.replace(TO_REPLACE,"HIR_SAL")).deploy();
   assertEquals(idrDeploymentName,deployment1.getName());
   assertEquals(expenseDeploymentName,deployment2.getName());
   return Arrays.asList(deployment1.getId(),deployment2.getId(),deployment3.getId());

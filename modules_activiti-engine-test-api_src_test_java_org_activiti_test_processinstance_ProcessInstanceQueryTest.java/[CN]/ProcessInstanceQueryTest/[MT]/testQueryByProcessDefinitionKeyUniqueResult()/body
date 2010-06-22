@@ -1,6 +1,6 @@
 {
   start();
-  ProcessInstanceQuery query=processService.createProcessInstanceQuery().processDefinitionKey(PROCESS_KEY);
+  ProcessInstanceQuery query=processEngineBuilder.getProcessService().createProcessInstanceQuery().processDefinitionKey(PROCESS_KEY);
   assertEquals(4,query.count());
   assertEquals(4,query.list().size());
   exception.expect(ActivitiException.class);

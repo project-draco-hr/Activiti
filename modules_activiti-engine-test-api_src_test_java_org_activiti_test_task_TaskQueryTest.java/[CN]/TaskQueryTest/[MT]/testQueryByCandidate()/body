@@ -1,5 +1,5 @@
 {
-  TaskQuery query=taskService.createTaskQuery().candidateUser("kermit");
+  TaskQuery query=processEngineBuilder.getTaskService().createTaskQuery().candidateUser("kermit");
   assertEquals(11,query.count());
   assertEquals(11,query.list().size());
   try {
@@ -8,7 +8,7 @@
   }
  catch (  ActivitiException e) {
   }
-  query=taskService.createTaskQuery().candidateUser("fozzie");
+  query=processEngineBuilder.getTaskService().createTaskQuery().candidateUser("fozzie");
   assertEquals(3,query.count());
   assertEquals(3,query.list().size());
   try {

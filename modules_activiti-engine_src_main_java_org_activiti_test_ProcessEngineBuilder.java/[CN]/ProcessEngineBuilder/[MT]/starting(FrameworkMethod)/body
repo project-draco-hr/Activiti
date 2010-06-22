@@ -1,3 +1,6 @@
 {
-  buildProcessEngine();
+  if (processEngine == null) {
+    log.fine("Creating process engine: " + configurationResource);
+    processEngine=new DbProcessEngineBuilder().configureFromPropertiesResource(configurationResource).buildProcessEngine();
+  }
 }

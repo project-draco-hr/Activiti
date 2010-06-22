@@ -1,6 +1,6 @@
 {
-  assertNull(processService.getStartFormByKey("noStartOrTaskForm"));
-  processService.startProcessInstanceByKey("noStartOrTaskForm");
-  Task task=taskService.createTaskQuery().singleResult();
-  assertNull(taskService.getTaskForm(task.getId()));
+  assertNull(processEngineBuilder.getProcessService().getStartFormByKey("noStartOrTaskForm"));
+  processEngineBuilder.getProcessService().startProcessInstanceByKey("noStartOrTaskForm");
+  Task task=processEngineBuilder.getTaskService().createTaskQuery().singleResult();
+  assertNull(processEngineBuilder.getTaskService().getTaskForm(task.getId()));
 }

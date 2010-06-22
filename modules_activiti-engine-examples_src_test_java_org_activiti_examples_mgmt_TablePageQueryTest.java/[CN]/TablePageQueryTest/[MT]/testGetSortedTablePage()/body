@@ -1,13 +1,13 @@
 {
   List<String> taskIds=generateDummyTasks(15);
-  TablePage tablePage=managementService.createTablePageQuery().tableName("ACT_TASK").start(1).size(7).singleResult();
+  TablePage tablePage=processEngineBuilder.getManagementService().createTablePageQuery().tableName("ACT_TASK").start(1).size(7).singleResult();
   String[] expectedTaskNames=new String[]{"1","2","3","4","5","6","7"};
   verifyTaskNames(expectedTaskNames,tablePage.getRows());
-  tablePage=managementService.createTablePageQuery().tableName("ACT_TASK").start(1).size(7).orderAsc("NAME_").singleResult();
+  tablePage=processEngineBuilder.getManagementService().createTablePageQuery().tableName("ACT_TASK").start(1).size(7).orderAsc("NAME_").singleResult();
   expectedTaskNames=new String[]{"1","10","11","12","13","14","2"};
   verifyTaskNames(expectedTaskNames,tablePage.getRows());
-  tablePage=managementService.createTablePageQuery().tableName("ACT_TASK").start(6).size(8).orderDesc("NAME_").singleResult();
+  tablePage=processEngineBuilder.getManagementService().createTablePageQuery().tableName("ACT_TASK").start(6).size(8).orderDesc("NAME_").singleResult();
   expectedTaskNames=new String[]{"3","2","14","13","12","11","10","1"};
   verifyTaskNames(expectedTaskNames,tablePage.getRows());
-  deleteTasks(taskIds);
+  processEngineBuilder.deleteTasks(taskIds);
 }

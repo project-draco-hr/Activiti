@@ -1,5 +1,7 @@
 {
-  ProcessInstance processInstance=processService.startProcessInstanceByKey("multipleCandidatesGroup");
+  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("multipleCandidatesGroup");
+  processEngineBuilder.expectProcessEnds(processInstance.getId());
+  TaskService taskService=processEngineBuilder.getTaskService();
   List<Task> tasks=taskService.findAssignedTasks(KERMIT);
   assertTrue(tasks.isEmpty());
   tasks=taskService.findAssignedTasks(GONZO);
@@ -19,5 +21,4 @@
   assertEquals(1,taskService.findAssignedTasks(GONZO).size());
   assertTrue(taskService.findAssignedTasks(KERMIT).isEmpty());
   taskService.complete(task.getId());
-  assertProcessInstanceEnded(processInstance.getId());
 }

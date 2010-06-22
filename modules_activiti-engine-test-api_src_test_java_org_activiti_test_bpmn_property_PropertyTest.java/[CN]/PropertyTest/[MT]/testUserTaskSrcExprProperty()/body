@@ -3,12 +3,12 @@
   Order order=new Order(address);
   Map<String,Object> vars=new HashMap<String,Object>();
   vars.put("order",order);
-  ProcessInstance pi=processService.startProcessInstanceByKey("testUserTaskSrcExprProperty",vars);
-  List<Execution> childExecutions=processService.findChildExecutions(pi.getId());
+  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("testUserTaskSrcExprProperty",vars);
+  List<Execution> childExecutions=processEngineBuilder.getProcessService().findChildExecutions(pi.getId());
   String childExecutionId=childExecutions.get(0).getId();
-  assertEquals(address,processService.getVariable(childExecutionId,"orderAddress"));
-  assertNull(processService.getVariable(pi.getId(),"orderAddress"));
-  taskService.complete(taskService.createTaskQuery().singleResult().getId());
-  assertNull(processService.getVariable(pi.getId(),"orderAddress"));
-  assertNotNull(processService.getVariable(pi.getId(),"order"));
+  assertEquals(address,processEngineBuilder.getProcessService().getVariable(childExecutionId,"orderAddress"));
+  assertNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"orderAddress"));
+  processEngineBuilder.getTaskService().complete(processEngineBuilder.getTaskService().createTaskQuery().singleResult().getId());
+  assertNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"orderAddress"));
+  assertNotNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"order"));
 }

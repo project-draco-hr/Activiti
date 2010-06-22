@@ -1,6 +1,6 @@
 {
   exception.expect(ActivitiException.class);
   exception.expectMessage("duplicate assignee declaration for task");
-  String resource=ActivitiTestCase.getProcessDefinitionResource(getClass(),getClass().getSimpleName() + ".testDuplicateAssigneeDeclaration.bpmn20.xml");
-  processService.createDeployment().name(resource).addClasspathResource(resource).deploy();
+  String resource=ResourceUtils.getProcessDefinitionResource(getClass(),(getClass().getSimpleName() + ".testDuplicateAssigneeDeclaration.bpmn20.xml"));
+  processEngineBuilder.getProcessService().createDeployment().name(resource).addClasspathResource(resource).deploy();
 }

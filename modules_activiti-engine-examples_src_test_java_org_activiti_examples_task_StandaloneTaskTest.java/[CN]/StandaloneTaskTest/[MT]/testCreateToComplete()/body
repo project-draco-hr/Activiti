@@ -1,19 +1,19 @@
 {
-  Task task=taskService.newTask();
+  Task task=processEngineBuilder.getTaskService().newTask();
   task.setName("testTask");
-  taskService.saveTask(task);
+  processEngineBuilder.getTaskService().saveTask(task);
   String taskId=task.getId();
-  taskService.addCandidateUser(taskId,"kermit");
-  taskService.addCandidateUser(taskId,"gonzo");
-  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  processEngineBuilder.getTaskService().addCandidateUser(taskId,"kermit");
+  processEngineBuilder.getTaskService().addCandidateUser(taskId,"gonzo");
+  List<Task> tasks=processEngineBuilder.getTaskService().findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
   assertEquals("testTask",tasks.get(0).getName());
-  tasks=taskService.findUnassignedTasks("gonzo");
+  tasks=processEngineBuilder.getTaskService().findUnassignedTasks("gonzo");
   assertEquals(1,tasks.size());
   assertEquals("testTask",tasks.get(0).getName());
-  taskService.claim(taskId,"kermit");
-  assertTrue(taskService.findUnassignedTasks("kermit").isEmpty());
-  assertTrue(taskService.findUnassignedTasks("gonzo").isEmpty());
-  taskService.complete(taskId);
-  assertNull(taskService.findTask(taskId));
+  processEngineBuilder.getTaskService().claim(taskId,"kermit");
+  assertTrue(processEngineBuilder.getTaskService().findUnassignedTasks("kermit").isEmpty());
+  assertTrue(processEngineBuilder.getTaskService().findUnassignedTasks("gonzo").isEmpty());
+  processEngineBuilder.getTaskService().complete(taskId);
+  assertNull(processEngineBuilder.getTaskService().findTask(taskId));
 }

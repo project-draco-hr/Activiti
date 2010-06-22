@@ -1,12 +1,12 @@
 {
-  ProcessInstance pi=processService.startProcessInstanceByKey("UnbalancedForkJoin");
-  TaskQuery query=taskService.createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
+  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("UnbalancedForkJoin");
+  processEngineBuilder.expectProcessEnds(processInstance.getId());
+  TaskQuery query=processEngineBuilder.getTaskService().createTaskQuery().processInstance(processInstance.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
   List<Task> tasks=query.list();
   assertEquals(3,tasks.size());
-  taskService.complete(tasks.get(0).getId());
+  processEngineBuilder.getTaskService().complete(tasks.get(0).getId());
   assertEquals(2,query.count());
-  taskService.complete(tasks.get(1).getId());
+  processEngineBuilder.getTaskService().complete(tasks.get(1).getId());
   assertEquals(1,query.count());
-  taskService.complete(tasks.get(2).getId());
-  assertProcessInstanceEnded(pi.getId());
+  processEngineBuilder.getTaskService().complete(tasks.get(2).getId());
 }

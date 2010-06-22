@@ -1,32 +1,32 @@
 {
   List<String> ids=new ArrayList<String>();
   for (int i=0; i < 6; i++) {
-    Task task=taskService.newTask();
+    Task task=processEngineBuilder.getTaskService().newTask();
     task.setName("testTask");
-    taskService.saveTask(task);
+    processEngineBuilder.getTaskService().saveTask(task);
     ids.add(task.getId());
-    taskService.addCandidateUser(task.getId(),"kermit");
+    processEngineBuilder.getTaskService().addCandidateUser(task.getId(),"kermit");
   }
-  Task task=taskService.newTask();
-  taskService.saveTask(task);
-  taskService.setAssignee(task.getId(),"gonzo");
+  Task task=processEngineBuilder.getTaskService().newTask();
+  processEngineBuilder.getTaskService().saveTask(task);
+  processEngineBuilder.getTaskService().setAssignee(task.getId(),"gonzo");
   ids.add(task.getId());
   for (int i=0; i < 2; i++) {
-    task=taskService.newTask();
-    taskService.saveTask(task);
-    taskService.addCandidateGroup(task.getId(),"management");
+    task=processEngineBuilder.getTaskService().newTask();
+    processEngineBuilder.getTaskService().saveTask(task);
+    processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"management");
     ids.add(task.getId());
   }
   for (int i=0; i < 2; i++) {
-    task=taskService.newTask();
-    taskService.saveTask(task);
-    taskService.addCandidateGroup(task.getId(),"accountancy");
+    task=processEngineBuilder.getTaskService().newTask();
+    processEngineBuilder.getTaskService().saveTask(task);
+    processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"accountancy");
     ids.add(task.getId());
   }
-  task=taskService.newTask();
-  taskService.saveTask(task);
-  taskService.addCandidateGroup(task.getId(),"management");
-  taskService.addCandidateGroup(task.getId(),"accountancy");
+  task=processEngineBuilder.getTaskService().newTask();
+  processEngineBuilder.getTaskService().saveTask(task);
+  processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"management");
+  processEngineBuilder.getTaskService().addCandidateGroup(task.getId(),"accountancy");
   ids.add(task.getId());
   return ids;
 }

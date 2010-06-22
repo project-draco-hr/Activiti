@@ -1,13 +1,13 @@
 {
-  Object startForm=processService.getStartFormByKey("vacationRequest");
+  Object startForm=processEngineBuilder.getProcessService().getStartFormByKey("vacationRequest");
   assertNotNull(startForm);
   Map<String,Object> parameters=new HashMap<String,Object>();
   parameters.put("employeeName","kermit");
   parameters.put("numberOfDays","4");
   parameters.put("vacationMotivation","I'm tired");
-  processService.startProcessInstanceByKey("vacationRequest",parameters);
-  Task task=taskService.createTaskQuery().candidateGroup("management").singleResult();
+  processEngineBuilder.getProcessService().startProcessInstanceByKey("vacationRequest",parameters);
+  Task task=processEngineBuilder.getTaskService().createTaskQuery().candidateGroup("management").singleResult();
   assertEquals("Vacation request by kermit",task.getDescription());
-  Object taskForm=taskService.getTaskForm(task.getId());
+  Object taskForm=processEngineBuilder.getTaskService().getTaskForm(task.getId());
   assertNotNull(taskForm);
 }

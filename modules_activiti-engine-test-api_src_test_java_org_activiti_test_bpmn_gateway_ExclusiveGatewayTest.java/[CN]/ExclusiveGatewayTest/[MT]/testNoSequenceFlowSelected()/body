@@ -1,5 +1,5 @@
 {
   exception.expect(ActivitiException.class);
   exception.expectMessage("No outgoing sequence flow of the exclusive gateway " + "'exclusiveGw' could be selected for continuing the process");
-  processService.startProcessInstanceByKey("exclusiveGwNoSeqFlowSelected",CollectionUtil.singletonMap("input",4));
+  processEngineBuilder.getProcessService().startProcessInstanceByKey("exclusiveGwNoSeqFlowSelected",CollectionUtil.singletonMap("input",4));
 }

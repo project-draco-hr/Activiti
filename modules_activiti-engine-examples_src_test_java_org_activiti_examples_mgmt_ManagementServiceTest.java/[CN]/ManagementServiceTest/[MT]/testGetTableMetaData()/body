@@ -1,5 +1,5 @@
 {
-  TableMetaData tableMetaData=managementService.getTableMetaData("ACT_TASK");
+  TableMetaData tableMetaData=processEngineBuilder.getManagementService().getTableMetaData("ACT_TASK");
   assertEquals(tableMetaData.getColumnNames().size(),tableMetaData.getColumnTypes().size());
   assertEquals(13,tableMetaData.getColumnNames().size());
   int assigneeIndex=tableMetaData.getColumnNames().indexOf("ASSIGNEE_");

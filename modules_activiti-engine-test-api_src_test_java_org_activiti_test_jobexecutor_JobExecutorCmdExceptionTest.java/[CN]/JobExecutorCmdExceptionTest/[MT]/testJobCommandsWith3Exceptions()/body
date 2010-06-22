@@ -9,6 +9,6 @@
     }
   }
 );
-  waitForJobExecutorToProcessAllJobs(8000,250);
+  new JobExecutorPoller(processEngineBuilder.getProcessEngine()).waitForJobExecutorToProcessAllJobs(8000,250);
   commandExecutor.execute(new DeleteJobsCmd(jobId));
 }

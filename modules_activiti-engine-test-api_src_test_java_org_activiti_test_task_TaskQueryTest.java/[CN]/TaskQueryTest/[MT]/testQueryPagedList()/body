@@ -1,5 +1,5 @@
 {
-  TaskQuery query=taskService.createTaskQuery().candidateUser("kermit");
+  TaskQuery query=processEngineBuilder.getTaskService().createTaskQuery().candidateUser("kermit");
   assertEquals(11,query.count());
   assertEquals(11,query.list().size());
   assertEquals(2,query.paginatedList(0,2).size());

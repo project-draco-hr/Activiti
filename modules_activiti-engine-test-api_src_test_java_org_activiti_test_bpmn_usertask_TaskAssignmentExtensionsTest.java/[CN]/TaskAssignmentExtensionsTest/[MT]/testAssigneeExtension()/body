@@ -1,6 +1,6 @@
 {
-  processService.startProcessInstanceByKey("assigneeExtension");
-  List<Task> tasks=taskService.findAssignedTasks("kermit");
+  processEngineBuilder.getProcessService().startProcessInstanceByKey("assigneeExtension");
+  List<Task> tasks=processEngineBuilder.getTaskService().findAssignedTasks("kermit");
   assertEquals(1,tasks.size());
   assertEquals("my task",tasks.get(0).getName());
 }

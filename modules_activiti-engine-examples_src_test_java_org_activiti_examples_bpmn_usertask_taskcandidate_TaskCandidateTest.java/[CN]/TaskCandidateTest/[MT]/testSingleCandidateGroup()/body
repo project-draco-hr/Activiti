@@ -1,5 +1,7 @@
 {
-  ProcessInstance processInstance=processService.startProcessInstanceByKey("singleCandidateGroup");
+  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("singleCandidateGroup");
+  processEngineBuilder.expectProcessEnds(processInstance.getId());
+  TaskService taskService=processEngineBuilder.getTaskService();
   List<Task> tasks=taskService.findAssignedTasks(KERMIT);
   assertTrue(tasks.isEmpty());
   tasks=taskService.findUnassignedTasks(KERMIT);
@@ -13,5 +15,4 @@
   assertEquals(1,tasks.size());
   assertEquals("Pay out expenses",task.getName());
   taskService.complete(task.getId());
-  assertProcessInstanceEnded(processInstance.getId());
 }

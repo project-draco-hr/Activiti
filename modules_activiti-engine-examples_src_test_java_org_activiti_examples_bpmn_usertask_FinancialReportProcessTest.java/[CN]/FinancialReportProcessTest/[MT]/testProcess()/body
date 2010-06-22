@@ -1,18 +1,18 @@
 {
-  ProcessInstance processInstance=processService.startProcessInstanceByKey("financialReport");
-  List<Task> tasks=taskService.findUnassignedTasks("fozzie");
+  ProcessInstance processInstance=processEngineBuilder.getProcessService().startProcessInstanceByKey("financialReport");
+  processEngineBuilder.expectProcessEnds(processInstance.getId());
+  List<Task> tasks=processEngineBuilder.getTaskService().findUnassignedTasks("fozzie");
   assertEquals(1,tasks.size());
   Task task=tasks.get(0);
   assertEquals("Write monthly financial report",task.getName());
-  taskService.claim(task.getId(),"fozzie");
-  tasks=taskService.findAssignedTasks("fozzie");
+  processEngineBuilder.getTaskService().claim(task.getId(),"fozzie");
+  tasks=processEngineBuilder.getTaskService().findAssignedTasks("fozzie");
   assertEquals(1,tasks.size());
-  taskService.complete(task.getId());
-  tasks=taskService.findUnassignedTasks("fozzie");
+  processEngineBuilder.getTaskService().complete(task.getId());
+  tasks=processEngineBuilder.getTaskService().findUnassignedTasks("fozzie");
   assertEquals(0,tasks.size());
-  tasks=taskService.findUnassignedTasks("kermit");
+  tasks=processEngineBuilder.getTaskService().findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
   assertEquals("Verify monthly financial report",tasks.get(0).getName());
-  taskService.complete(tasks.get(0).getId());
-  assertProcessInstanceEnded(processInstance.getId());
+  processEngineBuilder.getTaskService().complete(tasks.get(0).getId());
 }

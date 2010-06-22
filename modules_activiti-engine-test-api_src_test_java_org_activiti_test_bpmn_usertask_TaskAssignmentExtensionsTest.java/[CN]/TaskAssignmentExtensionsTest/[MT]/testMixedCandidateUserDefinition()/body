@@ -1,11 +1,11 @@
 {
-  processService.startProcessInstanceByKey("mixedCandidateUser");
-  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  processEngineBuilder.getProcessService().startProcessInstanceByKey("mixedCandidateUser");
+  List<Task> tasks=processEngineBuilder.getTaskService().findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
-  tasks=taskService.findUnassignedTasks("fozzie");
+  tasks=processEngineBuilder.getTaskService().findUnassignedTasks("fozzie");
   assertEquals(1,tasks.size());
-  tasks=taskService.findUnassignedTasks("gonzo");
+  tasks=processEngineBuilder.getTaskService().findUnassignedTasks("gonzo");
   assertEquals(1,tasks.size());
-  tasks=taskService.findUnassignedTasks("mispiggy");
+  tasks=processEngineBuilder.getTaskService().findUnassignedTasks("mispiggy");
   assertEquals(0,tasks.size());
 }

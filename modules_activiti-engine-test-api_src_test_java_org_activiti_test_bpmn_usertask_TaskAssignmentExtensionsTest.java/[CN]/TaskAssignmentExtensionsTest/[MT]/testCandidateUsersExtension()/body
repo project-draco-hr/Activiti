@@ -1,7 +1,7 @@
 {
-  processService.startProcessInstanceByKey("candidateUsersExtension");
-  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  processEngineBuilder.getProcessService().startProcessInstanceByKey("candidateUsersExtension");
+  List<Task> tasks=processEngineBuilder.getTaskService().findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
-  tasks=taskService.findUnassignedTasks("gonzo");
+  tasks=processEngineBuilder.getTaskService().findUnassignedTasks("gonzo");
   assertEquals(1,tasks.size());
 }

@@ -1,9 +1,9 @@
 {
-  TaskQuery query=taskService.createTaskQuery().assignee("gonzo");
+  TaskQuery query=processEngineBuilder.getTaskService().createTaskQuery().assignee("gonzo");
   assertEquals(1,query.count());
   assertEquals(1,query.list().size());
   assertNotNull(query.singleResult());
-  query=taskService.createTaskQuery().assignee("kermit");
+  query=processEngineBuilder.getTaskService().createTaskQuery().assignee("kermit");
   assertEquals(0,query.count());
   assertEquals(0,query.list().size());
   assertNull(query.singleResult());

@@ -1,18 +1,18 @@
 {
   Map<String,Object> vars=new HashMap<String,Object>();
   vars.put("inputVar","test");
-  ProcessInstance pi=processService.startProcessInstanceByKey("testUserTaskLinkProperty",vars);
-  Execution childExecution=processService.findChildExecutions(pi.getId()).get(0);
-  assertEquals("test",processService.getVariable(childExecution.getId(),"taskVar"));
-  assertEquals("test",processService.getVariable(childExecution.getId(),"inputVar"));
+  ProcessInstance pi=processEngineBuilder.getProcessService().startProcessInstanceByKey("testUserTaskLinkProperty",vars);
+  Execution childExecution=processEngineBuilder.getProcessService().findChildExecutions(pi.getId()).get(0);
+  assertEquals("test",processEngineBuilder.getProcessService().getVariable(childExecution.getId(),"taskVar"));
+  assertEquals("test",processEngineBuilder.getProcessService().getVariable(childExecution.getId(),"inputVar"));
   String taskScopedExecutionId=childExecution.getId();
-  processService.setVariable(taskScopedExecutionId,"taskVar","new_value");
-  assertEquals("new_value",processService.getVariable(taskScopedExecutionId,"taskVar"));
-  assertEquals("test",processService.getVariable(taskScopedExecutionId,"inputVar"));
-  assertNull(processService.getVariable(pi.getId(),"taskVar"));
-  taskService.complete(taskService.createTaskQuery().singleResult().getId());
-  assertTrue(processService.findChildExecutions(pi.getId()).isEmpty());
-  assertNull(processService.findExecutionById(taskScopedExecutionId));
-  assertNull(processService.getVariable(pi.getId(),"taskVar"));
-  assertEquals("new_value",processService.getVariable(pi.getId(),"inputVar"));
+  processEngineBuilder.getProcessService().setVariable(taskScopedExecutionId,"taskVar","new_value");
+  assertEquals("new_value",processEngineBuilder.getProcessService().getVariable(taskScopedExecutionId,"taskVar"));
+  assertEquals("test",processEngineBuilder.getProcessService().getVariable(taskScopedExecutionId,"inputVar"));
+  assertNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"taskVar"));
+  processEngineBuilder.getTaskService().complete(processEngineBuilder.getTaskService().createTaskQuery().singleResult().getId());
+  assertTrue(processEngineBuilder.getProcessService().findChildExecutions(pi.getId()).isEmpty());
+  assertNull(processEngineBuilder.getProcessService().findExecutionById(taskScopedExecutionId));
+  assertNull(processEngineBuilder.getProcessService().getVariable(pi.getId(),"taskVar"));
+  assertEquals("new_value",processEngineBuilder.getProcessService().getVariable(pi.getId(),"inputVar"));
 }
