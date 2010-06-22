@@ -1,4 +1,9 @@
 {
+  processEngine=processEngineBuilder.getProcessEngine();
+  processService=processEngine.getProcessService();
+  taskService=processEngine.getTaskService();
+  identityService=processEngine.getIdentityService();
+  managementService=processEngine.getManagementService();
   ProcessDeclared process=method.getAnnotation(ProcessDeclared.class);
   if (process != null) {
     String[] resources=process.resources();
@@ -10,7 +15,7 @@
       deployProcessResource(resource);
     }
  else {
-      DeploymentBuilder builder=processService.createDeployment();
+      DeploymentBuilder builder=processEngine.getProcessService().createDeployment();
       for (      String resource : resources) {
         if (resource.startsWith("/")) {
           resource=resource.substring(1);
