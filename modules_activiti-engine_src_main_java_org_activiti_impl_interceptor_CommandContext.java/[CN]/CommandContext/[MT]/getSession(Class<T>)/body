@@ -1,0 +1,9 @@
+{
+  Session session=sessions.get(sessionClass);
+  if (session == null) {
+    SessionFactory sessionFactory=sessionFactories.get(sessionClass);
+    session=sessionFactory.openSession();
+    sessions.put(sessionClass,session);
+  }
+  return (T)session;
+}

@@ -1,3 +1,5 @@
 {
-  return new CommandContextFactory();
+  CommandContextFactory commandContextFactory=new CommandContextFactory();
+  commandContextFactory.addSessionFactory(IdentitySession.class,new IbatisIdentitySessionFactory());
+  return commandContextFactory;
 }

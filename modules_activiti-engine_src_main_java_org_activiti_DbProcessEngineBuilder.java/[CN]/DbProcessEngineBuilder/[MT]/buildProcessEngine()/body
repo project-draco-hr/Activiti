@@ -14,12 +14,31 @@
   if (jdbcPassword == null) {
     throw new ActivitiException("no jdbc password specified");
   }
-  PersistenceSessionFactory persistenceSessionFactory=new IbatisPersistenceSessionFactory(databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+  IbatisPersistenceSessionFactory persistenceSessionFactory=new IbatisPersistenceSessionFactory(databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
   ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
   processEngineConfiguration.setProcessEngineName(processEngineName);
   processEngineConfiguration.setPersistenceSessionFactory(persistenceSessionFactory);
   processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
   processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
-  ProcessEngineImpl processEngine=processEngineConfiguration.buildProcessEngine();
-  return processEngine;
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
+  ProcessServiceImpl processService=(ProcessServiceImpl)processEngineConfiguration.getProcessService();
+  processService.setCmdExecutor(commandExecutor);
+  IdentityServiceImpl identityService=(IdentityServiceImpl)processEngineConfiguration.getIdentityService();
+  identityService.setCommandExecutor(commandExecutor);
+  TaskServiceImpl taskService=(TaskServiceImpl)processEngineConfiguration.getTaskService();
+  taskService.setCommandExecutor(commandExecutor);
+  ManagementServiceImpl managementService=(ManagementServiceImpl)processEngineConfiguration.getManagementService();
+  managementService.setCommandExecutor(commandExecutor);
+  IdGenerator idGenerator=processEngineConfiguration.getIdGenerator();
+  idGenerator.setCommandExecutor(commandExecutor);
+  ProcessCache processCache=processEngineConfiguration.getProcessCache();
+  DeployerManager deployerManager=processEngineConfiguration.getDeployerManager();
+  processCache.setDeployerManager(deployerManager);
+  JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
+  jobExecutor.setCommandExecutor(commandExecutor);
+  persistenceSessionFactory.setIdGenerator(idGenerator);
+  commandExecutor.setProcessEngineConfiguration(processEngineConfiguration);
+  CommandContextFactory commandContextFactory=processEngineConfiguration.getCommandContextFactory();
+  commandContextFactory.setProcessEngineConfiguration(processEngineConfiguration);
+  return processEngineConfiguration.buildProcessEngine();
 }

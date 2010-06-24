@@ -1,6 +1,7 @@
 {
   this.command=command;
   this.commandContextFactory=commandContextFactory;
+  this.sessionFactories=commandContextFactory.getSessionFactories();
   this.transactionContext=commandContextFactory.getProcessEngineConfiguration().getTransactionContextFactory().openTransactionContext(this);
   this.persistenceSession=commandContextFactory.getProcessEngineConfiguration().getPersistenceSessionFactory().openPersistenceSession(this);
   this.messageSession=commandContextFactory.getProcessEngineConfiguration().getMessageSessionFactory().openMessageSession(this);

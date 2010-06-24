@@ -1,0 +1,12 @@
+{
+  messageSession.close();
+  persistenceSession.close();
+  for (  Session session : sessions.values()) {
+    try {
+      session.close();
+    }
+ catch (    Throwable exception) {
+      exception(exception);
+    }
+  }
+}

@@ -2,41 +2,32 @@
   try {
     try {
       try {
-        try {
-          if (exception == null) {
-            persistenceSession.flush();
-            messageSession.flush();
-          }
-        }
- catch (        Throwable exception) {
-          exception(exception);
-        }
- finally {
-          try {
-            if (exception == null) {
-              transactionContext.commit();
-            }
-          }
- catch (          Throwable exception) {
-            exception(exception);
-          }
-          if (exception != null) {
-            transactionContext.rollback();
-          }
+        if (exception == null) {
+          flushSessions();
         }
       }
  catch (      Throwable exception) {
         exception(exception);
       }
  finally {
-        messageSession.close();
+        try {
+          if (exception == null) {
+            transactionContext.commit();
+          }
+        }
+ catch (        Throwable exception) {
+          exception(exception);
+        }
+        if (exception != null) {
+          transactionContext.rollback();
+        }
       }
     }
  catch (    Throwable exception) {
       exception(exception);
     }
  finally {
-      persistenceSession.close();
+      closeSessions();
     }
   }
  catch (  Throwable exception) {
