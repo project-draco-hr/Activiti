@@ -7,25 +7,20 @@
   processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
   processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
   IdGenerator idGenerator=processEngineConfiguration.getIdGenerator();
-  IbatisPersistenceSessionFactory persistenceSessionFactory;
-  if (dataSource != null) {
-    persistenceSessionFactory=new IbatisPersistenceSessionFactory(idGenerator,databaseName,dataSource,localTransactions);
+  PersistenceSessionFactory persistenceSessionFactory;
+  if (jdbcDriver == null) {
+    throw new ActivitiException("no jdbc driver specified");
   }
- else {
-    if (jdbcDriver == null) {
-      throw new ActivitiException("no jdbc driver specified");
-    }
-    if (jdbcUrl == null) {
-      throw new ActivitiException("no jdbc url specified");
-    }
-    if (jdbcUsername == null) {
-      throw new ActivitiException("no jdbc username specified");
-    }
-    if (jdbcPassword == null) {
-      throw new ActivitiException("no jdbc password specified");
-    }
-    persistenceSessionFactory=new IbatisPersistenceSessionFactory(idGenerator,databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+  if (jdbcUrl == null) {
+    throw new ActivitiException("no jdbc url specified");
   }
+  if (jdbcUsername == null) {
+    throw new ActivitiException("no jdbc username specified");
+  }
+  if (jdbcPassword == null) {
+    throw new ActivitiException("no jdbc password specified");
+  }
+  persistenceSessionFactory=new IbatisPersistenceSessionFactory(idGenerator,databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
   processEngineConfiguration.setPersistenceSessionFactory(persistenceSessionFactory);
   return processEngineConfiguration.buildProcessEngine();
 }

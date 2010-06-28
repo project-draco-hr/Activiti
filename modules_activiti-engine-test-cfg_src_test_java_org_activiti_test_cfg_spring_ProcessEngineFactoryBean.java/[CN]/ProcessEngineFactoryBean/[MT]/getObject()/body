@@ -1,3 +1,9 @@
 {
-  return builder.configureFromPropertiesResource(configurationResource).buildProcessEngine();
+  Assert.state(databaseName != null,"A database name must be provided (e.g. 'h2')");
+  IdGenerator idGenerator=configuration.getIdGenerator();
+  PersistenceSessionFactory persistenceSessionFactory=new IbatisPersistenceSessionFactory(idGenerator,databaseName,dataSource,transactionManager == null);
+  configuration.setPersistenceSessionFactory(persistenceSessionFactory);
+  if (transactionManager != null) {
+  }
+  return configuration.buildProcessEngine();
 }
