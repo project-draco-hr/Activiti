@@ -1,4 +1,3 @@
 {
-  ProcessEngines.init();
-  return ProcessEngines.getDefaultProcessEngine();
+  return new DbProcessEngineBuilder().configureFromPropertiesResource(configurationResource).buildProcessEngine();
 }
