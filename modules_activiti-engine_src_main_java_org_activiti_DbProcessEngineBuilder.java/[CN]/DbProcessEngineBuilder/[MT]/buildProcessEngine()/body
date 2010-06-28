@@ -1,44 +1,31 @@
 {
   if (databaseName == null) {
-    throw new ActivitiException("no database specified");
+    throw new ActivitiException("no database name specified (used to look up queries and scripts)");
   }
-  if (jdbcDriver == null) {
-    throw new ActivitiException("no jdbc driver specified");
-  }
-  if (jdbcUrl == null) {
-    throw new ActivitiException("no jdbc url specified");
-  }
-  if (jdbcUsername == null) {
-    throw new ActivitiException("no jdbc username specified");
-  }
-  if (jdbcPassword == null) {
-    throw new ActivitiException("no jdbc password specified");
-  }
-  IbatisPersistenceSessionFactory persistenceSessionFactory=new IbatisPersistenceSessionFactory(databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
   ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
   processEngineConfiguration.setProcessEngineName(processEngineName);
-  processEngineConfiguration.setPersistenceSessionFactory(persistenceSessionFactory);
   processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
   processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
-  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
-  ProcessServiceImpl processService=(ProcessServiceImpl)processEngineConfiguration.getProcessService();
-  processService.setCmdExecutor(commandExecutor);
-  IdentityServiceImpl identityService=(IdentityServiceImpl)processEngineConfiguration.getIdentityService();
-  identityService.setCommandExecutor(commandExecutor);
-  TaskServiceImpl taskService=(TaskServiceImpl)processEngineConfiguration.getTaskService();
-  taskService.setCommandExecutor(commandExecutor);
-  ManagementServiceImpl managementService=(ManagementServiceImpl)processEngineConfiguration.getManagementService();
-  managementService.setCommandExecutor(commandExecutor);
   IdGenerator idGenerator=processEngineConfiguration.getIdGenerator();
-  idGenerator.setCommandExecutor(commandExecutor);
-  ProcessCache processCache=processEngineConfiguration.getProcessCache();
-  DeployerManager deployerManager=processEngineConfiguration.getDeployerManager();
-  processCache.setDeployerManager(deployerManager);
-  JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
-  jobExecutor.setCommandExecutor(commandExecutor);
-  persistenceSessionFactory.setIdGenerator(idGenerator);
-  commandExecutor.setProcessEngineConfiguration(processEngineConfiguration);
-  CommandContextFactory commandContextFactory=processEngineConfiguration.getCommandContextFactory();
-  commandContextFactory.setProcessEngineConfiguration(processEngineConfiguration);
+  IbatisPersistenceSessionFactory persistenceSessionFactory;
+  if (dataSource != null) {
+    persistenceSessionFactory=new IbatisPersistenceSessionFactory(idGenerator,databaseName,dataSource,localTransactions);
+  }
+ else {
+    if (jdbcDriver == null) {
+      throw new ActivitiException("no jdbc driver specified");
+    }
+    if (jdbcUrl == null) {
+      throw new ActivitiException("no jdbc url specified");
+    }
+    if (jdbcUsername == null) {
+      throw new ActivitiException("no jdbc username specified");
+    }
+    if (jdbcPassword == null) {
+      throw new ActivitiException("no jdbc password specified");
+    }
+    persistenceSessionFactory=new IbatisPersistenceSessionFactory(idGenerator,databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+  }
+  processEngineConfiguration.setPersistenceSessionFactory(persistenceSessionFactory);
   return processEngineConfiguration.buildProcessEngine();
 }

@@ -1,7 +1,7 @@
 {
   log.fine("");
   log.fine("=== starting command " + command + " ===========================================");
-  CommandContext commandContext=commandContextFactory.createCommandContext(command);
+  CommandContext commandContext=processEngineConfiguration.getCommandContextFactory().createCommandContext(command);
   try {
     T result=next.execute(command);
     return result;

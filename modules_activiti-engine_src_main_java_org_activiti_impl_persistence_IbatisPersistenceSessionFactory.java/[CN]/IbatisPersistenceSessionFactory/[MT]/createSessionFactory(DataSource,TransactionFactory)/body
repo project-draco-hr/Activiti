@@ -1,0 +1,15 @@
+{
+  try {
+    initializeDatabaseStatements(databaseName);
+    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+    InputStream inputStream=classLoader.getResourceAsStream("org/activiti/db/ibatis/activiti.ibatis.mem.conf.xml");
+    Reader reader=new InputStreamReader(inputStream);
+    SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(reader);
+    Environment environment=new Environment("default",transactionFactory,dataSource);
+    sqlSessionFactory.getConfiguration().setEnvironment(environment);
+    return sqlSessionFactory;
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error while building ibatis SqlSessionFactory: " + e.getMessage(),e);
+  }
+}
