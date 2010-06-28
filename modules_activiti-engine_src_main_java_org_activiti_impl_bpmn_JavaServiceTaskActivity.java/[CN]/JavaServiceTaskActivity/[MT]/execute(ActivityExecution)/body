@@ -1,9 +1,0 @@
-{
-  Object object=ReflectUtil.instantiate(className);
-  if (!(object instanceof BpmnActivityBehavior)) {
-    throw new ActivitiException("Class " + className + " does not implement the "+ BpmnActivityBehavior.class.getCanonicalName()+ " interface");
-  }
-  BpmnActivityBehavior activityBehavior=(BpmnActivityBehavior)object;
-  activityBehavior.execute((BpmnExecution)execution);
-  leave(execution,true);
-}

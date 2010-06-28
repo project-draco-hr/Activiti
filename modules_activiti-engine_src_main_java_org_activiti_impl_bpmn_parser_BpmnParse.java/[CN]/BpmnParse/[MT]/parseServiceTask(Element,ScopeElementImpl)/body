@@ -2,6 +2,15 @@
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scopeElement);
   String className=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"javaClass");
   if (className != null) {
-    activity.setActivityBehavior(new JavaServiceTaskActivity(className));
+    Object obj=ReflectUtil.instantiate(className);
+    if (obj instanceof ActivityBehavior) {
+      activity.setActivityBehavior((ActivityBehavior)obj);
+    }
+ else {
+      throw new ActivitiException("Class " + className + " is used in a serviceTask, but does not"+ " implement the "+ ActivityBehavior.class.getCanonicalName()+ " interface");
+    }
+  }
+ else {
+    throw new ActivitiException("javaClass attribute is mandatory on serviceTask");
   }
 }

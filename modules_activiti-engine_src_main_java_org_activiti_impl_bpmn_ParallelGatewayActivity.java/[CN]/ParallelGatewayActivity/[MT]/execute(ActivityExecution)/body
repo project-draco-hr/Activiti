@@ -9,7 +9,7 @@
  else {
     Activity joinActivity=execution.getActivity();
     List<ActivityExecution> joinedExecutions=new ArrayList<ActivityExecution>();
-    List<? extends ActivityExecution> concurrentExecutions=execution.getConcurrencyController().getExecutions();
+    List<? extends ActivityExecution> concurrentExecutions=execution.getExecutionController().getExecutions();
     for (    ActivityExecution concurrentExecution : concurrentExecutions) {
       if (concurrentExecution.getActivity().equals(joinActivity)) {
         joinedExecutions.add(concurrentExecution);
@@ -22,6 +22,11 @@
     if (nbrOfExecutionsJoined == nbrOfExecutionsToJoin) {
       ActivityExecution outgoingExecution=join(execution,joinedExecutions);
       fork(outgoingExecution);
+    }
+ else {
+      if (log.isLoggable(Level.FINE)) {
+        log.fine("Not all executions arrived in parallel gateway '" + execution.getActivity().getId() + "'");
+      }
     }
   }
 }

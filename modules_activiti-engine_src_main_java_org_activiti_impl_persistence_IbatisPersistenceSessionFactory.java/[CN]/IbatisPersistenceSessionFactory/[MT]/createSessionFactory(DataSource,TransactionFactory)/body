@@ -5,6 +5,7 @@
     InputStream inputStream=classLoader.getResourceAsStream("org/activiti/db/ibatis/activiti.ibatis.mem.conf.xml");
     Reader reader=new InputStreamReader(inputStream);
     SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(reader);
+    ((PooledDataSource)dataSource).forceCloseAll();
     Environment environment=new Environment("default",transactionFactory,dataSource);
     sqlSessionFactory.getConfiguration().setEnvironment(environment);
     return sqlSessionFactory;

@@ -1,9 +1,9 @@
 {
-  execution.setActive(false);
+  execution.getExecutionController().setActive(false);
   Activity joinActivity=execution.getActivity();
   List<ActivityExecution> joinedExecutions=new ArrayList<ActivityExecution>();
-  ConcurrencyController scopeInstance=execution.getConcurrencyController();
-  List<? extends ActivityExecution> concurrentExecutions=scopeInstance.getExecutions();
+  ExecutionController executionController=execution.getExecutionController();
+  List<? extends ActivityExecution> concurrentExecutions=executionController.getExecutions();
   for (  ActivityExecution concurrentExecution : concurrentExecutions) {
     if (concurrentExecution.getActivity() == joinActivity) {
       joinedExecutions.add(concurrentExecution);
@@ -13,7 +13,7 @@
   int nbrOfExecutionsJoined=joinedExecutions.size();
   if (nbrOfExecutionsJoined == nbrOfExecutionsToJoin) {
     log.fine("join '" + joinActivity.getId() + "' activates: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");
-    activate(scopeInstance,joinActivity,joinedExecutions);
+    activate(executionController,joinActivity,joinedExecutions);
   }
  else   if (log.isLoggable(Level.FINE)) {
     log.fine("join '" + joinActivity.getId() + "' does not activate: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");

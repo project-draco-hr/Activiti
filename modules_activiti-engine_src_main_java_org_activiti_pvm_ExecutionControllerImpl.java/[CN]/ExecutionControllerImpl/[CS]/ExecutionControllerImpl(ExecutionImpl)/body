@@ -1,0 +1,9 @@
+{
+  this.execution=execution;
+  if (execution.isConcurrencyScope()) {
+    this.concurrencyController=execution;
+  }
+ else {
+    this.concurrencyController=execution.getParent();
+  }
+}
