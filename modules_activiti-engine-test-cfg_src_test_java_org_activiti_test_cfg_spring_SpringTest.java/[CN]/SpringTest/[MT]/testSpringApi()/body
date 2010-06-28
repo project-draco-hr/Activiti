@@ -1,2 +1,6 @@
 {
+  ClassPathXmlApplicationContext applicationContext=new ClassPathXmlApplicationContext("org/activiti/test/cfg/spring/applicationContext.xml");
+  UserBean userBean=(UserBean)applicationContext.getBean("userBean");
+  userBean.doTransactional();
+  applicationContext.close();
 }
