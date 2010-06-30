@@ -1,8 +1,12 @@
 {
-  Map<String,String> specificStatements=databaseSpecificStatements.get(databaseName);
+  Map<String,String> specificStatements=null;
   if (databaseSpecificStatements == null) {
+    databaseSpecificStatements=new HashMap<String,Map<String,String>>();
     specificStatements=new HashMap<String,String>();
     databaseSpecificStatements.put(databaseName,specificStatements);
+  }
+ else {
+    specificStatements=databaseSpecificStatements.get(databaseName);
   }
   specificStatements.put(activitiStatement,ibatisStatement);
 }
