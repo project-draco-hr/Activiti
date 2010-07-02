@@ -1,5 +1,11 @@
 {
   Integer threadIdInteger=new Integer(threadId);
+  if (threadRenderingMode == ThreadRenderingMode.NONE) {
+    return "";
+  }
+  if (threadRenderingMode == ThreadRenderingMode.PRINT_ID) {
+    return "" + threadId;
+  }
   String threadIndent=threadIndents.get(threadIdInteger);
   if (threadIndent == null) {
     StringBuilder stringBuilder=new StringBuilder();

@@ -1,5 +1,6 @@
 {
   LogUtil.resetThreadIndents();
+  ThreadRenderingMode oldThreadRenderingMode=LogUtil.setThreadRenderingMode(threadRenderingMode);
   log.fine(EMPTY_LINE);
   log.fine("---- START " + method.getMethod().getDeclaringClass().getName() + "."+ method.getName()+ " ------------------------------------------------------");
   try {
@@ -18,5 +19,6 @@ catch (  Throwable e) {
  finally {
     Clock.reset();
     log.fine("---- END " + method.getMethod().getDeclaringClass().getName() + "."+ method.getName()+ " ------------------------------------------------------");
+    LogUtil.setThreadRenderingMode(oldThreadRenderingMode);
   }
 }
