@@ -1,0 +1,25 @@
+{
+  DefaultCommandExecutor chain=new DefaultCommandExecutor(((ProcessEngineImpl)processEngineBuilder.getProcessEngine()).getProcessEngineConfiguration().getCommandContextFactory());
+  chain.addCommandInterceptor(new CommandInterceptor(){
+    public <T>T invoke(    CommandExecutor next,    Command<T> command){
+      builder.append("a");
+      throw new RuntimeException("Planned failure");
+    }
+  }
+);
+  expectedException.expect(RuntimeException.class);
+  expectedException.expectMessage("Planned failure");
+  String result=null;
+  try {
+    result=chain.execute(new Command<String>(){
+      public String execute(      CommandContext commandContext){
+        return builder.append("c").toString();
+      }
+    }
+);
+  }
+  finally {
+    assertEquals(null,result);
+    assertEquals("a",builder.toString());
+  }
+}

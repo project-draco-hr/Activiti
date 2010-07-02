@@ -5,7 +5,7 @@
   List<Job> jobs=jobQuery.list();
   assertEquals(3,jobs.size());
   Clock.setCurrentTime(new Date((60 * 60 * 1000) + 5000));
-  new JobExecutorPoller(deployer.getProcessEngine()).waitForJobExecutorToProcessAllJobs(5000L,25L);
+  new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(5000L,25L);
   assertEquals(0L,jobQuery.count());
   Task task=deployer.getTaskService().createTaskQuery().singleResult();
   assertEquals("Third Task",task.getName());

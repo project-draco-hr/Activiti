@@ -1,0 +1,9 @@
+{
+  if (interceptors.hasNext()) {
+    return interceptors.next().invoke(this,command);
+  }
+  if (contextAwareInterceptors.hasNext()) {
+    return contextAwareInterceptors.next().invoke(this,command,contextCreator.getCommmandContext());
+  }
+  return command.execute(contextCreator.getCommmandContext());
+}

@@ -1,0 +1,13 @@
+{
+  context=commandContextFactory.createCommandContext(command);
+  try {
+    return next.execute(command);
+  }
+ catch (  Exception e) {
+    context.exception(e);
+  }
+ finally {
+    context.close();
+  }
+  return null;
+}

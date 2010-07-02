@@ -1,0 +1,7 @@
+{
+  ArrayList<CommandInterceptor> unawares=new ArrayList<CommandInterceptor>(interceptors);
+  contextCreator=new InternalCommandContextCreator(commandContextFactory);
+  unawares.add(contextCreator);
+  this.interceptors=unawares.iterator();
+  this.contextAwareInterceptors=Collections.unmodifiableList(contextAwareInterceptors).iterator();
+}

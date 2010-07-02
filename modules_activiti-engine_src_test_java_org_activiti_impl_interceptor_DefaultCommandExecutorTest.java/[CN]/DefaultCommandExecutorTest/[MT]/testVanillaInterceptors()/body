@@ -1,0 +1,29 @@
+{
+  DefaultCommandExecutor chain=new DefaultCommandExecutor(((ProcessEngineImpl)processEngineBuilder.getProcessEngine()).getProcessEngineConfiguration().getCommandContextFactory());
+  chain.addCommandInterceptor(new CommandInterceptor(){
+    public <T>T invoke(    CommandExecutor next,    Command<T> command){
+      builder.append("b:1:");
+      T result=next.execute(command);
+      builder.append(":a:1");
+      return result;
+    }
+  }
+);
+  chain.addCommandInterceptor(new CommandInterceptor(){
+    public <T>T invoke(    CommandExecutor next,    Command<T> command){
+      builder.append("b:2:");
+      T result=next.execute(command);
+      builder.append(":a:2");
+      return result;
+    }
+  }
+);
+  String result=chain.execute(new Command<String>(){
+    public String execute(    CommandContext commandContext){
+      return builder.append("c").toString();
+    }
+  }
+);
+  assertEquals("b:1:b:2:c",result);
+  assertEquals("b:1:b:2:c:a:2:a:1",builder.toString());
+}

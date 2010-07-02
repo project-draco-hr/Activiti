@@ -1,0 +1,23 @@
+{
+  this.commandContextFactory=commandContextFactory == null ? createDefaultCommandContextFactory() : commandContextFactory;
+  commandExecutor=createDefaultCmdExecutor(this.commandContextFactory);
+  deployerManager=createDefaultDeployerManager();
+  variableTypes=createDefaultVariableTypes();
+  scriptingEngines=createDefaultScriptingEngines();
+  dbSchemaStrategy=createDefaultDbSchemaStrategy();
+  jobExecutorAutoActivate=createDefaultJobExecutorAutoActivate();
+  expressionManager=createDefaultExpressionManager();
+  jobHandlers=createDefaultJobHandlers();
+  businessCalendarManager=createDefaultBusinessCalendarManager();
+  processCache=createDefaultProcessCache(deployerManager);
+  jobExecutor=createDefaultJobExecutor(commandExecutor);
+  idGenerator=createDefaultIdGenerator(commandExecutor);
+  processService=createDefaultProcessService(commandExecutor);
+  identityService=createDefaultIdentityService(commandExecutor);
+  taskService=createDefaultTaskService(commandExecutor);
+  managementService=createDefaultManagementService(commandExecutor);
+  persistenceSessionFactory=createDefaultPersistenceSessionFactory(idGenerator);
+  messageSessionFactory=createDefaultMessageSessionFactory();
+  timerSessionFactory=createDefaultTimerSessionFactory();
+  transactionContextFactory=createDefaultTransactionContextFactory();
+}

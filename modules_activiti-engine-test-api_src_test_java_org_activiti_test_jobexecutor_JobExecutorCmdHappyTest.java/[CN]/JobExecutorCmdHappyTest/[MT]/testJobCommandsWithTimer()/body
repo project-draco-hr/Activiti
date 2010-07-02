@@ -1,7 +1,6 @@
 {
   Clock.setCurrentTime(new Date(SOME_TIME));
-  ProcessEngineImpl processEngineImpl=(ProcessEngineImpl)deployer.getProcessEngine();
-  CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutor();
+  CommandExecutor commandExecutor=deployer.getCommandExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       TimerImpl timer=createTweetTimer("i'm coding a test",new Date(SOME_TIME + (10 * SECOND)));

@@ -1,6 +1,6 @@
 {
   tweetExceptionHandler.setExceptionsRemaining(3);
-  CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutor();
+  CommandExecutor commandExecutor=deployer.getCommandExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       MessageImpl message=createTweetExceptionMessage();
@@ -9,6 +9,6 @@
     }
   }
 );
-  new JobExecutorPoller(deployer.getProcessEngine()).waitForJobExecutorToProcessAllJobs(8000,250);
+  new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(8000,250);
   commandExecutor.execute(new DeleteJobsCmd(jobId));
 }

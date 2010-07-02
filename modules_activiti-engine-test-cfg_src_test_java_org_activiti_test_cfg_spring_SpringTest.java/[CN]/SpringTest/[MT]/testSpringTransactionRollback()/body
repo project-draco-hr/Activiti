@@ -1,0 +1,18 @@
+{
+  int before=processEngine.getProcessService().findDeployments().size();
+  userBean.setFail(true);
+  exception.expect(ActivitiException.class);
+  exception.expectMessage("aprocess");
+  try {
+    new TransactionTemplate(transactionManager).execute(new TransactionCallback<Object>(){
+      public Object doInTransaction(      TransactionStatus status){
+        userBean.doTransactional();
+        return null;
+      }
+    }
+);
+  }
+  finally {
+    assertEquals(before,processEngine.getProcessService().findDeployments().size());
+  }
+}
