@@ -1,15 +1,25 @@
 {
   Element conditionExprElement=seqFlowElement.element("conditionExpression");
   if (conditionExprElement != null) {
-    String expr=conditionExprElement.getText();
+    String expr=conditionExprElement.getText().trim();
     String type=conditionExprElement.attributeNS(BpmnParser.XSI_NS,"type");
     if (type != null && !type.equals("tFormalExpression")) {
       throw new ActivitiException("Invalid type on conditionExpression (" + conditionExprElement.getLine() + "). "+ "Only tFormalExpression is currently supported");
     }
     String language=conditionExprElement.attribute("language");
     if (language == null) {
-      language=ScriptingEngines.DEFAULT_EXPRESSION_LANGUAGE;
+      language=ExpressionManager.DEFAULT_EXPRESSION_LANGUAGE;
     }
-    seqFlow.setCondition(new ExpressionCondition(expr,language));
+    Condition condition=null;
+    if ("uel-value".equals(language)) {
+      condition=new UelValueExpressionCondition(commandContext.getExpressionManager().createValueExpression(expr));
+    }
+ else     if ("uel-method".equals(language)) {
+      condition=new UelMethodExpressionCondition(commandContext.getExpressionManager().createMethodExpression(expr));
+    }
+ else {
+      throw new ActivitiException("Unknown language for condition: " + language);
+    }
+    seqFlow.setCondition(condition);
   }
 }
