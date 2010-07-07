@@ -1,6 +1,5 @@
 {
   ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("multipleCandidatesGroup");
-  deployer.assertProcessEnded(processInstance.getId());
   TaskService taskService=deployer.getTaskService();
   List<Task> tasks=taskService.findAssignedTasks(KERMIT);
   assertTrue(tasks.isEmpty());
@@ -21,4 +20,5 @@
   assertEquals(1,taskService.findAssignedTasks(GONZO).size());
   assertTrue(taskService.findAssignedTasks(KERMIT).isEmpty());
   taskService.complete(task.getId());
+  deployer.assertProcessEnded(processInstance.getId());
 }
