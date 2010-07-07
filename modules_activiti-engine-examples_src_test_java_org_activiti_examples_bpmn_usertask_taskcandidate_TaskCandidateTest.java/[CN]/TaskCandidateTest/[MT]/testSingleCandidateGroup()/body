@@ -1,6 +1,6 @@
 {
   ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("singleCandidateGroup");
-  deployer.expectProcessEnds(processInstance.getId());
+  deployer.assertProcessEnded(processInstance.getId());
   TaskService taskService=deployer.getTaskService();
   List<Task> tasks=taskService.findAssignedTasks(KERMIT);
   assertTrue(tasks.isEmpty());

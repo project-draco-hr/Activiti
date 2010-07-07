@@ -1,6 +1,6 @@
 {
   ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("taskAssigneeProcess");
-  deployer.expectProcessEnds(processInstance.getId());
+  deployer.assertProcessEnded(processInstance.getId());
   List<Task> tasks=deployer.getTaskService().findAssignedTasks("kermit");
   assertEquals(1,tasks.size());
   Task myTask=tasks.get(0);
