@@ -1,7 +1,7 @@
 {
-  if (!isNew && (executions == null || executions.isEmpty())) {
+  if (!isExecutionsInitialized) {
     this.executions=CommandContext.getCurrent().getPersistenceSession().findChildExecutions(getId());
-    return executions;
+    this.isExecutionsInitialized=true;
   }
-  return super.getExecutions();
+  return executions;
 }

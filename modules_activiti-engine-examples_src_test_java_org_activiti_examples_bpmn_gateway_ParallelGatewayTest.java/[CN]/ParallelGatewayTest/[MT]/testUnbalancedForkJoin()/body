@@ -3,13 +3,19 @@
   TaskQuery query=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
   List<Task> tasks=query.list();
   assertEquals(3,tasks.size());
-  deployer.getTaskService().complete(tasks.get(0).getId());
-  assertEquals(2,query.count());
-  deployer.getTaskService().complete(tasks.get(1).getId());
+  Task task1=tasks.get(0);
+  assertEquals("Task 1",task1.getName());
+  Task task2=tasks.get(1);
+  assertEquals("Task 2",task2.getName());
+  deployer.getTaskService().complete(task1.getId());
+  deployer.getTaskService().complete(task2.getId());
   tasks=query.list();
+  Task task3=tasks.get(0);
   assertEquals(2,tasks.size());
-  assertEquals("Task 4",tasks.get(1).getName());
-  deployer.getTaskService().complete(tasks.get(0).getId());
-  deployer.getTaskService().complete(tasks.get(1).getId());
+  assertEquals("Task 3",task3.getName());
+  Task task4=tasks.get(1);
+  assertEquals("Task 4",task4.getName());
+  deployer.getTaskService().complete(task3.getId());
+  deployer.getTaskService().complete(task4.getId());
   deployer.assertProcessEnded(pi.getId());
 }

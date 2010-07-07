@@ -1,9 +1,10 @@
 {
+  ExecutionController executionController=execution.getExecutionController();
   for (  ActivityExecution joinedExecution : joinedExecutions) {
-    joinedExecution.getExecutionController().end();
+    ExecutionController joinedExecutionController=joinedExecution.getExecutionController();
+    joinedExecutionController.end();
   }
-  CommandContext.getCurrent().getPersistenceSession().flush();
-  ActivityExecution outgoingExecution=execution.getExecutionController().createExecution();
+  ActivityExecution outgoingExecution=executionController.createExecution();
   outgoingExecution.getExecutionController().setActivity(execution.getActivity());
   return outgoingExecution;
 }
