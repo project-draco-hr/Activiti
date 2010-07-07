@@ -1,4 +1,9 @@
 {
   ELContext elContext=expressionManager.getElContext(execution);
-  return methodExpression.invoke(elContext,null);
+  try {
+    return methodExpression.invoke(elContext,null);
+  }
+ catch (  MethodNotFoundException e) {
+    throw new ActivitiException("Unknown method used in expression",e);
+  }
 }

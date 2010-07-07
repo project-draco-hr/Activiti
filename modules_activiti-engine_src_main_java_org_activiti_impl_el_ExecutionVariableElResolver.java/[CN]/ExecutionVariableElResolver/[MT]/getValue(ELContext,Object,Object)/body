@@ -1,8 +1,10 @@
 {
   if (base == null) {
     String variable=(String)property;
-    context.setPropertyResolved(true);
-    return execution.getVariable(variable);
+    if (execution.hasVariable(variable)) {
+      context.setPropertyResolved(true);
+      return execution.getVariable(variable);
+    }
   }
   return null;
 }

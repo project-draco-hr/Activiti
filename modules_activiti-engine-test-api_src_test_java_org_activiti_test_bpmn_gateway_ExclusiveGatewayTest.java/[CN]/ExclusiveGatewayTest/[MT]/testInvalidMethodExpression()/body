@@ -1,0 +1,5 @@
+{
+  exception.expect(ActivitiException.class);
+  exception.expectMessage("Unknown method used in expression");
+  deployer.getProcessService().startProcessInstanceByKey("invalidMethodExpression",CollectionUtil.singletonMap("order",new ExclusiveGatewayTestOrder(50)));
+}
