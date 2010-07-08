@@ -12,10 +12,10 @@
     }
     Condition condition=null;
     if ("uel-value".equals(language)) {
-      condition=new UelValueExpressionCondition(commandContext.getExpressionManager().createValueExpression(expr));
+      condition=new UelValueExpressionCondition(expressionManager.createValueExpression(expr));
     }
  else     if ("uel-method".equals(language)) {
-      condition=new UelMethodExpressionCondition(commandContext.getExpressionManager().createMethodExpression(expr));
+      condition=new UelMethodExpressionCondition(expressionManager.createMethodExpression(expr));
     }
  else {
       throw new ActivitiException("Unknown language for condition: " + language);

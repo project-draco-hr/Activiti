@@ -1,5 +1,7 @@
 {
   CommandExecutor commandExecutor=deployer.getCommandExecutor();
+  JobHandlers jobHandlers=deployer.getJobHandlers();
+  JobExecutor jobExecutor=deployer.getJobExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       MessageImpl message=createTweetMessage("i'm coding a test");
@@ -8,7 +10,7 @@
     }
   }
 );
-  AcquiredJobs acquiredJobs=commandExecutor.execute(new AcquireJobsCmd());
+  AcquiredJobs acquiredJobs=commandExecutor.execute(new AcquireJobsCmd(jobExecutor));
   List<List<String>> jobIdsList=acquiredJobs.getJobIdsList();
   assertEquals(1,jobIdsList.size());
   List<String> jobIds=jobIdsList.get(0);
@@ -16,7 +18,7 @@
   expectedJobIds.add(jobId);
   assertEquals(expectedJobIds,new ArrayList<String>(jobIds));
   assertEquals(0,tweetHandler.getMessages().size());
-  commandExecutor.execute(new ExecuteJobsCmd(jobId));
+  commandExecutor.execute(new ExecuteJobsCmd(jobHandlers,jobId));
   assertEquals("i'm coding a test",tweetHandler.getMessages().get(0));
   assertEquals(1,tweetHandler.getMessages().size());
 }

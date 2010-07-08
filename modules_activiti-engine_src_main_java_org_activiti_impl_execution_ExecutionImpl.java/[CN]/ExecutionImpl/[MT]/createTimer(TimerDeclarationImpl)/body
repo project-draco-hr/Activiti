@@ -1,10 +1,7 @@
 {
-  BusinessCalendarManager businessCalendarManager=CommandContext.getCurrent().getBusinessCalendarManager();
-  BusinessCalendar businessCalendar=businessCalendarManager.getBusinessCalendar(timerDeclaration.getBusinessCalendarRef());
-  Date duedate=businessCalendar.resolveDuedate(timerDeclaration.getDuedate());
   TimerImpl timer=new TimerImpl();
   timer.setExecution(this);
-  timer.setDuedate(duedate);
+  timer.setDuedate(timerDeclaration.getDuedate());
   timer.setJobHandlerType(timerDeclaration.getJobHandlerType());
   timer.setJobHandlerConfiguration(timerDeclaration.getJobHandlerConfiguration());
   timer.setExclusive(timerDeclaration.isExclusive());

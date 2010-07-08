@@ -8,7 +8,7 @@
   while (isActive) {
     int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
     try {
-      AcquiredJobs acquiredJobs=commandExecutor.execute(ACQUIRE_JOB_CMD);
+      AcquiredJobs acquiredJobs=commandExecutor.execute(acquireJobsCmd);
       for (      List<String> jobIds : acquiredJobs.getJobIdsList()) {
         jobExecutor.executeJobs(jobIds);
       }

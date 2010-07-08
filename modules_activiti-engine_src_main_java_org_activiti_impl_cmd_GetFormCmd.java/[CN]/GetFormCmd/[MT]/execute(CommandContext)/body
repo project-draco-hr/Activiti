@@ -1,28 +1,27 @@
 {
-  ProcessCache processCache=commandContext.getProcessCache();
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
   ProcessDefinitionImpl processDefinition=null;
   TaskImpl task=null;
   ExecutionImpl execution=null;
   FormReference formReference=null;
   if (taskId != null) {
-    PersistenceSession persistenceSession=commandContext.getPersistenceSession();
     task=persistenceSession.findTask(taskId);
     if (task == null) {
       throw new ActivitiException("No task found for id = '" + taskId + "'");
     }
     execution=task.getExecution();
-    processDefinition=processCache.findProcessDefinitionById(task.getProcessDefinitionId());
+    processDefinition=persistenceSession.findProcessDefinitionById(task.getProcessDefinitionId());
     formReference=execution.getActivity().getFormReference();
   }
  else   if (processDefinitionId != null) {
-    processDefinition=processCache.findProcessDefinitionById(processDefinitionId);
+    processDefinition=persistenceSession.findProcessDefinitionById(processDefinitionId);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
     }
     formReference=processDefinition.getInitial().getFormReference();
   }
  else   if (processDefinitionKey != null) {
-    processDefinition=processCache.findProcessDefinitionByKey(processDefinitionKey);
+    processDefinition=persistenceSession.findLatestProcessDefinitionByKey(processDefinitionKey);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
     }
@@ -34,7 +33,6 @@
     String formLanguage=formReference.getLanguage();
     String form=formReference.getForm();
     String formTemplateString=getFormTemplateString(form,deployment);
-    ScriptingEngines scriptingEngines=commandContext.getScriptingEngines();
     result=scriptingEngines.evaluate(formTemplateString,formLanguage,execution);
   }
   return result;

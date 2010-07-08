@@ -4,7 +4,7 @@
     String[] splittedSerialization=procInstString.split(",");
     String activityId=splittedSerialization[0].replace("activity:","");
     ProcessDefinitionImpl processDefinitionImpl=getProcessDefinition();
-    embeddedProcessInstance=new ExecutionImpl(processDefinitionImpl);
+    embeddedProcessInstance=processDefinitionImpl.createProcessInstance();
     embeddedProcessInstance.setActivity(processDefinitionImpl.findActivity(activityId));
   }
 }

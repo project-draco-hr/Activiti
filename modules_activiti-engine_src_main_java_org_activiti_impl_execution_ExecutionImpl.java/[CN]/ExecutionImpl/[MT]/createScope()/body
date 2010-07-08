@@ -3,9 +3,6 @@
   scopeExecution.setTransition(getTransition());
   setTransition(null);
   setActive(false);
-  for (  VariableDeclarationImpl variableDeclaration : getActivity().getVariableDeclarations()) {
-    scopeExecution.createVariable(variableDeclaration.getName(),variableDeclaration.getType());
-  }
   for (  TimerDeclarationImpl timerDeclaration : getActivity().getTimerDeclarations()) {
     scopeExecution.createTimer(timerDeclaration);
   }

@@ -6,12 +6,12 @@
       ByteArrayImpl resource=resources.get(resourceName);
       byte[] bytes=resource.getBytes();
       ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
-      BpmnParse bpmnParse=BpmnParser.INSTANCE.createParse().processDefinitionClass(ProcessDefinitionDbImpl.class).commandContext(commandContext).sourceInputStream(inputStream).execute();
-      ProcessCache processCache=commandContext.getProcessCache();
+      BpmnParse bpmnParse=new BpmnParser(expressionManager,scriptingEngines,businessCalendarManager).createParse().processDefinitionClass(ProcessDefinitionDbImpl.class).sourceInputStream(inputStream).execute();
+      PersistenceSession persistenceSession=commandContext.getPersistenceSession();
       for (      ProcessDefinitionImpl processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setDeployment(deployment);
         processDefinition.setNew(deployment.isNew());
-        processCache.setProcessDefinition(processDefinition);
+        persistenceSession.insertProcessDefinition(processDefinition);
       }
     }
   }

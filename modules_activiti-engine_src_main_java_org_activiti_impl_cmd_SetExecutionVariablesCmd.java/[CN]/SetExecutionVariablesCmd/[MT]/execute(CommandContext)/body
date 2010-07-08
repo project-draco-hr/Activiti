@@ -1,5 +1,6 @@
 {
-  DbExecutionImpl execution=commandContext.getPersistenceSession().findExecution(executionId);
+  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  DbExecutionImpl execution=persistenceSession.findExecution(executionId);
   execution.setVariables(variables);
   return null;
 }

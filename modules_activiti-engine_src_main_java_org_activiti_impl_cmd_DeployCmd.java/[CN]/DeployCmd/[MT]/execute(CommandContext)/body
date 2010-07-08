@@ -2,7 +2,6 @@
   PersistenceSession persistenceSession=commandContext.getPersistenceSession();
   deployment.setDeploymentTime(Clock.getCurrentTime());
   persistenceSession.insertDeployment(deployment);
-  DeployerManager deployerManager=commandContext.getDeployerManager();
   deployerManager.deploy(deployment,commandContext);
   return deployment;
 }

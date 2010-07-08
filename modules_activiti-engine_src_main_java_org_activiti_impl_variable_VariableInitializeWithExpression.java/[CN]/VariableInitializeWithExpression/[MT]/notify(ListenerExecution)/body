@@ -1,7 +1,6 @@
 {
   ExecutionImpl innerScope=(ExecutionImpl)execution;
   ExecutionImpl outerScope=innerScope.getParent();
-  ScriptingEngines scriptingEngines=ScriptingEngines.getScriptingEngines();
   Object value=scriptingEngines.evaluate(sourceValueExpression,sourceValueExpressionLanguage,outerScope);
   innerScope.setVariable(destinationVariableName,value);
 }

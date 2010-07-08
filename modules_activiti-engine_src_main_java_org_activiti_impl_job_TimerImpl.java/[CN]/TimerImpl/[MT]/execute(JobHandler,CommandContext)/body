@@ -1,0 +1,12 @@
+{
+  super.execute(jobHandler,commandContext);
+  if (repeat == null) {
+    if (log.isLoggable(Level.FINE)) {
+      log.fine("Timer " + getId() + " fired. Deleting timer.");
+    }
+    commandContext.getPersistenceSession().delete(this);
+  }
+ else {
+    throw new UnsupportedOperationException("repeat not yet supported");
+  }
+}

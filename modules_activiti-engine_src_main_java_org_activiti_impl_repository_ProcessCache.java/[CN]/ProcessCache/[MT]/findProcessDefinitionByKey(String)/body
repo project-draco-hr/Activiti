@@ -1,8 +1,0 @@
-{
-  PersistenceSession persistenceSession=CommandContext.getCurrent().getPersistenceSession();
-  ProcessDefinitionImpl processDefinition=persistenceSession.findLatestProcessDefinitionByKey(processDefinitionKey);
-  if (processDefinition == null) {
-    return null;
-  }
-  return findProcessDefinitionById(processDefinition.getId());
-}

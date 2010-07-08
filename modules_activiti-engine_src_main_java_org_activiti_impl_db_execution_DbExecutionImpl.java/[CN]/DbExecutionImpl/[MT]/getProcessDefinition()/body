@@ -1,6 +1,6 @@
 {
   if ((processDefinition == null) && (processDefinitionId != null)) {
-    processDefinition=CommandContext.getCurrent().getProcessCache().findProcessDefinitionById(processDefinitionId);
+    setProcessDefinition(CommandContext.getCurrent().getPersistenceSession().findProcessDefinitionById(processDefinitionId));
   }
   return processDefinition;
 }

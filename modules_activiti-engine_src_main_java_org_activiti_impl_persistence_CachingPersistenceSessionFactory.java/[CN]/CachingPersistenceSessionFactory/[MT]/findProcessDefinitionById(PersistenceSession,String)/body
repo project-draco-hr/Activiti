@@ -1,0 +1,13 @@
+{
+  ProcessDefinitionImpl processDefinition=processDefinitionsById.get(processDefinitionId);
+  if (processDefinition == null) {
+    addProcessDefinition(persistenceSession,persistenceSession.findProcessDefinitionById(processDefinitionId));
+  }
+  processDefinition=processDefinitionsById.get(processDefinitionId);
+  if (processDefinition != null) {
+    return processDefinition;
+  }
+ else {
+    throw new ActivitiException("Couldn't find process definiton with id " + processDefinitionId);
+  }
+}

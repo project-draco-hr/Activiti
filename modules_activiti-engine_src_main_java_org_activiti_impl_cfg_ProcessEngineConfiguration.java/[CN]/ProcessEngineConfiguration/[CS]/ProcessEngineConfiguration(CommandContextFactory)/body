@@ -1,23 +1,22 @@
 {
   this.commandContextFactory=commandContextFactory == null ? createDefaultCommandContextFactory() : commandContextFactory;
   commandExecutor=createDefaultCmdExecutor(this.commandContextFactory);
-  deployerManager=createDefaultDeployerManager();
-  variableTypes=createDefaultVariableTypes();
+  expressionManager=createDefaultExpressionManager();
   scriptingEngines=createDefaultScriptingEngines();
+  businessCalendarManager=createDefaultBusinessCalendarManager();
+  deployerManager=createDefaultDeployerManager(expressionManager,scriptingEngines,businessCalendarManager);
+  variableTypes=createDefaultVariableTypes();
   dbSchemaStrategy=createDefaultDbSchemaStrategy();
   jobExecutorAutoActivate=createDefaultJobExecutorAutoActivate();
-  expressionManager=createDefaultExpressionManager();
   jobHandlers=createDefaultJobHandlers();
-  businessCalendarManager=createDefaultBusinessCalendarManager();
-  processCache=createDefaultProcessCache(deployerManager);
-  jobExecutor=createDefaultJobExecutor(commandExecutor);
+  jobExecutor=createDefaultJobExecutor(commandExecutor,jobHandlers);
   idGenerator=createDefaultIdGenerator(commandExecutor);
-  processService=createDefaultProcessService(commandExecutor);
+  processService=createDefaultProcessService(commandExecutor,deployerManager,scriptingEngines);
   identityService=createDefaultIdentityService(commandExecutor);
-  taskService=createDefaultTaskService(commandExecutor);
+  taskService=createDefaultTaskService(commandExecutor,scriptingEngines);
   managementService=createDefaultManagementService(commandExecutor);
-  persistenceSessionFactory=createDefaultPersistenceSessionFactory(idGenerator);
-  messageSessionFactory=createDefaultMessageSessionFactory();
-  timerSessionFactory=createDefaultTimerSessionFactory();
+  persistenceSessionFactory=createDefaultPersistenceSessionFactory(variableTypes,idGenerator);
+  messageSessionFactory=createDefaultMessageSessionFactory(jobExecutor);
+  timerSessionFactory=createDefaultTimerSessionFactory(jobExecutor);
   transactionContextFactory=createDefaultTransactionContextFactory();
 }

@@ -1,6 +1,6 @@
 {
   if (embeddedProcessInstance == null) {
-    embeddedProcessInstance=new ExecutionImpl(getProcessDefinition());
+    embeddedProcessInstance=getProcessDefinition().createProcessInstance();
   }
   if (variables != null) {
     for (    String key : variables.keySet()) {

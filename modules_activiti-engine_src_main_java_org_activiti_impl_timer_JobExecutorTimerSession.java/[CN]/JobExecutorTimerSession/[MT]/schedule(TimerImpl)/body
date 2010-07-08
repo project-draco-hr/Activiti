@@ -4,8 +4,8 @@
     throw new ActivitiException("duedate is null");
   }
   commandContext.getPersistenceSession().insert(timer);
-  int waitTimeInMillis=commandContext.getJobExecutor().getWaitTimeInMillis();
+  int waitTimeInMillis=jobExecutor.getWaitTimeInMillis();
   if (duedate.getTime() < (Clock.getCurrentTime().getTime() + waitTimeInMillis)) {
-    commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification());
+    commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(jobExecutor));
   }
 }

@@ -4,6 +4,6 @@
   job.setRetries(job.getRetries() - 1);
   job.setLockOwner(null);
   job.setLockExpirationTime(null);
-  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification());
+  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(jobExecutor));
   return null;
 }

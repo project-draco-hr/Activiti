@@ -6,6 +6,7 @@
   if (job == null) {
     throw new ActivitiException("No job found for jobId '" + jobId + "'");
   }
-  job.execute(commandContext);
+  JobHandler jobHandler=jobHandlers.getJobHandler(job.getJobHandlerType());
+  job.execute(jobHandler,commandContext);
   return null;
 }

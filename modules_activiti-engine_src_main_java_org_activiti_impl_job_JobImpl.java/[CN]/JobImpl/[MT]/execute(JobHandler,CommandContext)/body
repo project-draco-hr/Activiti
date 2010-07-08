@@ -1,0 +1,7 @@
+{
+  ExecutionImpl execution=null;
+  if (executionId != null) {
+    execution=commandContext.getPersistenceSession().findExecution(executionId);
+  }
+  jobHandler.execute(jobHandlerConfiguration,execution,commandContext);
+}

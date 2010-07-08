@@ -1,5 +1,5 @@
 {
-  ProcessCache processCache=commandContext.getProcessCache();
+  PersistenceSession processCache=commandContext.getPersistenceSession();
   ProcessDefinitionImpl processDefinition=null;
   if (processDefinitionId != null) {
     processDefinition=processCache.findProcessDefinitionById(processDefinitionId);
@@ -8,7 +8,7 @@
     }
   }
  else {
-    processDefinition=processCache.findProcessDefinitionByKey(processDefinitionKey);
+    processDefinition=processCache.findLatestProcessDefinitionByKey(processDefinitionKey);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
     }

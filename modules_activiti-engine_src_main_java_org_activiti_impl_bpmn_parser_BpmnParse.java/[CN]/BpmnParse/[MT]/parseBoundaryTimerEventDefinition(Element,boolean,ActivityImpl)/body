@@ -6,8 +6,8 @@
   if (timeDuration != null) {
     timeDurationText=timeDuration.getText();
   }
-  TimerDeclarationImpl timerDeclaration=timerActivity.getParent().createTimerDeclaration(timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
-  timerDeclaration.setBusinessCalendarRef(DurationBusinessCalendar.NAME);
+  BusinessCalendar businessCalendar=businessCalendarManager.getBusinessCalendar(DurationBusinessCalendar.NAME);
+  TimerDeclarationImpl timerDeclaration=timerActivity.getParent().createTimerDeclaration(businessCalendar,timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
   timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
   timerActivity.setActivityBehavior(boundaryTimerEventActivity);
 }
