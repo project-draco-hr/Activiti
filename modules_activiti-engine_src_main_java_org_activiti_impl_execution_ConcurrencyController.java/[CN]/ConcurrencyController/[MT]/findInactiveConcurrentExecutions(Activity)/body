@@ -1,0 +1,31 @@
+{
+  List<ActivityExecution> inactiveConcurrentExecutionsInActivity=new ArrayList<ActivityExecution>();
+  List<ActivityExecution> otherConcurrentExecutions=new ArrayList<ActivityExecution>();
+  if (execution.isConcurrent()) {
+    List<? extends ActivityExecution> concurrentExecutions=execution.getParent().getExecutions();
+    for (    ActivityExecution concurrentExecution : concurrentExecutions) {
+      if (concurrentExecution.getActivity() == activity) {
+        if (concurrentExecution.isActive()) {
+          throw new ActivitiException("didn't expect active execution in " + activity + ". bug?");
+        }
+        inactiveConcurrentExecutionsInActivity.add(concurrentExecution);
+      }
+ else {
+        otherConcurrentExecutions.add(concurrentExecution);
+      }
+    }
+  }
+ else {
+    if (!execution.isActive()) {
+      inactiveConcurrentExecutionsInActivity.add(execution);
+    }
+ else {
+      otherConcurrentExecutions.add(execution);
+    }
+  }
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("inactive concurrent executions in '" + activity + "': "+ inactiveConcurrentExecutionsInActivity);
+    log.fine("other concurrent executions: " + otherConcurrentExecutions);
+  }
+  return inactiveConcurrentExecutionsInActivity;
+}

@@ -2,24 +2,27 @@
   if (log.isLoggable(Level.FINE)) {
     log.fine("Leaving activity '" + execution.getActivity().getId() + "'");
   }
-  List<Transition> outgoingSequenceFlow=execution.getOutgoingTransitions();
-  if (outgoingSequenceFlow.size() == 1) {
-    execution.take(outgoingSequenceFlow.get(0));
+  List<Transition> outgoingTransitions=execution.getOutgoingTransitions();
+  if (outgoingTransitions.size() == 1) {
+    execution.take(outgoingTransitions.get(0));
   }
- else   if (outgoingSequenceFlow.size() > 1) {
-    execution.getExecutionController().setActive(false);
-    ExecutionController concurrencyController=execution.getExecutionController();
-    for (    Transition outSeqFlow : outgoingSequenceFlow) {
-      if (outSeqFlow.getCondition() == null || !checkConditions || outSeqFlow.getCondition().evaluate(execution)) {
-        ActivityExecution concurrentExecution=concurrencyController.createExecution();
-        concurrentExecution.take(outSeqFlow);
+ else   if (outgoingTransitions.size() > 1) {
+    ConcurrencyController concurrencyController=new ConcurrencyController(execution);
+    concurrencyController.inactivate();
+    List<ActivityExecution> joinedExecutions=new ArrayList<ActivityExecution>();
+    joinedExecutions.add(execution);
+    List<Transition> transitionsToTake=new ArrayList<Transition>();
+    for (    Transition outgoingTransition : outgoingTransitions) {
+      if (outgoingTransition.getCondition() == null || !checkConditions || outgoingTransition.getCondition().evaluate(execution)) {
+        transitionsToTake.add(outgoingTransition);
       }
     }
+    concurrencyController.takeAll(transitionsToTake,joinedExecutions);
   }
  else {
     if (log.isLoggable(Level.FINE)) {
       log.fine("No outgoing sequence flow found for " + execution.getActivity().getId() + ". Ending execution.");
     }
-    execution.getExecutionController().end();
+    execution.end();
   }
 }

@@ -1,21 +1,11 @@
 {
   if (isProcessInstance()) {
-    text.append("ProcInst");
+    text.append("ProcessInstance");
   }
  else {
-    text.append("Exe");
+    text.append("Execution");
   }
-  if (activity != null) {
-    text.append("(");
-    text.append(activity.getId());
-    text.append(")");
-  }
-  if (hasExecutions()) {
-    text.append("[");
-    for (    ExecutionImpl child : executions) {
-      child.toString(text);
-    }
-    text.append("]");
-  }
+  text.append("-");
+  text.append(getIdForToString());
   return text.toString();
 }

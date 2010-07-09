@@ -1,0 +1,46 @@
+{
+  transitions=new ArrayList<Transition>(transitions);
+  joinedExecutions=new ArrayList<ActivityExecution>(joinedExecutions);
+  ActivityExecution concurrentRoot=(execution.isConcurrent() ? execution.getParent() : execution);
+  List<? extends ActivityExecution> concurrentExecutions=concurrentRoot.getExecutions();
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("transitions to take concurrent: " + transitions);
+    log.fine("existing concurrent executions: " + concurrentExecutions);
+  }
+  if ((transitions.size() == 1) && (joinedExecutions.size() == concurrentExecutions.size())) {
+    for (    ActivityExecution prunedExecution : joinedExecutions) {
+      log.info("pruning execution " + prunedExecution);
+      prunedExecution.end();
+    }
+    log.info("activating the concurrent root execution as the single path of execution going forward");
+    concurrentRoot.setActive(true);
+    concurrentRoot.setActivity(activity);
+    concurrentRoot.setConcurrent(false);
+    concurrentRoot.take(transitions.get(0));
+  }
+ else {
+    List<OutgoingExecution> outgoingExecutions=new ArrayList<OutgoingExecution>();
+    joinedExecutions.remove(concurrentRoot);
+    log.fine("joined executions to be reused: " + joinedExecutions);
+    while (!transitions.isEmpty()) {
+      Transition outgoingTransition=transitions.remove(0);
+      if (joinedExecutions.isEmpty()) {
+        ActivityExecution outgoingExecution=concurrentRoot.createExecution();
+        outgoingExecutions.add(new OutgoingExecution(outgoingExecution,outgoingTransition,true));
+        log.fine("new " + outgoingExecution + " created to take transition "+ outgoingTransition);
+      }
+ else {
+        ActivityExecution outgoingExecution=joinedExecutions.remove(0);
+        outgoingExecutions.add(new OutgoingExecution(outgoingExecution,outgoingTransition,true));
+        log.fine("recycled " + outgoingExecution + " to take transition "+ outgoingTransition);
+      }
+    }
+    for (    ActivityExecution prunedExecution : joinedExecutions) {
+      log.info("pruning execution " + prunedExecution);
+      prunedExecution.end();
+    }
+    for (    OutgoingExecution outgoingExecution : outgoingExecutions) {
+      outgoingExecution.take();
+    }
+  }
+}

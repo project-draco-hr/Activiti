@@ -1,0 +1,8 @@
+{
+  DbExecutionImpl newExecution=new DbExecutionImpl();
+  newExecution.isNew=true;
+  newExecution.executions=new ArrayList<ExecutionImpl>();
+  newExecution.isExecutionsInitialized=true;
+  CommandContext.getCurrent().getPersistenceSession().insert(newExecution);
+  return newExecution;
+}

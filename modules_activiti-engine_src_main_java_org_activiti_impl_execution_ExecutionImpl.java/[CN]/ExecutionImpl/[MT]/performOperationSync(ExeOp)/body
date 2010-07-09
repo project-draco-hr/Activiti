@@ -5,7 +5,9 @@
     while (nextOperation != null) {
       ExeOp currentOperation=this.nextOperation;
       this.nextOperation=null;
-      log.fine("ExeOp: " + currentOperation + " on "+ this);
+      if (log.isLoggable(Level.FINEST)) {
+        log.finest("ExeOp: " + currentOperation + " on "+ this);
+      }
       currentOperation.execute(this);
     }
     isOperating=false;
