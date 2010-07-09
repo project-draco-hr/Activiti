@@ -1,5 +1,5 @@
 {
-  ProcessEngineImpl processEngine=(ProcessEngineImpl)new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CREATE_DROP).buildProcessEngine();
+  ProcessEngineImpl processEngine=(ProcessEngineImpl)new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.DROP_CREATE).buildProcessEngine();
   PersistenceSessionFactory persistenceSessionFactory=processEngine.getPersistenceSessionFactory();
   SqlSessionFactory sqlSessionFactory=((IbatisPersistenceSessionFactory)persistenceSessionFactory).getSqlSessionFactory();
   SqlSession sqlSession=sqlSessionFactory.openSession();
