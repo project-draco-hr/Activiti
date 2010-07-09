@@ -8,7 +8,14 @@
   this.dbSchemaStrategy=processEngineConfiguration.getDbSchemaStrategy();
   this.jobExecutor=processEngineConfiguration.getJobExecutor();
   this.persistenceSessionFactory=processEngineConfiguration.getPersistenceSessionFactory();
-  if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy || DbSchemaStrategy.CREATE == dbSchemaStrategy) {
+  if (DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy) {
+    try {
+      persistenceSessionFactory.dbSchemaDrop();
+    }
+ catch (    RuntimeException e) {
+    }
+  }
+  if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy || DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy || DbSchemaStrategy.CREATE == dbSchemaStrategy) {
     persistenceSessionFactory.dbSchemaCreate();
   }
  else   if (DbSchemaStrategy.CHECK_VERSION == dbSchemaStrategy) {

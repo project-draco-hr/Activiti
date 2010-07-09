@@ -1,5 +1,5 @@
 {
-  ObjectProcessDefinition processDefinition=ProcessDefinitionBuilder.createProcessDefinition().createActivity("a").initial().behavior(new WaitState()).endActivity().endProcessDefinition();
+  ObjectProcessDefinition processDefinition=ProcessDefinitionBuilder.createProcessDefinitionBuilder().createActivity("a").initial().behavior(new WaitState()).endActivity().build();
   ObjectProcessInstance processInstance=processDefinition.createProcessInstance();
   processInstance.setVariable("amount",500L);
   processInstance.start();
