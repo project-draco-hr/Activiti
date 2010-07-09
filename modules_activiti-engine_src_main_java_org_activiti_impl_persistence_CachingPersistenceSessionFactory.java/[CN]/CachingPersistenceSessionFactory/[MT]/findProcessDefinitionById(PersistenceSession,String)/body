@@ -2,6 +2,10 @@
   ProcessDefinitionImpl processDefinition=processDefinitionsById.get(processDefinitionId);
   if (processDefinition == null) {
     addProcessDefinition(persistenceSession,persistenceSession.findProcessDefinitionById(processDefinitionId));
+    DeploymentImpl deployment=persistenceSession.findDeploymentByProcessDefinitionId(processDefinitionId);
+    if (deployment != null) {
+      deployerManager.deploy(deployment,CommandContext.getCurrent());
+    }
   }
   processDefinition=processDefinitionsById.get(processDefinitionId);
   if (processDefinition != null) {
