@@ -1,0 +1,10 @@
+{
+  final String query="selectUnlockedTimersByDuedate";
+  if (nrOfTimers > 0) {
+    RowBounds rowBounds=new RowBounds(0,nrOfTimers);
+    return sqlSession.selectList(statement(query),duedate,rowBounds);
+  }
+ else {
+    return sqlSession.selectList(statement(query),duedate);
+  }
+}
