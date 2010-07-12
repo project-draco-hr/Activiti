@@ -1,6 +1,5 @@
 {
   Activity activity=execution.getActivity();
-  List<Transition> outgoingTransitions=execution.getOutgoingTransitions();
   ConcurrencyController concurrencyController=new ConcurrencyController(execution);
   concurrencyController.inactivate();
   List<ActivityExecution> joinedExecutions=concurrencyController.findInactiveConcurrentExecutions(activity);
@@ -8,7 +7,7 @@
   int nbrOfExecutionsJoined=joinedExecutions.size();
   if (nbrOfExecutionsJoined == nbrOfExecutionsToJoin) {
     log.fine("parallel gateway '" + activity.getId() + "' activates: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");
-    concurrencyController.takeAll(outgoingTransitions,joinedExecutions);
+    concurrencyController.takeAll(execution.getOutgoingTransitions(),joinedExecutions);
   }
  else   if (log.isLoggable(Level.FINE)) {
     log.fine("parallel gateway '" + activity.getId() + "' does not activate: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");
