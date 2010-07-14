@@ -1,11 +1,4 @@
 {
-  Assert.state(dataBaseName != null,"A database name must be provided (e.g. 'h2')");
-  ProcessEngineFactory factory=new ProcessEngineFactory();
-  factory.setDbSchemaStrategy(dbSchemaStrategy);
-  factory.setJobExecutorAutoActivate(jobExecutorAutoActivate);
-  factory.setProcessEngineName(processEngineName);
-  factory.setDataSource(dataSource);
-  factory.setDataBaseName(dataBaseName);
   factory.setLocalTransactions(transactionManager == null);
   if (transactionManager != null) {
     DefaultCommandExecutor commandExecutor=new DefaultCommandExecutor(factory.getCommandContextFactory());
@@ -24,5 +17,6 @@
     factory.setCommandExecutor(commandExecutor);
   }
   processEngine=factory.createProcessEngine();
+  refreshProcessResources(processEngine.getProcessService(),processResources);
   return processEngine;
 }

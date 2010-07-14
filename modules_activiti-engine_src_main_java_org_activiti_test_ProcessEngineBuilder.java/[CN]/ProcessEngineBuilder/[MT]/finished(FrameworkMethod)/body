@@ -1,5 +1,15 @@
 {
-  assertDatabaseIsClean();
+  try {
+    assertDatabaseIsClean();
+  }
+ catch (  AssertionError e) {
+    if (succeeded) {
+      throw e;
+    }
+ else {
+      log.log(Level.SEVERE,"Assertion failed in clean up after unsuccessful test",e);
+    }
+  }
   if (processEngine != null) {
     processEngine.close();
     processEngine=null;

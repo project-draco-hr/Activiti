@@ -1,7 +1,13 @@
 {
+  DeploymentImpl deployment=this.deployment;
   PersistenceSession persistenceSession=commandContext.getPersistenceSession();
-  deployment.setDeploymentTime(Clock.getCurrentTime());
-  persistenceSession.insertDeployment(deployment);
+  List<DeploymentImpl> deployments=persistenceSession.findDeploymentsByName(deployment.getName());
+  if (deployments.isEmpty() || deploymentsDiffer(deployment,deployments.get(0))) {
+    insertDeployment(persistenceSession);
+  }
+ else {
+    deployment=deployments.get(0);
+  }
   deployerManager.deploy(deployment,persistenceSession);
   return deployment;
 }

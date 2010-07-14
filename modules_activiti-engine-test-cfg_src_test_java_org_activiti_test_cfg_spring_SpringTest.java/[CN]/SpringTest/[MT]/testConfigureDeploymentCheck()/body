@@ -1,0 +1,11 @@
+{
+  int before=processEngine.getProcessService().findDeployments().size();
+  ProcessService processService=processEngine.getProcessService();
+  FileSystemResource resource=new FileSystemResource(new ClassPathResource("staticProcess.bpmn20.xml",getClass()).getFile());
+  String path=resource.getFile().getAbsolutePath();
+  Deployment deployment=processService.createDeployment().name(path).addInputStream(path,resource.getInputStream()).deploy();
+  assertEquals(before,processEngine.getProcessService().findDeployments().size());
+  if (deployment != null) {
+    processService.deleteDeploymentCascade(deployment.getId());
+  }
+}

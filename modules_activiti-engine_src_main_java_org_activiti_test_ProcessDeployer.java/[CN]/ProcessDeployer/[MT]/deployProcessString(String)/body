@@ -1,4 +1,4 @@
 {
-  String resourceName="xmlString." + BpmnDeployer.BPMN_RESOURCE_SUFFIX;
+  String resourceName="xmlString." + createKey(xmlString.getBytes()) + BpmnDeployer.BPMN_RESOURCE_SUFFIX;
   createDeployment().name(resourceName).addString(resourceName,xmlString).deploy();
 }

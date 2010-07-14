@@ -1,0 +1,9 @@
+{
+  if (name.endsWith(".zip") || name.endsWith(".jar")) {
+    deploymentBuilder.addZipInputStream(new ZipInputStream(resource.getInputStream()));
+  }
+ else {
+    deploymentBuilder.addInputStream(name,resource.getInputStream());
+  }
+  deploymentBuilder.deploy();
+}
