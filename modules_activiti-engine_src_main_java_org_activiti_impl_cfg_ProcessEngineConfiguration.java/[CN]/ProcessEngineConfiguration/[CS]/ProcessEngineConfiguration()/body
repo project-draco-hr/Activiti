@@ -1,3 +1,22 @@
 {
-  this(null);
+  this.commandContextFactory=createDefaultCommandContextFactory();
+  ExpressionManager expressionManager=createDefaultExpressionManager();
+  ScriptingEngines scriptingEngines=createDefaultScriptingEngines();
+  BusinessCalendarManager businessCalendarManager=createDefaultBusinessCalendarManager();
+  variableTypes=createDefaultVariableTypes();
+  dbSchemaStrategy=createDefaultDbSchemaStrategy();
+  jobExecutorAutoActivate=createDefaultJobExecutorAutoActivate();
+  jobHandlers=createDefaultJobHandlers();
+  deployerManager=createDefaultDeployerManager(expressionManager,scriptingEngines,businessCalendarManager);
+  commandExecutor=createDefaultCmdExecutor(this.commandContextFactory);
+  jobExecutor=createDefaultJobExecutor(commandExecutor,jobHandlers);
+  idGenerator=createDefaultIdGenerator(commandExecutor);
+  processService=createDefaultProcessService(commandExecutor,deployerManager,scriptingEngines);
+  identityService=createDefaultIdentityService(commandExecutor);
+  taskService=createDefaultTaskService(commandExecutor,scriptingEngines);
+  managementService=createDefaultManagementService(commandExecutor);
+  commandContextFactory.setMessageSessionFactory(createDefaultMessageSessionFactory(jobExecutor));
+  commandContextFactory.setPersistenceSessionFactory(createDefaultPersistenceSessionFactory(deployerManager,variableTypes,idGenerator));
+  commandContextFactory.setTimerSessionFactory(createDefaultTimerSessionFactory(jobExecutor));
+  commandContextFactory.setTransactionContextFactory(createDefaultTransactionContextFactory());
 }

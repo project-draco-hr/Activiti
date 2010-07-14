@@ -3,6 +3,6 @@
   newExecution.isNew=true;
   newExecution.executions=new ArrayList<ExecutionImpl>();
   newExecution.isExecutionsInitialized=true;
-  CommandContext.getCurrent().getPersistenceSession().insert(newExecution);
+  CommandContextHolder.getCurrentCommandContext().getPersistenceSession().insert(newExecution);
   return newExecution;
 }

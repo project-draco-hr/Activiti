@@ -1,6 +1,6 @@
 {
   if ((execution == null) && (executionId != null)) {
-    this.execution=CommandContext.getCurrent().getPersistenceSession().findExecution(executionId);
+    this.execution=CommandContextHolder.getCurrentCommandContext().getPersistenceSession().findExecution(executionId);
   }
   return execution;
 }

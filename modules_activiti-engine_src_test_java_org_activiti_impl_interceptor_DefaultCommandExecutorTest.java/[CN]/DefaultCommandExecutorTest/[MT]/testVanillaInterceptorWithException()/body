@@ -1,5 +1,14 @@
 {
-  DefaultCommandExecutor chain=new DefaultCommandExecutor(((ProcessEngineImpl)processEngineBuilder.getProcessEngine()).getProcessEngineConfiguration().getCommandContextFactory());
+  CommandContextFactory commandContextFactory=mock(CommandContextFactory.class);
+  CommandContext commandContext=mock(CommandContext.class);
+  DefaultCommandExecutor chain=new DefaultCommandExecutor(commandContextFactory);
+  Command<String> command=new Command<String>(){
+    public String execute(    CommandContext commandContext){
+      return builder.append("c").toString();
+    }
+  }
+;
+  when(commandContextFactory.createCommandContext(command)).thenReturn(commandContext);
   chain.addCommandInterceptor(new CommandInterceptor(){
     public <T>T invoke(    CommandExecutor next,    Command<T> command){
       builder.append("a");
@@ -11,12 +20,7 @@
   expectedException.expectMessage("Planned failure");
   String result=null;
   try {
-    result=chain.execute(new Command<String>(){
-      public String execute(      CommandContext commandContext){
-        return builder.append("c").toString();
-      }
-    }
-);
+    result=chain.execute(command);
   }
   finally {
     assertEquals(null,result);

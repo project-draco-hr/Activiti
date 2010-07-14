@@ -2,5 +2,5 @@
   for (  TaskInvolvement taskInvolvements : getTaskInvolvements()) {
     taskInvolvements.delete();
   }
-  CommandContext.getCurrent().getPersistenceSession().delete(this);
+  CommandContextHolder.getCurrentCommandContext().getPersistenceSession().delete(this);
 }

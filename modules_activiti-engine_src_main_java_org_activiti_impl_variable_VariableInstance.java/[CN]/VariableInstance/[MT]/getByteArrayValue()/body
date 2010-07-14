@@ -1,6 +1,6 @@
 {
   if ((byteArrayValue == null) && (byteArrayValueId != null)) {
-    byteArrayValue=CommandContext.getCurrent().getPersistenceSession().findByteArrayById(byteArrayValueId);
+    byteArrayValue=CommandContextHolder.getCurrentCommandContext().getPersistenceSession().findByteArrayById(byteArrayValueId);
   }
   return byteArrayValue;
 }

@@ -4,7 +4,7 @@
     addProcessDefinition(persistenceSession,persistenceSession.findProcessDefinitionById(processDefinitionId));
     DeploymentImpl deployment=persistenceSession.findDeploymentByProcessDefinitionId(processDefinitionId);
     if (deployment != null) {
-      deployerManager.deploy(deployment,CommandContext.getCurrent());
+      deployerManager.deploy(deployment,CommandContextHolder.getCurrentCommandContext());
     }
   }
   processDefinition=processDefinitionsById.get(processDefinitionId);

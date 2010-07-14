@@ -3,5 +3,5 @@
   this.isNew=true;
   this.executions=new ArrayList<ExecutionImpl>();
   this.isExecutionsInitialized=true;
-  CommandContext.getCurrent().getPersistenceSession().insert(this);
+  CommandContextHolder.getCurrentCommandContext().getPersistenceSession().insert(this);
 }
