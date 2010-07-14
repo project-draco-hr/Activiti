@@ -2,6 +2,7 @@
   String resource=ClassUtils.addResourcePathToPackagePath(getClass(),"testProcess.bpmn20.xml");
   ProcessService processService=processEngine.getProcessService();
   Deployment deployment=processService.createDeployment().name(resource).addClasspathResource(resource).deploy();
+  deployment=processService.createDeployment().name(resource).addClasspathResource(resource).deploy();
   if (deployment != null) {
     processService.deleteDeploymentCascade(deployment.getId());
   }

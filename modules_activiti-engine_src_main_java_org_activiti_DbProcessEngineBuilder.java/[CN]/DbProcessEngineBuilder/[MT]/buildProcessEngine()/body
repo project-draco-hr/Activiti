@@ -1,13 +1,11 @@
 {
-  if (databaseName == null) {
+  if (dataBaseName == null) {
     throw new ActivitiException("no database name specified (used to look up queries and scripts)");
   }
-  ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
-  processEngineConfiguration.setProcessEngineName(processEngineName);
-  processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
-  processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
-  IdGenerator idGenerator=processEngineConfiguration.getIdGenerator();
-  PersistenceSessionFactory persistenceSessionFactory;
+  ProcessEngineFactory factory=new ProcessEngineFactory();
+  factory.setProcessEngineName(processEngineName);
+  factory.setDbSchemaStrategy(dbSchemaStrategy);
+  factory.setJobExecutorAutoActivate(jobExecutorAutoActivate);
   if (jdbcDriver == null) {
     throw new ActivitiException("no jdbc driver specified");
   }
@@ -20,8 +18,9 @@
   if (jdbcPassword == null) {
     throw new ActivitiException("no jdbc password specified");
   }
-  persistenceSessionFactory=new IbatisPersistenceSessionFactory(processEngineConfiguration.getVariableTypes(),idGenerator,databaseName,jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
-  persistenceSessionFactory=new CachingPersistenceSessionFactory(persistenceSessionFactory,processEngineConfiguration.getDeployerManager(),Thread.currentThread().getContextClassLoader());
-  processEngineConfiguration.setPersistenceSessionFactory(persistenceSessionFactory);
-  return processEngineConfiguration.buildProcessEngine();
+  DataSource dataSource=new PooledDataSource(Thread.currentThread().getContextClassLoader(),jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+  factory.setDataSource(dataSource);
+  factory.setDataBaseName(dataBaseName);
+  factory.setLocalTransactions(localTransactions);
+  return factory.createProcessEngine();
 }

@@ -1,0 +1,43 @@
+{
+  if (initialized) {
+    return;
+  }
+synchronized (lock) {
+    if (!initialized) {
+      ExpressionManager expressionManager=createDefaultExpressionManager();
+      ScriptingEngines scriptingEngines=createDefaultScriptingEngines();
+      BusinessCalendarManager businessCalendarManager=createDefaultBusinessCalendarManager();
+      variableTypes=variableTypes == null ? createDefaultVariableTypes() : variableTypes;
+      dbSchemaStrategy=dbSchemaStrategy == null ? createDefaultDbSchemaStrategy() : dbSchemaStrategy;
+      JobHandlers jobHandlers=createDefaultJobHandlers();
+      DeployerManager deployerManager=createDefaultDeployerManager(expressionManager,scriptingEngines,businessCalendarManager);
+      commandExecutor=createDefaultCmdExecutor(this.commandContextFactory);
+      jobExecutor=jobExecutor == null ? createDefaultJobExecutor(commandExecutor,jobHandlers,jobExecutorAutoActivate) : jobExecutor;
+      idGenerator=idGenerator == null ? createDefaultIdGenerator(commandExecutor) : idGenerator;
+      identityService=identityService == null ? createDefaultIdentityService(commandExecutor) : identityService;
+      ProcessServiceImpl processService=createDefaultProcessService(commandExecutor,deployerManager,scriptingEngines);
+      TaskServiceImpl taskService=createDefaultTaskService(commandExecutor,scriptingEngines);
+      ManagementServiceImpl managementService=createDefaultManagementService(commandExecutor);
+      PersistenceSessionFactory persistenceSessionFactory=createDefaultPersistenceSessionFactory(deployerManager,variableTypes,idGenerator,dataBaseName,dataSource,localTransactions);
+      commandContextFactory.setMessageSessionFactory(createDefaultMessageSessionFactory(jobExecutor));
+      commandContextFactory.setPersistenceSessionFactory(persistenceSessionFactory);
+      commandContextFactory.setTimerSessionFactory(createDefaultTimerSessionFactory(jobExecutor));
+      commandContextFactory.setTransactionContextFactory(createDefaultTransactionContextFactory());
+      configuration.setCommandContextFactory(commandContextFactory);
+      configuration.setCommandExecutor(commandExecutor);
+      configuration.setDbSchemaStrategy(dbSchemaStrategy);
+      configuration.setDeployerManager(deployerManager);
+      configuration.setIdentityService(identityService);
+      configuration.setIdGenerator(idGenerator);
+      configuration.setJobExecutor(jobExecutor);
+      configuration.setJobHandlers(jobHandlers);
+      configuration.setManagementService(managementService);
+      configuration.setPersistenceSessionFactory(persistenceSessionFactory);
+      configuration.setProcessEngineName(processEngineName);
+      configuration.setProcessService(processService);
+      configuration.setTaskService(taskService);
+      configuration.setVariableTypes(variableTypes);
+      initialized=true;
+    }
+  }
+}

@@ -1,10 +1,11 @@
 {
   ProcessDefinitionImpl processDefinition=processDefinitionsById.get(processDefinitionId);
   if (processDefinition == null) {
-    addProcessDefinition(persistenceSession,persistenceSession.findProcessDefinitionById(processDefinitionId));
+    processDefinition=persistenceSession.findProcessDefinitionById(processDefinitionId);
+    addProcessDefinition(persistenceSession,processDefinition);
     DeploymentImpl deployment=persistenceSession.findDeploymentByProcessDefinitionId(processDefinitionId);
     if (deployment != null) {
-      deployerManager.deploy(deployment,CommandContextHolder.getCurrentCommandContext());
+      deployerManager.deploy(deployment,createCachingPersistenceSession(persistenceSession));
     }
   }
   processDefinition=processDefinitionsById.get(processDefinitionId);
