@@ -1,0 +1,9 @@
+{
+  int before=processEngine.getTaskService().findAssignedTasks("kermit").size();
+  ProcessInstance execution=processEngine.getProcessService().startProcessInstanceByKey("taskAssigneeExpressionProcess");
+  assertEquals("[theTask]",execution.getActivityNames().toString());
+  assertEquals("${user}",((TaskDefinition)ReflectionTestUtils.getField(((ActivityImpl)((ExecutionImpl)execution).getActivity()).getActivityBehavior(),"taskDefinition")).getAssignee());
+  List<Task> tasks=processEngine.getTaskService().findAssignedTasks("kermit");
+  assertEquals(before + 1,tasks.size());
+  processEngine.getProcessService().deleteProcessInstance(execution.getId());
+}

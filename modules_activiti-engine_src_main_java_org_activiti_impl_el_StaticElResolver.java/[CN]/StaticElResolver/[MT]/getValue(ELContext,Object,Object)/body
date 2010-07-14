@@ -1,0 +1,13 @@
+{
+  if (base == null) {
+    String variable=(String)property;
+    if (variable.startsWith(prefix)) {
+      variable=variable.substring(prefix.length());
+    }
+    if (map.containsKey(variable)) {
+      context.setPropertyResolved(true);
+      return map.get(variable);
+    }
+  }
+  return null;
+}

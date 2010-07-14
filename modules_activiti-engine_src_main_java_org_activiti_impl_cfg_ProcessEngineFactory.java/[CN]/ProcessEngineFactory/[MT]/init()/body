@@ -5,6 +5,9 @@
 synchronized (lock) {
     if (!initialized) {
       ExpressionManager expressionManager=createDefaultExpressionManager();
+      if (elResolver != null) {
+        expressionManager.setElResolver(elResolver);
+      }
       ScriptingEngines scriptingEngines=createDefaultScriptingEngines();
       BusinessCalendarManager businessCalendarManager=createDefaultBusinessCalendarManager();
       variableTypes=variableTypes == null ? createDefaultVariableTypes() : variableTypes;
