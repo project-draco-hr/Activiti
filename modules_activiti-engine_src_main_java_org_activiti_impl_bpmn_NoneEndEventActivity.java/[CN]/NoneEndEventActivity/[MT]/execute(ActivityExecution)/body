@@ -6,6 +6,10 @@
     leave(execution);
   }
  else {
+    ActivityExecution parent=execution.getParent();
     execution.end();
+    if (parent != null && parent.isProcessInstance() && parent.getExecutions().isEmpty() && !parent.isActive()) {
+      parent.end();
+    }
   }
 }

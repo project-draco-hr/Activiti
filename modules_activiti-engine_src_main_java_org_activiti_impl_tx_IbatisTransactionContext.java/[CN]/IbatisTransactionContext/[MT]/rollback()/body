@@ -5,6 +5,7 @@
       fireTransactionEvent(TransactionState.ROLLINGBACK);
     }
  catch (    Throwable exception) {
+      log.info("Exception during transaction: " + exception.getMessage());
       commandContext.exception(exception);
     }
  finally {
@@ -13,6 +14,7 @@
     }
   }
  catch (  Throwable exception) {
+    log.info("Exception during transaction: " + exception.getMessage());
     commandContext.exception(exception);
   }
  finally {
