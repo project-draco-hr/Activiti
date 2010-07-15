@@ -1,0 +1,5 @@
+{
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("simpleSubProcessAutomatic");
+  assertTrue(pi.isEnded());
+  deployer.assertProcessEnded(pi.getId());
+}

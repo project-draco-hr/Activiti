@@ -9,7 +9,7 @@
     String name=startEventElement.attribute("name");
     ActivityImpl activity=scopeElement.createActivity(id);
     activity.setName(name);
-    scopeElement.getProcessDefinition().setInitial(activity);
+    scopeElement.setInitial(activity);
     String form=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
     String formLanguage=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form-language",ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE);
     if (form != null) {

@@ -8,10 +8,9 @@
     if (LOG.isLoggable(Level.FINE)) {
       LOG.fine("Parsing boundary event " + id);
     }
-    ProcessDefinitionImpl procDef=findContextualObject(ProcessDefinitionImpl.class);
-    ActivityImpl parentActivity=procDef.findActivity(attachedToRef);
+    ActivityImpl parentActivity=scopeElement.findActivity(attachedToRef);
     if (parentActivity == null) {
-      throw new ActivitiException("Invalid reference in boundary timer event: " + attachedToRef);
+      throw new ActivitiException("Invalid reference in boundary event: " + attachedToRef + " Make sure that the referenced activity is defined in the same scope as the boundary event");
     }
     ActivityImpl nestedActivity=parentActivity.createActivity(id);
     nestedActivity.setName(boundaryEventElement.attribute("name"));

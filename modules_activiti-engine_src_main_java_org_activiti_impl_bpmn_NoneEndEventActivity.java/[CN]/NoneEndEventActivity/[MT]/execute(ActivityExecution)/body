@@ -1,3 +1,11 @@
 {
-  execution.end();
+  ActivityImpl currentActivity=(ActivityImpl)execution.getActivity();
+  ActivityImpl parentActivity=(ActivityImpl)currentActivity.getParentActivity();
+  if (parentActivity != null && parentActivity.getActivityBehavior() instanceof SubProcessActivity) {
+    execution.setActivity(parentActivity);
+    leave(execution);
+  }
+ else {
+    execution.end();
+  }
 }

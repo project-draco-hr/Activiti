@@ -1,0 +1,12 @@
+{
+  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("simpleParallelSubProcess");
+  List<Task> subProcessTasks=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME).list();
+  Task taskA=subProcessTasks.get(0);
+  Task taskB=subProcessTasks.get(1);
+  assertEquals("Task A",taskA.getName());
+  assertEquals("Task B",taskB.getName());
+  deployer.getTaskService().complete(taskA.getId());
+  deployer.getTaskService().complete(taskB.getId());
+  Task taskAfterSubProcess=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  assertEquals("Task after sub process",taskAfterSubProcess.getName());
+}

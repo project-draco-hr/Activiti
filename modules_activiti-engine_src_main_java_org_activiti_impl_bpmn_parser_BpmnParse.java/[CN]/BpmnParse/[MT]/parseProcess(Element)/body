@@ -6,21 +6,11 @@
  catch (  Exception e) {
     throw new ActivitiException("couldn't instantiate process definition '" + processDefinitionClass + "'",e);
   }
-  pushContextObject(processDefinition);
-  try {
-    processDefinition.setKey(processElement.attribute("id"));
-    processDefinition.setName(processElement.attribute("name"));
-    if (LOG.isLoggable(Level.FINE)) {
-      LOG.fine("Parsing process " + processDefinition.getKey());
-    }
-    parseStartEvents(processElement,processDefinition);
-    parseActivities(processElement,processDefinition);
-    parseEndEvents(processElement,processDefinition);
-    parseBoundaryEvents(processElement,processDefinition);
-    parseSequenceFlow(processElement,processDefinition);
+  processDefinition.setKey(processElement.attribute("id"));
+  processDefinition.setName(processElement.attribute("name"));
+  if (LOG.isLoggable(Level.FINE)) {
+    LOG.fine("Parsing process " + processDefinition.getKey());
   }
-  finally {
-    popContextObject();
-  }
+  parseScope(processElement,processDefinition);
   return processDefinition;
 }

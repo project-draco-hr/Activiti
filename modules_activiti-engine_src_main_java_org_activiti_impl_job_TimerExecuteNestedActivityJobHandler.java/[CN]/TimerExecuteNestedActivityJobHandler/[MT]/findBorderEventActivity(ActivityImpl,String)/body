@@ -1,0 +1,11 @@
+{
+  ActivityImpl borderEventActivity=currentActivity.getActivity(eventActivityName);
+  if (borderEventActivity == null) {
+    ActivityImpl parentActivity=currentActivity.getParentActivity();
+    while (parentActivity != null && borderEventActivity == null) {
+      borderEventActivity=parentActivity.findActivity(eventActivityName);
+      parentActivity=parentActivity.getParentActivity();
+    }
+  }
+  return borderEventActivity;
+}
