@@ -1,0 +1,7 @@
+{
+  ProcessService processService=processEngine.getProcessService();
+  ProcessInstance pi=processService.startProcessInstanceByKey("javaServiceDelegation",CollectionUtil.singletonMap("input","Activiti BPM Engine"));
+  Execution execution=processService.findExecutionInActivity(pi.getId(),"waitState");
+  assertEquals("ACTIVITI BPM ENGINE",processService.getVariable(execution.getId(),"input"));
+  processEngine.getProcessService().deleteProcessInstance(execution.getId());
+}

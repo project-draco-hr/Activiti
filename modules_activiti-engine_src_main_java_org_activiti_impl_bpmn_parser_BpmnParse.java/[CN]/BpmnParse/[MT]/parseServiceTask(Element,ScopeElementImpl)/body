@@ -1,16 +1,10 @@
 {
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scopeElement);
-  String className=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"javaClass");
-  if (className != null) {
-    Object obj=ReflectUtil.instantiate(className);
-    if (obj instanceof ActivityBehavior) {
-      activity.setActivityBehavior((ActivityBehavior)obj);
-    }
- else {
-      throw new ActivitiException("Class " + className + " is used in a serviceTask, but does not"+ " implement the "+ ActivityBehavior.class.getCanonicalName()+ " interface");
-    }
+  String expression=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"java");
+  if (expression != null && expression.trim().length() > 0) {
+    activity.setActivityBehavior(new ServiceActivatingActivityBehaviour(expressionManager.createValueExpression(expression)));
   }
  else {
-    throw new ActivitiException("javaClass attribute is mandatory on serviceTask");
+    throw new ActivitiException("java attribute is mandatory on serviceTask");
   }
 }
