@@ -8,6 +8,12 @@
  else {
     deployment=deployments.get(0);
   }
-  deployerManager.deploy(deployment,persistenceSession);
+  try {
+    deployerManager.deploy(deployment,persistenceSession);
+  }
+ catch (  RuntimeException e) {
+    persistenceSession.deleteDeployment(deployment.getId());
+    throw e;
+  }
   return deployment;
 }
