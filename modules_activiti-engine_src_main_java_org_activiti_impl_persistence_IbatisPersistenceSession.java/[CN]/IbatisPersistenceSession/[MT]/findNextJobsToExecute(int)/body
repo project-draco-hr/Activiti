@@ -1,6 +1,6 @@
 {
   Date now=Clock.getCurrentTime();
-  RowBounds rowBounds=new RowBounds(0,maxJobsPerAcquisition);
+  RowBounds rowBounds=new RowBounds(0,maxNrOfJobs);
   List<JobImpl> jobs=sqlSession.selectList(statement("selectNextJobsToExecute"),now,rowBounds);
   if (jobs != null) {
     loaded.add(jobs);

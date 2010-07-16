@@ -5,6 +5,12 @@
     }
   }
 );
+  areJobsAvailable=commandExecutor.execute(new Command<Boolean>(){
+    public Boolean execute(    CommandContext commandContext){
+      return !commandContext.getPersistenceSession().findLockedJobs().isEmpty();
+    }
+  }
+);
   log.info("Jobs available: " + areJobsAvailable);
   return areJobsAvailable;
 }
