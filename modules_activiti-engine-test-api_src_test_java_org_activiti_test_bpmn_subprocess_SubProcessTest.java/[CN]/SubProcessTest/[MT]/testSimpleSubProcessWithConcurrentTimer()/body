@@ -1,10 +1,10 @@
 {
-  Clock.setCurrentTime(new Date(0L));
+  Date startTime=new Date();
   ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("simpleSubProcessWithConcurrentTimer");
   TaskQuery taskQuery=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
   Task subProcessTask=taskQuery.singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
-  Clock.setCurrentTime(new Date((2 * 60 * 60* 1000) + 1000));
+  Clock.setCurrentTime(new Date(startTime.getTime() + (2 * 60 * 60* 1000) + 1000));
   new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(5000L,25L);
   List<Task> tasksAfterTimer=taskQuery.list();
   assertEquals(2,tasksAfterTimer.size());

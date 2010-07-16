@@ -1,10 +1,10 @@
 {
-  Clock.setCurrentTime(new Date(0L));
+  Date startTime=new Date();
   ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("multipleTimersOnUserTask");
   JobQuery jobQuery=deployer.getManagementService().createJobQuery().processInstanceId(pi.getId());
   List<Job> jobs=jobQuery.list();
   assertEquals(3,jobs.size());
-  Clock.setCurrentTime(new Date((60 * 60 * 1000) + 5000));
+  Clock.setCurrentTime(new Date(startTime.getTime() + ((60 * 60 * 1000) + 5000)));
   new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(5000L,25L);
   assertEquals(0L,jobQuery.count());
   Task task=deployer.getTaskService().createTaskQuery().singleResult();
