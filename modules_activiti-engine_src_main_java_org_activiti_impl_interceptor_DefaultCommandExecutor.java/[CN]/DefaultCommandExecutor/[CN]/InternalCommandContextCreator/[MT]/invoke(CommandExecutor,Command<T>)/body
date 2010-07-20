@@ -1,7 +1,7 @@
 {
   context=commandContextFactory.createCommandContext(command);
   try {
-    CommandContextHolder.setCurrentCommandContext(context);
+    CommandContext.setCurrentCommandContext(context);
     return next.execute(command);
   }
  catch (  Exception e) {
@@ -9,7 +9,7 @@
   }
  finally {
     context.close();
-    CommandContextHolder.removeCurrentCommandContext();
+    CommandContext.removeCurrentCommandContext();
   }
   return null;
 }

@@ -40,6 +40,10 @@ synchronized (lock) {
       configuration.setProcessService(processService);
       configuration.setTaskService(taskService);
       configuration.setVariableTypes(variableTypes);
+      List<EventListener> eventListeners=new ArrayList<EventListener>();
+      eventListeners.add(new HistoryEventListener());
+      configuration.setEventListeners(eventListeners);
+      commandContextFactory.setProcessEngineConfiguration(configuration);
       initialized=true;
     }
   }

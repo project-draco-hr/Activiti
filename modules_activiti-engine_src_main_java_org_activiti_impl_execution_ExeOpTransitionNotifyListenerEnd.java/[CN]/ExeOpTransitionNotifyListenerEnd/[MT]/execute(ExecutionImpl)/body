@@ -9,6 +9,7 @@
     execution.performOperation(this);
   }
  else {
+    execution.fireEvent(EndActivityEvent.INSTANCE);
     execution.setEventListenerIndex(0);
     execution.performOperation(TRANSITION_DESTROY_SCOPE);
   }

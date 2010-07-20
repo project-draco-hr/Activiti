@@ -1,6 +1,6 @@
 {
   if (!isTaskInvolvementsInitialized) {
-    taskInvolvements=CommandContextHolder.getCurrentCommandContext().getPersistenceSession().findTaskInvolvementsByTask(id);
+    taskInvolvements=CommandContext.getCurrentCommandContext().getPersistenceSession().findTaskInvolvementsByTask(id);
     isTaskInvolvementsInitialized=true;
   }
   return taskInvolvements;

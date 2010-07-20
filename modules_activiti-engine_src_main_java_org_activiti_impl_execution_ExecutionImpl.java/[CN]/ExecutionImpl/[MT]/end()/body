@@ -6,10 +6,10 @@
   }
   ensureParentInitialized();
   if (parent != null) {
-    ExecutionImpl parentLocal=parent;
     parent.removeExecution(this);
   }
  else {
     isEnded=true;
+    fireEvent(EndProcessInstanceEvent.INSTANCE);
   }
 }

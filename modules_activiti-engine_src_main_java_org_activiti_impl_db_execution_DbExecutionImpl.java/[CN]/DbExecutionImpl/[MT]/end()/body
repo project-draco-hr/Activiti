@@ -1,7 +1,7 @@
 {
   super.end();
   ensureVariableMapInitialized();
-  PersistenceSession persistenceSession=CommandContextHolder.getCurrentCommandContext().getPersistenceSession();
+  PersistenceSession persistenceSession=CommandContext.getCurrentCommandContext().getPersistenceSession();
   Set<String> variableNames=new HashSet<String>(variableMap.getVariableNames());
   for (  String variableName : variableNames) {
     variableMap.deleteVariable(variableName);

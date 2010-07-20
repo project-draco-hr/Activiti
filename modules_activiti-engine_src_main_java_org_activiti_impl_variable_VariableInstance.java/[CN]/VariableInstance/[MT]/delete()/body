@@ -1,5 +1,5 @@
 {
-  PersistenceSession persistenceSession=CommandContextHolder.getCurrentCommandContext().getPersistenceSession();
+  PersistenceSession persistenceSession=CommandContext.getCurrentCommandContext().getPersistenceSession();
   persistenceSession.delete(this);
   if (byteArrayValueId != null) {
     persistenceSession.delete(getByteArrayValue());
