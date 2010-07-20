@@ -5,7 +5,10 @@
   Element scriptElement=scriptTaskElement.element("script");
   if (scriptElement != null) {
     script=scriptElement.getText();
-    language=scriptTaskElement.attribute("scriptFormat");
+    language=scriptTaskElement.attribute("scriptLanguage");
+    if (language == null) {
+      language=scriptTaskElement.attribute("scriptFormat");
+    }
     if (language == null) {
       language=ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE;
     }

@@ -2,7 +2,7 @@
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scopeElement);
   String expression=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"java");
   if (expression != null && expression.trim().length() > 0) {
-    activity.setActivityBehavior(new ServiceActivatingActivityBehaviour(expressionManager.createValueExpression(expression)));
+    activity.setActivityBehavior(new ServiceInvocationActivityBehaviour(expressionManager.createValueExpression(expression)));
   }
  else {
     throw new ActivitiException("java attribute is mandatory on serviceTask");

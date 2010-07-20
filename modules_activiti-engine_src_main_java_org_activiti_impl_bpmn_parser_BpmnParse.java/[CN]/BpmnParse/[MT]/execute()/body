@@ -1,5 +1,22 @@
 {
-  super.execute();
+  try {
+    super.execute();
+  }
+ catch (  ActivitiException e) {
+    if (e.getMessage().toLowerCase().contains("cannot find the declaration of element 'definitions'")) {
+      try {
+        streamSource.getInputStream().reset();
+        setSchemaResource(BpmnParser.BETA_SCHEMA_RESOURCE);
+        super.execute();
+      }
+ catch (      IOException ioe) {
+        throw e;
+      }
+    }
+ else {
+      throw e;
+    }
+  }
   parseItemDefinitions(rootElement);
   parseInterfaces(rootElement);
   parseProcessDefinitions(rootElement);
