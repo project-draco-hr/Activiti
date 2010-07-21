@@ -22,10 +22,12 @@ synchronized (lock) {
       TaskServiceImpl taskService=createDefaultTaskService(commandExecutor,scriptingEngines);
       ManagementServiceImpl managementService=createDefaultManagementService(commandExecutor);
       PersistenceSessionFactory persistenceSessionFactory=createDefaultPersistenceSessionFactory(deployerManager,variableTypes,idGenerator,dataBaseName,dataSource,localTransactions);
-      commandContextFactory.setMessageSessionFactory(createDefaultMessageSessionFactory(jobExecutor));
       commandContextFactory.setPersistenceSessionFactory(persistenceSessionFactory);
-      commandContextFactory.setTimerSessionFactory(createDefaultTimerSessionFactory(jobExecutor));
       commandContextFactory.setTransactionContextFactory(createDefaultTransactionContextFactory());
+      Map<Class<?>,SessionFactory> sessionFactories=new HashMap<Class<?>,SessionFactory>();
+      sessionFactories.put(MessageSession.class,new JobExecutorMessageSessionFactory());
+      sessionFactories.put(TimerSession.class,new JobExecutorTimerSessionFactory());
+      sessionFactories.put(PersistenceSession.class,persistenceSessionFactory);
       configuration.setCommandContextFactory(commandContextFactory);
       configuration.setCommandExecutor(commandExecutor);
       configuration.setDbSchemaStrategy(dbSchemaStrategy);
@@ -40,6 +42,7 @@ synchronized (lock) {
       configuration.setProcessService(processService);
       configuration.setTaskService(taskService);
       configuration.setVariableTypes(variableTypes);
+      configuration.setSessionFactories(sessionFactories);
       List<EventListener> eventListeners=new ArrayList<EventListener>();
       eventListeners.add(new HistoryEventListener());
       configuration.setEventListeners(eventListeners);

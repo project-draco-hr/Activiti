@@ -1,7 +1,7 @@
 {
   Session session=sessions.get(sessionClass);
   if (session == null) {
-    SessionFactory sessionFactory=sessionFactories.get(sessionClass);
+    SessionFactory sessionFactory=processEngineConfiguration.getSessionFactories().get(sessionClass);
     session=sessionFactory.openSession();
     sessions.put(sessionClass,session);
   }
