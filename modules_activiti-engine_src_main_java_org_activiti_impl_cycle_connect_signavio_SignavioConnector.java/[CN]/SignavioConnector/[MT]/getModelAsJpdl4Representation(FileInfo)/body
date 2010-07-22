@@ -1,0 +1,27 @@
+{
+  try {
+    Client client=initClient();
+    Reference jpdlRef=new Reference(SERVER_URL + fileInfo.getPath() + "/jpdl4");
+    Request jpdlRequest=new Request(Method.GET,jpdlRef);
+    jpdlRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_XML));
+    Form requestHeaders=new Form();
+    requestHeaders.add("token",securityToken);
+    jpdlRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
+    Response jpdlResponse=client.handle(jpdlRequest);
+    DomRepresentation xmlData=jpdlResponse.getEntityAsDom();
+    StringWriter stringWriter=new StringWriter();
+    StreamResult streamResult=new StreamResult(stringWriter);
+    TransformerFactory transformerFactory=TransformerFactory.newInstance();
+    Transformer transformer=transformerFactory.newTransformer();
+    transformer.setOutputProperty(OutputKeys.INDENT,"yes");
+    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
+    transformer.setOutputProperty(OutputKeys.METHOD,"xml");
+    transformer.transform(xmlData.getDomSource(),streamResult);
+    String result=stringWriter.toString();
+    log.finest("JPDL4 String: " + result);
+    return result;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

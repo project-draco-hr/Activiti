@@ -1,0 +1,22 @@
+{
+  try {
+    Client client=initClient();
+    Reference pngRef=new Reference(SERVER_URL + fileInfo.getPath() + "/png");
+    Request pngRequest=new Request(Method.GET,pngRef);
+    pngRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.IMAGE_PNG));
+    Form requestHeaders=new Form();
+    requestHeaders.add("token",securityToken);
+    pngRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
+    Response pngResponse=client.handle(pngRequest);
+    Representation imageData=pngResponse.getEntity();
+    String text=imageData.getText();
+    byte[] result=text.getBytes();
+    if (log.isLoggable(Level.FINEST)) {
+      log.finest("PNG - byte result: " + new String(result,"UTF-8"));
+    }
+    return result;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

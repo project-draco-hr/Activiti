@@ -1,0 +1,14 @@
+{
+  try {
+    Client client=initClient();
+    Reference embeddedModelRef=new Reference(SERVER_URL + "/purl/" + fileInfo.getPath().substring(7)+ "/info/");
+    Request embeddedModelRequest=new Request(Method.DELETE,embeddedModelRef);
+    Form requestHeaders=new Form();
+    requestHeaders.add("token",securityToken);
+    embeddedModelRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
+    client.handle(embeddedModelRequest);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

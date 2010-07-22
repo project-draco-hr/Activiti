@@ -1,0 +1,27 @@
+{
+  try {
+    Client client=initClient();
+    Reference bpmn20Ref=new Reference(SERVER_URL + fileInfo.getPath() + "/bpmn2_0_xml");
+    Request bpmn20Request=new Request(Method.GET,bpmn20Ref);
+    bpmn20Request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_XML));
+    Form requestHeaders=new Form();
+    requestHeaders.add("token",securityToken);
+    bpmn20Request.getAttributes().put("org.restlet.http.headers",requestHeaders);
+    Response bpmn20Response=client.handle(bpmn20Request);
+    DomRepresentation xmlData=bpmn20Response.getEntityAsDom();
+    StringWriter stringWriter=new StringWriter();
+    StreamResult streamResult=new StreamResult(stringWriter);
+    TransformerFactory transformerFactory=TransformerFactory.newInstance();
+    Transformer transformer=transformerFactory.newTransformer();
+    transformer.setOutputProperty(OutputKeys.INDENT,"yes");
+    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
+    transformer.setOutputProperty(OutputKeys.METHOD,"xml");
+    transformer.transform(xmlData.getDomSource(),streamResult);
+    String result=stringWriter.toString();
+    log.finest("BPMN2.0 String: " + result);
+    return result;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

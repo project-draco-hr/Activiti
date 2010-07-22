@@ -1,0 +1,12 @@
+{
+  if (in == null || out == null) {
+    throw new IllegalArgumentException("In/OutStream cannot be null");
+  }
+  int total=0;
+  byte[] buffer=new byte[BUFFERSIZE];
+  for (int bytesRead; (bytesRead=in.read(buffer)) != -1; ) {
+    out.write(buffer,0,bytesRead);
+    total+=bytesRead;
+  }
+  return total;
+}

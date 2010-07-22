@@ -1,0 +1,23 @@
+{
+  Client client=initClient();
+  Reference registrationRef=new Reference(REGISTRATION_URL);
+  Form registrationForm=new Form();
+  registrationForm.add("mode","external");
+  registrationForm.add("firstName",firstname);
+  registrationForm.add("lastName",lastname);
+  registrationForm.add("mail",email);
+  registrationForm.add("password",password);
+  registrationForm.add("serverSecurityId",SERVER_SECURITY_ID);
+  Representation registrationRep=registrationForm.getWebRepresentation();
+  Request registrationRequest=new Request(Method.POST,registrationRef,registrationRep);
+  Response registrationResponse=client.handle(registrationRequest);
+  if (log.isLoggable(Level.FINEST)) {
+    SignavioLogHelper.logCookieAndBody(log,registrationResponse);
+  }
+  if (registrationResponse.getStatus().equals(Status.SUCCESS_CREATED)) {
+    return true;
+  }
+ else {
+    return false;
+  }
+}

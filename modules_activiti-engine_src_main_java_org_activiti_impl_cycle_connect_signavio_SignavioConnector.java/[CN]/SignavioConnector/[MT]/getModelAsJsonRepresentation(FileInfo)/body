@@ -1,0 +1,16 @@
+{
+  try {
+    Client client=initClient();
+    Reference jsonRef=new Reference(SERVER_URL + fileInfo.getPath() + "/json");
+    Request jsonRequest=new Request(Method.GET,jsonRef);
+    jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
+    Form requestHeaders=new Form();
+    requestHeaders.add("token",securityToken);
+    jsonRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
+    Response jsonResponse=client.handle(jsonRequest);
+    return new JSONObject(jsonResponse.getEntity().getText());
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Error while accessing Signavio repository",ex);
+  }
+}

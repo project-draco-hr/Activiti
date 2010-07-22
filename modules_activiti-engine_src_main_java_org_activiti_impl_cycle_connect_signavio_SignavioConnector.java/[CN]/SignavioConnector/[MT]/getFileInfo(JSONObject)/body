@@ -1,0 +1,9 @@
+{
+  FileInfo fileInfo=new FileInfo(this);
+  fileInfo.setPath(relObject.getString("href"));
+  log.finest("FileInfo-setPath: " + relObject.getString("href"));
+  fileInfo.setName(relObject.getJSONObject("rep").getString("name"));
+  String fileTypeIdentifier=relObject.getJSONObject("rep").getString("namespace");
+  fileInfo.setFileType(FileTypeRegistry.getFileTypeByIdentifier(fileTypeIdentifier));
+  return fileInfo;
+}
