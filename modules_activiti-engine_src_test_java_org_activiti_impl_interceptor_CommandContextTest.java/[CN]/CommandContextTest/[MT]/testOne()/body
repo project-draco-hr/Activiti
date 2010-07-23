@@ -1,0 +1,14 @@
+{
+  try {
+    deployer.getCommandExecutor().execute(new Command<Object>(){
+      public Object execute(      CommandContext commandContext){
+        throw new IllegalStateException("here i come!");
+      }
+    }
+);
+    fail("expected exception");
+  }
+ catch (  IllegalStateException e) {
+  }
+  assertNull(CommandContext.getCurrentCommandContext());
+}
