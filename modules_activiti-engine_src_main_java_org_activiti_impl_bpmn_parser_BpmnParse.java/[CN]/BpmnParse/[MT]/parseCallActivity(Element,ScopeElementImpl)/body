@@ -1,0 +1,8 @@
+{
+  ActivityImpl activity=parseAndCreateActivityOnScopeElement(callActivityElement,scopeElement);
+  String calledElement=callActivityElement.attribute("calledElement");
+  if (calledElement == null) {
+    throw new ActivitiException("Missing attribute 'calledElement' on callActivity (line " + +callActivityElement.getLine() + ")");
+  }
+  activity.setActivityBehavior(new CallActivityBehaviour(calledElement));
+}

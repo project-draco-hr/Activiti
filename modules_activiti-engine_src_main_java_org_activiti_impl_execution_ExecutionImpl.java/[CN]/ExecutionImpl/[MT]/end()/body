@@ -9,6 +9,13 @@
     parent.removeExecution(this);
   }
  else {
+    ensureSuperExecutionInitialized();
+    if (superExecution != null) {
+      ExecutionImpl superExecutionCopy=superExecution;
+      superExecution.setSubProcessInstance(null);
+      setSuperExecution(null);
+      superExecutionCopy.event("continue process");
+    }
     isEnded=true;
     fireEvent(EndProcessInstanceEvent.INSTANCE);
   }
