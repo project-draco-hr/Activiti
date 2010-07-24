@@ -1,7 +1,7 @@
 {
   ActivityImpl initial=getProcessDefinition().getInitial();
   setActivity(initial);
-  fireEvent(StartProcessInstanceEvent.INSTANCE);
+  fireEvent(new ProcessInstanceStartedEvent(getProcessInstance()));
   performOperation(ExeOp.EXECUTE_CURRENT_ACTIVITY);
   return this;
 }

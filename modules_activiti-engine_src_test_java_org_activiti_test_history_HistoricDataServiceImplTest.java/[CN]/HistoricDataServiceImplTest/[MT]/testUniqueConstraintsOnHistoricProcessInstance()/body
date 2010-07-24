@@ -1,0 +1,20 @@
+{
+  try {
+    ProcessInstance processInstance=mock(ProcessInstance.class);
+    when(processInstance.getProcessDefinitionId()).thenReturn("processDefinitionId");
+    when(processInstance.getId()).thenReturn("processInstanceIdOne");
+    fireProcessInstanceStartedEvent(processInstance);
+    try {
+      fireProcessInstanceStartedEvent(processInstance);
+      fail("unique key constraint violation expected");
+    }
+ catch (    Exception expected) {
+    }
+    when(processInstance.getId()).thenReturn("processInstanceIdTwo");
+    fireProcessInstanceStartedEvent(processInstance);
+  }
+  finally {
+    cleanHistoricProcessInstancesFromDatabase("processInstanceIdOne");
+    cleanHistoricProcessInstancesFromDatabase("processInstanceIdTwo");
+  }
+}

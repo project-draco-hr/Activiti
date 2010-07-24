@@ -1,0 +1,8 @@
+{
+  return commandExecutor.execute(new Command<HistoricProcessInstance>(){
+    public HistoricProcessInstance execute(    CommandContext commandContext){
+      return commandContext.getPersistenceSession().findHistoricProcessInstance(processInstanceId);
+    }
+  }
+);
+}

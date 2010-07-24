@@ -1,0 +1,5 @@
+{
+  processEventBus=new DefaultProcessEventBus();
+  historicDataService=new HistoricDataServiceImpl(deployer.getCommandExecutor());
+  ((HistoricDataServiceImpl)historicDataService).registerEventConsumers(processEventBus);
+}

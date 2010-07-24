@@ -1,0 +1,33 @@
+{
+  assertIllegalArgumentException("activity id",new Runnable(){
+    public void run(){
+      new HistoricActivityInstanceImpl(null,"activityName","activityType","processInstanceId","processDefinitionId",new Date());
+    }
+  }
+);
+  assertIllegalArgumentException("activity type",new Runnable(){
+    public void run(){
+      new HistoricActivityInstanceImpl("activityId","activityName",null,"processInstanceId","processDefinitionId",new Date());
+    }
+  }
+);
+  assertIllegalArgumentException("process instance id",new Runnable(){
+    public void run(){
+      new HistoricActivityInstanceImpl("activityId","activityName","activityType",null,"processDefinitionId",new Date());
+    }
+  }
+);
+  assertIllegalArgumentException("process definition id",new Runnable(){
+    public void run(){
+      new HistoricActivityInstanceImpl("activityId","activityName","activityType","processInstanceId",null,new Date());
+    }
+  }
+);
+  assertIllegalArgumentException("start time",new Runnable(){
+    public void run(){
+      new HistoricActivityInstanceImpl("activityId","activityName","activityType","processInstanceId","processDefinitionId",null);
+    }
+  }
+);
+  new HistoricActivityInstanceImpl("activityId",null,"activityType","processInstanceId","processDefinitionId",new Date());
+}

@@ -1,0 +1,16 @@
+{
+  assertIllegalArgumentException("end time",new Runnable(){
+    public void run(){
+      HistoricProcessInstanceImpl historicProcessInstance=new HistoricProcessInstanceImpl("processInstanceId","processDefinitionId",new Date());
+      historicProcessInstance.markEnded(null,"endStateName");
+    }
+  }
+);
+  assertIllegalArgumentException("end state name",new Runnable(){
+    public void run(){
+      HistoricProcessInstanceImpl historicProcessInstance=new HistoricProcessInstanceImpl("processInstanceId","processDefinitionId",new Date());
+      historicProcessInstance.markEnded(new Date(),null);
+    }
+  }
+);
+}

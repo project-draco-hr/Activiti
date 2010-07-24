@@ -1,0 +1,9 @@
+{
+  deployer.getCommandExecutor().execute(new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      processEventBus.postEvent(new ProcessInstanceStartedEvent(processInstance));
+      return null;
+    }
+  }
+);
+}

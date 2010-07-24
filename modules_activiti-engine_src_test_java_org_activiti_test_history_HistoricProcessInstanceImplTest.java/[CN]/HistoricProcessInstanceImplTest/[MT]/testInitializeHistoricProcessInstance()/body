@@ -1,0 +1,10 @@
+{
+  Date startTime=new Date();
+  HistoricProcessInstanceImpl historicProcessInstance=new HistoricProcessInstanceImpl("processInstanceId","processDefinitionId",startTime);
+  assertEquals("processInstanceId",historicProcessInstance.getProcessInstanceId());
+  assertEquals("processDefinitionId",historicProcessInstance.getProcessDefinitionId());
+  assertEquals(startTime,historicProcessInstance.getStartTime());
+  assertNull(historicProcessInstance.getEndTime());
+  assertNull(historicProcessInstance.getDurationInMillis());
+  assertNull(historicProcessInstance.getEndStateName());
+}

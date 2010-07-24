@@ -1,0 +1,15 @@
+{
+  ensureCommandContextAvailable();
+  HistoricActivityInstanceImpl historicActivityInstance=CommandContext.getCurrentCommandContext().getPersistenceSession().findHistoricActivityInstance(event.getActivityId(),event.getProcessInstanceId());
+  if (historicActivityInstance == null) {
+    String activityId=event.getActivityId();
+    String activityName=event.getPayload().getName();
+    String activityType=event.getPayload().getType();
+    String processInstanceId=event.getProcessInstanceId();
+    String processDefinitionId=event.getProcessDefinitionId();
+    Date startTime=Clock.getCurrentTime();
+    historicActivityInstance=new HistoricActivityInstanceImpl(activityId,activityName,activityType,processInstanceId,processDefinitionId,startTime);
+  }
+  historicActivityInstance.markEnded(Clock.getCurrentTime());
+  CommandContext.getCurrentCommandContext().getPersistenceSession().saveHistoricActivityInstance(historicActivityInstance);
+}

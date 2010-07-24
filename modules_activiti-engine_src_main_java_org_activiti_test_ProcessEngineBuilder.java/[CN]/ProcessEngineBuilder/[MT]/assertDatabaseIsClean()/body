@@ -3,7 +3,7 @@
   StringBuilder outputMessage=new StringBuilder();
   for (  String table : tableCounts.keySet()) {
     Long count=tableCounts.get(table);
-    if (!table.equals("ACT_PROPERTY") && count != 0L) {
+    if (!EXCLUDED_TABLES.contains(table) && count != 0L) {
       outputMessage.append(table + ":" + count+ " record(s) ");
     }
   }

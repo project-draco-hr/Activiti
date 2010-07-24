@@ -1,0 +1,9 @@
+{
+  Date startTime=new Date();
+  Date endTime=new Date(startTime.getTime() + 1234);
+  HistoricProcessInstanceImpl historicProcessInstance=new HistoricProcessInstanceImpl("processInstanceId","processDefinitionId",startTime);
+  historicProcessInstance.markEnded(endTime,"endState");
+  assertEquals(endTime,historicProcessInstance.getEndTime());
+  assertEquals(Long.valueOf(1234),historicProcessInstance.getDurationInMillis());
+  assertEquals("endState",historicProcessInstance.getEndStateName());
+}

@@ -1,0 +1,31 @@
+{
+  final ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("oneTaskProcess");
+  try {
+    HistoricProcessInstance historicProcessInstance=deployer.getHistoricDataService().findHistoricProcessInstance(processInstance.getId());
+    assertNotNull(historicProcessInstance);
+    assertEquals(processInstance.getId(),historicProcessInstance.getProcessInstanceId());
+    assertEquals(processInstance.getProcessDefinitionId(),historicProcessInstance.getProcessDefinitionId());
+    assertNotNull(historicProcessInstance.getStartTime());
+    assertNull(historicProcessInstance.getEndTime());
+    assertNull(historicProcessInstance.getDurationInMillis());
+    List<Task> tasks=deployer.getTaskService().createTaskQuery().processInstance(processInstance.getId()).list();
+    assertEquals(1,tasks.size());
+    deployer.getTaskService().complete(tasks.get(0).getId());
+    historicProcessInstance=deployer.getHistoricDataService().findHistoricProcessInstance(processInstance.getId());
+    assertNotNull(historicProcessInstance);
+    assertEquals(processInstance.getId(),historicProcessInstance.getProcessInstanceId());
+    assertEquals(processInstance.getProcessDefinitionId(),historicProcessInstance.getProcessDefinitionId());
+    assertNotNull(historicProcessInstance.getStartTime());
+    assertNotNull(historicProcessInstance.getEndTime());
+    assertNotNull(historicProcessInstance.getDurationInMillis());
+  }
+  finally {
+    deployer.getCommandExecutor().execute(new Command<Object>(){
+      public Object execute(      CommandContext commandContext){
+        commandContext.getPersistenceSession().deleteHistoricProcessInstance(processInstance.getId());
+        return null;
+      }
+    }
+);
+  }
+}

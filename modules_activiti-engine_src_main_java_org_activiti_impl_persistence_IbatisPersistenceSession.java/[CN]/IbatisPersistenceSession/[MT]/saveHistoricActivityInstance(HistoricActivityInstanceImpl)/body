@@ -1,0 +1,9 @@
+{
+  if (historicActivityInstance.getId() == null) {
+    historicActivityInstance.setId(String.valueOf(idGenerator.getNextDbid()));
+    sqlSession.insert(statement("insertHistoricActivityInstance"),historicActivityInstance);
+  }
+ else {
+    sqlSession.update(statement("updateHistoricActivityInstance"),historicActivityInstance);
+  }
+}

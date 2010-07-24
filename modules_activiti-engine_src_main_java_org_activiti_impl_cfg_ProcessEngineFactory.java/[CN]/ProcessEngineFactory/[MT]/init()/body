@@ -15,7 +15,9 @@ synchronized (lock) {
       JobHandlers jobHandlers=createDefaultJobHandlers();
       DeployerManager deployerManager=createDefaultDeployerManager(expressionManager,scriptingEngines,businessCalendarManager);
       commandExecutor=createDefaultCmdExecutor(this.commandContextFactory);
+      processEventBus=processEventBus == null ? createDefaultProcessEventBus() : processEventBus;
       jobExecutor=jobExecutor == null ? createDefaultJobExecutor(commandExecutor,jobHandlers,jobExecutorAutoActivate) : jobExecutor;
+      historicDataService=historicDataService == null ? createDefaultHistoricDataService(commandExecutor,processEventBus) : historicDataService;
       idGenerator=idGenerator == null ? createDefaultIdGenerator(commandExecutor) : idGenerator;
       identityService=identityService == null ? createDefaultIdentityService(commandExecutor) : identityService;
       ProcessServiceImpl processService=createDefaultProcessService(commandExecutor,deployerManager,scriptingEngines);
@@ -32,6 +34,7 @@ synchronized (lock) {
       configuration.setCommandExecutor(commandExecutor);
       configuration.setDbSchemaStrategy(dbSchemaStrategy);
       configuration.setDeployerManager(deployerManager);
+      configuration.setHistoricDataService(historicDataService);
       configuration.setIdentityService(identityService);
       configuration.setIdGenerator(idGenerator);
       configuration.setJobExecutor(jobExecutor);
@@ -39,13 +42,11 @@ synchronized (lock) {
       configuration.setManagementService(managementService);
       configuration.setPersistenceSessionFactory(persistenceSessionFactory);
       configuration.setProcessEngineName(processEngineName);
+      configuration.setProcessEventBus(processEventBus);
       configuration.setProcessService(processService);
       configuration.setTaskService(taskService);
       configuration.setVariableTypes(variableTypes);
       configuration.setSessionFactories(sessionFactories);
-      List<EventListener> eventListeners=new ArrayList<EventListener>();
-      eventListeners.add(new HistoryEventListener());
-      configuration.setEventListeners(eventListeners);
       commandContextFactory.setProcessEngineConfiguration(configuration);
       initialized=true;
     }

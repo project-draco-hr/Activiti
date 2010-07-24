@@ -1,0 +1,11 @@
+{
+  ensureCommandContextAvailable();
+  String activityId=event.getActivityId();
+  String activityName=event.getPayload().getName();
+  String activityType=event.getPayload().getType();
+  String processInstanceId=event.getProcessInstanceId();
+  String processDefinitionId=event.getProcessDefinitionId();
+  Date startTime=Clock.getCurrentTime();
+  HistoricActivityInstanceImpl historicActivityInstance=new HistoricActivityInstanceImpl(activityId,activityName,activityType,processInstanceId,processDefinitionId,startTime);
+  CommandContext.getCurrentCommandContext().getPersistenceSession().saveHistoricActivityInstance(historicActivityInstance);
+}

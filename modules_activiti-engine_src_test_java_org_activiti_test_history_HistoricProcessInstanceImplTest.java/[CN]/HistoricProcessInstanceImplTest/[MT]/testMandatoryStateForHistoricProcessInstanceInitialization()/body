@@ -1,0 +1,20 @@
+{
+  assertIllegalArgumentException("process instance id",new Runnable(){
+    public void run(){
+      new HistoricProcessInstanceImpl(null,"processDefinitionId",new Date());
+    }
+  }
+);
+  assertIllegalArgumentException("process definition id",new Runnable(){
+    public void run(){
+      new HistoricProcessInstanceImpl("processInstanceId",null,new Date());
+    }
+  }
+);
+  assertIllegalArgumentException("start time",new Runnable(){
+    public void run(){
+      new HistoricProcessInstanceImpl("processInstanceId","processDefinitionId",null);
+    }
+  }
+);
+}

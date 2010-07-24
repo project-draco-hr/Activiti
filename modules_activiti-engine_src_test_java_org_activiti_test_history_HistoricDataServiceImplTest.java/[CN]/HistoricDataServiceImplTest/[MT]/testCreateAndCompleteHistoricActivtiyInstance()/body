@@ -1,0 +1,41 @@
+{
+  try {
+    Activity activity=mock(Activity.class);
+    when(activity.getId()).thenReturn("activityId");
+    when(activity.getName()).thenReturn("activityName");
+    when(activity.getType()).thenReturn("activityType");
+    ProcessInstance processInstance=mock(ProcessInstance.class);
+    when(processInstance.getId()).thenReturn("processInstanceId");
+    when(processInstance.getProcessDefinitionId()).thenReturn("processDefinitionId");
+    HistoricDataService historicDataService=new HistoricDataServiceImpl(deployer.getCommandExecutor());
+    Date startTime=new Date();
+    Clock.setCurrentTime(startTime);
+    fireActivityStartedEvent(processInstance,activity);
+    HistoricActivityInstance historicActivityInstance=historicDataService.findHistoricActivityInstance("activityId","processInstanceId");
+    assertNotNull(historicActivityInstance);
+    assertEquals("activityId",historicActivityInstance.getActivityId());
+    assertEquals("activityName",historicActivityInstance.getActivityName());
+    assertEquals("activityType",historicActivityInstance.getActivityType());
+    assertEquals("processInstanceId",historicActivityInstance.getProcessInstanceId());
+    assertEquals("processDefinitionId",historicActivityInstance.getProcessDefinitionId());
+    assertEquals(startTime,historicActivityInstance.getStartTime());
+    assertNull(historicActivityInstance.getEndTime());
+    assertNull(historicActivityInstance.getDurationInMillis());
+    Date endTime=new Date(startTime.getTime() + 1000);
+    Clock.setCurrentTime(endTime);
+    fireActivityEndedEvent(processInstance,activity);
+    historicActivityInstance=historicDataService.findHistoricActivityInstance("activityId","processInstanceId");
+    assertEquals("activityId",historicActivityInstance.getActivityId());
+    assertEquals("activityName",historicActivityInstance.getActivityName());
+    assertEquals("activityType",historicActivityInstance.getActivityType());
+    assertEquals("processInstanceId",historicActivityInstance.getProcessInstanceId());
+    assertEquals("processDefinitionId",historicActivityInstance.getProcessDefinitionId());
+    assertEquals(startTime,historicActivityInstance.getStartTime());
+    assertEquals(endTime,historicActivityInstance.getEndTime());
+    assertEquals(Long.valueOf(1000L),historicActivityInstance.getDurationInMillis());
+  }
+  finally {
+    Clock.reset();
+    cleanHistoricActivityInstancesFromDatabase("activityId","processInstanceId");
+  }
+}
