@@ -1,7 +1,7 @@
 {
   try {
     Client client=initClient();
-    Reference embeddedModelRef=new Reference(SERVER_URL + "/purl/" + fileInfo.getPath().substring(7)+ "/info/");
+    Reference embeddedModelRef=new Reference(conf.getSignavioUrl() + "purl/" + fileInfo.getPath().substring(7)+ "/info/");
     Request embeddedModelRequest=new Request(Method.DELETE,embeddedModelRef);
     Form requestHeaders=new Form();
     requestHeaders.add("token",securityToken);

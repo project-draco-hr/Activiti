@@ -19,7 +19,7 @@
     }
     authToken=authKey_png + "_" + authKey_json+ "_"+ authKey_stencilset;
     resultJsonObject.put("authToken",authToken);
-    String firstScriptTag="<script type=\"text/javascript\" src=\"" + SignavioConnectorUrl.MASHUP_URL + "/signavio.js"+ "\"></script>";
+    String firstScriptTag="<script type=\"text/javascript\" src=\"" + connector.getSignavioConfiguration().getMashupUrl() + "signavio.js"+ "\"></script>";
     String secondScriptTag="<script type=\"text/plain\">" + resultJsonObject.toString() + "</script>";
     String resultHtmlSnippet=firstScriptTag.concat(secondScriptTag);
     return resultHtmlSnippet;

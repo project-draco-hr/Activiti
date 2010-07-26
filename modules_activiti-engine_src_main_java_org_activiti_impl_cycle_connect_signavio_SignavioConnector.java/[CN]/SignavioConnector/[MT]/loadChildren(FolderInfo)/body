@@ -1,7 +1,7 @@
 {
   try {
     Client client=initClient();
-    Reference directoryRef=new Reference(SERVER_URL + folder.getPath());
+    Reference directoryRef=new Reference(conf.getSignavioUrl() + folder.getPath());
     Request directoryRequest=new Request(Method.GET,directoryRef);
     directoryRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
     Form requestHeaders=new Form();

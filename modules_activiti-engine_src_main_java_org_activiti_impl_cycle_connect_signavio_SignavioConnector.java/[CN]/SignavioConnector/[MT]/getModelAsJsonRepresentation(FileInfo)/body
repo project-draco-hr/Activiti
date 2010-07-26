@@ -1,7 +1,7 @@
 {
   try {
     Client client=initClient();
-    Reference jsonRef=new Reference(SERVER_URL + fileInfo.getPath() + "/json");
+    Reference jsonRef=new Reference(conf.getSignavioUrl() + fileInfo.getPath() + "/json");
     Request jsonRequest=new Request(Method.GET,jsonRef);
     jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
     Form requestHeaders=new Form();
