@@ -1,0 +1,9 @@
+{
+  deployer.getProcessService().startProcessInstanceByKey("orderProcess");
+  TaskQuery taskQuery=deployer.getTaskService().createTaskQuery();
+  Task verifyCreditTask=taskQuery.singleResult();
+  assertEquals("Verify credit history",verifyCreditTask.getName());
+  deployer.getTaskService().complete(verifyCreditTask.getId(),CollectionUtil.singletonMap("creditApproved",true));
+  Task prepareAndShipTask=taskQuery.singleResult();
+  assertEquals("Prepare and Ship",prepareAndShipTask.getName());
+}

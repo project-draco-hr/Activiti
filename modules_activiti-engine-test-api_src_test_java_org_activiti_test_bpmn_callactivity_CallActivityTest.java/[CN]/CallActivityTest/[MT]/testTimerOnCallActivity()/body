@@ -1,0 +1,13 @@
+{
+  Date startTime=Clock.getCurrentTime();
+  deployer.getProcessService().startProcessInstanceByKey("timerOnCallActivity");
+  TaskQuery taskQuery=deployer.getTaskService().createTaskQuery();
+  Task taskInSubProcess=taskQuery.singleResult();
+  assertEquals("Task in subprocess",taskInSubProcess.getName());
+  Clock.setCurrentTime(new Date(startTime.getTime() + (6 * 60 * 1000)));
+  new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(5000L,25L);
+  Task escalatedTask=taskQuery.singleResult();
+  assertEquals("Escalated Task",escalatedTask.getName());
+  deployer.getTaskService().complete(escalatedTask.getId());
+  assertEquals(0,deployer.getProcessService().createProcessInstanceQuery().list().size());
+}

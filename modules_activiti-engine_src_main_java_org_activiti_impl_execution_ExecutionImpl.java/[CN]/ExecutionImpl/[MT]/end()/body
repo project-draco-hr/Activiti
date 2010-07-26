@@ -4,6 +4,11 @@
   for (  ExecutionImpl childExecution : childExecutions) {
     childExecution.end();
   }
+  ensureSubProcessInstanceInitialized();
+  if (subProcessInstance != null) {
+    subProcessInstance.setSuperExecution(null);
+    subProcessInstance.end();
+  }
   ensureParentInitialized();
   if (parent != null) {
     parent.removeExecution(this);

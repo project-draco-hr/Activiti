@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("callParallelSubProcess");
+  deployer.getProcessService().startProcessInstanceByKey("callParallelSubProcess");
   TaskQuery taskQuery=deployer.getTaskService().createTaskQuery().orderAsc(TaskQuery.PROPERTY_NAME);
   List<Task> tasks=taskQuery.list();
   assertEquals(2,tasks.size());
