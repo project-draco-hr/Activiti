@@ -1,0 +1,17 @@
+{
+  List<PersistentObject> updatedObjects=new ArrayList<PersistentObject>();
+  for (  Class<?> clazz : cachedObjects.keySet()) {
+    Map<String,CachedObject> classCache=cachedObjects.get(clazz);
+    for (    CachedObject cachedObject : classCache.values()) {
+      PersistentObject persistentObject=(PersistentObject)cachedObject.getPersistentObject();
+      Object originalState=cachedObject.getPersistentObjectState();
+      if (!originalState.equals(persistentObject.getPersistentState())) {
+        updatedObjects.add(persistentObject);
+      }
+ else {
+        log.finest("loaded object '" + persistentObject + "' was not updated");
+      }
+    }
+  }
+  return updatedObjects;
+}

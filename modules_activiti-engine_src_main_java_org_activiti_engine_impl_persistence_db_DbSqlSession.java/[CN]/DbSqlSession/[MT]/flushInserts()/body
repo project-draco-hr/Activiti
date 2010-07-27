@@ -1,0 +1,13 @@
+{
+  for (  PersistentObject insertedObject : insertedObjects) {
+    Class<?> insertObjectClass=insertedObject.getClass();
+    String insertStatement=dbSqlSessionFactory.getInsertStatements().get(insertObjectClass);
+    insertStatement=dbSqlSessionFactory.mapStatement(insertStatement);
+    if (insertStatement == null) {
+      throw new ActivitiException("no insert statement id for " + insertedObject.getClass());
+    }
+    log.fine("inserting: " + toString(insertedObject));
+    sqlSession.insert(insertStatement,insertedObject);
+  }
+  insertedObjects.clear();
+}

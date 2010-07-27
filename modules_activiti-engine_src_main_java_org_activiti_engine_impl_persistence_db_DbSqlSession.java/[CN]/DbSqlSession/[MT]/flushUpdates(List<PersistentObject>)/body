@@ -1,0 +1,13 @@
+{
+  for (  PersistentObject updatedObject : updatedObjects) {
+    Class<?> updatedObjectClass=updatedObject.getClass();
+    String updateStatement=dbSqlSessionFactory.getUpdateStatements().get(updatedObjectClass);
+    updateStatement=dbSqlSessionFactory.mapStatement(updateStatement);
+    if (updateStatement == null) {
+      throw new ActivitiException("no update statement id for " + updatedObject.getClass());
+    }
+    log.fine("updating: " + toString(updatedObject) + "]");
+    sqlSession.update(updateStatement,updatedObject);
+  }
+  updatedObjects.clear();
+}

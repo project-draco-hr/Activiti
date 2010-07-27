@@ -1,0 +1,6 @@
+{
+  long nextDbid=dbSqlSessionFactory.getIdGenerator().getNextDbid();
+  String id=Long.toString(nextDbid);
+  persistentObject.setId(id);
+  cachePut(persistentObject);
+}

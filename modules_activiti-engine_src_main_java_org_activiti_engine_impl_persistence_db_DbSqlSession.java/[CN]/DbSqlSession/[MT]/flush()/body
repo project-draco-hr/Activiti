@@ -1,0 +1,19 @@
+{
+  flushDeserializedObjects();
+  List<PersistentObject> updatedObjects=getUpdatedObjects();
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("flushing...");
+    for (    PersistentObject insertedObject : insertedObjects) {
+      log.fine("  insert " + toString(insertedObject));
+    }
+    for (    PersistentObject updatedObject : updatedObjects) {
+      log.fine("  update " + toString(updatedObject));
+    }
+    for (    PersistentObject deletedObject : deletedObjects) {
+      log.fine("  delete " + toString(deletedObject));
+    }
+  }
+  flushInserts();
+  flushUpdates(updatedObjects);
+  flushDeletes();
+}

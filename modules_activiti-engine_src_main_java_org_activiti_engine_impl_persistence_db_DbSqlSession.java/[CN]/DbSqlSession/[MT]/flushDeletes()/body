@@ -1,0 +1,13 @@
+{
+  for (  PersistentObject deletedObject : deletedObjects) {
+    Class<?> deletedObjectClass=deletedObject.getClass();
+    String deleteStatement=dbSqlSessionFactory.getDeleteStatements().get(deletedObjectClass);
+    deleteStatement=dbSqlSessionFactory.mapStatement(deleteStatement);
+    if (deleteStatement == null) {
+      throw new ActivitiException("no delete statement id for " + deletedObject.getClass());
+    }
+    log.fine("deleting: " + toString(deletedObject));
+    sqlSession.delete(deleteStatement,deletedObject);
+  }
+  deletedObjects.clear();
+}
