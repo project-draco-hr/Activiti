@@ -1,0 +1,14 @@
+{
+  for (  ActivityImpl activity : activities) {
+    if (activityName.equals(activity.getId())) {
+      return activity;
+    }
+  }
+  for (  ActivityImpl activity : activities) {
+    ActivityImpl nestedActivity=activity.findActivity(activityName);
+    if (nestedActivity != null) {
+      return nestedActivity;
+    }
+  }
+  return null;
+}

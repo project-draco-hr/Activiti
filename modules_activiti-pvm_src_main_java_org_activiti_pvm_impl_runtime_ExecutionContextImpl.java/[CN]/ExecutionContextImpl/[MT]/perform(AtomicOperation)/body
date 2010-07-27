@@ -1,0 +1,15 @@
+{
+  this.nextAtomicOperation=atomicOperation;
+  if (!isOperating) {
+    isOperating=true;
+    while (nextAtomicOperation != null) {
+      AtomicOperation currentOperation=this.nextAtomicOperation;
+      this.nextAtomicOperation=null;
+      if (log.isLoggable(Level.FINEST)) {
+        log.finest("AtomicOperation: " + currentOperation.getClass().getName());
+      }
+      currentOperation.perform(this);
+    }
+    isOperating=false;
+  }
+}

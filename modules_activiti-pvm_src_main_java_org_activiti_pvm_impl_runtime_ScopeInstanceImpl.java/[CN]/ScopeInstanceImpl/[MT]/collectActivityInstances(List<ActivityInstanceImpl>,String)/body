@@ -1,0 +1,11 @@
+{
+  if (activityId == null) {
+    throw new RuntimeException("activitId is null");
+  }
+  for (  ActivityInstanceImpl activityInstance : activityInstances) {
+    if (activityId.equals(activityInstance.getActivity().getId())) {
+      activityInstanceCollection.add(activityInstance);
+    }
+    activityInstance.collectActivityInstances(activityInstanceCollection,activityId);
+  }
+}

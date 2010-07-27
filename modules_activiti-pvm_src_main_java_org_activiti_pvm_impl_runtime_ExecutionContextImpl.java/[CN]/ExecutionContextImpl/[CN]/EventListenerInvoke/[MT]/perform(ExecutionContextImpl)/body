@@ -1,0 +1,15 @@
+{
+  if (executionContext.eventListenerIndex < executionContext.eventListeners.size()) {
+    EventListener eventListener=executionContext.eventListeners.get(executionContext.eventListenerIndex);
+    eventListener.event(executionContext);
+    executionContext.eventListenerIndex++;
+    executionContext.perform(EVENTLISTENER_INVOKE);
+  }
+ else {
+    executionContext.eventListenerIndex=0;
+    executionContext.eventPostOperation=null;
+    AtomicOperation operation=executionContext.eventPostOperation;
+    executionContext.eventPostOperation=null;
+    executionContext.perform(operation);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  ProcessInstanceImpl processInstance=executionContext.processInstance;
+  ActivityImpl initial=processInstance.getProcessDefinition().getInitial();
+  executionContext.activityInstance=processInstance.createActivityInstance(initial);
+  executionContext.fireEvent(executionContext.activityInstance.getActivity(),Event.ACTIVITY_START,ACTIVITY_START);
+}

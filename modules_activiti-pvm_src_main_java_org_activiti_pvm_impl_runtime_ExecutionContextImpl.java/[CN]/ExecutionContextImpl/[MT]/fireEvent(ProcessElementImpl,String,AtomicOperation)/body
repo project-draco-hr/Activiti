@@ -1,0 +1,11 @@
+{
+  eventListeners=eventDispatcher.getEventListeners().get(event);
+  if ((eventListeners != null) && (!eventListeners.isEmpty())) {
+    this.eventListenerIndex=0;
+    this.eventPostOperation=eventPostOperation;
+    perform(EVENTLISTENER_INVOKE);
+  }
+ else {
+    perform(eventPostOperation);
+  }
+}
