@@ -1,0 +1,33 @@
+{
+  LogUtil.resetThreadIndents();
+  ThreadLogMode oldThreadRenderingMode=LogUtil.setThreadLogMode(threadRenderingMode);
+  if (processEngine == null) {
+    processEngine=processEngines.get(configurationResource);
+    if (processEngine == null) {
+      log.fine("==== BUILDING PROCESS ENGINE ========================================================================");
+      processEngine=new DbProcessEngineBuilder().configureFromPropertiesResource(configurationResource).buildProcessEngine();
+      log.fine("==== PROCESS ENGINE CREATED =========================================================================");
+    }
+    initializeServices();
+  }
+  log.fine(EMPTY_LINE);
+  log.fine("#### START " + getClass().getName() + "."+ getName()+ " ###########################################################");
+  try {
+    super.runTest();
+  }
+ catch (  AssertionFailedError e) {
+    log.severe(EMPTY_LINE);
+    log.log(Level.SEVERE,"ASSERTION FAILED: " + e,e);
+    throw e;
+  }
+catch (  Throwable e) {
+    log.severe(EMPTY_LINE);
+    log.log(Level.SEVERE,"EXCEPTION: " + e,e);
+    throw e;
+  }
+ finally {
+    Clock.reset();
+    log.fine("#### END " + getClass().getName() + "."+ getName()+ " #############################################################");
+    LogUtil.setThreadLogMode(oldThreadRenderingMode);
+  }
+}

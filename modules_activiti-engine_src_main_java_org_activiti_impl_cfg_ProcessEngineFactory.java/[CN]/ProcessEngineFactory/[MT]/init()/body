@@ -23,13 +23,15 @@ synchronized (lock) {
       ProcessServiceImpl processService=createDefaultProcessService(commandExecutor,deployerManager,scriptingEngines);
       TaskServiceImpl taskService=createDefaultTaskService(commandExecutor,scriptingEngines);
       ManagementServiceImpl managementService=createDefaultManagementService(commandExecutor);
-      PersistenceSessionFactory persistenceSessionFactory=createDefaultPersistenceSessionFactory(deployerManager,variableTypes,idGenerator,dataBaseName,dataSource,localTransactions);
-      commandContextFactory.setPersistenceSessionFactory(persistenceSessionFactory);
+      IbatisPersistenceSessionFactory ibatisPersistenceSessionFactory=new IbatisPersistenceSessionFactory(variableTypes,idGenerator,databaseName,dataSource,localTransactions);
+      CachingPersistenceSessionFactory cachingPersistenceSessionFactory=new CachingPersistenceSessionFactory(ibatisPersistenceSessionFactory,deployerManager,Thread.currentThread().getContextClassLoader());
       commandContextFactory.setTransactionContextFactory(createDefaultTransactionContextFactory());
       Map<Class<?>,SessionFactory> sessionFactories=new HashMap<Class<?>,SessionFactory>();
       sessionFactories.put(MessageSession.class,new JobExecutorMessageSessionFactory());
       sessionFactories.put(TimerSession.class,new JobExecutorTimerSessionFactory());
-      sessionFactories.put(PersistenceSession.class,persistenceSessionFactory);
+      sessionFactories.put(PersistenceSession.class,cachingPersistenceSessionFactory);
+      sessionFactories.put(RepositorySession.class,new DbRepositorySessionFactory());
+      sessionFactories.put(DbSqlSession.class,new DbSqlSessionFactory(ibatisPersistenceSessionFactory.getSqlSessionFactory(),idGenerator,databaseName));
       configuration.setCommandContextFactory(commandContextFactory);
       configuration.setCommandExecutor(commandExecutor);
       configuration.setDbSchemaStrategy(dbSchemaStrategy);
@@ -40,7 +42,7 @@ synchronized (lock) {
       configuration.setJobExecutor(jobExecutor);
       configuration.setJobHandlers(jobHandlers);
       configuration.setManagementService(managementService);
-      configuration.setPersistenceSessionFactory(persistenceSessionFactory);
+      configuration.setPersistenceSessionFactory(cachingPersistenceSessionFactory);
       configuration.setProcessEngineName(processEngineName);
       configuration.setProcessEventBus(processEventBus);
       configuration.setProcessService(processService);

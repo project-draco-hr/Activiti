@@ -2,6 +2,9 @@
   Session session=sessions.get(sessionClass);
   if (session == null) {
     SessionFactory sessionFactory=processEngineConfiguration.getSessionFactories().get(sessionClass);
+    if (sessionFactory == null) {
+      throw new ActivitiException("no session factory configured for " + sessionClass.getName());
+    }
     session=sessionFactory.openSession();
     sessions.put(sessionClass,session);
   }
