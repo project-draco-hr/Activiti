@@ -1,0 +1,13 @@
+{
+  if (getFileType() == null) {
+    return new ArrayList<ContentRepresentation>();
+  }
+ else {
+    ArrayList<ContentRepresentation> list=new ArrayList<ContentRepresentation>();
+    List<ContentRepresentationProvider> providers=getFileType().getContentRepresentationProviders();
+    for (    ContentRepresentationProvider p : providers) {
+      list.add(p.createContentRepresentation(this,false));
+    }
+    return list;
+  }
+}

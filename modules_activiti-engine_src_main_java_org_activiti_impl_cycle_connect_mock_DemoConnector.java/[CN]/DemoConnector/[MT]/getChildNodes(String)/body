@@ -1,0 +1,18 @@
+{
+  if ("/".equals(parentUrl)) {
+    return rootNodes;
+  }
+ else {
+    ArrayList<RepositoryNode> list=new ArrayList<RepositoryNode>();
+    for (    RepositoryNode node : nodes) {
+      if (node.getId().startsWith(parentUrl) && !node.getId().equals(parentUrl)) {
+        String remainingUrl=node.getId().substring(parentUrl.length() + 1);
+        remainingUrl=remainingUrl.substring(0,remainingUrl.length() - 1);
+        if (!remainingUrl.contains("/")) {
+          list.add(node);
+        }
+      }
+    }
+    return list;
+  }
+}

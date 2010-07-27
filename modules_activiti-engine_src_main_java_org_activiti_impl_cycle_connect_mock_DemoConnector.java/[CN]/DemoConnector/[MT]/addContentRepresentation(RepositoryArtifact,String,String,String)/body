@@ -1,0 +1,12 @@
+{
+  Map<String,ContentRepresentation> map=content.get(artifact);
+  if (map == null) {
+    map=new HashMap<String,ContentRepresentation>();
+    content.put(artifact,map);
+  }
+  ContentRepresentation cp=new ContentRepresentation();
+  cp.setName(name);
+  cp.setType(type);
+  cp.setArtifact(artifact);
+  map.put(name,cp);
+}

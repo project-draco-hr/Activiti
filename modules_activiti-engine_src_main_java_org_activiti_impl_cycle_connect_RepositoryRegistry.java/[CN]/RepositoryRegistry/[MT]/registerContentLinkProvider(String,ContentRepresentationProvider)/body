@@ -1,0 +1,10 @@
+{
+  if (registeredContentLinkProviders.containsKey(fileTypeIdentifier)) {
+    registeredContentLinkProviders.get(fileTypeIdentifier).add(provider);
+  }
+ else {
+    ArrayList<ContentRepresentationProvider> list=new ArrayList<ContentRepresentationProvider>();
+    list.add(provider);
+    registeredContentLinkProviders.put(fileTypeIdentifier,list);
+  }
+}

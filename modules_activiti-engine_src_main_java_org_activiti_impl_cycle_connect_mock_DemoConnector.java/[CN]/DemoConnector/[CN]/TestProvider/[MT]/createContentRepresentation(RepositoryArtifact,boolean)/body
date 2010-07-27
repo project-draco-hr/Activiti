@@ -1,0 +1,7 @@
+{
+  Map<String,ContentRepresentation> map=content.get(artifact);
+  if (map != null) {
+    return map.get(getName());
+  }
+  throw new RepositoryException("Couldn't find content representation '" + getName() + "' for artifact "+ artifact.getId());
+}
