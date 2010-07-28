@@ -1,13 +1,20 @@
 {
-  if (getFileType() == null) {
-    return new ArrayList<ContentRepresentation>();
+  if (contentRepresentationList != null) {
+    return contentRepresentationList;
   }
- else {
-    ArrayList<ContentRepresentation> list=new ArrayList<ContentRepresentation>();
-    List<ContentRepresentationProvider> providers=getFileType().getContentRepresentationProviders();
+  contentRepresentationList=new ArrayList<ContentRepresentation>();
+  if (getArtifactType() != null) {
+    List<ContentRepresentationProvider> providers=getArtifactType().getContentRepresentationProviders();
     for (    ContentRepresentationProvider p : providers) {
-      list.add(p.createContentRepresentation(this,false));
+      ContentRepresentation cr=p.createContentRepresentation(this,false);
+      if (cr != null) {
+        cr.setArtifact(this);
+        contentRepresentationList.add(cr);
+      }
+ else {
+        log.warning("content provider '" + p + "' created NULL instead of proper ContentRepresentation object for artifact "+ this+ ". Check configuration!");
+      }
     }
-    return list;
   }
+  return contentRepresentationList;
 }
