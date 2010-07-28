@@ -2,6 +2,7 @@
   log.fine("firing event committing...");
   fireTransactionEvent(TransactionState.COMMITTING);
   log.fine("committing the ibatis sql session...");
+  getDbSqlSession().commit();
   getPersistenceSession().commit();
   log.fine("firing event committed...");
   fireTransactionEvent(TransactionState.COMMITTED);

@@ -10,6 +10,7 @@
     }
  finally {
       log.fine("rolling back ibatis sql session...");
+      getDbSqlSession().rollback();
       getPersistenceSession().rollback();
     }
   }

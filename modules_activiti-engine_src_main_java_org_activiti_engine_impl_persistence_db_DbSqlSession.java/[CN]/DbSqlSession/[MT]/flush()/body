@@ -2,16 +2,22 @@
   flushDeserializedObjects();
   List<PersistentObject> updatedObjects=getUpdatedObjects();
   if (log.isLoggable(Level.FINE)) {
-    log.fine("flushing...");
+    log.fine("flush summary:");
     for (    PersistentObject insertedObject : insertedObjects) {
       log.fine("  insert " + toString(insertedObject));
     }
     for (    PersistentObject updatedObject : updatedObjects) {
       log.fine("  update " + toString(updatedObject));
     }
-    for (    PersistentObject deletedObject : deletedObjects) {
-      log.fine("  delete " + toString(deletedObject));
+    for (    Object deletedObject : deletedObjects) {
+      if (deletedObject instanceof BulkDeleteOperation) {
+        log.fine("  bulk delete " + ((BulkDeleteOperation)deletedObject).statement);
+      }
+ else {
+        log.fine("  delete " + toString((PersistentObject)deletedObject));
+      }
     }
+    log.fine("now executing flush...");
   }
   flushInserts();
   flushUpdates(updatedObjects);

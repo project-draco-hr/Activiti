@@ -1,11 +1,6 @@
 {
-  Deployment deployment=processEngine.getRepositoryService().createDeployment().addString("org/activiti/test/HelloWorld.string","hello world").addString("org/activiti/test/TheAnswer.string","42").deploy();
-  final String deploymentId=deployment.getId();
-  commandExecutor.execute(new Command<Object>(){
-    public Object execute(    CommandContext commandContext){
-      RepositorySession repositorySession=commandContext.getRepositorySession();
-      return null;
-    }
-  }
-);
+  Deployment deployment=repositoryService.createDeployment().addString("org/activiti/test/HelloWorld.string","hello world").addString("org/activiti/test/TheAnswer.string","42").deploy();
+  List<Deployment> deployments=repositoryService.findDeployments();
+  assertEquals(1,deployments.size());
+  repositoryService.deleteDeploymentCascade(deployment.getId());
 }
