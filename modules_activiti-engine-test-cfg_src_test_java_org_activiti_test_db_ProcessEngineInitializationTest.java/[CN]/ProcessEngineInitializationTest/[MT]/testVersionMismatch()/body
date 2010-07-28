@@ -1,5 +1,5 @@
 {
-  ProcessEngineImpl processEngine=(ProcessEngineImpl)new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CREATE_DROP).buildProcessEngine();
+  ProcessEngineImpl processEngine=(ProcessEngineImpl)new ProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CREATE_DROP).buildProcessEngine();
   PersistenceSessionFactory persistenceSessionFactory=processEngine.getPersistenceSessionFactory();
   if (persistenceSessionFactory instanceof CachingPersistenceSessionFactory) {
     persistenceSessionFactory=((CachingPersistenceSessionFactory)persistenceSessionFactory).getTargetPersistenceSessionFactory();
@@ -38,6 +38,6 @@
     }
   }
 );
-  new DbProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).buildProcessEngine();
+  new ProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).buildProcessEngine();
   processEngine.close();
 }
