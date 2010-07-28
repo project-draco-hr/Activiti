@@ -1,0 +1,23 @@
+{
+  if (getFileType() == null) {
+    return new ArrayList<ArtifactAction>();
+  }
+  if (cachedFileActions == null) {
+    cachedFileActions=new ArrayList<ArtifactAction>();
+    for (    Class<? extends ArtifactAction> clazz : getRegisteredActionTypes()) {
+      try {
+        ArtifactAction action=clazz.newInstance();
+        action.setFile(this);
+        cachedFileActions.add(action);
+        if (isDefaultAction(clazz)) {
+          cachedDefaultFileAction=action;
+        }
+      }
+ catch (      Exception ex) {
+        log.log(Level.SEVERE,"couldn't create file action of class " + clazz,ex);
+      }
+    }
+  }
+  log.fine("Actions for file type " + getFileType().getName() + " requested, returning "+ cachedFileActions.size()+ " actions.");
+  return cachedFileActions;
+}

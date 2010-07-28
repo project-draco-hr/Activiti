@@ -1,0 +1,13 @@
+{
+  if (registeredFileActions.containsKey(fileTypeIdentifier)) {
+    registeredFileActions.get(fileTypeIdentifier).add(action);
+  }
+ else {
+    ArrayList<Class<? extends ArtifactAction>> list=new ArrayList<Class<? extends ArtifactAction>>();
+    list.add(action);
+    registeredFileActions.put(fileTypeIdentifier,list);
+  }
+  if (isDefault) {
+    defaultFileActions.put(fileTypeIdentifier,action);
+  }
+}
