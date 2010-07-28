@@ -1,0 +1,12 @@
+{
+  if (!"dir".equals(jsonDirectoryObject.getString("rel"))) {
+    throw new RepositoryException(jsonDirectoryObject + " is not a directory");
+  }
+  String directoryName=jsonDirectoryObject.getJSONObject("rep").getString("name");
+  log.finest("Directoryname: " + directoryName);
+  String href=jsonDirectoryObject.getString("href");
+  RepositoryFolder folderInfo=new RepositoryFolder(this);
+  folderInfo.setId(retrieveIdFromUrl(href,conf.getDirectoryUrl()));
+  folderInfo.getMetadata().setName(directoryName);
+  return folderInfo;
+}

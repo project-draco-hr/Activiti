@@ -1,9 +1,9 @@
 {
-  RepositoryRegistry.registerFileType(new ArtifactType(ARTIFACT_TYPE_TEXT,ARTIFACT_TYPE_TEXT));
-  RepositoryRegistry.registerFileType(new ArtifactType(ARTIFACT_TYPE_MINDMAP,ARTIFACT_TYPE_MINDMAP));
-  RepositoryRegistry.registerFileType(new ArtifactType(ARTIFACT_TYPE_BPMN_20,ARTIFACT_TYPE_BPMN_20));
-  RepositoryRegistry.registerContentLinkProvider(ARTIFACT_TYPE_TEXT,new TestProvider("Text"));
-  RepositoryRegistry.registerContentLinkProvider(ARTIFACT_TYPE_MINDMAP,new TestProvider("Image"));
-  RepositoryRegistry.registerContentLinkProvider(ARTIFACT_TYPE_BPMN_20,new TestProvider("Image"));
-  RepositoryRegistry.registerContentLinkProvider(ARTIFACT_TYPE_BPMN_20,new TestProvider("XML"));
+  RepositoryRegistry.registerArtifactType(new ArtifactType(ARTIFACT_TYPE_TEXT,ARTIFACT_TYPE_TEXT));
+  RepositoryRegistry.registerArtifactType(new ArtifactType(ARTIFACT_TYPE_MINDMAP,ARTIFACT_TYPE_MINDMAP));
+  RepositoryRegistry.registerArtifactType(new ArtifactType(ARTIFACT_TYPE_BPMN_20,ARTIFACT_TYPE_BPMN_20));
+  RepositoryRegistry.registerContentRepresentationProvider(ARTIFACT_TYPE_TEXT,TestTextProvider.class);
+  RepositoryRegistry.registerContentRepresentationProvider(ARTIFACT_TYPE_MINDMAP,TestImageProvider.class);
+  RepositoryRegistry.registerContentRepresentationProvider(ARTIFACT_TYPE_BPMN_20,TestImageProvider.class);
+  RepositoryRegistry.registerContentRepresentationProvider(ARTIFACT_TYPE_BPMN_20,TestXmlProvider.class);
 }

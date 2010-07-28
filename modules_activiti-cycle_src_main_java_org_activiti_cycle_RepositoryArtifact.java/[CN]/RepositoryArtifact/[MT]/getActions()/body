@@ -1,17 +1,15 @@
 {
-  if (getArtifactType() == null) {
-    return new ArrayList<ArtifactAction>();
+  if (cachedFileActions != null) {
+    return cachedFileActions;
   }
-  if (cachedFileActions == null) {
+  cachedFileActions=new ArrayList<ArtifactAction>();
+  if (getArtifactType() != null) {
     cachedFileActions=new ArrayList<ArtifactAction>();
-    for (    Class<? extends ArtifactAction> clazz : getRegisteredActionTypes()) {
+    for (    Class<? extends ArtifactAction> clazz : artifactType.getRegisteredActions()) {
       try {
         ArtifactAction action=clazz.newInstance();
         action.setFile(this);
         cachedFileActions.add(action);
-        if (isDefaultAction(clazz)) {
-          cachedDefaultFileAction=action;
-        }
       }
  catch (      Exception ex) {
         log.log(Level.SEVERE,"couldn't create file action of class " + clazz,ex);

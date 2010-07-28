@@ -1,0 +1,10 @@
+{
+  try {
+    JSONArray embeddedModel=getEmbeddedModel(artifact);
+    String hmtlSnippet=getHmtlSnippet(artifact,embeddedModel);
+    return toBytes(hmtlSnippet);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while retrieving embeddedModel from Signavio",ex);
+  }
+}

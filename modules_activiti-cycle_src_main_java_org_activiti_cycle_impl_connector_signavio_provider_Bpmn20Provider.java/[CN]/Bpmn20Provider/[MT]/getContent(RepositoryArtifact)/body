@@ -1,0 +1,12 @@
+{
+  try {
+    Response jpdlResponse=getJsonResponse(artifact,"/bpmn2_0_xml");
+    DomRepresentation xmlData=jpdlResponse.getEntityAsDom();
+    String result=getXmlAsString(xmlData);
+    log.finest("BPMN 2.0 String: " + result);
+    return toBytes(result);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

@@ -4,15 +4,19 @@
   }
   contentRepresentationList=new ArrayList<ContentRepresentation>();
   if (getArtifactType() != null) {
-    List<ContentRepresentationProvider> providers=getArtifactType().getContentRepresentationProviders();
-    for (    ContentRepresentationProvider p : providers) {
-      ContentRepresentation cr=p.createContentRepresentation(this,false);
-      if (cr != null) {
-        cr.setArtifact(this);
-        contentRepresentationList.add(cr);
-      }
+    for (    Class<? extends ContentRepresentationProvider> providerClass : getArtifactType().getContentRepresentationProviders()) {
+      try {
+        ContentRepresentationProvider p=providerClass.newInstance();
+        ContentRepresentation cr=p.createContentRepresentation(this,false);
+        if (cr != null) {
+          contentRepresentationList.add(cr);
+        }
  else {
-        log.warning("content provider '" + p + "' created NULL instead of proper ContentRepresentation object for artifact "+ this+ ". Check configuration!");
+          log.warning("content provider '" + p + "' created NULL instead of proper ContentRepresentation object for artifact "+ this+ ". Check configuration!");
+        }
+      }
+ catch (      Exception ex) {
+        log.log(Level.SEVERE,"couldn't create content provider of class " + providerClass,ex);
       }
     }
   }

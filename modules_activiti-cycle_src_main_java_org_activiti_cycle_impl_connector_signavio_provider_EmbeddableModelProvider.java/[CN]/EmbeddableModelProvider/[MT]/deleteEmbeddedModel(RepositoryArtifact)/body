@@ -1,0 +1,14 @@
+{
+  try {
+    Client client=getConnector(artifact).initClient();
+    Reference embeddedModelRef=new Reference(getConnector(artifact).getSignavioConfiguration().getSignavioUrl() + "purl/" + artifact.getId()+ "/info/");
+    Request embeddedModelRequest=new Request(Method.DELETE,embeddedModelRef);
+    Form requestHeaders=new Form();
+    requestHeaders.add("token",getConnector(artifact).getSecurityToken());
+    embeddedModelRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
+    client.handle(embeddedModelRequest);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

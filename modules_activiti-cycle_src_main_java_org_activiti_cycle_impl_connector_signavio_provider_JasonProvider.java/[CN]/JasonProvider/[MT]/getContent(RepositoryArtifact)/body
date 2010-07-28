@@ -1,0 +1,9 @@
+{
+  try {
+    Response jsonResponse=getJsonResponse(artifact,"/json");
+    return toBytes(jsonResponse.getEntity().getText());
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Error while accessing Signavio repository",ex);
+  }
+}

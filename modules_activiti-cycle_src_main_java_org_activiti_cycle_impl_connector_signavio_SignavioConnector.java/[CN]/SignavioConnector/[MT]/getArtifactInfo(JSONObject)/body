@@ -1,0 +1,9 @@
+{
+  RepositoryArtifact fileInfo=new RepositoryArtifact(this);
+  fileInfo.setId(retrieveIdFromUrl(relObject.getString("href"),conf.getModelUrl()));
+  log.finest("FileInfo-setPath: " + relObject.getString("href"));
+  fileInfo.getMetadata().setName(relObject.getJSONObject("rep").getString("name"));
+  String fileTypeIdentifier=relObject.getJSONObject("rep").getString("namespace");
+  fileInfo.setArtifactType(RepositoryRegistry.getArtifactTypeByIdentifier(fileTypeIdentifier));
+  return fileInfo;
+}

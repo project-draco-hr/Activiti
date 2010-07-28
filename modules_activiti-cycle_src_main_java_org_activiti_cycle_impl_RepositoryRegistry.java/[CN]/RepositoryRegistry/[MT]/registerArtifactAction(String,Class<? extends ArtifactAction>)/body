@@ -1,0 +1,10 @@
+{
+  if (registeredArtifactActions.containsKey(artifactTypeIdentifier)) {
+    registeredArtifactActions.get(artifactTypeIdentifier).add(action);
+  }
+ else {
+    ArrayList<Class<? extends ArtifactAction>> list=new ArrayList<Class<? extends ArtifactAction>>();
+    list.add(action);
+    registeredArtifactActions.put(artifactTypeIdentifier,list);
+  }
+}

@@ -1,3 +1,33 @@
 {
-  return null;
+  try {
+    Client client=initClient();
+    Reference directoryRef=new Reference(conf.getDirectoryUrl() + parentId);
+    Request directoryRequest=new Request(Method.GET,directoryRef);
+    directoryRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
+    Form requestHeaders=new Form();
+    requestHeaders.add("token",securityToken);
+    directoryRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
+    Response directoryResponse=client.handle(directoryRequest);
+    JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
+    JSONArray relJsonArray=jsonData.toJsonArray();
+    if (log.isLoggable(Level.FINEST)) {
+      SignavioLogHelper.logJSONArray(log,relJsonArray);
+    }
+    ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
+    for (int i=0; i < relJsonArray.length(); i++) {
+      JSONObject relObject=relJsonArray.getJSONObject(i);
+      if ("dir".equals(relObject.getString("rel"))) {
+        RepositoryFolder folderInfo=getFolderInfo(relObject);
+        nodes.add(folderInfo);
+      }
+ else       if ("mod".equals(relObject.getString("rel"))) {
+        RepositoryArtifact fileInfo=getArtifactInfo(relObject);
+        nodes.add(fileInfo);
+      }
+    }
+    return nodes;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
 }
