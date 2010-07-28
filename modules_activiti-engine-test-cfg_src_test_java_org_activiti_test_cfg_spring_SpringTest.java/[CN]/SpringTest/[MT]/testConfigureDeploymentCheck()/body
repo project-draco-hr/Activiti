@@ -6,6 +6,6 @@
   Deployment deployment=repositoryService.createDeployment().name(path).addInputStream(path,resource.getInputStream()).deploy();
   assertEquals(before,processEngine.getRepositoryService().findDeployments().size());
   if (deployment != null) {
-    repositoryService.deleteDeploymentCascade(deployment.getId());
+    repositoryService.deleteDeployment(deployment.getId());
   }
 }

@@ -12,5 +12,5 @@
   taskService.complete(investigateSoftwareTask.getId());
   Task writeReportTask=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Write report",writeReportTask.getName());
-  repositoryService.deleteDeploymentCascade(deployment.getId());
+  repositoryService.deleteDeployment(deployment.getId());
 }

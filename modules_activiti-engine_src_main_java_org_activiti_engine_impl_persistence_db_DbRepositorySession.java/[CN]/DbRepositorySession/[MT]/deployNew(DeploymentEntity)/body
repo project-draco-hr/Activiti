@@ -1,5 +1,9 @@
 {
   dbSqlSession.insert(deployment);
+  for (  ResourceEntity resource : deployment.getResources().values()) {
+    resource.setDeploymentId(deployment.getId());
+    dbSqlSession.insert(resource);
+  }
   for (  Deployer deployer : deployers) {
     deployer.deploy(deployment,this,true);
   }
