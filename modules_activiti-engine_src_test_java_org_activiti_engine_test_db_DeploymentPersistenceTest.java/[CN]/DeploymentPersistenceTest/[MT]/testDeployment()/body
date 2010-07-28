@@ -2,6 +2,8 @@
   final DeploymentEntity deployment=new DeploymentEntity();
   final int deploymentId=commandExecutor.execute(new Command<Integer>(){
     public Integer execute(    CommandContext commandContext){
+      RepositorySession repositorySession=commandContext.getRepositorySession();
+      repositorySession.insertDeployment(deployment);
       return 4;
     }
   }

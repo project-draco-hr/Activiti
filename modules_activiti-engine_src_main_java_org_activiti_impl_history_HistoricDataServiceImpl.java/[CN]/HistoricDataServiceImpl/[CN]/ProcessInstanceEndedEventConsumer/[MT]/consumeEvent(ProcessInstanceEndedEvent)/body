@@ -1,6 +1,6 @@
 {
   ensureCommandContextAvailable();
-  HistoricProcessInstanceImpl historicProcessInstance=CommandContext.getCurrentCommandContext().getPersistenceSession().findHistoricProcessInstance(event.getProcessInstanceId());
+  HistoricProcessInstanceImpl historicProcessInstance=CommandContext.getCurrent().getPersistenceSession().findHistoricProcessInstance(event.getProcessInstanceId());
   if (historicProcessInstance == null) {
     String processInstanceId=event.getProcessInstanceId();
     String processDefinitionId=event.getProcessDefinitionId();
@@ -9,5 +9,5 @@
   }
   Date endTime=Clock.getCurrentTime();
   historicProcessInstance.markEnded(endTime,"endStateName");
-  CommandContext.getCurrentCommandContext().getPersistenceSession().saveHistoricProcessInstance(historicProcessInstance);
+  CommandContext.getCurrent().getPersistenceSession().saveHistoricProcessInstance(historicProcessInstance);
 }

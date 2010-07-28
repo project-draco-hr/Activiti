@@ -4,5 +4,5 @@
   String processDefinitionId=event.getProcessDefinitionId();
   Date startTime=Clock.getCurrentTime();
   HistoricProcessInstanceImpl historicProcessInstance=new HistoricProcessInstanceImpl(processInstanceId,processDefinitionId,startTime);
-  CommandContext.getCurrentCommandContext().getPersistenceSession().saveHistoricProcessInstance(historicProcessInstance);
+  CommandContext.getCurrent().getPersistenceSession().saveHistoricProcessInstance(historicProcessInstance);
 }

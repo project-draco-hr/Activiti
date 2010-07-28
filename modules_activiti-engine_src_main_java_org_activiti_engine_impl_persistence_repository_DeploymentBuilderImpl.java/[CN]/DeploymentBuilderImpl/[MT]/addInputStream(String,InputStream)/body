@@ -1,0 +1,8 @@
+{
+  byte[] bytes=IoUtil.readInputStream(inputStream,resourceName);
+  ResourceEntity resource=new ResourceEntity();
+  resource.setName(resourceName);
+  resource.setBytes(bytes);
+  deployment.getResources().put(resourceName,resource);
+  return this;
+}

@@ -11,7 +11,7 @@
     initializeServices();
   }
   log.fine(EMPTY_LINE);
-  log.fine("#### START " + getClass().getName() + "."+ getName()+ " ###########################################################");
+  log.fine("#### START " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName()+ " ###########################################################");
   try {
     super.runTest();
   }
@@ -27,7 +27,7 @@ catch (  Throwable e) {
   }
  finally {
     Clock.reset();
-    log.fine("#### END " + getClass().getName() + "."+ getName()+ " #############################################################");
+    log.fine("#### END " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName()+ " #############################################################");
     LogUtil.setThreadLogMode(oldThreadRenderingMode);
   }
 }

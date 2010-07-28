@@ -10,7 +10,7 @@
     ObjectInputStream ois=new ObjectInputStream(bais);
     deserializedObject=ois.readObject();
     variableInstance.setCachedValue(deserializedObject);
-    CommandContext.getCurrentCommandContext().getPersistenceSession().addDeserializedObject(deserializedObject,bytes,variableInstance);
+    CommandContext.getCurrent().getPersistenceSession().addDeserializedObject(deserializedObject,bytes,variableInstance);
   }
  catch (  Exception e) {
     throw new ActivitiException("coudn't deserialize object in variable '" + variableInstance.getName() + "'",e);

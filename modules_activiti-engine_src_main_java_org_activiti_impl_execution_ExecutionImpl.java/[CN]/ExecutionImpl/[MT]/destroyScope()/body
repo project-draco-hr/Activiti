@@ -1,6 +1,6 @@
 {
   log.fine("destroy scope: scoped " + this + " continues as parent scope "+ getParent());
-  CommandContext commandContext=CommandContext.getCurrentCommandContext();
+  CommandContext commandContext=CommandContext.getCurrent();
   if (commandContext != null) {
     commandContext.getTimerSession().cancelTimers(this);
   }

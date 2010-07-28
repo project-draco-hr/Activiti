@@ -1,0 +1,5 @@
+{
+  statement=dbSqlSessionFactory.mapStatement(statement);
+  PersistentObject loadedObject=(PersistentObject)sqlSession.selectOne(statement,parameter);
+  return cacheGet(loadedObject);
+}

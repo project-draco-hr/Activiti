@@ -1,6 +1,6 @@
 {
   ensureCommandContextAvailable();
-  HistoricActivityInstanceImpl historicActivityInstance=CommandContext.getCurrentCommandContext().getPersistenceSession().findHistoricActivityInstance(event.getActivityId(),event.getProcessInstanceId());
+  HistoricActivityInstanceImpl historicActivityInstance=CommandContext.getCurrent().getPersistenceSession().findHistoricActivityInstance(event.getActivityId(),event.getProcessInstanceId());
   if (historicActivityInstance == null) {
     String activityId=event.getActivityId();
     String activityName=event.getPayload().getName();
@@ -11,5 +11,5 @@
     historicActivityInstance=new HistoricActivityInstanceImpl(activityId,activityName,activityType,processInstanceId,processDefinitionId,startTime);
   }
   historicActivityInstance.markEnded(Clock.getCurrentTime());
-  CommandContext.getCurrentCommandContext().getPersistenceSession().saveHistoricActivityInstance(historicActivityInstance);
+  CommandContext.getCurrent().getPersistenceSession().saveHistoricActivityInstance(historicActivityInstance);
 }

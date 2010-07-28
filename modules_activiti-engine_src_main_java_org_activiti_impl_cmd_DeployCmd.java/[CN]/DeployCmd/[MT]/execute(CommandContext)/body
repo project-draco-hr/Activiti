@@ -1,19 +1,13 @@
 {
-  DeploymentImpl deployment=this.deployment;
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
-  List<DeploymentImpl> deployments=persistenceSession.findDeploymentsByName(deployment.getName());
-  if (deployments.isEmpty() || deploymentsDiffer(deployment,deployments.get(0))) {
-    insertDeployment(persistenceSession);
+  DeploymentEntity deployment=deploymentBuilder.getDeployment();
+  RepositorySession repositorySession=commandContext.getRepositorySession();
+  deployment.setDeploymentTime(Clock.getCurrentTime());
+  if (deploymentBuilder.isDuplicateFilterEnabled()) {
+    DeploymentEntity existingDeployment=repositorySession.findLatestDeploymentsByName(deployment.getName());
+    if ((existingDeployment != null) && !deploymentsDiffer(deployment,existingDeployment)) {
+      return existingDeployment;
+    }
   }
- else {
-    deployment=deployments.get(0);
-  }
-  try {
-    deployerManager.deploy(deployment,persistenceSession);
-  }
- catch (  RuntimeException e) {
-    persistenceSession.deleteDeployment(deployment.getId());
-    throw e;
-  }
+  repositorySession.deployNew(deployment);
   return deployment;
 }

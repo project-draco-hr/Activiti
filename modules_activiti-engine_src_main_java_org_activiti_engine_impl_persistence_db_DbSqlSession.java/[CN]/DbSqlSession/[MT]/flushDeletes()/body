@@ -4,7 +4,7 @@
     String deleteStatement=dbSqlSessionFactory.getDeleteStatements().get(deletedObjectClass);
     deleteStatement=dbSqlSessionFactory.mapStatement(deleteStatement);
     if (deleteStatement == null) {
-      throw new ActivitiException("no delete statement id for " + deletedObject.getClass());
+      throw new ActivitiException("no delete statement for " + deletedObject.getClass() + " in the ibatis mapping files");
     }
     log.fine("deleting: " + toString(deletedObject));
     sqlSession.delete(deleteStatement,deletedObject);

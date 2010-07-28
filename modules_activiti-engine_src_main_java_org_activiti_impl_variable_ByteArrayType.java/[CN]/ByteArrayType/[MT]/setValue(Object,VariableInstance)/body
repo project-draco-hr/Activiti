@@ -3,7 +3,7 @@
   byte[] bytes=(byte[])value;
   if (byteArray == null) {
     byteArray=new ByteArrayImpl(this,bytes);
-    CommandContext.getCurrentCommandContext().getPersistenceSession().insert(byteArray);
+    CommandContext.getCurrent().getPersistenceSession().insert(byteArray);
     variableInstance.setByteArrayValue(byteArray);
   }
  else {

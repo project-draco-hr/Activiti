@@ -2,5 +2,7 @@
   long nextDbid=dbSqlSessionFactory.getIdGenerator().getNextDbid();
   String id=Long.toString(nextDbid);
   persistentObject.setId(id);
+  insertedObjects.add(persistentObject);
+  deletedObjects.remove(persistentObject);
   cachePut(persistentObject);
 }

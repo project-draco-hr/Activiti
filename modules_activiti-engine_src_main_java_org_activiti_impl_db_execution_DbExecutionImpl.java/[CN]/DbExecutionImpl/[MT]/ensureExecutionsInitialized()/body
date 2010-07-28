@@ -1,6 +1,6 @@
 {
   if (!isExecutionsInitialized) {
-    this.executions=CommandContext.getCurrentCommandContext().getPersistenceSession().findChildExecutions(getId());
+    this.executions=CommandContext.getCurrent().getPersistenceSession().findChildExecutions(getId());
     this.isExecutionsInitialized=true;
   }
 }

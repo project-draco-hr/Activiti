@@ -4,7 +4,7 @@
     String updateStatement=dbSqlSessionFactory.getUpdateStatements().get(updatedObjectClass);
     updateStatement=dbSqlSessionFactory.mapStatement(updateStatement);
     if (updateStatement == null) {
-      throw new ActivitiException("no update statement id for " + updatedObject.getClass());
+      throw new ActivitiException("no update statement for " + updatedObject.getClass() + " in the ibatis mapping files");
     }
     log.fine("updating: " + toString(updatedObject) + "]");
     sqlSession.update(updateStatement,updatedObject);
