@@ -1,7 +1,7 @@
 {
-  List<ProcessDefinition> definitions=deployer.getProcessService().findProcessDefinitions();
+  List<ProcessDefinition> definitions=deployer.getRepositoryService().findProcessDefinitions();
   assertEquals(1,definitions.size());
-  ProcessDefinition processDefinition=deployer.getProcessService().findProcessDefinitionById(definitions.get(0).getId());
+  ProcessDefinition processDefinition=deployer.getRepositoryService().findProcessDefinitionById(definitions.get(0).getId());
   assertNotNull(processDefinition);
   assertEquals("oneTaskProcess",processDefinition.getKey());
   assertEquals("The One Task Process",processDefinition.getName());

@@ -1,10 +1,10 @@
 {
-  final DeploymentEntity deployment=new DeploymentEntity();
-  final int deploymentId=commandExecutor.execute(new Command<Integer>(){
-    public Integer execute(    CommandContext commandContext){
+  Deployment deployment=processEngine.getRepositoryService().createDeployment().addString("org/activiti/test/HelloWorld.string","hello world").addString("org/activiti/test/TheAnswer.string","42").deploy();
+  final String deploymentId=deployment.getId();
+  commandExecutor.execute(new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
       RepositorySession repositorySession=commandContext.getRepositorySession();
-      repositorySession.insertDeployment(deployment);
-      return 4;
+      return null;
     }
   }
 );

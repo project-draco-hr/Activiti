@@ -1,5 +1,5 @@
 {
-  int before=processEngine.getProcessService().findDeployments().size();
+  int before=processEngine.getRepositoryService().findDeployments().size();
   userBean.setFail(true);
   exception.expect(ActivitiException.class);
   exception.expectMessage("aprocess");
@@ -13,6 +13,6 @@
 );
   }
   finally {
-    assertEquals(before,processEngine.getProcessService().findDeployments().size());
+    assertEquals(before,processEngine.getRepositoryService().findDeployments().size());
   }
 }

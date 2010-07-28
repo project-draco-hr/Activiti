@@ -4,7 +4,7 @@
   deployer.deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='IDR' name='Insurance Damage Report 3' />"+ "</definitions>"));
   deployer.deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='EN' name='Expense Note 1' />"+ "</definitions>"));
   deployer.deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='EN' name='Expense Note 2' />"+ "</definitions>"));
-  List<ProcessDefinition> processDefinitions=deployer.getProcessService().findProcessDefinitions();
+  List<ProcessDefinition> processDefinitions=deployer.getRepositoryService().findProcessDefinitions();
   assertNotNull(processDefinitions);
   assertEquals(5,processDefinitions.size());
   ProcessDefinition processDefinition=processDefinitions.get(0);

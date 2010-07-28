@@ -1,7 +1,7 @@
 {
   ProcessEngine processEngine=buildProcessEngine("activiti.properties");
-  processEngine.getProcessService().createDeployment().addClasspathResource("org/activiti/test/service/RebootProcessEngineTestProcess.bpmn20.xml").deploy();
-  List<ProcessDefinition> processDefinitions=processEngine.getProcessService().findProcessDefinitions();
+  processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/test/service/RebootProcessEngineTestProcess.bpmn20.xml").deploy();
+  List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().findProcessDefinitions();
   assertEquals(1,processDefinitions.size());
   ProcessInstance processInstance=processEngine.getProcessService().startProcessInstanceById(processDefinitions.get(0).getId());
   assertNotNull(processInstance);

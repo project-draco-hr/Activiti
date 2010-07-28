@@ -28,7 +28,7 @@
     if (processEngine == null) {
       throw new ActivitiException("Could not find a process engine with name '" + processEngineName + "'");
     }
-    ProcessService processService=processEngine.getProcessService();
+    RepositoryService repositoryService=processEngine.getRepositoryService();
     log("Starting to deploy " + files.size() + " files");
     for (    File file : files) {
       String path=file.getAbsolutePath();
@@ -37,7 +37,7 @@
         FileInputStream inputStream=new FileInputStream(file);
         try {
           log("deploying bar " + path);
-          processService.createDeployment().name(file.getName()).addZipInputStream(new ZipInputStream(inputStream)).deploy();
+          repositoryService.createDeployment().name(file.getName()).addZipInputStream(new ZipInputStream(inputStream)).deploy();
         }
   finally {
           inputStream.close();

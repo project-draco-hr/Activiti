@@ -1,12 +1,12 @@
 {
-  int before=processEngine.getProcessService().findDeployments().size();
+  int before=processEngine.getRepositoryService().findDeployments().size();
   String resource=ClassUtils.addResourcePathToPackagePath(getClass(),"testProcess.bpmn20.xml");
-  ProcessService processService=processEngine.getProcessService();
-  Deployment deployment=processService.createDeployment().name(resource).addClasspathResource(resource).deploy();
-  assertEquals(before + 1,processEngine.getProcessService().findDeployments().size());
-  deployment=processService.createDeployment().name(resource).addClasspathResource(resource).deploy();
-  assertEquals(before + 1,processEngine.getProcessService().findDeployments().size());
+  RepositoryService repositoryService=processEngine.getRepositoryService();
+  Deployment deployment=repositoryService.createDeployment().name(resource).addClasspathResource(resource).deploy();
+  assertEquals(before + 1,processEngine.getRepositoryService().findDeployments().size());
+  deployment=repositoryService.createDeployment().name(resource).addClasspathResource(resource).deploy();
+  assertEquals(before + 1,processEngine.getRepositoryService().findDeployments().size());
   if (deployment != null) {
-    processService.deleteDeploymentCascade(deployment.getId());
+    repositoryService.deleteDeploymentCascade(deployment.getId());
   }
 }

@@ -1,19 +1,19 @@
 {
   List<String> deploymentIds=deployTestProcesses();
-  List<Deployment> deployments=deployer.getProcessService().findDeployments();
+  List<Deployment> deployments=deployer.getRepositoryService().findDeployments();
   assertEquals(3,deployments.size());
   assertEquals("idrDeployment",deployments.get(0).getName());
   assertEquals("expenseDeployment",deployments.get(1).getName());
   assertEquals("hiringDeployment",deployments.get(2).getName());
   String deploymentId=deploymentIds.get(0);
-  List<String> resources=deployer.getProcessService().findDeploymentResources(deploymentId);
+  List<String> resources=deployer.getRepositoryService().findDeploymentResources(deploymentId);
   assertEquals(2,resources.size());
   assertEquals("idr_process01.bpmn20.xml",resources.get(0));
   assertEquals("idr_process02.bpmn20.xml",resources.get(1));
-  InputStream resourceIs=deployer.getProcessService().getDeploymentResourceContent(deploymentId,resources.get(0));
+  InputStream resourceIs=deployer.getRepositoryService().getDeploymentResourceContent(deploymentId,resources.get(0));
   assertEquals(MINIMAL_PROC_DEF.replace(TO_REPLACE,"IDR1"),new String(IoUtil.readInputStream(resourceIs,null)));
   resourceIs.close();
-  resourceIs=deployer.getProcessService().getDeploymentResourceContent(deploymentId,resources.get(1));
+  resourceIs=deployer.getRepositoryService().getDeploymentResourceContent(deploymentId,resources.get(1));
   assertEquals(MINIMAL_PROC_DEF.replace(TO_REPLACE,"IDR2"),new String(IoUtil.readInputStream(resourceIs,null)));
   resourceIs.close();
 }

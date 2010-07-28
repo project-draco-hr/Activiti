@@ -27,12 +27,13 @@
     }
     formReference=processDefinition.getInitial().getFormReference();
   }
-  DeploymentImpl deployment=processDefinition.getDeployment();
+  DeploymentEntity deployment=processDefinition.getDeployment();
   Object result=null;
   if (formReference != null) {
     String formLanguage=formReference.getLanguage();
     String form=formReference.getForm();
     String formTemplateString=getFormTemplateString(form,deployment);
+    ScriptingEngines scriptingEngines=commandContext.getProcessEngineConfiguration().getScriptingEngines();
     result=scriptingEngines.evaluate(formTemplateString,formLanguage,execution);
   }
   return result;

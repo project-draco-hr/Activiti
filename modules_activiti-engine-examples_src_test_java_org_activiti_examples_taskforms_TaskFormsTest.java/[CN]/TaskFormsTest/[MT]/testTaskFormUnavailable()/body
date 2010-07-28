@@ -1,5 +1,5 @@
 {
-  assertNull(deployer.getProcessService().getStartFormByKey("noStartOrTaskForm"));
+  assertNull(deployer.getRepositoryService().getStartFormByKey("noStartOrTaskForm"));
   deployer.getProcessService().startProcessInstanceByKey("noStartOrTaskForm");
   Task task=deployer.getTaskService().createTaskQuery().singleResult();
   assertNull(deployer.getTaskService().getTaskForm(task.getId()));
