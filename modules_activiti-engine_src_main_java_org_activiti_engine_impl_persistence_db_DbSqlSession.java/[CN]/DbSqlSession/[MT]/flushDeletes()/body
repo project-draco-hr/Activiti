@@ -8,8 +8,7 @@
     }
  else {
       PersistentObject persistentObject=(PersistentObject)delete;
-      Class<?> deletedObjectClass=delete.getClass();
-      String deleteStatement=dbSqlSessionFactory.getDeleteStatements().get(deletedObjectClass);
+      String deleteStatement=dbSqlSessionFactory.getDeleteStatement(persistentObject);
       deleteStatement=dbSqlSessionFactory.mapStatement(deleteStatement);
       if (deleteStatement == null) {
         throw new ActivitiException("no delete statement for " + delete.getClass() + " in the ibatis mapping files");

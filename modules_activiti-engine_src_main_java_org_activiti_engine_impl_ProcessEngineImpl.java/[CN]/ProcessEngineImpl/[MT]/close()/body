@@ -3,6 +3,7 @@
     jobExecutor.shutdown();
   }
   if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy) {
-    persistenceSessionFactory.dbSchemaDrop();
+    DbSqlSessionFactory dbSqlSessionFactory=processEngineConfiguration.getDbSqlSessionFactory();
+    dbSqlSessionFactory.dbSchemaDrop();
   }
 }

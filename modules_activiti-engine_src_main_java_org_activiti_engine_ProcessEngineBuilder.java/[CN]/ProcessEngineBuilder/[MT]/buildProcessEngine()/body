@@ -1,5 +1,5 @@
 {
-  if (dataBaseName == null) {
+  if (databaseName == null) {
     throw new ActivitiException("no database name specified (used to look up queries and scripts)");
   }
   ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
@@ -10,7 +10,7 @@
   processEngineConfiguration.setJdbcUrl(jdbcUrl);
   processEngineConfiguration.setJdbcUsername(jdbcUsername);
   processEngineConfiguration.setJdbcPassword(jdbcPassword);
-  processEngineConfiguration.setDatabaseName(dataBaseName);
+  processEngineConfiguration.setDatabaseName(databaseName);
   processEngineConfiguration.setLocalTransactions(localTransactions);
   return processEngineConfiguration.buildProcessEngine();
 }

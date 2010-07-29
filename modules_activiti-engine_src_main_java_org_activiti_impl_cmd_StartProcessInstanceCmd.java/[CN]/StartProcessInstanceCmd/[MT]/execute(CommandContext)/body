@@ -1,14 +1,14 @@
 {
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  RepositorySession repositorySession=commandContext.getRepositorySession();
   ProcessDefinitionImpl processDefinition=null;
   if (processDefinitionId != null) {
-    processDefinition=persistenceSession.findProcessDefinitionById(processDefinitionId);
+    processDefinition=repositorySession.findProcessDefinitionById(processDefinitionId);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
     }
   }
  else {
-    processDefinition=persistenceSession.findLatestProcessDefinitionByKey(processDefinitionKey);
+    processDefinition=repositorySession.findLatestProcessDefinitionByKey(processDefinitionKey);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
     }

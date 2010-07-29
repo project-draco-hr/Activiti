@@ -1,7 +1,6 @@
 {
   for (  PersistentObject insertedObject : insertedObjects) {
-    Class<?> insertObjectClass=insertedObject.getClass();
-    String insertStatement=dbSqlSessionFactory.getInsertStatements().get(insertObjectClass);
+    String insertStatement=dbSqlSessionFactory.getInsertStatement(insertedObject);
     insertStatement=dbSqlSessionFactory.mapStatement(insertStatement);
     if (insertStatement == null) {
       throw new ActivitiException("no insert statement for " + insertedObject.getClass() + " in the ibatis mapping files");

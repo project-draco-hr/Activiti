@@ -1,7 +1,6 @@
 {
   for (  PersistentObject updatedObject : updatedObjects) {
-    Class<?> updatedObjectClass=updatedObject.getClass();
-    String updateStatement=dbSqlSessionFactory.getUpdateStatements().get(updatedObjectClass);
+    String updateStatement=dbSqlSessionFactory.getUpdateStatement(updatedObject);
     updateStatement=dbSqlSessionFactory.mapStatement(updateStatement);
     if (updateStatement == null) {
       throw new ActivitiException("no update statement for " + updatedObject.getClass() + " in the ibatis mapping files");

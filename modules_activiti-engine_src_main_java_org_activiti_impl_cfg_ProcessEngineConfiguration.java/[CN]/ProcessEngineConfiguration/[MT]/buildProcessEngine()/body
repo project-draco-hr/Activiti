@@ -1,42 +1,4 @@
 {
-  if (messageSessionFactory != null) {
-    sessionFactories.put(MessageSession.class,messageSessionFactory);
-  }
-  if (timerSessionFactory != null) {
-    sessionFactories.put(TimerSession.class,timerSessionFactory);
-  }
-  if (persistenceSessionFactory != null) {
-    sessionFactories.put(PersistenceSession.class,persistenceSessionFactory);
-  }
-  if (repositorySessionFactory != null) {
-    sessionFactories.put(RepositorySession.class,repositorySessionFactory);
-  }
-  if (dbSqlSessionFactory != null) {
-    sessionFactories.put(DbSqlSession.class,dbSqlSessionFactory);
-  }
-  notifyConfigurationComplete(commandExecutor);
-  notifyConfigurationComplete(commandContextFactory);
-  notifyConfigurationComplete(transactionContextFactory);
-  notifyConfigurationComplete(repositoryService);
-  notifyConfigurationComplete(processService);
-  notifyConfigurationComplete(taskService);
-  notifyConfigurationComplete(managementService);
-  notifyConfigurationComplete(identityService);
-  notifyConfigurationComplete(historicDataService);
-  notifyConfigurationComplete(messageSessionFactory);
-  notifyConfigurationComplete(timerSessionFactory);
-  notifyConfigurationComplete(persistenceSessionFactory);
-  notifyConfigurationComplete(repositorySessionFactory);
-  notifyConfigurationComplete(dbSqlSessionFactory);
-  notifyConfigurationComplete(jobHandlers);
-  notifyConfigurationComplete(jobExecutor);
-  notifyConfigurationComplete(idGenerator);
-  notifyConfigurationComplete(dataSource);
-  notifyConfigurationComplete(scriptingEngines);
-  notifyConfigurationComplete(variableTypes);
-  notifyConfigurationComplete(expressionManager);
-  notifyConfigurationComplete(elResolver);
-  notifyConfigurationComplete(businessCalendarManager);
-  notifyConfigurationComplete(processEventBus);
+  configurationComplete();
   return new ProcessEngineImpl(this);
 }

@@ -9,19 +9,19 @@
   this.managementService=processEngineConfiguration.getManagementService();
   this.dbSchemaStrategy=processEngineConfiguration.getDbSchemaStrategy();
   this.jobExecutor=processEngineConfiguration.getJobExecutor();
-  this.persistenceSessionFactory=(PersistenceSessionFactory)processEngineConfiguration.getPersistenceSessionFactory();
+  DbSqlSessionFactory dbSqlSessionFactory=processEngineConfiguration.getDbSqlSessionFactory();
   if (DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy) {
     try {
-      persistenceSessionFactory.dbSchemaDrop();
+      dbSqlSessionFactory.dbSchemaDrop();
     }
  catch (    RuntimeException e) {
     }
   }
   if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy || DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy || DbSchemaStrategy.CREATE == dbSchemaStrategy) {
-    persistenceSessionFactory.dbSchemaCreate();
+    dbSqlSessionFactory.dbSchemaCreate();
   }
  else   if (DbSchemaStrategy.CHECK_VERSION == dbSchemaStrategy) {
-    persistenceSessionFactory.dbSchemaCheckVersion();
+    dbSqlSessionFactory.dbSchemaCheckVersion();
   }
   if (name == null) {
     log.info("default activiti ProcessEngine created");

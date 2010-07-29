@@ -7,6 +7,7 @@
       log.fine("==== BUILDING PROCESS ENGINE ========================================================================");
       processEngine=new ProcessEngineBuilder().configureFromPropertiesResource(configurationResource).buildProcessEngine();
       log.fine("==== PROCESS ENGINE CREATED =========================================================================");
+      processEngines.put(configurationResource,processEngine);
     }
     initializeServices();
   }
@@ -30,6 +31,7 @@ catch (  Throwable e) {
     for (    String deploymentId : deploymentsToDeleteAfterTestMethod) {
       repositoryService.deleteDeployment(deploymentId);
     }
+    assertAndEnsureCleanDb();
     Clock.reset();
     log.fine("#### END " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName()+ " #############################################################");
     LogUtil.setThreadLogMode(oldThreadRenderingMode);
