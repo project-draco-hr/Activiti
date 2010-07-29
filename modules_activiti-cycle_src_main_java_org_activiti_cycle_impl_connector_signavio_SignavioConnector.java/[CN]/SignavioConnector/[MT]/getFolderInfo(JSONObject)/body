@@ -6,7 +6,7 @@
   log.finest("Directoryname: " + directoryName);
   String href=jsonDirectoryObject.getString("href");
   RepositoryFolder folderInfo=new RepositoryFolder(this);
-  folderInfo.setId(retrieveIdFromUrl(href,conf.getDirectoryUrl()));
+  folderInfo.setId(conf.getDirectoryIdFromUrl(href));
   folderInfo.getMetadata().setName(directoryName);
   return folderInfo;
 }

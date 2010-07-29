@@ -1,0 +1,12 @@
+{
+  RepositoryArtifact fileInfo=new RepositoryArtifact(this);
+  fileInfo.setId(id);
+  fileInfo.getMetadata().setName(getValueIfExists(json,"name"));
+  fileInfo.getMetadata().setVersion(getValueIfExists(json,"rev"));
+  fileInfo.getMetadata().setLastAuthor(getValueIfExists(json,"author"));
+  fileInfo.getMetadata().setCreated(getDateValueIfExists(json,"created"));
+  fileInfo.getMetadata().setLastChanged(getDateValueIfExists(json,"updated"));
+  String fileTypeIdentifier=json.getString("namespace");
+  fileInfo.setArtifactType(RepositoryRegistry.getArtifactTypeByIdentifier(fileTypeIdentifier));
+  return fileInfo;
+}
