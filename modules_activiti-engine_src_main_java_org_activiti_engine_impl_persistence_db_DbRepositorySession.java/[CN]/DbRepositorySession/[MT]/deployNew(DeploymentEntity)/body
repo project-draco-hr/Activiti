@@ -7,7 +7,7 @@
   for (  Deployer deployer : dbRepositorySessionFactory.getDeployers()) {
     List<ProcessDefinitionEntity> processDefinitions=deployer.deploy(deployment);
     for (    ProcessDefinitionEntity processDefinition : processDefinitions) {
-      processDefinition.setDeployment(deployment);
+      processDefinition.setDeploymentId(deployment.getId());
       dbSqlSession.insert(processDefinition);
       addToProcessDefinitionCache(processDefinition);
     }

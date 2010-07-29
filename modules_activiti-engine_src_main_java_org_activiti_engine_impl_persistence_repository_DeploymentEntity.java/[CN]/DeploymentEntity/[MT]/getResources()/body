@@ -1,3 +1,11 @@
 {
+  if (resources == null && id != null) {
+    RepositorySession repositorySession=CommandContext.getCurrentSession(RepositorySession.class);
+    List<ResourceEntity> resourcesList=repositorySession.findResourcesByDeploymentId(id);
+    resources=new HashMap<String,ResourceEntity>();
+    for (    ResourceEntity resource : resourcesList) {
+      resources.put(resource.getName(),resource);
+    }
+  }
   return resources;
 }

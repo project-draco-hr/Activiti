@@ -2,7 +2,8 @@
   for (  Deployer deployer : dbRepositorySessionFactory.getDeployers()) {
     List<ProcessDefinitionEntity> processDefinitions=deployer.deploy(deployment);
     for (    ProcessDefinitionEntity processDefinition : processDefinitions) {
-      String deploymentId=processDefinition.getDeployment().getId();
+      String deploymentId=deployment.getId();
+      processDefinition.setDeploymentId(deploymentId);
       ProcessDefinitionEntity persistedProcessDefinition=findProcessDefinitionByDeploymentAndKey(deploymentId,processDefinition.getKey());
       processDefinition.setId(persistedProcessDefinition.getId());
       processDefinition.setVersion(persistedProcessDefinition.getVersion());

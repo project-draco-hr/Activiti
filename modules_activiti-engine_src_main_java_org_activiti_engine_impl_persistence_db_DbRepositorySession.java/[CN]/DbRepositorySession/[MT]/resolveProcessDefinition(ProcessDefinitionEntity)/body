@@ -1,0 +1,11 @@
+{
+  String processDefinitionId=processDefinition.getId();
+  String deploymentId=processDefinition.getDeploymentId();
+  processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get(processDefinitionId);
+  if (processDefinition == null) {
+    DeploymentEntity deployment=findDeploymentById(deploymentId);
+    deployExisting(deployment);
+    processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get(processDefinitionId);
+  }
+  return processDefinition;
+}
