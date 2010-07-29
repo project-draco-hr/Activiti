@@ -1,5 +1,12 @@
 {
-  for (  Deployer deployer : deployers) {
-    deployer.deploy(deployment,this,false);
+  for (  Deployer deployer : dbRepositorySessionFactory.getDeployers()) {
+    List<ProcessDefinitionEntity> processDefinitions=deployer.deploy(deployment);
+    for (    ProcessDefinitionEntity processDefinition : processDefinitions) {
+      String deploymentId=processDefinition.getDeployment().getId();
+      ProcessDefinitionEntity persistedProcessDefinition=findProcessDefinitionByDeploymentAndKey(deploymentId,processDefinition.getKey());
+      processDefinition.setId(persistedProcessDefinition.getId());
+      processDefinition.setVersion(persistedProcessDefinition.getVersion());
+      addToProcessDefinitionCache(processDefinition);
+    }
   }
 }

@@ -2,25 +2,15 @@
   if (dataBaseName == null) {
     throw new ActivitiException("no database name specified (used to look up queries and scripts)");
   }
-  ProcessEngineFactory factory=new ProcessEngineFactory();
-  factory.setProcessEngineName(processEngineName);
-  factory.setDbSchemaStrategy(dbSchemaStrategy);
-  factory.setJobExecutorAutoActivate(jobExecutorAutoActivate);
-  if (jdbcDriver == null) {
-    throw new ActivitiException("no jdbc driver specified");
-  }
-  if (jdbcUrl == null) {
-    throw new ActivitiException("no jdbc url specified");
-  }
-  if (jdbcUsername == null) {
-    throw new ActivitiException("no jdbc username specified");
-  }
-  if (jdbcPassword == null) {
-    throw new ActivitiException("no jdbc password specified");
-  }
-  DataSource dataSource=new PooledDataSource(Thread.currentThread().getContextClassLoader(),jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
-  factory.setDataSource(dataSource);
-  factory.setDatabaseName(dataBaseName);
-  factory.setLocalTransactions(localTransactions);
-  return factory.createProcessEngine();
+  ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
+  processEngineConfiguration.setProcessEngineName(processEngineName);
+  processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
+  processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
+  processEngineConfiguration.setJdbcDriver(jdbcDriver);
+  processEngineConfiguration.setJdbcUrl(jdbcUrl);
+  processEngineConfiguration.setJdbcUsername(jdbcUsername);
+  processEngineConfiguration.setJdbcPassword(jdbcPassword);
+  processEngineConfiguration.setDatabaseName(dataBaseName);
+  processEngineConfiguration.setLocalTransactions(localTransactions);
+  return processEngineConfiguration.buildProcessEngine();
 }

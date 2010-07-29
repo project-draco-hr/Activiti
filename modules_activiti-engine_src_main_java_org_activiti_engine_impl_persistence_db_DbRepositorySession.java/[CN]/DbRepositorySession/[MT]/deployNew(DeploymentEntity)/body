@@ -4,7 +4,12 @@
     resource.setDeploymentId(deployment.getId());
     dbSqlSession.insert(resource);
   }
-  for (  Deployer deployer : deployers) {
-    deployer.deploy(deployment,this,true);
+  for (  Deployer deployer : dbRepositorySessionFactory.getDeployers()) {
+    List<ProcessDefinitionEntity> processDefinitions=deployer.deploy(deployment);
+    for (    ProcessDefinitionEntity processDefinition : processDefinitions) {
+      processDefinition.setDeployment(deployment);
+      dbSqlSession.insert(processDefinition);
+      addToProcessDefinitionCache(processDefinition);
+    }
   }
 }

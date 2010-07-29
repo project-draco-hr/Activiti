@@ -1,0 +1,24 @@
+{
+  Method method=null;
+  try {
+    method=getClass().getDeclaredMethod(getName(),(Class<?>[])null);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("can't get method by reflection",e);
+  }
+  Deployment deploymentAnnotation=method.getAnnotation(Deployment.class);
+  if (deploymentAnnotation != null) {
+    String[] resources=deploymentAnnotation.resources();
+    if (resources.length == 0) {
+      String name=method.getName();
+      String resource=ProcessDeployer.getBpmnProcessDefinitionResource(getClass(),name);
+      resources=new String[]{resource};
+    }
+    DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().name(ClassNameUtil.getClassNameWithoutPackage(this) + "." + getName());
+    for (    String resource : resources) {
+      deploymentBuilder.addClasspathResource(resource);
+    }
+    String deploymentId=deploymentBuilder.deploy().getId();
+    deploymentsToDeleteAfterTestMethod.add(deploymentId);
+  }
+}

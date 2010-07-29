@@ -1,4 +1,7 @@
 {
+  if (inputStream == null) {
+    throw new ActivitiException("inputStream for resource '" + resourceName + "' is null");
+  }
   byte[] bytes=IoUtil.readInputStream(inputStream,resourceName);
   ResourceEntity resource=new ResourceEntity();
   resource.setName(resourceName);

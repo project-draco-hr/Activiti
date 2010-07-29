@@ -1,28 +1,3 @@
 {
   super.starting(method);
-  ProcessDeclared process=method.getAnnotation(ProcessDeclared.class);
-  if (process != null) {
-    String[] resources=process.resources();
-    resources=resources.length == 0 ? process.value() : resources;
-    if (resources.length == 0) {
-      String name=method.getName();
-      String resource=ProcessDeployer.getBpmnProcessDefinitionResource(method.getMethod().getDeclaringClass(),name);
-      log.fine("deploying bpmn process resource: " + resource);
-      createDeployment().name(resource).addClasspathResource(resource).deploy();
-    }
- else {
-      DeploymentBuilder builder=getRepositoryService().createDeployment();
-      for (      String resource : resources) {
-        if (resource.startsWith("/")) {
-          resource=resource.substring(1);
-        }
- else {
-          resource=getProcessDefinitionResource(method.getMethod().getDeclaringClass(),resource);
-        }
-        builder.addClasspathResource(resource);
-      }
-      Deployment deployment=builder.deploy();
-      registerDeployment(deployment.getId());
-    }
-  }
 }

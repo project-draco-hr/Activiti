@@ -1,7 +1,8 @@
 {
   CommandContextFactory commandContextFactory=mock(CommandContextFactory.class);
   CommandContext commandContext=mock(CommandContext.class);
-  DefaultCommandExecutor chain=new DefaultCommandExecutor(commandContextFactory);
+  DefaultCommandExecutor chain=new DefaultCommandExecutor();
+  chain.setCommandContextFactory(commandContextFactory);
   chain.addContextAwareCommandInterceptor(new ContextAwareCommandInterceptor(){
     public <T>T invoke(    CommandExecutor next,    Command<T> command,    CommandContext context){
       builder.append("b:1:");

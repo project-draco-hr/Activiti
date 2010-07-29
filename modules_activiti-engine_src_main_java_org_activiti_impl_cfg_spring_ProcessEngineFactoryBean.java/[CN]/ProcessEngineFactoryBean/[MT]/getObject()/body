@@ -1,7 +1,7 @@
 {
-  factory.setLocalTransactions(transactionManager == null);
+  processEngineConfiguration.setLocalTransactions(transactionManager == null);
   if (transactionManager != null) {
-    DefaultCommandExecutor commandExecutor=new DefaultCommandExecutor(factory.getCommandContextFactory());
+    DefaultCommandExecutor commandExecutor=(DefaultCommandExecutor)processEngineConfiguration.getCommandExecutor();
     commandExecutor.addCommandInterceptor(new CommandInterceptor(){
       public <T>T invoke(      final CommandExecutor next,      final Command<T> command){
         @SuppressWarnings("unchecked") T result=(T)new TransactionTemplate(transactionManager).execute(new TransactionCallback(){
@@ -14,9 +14,9 @@
       }
     }
 );
-    factory.setCommandExecutor(commandExecutor);
+    processEngineConfiguration.setCommandExecutor(commandExecutor);
   }
-  processEngine=factory.createProcessEngine();
+  processEngine=(ProcessEngineImpl)processEngineConfiguration.buildProcessEngine();
   refreshProcessResources(processEngine.getRepositoryService(),processResources);
   return processEngine;
 }
