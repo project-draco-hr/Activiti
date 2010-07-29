@@ -1,0 +1,11 @@
+{
+  try {
+    Response modelResponse=getJsonResponse(getModelUrl(id));
+    JsonRepresentation json=new JsonRepresentation(modelResponse.getEntity());
+    JSONObject jsonObject=json.toJsonObject();
+    return getArtifactInfo(jsonObject);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

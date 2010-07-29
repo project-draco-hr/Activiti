@@ -1,11 +1,5 @@
 {
   SignavioConnector connector=getConnector(artifact);
-  Client client=connector.initClient();
-  Reference jsonRef=new Reference(connector.getSignavioConfiguration().getModelUrl() + artifact.getId() + urlSuffix);
-  Request jsonRequest=new Request(Method.GET,jsonRef);
-  jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
-  Form requestHeaders=new Form();
-  requestHeaders.add("token",connector.getSecurityToken());
-  jsonRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
-  return client.handle(jsonRequest);
+  String url=connector.getModelUrl(artifact) + urlSuffix;
+  return connector.getJsonResponse(url);
 }

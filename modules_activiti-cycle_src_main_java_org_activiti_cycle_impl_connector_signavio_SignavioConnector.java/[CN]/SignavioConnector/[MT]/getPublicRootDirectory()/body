@@ -1,12 +1,5 @@
 {
-  Client client=initClient();
-  Reference directoryRef=new Reference(conf.getDirectoryUrl());
-  Request directoryRequest=new Request(Method.GET,directoryRef);
-  directoryRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
-  Form requestHeaders=new Form();
-  requestHeaders.add("token",securityToken);
-  directoryRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
-  Response directoryResponse=client.handle(directoryRequest);
+  Response directoryResponse=getJsonResponse(conf.getDirectoryUrl());
   JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
   JSONArray rootJsonArray=jsonData.toJsonArray();
   if (log.isLoggable(Level.FINEST)) {

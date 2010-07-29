@@ -1,0 +1,16 @@
+{
+  if (artifact.getArtifactType() != null) {
+    for (    Class<? extends ContentRepresentationProvider> providerClass : artifact.getArtifactType().getContentRepresentationProviders()) {
+      try {
+        ContentRepresentationProvider p=providerClass.newInstance();
+        if (p.getContentRepresentationName().equals(representationName)) {
+          return p.createContentRepresentation(artifact,true);
+        }
+      }
+ catch (      Exception ex) {
+        log.log(Level.SEVERE,"couldn't create content provider of class " + providerClass,ex);
+      }
+    }
+  }
+  throw new RepositoryException("Couldn't find or load content representation '" + representationName + "' for artifact "+ artifact);
+}
