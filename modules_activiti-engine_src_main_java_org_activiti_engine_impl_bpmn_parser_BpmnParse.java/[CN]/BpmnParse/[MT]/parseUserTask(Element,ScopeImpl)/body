@@ -4,7 +4,7 @@
   String form=userTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
   String formLanguage=userTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form-language",ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE);
   if (form != null) {
-    activity.setProperty("formReference",new FormReference(form,formLanguage));
+    activity.setProperty(PROPERTYNAME_FORM_REFERENCE,new FormReference(form,formLanguage));
   }
   activity.setActivityBehavior(userTaskActivity);
   parseProperties(userTaskElement,activity);
