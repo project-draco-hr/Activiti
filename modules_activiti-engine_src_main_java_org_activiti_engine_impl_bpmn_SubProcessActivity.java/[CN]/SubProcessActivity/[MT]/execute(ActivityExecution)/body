@@ -1,0 +1,6 @@
+{
+  Activity activity=execution.getActivity();
+  ActivityImpl initialActivity=((ActivityImpl)activity).getInitial();
+  execution.setActivity(initialActivity);
+  initialActivity.getActivityBehavior().execute(execution);
+}

@@ -1,0 +1,6 @@
+{
+  RepositorySession repositorySession=CommandContext.getCurrent().getRepositorySession();
+  ProcessDefinitionImpl processDefinition=repositorySession.findDeployedLatestProcessDefinitionByKey(processDefinitonKey);
+  ObjectProcessInstance processInstance=execution.createSubProcessInstance(processDefinition);
+  processInstance.start();
+}
