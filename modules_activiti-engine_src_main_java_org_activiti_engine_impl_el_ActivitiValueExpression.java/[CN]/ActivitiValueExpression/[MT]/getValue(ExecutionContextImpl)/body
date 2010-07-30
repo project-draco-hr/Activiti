@@ -1,0 +1,9 @@
+{
+  ELContext elContext=expressionManager.getElContext(executionContext.getScopeInstance());
+  try {
+    return valueExpression.getValue(elContext);
+  }
+ catch (  PropertyNotFoundException e) {
+    throw new ActivitiException("Unknown property used in expression",e);
+  }
+}

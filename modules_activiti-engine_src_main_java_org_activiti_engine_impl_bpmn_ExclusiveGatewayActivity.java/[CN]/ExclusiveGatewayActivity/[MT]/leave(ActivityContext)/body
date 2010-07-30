@@ -1,0 +1,16 @@
+{
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("Leaving activity '" + activityContext.getActivity().getId() + "'");
+  }
+  PvmTransition outgoingSeqFlow=null;
+  Iterator<PvmTransition> transitionIterator=activityContext.getOutgoingTransitions().iterator();
+  while (outgoingSeqFlow == null && transitionIterator.hasNext()) {
+    PvmTransition seqFlow=transitionIterator.next();
+  }
+  if (outgoingSeqFlow != null) {
+    activityContext.take(outgoingSeqFlow);
+  }
+ else {
+    throw new ActivitiException("No outgoing sequence flow of the exclusive gateway '" + activityContext.getActivity().getId() + "' could be selected for continuing the process");
+  }
+}

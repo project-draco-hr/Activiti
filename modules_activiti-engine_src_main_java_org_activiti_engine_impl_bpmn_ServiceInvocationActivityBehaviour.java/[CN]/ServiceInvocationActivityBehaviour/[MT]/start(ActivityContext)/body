@@ -1,0 +1,15 @@
+{
+  Object object=expression.getValue(activityContext);
+  if (object instanceof String) {
+    String className=(String)object;
+    if (className != null) {
+      object=ReflectUtil.instantiate(className);
+    }
+  }
+  if (object instanceof ActivityBehavior) {
+    ((ActivityBehavior)object).start(activityContext);
+  }
+ else {
+    throw new ActivitiException("Service " + object + " is used in a serviceTask, but does not"+ " implement the "+ ActivityBehavior.class.getCanonicalName()+ " interface");
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (base == null) {
+    String variableName=(String)property;
+    if (scopeInstance.getVariables().containsKey(variableName)) {
+      context.setPropertyResolved(true);
+      return scopeInstance.getVariable(variableName);
+    }
+  }
+  return null;
+}

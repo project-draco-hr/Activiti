@@ -1,6 +1,22 @@
 {
   ActivityInstanceImpl activityInstance=executionContext.activityInstance;
   activityInstance.setExecutionContext(executionContext);
-  ActivityBehavior activityBehaviour=activityInstance.getActivity().getActivityBehaviour();
-  activityBehaviour.start(executionContext);
+  ActivityImpl activity=activityInstance.getActivity();
+  String activityId=activity.getId();
+  ActivityBehavior activityBehaviour=activity.getActivityBehavior();
+  if (activityBehaviour == null) {
+    throw new PvmException("no activity behaviour specified in activty '" + activityId + "'");
+  }
+  try {
+    activityBehaviour.start(executionContext);
+  }
+ catch (  RuntimeException e) {
+    log.log(Level.SEVERE,getDelegationExceptionMessage(activity,"start",e),e);
+    throw e;
+  }
+catch (  Exception e) {
+    String delegationExceptionMessage=getDelegationExceptionMessage(activity,"start",e);
+    log.log(Level.SEVERE,delegationExceptionMessage,e);
+    throw new PvmException(delegationExceptionMessage,e);
+  }
 }

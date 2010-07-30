@@ -1,11 +1,5 @@
 {
-  ProcessDefinitionEntity processDefinition=null;
-  try {
-    processDefinition=(ProcessDefinitionEntity)processDefinitionClass.newInstance();
-  }
- catch (  Exception e) {
-    throw new ActivitiException("couldn't instantiate process definition '" + processDefinitionClass + "'",e);
-  }
+  ProcessDefinitionEntity processDefinition=new ProcessDefinitionEntity();
   processDefinition.setKey(processElement.attribute("id"));
   processDefinition.setName(processElement.attribute("name"));
   if (LOG.isLoggable(Level.FINE)) {

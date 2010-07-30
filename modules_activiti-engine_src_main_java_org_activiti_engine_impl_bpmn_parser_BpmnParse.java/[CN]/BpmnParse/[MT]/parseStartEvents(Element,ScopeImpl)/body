@@ -1,0 +1,27 @@
+{
+  List<Element> startEventElements=parentElement.elements("startEvent");
+  if (startEventElements.size() > 1) {
+    throw new ActivitiException("Multiple start events are currently unsupported");
+  }
+ else   if (startEventElements.size() > 0) {
+    Element startEventElement=startEventElements.get(0);
+    String id=startEventElement.attribute("id");
+    String name=startEventElement.attribute("name");
+    ActivityImpl activity=scope.createActivity();
+    activity.setId(id);
+    activity.setProperty("name",name);
+    if (scope instanceof ProcessDefinitionImpl) {
+      ProcessDefinitionImpl processDefinition=(ProcessDefinitionImpl)scope;
+      if (processDefinition.getInitial() != null) {
+        addProblem("multiple startEvents in a process definition are not yet supported",startEventElement);
+      }
+      processDefinition.setInitial(activity);
+    }
+    String form=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
+    String formLanguage=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form-language",ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE);
+    if (form != null) {
+      activity.setProperty("formReference",new FormReference(form,formLanguage));
+    }
+    activity.setActivityBehavior(new NoneStartEventActivity());
+  }
+}

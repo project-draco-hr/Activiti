@@ -1,6 +1,6 @@
 {
   PersistenceSession persistenceSession=commandContext.getPersistenceSession();
-  TaskImpl task=persistenceSession.findTask(taskId);
+  TaskEntity task=persistenceSession.findTask(taskId);
   if (variables != null) {
     task.setExecutionVariables(variables);
   }
@@ -8,7 +8,7 @@
     throw new ActivitiException("Cannot find task with id " + taskId);
   }
   task.delete();
-  ExecutionImpl execution=task.getExecution();
+  ExecutionImpl execution=task.getActivityInstance();
   if (execution != null) {
     execution.event(null);
   }

@@ -1,0 +1,13 @@
+{
+  TaskEntity task=TaskEntity.createAndInsert();
+  task.setActivityInstance(activityContext.getActivityInstance());
+  if (taskDefinition.getName() != null) {
+    String name=evaluateExpression(taskDefinition.getName(),activityContext);
+    task.setName(name);
+  }
+  if (taskDefinition.getDescription() != null) {
+    String description=evaluateExpression(taskDefinition.getDescription(),activityContext);
+    task.setDescription(description);
+  }
+  handleAssignments(task,activityContext);
+}

@@ -1,5 +1,5 @@
 {
-  TaskImpl taskImpl=(TaskImpl)task;
+  TaskEntity taskImpl=(TaskEntity)task;
   JSONObject jsonObject=new JSONObject();
   jsonObject.put("id",taskImpl.getId());
   jsonObject.put("dbversion",taskImpl.getRevision());
@@ -14,8 +14,8 @@
   if (taskImpl.getCompletionDeadline() != null) {
     jsonObject.put("completionDeadline",taskImpl.getCompletionDeadline());
   }
-  if (taskImpl.getExecutionId() != null) {
-    jsonObject.put("execution",taskImpl.getExecutionId());
+  if (taskImpl.getActivityInstanceId() != null) {
+    jsonObject.put("execution",taskImpl.getActivityInstanceId());
   }
   if (taskImpl.getProcessDefinitionId() != null) {
     jsonObject.put("processDefinition",taskImpl.getProcessDefinitionId());

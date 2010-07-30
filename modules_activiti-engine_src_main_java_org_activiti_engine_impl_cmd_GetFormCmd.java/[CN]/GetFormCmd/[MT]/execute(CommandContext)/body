@@ -2,7 +2,7 @@
   PersistenceSession persistenceSession=commandContext.getPersistenceSession();
   RepositorySession repositorySession=commandContext.getRepositorySession();
   ProcessDefinitionImpl processDefinition=null;
-  TaskImpl task=null;
+  TaskEntity task=null;
   ExecutionImpl execution=null;
   FormReference formReference=null;
   if (taskId != null) {
@@ -10,7 +10,7 @@
     if (task == null) {
       throw new ActivitiException("No task found for id = '" + taskId + "'");
     }
-    execution=task.getExecution();
+    execution=task.getActivityInstance();
     processDefinition=repositorySession.findDeployedProcessDefinitionById(task.getProcessDefinitionId());
     formReference=execution.getActivity().getFormReference();
   }

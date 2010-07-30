@@ -1,2 +1,11 @@
 {
+  if (eventListeners == null) {
+    eventListeners=new HashMap<String,List<EventListener>>();
+  }
+  List<EventListener> listeners=eventListeners.get(eventName);
+  if (listeners == null) {
+    listeners=new ArrayList<EventListener>();
+    eventListeners.put(eventName,listeners);
+  }
+  listeners.add(eventListener);
 }

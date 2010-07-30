@@ -1,7 +1,7 @@
 {
-  TaskImpl task=(TaskImpl)sqlSession.selectOne(statement("selectTask"),id);
+  TaskEntity task=(TaskEntity)sqlSession.selectOne(statement("selectTask"),id);
   if (task != null) {
-    task=(TaskImpl)loaded.add(task);
+    task=(TaskEntity)loaded.add(task);
   }
   return task;
 }

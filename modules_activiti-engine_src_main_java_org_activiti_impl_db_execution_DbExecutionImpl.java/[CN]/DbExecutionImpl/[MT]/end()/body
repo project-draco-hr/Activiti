@@ -6,8 +6,8 @@
   for (  String variableName : variableNames) {
     variableMap.deleteVariable(variableName);
   }
-  List<TaskImpl> tasks=persistenceSession.findTasksByExecution(id);
-  for (  TaskImpl task : tasks) {
+  List<TaskEntity> tasks=persistenceSession.findTasksByExecution(id);
+  for (  TaskEntity task : tasks) {
     task.delete();
   }
   persistenceSession.delete(this);
