@@ -1,8 +1,8 @@
 {
-  deployment.setId(String.valueOf(idGenerator.getNextDbid()));
+  deployment.setId(String.valueOf(idGenerator.getNextId()));
   sqlSession.insert(statement("insertDeployment"),deployment);
   for (  ByteArrayImpl resource : deployment.getResources().values()) {
-    resource.setId(String.valueOf(idGenerator.getNextDbid()));
+    resource.setId(String.valueOf(idGenerator.getNextId()));
     resource.setDeploymentId(deployment.getId());
     sqlSession.insert(statement("insertByteArray"),resource);
   }
