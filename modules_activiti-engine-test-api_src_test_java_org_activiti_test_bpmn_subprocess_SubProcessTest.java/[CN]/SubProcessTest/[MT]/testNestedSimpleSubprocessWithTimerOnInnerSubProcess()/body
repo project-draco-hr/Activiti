@@ -3,7 +3,7 @@
   ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("nestedSubProcessWithTimer");
   Task subProcessTask=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
-  Clock.setCurrentTime(new Date(startTime.getTime() + (60 * 60 * 1000) + 1000));
+  ClockUtil.setCurrentTime(new Date(startTime.getTime() + (60 * 60 * 1000) + 1000));
   new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(5000L,25L);
   Task escalationTask=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Escalated task",escalationTask.getName());

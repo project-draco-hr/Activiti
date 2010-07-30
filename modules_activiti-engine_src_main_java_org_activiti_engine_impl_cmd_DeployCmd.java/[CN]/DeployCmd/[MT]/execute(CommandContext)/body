@@ -1,7 +1,7 @@
 {
   DeploymentEntity deployment=deploymentBuilder.getDeployment();
   RepositorySession repositorySession=commandContext.getRepositorySession();
-  deployment.setDeploymentTime(Clock.getCurrentTime());
+  deployment.setDeploymentTime(ClockUtil.getCurrentTime());
   if (deploymentBuilder.isDuplicateFilterEnabled()) {
     DeploymentEntity existingDeployment=repositorySession.findLatestDeploymentByName(deployment.getName());
     if ((existingDeployment != null) && !deploymentsDiffer(deployment,existingDeployment)) {

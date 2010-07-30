@@ -1,5 +1,5 @@
 {
-  Date now=Clock.getCurrentTime();
+  Date now=ClockUtil.getCurrentTime();
   RowBounds rowBounds=new RowBounds(0,maxNrOfJobs);
   List<JobImpl> jobs=sqlSession.selectList(statement("selectNextJobsToExecute"),now,rowBounds);
   if (jobs != null) {

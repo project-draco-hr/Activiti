@@ -4,10 +4,10 @@
   if (historicProcessInstance == null) {
     String processInstanceId=event.getProcessInstanceId();
     String processDefinitionId=event.getProcessDefinitionId();
-    Date startTime=Clock.getCurrentTime();
+    Date startTime=ClockUtil.getCurrentTime();
     historicProcessInstance=new HistoricProcessInstanceImpl(processInstanceId,processDefinitionId,startTime);
   }
-  Date endTime=Clock.getCurrentTime();
+  Date endTime=ClockUtil.getCurrentTime();
   historicProcessInstance.markEnded(endTime,"endStateName");
   CommandContext.getCurrent().getPersistenceSession().saveHistoricProcessInstance(historicProcessInstance);
 }

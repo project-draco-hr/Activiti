@@ -6,7 +6,7 @@
   Task taskB=subProcessTasks.get(1);
   assertEquals("Task A",taskA.getName());
   assertEquals("Task B",taskB.getName());
-  Clock.setCurrentTime(new Date(startTime.getTime() + (60 * 60 * 1000) + 1000));
+  ClockUtil.setCurrentTime(new Date(startTime.getTime() + (60 * 60 * 1000) + 1000));
   new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(5000L,25L);
   Task taskAfterTimer=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Task after timer",taskAfterTimer.getName());

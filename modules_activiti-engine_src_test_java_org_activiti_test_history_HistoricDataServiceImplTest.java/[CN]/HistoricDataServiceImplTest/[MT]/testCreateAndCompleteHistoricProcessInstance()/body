@@ -4,7 +4,7 @@
     when(processInstance.getId()).thenReturn("processInstanceId");
     when(processInstance.getProcessDefinitionId()).thenReturn("processDefinitionId");
     Date startTime=new Date();
-    Clock.setCurrentTime(startTime);
+    ClockUtil.setCurrentTime(startTime);
     fireProcessInstanceStartedEvent(processInstance);
     HistoricProcessInstance historicProcessInstance=historicDataService.findHistoricProcessInstance(processInstance.getId());
     assertNotNull(historicProcessInstance);
@@ -15,7 +15,7 @@
     assertNull(historicProcessInstance.getDurationInMillis());
     assertNull(historicProcessInstance.getEndStateName());
     Date endTime=new Date(startTime.getTime() + 1000);
-    Clock.setCurrentTime(endTime);
+    ClockUtil.setCurrentTime(endTime);
     fireProcessInstanceEndedEvent(processInstance);
     historicProcessInstance=historicDataService.findHistoricProcessInstance("processInstanceId");
     assertEquals("processInstanceId",historicProcessInstance.getProcessInstanceId());
@@ -26,7 +26,7 @@
     assertEquals("endStateName",historicProcessInstance.getEndStateName());
   }
   finally {
-    Clock.reset();
+    ClockUtil.reset();
     cleanHistoricProcessInstancesFromDatabase("processInstanceId");
   }
 }

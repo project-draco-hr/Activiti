@@ -10,7 +10,7 @@
     HistoricDataService historicDataService=new HistoricDataServiceImpl();
     ((ServiceImpl)historicDataService).setCommandExecutor(deployer.getCommandExecutor());
     Date startTime=new Date();
-    Clock.setCurrentTime(startTime);
+    ClockUtil.setCurrentTime(startTime);
     fireActivityStartedEvent(processInstance,activity);
     HistoricActivityInstance historicActivityInstance=historicDataService.findHistoricActivityInstance("activityId","processInstanceId");
     assertNotNull(historicActivityInstance);
@@ -23,7 +23,7 @@
     assertNull(historicActivityInstance.getEndTime());
     assertNull(historicActivityInstance.getDurationInMillis());
     Date endTime=new Date(startTime.getTime() + 1000);
-    Clock.setCurrentTime(endTime);
+    ClockUtil.setCurrentTime(endTime);
     fireActivityEndedEvent(processInstance,activity);
     historicActivityInstance=historicDataService.findHistoricActivityInstance("activityId","processInstanceId");
     assertEquals("activityId",historicActivityInstance.getActivityId());
@@ -36,7 +36,7 @@
     assertEquals(Long.valueOf(1000L),historicActivityInstance.getDurationInMillis());
   }
   finally {
-    Clock.reset();
+    ClockUtil.reset();
     cleanHistoricActivityInstancesFromDatabase("activityId","processInstanceId");
   }
 }

@@ -3,7 +3,7 @@
     DatatypeFactory datatypeFactory=DatatypeFactory.newInstance();
     Duration duration=datatypeFactory.newDuration(duedate);
     Calendar calendar=new GregorianCalendar();
-    calendar.setTime(Clock.getCurrentTime());
+    calendar.setTime(ClockUtil.getCurrentTime());
     duration.addTo(calendar);
     return calendar.getTime();
   }

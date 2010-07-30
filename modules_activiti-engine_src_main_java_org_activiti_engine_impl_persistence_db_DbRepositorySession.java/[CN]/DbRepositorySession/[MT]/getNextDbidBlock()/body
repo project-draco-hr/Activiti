@@ -1,5 +1,6 @@
 {
-  PropertyEntity property=(PropertyEntity)dbSqlSession.selectOne("selectProperty","next.dbid");
+  String statement=dbSqlSession.dbSqlSessionFactory.mapStatement("selectProperty");
+  PropertyEntity property=(PropertyEntity)dbSqlSession.sqlSession.selectOne(statement,"next.dbid");
   long oldValue=Long.parseLong(property.getValue());
   long newValue=oldValue + dbRepositorySessionFactory.getIdBlockSize();
   Map<String,Object> updateValues=new HashMap<String,Object>();
@@ -7,7 +8,7 @@
   updateValues.put("revision",property.getDbversion());
   updateValues.put("newRevision",property.getDbversion() + 1);
   updateValues.put("value",Long.toString(newValue));
-  int rowsUpdated=dbSqlSession.update("updateProperty",updateValues);
+  int rowsUpdated=dbSqlSession.sqlSession.update("updateProperty",updateValues);
   if (rowsUpdated != 1) {
     throw new ActivitiOptimisticLockingException("couldn't get next block of dbids");
   }

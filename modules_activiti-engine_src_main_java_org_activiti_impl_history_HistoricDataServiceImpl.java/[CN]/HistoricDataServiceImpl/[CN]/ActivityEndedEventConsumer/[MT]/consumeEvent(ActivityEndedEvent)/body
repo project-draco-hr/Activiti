@@ -7,9 +7,9 @@
     String activityType=event.getPayload().getType();
     String processInstanceId=event.getProcessInstanceId();
     String processDefinitionId=event.getProcessDefinitionId();
-    Date startTime=Clock.getCurrentTime();
+    Date startTime=ClockUtil.getCurrentTime();
     historicActivityInstance=new HistoricActivityInstanceImpl(activityId,activityName,activityType,processInstanceId,processDefinitionId,startTime);
   }
-  historicActivityInstance.markEnded(Clock.getCurrentTime());
+  historicActivityInstance.markEnded(ClockUtil.getCurrentTime());
   CommandContext.getCurrent().getPersistenceSession().saveHistoricActivityInstance(historicActivityInstance);
 }
