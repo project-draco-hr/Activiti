@@ -7,7 +7,8 @@
     timeDurationText=timeDuration.getText();
   }
   BusinessCalendar businessCalendar=businessCalendarManager.getBusinessCalendar(DurationBusinessCalendar.NAME);
-  TimerDeclarationImpl timerDeclaration=timerActivity.getParent().createTimerDeclaration(businessCalendar,timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
+  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(businessCalendar,timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
   timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
+  addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
   timerActivity.setActivityBehavior(boundaryTimerEventActivity);
 }

@@ -6,6 +6,13 @@
   Iterator<PvmTransition> transitionIterator=activityContext.getOutgoingTransitions().iterator();
   while (outgoingSeqFlow == null && transitionIterator.hasNext()) {
     PvmTransition seqFlow=transitionIterator.next();
+    Condition condition=(Condition)seqFlow.getProperty(BpmnParse.PROPERTYNAME_CONDITION);
+    if (condition == null || condition.evaluate(activityContext)) {
+      if (log.isLoggable(Level.FINE)) {
+        log.fine("Sequence flow '" + seqFlow.getId() + " '"+ "selected as outgoing sequence flow.");
+      }
+      outgoingSeqFlow=seqFlow;
+    }
   }
   if (outgoingSeqFlow != null) {
     activityContext.take(outgoingSeqFlow);

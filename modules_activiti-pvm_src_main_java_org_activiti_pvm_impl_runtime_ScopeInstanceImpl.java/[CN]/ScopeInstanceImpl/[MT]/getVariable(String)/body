@@ -1,6 +1,9 @@
 {
-  if (variables == null) {
-    return null;
+  if (getVariables().containsKey(variableName)) {
+    return variables.get(variableName);
+  }
+  if (parent != null) {
+    return parent.hasVariable(variableName);
   }
   return variables.get(variableName);
 }

@@ -3,32 +3,33 @@
     String type=propertyElement.attribute("activiti:type");
     propertyType=type != null ? type : "string";
   }
-  activity.createVariableDeclaration(propertyName,propertyType);
+  VariableDeclarationImpl variableDeclaration=new VariableDeclarationImpl(propertyName,propertyType);
+  addVariableDeclaration(activity,variableDeclaration);
   String src=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"src");
   if (src != null) {
-    activity.addEventListener(Listener.EVENTNAME_START,new VariableInitializeWithVariable(src,propertyName));
+    variableDeclaration.setSourceVariableName(src);
   }
   String srcExpr=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"srcExpr");
   if (srcExpr != null) {
-    activity.addEventListener(Listener.EVENTNAME_START,new VariableInitializeWithExpression(scriptingEngines,propertyName,srcExpr,"juel"));
+    ActivitiValueExpression sourceValueExpression=expressionManager.createValueExpression(srcExpr);
+    variableDeclaration.setSourceValueExpression(sourceValueExpression);
   }
   String dst=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"dst");
   if (dst != null) {
-    activity.addEventListener(Listener.EVENTNAME_END,new VariableDestroyWithVariable(propertyName,dst));
+    variableDeclaration.setDestinationVariableName(dst);
   }
   String destExpr=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"dstExpr");
   if (destExpr != null) {
-    activity.addEventListener(Listener.EVENTNAME_END,new VariableDestroyWithExpression(scriptingEngines,propertyName,destExpr,"juel"));
+    ActivitiValueExpression destinationValueExpression=expressionManager.createValueExpression(destExpr);
+    variableDeclaration.setDestinationValueExpression(destinationValueExpression);
   }
   String link=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"link");
   if (link != null) {
-    activity.addEventListener(Listener.EVENTNAME_START,new VariableInitializeWithVariable(link,propertyName));
-    activity.addEventListener(Listener.EVENTNAME_END,new VariableDestroyWithVariable(propertyName,link));
+    variableDeclaration.setLink(link);
   }
   String linkExpr=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"linkExpr");
   if (linkExpr != null) {
-    expressionManager.createValueExpression(linkExpr);
-    activity.addEventListener(Listener.EVENTNAME_START,new VariableInitializeWithExpression(scriptingEngines,linkExpr,propertyName,"juel"));
-    activity.addEventListener(Listener.EVENTNAME_END,new VariableDestroyWithExpression(scriptingEngines,propertyName,linkExpr,"juel"));
+    ActivitiValueExpression linkValueExpression=expressionManager.createValueExpression(linkExpr);
+    variableDeclaration.setLinkValueExpression(linkValueExpression);
   }
 }

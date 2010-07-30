@@ -1,6 +1,11 @@
 {
-  if (variables == null) {
-    variables=new HashMap<String,Object>();
+  if (getVariables().containsKey(variableName)) {
+    setVariableLocally(variableName,value);
+    return;
   }
-  variables.put(variableName,value);
+  if (parent != null) {
+    parent.setVariable(variableName,value);
+    return;
+  }
+  setVariableLocally(variableName,value);
 }
