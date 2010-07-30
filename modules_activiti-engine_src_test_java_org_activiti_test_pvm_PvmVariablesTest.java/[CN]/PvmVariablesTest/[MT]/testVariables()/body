@@ -1,8 +1,0 @@
-{
-  ObjectProcessDefinition processDefinition=ProcessDefinitionBuilder.createProcessDefinitionBuilder().createActivity("a").initial().behavior(new WaitState()).endActivity().build();
-  ObjectProcessInstance processInstance=processDefinition.createProcessInstance();
-  processInstance.setVariable("amount",500L);
-  processInstance.start();
-  ObjectExecution execution=processInstance.findExecution("a");
-  assertEquals(500L,execution.getVariable("amount"));
-}
