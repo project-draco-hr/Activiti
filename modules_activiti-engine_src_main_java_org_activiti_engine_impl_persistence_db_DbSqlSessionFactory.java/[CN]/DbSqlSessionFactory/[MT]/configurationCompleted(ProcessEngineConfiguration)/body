@@ -1,6 +1,6 @@
 {
   this.databaseName=processEngineConfiguration.getDatabaseName();
-  this.sqlSessionFactory=((IbatisPersistenceSessionFactory)processEngineConfiguration.getPersistenceSessionFactory()).getSqlSessionFactory();
+  this.sqlSessionFactory=((DbRuntimeSessionFactory)processEngineConfiguration.getPersistenceSessionFactory()).getSqlSessionFactory();
   this.idGenerator=processEngineConfiguration.getIdGenerator();
   this.statementMappings=databaseSpecificStatements.get(processEngineConfiguration.getDatabaseName());
 }

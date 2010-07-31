@@ -1,6 +1,6 @@
 {
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
-  TaskEntity task=persistenceSession.findTask(taskId);
+  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
+  TaskEntity task=runtimeSession.findTask(taskId);
   if (variables != null) {
     task.setExecutionVariables(variables);
   }

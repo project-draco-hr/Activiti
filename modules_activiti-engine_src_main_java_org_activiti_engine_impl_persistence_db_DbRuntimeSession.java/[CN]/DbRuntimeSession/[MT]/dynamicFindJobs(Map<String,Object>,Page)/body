@@ -1,0 +1,9 @@
+{
+  final String query="org.activiti.persistence.selectJobByDynamicCriteria";
+  if (page == null) {
+    return dbSqlSession.selectList(query,params);
+  }
+ else {
+    return dbSqlSession.selectList(query,params,new RowBounds(page.getOffset(),page.getMaxResults()));
+  }
+}

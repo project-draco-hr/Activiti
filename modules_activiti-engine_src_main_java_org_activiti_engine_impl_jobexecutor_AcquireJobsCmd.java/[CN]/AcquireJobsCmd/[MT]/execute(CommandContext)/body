@@ -1,10 +1,10 @@
 {
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
   String lockOwner=jobExecutor.getLockOwner();
   int lockTimeInMillis=jobExecutor.getLockTimeInMillis();
   int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
   AcquiredJobs acquiredJobs=new AcquiredJobs();
-  List<JobImpl> jobs=persistenceSession.findNextJobsToExecute(maxJobsPerAcquisition);
+  List<JobImpl> jobs=runtimeSession.findNextJobsToExecute(maxJobsPerAcquisition);
   for (  JobImpl job : jobs) {
     List<String> jobIds=new ArrayList<String>();
     if (job != null) {

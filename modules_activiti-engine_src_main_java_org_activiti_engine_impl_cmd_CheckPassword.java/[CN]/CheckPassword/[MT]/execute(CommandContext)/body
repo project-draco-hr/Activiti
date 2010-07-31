@@ -1,6 +1,6 @@
 {
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
-  UserImpl user=persistenceSession.findUser(userId);
+  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
+  UserImpl user=runtimeSession.findUser(userId);
   if ((user != null) && (password != null) && (password.equals(user.getPassword()))) {
     return true;
   }

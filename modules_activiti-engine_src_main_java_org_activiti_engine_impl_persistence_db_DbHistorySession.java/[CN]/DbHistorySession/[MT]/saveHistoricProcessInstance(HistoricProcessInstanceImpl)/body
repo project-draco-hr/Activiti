@@ -1,0 +1,9 @@
+{
+  if (historicProcessInstance.getId() == null) {
+    historicProcessInstance.setId(String.valueOf(idGenerator.getNextId()));
+    dbSqlSession.insert("insertHistoricProcessInstance",historicProcessInstance);
+  }
+ else {
+    dbSqlSession.update("updateHistoricProcessInstance",historicProcessInstance);
+  }
+}

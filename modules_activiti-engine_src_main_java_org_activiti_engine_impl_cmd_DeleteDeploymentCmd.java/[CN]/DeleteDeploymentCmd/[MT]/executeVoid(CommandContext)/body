@@ -1,9 +1,9 @@
 {
   RepositorySession repositorySession=commandContext.getRepositorySession();
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
   List<ProcessDefinitionEntity> processDefinitions=repositorySession.findProcessDefinitionsByDeploymentId(deploymentId);
   for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
-    List<DbExecutionImpl> executions=persistenceSession.findProcessInstancesByProcessDefintionId(processDefinition.getId());
+    List<DbExecutionImpl> executions=runtimeSession.findProcessInstancesByProcessDefintionId(processDefinition.getId());
     for (    DbExecutionImpl execution : executions) {
       execution.end();
     }

@@ -1,8 +1,8 @@
 {
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
   for (  String jobId : jobIds) {
-    JobImpl job=persistenceSession.findJobById(jobId);
-    persistenceSession.delete(job);
+    JobImpl job=runtimeSession.findJobById(jobId);
+    runtimeSession.delete(job);
   }
   return null;
 }

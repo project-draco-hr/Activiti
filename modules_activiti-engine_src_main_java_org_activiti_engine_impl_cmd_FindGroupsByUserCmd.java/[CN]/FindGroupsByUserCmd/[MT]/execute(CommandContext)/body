@@ -1,7 +1,7 @@
 {
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
+  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
   if (groupType == null) {
-    return persistenceSession.findGroupsByUser(userId);
+    return runtimeSession.findGroupsByUser(userId);
   }
-  return persistenceSession.findGroupsByUserAndType(userId,groupType);
+  return runtimeSession.findGroupsByUserAndType(userId,groupType);
 }

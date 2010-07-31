@@ -1,6 +1,6 @@
 {
-  PersistenceSession persistenceSession=commandContext.getPersistenceSession();
-  JobImpl job=persistenceSession.findJobById(jobId);
+  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
+  JobImpl job=runtimeSession.findJobById(jobId);
   job.setRetries(job.getRetries() - 1);
   job.setLockOwner(null);
   job.setLockExpirationTime(null);
