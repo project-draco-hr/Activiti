@@ -1,5 +1,5 @@
 {
-  List<GroupImpl> groups=CommandContext.getCurrent().getPersistenceSession().findGroupsByUser(candidateUser);
+  List<GroupImpl> groups=CommandContext.getCurrent().getIdentitySession().findGroupsByUser(candidateUser);
   List<String> groupIds=new ArrayList<String>();
   for (  GroupImpl group : groups) {
     groupIds.add(group.getId());

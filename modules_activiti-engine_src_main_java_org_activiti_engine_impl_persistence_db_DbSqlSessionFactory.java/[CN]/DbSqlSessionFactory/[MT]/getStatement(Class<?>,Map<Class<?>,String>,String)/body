@@ -1,0 +1,9 @@
+{
+  String statement=cachedStatements.get(persistentObjectClass);
+  if (statement != null) {
+    return statement;
+  }
+  statement=prefix + ClassNameUtil.getClassNameWithoutPackage(persistentObjectClass);
+  cachedStatements.put(persistentObjectClass,statement);
+  return statement;
+}

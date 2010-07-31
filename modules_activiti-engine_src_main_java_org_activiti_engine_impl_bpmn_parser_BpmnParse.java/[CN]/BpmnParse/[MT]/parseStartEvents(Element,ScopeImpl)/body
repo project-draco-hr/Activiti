@@ -16,6 +16,9 @@
       }
       processDefinition.setInitial(activity);
     }
+ else {
+      scope.setProperty(PROPERTYNAME_INITIAL,activity);
+    }
     String form=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
     String formLanguage=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form-language",ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE);
     if (form != null) {

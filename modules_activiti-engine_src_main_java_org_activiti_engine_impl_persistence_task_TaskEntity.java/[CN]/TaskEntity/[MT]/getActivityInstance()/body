@@ -1,6 +1,6 @@
 {
   if ((activityInstance == null) && (activityInstanceId != null)) {
-    this.activityInstance=CommandContext.getCurrent().getPersistenceSession().findExecution(activityInstanceId);
+    this.activityInstance=CommandContext.getCurrent().getRuntimeSession().findExecution(activityInstanceId);
   }
   return activityInstance;
 }

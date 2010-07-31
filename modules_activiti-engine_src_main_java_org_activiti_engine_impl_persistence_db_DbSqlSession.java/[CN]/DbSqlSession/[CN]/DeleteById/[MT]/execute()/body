@@ -1,0 +1,9 @@
+{
+  String deleteStatement=dbSqlSessionFactory.getDeleteStatement(persistenceObjectClass);
+  deleteStatement=dbSqlSessionFactory.mapStatement(deleteStatement);
+  if (deleteStatement == null) {
+    throw new ActivitiException("no delete statement for " + persistenceObjectClass + " in the ibatis mapping files");
+  }
+  log.fine("deleting: " + persistenceObjectClass + "["+ persistentObjectId+ "]");
+  sqlSession.delete(deleteStatement,persistentObjectId);
+}

@@ -1,5 +1,5 @@
 {
-  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
+  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
   List<TimerImpl> timers=runtimeSession.findTimersByExecutionId(execution.getId());
   for (  TimerImpl timer : timers) {
     runtimeSession.delete(timer);

@@ -1,7 +1,3 @@
 {
-  DbExecutionImpl subProcessInstance=(DbExecutionImpl)dbSqlSession.selectOne("selectSubProcessInstanceBySuperExecutionId",superExecutionId);
-  if (subProcessInstance != null) {
-    subProcessInstance=(DbExecutionImpl)loaded.add(subProcessInstance);
-  }
-  return subProcessInstance;
+  return (ProcessInstanceEntity)dbSqlSession.selectOne("selectSubProcessInstanceBySuperExecutionId",superExecutionId);
 }

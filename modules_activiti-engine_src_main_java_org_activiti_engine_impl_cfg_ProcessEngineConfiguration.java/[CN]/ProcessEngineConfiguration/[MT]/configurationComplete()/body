@@ -1,20 +1,5 @@
 {
   if (!isConfigurationCompleted) {
-    if (messageSessionFactory != null) {
-      sessionFactories.put(MessageSession.class,messageSessionFactory);
-    }
-    if (timerSessionFactory != null) {
-      sessionFactories.put(TimerSession.class,timerSessionFactory);
-    }
-    if (persistenceSessionFactory != null) {
-      sessionFactories.put(RuntimeSession.class,persistenceSessionFactory);
-    }
-    if (repositorySessionFactory != null) {
-      sessionFactories.put(RepositorySession.class,repositorySessionFactory);
-    }
-    if (dbSqlSessionFactory != null) {
-      sessionFactories.put(DbSqlSession.class,dbSqlSessionFactory);
-    }
     notifyConfigurationComplete(commandExecutor);
     notifyConfigurationComplete(commandContextFactory);
     notifyConfigurationComplete(transactionContextFactory);
@@ -24,11 +9,9 @@
     notifyConfigurationComplete(managementService);
     notifyConfigurationComplete(identityService);
     notifyConfigurationComplete(historicDataService);
-    notifyConfigurationComplete(messageSessionFactory);
-    notifyConfigurationComplete(timerSessionFactory);
-    notifyConfigurationComplete(persistenceSessionFactory);
-    notifyConfigurationComplete(repositorySessionFactory);
-    notifyConfigurationComplete(dbSqlSessionFactory);
+    for (    SessionFactory sessionFactory : sessionFactories.values()) {
+      notifyConfigurationComplete(sessionFactory);
+    }
     for (    Deployer deployer : deployers) {
       notifyConfigurationComplete(deployer);
     }

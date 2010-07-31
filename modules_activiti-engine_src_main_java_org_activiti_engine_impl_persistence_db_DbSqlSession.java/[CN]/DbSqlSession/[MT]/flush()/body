@@ -9,13 +9,8 @@
     for (    PersistentObject updatedObject : updatedObjects) {
       log.fine("  update " + toString(updatedObject));
     }
-    for (    Object deletedObject : deletedObjects) {
-      if (deletedObject instanceof BulkDeleteOperation) {
-        log.fine("  bulk delete " + ((BulkDeleteOperation)deletedObject).statement);
-      }
- else {
-        log.fine("  delete " + toString((PersistentObject)deletedObject));
-      }
+    for (    Object deleteOperation : deletedObjects) {
+      log.fine("  " + deleteOperation);
     }
     log.fine("now executing flush...");
   }

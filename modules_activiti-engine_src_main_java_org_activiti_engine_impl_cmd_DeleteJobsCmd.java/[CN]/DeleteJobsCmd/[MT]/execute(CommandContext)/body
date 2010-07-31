@@ -1,5 +1,5 @@
 {
-  RuntimeSession runtimeSession=commandContext.getPersistenceSession();
+  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
   for (  String jobId : jobIds) {
     JobImpl job=runtimeSession.findJobById(jobId);
     runtimeSession.delete(job);

@@ -1,0 +1,10 @@
+{
+  if (endTime == null) {
+    throw new IllegalArgumentException("End time must not be null");
+  }
+  if (endTime.getTime() < startTime.getTime()) {
+    throw new IllegalArgumentException("end time must not be before start time");
+  }
+  this.endTime=endTime;
+  durationInMillis=endTime.getTime() - startTime.getTime();
+}
