@@ -1,0 +1,15 @@
+{
+  for (  PvmTransition transition : activityContext.getOutgoingTransitions()) {
+    if (signalName == null) {
+      if (transition.getId() == null) {
+        return transition;
+      }
+    }
+ else {
+      if (signalName.equals(transition.getId())) {
+        return transition;
+      }
+    }
+  }
+  throw new RuntimeException("no transition for signalName '" + signalName + "' in WaitState '"+ activityContext.getActivity().getId()+ "'");
+}

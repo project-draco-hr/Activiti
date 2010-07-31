@@ -11,8 +11,7 @@
     if (destinationActivity == null) {
       throw new ActivitiException("Invalid destination of sequence flow '" + id + "'");
     }
-    TransitionImpl transition=sourceActivity.createOutgoingTransition();
-    transition.setId(id);
+    TransitionImpl transition=sourceActivity.createOutgoingTransition(id);
     transition.setProperty("name",sequenceFlowElement.attribute("name"));
     transition.setDestination(destinationActivity);
     parseSequenceFlowConditionExpression(sequenceFlowElement,transition);

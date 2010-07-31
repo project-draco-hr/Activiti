@@ -2,8 +2,7 @@
   for (  Element endEventElement : parentElement.elements("endEvent")) {
     String id=endEventElement.attribute("id");
     String name=endEventElement.attribute("name");
-    ActivityImpl activity=scopeElement.createActivity();
-    activity.setId(id);
+    ActivityImpl activity=scopeElement.createActivity(id);
     activity.setProperty("name",name);
     activity.setActivityBehavior(new NoneEndEventActivity());
   }

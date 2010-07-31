@@ -1,6 +1,6 @@
 {
-  ScopeInstanceImpl innerScope=((ExecutionContextImpl)activityContext).getScopeInstance();
-  ScopeInstanceImpl outerScope=innerScope.getParent();
+  PvmScopeInstance innerScope=activityContext.getScopeInstance();
+  PvmScopeInstance outerScope=innerScope.getParent();
   if (destinationVariableName != null) {
     if (innerScope.hasVariable(sourceVariableName)) {
       Object value=innerScope.getVariable(sourceVariableName);

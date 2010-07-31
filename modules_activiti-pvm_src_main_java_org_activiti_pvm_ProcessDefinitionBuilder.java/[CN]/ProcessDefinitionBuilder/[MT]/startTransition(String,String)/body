@@ -1,0 +1,10 @@
+{
+  if (destinationActivityId == null) {
+    throw new PvmException("destinationActivityId is null");
+  }
+  ActivityImpl activity=getActivity();
+  transition=activity.createOutgoingTransition(transitionId);
+  unresolvedTransitions.add(new Object[]{transition,destinationActivityId});
+  processElement=transition;
+  return this;
+}

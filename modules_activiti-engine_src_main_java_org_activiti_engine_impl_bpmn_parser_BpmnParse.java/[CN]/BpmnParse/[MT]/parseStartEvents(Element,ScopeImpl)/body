@@ -7,8 +7,7 @@
     Element startEventElement=startEventElements.get(0);
     String id=startEventElement.attribute("id");
     String name=startEventElement.attribute("name");
-    ActivityImpl activity=scope.createActivity();
-    activity.setId(id);
+    ActivityImpl activity=scope.createActivity(id);
     activity.setProperty("name",name);
     if (scope instanceof ProcessDefinitionImpl) {
       ProcessDefinitionImpl processDefinition=(ProcessDefinitionImpl)scope;
