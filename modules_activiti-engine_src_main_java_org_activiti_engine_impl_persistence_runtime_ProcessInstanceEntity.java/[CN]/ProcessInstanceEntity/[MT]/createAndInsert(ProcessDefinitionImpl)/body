@@ -1,6 +1,6 @@
 {
   ProcessInstanceEntity processInstance=new ProcessInstanceEntity(processDefinition);
   CommandContext.getCurrentSession(RuntimeSession.class).insertProcessInstance(processInstance);
-  processInstance.variableInstanceMap=new VariableInstanceMap();
+  processInstance.variableInstanceMap=new ProcessInstanceVariableMap(processInstance);
   return processInstance;
 }

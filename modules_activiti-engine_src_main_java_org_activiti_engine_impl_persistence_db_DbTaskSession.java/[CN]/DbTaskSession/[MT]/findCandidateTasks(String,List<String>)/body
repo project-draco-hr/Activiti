@@ -2,6 +2,5 @@
   Map<String,Object> params=new HashMap<String,Object>();
   params.put("userId",userId);
   params.put("groupIds",groupIds);
-  List tasks=(List)dbSqlSession.selectList("selectCandidateTasks",params);
-  return loaded.add(tasks);
+  return dbSqlSession.selectList("selectCandidateTasks",params);
 }

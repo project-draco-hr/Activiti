@@ -1,6 +1,6 @@
 {
   RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  JobImpl job=runtimeSession.findJobById(jobId);
+  JobEntity job=runtimeSession.findJobById(jobId);
   job.setRetries(job.getRetries() - 1);
   job.setLockOwner(null);
   job.setLockExpirationTime(null);

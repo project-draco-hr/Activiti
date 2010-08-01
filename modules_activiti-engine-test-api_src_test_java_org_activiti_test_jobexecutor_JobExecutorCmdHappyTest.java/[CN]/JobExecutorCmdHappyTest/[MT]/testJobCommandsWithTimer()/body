@@ -5,7 +5,7 @@
   JobExecutor jobExecutor=deployer.getJobExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
-      TimerImpl timer=createTweetTimer("i'm coding a test",new Date(SOME_TIME + (10 * SECOND)));
+      TimerEntity timer=createTweetTimer("i'm coding a test",new Date(SOME_TIME + (10 * SECOND)));
       commandContext.getTimerSession().schedule(timer);
       return timer.getId();
     }

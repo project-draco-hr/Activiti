@@ -1,7 +1,7 @@
 {
   ProcessEngineImpl processEngine=(ProcessEngineImpl)new ProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CREATE_DROP).buildProcessEngine();
-  RuntimeSessionFactory runtimeSessionFactory=processEngine.getRuntimeSessionFactory();
-  SqlSessionFactory sqlSessionFactory=((DbRuntimeSessionFactory)runtimeSessionFactory).getSqlSessionFactory();
+  DbSqlSessionFactory dbSqlSessionFactory=(DbSqlSessionFactory)processEngine.getProcessEngineConfiguration().getSessionFactories().get(DbSqlSession.class);
+  SqlSessionFactory sqlSessionFactory=dbSqlSessionFactory.getSqlSessionFactory();
   SqlSession sqlSession=sqlSessionFactory.openSession();
   boolean success=false;
   try {

@@ -1,6 +1,5 @@
 {
   this.databaseName=processEngineConfiguration.getDatabaseName();
-  this.sqlSessionFactory=((DbRuntimeSessionFactory)processEngineConfiguration.getRuntimeSessionFactory()).getSqlSessionFactory();
   this.idGenerator=processEngineConfiguration.getIdGenerator();
   this.statementMappings=databaseSpecificStatements.get(processEngineConfiguration.getDatabaseName());
   DataSource dataSource=processEngineConfiguration.getDataSource();
@@ -21,5 +20,5 @@
  else {
     transactionFactory=new ManagedTransactionFactory();
   }
-  sqlSessionFactory=createSessionFactory(dataSource,transactionFactory);
+  this.sqlSessionFactory=createSessionFactory(dataSource,transactionFactory);
 }

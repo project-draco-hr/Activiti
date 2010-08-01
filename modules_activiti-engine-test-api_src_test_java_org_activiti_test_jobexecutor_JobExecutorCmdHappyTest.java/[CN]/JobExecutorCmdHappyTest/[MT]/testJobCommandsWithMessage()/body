@@ -4,7 +4,7 @@
   JobExecutor jobExecutor=deployer.getJobExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
-      MessageImpl message=createTweetMessage("i'm coding a test");
+      MessageEntity message=createTweetMessage("i'm coding a test");
       commandContext.getMessageSession().send(message);
       return message.getId();
     }

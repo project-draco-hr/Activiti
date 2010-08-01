@@ -1,8 +1,0 @@
-{
-  ensureCommandContextAvailable();
-  String processInstanceId=event.getProcessInstanceId();
-  String processDefinitionId=event.getProcessDefinitionId();
-  Date startTime=ClockUtil.getCurrentTime();
-  HistoricProcessInstanceImpl historicProcessInstance=new HistoricProcessInstanceImpl(processInstanceId,processDefinitionId,startTime);
-  CommandContext.getCurrent().getPersistenceSession().saveHistoricProcessInstance(historicProcessInstance);
-}

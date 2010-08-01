@@ -13,7 +13,7 @@
     tablePage.setSort(sortColumn);
     tablePage.setOrder(sortOrder);
   }
-  List<Map<String,Object>> tableData=(List<Map<String,Object>>)dbSqlSession.selectList("selectTableData",params,new RowBounds(offset,maxResults));
+  List<Map<String,Object>> tableData=(List<Map<String,Object>>)dbSqlSession.selectList("selectTableData",params,offset,maxResults);
   tablePage.setTableName(tableName);
   tablePage.setStart(offset);
   tablePage.setTotal(getTableCount(tableName));

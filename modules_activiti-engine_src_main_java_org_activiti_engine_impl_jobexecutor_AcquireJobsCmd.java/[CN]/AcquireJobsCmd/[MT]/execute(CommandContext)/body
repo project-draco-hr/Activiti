@@ -4,8 +4,8 @@
   int lockTimeInMillis=jobExecutor.getLockTimeInMillis();
   int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
   AcquiredJobs acquiredJobs=new AcquiredJobs();
-  List<JobImpl> jobs=runtimeSession.findNextJobsToExecute(maxJobsPerAcquisition);
-  for (  JobImpl job : jobs) {
+  List<JobEntity> jobs=runtimeSession.findNextJobsToExecute(maxJobsPerAcquisition);
+  for (  JobEntity job : jobs) {
     List<String> jobIds=new ArrayList<String>();
     if (job != null) {
       job.setLockOwner(lockOwner);

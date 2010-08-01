@@ -3,7 +3,7 @@
   CommandExecutor commandExecutor=deployer.getCommandExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
-      MessageImpl message=createTweetExceptionMessage();
+      MessageEntity message=createTweetExceptionMessage();
       commandContext.getMessageSession().send(message);
       return message.getId();
     }

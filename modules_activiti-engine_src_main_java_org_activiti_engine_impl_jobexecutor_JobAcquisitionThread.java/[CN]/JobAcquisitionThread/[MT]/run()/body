@@ -17,7 +17,7 @@
       if (jobsAcquired < maxJobsPerAcquisition) {
         isJobAdded=false;
         Date duedate=new Date(ClockUtil.getCurrentTime().getTime() + millisToWait);
-        List<TimerImpl> nextTimers=commandExecutor.execute(new GetUnlockedTimersByDuedateCmd(duedate,1));
+        List<TimerEntity> nextTimers=commandExecutor.execute(new GetUnlockedTimersByDuedateCmd(duedate,1));
         if (!nextTimers.isEmpty()) {
           long millisTillNextTimer=nextTimers.get(0).getDuedate().getTime() - ClockUtil.getCurrentTime().getTime();
           if (millisTillNextTimer < millisToWait) {

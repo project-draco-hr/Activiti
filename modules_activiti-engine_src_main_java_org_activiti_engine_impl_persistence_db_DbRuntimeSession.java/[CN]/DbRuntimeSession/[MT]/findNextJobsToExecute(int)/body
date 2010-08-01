@@ -1,5 +1,4 @@
 {
   Date now=ClockUtil.getCurrentTime();
-  RowBounds rowBounds=new RowBounds(0,maxNrOfJobs);
-  return dbSqlSession.selectList("selectNextJobsToExecute",now,rowBounds);
+  return dbSqlSession.selectList("selectNextJobsToExecute",now,0,maxNrOfJobs);
 }
