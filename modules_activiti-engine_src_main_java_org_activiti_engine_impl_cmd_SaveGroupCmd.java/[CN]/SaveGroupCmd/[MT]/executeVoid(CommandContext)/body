@@ -1,3 +1,9 @@
 {
-  commandContext.getRuntimeSession().saveGroup(group);
+  if (group.getId() == null) {
+    commandContext.getIdentitySession().insertGroup(group);
+  }
+ else {
+    GroupEntity persistentGroup=commandContext.getIdentitySession().findGroupById(group.getId());
+    persistentGroup.update(group);
+  }
 }

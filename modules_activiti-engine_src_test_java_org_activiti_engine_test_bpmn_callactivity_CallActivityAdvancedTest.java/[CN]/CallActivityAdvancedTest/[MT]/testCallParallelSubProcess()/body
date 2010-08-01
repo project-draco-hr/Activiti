@@ -1,5 +1,5 @@
 {
-  processService.startProcessInstanceByKey("callParallelSubProcess");
+  runtimeService.startProcessInstanceByKey("callParallelSubProcess");
   TaskQuery taskQuery=taskService.createTaskQuery().orderAsc(TaskQuery.PROPERTY_NAME);
   List<Task> tasks=taskQuery.list();
   assertEquals(2,tasks.size());
@@ -9,7 +9,7 @@
   assertEquals("Task B",taskB.getName());
   taskService.complete(taskA.getId());
   assertEquals(1,taskQuery.list().size());
-  assertEquals(2,processService.createProcessInstanceQuery().list().size());
+  assertEquals(2,runtimeService.createProcessInstanceQuery().list().size());
   taskService.complete(taskB.getId());
-  assertEquals(0,processService.createProcessInstanceQuery().list().size());
+  assertEquals(0,runtimeService.createProcessInstanceQuery().list().size());
 }

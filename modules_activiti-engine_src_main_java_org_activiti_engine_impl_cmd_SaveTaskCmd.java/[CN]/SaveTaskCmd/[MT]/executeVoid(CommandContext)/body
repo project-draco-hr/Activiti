@@ -1,4 +1,10 @@
 {
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  runtimeSession.insert((TaskEntity)task);
+  if (task.getId() == null) {
+    commandContext.getTaskSession().insertTask(task);
+  }
+ else {
+    TaskEntity persistentTask=commandContext.getTaskSession().findTaskById(task.getId());
+    persistentTask.update(task);
+  }
+  commandContext.getTaskSession().insertTask((TaskEntity)task);
 }

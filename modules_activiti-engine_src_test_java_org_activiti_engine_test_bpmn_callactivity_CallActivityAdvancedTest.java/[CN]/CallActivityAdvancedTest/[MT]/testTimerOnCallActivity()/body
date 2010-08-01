@@ -1,6 +1,6 @@
 {
   Date startTime=ClockUtil.getCurrentTime();
-  processService.startProcessInstanceByKey("timerOnCallActivity");
+  runtimeService.startProcessInstanceByKey("timerOnCallActivity");
   TaskQuery taskQuery=taskService.createTaskQuery();
   Task taskInSubProcess=taskQuery.singleResult();
   assertEquals("Task in subprocess",taskInSubProcess.getName());
@@ -9,5 +9,5 @@
   Task escalatedTask=taskQuery.singleResult();
   assertEquals("Escalated Task",escalatedTask.getName());
   taskService.complete(escalatedTask.getId());
-  assertEquals(0,processService.createProcessInstanceQuery().list().size());
+  assertEquals(0,runtimeService.createProcessInstanceQuery().list().size());
 }

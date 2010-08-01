@@ -1,9 +1,9 @@
 {
-  ProcessInstance processInstance=processService.startProcessInstanceByKey("subProcessEndsSuperProcess");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("subProcessEndsSuperProcess");
   TaskQuery taskQuery=taskService.createTaskQuery();
   Task taskBeforeSubProcess=taskQuery.singleResult();
   assertEquals("Task in subprocess",taskBeforeSubProcess.getName());
   taskService.complete(taskBeforeSubProcess.getId());
   assertProcessEnded(processInstance.getId());
-  assertEquals(0,processService.createProcessInstanceQuery().list().size());
+  assertEquals(0,runtimeService.createProcessInstanceQuery().list().size());
 }

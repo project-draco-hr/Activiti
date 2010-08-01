@@ -1,6 +1,6 @@
 {
   RepositorySession repositorySession=commandContext.getRepositorySession();
-  ProcessDefinitionImpl processDefinition=null;
+  ProcessDefinitionEntity processDefinition=null;
   if (processDefinitionId != null) {
     processDefinition=repositorySession.findDeployedProcessDefinitionById(processDefinitionId);
     if (processDefinition == null) {
@@ -13,7 +13,7 @@
       throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
     }
   }
-  ExecutionImpl processInstance=processDefinition.createProcessInstance();
+  ProcessInstanceEntity processInstance=processDefinition.createProcessInstance();
   if (variables != null) {
     processInstance.setVariables(variables);
   }

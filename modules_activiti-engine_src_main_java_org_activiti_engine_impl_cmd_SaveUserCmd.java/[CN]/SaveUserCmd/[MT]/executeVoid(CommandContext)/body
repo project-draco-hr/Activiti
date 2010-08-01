@@ -1,4 +1,9 @@
 {
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  runtimeSession.insertUser((UserImpl)user);
+  if (user.getId() == null) {
+    commandContext.getIdentitySession().insertUser(user);
+  }
+ else {
+    UserEntity persistentUser=commandContext.getIdentitySession().findUserById(user.getId());
+    persistentUser.update(user);
+  }
 }

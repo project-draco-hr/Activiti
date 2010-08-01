@@ -1,3 +1,7 @@
 {
-  commandContext.getRuntimeSession().deleteExecution(processInstanceId);
+  ProcessInstanceEntity processInstance=commandContext.getRuntimeSession().findProcessInstanceById(processInstanceId);
+  if (processInstance == null) {
+    throw new ActivitiException("process instance " + processInstanceId + " does not exist");
+  }
+  processInstance.delete();
 }

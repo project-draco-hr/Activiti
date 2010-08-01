@@ -1,5 +1,5 @@
 {
-  ProcessInstance pi=processService.startProcessInstanceByKey("javaServiceDelegation",CollectionUtil.singletonMap("input","Activiti BPM Engine"));
-  Execution execution=processService.findExecutionInActivity(pi.getId(),"waitState");
-  assertEquals("ACTIVITI BPM ENGINE",processService.getVariable(execution.getId(),"input"));
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("javaServiceDelegation",CollectionUtil.singletonMap("input","Activiti BPM Engine"));
+  Execution execution=runtimeService.findActivityInstanceByProcessInstanceIdAndActivityId(pi.getId(),"waitState");
+  assertEquals("ACTIVITI BPM ENGINE",runtimeService.getVariable(execution.getId(),"input"));
 }

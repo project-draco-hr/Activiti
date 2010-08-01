@@ -1,0 +1,11 @@
+{
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  try {
+    ObjectOutputStream ois=new ObjectOutputStream(baos);
+    ois.writeObject(value);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("coudn't deserialize value '" + value + "' in variable '"+ variableInstanceEntity.getName()+ "'",e);
+  }
+  return baos.toByteArray();
+}

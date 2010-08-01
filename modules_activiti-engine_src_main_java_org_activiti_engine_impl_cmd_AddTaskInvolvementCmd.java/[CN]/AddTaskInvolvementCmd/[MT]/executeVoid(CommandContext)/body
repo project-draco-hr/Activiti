@@ -1,6 +1,6 @@
 {
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  TaskEntity task=runtimeSession.findTask(taskId);
+  TaskSession taskSession=commandContext.getTaskSession();
+  TaskEntity task=taskSession.findTaskById(taskId);
   if (task == null) {
     throw new ActivitiException("Cannot find task with id " + taskId);
   }

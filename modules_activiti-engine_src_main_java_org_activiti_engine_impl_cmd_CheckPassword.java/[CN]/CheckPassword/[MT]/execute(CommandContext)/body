@@ -1,6 +1,6 @@
 {
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  UserImpl user=runtimeSession.findUser(userId);
+  IdentitySession identitySession=commandContext.getIdentitySession();
+  UserEntity user=identitySession.findUserById(userId);
   if ((user != null) && (password != null) && (password.equals(user.getPassword()))) {
     return true;
   }

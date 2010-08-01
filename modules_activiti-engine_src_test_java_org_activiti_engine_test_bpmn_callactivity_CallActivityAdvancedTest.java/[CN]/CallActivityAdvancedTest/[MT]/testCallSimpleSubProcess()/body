@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=processService.startProcessInstanceByKey("callSimpleSubProcess");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
   TaskQuery taskQuery=taskService.createTaskQuery();
   Task taskBeforeSubProcess=taskQuery.singleResult();
   assertEquals("Task before subprocess",taskBeforeSubProcess.getName());

@@ -1,0 +1,8 @@
+{
+  ActivityInstanceEntity activityInstance=commandContext.getRuntimeSession().findActivityInstanceById(activityInstanceId);
+  if (activityInstance == null) {
+    throw new ActivitiException("activity instance " + activityInstance + " doesn't exist");
+  }
+  activityInstance.signal(signalName,signalData);
+  return null;
+}

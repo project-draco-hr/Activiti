@@ -1,0 +1,10 @@
+{
+  VariableInstanceEntity variableInstanceEntity=getInitializedVariableInstances().get(variableName);
+  if ((variableInstanceEntity != null) && (!variableInstanceEntity.getType().isAbleToStore(value))) {
+    deleteVariable(variableName);
+    variableInstanceEntity=null;
+  }
+  if (variableInstanceEntity == null) {
+    variableInstanceEntity=createVariableInstance(variableName,value);
+  }
+}

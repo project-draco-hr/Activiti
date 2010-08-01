@@ -1,12 +1,3 @@
 {
-  RepositorySession repositorySession=commandContext.getRepositorySession();
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  List<ProcessDefinitionEntity> processDefinitions=repositorySession.findProcessDefinitionsByDeploymentId(deploymentId);
-  for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
-    List<DbExecutionImpl> executions=runtimeSession.findProcessInstancesByProcessDefintionId(processDefinition.getId());
-    for (    DbExecutionImpl execution : executions) {
-      execution.end();
-    }
-  }
-  repositorySession.deleteDeployment(deploymentId);
+  commandContext.getRepositorySession().deleteDeployment(deploymentId);
 }

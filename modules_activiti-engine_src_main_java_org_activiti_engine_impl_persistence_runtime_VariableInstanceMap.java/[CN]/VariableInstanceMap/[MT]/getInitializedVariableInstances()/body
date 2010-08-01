@@ -1,0 +1,11 @@
+{
+  if (variableInstances == null) {
+    List<VariableInstanceEntity> variableInstanceList=null;
+    variableInstanceList=findVariableInstanceList();
+    variableInstances=new HashMap<String,VariableInstanceEntity>();
+    for (    VariableInstanceEntity variableInstanceEntity : variableInstanceList) {
+      variableInstances.put(variableInstanceEntity.getName(),variableInstanceEntity);
+    }
+  }
+  return variableInstances;
+}
