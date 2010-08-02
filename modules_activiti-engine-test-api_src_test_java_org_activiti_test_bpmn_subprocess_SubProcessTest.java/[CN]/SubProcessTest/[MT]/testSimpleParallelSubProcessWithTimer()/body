@@ -1,15 +1,15 @@
 {
   Date startTime=new Date();
-  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("simpleParallelSubProcessWithTimer");
-  List<Task> subProcessTasks=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME).list();
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("simpleParallelSubProcessWithTimer");
+  List<Task> subProcessTasks=taskService.createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME).list();
   Task taskA=subProcessTasks.get(0);
   Task taskB=subProcessTasks.get(1);
   assertEquals("Task A",taskA.getName());
   assertEquals("Task B",taskB.getName());
   ClockUtil.setCurrentTime(new Date(startTime.getTime() + (60 * 60 * 1000) + 1000));
-  new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(5000L,25L);
-  Task taskAfterTimer=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  waitForJobExecutorToProcessAllJobs(5000L,5L);
+  Task taskAfterTimer=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Task after timer",taskAfterTimer.getName());
-  deployer.getTaskService().complete(taskAfterTimer.getId());
-  deployer.assertProcessEnded(pi.getId());
+  taskService.complete(taskAfterTimer.getId());
+  assertProcessEnded(pi.getId());
 }

@@ -1,5 +1,9 @@
 {
-  exception.expect(ActivitiException.class);
-  exception.expectMessage("Couldn't find process definiton");
-  deployer.getRepositoryService().findProcessDefinitionById(null);
+  try {
+    repositoryService.findProcessDefinitionById(null);
+    fail();
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("Couldn't find process definiton",e.getMessage());
+  }
 }

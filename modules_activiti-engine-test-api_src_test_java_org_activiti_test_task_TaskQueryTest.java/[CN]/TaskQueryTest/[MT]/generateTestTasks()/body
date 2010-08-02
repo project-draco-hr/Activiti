@@ -1,32 +1,32 @@
 {
   List<String> ids=new ArrayList<String>();
   for (int i=0; i < 6; i++) {
-    Task task=deployer.getTaskService().newTask();
+    Task task=taskService.newTask();
     task.setName("testTask");
-    deployer.getTaskService().saveTask(task);
+    taskService.saveTask(task);
     ids.add(task.getId());
-    deployer.getTaskService().addCandidateUser(task.getId(),"kermit");
+    taskService.addCandidateUser(task.getId(),"kermit");
   }
-  Task task=deployer.getTaskService().newTask();
-  deployer.getTaskService().saveTask(task);
-  deployer.getTaskService().setAssignee(task.getId(),"gonzo");
+  Task task=taskService.newTask();
+  taskService.saveTask(task);
+  taskService.setAssignee(task.getId(),"gonzo");
   ids.add(task.getId());
   for (int i=0; i < 2; i++) {
-    task=deployer.getTaskService().newTask();
-    deployer.getTaskService().saveTask(task);
-    deployer.getTaskService().addCandidateGroup(task.getId(),"management");
+    task=taskService.newTask();
+    taskService.saveTask(task);
+    taskService.addCandidateGroup(task.getId(),"management");
     ids.add(task.getId());
   }
   for (int i=0; i < 2; i++) {
-    task=deployer.getTaskService().newTask();
-    deployer.getTaskService().saveTask(task);
-    deployer.getTaskService().addCandidateGroup(task.getId(),"accountancy");
+    task=taskService.newTask();
+    taskService.saveTask(task);
+    taskService.addCandidateGroup(task.getId(),"accountancy");
     ids.add(task.getId());
   }
-  task=deployer.getTaskService().newTask();
-  deployer.getTaskService().saveTask(task);
-  deployer.getTaskService().addCandidateGroup(task.getId(),"management");
-  deployer.getTaskService().addCandidateGroup(task.getId(),"accountancy");
+  task=taskService.newTask();
+  taskService.saveTask(task);
+  taskService.addCandidateGroup(task.getId(),"management");
+  taskService.addCandidateGroup(task.getId(),"accountancy");
   ids.add(task.getId());
   return ids;
 }

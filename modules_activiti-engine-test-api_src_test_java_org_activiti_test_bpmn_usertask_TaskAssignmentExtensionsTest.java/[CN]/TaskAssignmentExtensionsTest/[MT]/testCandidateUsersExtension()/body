@@ -1,7 +1,7 @@
 {
-  deployer.getProcessService().startProcessInstanceByKey("candidateUsersExtension");
-  List<Task> tasks=deployer.getTaskService().findUnassignedTasks("kermit");
+  runtimeService.startProcessInstanceByKey("candidateUsersExtension");
+  List<Task> tasks=taskService.findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
-  tasks=deployer.getTaskService().findUnassignedTasks("gonzo");
+  tasks=taskService.findUnassignedTasks("gonzo");
   assertEquals(1,tasks.size());
 }

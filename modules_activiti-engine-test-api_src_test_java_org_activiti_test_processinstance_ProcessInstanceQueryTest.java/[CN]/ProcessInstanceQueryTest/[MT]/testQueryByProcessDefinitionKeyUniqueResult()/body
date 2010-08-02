@@ -1,7 +1,6 @@
 {
-  ProcessInstanceQuery query=deployer.getProcessService().createProcessInstanceQuery().processDefinitionKey(PROCESS_KEY);
-  assertEquals(4,query.count());
-  assertEquals(4,query.list().size());
-  exception.expect(ActivitiException.class);
-  query.singleResult();
+  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().processDefinitionKey(PROCESS_KEY_2);
+  assertEquals(1,query.count());
+  assertEquals(1,query.list().size());
+  assertNotNull(query.singleResult());
 }

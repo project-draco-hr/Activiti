@@ -1,0 +1,11 @@
+{
+  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().processDefinitionKey(PROCESS_KEY);
+  assertEquals(4,query.count());
+  assertEquals(4,query.list().size());
+  try {
+    query.singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

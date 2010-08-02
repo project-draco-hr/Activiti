@@ -1,3 +1,10 @@
 {
-  commandContext.getTaskSession().deleteTask(taskId);
+  if (taskId != null) {
+    commandContext.getTaskSession().deleteTask(taskId);
+  }
+  if (taskIds != null) {
+    for (    String taskId : taskIds) {
+      commandContext.getTaskSession().deleteTask(taskId);
+    }
+  }
 }

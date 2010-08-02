@@ -1,8 +1,8 @@
 {
-  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("nestedSimpleSubProcess");
-  Task subProcessTask=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("nestedSimpleSubProcess");
+  Task subProcessTask=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
-  deployer.getTaskService().complete(subProcessTask.getId());
-  Task taskAfterSubProcesses=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  taskService.complete(subProcessTask.getId());
+  Task taskAfterSubProcesses=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Task after subprocesses",taskAfterSubProcesses.getName());
 }

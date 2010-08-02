@@ -1,8 +1,8 @@
 {
   ClockUtil.setCurrentTime(new Date(SOME_TIME));
-  CommandExecutor commandExecutor=deployer.getCommandExecutor();
-  JobHandlers jobHandlers=deployer.getJobHandlers();
-  JobExecutor jobExecutor=deployer.getJobExecutor();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
+  JobHandlers jobHandlers=processEngineConfiguration.getJobHandlers();
+  JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       TimerEntity timer=createTweetTimer("i'm coding a test",new Date(SOME_TIME + (10 * SECOND)));

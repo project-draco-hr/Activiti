@@ -1,7 +1,11 @@
 {
-  ProcessInstanceQuery query=deployer.getProcessService().createProcessInstanceQuery();
+  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery();
   assertEquals(5,query.count());
   assertEquals(5,query.list().size());
-  exception.expect(ActivitiException.class);
-  query.singleResult();
+  try {
+    query.singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
 }

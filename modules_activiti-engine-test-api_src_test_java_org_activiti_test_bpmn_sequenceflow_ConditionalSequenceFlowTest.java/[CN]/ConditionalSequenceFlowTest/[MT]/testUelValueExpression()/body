@@ -1,5 +1,5 @@
 {
-  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("condSeqFlowUelValueExpr",CollectionUtil.singletonMap("input","right"));
-  Task task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("condSeqFlowUelValueExpr",CollectionUtil.singletonMap("input","right"));
+  Task task=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("task right",task.getName());
 }

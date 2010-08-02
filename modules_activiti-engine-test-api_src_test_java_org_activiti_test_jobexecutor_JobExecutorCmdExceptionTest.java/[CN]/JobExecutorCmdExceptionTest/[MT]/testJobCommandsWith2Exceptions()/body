@@ -1,5 +1,4 @@
 {
-  CommandExecutor commandExecutor=deployer.getCommandExecutor();
   commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       MessageEntity message=createTweetExceptionMessage();
@@ -8,5 +7,5 @@
     }
   }
 );
-  new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(8000,250);
+  waitForJobExecutorToProcessAllJobs(5000L,50L);
 }

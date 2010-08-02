@@ -1,12 +1,14 @@
 {
-  Deployment deployment=processEngineBuilder.getProcessEngine().getRepositoryService().createDeployment().addString("test.bpmn20.xml","<definitions xmlns='http://www.omg.org/spec/BPMN/20100524/MODEL' " + "targetNamespace='http://www.activiti.org/bpmn2.0' />").deploy();
+  Deployment deployment=repositoryService.createDeployment().addString("test.bpmn20.xml","<definitions xmlns='http://www.omg.org/spec/BPMN/20100524/MODEL' " + "targetNamespace='http://www.activiti.org/bpmn2.0' />").deploy();
   assertNotNull(deployment);
-  exception.expect(AssertionError.class);
-  exception.expectMessage("Database not clean");
   try {
-    processEngineBuilder.assertDatabaseIsClean();
+    assertAndEnsureCleanDb();
+    fail();
   }
-  finally {
-    processEngineBuilder.getProcessEngine().getRepositoryService().deleteDeployment(deployment.getId());
+ catch (  ActivitiException e) {
+    assertTextPresent("Database not clean",e.getMessage());
+  }
+ finally {
+    repositoryService.deleteDeployment(deployment.getId());
   }
 }

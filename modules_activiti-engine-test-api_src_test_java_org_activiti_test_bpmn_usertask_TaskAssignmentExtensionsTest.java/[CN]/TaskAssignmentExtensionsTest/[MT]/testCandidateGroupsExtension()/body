@@ -1,6 +1,5 @@
 {
-  deployer.getProcessService().startProcessInstanceByKey("candidateGroupsExtension");
-  TaskService taskService=deployer.getTaskService();
+  runtimeService.startProcessInstanceByKey("candidateGroupsExtension");
   List<Task> tasks=taskService.findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
   assertEquals("make profit",tasks.get(0).getName());

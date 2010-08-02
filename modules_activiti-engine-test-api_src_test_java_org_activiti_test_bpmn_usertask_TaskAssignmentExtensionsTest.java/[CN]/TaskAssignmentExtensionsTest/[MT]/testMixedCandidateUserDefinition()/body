@@ -1,6 +1,5 @@
 {
-  deployer.getProcessService().startProcessInstanceByKey("mixedCandidateUser");
-  TaskService taskService=deployer.getTaskService();
+  runtimeService.startProcessInstanceByKey("mixedCandidateUser");
   List<Task> tasks=taskService.findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
   tasks=taskService.findUnassignedTasks("fozzie");
