@@ -1,7 +1,8 @@
 {
-  this.activityInstance=activityInstance;
-  this.scopeInstance=activityInstance;
-  this.signalName=signalName;
-  this.data=data;
-  perform(ACTIVITY_SIGNAL);
+  ExecutionContextImpl executionContext=new ExecutionContextImpl();
+  executionContext.activityInstance=activityInstance;
+  executionContext.scopeInstance=activityInstance;
+  executionContext.signalName=signalName;
+  executionContext.signalData=data;
+  executionContext.perform(ACTIVITY_SIGNAL);
 }

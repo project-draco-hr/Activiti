@@ -1,8 +1,7 @@
 {
   ActivityInstanceImpl activityInstance=executionContext.activityInstance;
-  TransitionImpl transition=executionContext.transition;
   ScopeInstanceImpl parent=activityInstance.getParent();
   executionContext.scopeInstance=parent;
-  parent.removeActivityInstance(activityInstance);
-  executionContext.fireEvent(transition,Event.TRANSITION_TAKE,TRANSITION_TAKE);
+  activityInstance.setEnded(true);
+  executionContext.fireEvent(activityInstance.getScope(),Event.ACTIVITY_END,TRANSITION_TAKE);
 }

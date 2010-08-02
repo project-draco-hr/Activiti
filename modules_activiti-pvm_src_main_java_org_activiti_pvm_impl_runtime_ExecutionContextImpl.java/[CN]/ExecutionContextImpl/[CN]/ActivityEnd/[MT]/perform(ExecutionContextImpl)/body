@@ -1,0 +1,16 @@
+{
+  executionContext.activityInstance.setEnded(true);
+  ScopeInstanceImpl parent=executionContext.activityInstance.getParent();
+  parent.removeActivityInstance(executionContext.activityInstance);
+  executionContext.scopeInstance=parent;
+  if (parent.getActivityInstances().isEmpty()) {
+    if (parent instanceof ProcessInstanceImpl) {
+      executionContext.activityInstance=null;
+      executionContext.fireEvent(parent.getScope(),Event.PROCESS_END,PROCESS_END);
+    }
+ else {
+      executionContext.activityInstance=(ActivityInstanceImpl)parent;
+      executionContext.end();
+    }
+  }
+}

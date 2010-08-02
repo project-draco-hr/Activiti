@@ -3,7 +3,7 @@
   ActivityImpl activity=activityInstance.getActivity();
   SignallableActivityBehaviour signallableActivityBehaviour=(SignallableActivityBehaviour)activity.getActivityBehavior();
   try {
-    signallableActivityBehaviour.signal(executionContext,executionContext.signalName,executionContext.data);
+    signallableActivityBehaviour.signal(executionContext,executionContext.signalName,executionContext.signalData);
   }
  catch (  RuntimeException e) {
     log.log(Level.SEVERE,getDelegationExceptionMessage(activity,"signal",e),e);
@@ -13,5 +13,9 @@ catch (  Exception e) {
     String delegationExceptionMessage=getDelegationExceptionMessage(activity,"signal",e);
     log.log(Level.SEVERE,delegationExceptionMessage,e);
     throw new PvmException(delegationExceptionMessage,e);
+  }
+ finally {
+    executionContext.signalName=null;
+    executionContext.signalData=null;
   }
 }
