@@ -1,7 +1,7 @@
 {
   assertIllegalArgumentException("process instance id",new Runnable(){
     public void run(){
-      new HistoricProcessInstanceEntity(null,"processDefinitionId",new Date());
+      new HistoricProcessInstanceEntity(null,"processInstanceId",new Date());
     }
   }
 );
@@ -13,7 +13,7 @@
 );
   assertIllegalArgumentException("start time",new Runnable(){
     public void run(){
-      new HistoricProcessInstanceEntity("processInstanceId","processDefinitionId",null);
+      new HistoricProcessInstanceEntity("processInstanceId","processInstanceId",null);
     }
   }
 );

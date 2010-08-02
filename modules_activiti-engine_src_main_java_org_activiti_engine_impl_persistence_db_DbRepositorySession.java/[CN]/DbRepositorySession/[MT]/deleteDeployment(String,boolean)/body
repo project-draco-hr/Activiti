@@ -1,0 +1,15 @@
+{
+  if (cascade) {
+    CommandContext commandContext=CommandContext.getCurrent();
+    List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl().deploymentId(deploymentId).executeList(commandContext,null);
+    for (    ProcessDefinition processDefinition : processDefinitions) {
+      List<ProcessInstance> processInstances=new ProcessInstanceQueryImpl().processDefinitionId(processDefinition.getId()).executeList(commandContext,null);
+      for (      ProcessInstance processInstance : processInstances) {
+        commandContext.getRuntimeSession().deleteProcessInstance(processInstance.getId());
+      }
+    }
+  }
+  dbSqlSession.delete("deleteProcessDefinitionsByDeploymentId",deploymentId);
+  dbSqlSession.delete("deleteResourcesByDeploymentId",deploymentId);
+  dbSqlSession.delete("deleteDeployment",deploymentId);
+}

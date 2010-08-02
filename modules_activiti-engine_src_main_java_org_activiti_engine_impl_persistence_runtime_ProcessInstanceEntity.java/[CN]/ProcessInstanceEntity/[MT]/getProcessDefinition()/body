@@ -1,0 +1,6 @@
+{
+  if (processDefinitionId != null && processDefinition == null) {
+    processDefinition=CommandContext.getCurrent().getRepositorySession().findProcessDefinitionById(processDefinitionId);
+  }
+  return (ProcessDefinitionEntity)processDefinition;
+}

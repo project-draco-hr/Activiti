@@ -1,6 +1,4 @@
 {
-  LogUtil.resetThreadIndents();
-  ThreadLogMode oldThreadRenderingMode=LogUtil.setThreadLogMode(threadRenderingMode);
   if (processEngine == null) {
     processEngine=processEngines.get(configurationResource);
     if (processEngine == null) {
@@ -11,10 +9,9 @@
     }
     initializeServices();
   }
-  log.fine(EMPTY_LINE);
-  log.fine("#### START " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName()+ " ###########################################################");
+  log.severe(EMPTY_LINE);
   try {
-    processDeploymentAnnotation();
+    annotationDeploymentBefore();
     super.runTest();
   }
  catch (  AssertionFailedError e) {
@@ -28,12 +25,8 @@ catch (  Throwable e) {
     throw e;
   }
  finally {
-    for (    String deploymentId : deploymentsToDeleteAfterTestMethod) {
-      repositoryService.deleteDeployment(deploymentId);
-    }
+    annotationDeploymentAfter();
     assertAndEnsureCleanDb();
     ClockUtil.reset();
-    log.fine("#### END " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName()+ " #############################################################");
-    LogUtil.setThreadLogMode(oldThreadRenderingMode);
   }
 }

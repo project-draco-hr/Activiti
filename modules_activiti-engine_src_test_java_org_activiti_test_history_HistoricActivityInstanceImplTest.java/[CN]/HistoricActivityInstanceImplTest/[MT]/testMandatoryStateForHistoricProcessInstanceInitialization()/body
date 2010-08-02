@@ -1,19 +1,19 @@
 {
   assertIllegalArgumentException("activity id",new Runnable(){
     public void run(){
-      new HistoricActivityInstanceEntity(null,"activityName","activityType","processInstanceId","processDefinitionId",new Date());
+      new HistoricActivityInstanceEntity(null,"activityName","activityType","processInstanceId","processInstanceId",new Date());
     }
   }
 );
   assertIllegalArgumentException("activity type",new Runnable(){
     public void run(){
-      new HistoricActivityInstanceEntity("activityId","activityName",null,"processInstanceId","processDefinitionId",new Date());
+      new HistoricActivityInstanceEntity("activityId","activityName",null,"processInstanceId","processInstanceId",new Date());
     }
   }
 );
   assertIllegalArgumentException("process instance id",new Runnable(){
     public void run(){
-      new HistoricActivityInstanceEntity("activityId","activityName","activityType",null,"processDefinitionId",new Date());
+      new HistoricActivityInstanceEntity("activityId","activityName","activityType",null,"processInstanceId",new Date());
     }
   }
 );
@@ -25,9 +25,9 @@
 );
   assertIllegalArgumentException("start time",new Runnable(){
     public void run(){
-      new HistoricActivityInstanceEntity("activityId","activityName","activityType","processInstanceId","processDefinitionId",null);
+      new HistoricActivityInstanceEntity("activityId","activityName","activityType","processInstanceId","processInstanceId",null);
     }
   }
 );
-  new HistoricActivityInstanceEntity("activityId",null,"activityType","processInstanceId","processDefinitionId",new Date());
+  new HistoricActivityInstanceEntity("activityId",null,"activityType","processInstanceId","processInstanceId",new Date());
 }

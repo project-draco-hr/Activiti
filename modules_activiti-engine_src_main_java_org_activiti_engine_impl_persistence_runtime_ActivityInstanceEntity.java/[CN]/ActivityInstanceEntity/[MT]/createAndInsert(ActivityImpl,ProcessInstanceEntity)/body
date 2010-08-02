@@ -1,0 +1,8 @@
+{
+  ActivityInstanceEntity activityInstance=new ActivityInstanceEntity(activity,parent);
+  activityInstance.setProcessDefinitionId(parent.getProcessDefinitionId());
+  activityInstance.setProcessInstanceId(parent.getId());
+  activityInstance.setActivityId(activity.getId());
+  insert(activityInstance);
+  return activityInstance;
+}
