@@ -1,7 +1,8 @@
 {
-  deployer.deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='IDR' name='Insurance Damage Report' />"+ "</definitions>"));
-  deployer.deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='IDR' name='Insurance Damage Report' />"+ "</definitions>"));
-  List<ProcessDefinition> processDefinitions=deployer.getRepositoryService().findProcessDefinitions();
+  List<String> deploymentIds=new ArrayList<String>();
+  deploymentIds.add(deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='IDR' name='Insurance Damage Report' />"+ "</definitions>")));
+  deploymentIds.add(deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='IDR' name='Insurance Damage Report' />"+ "</definitions>")));
+  List<ProcessDefinition> processDefinitions=repositoryService.findProcessDefinitions();
   assertNotNull(processDefinitions);
   assertEquals(1,processDefinitions.size());
   ProcessDefinition processDefinition=processDefinitions.get(0);
@@ -9,4 +10,5 @@
   assertEquals("Insurance Damage Report",processDefinition.getName());
   assertEquals("IDR:1",processDefinition.getId());
   assertEquals(1,processDefinition.getVersion());
+  deleteDeployments(deploymentIds);
 }

@@ -1,7 +1,7 @@
 {
-  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("receiveTask");
-  ActivityInstance activityInstance=deployer.getProcessService().findActivityInstanceByProcessInstanceIdAndActivityId(pi.getId(),"waitState");
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("receiveTask");
+  ActivityInstance activityInstance=runtimeService.findActivityInstanceByProcessInstanceIdAndActivityId(pi.getId(),"waitState");
   assertNotNull(activityInstance);
-  deployer.getProcessService().signal(activityInstance.getId());
-  deployer.assertProcessEnded(pi.getId());
+  runtimeService.signal(activityInstance.getId());
+  assertProcessEnded(pi.getId());
 }

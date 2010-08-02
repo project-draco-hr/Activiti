@@ -1,5 +1,9 @@
 {
-  exception.expect(ActivitiException.class);
-  exception.expectMessage("Unknown property used in expression");
-  deployer.getProcessService().startProcessInstanceByKey("exclusiveGwDiverging",CollectionUtil.singletonMap("iinput",1));
+  try {
+    runtimeService.startProcessInstanceByKey("exclusiveGwDiverging",CollectionUtil.singletonMap("iinput",1));
+    fail();
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("Unknown property used in expression",e.getMessage());
+  }
 }

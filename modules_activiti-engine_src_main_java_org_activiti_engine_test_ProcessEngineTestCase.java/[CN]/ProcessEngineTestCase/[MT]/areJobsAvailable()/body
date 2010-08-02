@@ -1,11 +1,3 @@
 {
-  CommandExecutor commandExecutor=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutor();
-  Boolean areJobsAvailable=commandExecutor.execute(new Command<Boolean>(){
-    public Boolean execute(    CommandContext commandContext){
-      return !commandContext.getRuntimeSession().findLockedJobs().isEmpty();
-    }
-  }
-);
-  log.info("Jobs available: " + areJobsAvailable);
-  return areJobsAvailable;
+  return !managementService.createJobQuery().list().isEmpty();
 }

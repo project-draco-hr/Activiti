@@ -1,6 +1,4 @@
 {
-  RuntimeService runtimeService=deployer.getProcessService();
-  TaskService taskService=deployer.getTaskService();
   UelExpressionTestOrder order=new UelExpressionTestOrder(150);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("uelExpressions",CollectionUtil.singletonMap("order",order));
   Task task=taskService.createTaskQuery().processInstance(processInstance.getId()).singleResult();

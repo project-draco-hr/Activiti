@@ -1,8 +1,6 @@
 {
-  RepositoryService repositoryService=deployer.getRepositoryService();
-  TaskService taskService=deployer.getTaskService();
   Deployment deployment=repositoryService.createDeployment().addClasspathResource("org/activiti/examples/bpmn/subprocess/SubProcessTest.fixSystemFailureProcess.bpmn20.xml").deploy();
-  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("fixSystemFailure");
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("fixSystemFailure");
   List<Task> tasks=taskService.createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME).list();
   Task investigateHardwareTask=tasks.get(0);
   Task investigateSoftwareTask=tasks.get(1);

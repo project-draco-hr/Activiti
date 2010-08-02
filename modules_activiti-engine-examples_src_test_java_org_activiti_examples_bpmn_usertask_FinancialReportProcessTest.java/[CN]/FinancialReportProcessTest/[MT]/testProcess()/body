@@ -1,18 +1,18 @@
 {
-  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("financialReport");
-  List<Task> tasks=deployer.getTaskService().findUnassignedTasks("fozzie");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("financialReport");
+  List<Task> tasks=taskService.findUnassignedTasks("fozzie");
   assertEquals(1,tasks.size());
   Task task=tasks.get(0);
   assertEquals("Write monthly financial report",task.getName());
-  deployer.getTaskService().claim(task.getId(),"fozzie");
-  tasks=deployer.getTaskService().findAssignedTasks("fozzie");
+  taskService.claim(task.getId(),"fozzie");
+  tasks=taskService.findAssignedTasks("fozzie");
   assertEquals(1,tasks.size());
-  deployer.getTaskService().complete(task.getId());
-  tasks=deployer.getTaskService().findUnassignedTasks("fozzie");
+  taskService.complete(task.getId());
+  tasks=taskService.findUnassignedTasks("fozzie");
   assertEquals(0,tasks.size());
-  tasks=deployer.getTaskService().findUnassignedTasks("kermit");
+  tasks=taskService.findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
   assertEquals("Verify monthly financial report",tasks.get(0).getName());
-  deployer.getTaskService().complete(tasks.get(0).getId());
-  deployer.assertProcessEnded(processInstance.getId());
+  taskService.complete(tasks.get(0).getId());
+  assertProcessEnded(processInstance.getId());
 }

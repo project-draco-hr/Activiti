@@ -1,14 +1,14 @@
 {
   List<String> taskIds=generateDummyTasks(20);
-  TablePage tablePage=processEngineBuilder.getManagementService().createTablePageQuery().tableName("ACT_TASK").start(0).size(5).singleResult();
+  TablePage tablePage=managementService.createTablePageQuery().tableName("ACT_TASK").start(0).size(5).singleResult();
   assertEquals(0,tablePage.getStart());
   assertEquals(5,tablePage.getSize());
   assertEquals(5,tablePage.getRows().size());
   assertEquals(20,tablePage.getTotal());
-  tablePage=processEngineBuilder.getManagementService().createTablePageQuery().tableName("ACT_TASK").start(14).size(10).singleResult();
+  tablePage=managementService.createTablePageQuery().tableName("ACT_TASK").start(14).size(10).singleResult();
   assertEquals(14,tablePage.getStart());
   assertEquals(6,tablePage.getSize());
   assertEquals(6,tablePage.getRows().size());
   assertEquals(20,tablePage.getTotal());
-  processEngineBuilder.deleteTasks(taskIds);
+  deleteTasks(taskIds);
 }

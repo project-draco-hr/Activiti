@@ -1,19 +1,19 @@
 {
-  Task task=deployer.getTaskService().newTask();
+  Task task=taskService.newTask();
   task.setName("testTask");
-  deployer.getTaskService().saveTask(task);
+  taskService.saveTask(task);
   String taskId=task.getId();
-  deployer.getTaskService().addCandidateUser(taskId,"kermit");
-  deployer.getTaskService().addCandidateUser(taskId,"gonzo");
-  List<Task> tasks=deployer.getTaskService().findUnassignedTasks("kermit");
+  taskService.addCandidateUser(taskId,"kermit");
+  taskService.addCandidateUser(taskId,"gonzo");
+  List<Task> tasks=taskService.findUnassignedTasks("kermit");
   assertEquals(1,tasks.size());
   assertEquals("testTask",tasks.get(0).getName());
-  tasks=deployer.getTaskService().findUnassignedTasks("gonzo");
+  tasks=taskService.findUnassignedTasks("gonzo");
   assertEquals(1,tasks.size());
   assertEquals("testTask",tasks.get(0).getName());
-  deployer.getTaskService().claim(taskId,"kermit");
-  assertTrue(deployer.getTaskService().findUnassignedTasks("kermit").isEmpty());
-  assertTrue(deployer.getTaskService().findUnassignedTasks("gonzo").isEmpty());
-  deployer.getTaskService().complete(taskId);
-  assertNull(deployer.getTaskService().findTask(taskId));
+  taskService.claim(taskId,"kermit");
+  assertTrue(taskService.findUnassignedTasks("kermit").isEmpty());
+  assertTrue(taskService.findUnassignedTasks("gonzo").isEmpty());
+  taskService.complete(taskId);
+  assertNull(taskService.findTask(taskId));
 }

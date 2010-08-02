@@ -1,10 +1,10 @@
 {
   Date startTime=new Date();
-  ProcessInstance pi=deployer.getProcessService().startProcessInstanceByKey("interruptingBoundaryTimer");
-  Task task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("interruptingBoundaryTimer");
+  Task task=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("First line support",task.getName());
   ClockUtil.setCurrentTime(new Date(startTime.getTime() + (5 * 60 * 60* 1000)));
-  new JobExecutorPoller(deployer.getJobExecutor(),deployer.getCommandExecutor()).waitForJobExecutorToProcessAllJobs(10000L,250);
-  task=deployer.getTaskService().createTaskQuery().processInstance(pi.getId()).singleResult();
+  waitForJobExecutorToProcessAllJobs(10000L,250L);
+  task=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
   assertEquals("Second line support",task.getName());
 }

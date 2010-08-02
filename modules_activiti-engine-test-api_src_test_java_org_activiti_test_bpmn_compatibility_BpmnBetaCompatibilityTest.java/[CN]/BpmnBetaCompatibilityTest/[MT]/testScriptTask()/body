@@ -1,7 +1,7 @@
 {
-  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("scriptTask",CollectionUtil.singletonMap("numbers",Arrays.asList(1,2,3)));
-  Task task=deployer.getTaskService().createTaskQuery().processInstance(processInstance.getId()).singleResult();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("scriptTask",CollectionUtil.singletonMap("numbers",Arrays.asList(1,2,3)));
+  Task task=taskService.createTaskQuery().processInstance(processInstance.getId()).singleResult();
   assertEquals("Human task",task.getName());
-  Integer sum=(Integer)deployer.getProcessService().getVariable(processInstance.getId(),"sum");
+  Integer sum=(Integer)runtimeService.getVariable(processInstance.getId(),"sum");
   assertEquals(6,sum.intValue());
 }

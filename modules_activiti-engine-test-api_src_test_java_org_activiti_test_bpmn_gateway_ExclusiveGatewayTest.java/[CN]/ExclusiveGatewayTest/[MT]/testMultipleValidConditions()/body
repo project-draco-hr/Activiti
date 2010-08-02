@@ -1,4 +1,4 @@
 {
-  deployer.getProcessService().startProcessInstanceByKey("exclusiveGwMultipleValidConditions",CollectionUtil.singletonMap("input",5));
-  assertEquals("Task 2",deployer.getTaskService().createTaskQuery().singleResult().getName());
+  runtimeService.startProcessInstanceByKey("exclusiveGwMultipleValidConditions",CollectionUtil.singletonMap("input",5));
+  assertEquals("Task 2",taskService.createTaskQuery().singleResult().getName());
 }
