@@ -1,5 +1,5 @@
 {
   RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  runtimeSession.insert(message);
+  runtimeSession.insertJob(message);
   commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(jobExecutor));
 }

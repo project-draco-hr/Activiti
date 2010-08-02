@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=deployer.getProcessService().startProcessInstanceByKey("startToEnd");
-  deployer.assertProcessEnded(processInstance.getId());
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("startToEnd");
+  assertProcessEnded(processInstance.getId());
   assertTrue(processInstance.isEnded());
 }

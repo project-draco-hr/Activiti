@@ -1,3 +1,5 @@
 {
-  return VariableInstanceEntity.createAndInsert(variableName,type,value);
+  VariableInstanceEntity variableInstance=VariableInstanceEntity.createAndInsert(variableName,type,value);
+  variableInstance.setProcessInstance(processInstance);
+  return variableInstance;
 }

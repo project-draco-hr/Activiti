@@ -3,7 +3,7 @@
   if (duedate == null) {
     throw new ActivitiException("duedate is null");
   }
-  commandContext.getRuntimeSession().insert(timer);
+  commandContext.getRuntimeSession().insertJob(timer);
   int waitTimeInMillis=jobExecutor.getWaitTimeInMillis();
   if (duedate.getTime() < (ClockUtil.getCurrentTime().getTime() + waitTimeInMillis)) {
     commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(jobExecutor));

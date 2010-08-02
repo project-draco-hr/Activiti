@@ -1,7 +1,10 @@
 {
-  ExecutionImpl execution=null;
-  if (executionId != null) {
-    execution=commandContext.getRuntimeSession().findExecution(executionId);
+  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
+  ActivityInstanceEntity activityInstance=null;
+  if (activityInstanceId != null) {
+    activityInstance=runtimeSession.findActivityInstanceById(activityInstanceId);
   }
-  jobHandler.execute(jobHandlerConfiguration,execution,commandContext);
+  ProcessInstanceEntity processInstance=null;
+  processInstance=runtimeSession.findProcessInstanceById(processInstanceId);
+  jobHandler.execute(jobHandlerConfiguration,processInstance,activityInstance,commandContext);
 }

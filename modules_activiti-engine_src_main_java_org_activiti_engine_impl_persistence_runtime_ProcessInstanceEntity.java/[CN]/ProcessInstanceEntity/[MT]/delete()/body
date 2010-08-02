@@ -1,2 +1,8 @@
 {
+  for (  ActivityInstanceImpl activityInstance : getActivityInstances()) {
+    ((ActivityInstanceEntity)activityInstance).delete();
+  }
+  for (  VariableInstanceEntity variableInstance : getVariableInstanceMap().getVariableInstances().values()) {
+    variableInstance.delete();
+  }
 }
