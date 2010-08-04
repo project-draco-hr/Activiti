@@ -1,0 +1,11 @@
+{
+  if (namedActivities.containsKey(destination.getId())) {
+    return true;
+  }
+  for (  ActivityImpl nestedActivity : activities) {
+    if (nestedActivity.contains(destination)) {
+      return true;
+    }
+  }
+  return false;
+}

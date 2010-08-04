@@ -1,0 +1,11 @@
+{
+  TimerImpl timer=new TimerImpl();
+  timer.setExecution(this);
+  timer.setDuedate(timerDeclaration.getDuedate());
+  timer.setJobHandlerType(timerDeclaration.getJobHandlerType());
+  timer.setJobHandlerConfiguration(timerDeclaration.getJobHandlerConfiguration());
+  timer.setExclusive(timerDeclaration.isExclusive());
+  timer.setRepeat(timerDeclaration.getRepeat());
+  timer.setRetries(timerDeclaration.getRetries());
+  CommandContext.getCurrent().getTimerSession().schedule(timer);
+}

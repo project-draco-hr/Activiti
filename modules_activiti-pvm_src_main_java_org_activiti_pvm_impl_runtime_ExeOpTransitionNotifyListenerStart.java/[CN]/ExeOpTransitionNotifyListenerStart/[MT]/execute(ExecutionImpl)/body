@@ -1,0 +1,26 @@
+{
+  ActivityImpl activity=execution.getActivity();
+  List<EventListener> eventListeners=activity.getEventListeners(EventListener.EVENTNAME_START);
+  int eventListenerIndex=execution.getEventListenerIndex();
+  if (eventListeners.size() > eventListenerIndex) {
+    EventListener listener=eventListeners.get(eventListenerIndex);
+    listener.notify(execution);
+    execution.setEventListenerIndex(eventListenerIndex + 1);
+    execution.performOperation(this);
+  }
+ else {
+    execution.setEventListenerIndex(0);
+    TransitionImpl transition=execution.getTransition();
+    ActivityImpl destination=transition.getDestination();
+    if (execution.getActivity() != destination) {
+      ActivityImpl nextScope=ExeOpTransitionNotifyListenerTake.findNextScope(activity,destination);
+      execution.setActivity(nextScope);
+      execution.performOperation(TRANSITION_CREATE_SCOPE);
+    }
+ else {
+      execution.setTransition(null);
+      execution.setActivity(destination);
+      execution.performOperation(EXECUTE_CURRENT_ACTIVITY);
+    }
+  }
+}

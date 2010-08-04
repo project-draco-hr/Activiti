@@ -1,0 +1,12 @@
+{
+  if ((getActivity() != null) && (getActivity().getId().equals(activityId))) {
+    return this;
+  }
+  for (  ExecutionImpl nestedExecution : getExecutions()) {
+    ExecutionImpl result=nestedExecution.findExecution(activityId);
+    if (result != null) {
+      return result;
+    }
+  }
+  return null;
+}

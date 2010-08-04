@@ -8,7 +8,7 @@
     throw new ActivitiException("Cannot find task with id " + taskId);
   }
   task.delete();
-  PvmActivityInstance activityInstance=task.getActivityInstance();
+  PvmExecution activityInstance=task.getActivityInstance();
   if (activityInstance != null) {
     activityInstance.signal(null,null);
   }

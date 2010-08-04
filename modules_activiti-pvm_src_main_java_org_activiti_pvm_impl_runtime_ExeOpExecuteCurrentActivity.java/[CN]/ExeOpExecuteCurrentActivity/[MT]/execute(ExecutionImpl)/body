@@ -1,0 +1,14 @@
+{
+  ActivityImpl activity=execution.getActivity();
+  ActivityBehavior activityBehavior=activity.getActivityBehavior();
+  log.fine("executing " + activity + ": "+ activityBehavior.getClass().getName());
+  try {
+    activityBehavior.execute(execution);
+  }
+ catch (  RuntimeException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new PvmException("couldn't start activity '" + activity.getId() + "': "+ e.getMessage(),e);
+  }
+}

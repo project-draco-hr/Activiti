@@ -1,0 +1,7 @@
+{
+  if (this.transition != null) {
+    throw new PvmException("already taking a transition");
+  }
+  setTransition((TransitionImpl)transition);
+  performOperation(ExeOp.TRANSITION_NOTIFY_LISTENER_END);
+}

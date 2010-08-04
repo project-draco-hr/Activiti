@@ -1,0 +1,13 @@
+{
+  ActivityImpl activity=execution.getActivity();
+  EventActivityBehavior activityBehavior=(EventActivityBehavior)activity.getActivityBehavior();
+  try {
+    activityBehavior.signal(execution,signalName,signalData);
+  }
+ catch (  RuntimeException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new PvmException("couldn't process signal '" + signalName + "' on activity '"+ activity.getId()+ "': "+ e.getMessage(),e);
+  }
+}

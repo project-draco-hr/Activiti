@@ -1,0 +1,8 @@
+{
+  ExecutionImpl subProcessInstance=newExecution();
+  subProcessInstance.setSuperExecution(this);
+  this.setSubProcessInstance(subProcessInstance);
+  subProcessInstance.setProcessDefinition((ProcessDefinitionImpl)processDefinition);
+  subProcessInstance.setProcessInstance(subProcessInstance);
+  return subProcessInstance;
+}

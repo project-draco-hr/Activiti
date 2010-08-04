@@ -1,0 +1,19 @@
+{
+  TransitionImpl transition=execution.getTransition();
+  log.fine("taking transition " + transition);
+  List<EventListener> eventListeners=transition.getEventListeners();
+  int eventListenerIndex=execution.getEventListenerIndex();
+  if (eventListeners.size() > eventListenerIndex) {
+    EventListener listener=eventListeners.get(eventListenerIndex);
+    listener.notify(execution);
+    execution.setEventListenerIndex(eventListenerIndex + 1);
+    execution.performOperation(this);
+  }
+ else {
+    execution.setEventListenerIndex(0);
+    ActivityImpl activity=execution.getActivity();
+    ActivityImpl nextScope=findNextScope(activity.getParent(),transition.getDestination());
+    execution.setActivity(nextScope);
+    execution.performOperation(TRANSITION_CREATE_SCOPE);
+  }
+}

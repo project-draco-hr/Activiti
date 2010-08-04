@@ -1,0 +1,27 @@
+{
+  setActivity(null);
+  ensureExecutionsInitialized();
+  List<ExecutionImpl> childExecutions=new ArrayList<ExecutionImpl>(executions);
+  for (  ExecutionImpl childExecution : childExecutions) {
+    childExecution.end();
+  }
+  ensureSubProcessInstanceInitialized();
+  if (subProcessInstance != null) {
+    subProcessInstance.setSuperExecution(null);
+    subProcessInstance.end();
+  }
+  ensureParentInitialized();
+  if (parent != null) {
+    parent.removeExecution(this);
+  }
+ else {
+    ensureSuperExecutionInitialized();
+    if (superExecution != null) {
+      ExecutionImpl superExecutionCopy=superExecution;
+      superExecution.setSubProcessInstance(null);
+      setSuperExecution(null);
+      superExecutionCopy.signal("continue process",null);
+    }
+    isEnded=true;
+  }
+}

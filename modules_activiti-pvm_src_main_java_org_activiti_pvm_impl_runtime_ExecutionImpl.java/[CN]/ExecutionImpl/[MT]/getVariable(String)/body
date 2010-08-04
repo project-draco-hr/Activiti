@@ -1,0 +1,11 @@
+{
+  ensureVariableMapInitialized();
+  Object value=variableMap.get(variableName);
+  if (value != null) {
+    return value;
+  }
+  if (getParent() != null) {
+    return getParent().getVariable(variableName);
+  }
+  return null;
+}

@@ -4,13 +4,13 @@
   PvmProcessInstance processInstance=processDefinition.createProcessInstance();
   processInstance.setVariable("creditRating","Aaa-");
   processInstance.start();
-  assertNotNull(processInstance.findActivityInstance("takeToGolf"));
+  assertNotNull(processInstance.findActiveExecution("takeToGolf"));
   processInstance=processDefinition.createProcessInstance();
   processInstance.setVariable("creditRating","AAA+");
   processInstance.start();
-  assertNotNull(processInstance.findActivityInstance("askDaughterOut"));
+  assertNotNull(processInstance.findActiveExecution("askDaughterOut"));
   processInstance=processDefinition.createProcessInstance();
   processInstance.setVariable("creditRating","bb-");
   processInstance.start();
-  assertNotNull(processInstance.findActivityInstance("ignore"));
+  assertNotNull(processInstance.findActiveExecution("ignore"));
 }
