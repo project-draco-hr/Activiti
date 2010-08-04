@@ -1,0 +1,10 @@
+{
+  PvmActivity timerActivity=activityContext.getActivity().findActivity(signalName);
+  boolean isInterrupting=(Boolean)timerActivity.getProperty("isInterrupting");
+  if (!isInterrupting) {
+    activityContext.keepAlive();
+  }
+  for (  PvmTransition transition : timerActivity.getOutgoingTransitions()) {
+    activityContext.take(transition);
+  }
+}

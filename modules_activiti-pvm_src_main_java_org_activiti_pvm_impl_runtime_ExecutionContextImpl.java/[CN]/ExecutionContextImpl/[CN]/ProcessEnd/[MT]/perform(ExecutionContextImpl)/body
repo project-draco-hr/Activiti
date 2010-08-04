@@ -1,5 +1,8 @@
 {
   ProcessInstanceImpl processInstance=(ProcessInstanceImpl)executionContext.scopeInstance;
+  for (  ActivityInstanceImpl activityInstance : processInstance.getActivityInstances()) {
+    destroyActivityInstance(activityInstance);
+  }
   processInstance.setEnded(true);
-  processInstance.remove();
+  processInstance.destroy();
 }

@@ -1,0 +1,11 @@
+{
+  List<PvmActivity> startActivities=new ArrayList<PvmActivity>();
+  for (  PvmActivity activity : activityContext.getActivity().getActivities()) {
+    if (activity.getIncomingTransitions().isEmpty()) {
+      startActivities.add(activity);
+    }
+  }
+  for (  PvmActivity startActivity : startActivities) {
+    activityContext.executeActivity(startActivity);
+  }
+}

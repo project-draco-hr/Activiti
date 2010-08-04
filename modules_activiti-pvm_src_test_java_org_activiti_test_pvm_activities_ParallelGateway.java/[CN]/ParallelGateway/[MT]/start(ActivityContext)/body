@@ -1,2 +1,18 @@
 {
+  int incomingTransitionsSize=activityContext.getActivity().getIncomingTransitions().size();
+  if (incomingTransitionsSize == 1) {
+    activate(activityContext);
+  }
+ else {
+    Integer joinCount=(Integer)activityContext.getSystemVariable("joinCount");
+    if (joinCount == null) {
+      activityContext.setSystemVariable("joinCount",new Integer(1));
+    }
+ else {
+      joinCount=joinCount + 1;
+      if (joinCount == incomingTransitionsSize) {
+        activate(activityContext);
+      }
+    }
+  }
 }

@@ -7,5 +7,5 @@
   assertEquals("${user}",((TaskDefinition)ReflectionTestUtils.getField(((ActivityImpl)activityInstance.getActivity()).getActivityBehavior(),"taskDefinition")).getAssignee());
   List<Task> tasks=processEngine.getTaskService().findAssignedTasks("kermit");
   assertEquals(before + 1,tasks.size());
-  processEngine.getRuntimeService().deleteProcessInstance(processInstance.getId());
+  processEngine.getRuntimeService().endProcessInstance(processInstance.getId());
 }
