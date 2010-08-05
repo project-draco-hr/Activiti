@@ -1,0 +1,28 @@
+{
+  if (sourceVariableName != null) {
+    if (outerScope.hasVariable(sourceVariableName)) {
+      Object value=outerScope.getVariable(sourceVariableName);
+      innerScope.setVariable(destinationVariableName,value);
+    }
+ else {
+      throw new ActivitiException("Couldn't create variable '" + destinationVariableName + "', since the source variable '"+ sourceVariableName+ "does not exist");
+    }
+  }
+  if (sourceValueExpression != null) {
+    Object value=sourceValueExpression.getValue(outerScope);
+    innerScope.setVariable(destinationVariableName,value);
+  }
+  if (link != null) {
+    if (outerScope.hasVariable(sourceVariableName)) {
+      Object value=outerScope.getVariable(sourceVariableName);
+      innerScope.setVariable(destinationVariableName,value);
+    }
+ else {
+      throw new ActivitiException("Couldn't create variable '" + destinationVariableName + "', since the source variable '"+ sourceVariableName+ "does not exist");
+    }
+  }
+  if (linkValueExpression != null) {
+    Object value=sourceValueExpression.getValue(outerScope);
+    innerScope.setVariable(destinationVariableName,value);
+  }
+}

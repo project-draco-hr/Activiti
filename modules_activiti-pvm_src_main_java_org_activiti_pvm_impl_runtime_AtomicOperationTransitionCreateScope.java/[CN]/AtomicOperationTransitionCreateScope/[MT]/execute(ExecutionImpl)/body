@@ -1,0 +1,18 @@
+{
+  ExecutionImpl propagatingExecution=null;
+  ActivityImpl activity=execution.getActivity();
+  if (activity.isScope()) {
+    propagatingExecution=(ExecutionImpl)execution.createScope();
+    ScopeImpl parentScope=activity.getParent();
+    if (parentScope instanceof PvmActivity) {
+      execution.setActivity((ActivityImpl)parentScope);
+    }
+ else {
+      execution.setActivity(null);
+    }
+  }
+ else {
+    propagatingExecution=execution;
+  }
+  propagatingExecution.performOperation(AtomicOperation.TRANSITION_NOTIFY_LISTENER_START);
+}

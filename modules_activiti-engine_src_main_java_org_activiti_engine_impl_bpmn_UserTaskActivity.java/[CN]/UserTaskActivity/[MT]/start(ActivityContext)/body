@@ -1,6 +1,6 @@
 {
   TaskEntity task=TaskEntity.createAndInsert();
-  task.setActivityInstance(activityContext.getActivityInstance());
+  task.setActivityInstance(activityContext.getExecution());
   if (taskDefinition.getName() != null) {
     String name=evaluateExpression(taskDefinition.getName(),activityContext);
     task.setName(name);

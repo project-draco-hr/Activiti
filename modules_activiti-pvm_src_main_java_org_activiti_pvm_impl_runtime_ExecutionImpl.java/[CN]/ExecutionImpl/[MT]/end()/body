@@ -1,9 +1,12 @@
 {
-  setActivity(null);
+  isActive=false;
+  isEnded=true;
   ensureExecutionsInitialized();
-  List<ExecutionImpl> childExecutions=new ArrayList<ExecutionImpl>(executions);
-  for (  ExecutionImpl childExecution : childExecutions) {
-    childExecution.end();
+  if (!executions.isEmpty()) {
+    List<ExecutionImpl> childExecutions=new ArrayList<ExecutionImpl>(executions);
+    for (    ExecutionImpl childExecution : childExecutions) {
+      childExecution.end();
+    }
   }
   ensureSubProcessInstanceInitialized();
   if (subProcessInstance != null) {
@@ -12,7 +15,18 @@
   }
   ensureParentInitialized();
   if (parent != null) {
-    parent.removeExecution(this);
+    ActivityImpl parentScopeActivity=activity.getParentActivity();
+    while (parentScopeActivity != null && !parentScopeActivity.isScope()) {
+      parentScopeActivity=parentScopeActivity.getParentActivity();
+    }
+    ExecutionImpl parent=this.parent;
+    this.parent.removeExecution(this);
+    if (parentScopeActivity != null && parent.getExecutions().isEmpty()) {
+      ActivityBehavior activityBehavior=parentScopeActivity.getActivityBehavior();
+      if (activityBehavior instanceof CompositeActivityBehavior) {
+        ((CompositeActivityBehavior)activityBehavior).lastExecutionEnded(parent,parentScopeActivity,this);
+      }
+    }
   }
  else {
     ensureSuperExecutionInitialized();
@@ -22,6 +36,5 @@
       setSuperExecution(null);
       superExecutionCopy.signal("continue process",null);
     }
-    isEnded=true;
   }
 }

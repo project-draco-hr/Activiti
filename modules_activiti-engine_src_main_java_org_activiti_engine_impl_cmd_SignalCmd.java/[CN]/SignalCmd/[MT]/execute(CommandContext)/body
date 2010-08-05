@@ -1,5 +1,5 @@
 {
-  ActivityInstanceEntity activityInstance=commandContext.getRuntimeSession().findActivityInstanceById(activityInstanceId);
+  ActivityInstanceEntity activityInstance=commandContext.getRuntimeSession().findExecutionById(activityInstanceId);
   if (activityInstance == null) {
     throw new ActivitiException("activity instance " + activityInstance + " doesn't exist");
   }
