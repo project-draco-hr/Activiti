@@ -1,0 +1,9 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  for (  String variableName : getVariableNames()) {
+    VariableInstanceEntity variableInstance=variableInstances.get(variableName);
+    Object value=variableInstance.getValue();
+    variables.put(variableName,value);
+  }
+  return variables;
+}

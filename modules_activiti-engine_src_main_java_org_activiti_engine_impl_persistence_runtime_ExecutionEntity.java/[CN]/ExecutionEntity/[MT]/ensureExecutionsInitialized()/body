@@ -1,0 +1,6 @@
+{
+  if (!isExecutionsInitialized) {
+    this.executions=CommandContext.getCurrent().getDbSqlSession().findChildExecutionsByParentExecutionId(id);
+    this.isExecutionsInitialized=true;
+  }
+}
