@@ -1,7 +1,9 @@
 {
+  ensureActivityInitialized();
   if (isActive && activity != null) {
     activeActivityIds.add(activity.getId());
   }
+  ensureExecutionsInitialized();
   for (  ExecutionImpl execution : executions) {
     execution.collectActiveActivityIds(activeActivityIds);
   }

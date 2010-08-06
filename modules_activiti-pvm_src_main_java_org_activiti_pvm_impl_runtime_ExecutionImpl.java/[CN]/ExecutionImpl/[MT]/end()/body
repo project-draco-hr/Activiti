@@ -15,17 +15,21 @@
   }
   ensureParentInitialized();
   if (parent != null) {
-    ActivityImpl parentScopeActivity=activity.getParentActivity();
-    while (parentScopeActivity != null && !parentScopeActivity.isScope()) {
-      parentScopeActivity=parentScopeActivity.getParentActivity();
+    activity=activity.getParentActivity();
+    while (activity != null && !activity.isScope()) {
+      activity=activity.getParentActivity();
     }
-    ExecutionImpl parent=this.parent;
-    this.parent.removeExecution(this);
-    if (parentScopeActivity != null && parent.getExecutions().isEmpty()) {
-      ActivityBehavior activityBehavior=parentScopeActivity.getActivityBehavior();
+    if (activity != null && parent.getExecutions().size() == 1) {
+      ActivityBehavior activityBehavior=activity.getActivityBehavior();
       if (activityBehavior instanceof CompositeActivityBehavior) {
-        ((CompositeActivityBehavior)activityBehavior).lastExecutionEnded(parent,parentScopeActivity,this);
+        ((CompositeActivityBehavior)activityBehavior).lastExecutionEnded(this);
       }
+ else {
+        end();
+      }
+    }
+ else {
+      this.parent.removeExecution(this);
     }
   }
  else {

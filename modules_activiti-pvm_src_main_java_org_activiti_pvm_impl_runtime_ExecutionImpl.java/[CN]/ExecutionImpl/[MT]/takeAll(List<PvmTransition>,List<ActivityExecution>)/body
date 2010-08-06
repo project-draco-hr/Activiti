@@ -1,16 +1,24 @@
 {
   transitions=new ArrayList<PvmTransition>(transitions);
-  joinedExecutions=new ArrayList<ActivityExecution>(joinedExecutions);
+  recyclableExecutions=new ArrayList<ActivityExecution>(recyclableExecutions);
   ExecutionImpl concurrentRoot=(isConcurrent() ? getParent() : this);
-  List<? extends ActivityExecution> concurrentExecutions=concurrentRoot.getExecutions();
+  List<ExecutionImpl> concurrentActiveExecutions=new ArrayList<ExecutionImpl>();
+  for (  ExecutionImpl execution : concurrentRoot.getExecutions()) {
+    if (execution.isActive()) {
+      concurrentActiveExecutions.add(execution);
+    }
+  }
   if (log.isLoggable(Level.FINE)) {
     log.fine("transitions to take concurrent: " + transitions);
-    log.fine("existing concurrent executions: " + concurrentExecutions);
+    log.fine("active concurrent executions: " + concurrentActiveExecutions);
   }
-  if ((transitions.size() == 1) && (joinedExecutions.size() == concurrentExecutions.size())) {
-    for (    ActivityExecution prunedExecution : joinedExecutions) {
-      log.info("pruning execution " + prunedExecution);
-      prunedExecution.end();
+  if ((transitions.size() == 1) && (concurrentActiveExecutions.isEmpty())) {
+    List<ExecutionImpl> recyclableExecutionImpls=(List)recyclableExecutions;
+    for (    ExecutionImpl prunedExecution : recyclableExecutionImpls) {
+      if (!prunedExecution.isEnded()) {
+        log.info("pruning execution " + prunedExecution);
+        prunedExecution.getParent().removeExecution(prunedExecution);
+      }
     }
     log.info("activating the concurrent root execution as the single path of execution going forward");
     concurrentRoot.setActive(true);
@@ -20,22 +28,22 @@
   }
  else {
     List<OutgoingExecution> outgoingExecutions=new ArrayList<OutgoingExecution>();
-    joinedExecutions.remove(concurrentRoot);
-    log.fine("joined executions to be reused: " + joinedExecutions);
+    recyclableExecutions.remove(concurrentRoot);
+    log.fine("recyclable executions for reused: " + recyclableExecutions);
     while (!transitions.isEmpty()) {
       PvmTransition outgoingTransition=transitions.remove(0);
-      if (joinedExecutions.isEmpty()) {
+      if (recyclableExecutions.isEmpty()) {
         ActivityExecution outgoingExecution=concurrentRoot.createExecution();
         outgoingExecutions.add(new OutgoingExecution(outgoingExecution,outgoingTransition,true));
         log.fine("new " + outgoingExecution + " created to take transition "+ outgoingTransition);
       }
  else {
-        ActivityExecution outgoingExecution=joinedExecutions.remove(0);
+        ActivityExecution outgoingExecution=recyclableExecutions.remove(0);
         outgoingExecutions.add(new OutgoingExecution(outgoingExecution,outgoingTransition,true));
         log.fine("recycled " + outgoingExecution + " to take transition "+ outgoingTransition);
       }
     }
-    for (    ActivityExecution prunedExecution : joinedExecutions) {
+    for (    ActivityExecution prunedExecution : recyclableExecutions) {
       log.info("pruning execution " + prunedExecution);
       prunedExecution.end();
     }

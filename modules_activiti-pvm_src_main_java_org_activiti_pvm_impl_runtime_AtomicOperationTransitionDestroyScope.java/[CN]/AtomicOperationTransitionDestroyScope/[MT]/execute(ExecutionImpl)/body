@@ -3,19 +3,33 @@
   ActivityImpl activity=execution.getActivity();
   if (activity.isScope()) {
     ExecutionImpl parentScopeInstance=null;
-    if (execution.isConcurrent()) {
+    if (execution.isConcurrent() && !execution.isScope()) {
+      ExecutionImpl concurrentRoot=execution.getParent();
       parentScopeInstance=execution.getParent().getParent();
+      log.fine("moving concurrent " + execution + " one scope up under "+ parentScopeInstance);
+      concurrentRoot.removeExecution(execution);
+      parentScopeInstance.getExecutions().add(execution);
+      execution.setParent(parentScopeInstance);
+      execution.setActivity(activity);
+      propagatingExecution=execution;
+      if (concurrentRoot.getExecutions().size() == 1) {
+        ExecutionImpl lastConcurrent=concurrentRoot.getExecutions().get(0);
+        log.fine("replacing concurrent root " + concurrentRoot + " with last concurrent "+ lastConcurrent);
+        parentScopeInstance.getExecutions().remove(concurrentRoot);
+        parentScopeInstance.getExecutions().add(lastConcurrent);
+        lastConcurrent.setParent(parentScopeInstance);
+        lastConcurrent.setActive(true);
+        lastConcurrent.setScope(true);
+      }
+    }
+ else     if (execution.isConcurrent() && execution.isScope()) {
+      log.fine("scoped concurrent " + execution + " becomes concurrent and remains under "+ execution.getParent());
+      execution.setScope(false);
+      propagatingExecution=execution;
     }
  else {
-      parentScopeInstance=execution.getParent();
+      propagatingExecution=execution.destroyScope();
     }
-    if (parentScopeInstance.isActive()) {
-      throw new UnsupportedOperationException("not implemented yet");
-    }
- else {
-      propagatingExecution=parentScopeInstance;
-    }
-    execution.destroyScope();
   }
  else {
     propagatingExecution=execution;

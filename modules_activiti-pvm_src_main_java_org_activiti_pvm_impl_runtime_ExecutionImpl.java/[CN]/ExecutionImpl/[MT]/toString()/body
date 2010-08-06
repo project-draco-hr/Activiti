@@ -1,3 +1,8 @@
 {
-  return toString(new StringBuilder());
+  if (isProcessInstance()) {
+    return "ProcessInstance[" + System.identityHashCode(this) + "]";
+  }
+ else {
+    return "Execution[" + System.identityHashCode(this) + "]";
+  }
 }
