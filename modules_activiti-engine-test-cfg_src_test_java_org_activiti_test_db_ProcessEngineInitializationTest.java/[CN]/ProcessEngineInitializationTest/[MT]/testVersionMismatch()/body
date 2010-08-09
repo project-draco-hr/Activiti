@@ -25,16 +25,14 @@
     }
     sqlSession.close();
   }
-  exception.expect(ActivitiWrongDbException.class);
-  exception.expect(new TypeSafeMatcher<ActivitiWrongDbException>(){
-    @Override public boolean matchesSafely(    ActivitiWrongDbException e){
-      return e.getMessage().contains("version mismatch") && "25.7".equals(e.getDbVersion()) && ProcessEngine.VERSION == e.getLibraryVersion();
-    }
-    public void describeTo(    Description description){
-      description.appendText("'version mismatch' with dbVersion=25.7 and libraryVersion=").appendValue(ProcessEngine.VERSION);
-    }
+  try {
+    new ProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).buildProcessEngine();
+    fail("expected exception");
   }
-);
-  new ProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).buildProcessEngine();
+ catch (  ActivitiWrongDbException e) {
+    assertTextPresent("version mismatch",e.getMessage());
+    assertEquals(25.7,e.getDbVersion());
+    assertEquals(ProcessEngine.VERSION,e.getLibraryVersion());
+  }
   processEngine.close();
 }

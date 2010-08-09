@@ -1,0 +1,14 @@
+{
+  List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
+  for (  PvmTransition transition : outgoingTransitions) {
+    ActivitiValueExpression activitiValueExpression=(ActivitiValueExpression)transition.getProperty(KEY_CONDITION);
+    if (activitiValueExpression == null) {
+      return transition;
+    }
+    Boolean result=(Boolean)activitiValueExpression.getValue(execution);
+    if (result) {
+      return transition;
+    }
+  }
+  throw new ActivitiException("no transition for which the condition resolved to true: " + outgoingTransitions);
+}

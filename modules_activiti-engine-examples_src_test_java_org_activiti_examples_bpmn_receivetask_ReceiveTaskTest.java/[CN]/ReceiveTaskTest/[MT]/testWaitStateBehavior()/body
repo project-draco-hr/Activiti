@@ -1,7 +1,7 @@
 {
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("receiveTask");
-  ActivityInstance activityInstance=runtimeService.findExecutionByProcessInstanceIdAndActivityId(pi.getId(),"waitState");
-  assertNotNull(activityInstance);
-  runtimeService.signal(activityInstance.getId());
+  Execution execution=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).activityId("waitState").singleResult();
+  assertNotNull(execution);
+  runtimeService.signal(execution.getId());
   assertProcessEnded(pi.getId());
 }
