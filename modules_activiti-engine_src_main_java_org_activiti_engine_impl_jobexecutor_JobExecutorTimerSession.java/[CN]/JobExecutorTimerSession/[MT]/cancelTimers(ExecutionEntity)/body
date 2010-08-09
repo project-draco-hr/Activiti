@@ -1,0 +1,7 @@
+{
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  List<TimerEntity> timers=commandContext.getRuntimeSession().findTimersByExecutionId(execution.getId());
+  for (  TimerEntity timer : timers) {
+    dbSqlSession.delete(JobEntity.class,timer.getId());
+  }
+}

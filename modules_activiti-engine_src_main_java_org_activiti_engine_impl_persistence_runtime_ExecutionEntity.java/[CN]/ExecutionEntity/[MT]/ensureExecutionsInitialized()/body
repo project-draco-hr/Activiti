@@ -1,6 +1,6 @@
 {
   if (!isExecutionsInitialized) {
-    this.executions=CommandContext.getCurrent().getDbSqlSession().findChildExecutionsByParentExecutionId(id);
+    this.executions=(List)CommandContext.getCurrent().getRuntimeSession().findChildExecutionsByParentExecutionId(id);
     this.isExecutionsInitialized=true;
   }
 }

@@ -1,0 +1,7 @@
+{
+  variableInstances=new HashMap<String,VariableInstanceEntity>();
+  List<VariableInstanceEntity> variableInstancesList=CommandContext.getCurrentSession(RuntimeSession.class).findVariableInstancesByExecutionId(executionId);
+  for (  VariableInstanceEntity variableInstance : variableInstancesList) {
+    variableInstances.put(variableInstance.getName(),variableInstance);
+  }
+}

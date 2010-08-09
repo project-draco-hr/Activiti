@@ -1,8 +1,8 @@
 {
-  ActivityInstanceEntity activityInstance=commandContext.getRuntimeSession().findExecutionById(activityInstanceId);
-  if (activityInstance == null) {
-    throw new ActivitiException("activity instance " + activityInstance + " doesn't exist");
+  ExecutionEntity execution=commandContext.getRuntimeSession().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution " + execution + " doesn't exist");
   }
-  activityInstance.signal(signalName,signalData);
+  execution.signal(signalName,signalData);
   return null;
 }

@@ -5,5 +5,5 @@
   assertEquals("Task in subprocess",taskBeforeSubProcess.getName());
   taskService.complete(taskBeforeSubProcess.getId());
   assertProcessEnded(processInstance.getId());
-  assertEquals(0,runtimeService.createProcessInstanceQuery().list().size());
+  assertEquals(0,runtimeService.createExecutionQuery().list().size());
 }

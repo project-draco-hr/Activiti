@@ -1,8 +1,8 @@
 {
-  RuntimeSession runtimeSession=CommandContext.getCurrent().getRuntimeSession();
-  runtimeSession.deleteVariableInstance(id);
+  DbSqlSession dbSqlSession=CommandContext.getCurrent().getDbSqlSession();
+  dbSqlSession.delete(VariableInstanceEntity.class,id);
   if (byteArrayValueId != null) {
     ByteArrayEntity byteArrayValue=getByteArrayValue();
-    runtimeSession.deleteByteArray(byteArrayValue.getId());
+    dbSqlSession.delete(ByteArrayEntity.class,byteArrayValue.getId());
   }
 }

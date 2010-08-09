@@ -2,16 +2,16 @@
   RepositorySession repositorySession=commandContext.getRepositorySession();
   ProcessDefinitionEntity processDefinition=null;
   TaskEntity task=null;
-  PvmExecution activityInstance=null;
+  ExecutionEntity execution=null;
   FormReference formReference=null;
   if (taskId != null) {
     task=commandContext.getTaskSession().findTaskById(taskId);
     if (task == null) {
       throw new ActivitiException("No task found for id = '" + taskId + "'");
     }
-    activityInstance=task.getExecution();
+    execution=task.getExecution();
     processDefinition=repositorySession.findDeployedProcessDefinitionById(task.getProcessDefinitionId());
-    formReference=(FormReference)activityInstance.getActivity().getProperty(BpmnParse.PROPERTYNAME_FORM_REFERENCE);
+    formReference=(FormReference)execution.getActivity().getProperty(BpmnParse.PROPERTYNAME_FORM_REFERENCE);
   }
  else   if (processDefinitionId != null) {
     processDefinition=repositorySession.findDeployedProcessDefinitionById(processDefinitionId);
@@ -35,7 +35,7 @@
     String form=formReference.getForm();
     String formTemplateString=getFormTemplateString(form,deployment);
     ScriptingEngines scriptingEngines=commandContext.getProcessEngineConfiguration().getScriptingEngines();
-    result=scriptingEngines.evaluate(formTemplateString,formLanguage,activityInstance);
+    result=scriptingEngines.evaluate(formTemplateString,formLanguage,execution);
   }
   return result;
 }

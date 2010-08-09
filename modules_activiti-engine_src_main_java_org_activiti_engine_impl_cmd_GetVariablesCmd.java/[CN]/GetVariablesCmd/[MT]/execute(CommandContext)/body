@@ -1,4 +1,7 @@
 {
-  ScopeInstanceImpl scopeInstance=GetVariableCmd.findScopeInstance(commandContext,scopeInstanceId);
-  return scopeInstance.getVariables();
+  ExecutionEntity execution=commandContext.getRuntimeSession().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution " + executionId + " doesn't exist");
+  }
+  return execution.getVariables();
 }

@@ -1,0 +1,8 @@
+{
+  ensureInitialized();
+  VariableInstanceEntity variableInstance=variableInstances.remove(key);
+  if (variableInstance != null) {
+    CommandContext.getCurrent().getDbSqlSession().delete(VariableInstanceEntity.class,variableInstance.getId());
+  }
+  return null;
+}

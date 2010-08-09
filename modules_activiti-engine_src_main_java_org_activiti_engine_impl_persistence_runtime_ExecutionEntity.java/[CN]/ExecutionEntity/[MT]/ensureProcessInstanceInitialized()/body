@@ -1,5 +1,5 @@
 {
   if ((processInstance == null) && (processInstanceId != null)) {
-    processInstance=CommandContext.getCurrent().getDbSqlSession().findProcessInstanceById(processInstanceId);
+    processInstance=CommandContext.getCurrent().getRuntimeSession().findExecutionById(processInstanceId);
   }
 }

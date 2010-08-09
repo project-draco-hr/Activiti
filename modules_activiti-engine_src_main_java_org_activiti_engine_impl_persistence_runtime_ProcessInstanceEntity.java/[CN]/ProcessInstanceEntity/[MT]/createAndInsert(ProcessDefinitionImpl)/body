@@ -1,7 +1,0 @@
-{
-  ProcessInstanceEntity processInstance=new ProcessInstanceEntity(processDefinition);
-  processInstance.setProcessDefinitionId(processDefinition.getId());
-  CommandContext.getCurrent().getDbSqlSession().insert(processInstance);
-  processInstance.variableInstanceMap=new ProcessInstanceVariableMap(processInstance);
-  return processInstance;
-}

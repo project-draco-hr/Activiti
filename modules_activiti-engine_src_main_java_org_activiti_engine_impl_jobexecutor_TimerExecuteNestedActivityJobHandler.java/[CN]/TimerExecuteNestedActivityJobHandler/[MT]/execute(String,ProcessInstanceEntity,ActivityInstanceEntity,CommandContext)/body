@@ -1,8 +1,0 @@
-{
-  ActivityImpl activity=activityInstance.getActivity();
-  ActivityImpl borderEventActivity=activity.getProcessDefinition().findActivity(configuration);
-  if (borderEventActivity == null) {
-    throw new ActivitiException("Error while firing timer: activity " + configuration + " not found");
-  }
-  new ExecutionContextImpl().executeTimerNestedActivity(borderEventActivity);
-}

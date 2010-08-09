@@ -1,0 +1,8 @@
+{
+  ActivityImpl activity=execution.getActivity();
+  ActivityImpl borderEventActivity=activity.getProcessDefinition().findActivity(configuration);
+  if (borderEventActivity == null) {
+    throw new ActivitiException("Error while firing timer: activity " + configuration + " not found");
+  }
+  throw new UnsupportedOperationException("please implement me");
+}

@@ -1,4 +1,4 @@
 {
   super.execute(jobHandler,commandContext);
-  commandContext.getRuntimeSession().deleteJob(id);
+  commandContext.getDbSqlSession().delete(JobEntity.class,id);
 }

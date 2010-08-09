@@ -1,0 +1,17 @@
+{
+  ensureInitialized();
+  VariableInstanceEntity variableInstance=variableInstances.get(key);
+  if ((variableInstance != null) && (!variableInstance.getType().isAbleToStore(value))) {
+    remove(key);
+    variableInstance=null;
+  }
+  if (variableInstance == null) {
+    VariableTypes variableTypes=CommandContext.getCurrent().getProcessEngineConfiguration().getVariableTypes();
+    Type type=variableTypes.findVariableType(value);
+    variableInstance=VariableInstanceEntity.createAndInsert(key,type,value);
+    variableInstance.setExecutionId(executionId);
+    variableInstance.setProcessInstanceId(processInstanceId);
+  }
+  variableInstance.setValue(value);
+  return null;
+}

@@ -12,7 +12,7 @@
     String[] resources=deploymentAnnotation.resources();
     if (resources.length == 0) {
       String name=method.getName();
-      String resource=ProcessDeployer.getBpmnProcessDefinitionResource(getClass(),name);
+      String resource=getBpmnProcessDefinitionResource(getClass(),name);
       resources=new String[]{resource};
     }
     DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().name(ClassNameUtil.getClassNameWithoutPackage(this) + "." + getName());

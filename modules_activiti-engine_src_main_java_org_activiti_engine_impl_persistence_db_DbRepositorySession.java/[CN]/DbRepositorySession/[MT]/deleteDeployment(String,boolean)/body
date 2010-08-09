@@ -3,9 +3,9 @@
     CommandContext commandContext=CommandContext.getCurrent();
     List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl().deploymentId(deploymentId).executeList(commandContext,null);
     for (    ProcessDefinition processDefinition : processDefinitions) {
-      List<ProcessInstance> processInstances=new ProcessInstanceQueryImpl().processDefinitionId(processDefinition.getId()).executeList(commandContext,null);
-      for (      ProcessInstance processInstance : processInstances) {
-        commandContext.getRuntimeSession().endProcessInstance(processInstance.getId());
+      List<Execution> processInstances=new ExecutionQueryImpl().onlyProcessInstances().processDefinitionId(processDefinition.getId()).executeList(commandContext,null);
+      for (      Execution processInstance : processInstances) {
+        commandContext.getRuntimeSession().endProcessInstance(processInstance.getId(),"deleted deployment");
       }
     }
   }

@@ -1,7 +1,7 @@
 {
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   for (  String jobId : jobIds) {
-    runtimeSession.deleteJob(jobId);
+    dbSqlSession.delete(JobEntity.class,jobId);
   }
   return null;
 }

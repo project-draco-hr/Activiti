@@ -13,12 +13,12 @@
   processEngine.close();
   assertNotNull(processEngine.getRuntimeService());
   processEngine=new ProcessEngineBuilder().setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorAutoActivation(false).buildProcessEngine();
-  processInstance=processEngine.getRuntimeService().findProcessInstanceById(processInstanceId);
+  processInstance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
   assertNotNull(processInstance);
   TaskService taskService=processEngine.getTaskService();
   Task task=taskService.createTaskQuery().list().get(0);
   taskService.complete(task.getId());
-  processInstance=processEngine.getRuntimeService().findProcessInstanceById(processInstanceId);
+  processInstance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
   assertNull(processInstance);
   processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinitions.get(0).getId());
   assertNotNull(processInstance);

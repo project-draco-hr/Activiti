@@ -1,14 +1,10 @@
 {
   super.end();
-  ensureVariableMapInitialized();
-  DbSqlSession dbSqlSession=CommandContext.getCurrent().getDbSqlSession();
-  Set<String> variableNames=new HashSet<String>(variableMap.getVariableNames());
-  for (  String variableName : variableNames) {
-    variableMap.deleteVariable(variableName);
-  }
-  List<TaskEntity> tasks=dbSqlSession.findTasksByExecution(id);
+  ensureVariablesInitialized();
+  variables.clear();
+  List<TaskEntity> tasks=CommandContext.getCurrent().getTaskSession().findTasksByExecutionId(id);
   for (  TaskEntity task : tasks) {
     task.delete();
   }
-  dbSqlSession.delete(this);
+  CommandContext.getCurrent().getDbSqlSession().delete(this);
 }
