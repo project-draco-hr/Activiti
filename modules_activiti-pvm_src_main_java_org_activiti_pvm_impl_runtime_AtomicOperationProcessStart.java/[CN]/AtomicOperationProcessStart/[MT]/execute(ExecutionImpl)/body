@@ -1,10 +1,10 @@
 {
-  ActivityImpl activity=execution.getActivity();
-  List<EventListener> eventListeners=activity.getEventListeners(EventListener.EVENTNAME_END);
+  ProcessDefinitionImpl processDefinition=execution.getProcessDefinition();
+  List<EventListener> eventListeners=processDefinition.getEventListeners(EventListener.EVENTNAME_START);
   int eventListenerIndex=execution.getEventListenerIndex();
   if (eventListeners.size() > eventListenerIndex) {
-    execution.setEventName(EventListener.EVENTNAME_END);
-    execution.setEventSource(activity);
+    execution.setEventName(EventListener.EVENTNAME_START);
+    execution.setEventSource(processDefinition);
     EventListener listener=eventListeners.get(eventListenerIndex);
     listener.notify(execution);
     execution.setEventListenerIndex(eventListenerIndex + 1);
@@ -14,6 +14,6 @@
     execution.setEventListenerIndex(0);
     execution.setEventName(null);
     execution.setEventSource(null);
-    execution.performOperation(TRANSITION_DESTROY_SCOPE);
+    execution.performOperation(EXECUTE_CURRENT_ACTIVITY);
   }
 }
