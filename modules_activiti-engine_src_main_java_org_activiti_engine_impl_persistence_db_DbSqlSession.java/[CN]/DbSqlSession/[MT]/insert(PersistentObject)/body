@@ -1,8 +1,9 @@
 {
-  long nextDbid=dbSqlSessionFactory.getIdGenerator().getNextId();
-  String id=Long.toString(nextDbid);
-  persistentObject.setId(id);
+  if (persistentObject.getId() == null) {
+    long nextDbid=dbSqlSessionFactory.getIdGenerator().getNextId();
+    String id=Long.toString(nextDbid);
+    persistentObject.setId(id);
+  }
   insertedObjects.add(persistentObject);
-  deletedObjects.remove(persistentObject);
-  cachePut(persistentObject);
+  cachePut(persistentObject,false);
 }

@@ -1,0 +1,9 @@
+{
+  final String query="selectProcessDefinitionsByQueryCriteria";
+  if (page == null) {
+    return dbSqlSession.selectList(query,processDefinitionQuery);
+  }
+ else {
+    return dbSqlSession.selectList(query,processDefinitionQuery,page.getOffset(),page.getMaxResults());
+  }
+}

@@ -1,7 +1,13 @@
 {
-  variableInstances=new HashMap<String,VariableInstanceEntity>();
-  List<VariableInstanceEntity> variableInstancesList=CommandContext.getCurrentSession(RuntimeSession.class).findVariableInstancesByExecutionId(executionId);
-  for (  VariableInstanceEntity variableInstance : variableInstancesList) {
-    variableInstances.put(variableInstance.getName(),variableInstance);
+  if (variableInstances == null) {
+    variableInstances=new HashMap<String,VariableInstanceEntity>();
+    CommandContext commandContext=CommandContext.getCurrent();
+    if (commandContext == null) {
+      throw new ActivitiException("lazy loading outside command context");
+    }
+    List<VariableInstanceEntity> variableInstancesList=commandContext.getRuntimeSession().findVariableInstancesByExecutionId(executionId);
+    for (    VariableInstanceEntity variableInstance : variableInstancesList) {
+      variableInstances.put(variableInstance.getName(),variableInstance);
+    }
   }
 }

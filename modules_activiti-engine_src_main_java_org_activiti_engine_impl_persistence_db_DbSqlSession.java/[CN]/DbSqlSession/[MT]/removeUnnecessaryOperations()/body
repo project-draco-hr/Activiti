@@ -1,0 +1,17 @@
+{
+  List<DeleteOperation> deletedObjectsCopy=new ArrayList<DeleteOperation>(deletedObjects);
+  for (  DeleteOperation deleteOperation : deletedObjectsCopy) {
+    if (deleteOperation instanceof DeleteById) {
+      DeleteById deleteById=(DeleteById)deleteOperation;
+      PersistentObject insertedObject=findInsertedObject(deleteById.persistenceObjectClass,deleteById.persistentObjectId);
+      if (insertedObject != null) {
+        insertedObjects.remove(insertedObject);
+        deletedObjects.remove(deleteOperation);
+      }
+      cacheRemove(deleteById.persistenceObjectClass,deleteById.persistentObjectId);
+    }
+  }
+  for (  PersistentObject insertedObject : insertedObjects) {
+    cacheRemove(insertedObject.getClass(),insertedObject.getId());
+  }
+}

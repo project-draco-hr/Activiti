@@ -2,7 +2,11 @@
   ensureInitialized();
   VariableInstanceEntity variableInstance=variableInstances.remove(key);
   if (variableInstance != null) {
-    CommandContext.getCurrent().getDbSqlSession().delete(VariableInstanceEntity.class,variableInstance.getId());
+    DbSqlSession dbSqlSession=CommandContext.getCurrent().getDbSqlSession();
+    dbSqlSession.delete(VariableInstanceEntity.class,variableInstance.getId());
+    if (variableInstance.getByteArrayValueId() != null) {
+      dbSqlSession.delete(ByteArrayEntity.class,variableInstance.getByteArrayValueId());
+    }
   }
   return null;
 }

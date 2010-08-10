@@ -1,6 +1,6 @@
 {
   for (  String deploymentId : deploymentsToDeleteAfterTestMethod) {
     log.fine("annotation @Deployment deletes deployment for " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName());
-    repositoryService.deleteDeployment(deploymentId);
+    repositoryService.deleteDeploymentCascade(deploymentId);
   }
 }

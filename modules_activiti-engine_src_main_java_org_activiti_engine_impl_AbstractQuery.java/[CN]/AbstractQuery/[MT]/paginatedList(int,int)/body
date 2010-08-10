@@ -1,8 +1,6 @@
 {
-  return commandExecutor.execute(new Command<List<T>>(){
-    public List<T> execute(    CommandContext commandContext){
-      return executeList(commandContext,new Page(start,size));
-    }
-  }
-);
+  this.start=start;
+  this.size=size;
+  this.resultType=ResultType.PAGINATED_LIST;
+  return (List)commandExecutor.execute(this);
 }

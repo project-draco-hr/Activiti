@@ -1,8 +1,4 @@
 {
-  return commandExecutor.execute(new Command<Long>(){
-    public Long execute(    CommandContext commandContext){
-      return executeCount(commandContext);
-    }
-  }
-);
+  this.resultType=ResultType.COUNT;
+  return (Long)commandExecutor.execute(this);
 }

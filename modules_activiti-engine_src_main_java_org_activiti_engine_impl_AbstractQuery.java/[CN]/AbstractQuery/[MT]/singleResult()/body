@@ -1,8 +1,4 @@
 {
-  return commandExecutor.execute(new Command<T>(){
-    public T execute(    CommandContext commandContext){
-      return executeSingleResult(commandContext);
-    }
-  }
-);
+  this.resultType=ResultType.SINGLE_RESULT;
+  return (T)commandExecutor.execute(this);
 }

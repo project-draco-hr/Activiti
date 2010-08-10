@@ -1,0 +1,9 @@
+{
+  final String query="selectTaskByQueryCriteria";
+  if (page == null) {
+    return dbSqlSession.selectList(query,taskQuery);
+  }
+ else {
+    return dbSqlSession.selectList(query,taskQuery,page.getOffset(),page.getMaxResults());
+  }
+}

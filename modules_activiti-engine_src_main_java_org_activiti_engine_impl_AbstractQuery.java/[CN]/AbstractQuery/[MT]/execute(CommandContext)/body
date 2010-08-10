@@ -1,0 +1,14 @@
+{
+  if (resultType == ResultType.LIST) {
+    return executeList(commandContext,null);
+  }
+ else   if (resultType == ResultType.SINGLE_RESULT) {
+    return executeSingleResult(commandContext);
+  }
+ else   if (resultType == ResultType.PAGINATED_LIST) {
+    return executeList(commandContext,new Page(start,size));
+  }
+ else {
+    return executeCount(commandContext);
+  }
+}
