@@ -2,7 +2,7 @@
   super.end();
   ensureVariablesInitialized();
   variables.clear();
-  List<TaskEntity> tasks=CommandContext.getCurrent().getTaskSession().findTasksByExecutionId(id);
+  List<TaskEntity> tasks=(List)new TaskQueryImpl().executionId(id).executeList(CommandContext.getCurrent(),null);
   for (  TaskEntity task : tasks) {
     task.delete();
   }

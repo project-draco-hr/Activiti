@@ -1,8 +1,8 @@
 {
   VariableInstanceEntity variableInstance=new VariableInstanceEntity();
-  CommandContext.getCurrent().getDbSqlSession().insert(variableInstance);
   variableInstance.name=name;
   variableInstance.type=type;
   variableInstance.setValue(value);
+  CommandContext.getCurrent().getDbSqlSession().insert(variableInstance);
   return variableInstance;
 }

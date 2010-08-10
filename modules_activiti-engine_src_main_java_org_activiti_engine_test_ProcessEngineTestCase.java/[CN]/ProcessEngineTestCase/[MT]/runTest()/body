@@ -17,11 +17,13 @@
  catch (  AssertionFailedError e) {
     log.severe(EMPTY_LINE);
     log.log(Level.SEVERE,"ASSERTION FAILED: " + e,e);
+    exception=e;
     throw e;
   }
 catch (  Throwable e) {
     log.severe(EMPTY_LINE);
     log.log(Level.SEVERE,"EXCEPTION: " + e,e);
+    exception=e;
     throw e;
   }
  finally {

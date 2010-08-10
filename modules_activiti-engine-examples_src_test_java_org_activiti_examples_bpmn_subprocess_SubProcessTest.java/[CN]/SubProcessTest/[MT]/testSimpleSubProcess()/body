@@ -1,14 +1,14 @@
 {
   Deployment deployment=repositoryService.createDeployment().addClasspathResource("org/activiti/examples/bpmn/subprocess/SubProcessTest.fixSystemFailureProcess.bpmn20.xml").deploy();
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("fixSystemFailure");
-  List<Task> tasks=taskService.createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME).list();
+  List<Task> tasks=taskService.createTaskQuery().processInstanceId(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME).list();
   Task investigateHardwareTask=tasks.get(0);
   Task investigateSoftwareTask=tasks.get(1);
   assertEquals("Investigate hardware",investigateHardwareTask.getName());
   assertEquals("Investigate software",investigateSoftwareTask.getName());
   taskService.complete(investigateHardwareTask.getId());
   taskService.complete(investigateSoftwareTask.getId());
-  Task writeReportTask=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
+  Task writeReportTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Write report",writeReportTask.getName());
   repositoryService.deleteDeployment(deployment.getId());
 }

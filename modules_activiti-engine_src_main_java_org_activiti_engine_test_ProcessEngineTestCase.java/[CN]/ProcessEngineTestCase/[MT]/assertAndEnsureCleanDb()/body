@@ -15,9 +15,14 @@
     log.severe(EMPTY_LINE);
     log.severe(outputMessage.toString());
     log.info("dropping and recreating db");
-    DbSqlSessionFactory dbSqlSessionFactory=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getDbSqlSessionFactory();
-    dbSqlSessionFactory.dbSchemaDrop();
-    dbSqlSessionFactory.dbSchemaCreate();
-    Assert.fail(outputMessage.toString());
+    processEngine.close();
+    processEngine=null;
+    processEngines.remove(configurationResource);
+    if (exception != null) {
+      throw exception;
+    }
+ else {
+      Assert.fail(outputMessage.toString());
+    }
   }
 }
