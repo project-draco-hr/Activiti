@@ -2,5 +2,5 @@
   for (  TaskInvolvementEntity taskInvolvementEntities : getTaskInvolvements()) {
     taskInvolvementEntities.delete();
   }
-  CommandContext.getCurrent().getTaskSession().deleteTask(id);
+  CommandContext.getCurrent().getDbSqlSession().delete(TaskEntity.class,id);
 }

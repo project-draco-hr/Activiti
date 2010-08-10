@@ -1,9 +1,11 @@
 {
-  for (  PersistentObject insertedObject : insertedObjects) {
-    if ((clazz == insertedObject.getClass()) && (id.equals(insertedObject.getId()))) {
-      insertedObjects.remove(insertedObject);
-      return;
+  for (  DeleteOperation deleteOperation : deletedObjects) {
+    if (deleteOperation instanceof DeleteById) {
+      DeleteById deleteById=(DeleteById)deleteOperation;
+      if (persistentObjectClass.equals(deleteById.persistenceObjectClass) && persistentObjectId.equals(deleteById.persistentObjectId)) {
+        return;
+      }
     }
   }
-  deletedObjects.add(new DeleteById(clazz,id));
+  deletedObjects.add(new DeleteById(persistentObjectClass,persistentObjectId));
 }

@@ -1,10 +1,10 @@
 {
   if (taskId != null) {
-    commandContext.getTaskSession().deleteTask(taskId);
+    commandContext.getDbSqlSession().delete(TaskEntity.class,taskId);
   }
   if (taskIds != null) {
     for (    String taskId : taskIds) {
-      commandContext.getTaskSession().deleteTask(taskId);
+      commandContext.getDbSqlSession().delete(TaskEntity.class,taskId);
     }
   }
 }

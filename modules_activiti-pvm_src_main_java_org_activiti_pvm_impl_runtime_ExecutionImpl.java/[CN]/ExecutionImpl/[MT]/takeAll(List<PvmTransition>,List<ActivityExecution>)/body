@@ -16,11 +16,11 @@
     List<ExecutionImpl> recyclableExecutionImpls=(List)recyclableExecutions;
     for (    ExecutionImpl prunedExecution : recyclableExecutionImpls) {
       if (!prunedExecution.isEnded()) {
-        log.info("pruning execution " + prunedExecution);
-        prunedExecution.getParent().removeExecution(prunedExecution);
+        log.fine("pruning execution " + prunedExecution);
+        prunedExecution.remove();
       }
     }
-    log.info("activating the concurrent root execution as the single path of execution going forward");
+    log.fine("activating the concurrent root " + concurrentRoot + " as the single path of execution going forward");
     concurrentRoot.setActive(true);
     concurrentRoot.setActivity(activity);
     concurrentRoot.setConcurrent(false);

@@ -1,10 +1,10 @@
 {
-  super.end();
+  super.remove();
   ensureVariablesInitialized();
   variables.clear();
   List<TaskEntity> tasks=(List)new TaskQueryImpl().executionId(id).executeList(CommandContext.getCurrent(),null);
   for (  TaskEntity task : tasks) {
     task.delete();
   }
-  CommandContext.getCurrent().getDbSqlSession().delete(this);
+  CommandContext.getCurrent().getDbSqlSession().delete(ExecutionEntity.class,id);
 }

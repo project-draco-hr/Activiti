@@ -9,7 +9,7 @@
   assertEquals("Task B",taskB.getName());
   taskService.complete(taskA.getId());
   assertEquals(1,taskQuery.list().size());
-  assertEquals(2,runtimeService.createExecutionQuery().list().size());
+  assertEquals(2,runtimeService.createExecutionQuery().count());
   taskService.complete(taskB.getId());
-  assertEquals(0,runtimeService.createExecutionQuery().list().size());
+  assertEquals(0,runtimeService.createExecutionQuery().count());
 }
