@@ -5,7 +5,7 @@
   processEngineConfiguration.dbSchemaCreate();
   ProcessEngine processEngine=new ProcessEngineBuilder().setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorAutoActivation(false).buildProcessEngine();
   processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/engine/test/db/EngineRebootProcessDefinitionCacheTest.bpmn20.xml").deploy();
-  List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().findProcessDefinitions();
+  List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().createProcessDefinitionQuery().list();
   assertEquals(1,processDefinitions.size());
   ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinitions.get(0).getId());
   String processInstanceId=processInstance.getId();

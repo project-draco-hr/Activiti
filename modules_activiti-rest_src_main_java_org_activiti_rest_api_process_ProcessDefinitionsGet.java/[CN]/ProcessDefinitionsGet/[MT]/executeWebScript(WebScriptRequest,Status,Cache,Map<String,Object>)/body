@@ -1,3 +1,3 @@
 {
-  model.put("processDefinitions",getRepositoryService().findProcessDefinitions());
+  model.put("processDefinitions",getRepositoryService().createProcessDefinitionQuery().orderAsc(ProcessDefinitionQuery.PROPERTY_ID).list());
 }

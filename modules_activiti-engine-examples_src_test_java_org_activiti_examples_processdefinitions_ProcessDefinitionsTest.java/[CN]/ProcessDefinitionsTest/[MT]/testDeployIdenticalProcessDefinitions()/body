@@ -2,7 +2,7 @@
   List<String> deploymentIds=new ArrayList<String>();
   deploymentIds.add(deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='IDR' name='Insurance Damage Report' />"+ "</definitions>")));
   deploymentIds.add(deployProcessString(("<definitions " + NAMESPACE + " "+ TARGET_NAMESPACE+ ">"+ "  <process id='IDR' name='Insurance Damage Report' />"+ "</definitions>")));
-  List<ProcessDefinition> processDefinitions=repositoryService.findProcessDefinitions();
+  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().orderAsc(ProcessDefinitionQuery.PROPERTY_KEY).orderDesc(ProcessDefinitionQuery.PROPERTY_VERSION).list();
   assertNotNull(processDefinitions);
   assertEquals(1,processDefinitions.size());
   ProcessDefinition processDefinition=processDefinitions.get(0);
