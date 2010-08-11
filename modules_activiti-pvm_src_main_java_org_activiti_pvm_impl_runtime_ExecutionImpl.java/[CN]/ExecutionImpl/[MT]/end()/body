@@ -36,10 +36,13 @@
  else {
     ensureSuperExecutionInitialized();
     if (superExecution != null) {
-      ExecutionImpl superExecutionCopy=superExecution;
-      superExecution.setSubProcessInstance(null);
-      setSuperExecution(null);
-      superExecutionCopy.signal("continue process",null);
+      SubProcessActivityBehavior subProcessActivityBehavior=(SubProcessActivityBehavior)superExecution.getActivity().getActivityBehavior();
+      try {
+        subProcessActivityBehavior.completing(this,superExecution);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+      }
     }
     performOperation(AtomicOperation.PROCESS_END);
   }

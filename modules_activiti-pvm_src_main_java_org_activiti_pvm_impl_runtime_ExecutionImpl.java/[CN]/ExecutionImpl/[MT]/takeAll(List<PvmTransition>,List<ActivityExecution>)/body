@@ -1,6 +1,6 @@
 {
   transitions=new ArrayList<PvmTransition>(transitions);
-  recyclableExecutions=new ArrayList<ActivityExecution>(recyclableExecutions);
+  recyclableExecutions=(recyclableExecutions != null ? new ArrayList<ActivityExecution>(recyclableExecutions) : new ArrayList<ActivityExecution>());
   ExecutionImpl concurrentRoot=(isConcurrent() ? getParent() : this);
   List<ExecutionImpl> concurrentActiveExecutions=new ArrayList<ExecutionImpl>();
   for (  ExecutionImpl execution : concurrentRoot.getExecutions()) {
