@@ -5,7 +5,7 @@
     for (    ProcessDefinition processDefinition : processDefinitions) {
       List<ProcessInstance> processInstances=new ProcessInstanceQueryImpl().processDefinitionId(processDefinition.getId()).executeList(commandContext,null);
       for (      ProcessInstance processInstance : processInstances) {
-        commandContext.getRuntimeSession().endProcessInstance(processInstance.getId(),"deleted deployment");
+        commandContext.getRuntimeSession().deleteProcessInstance(processInstance.getId(),"deleted deployment");
       }
     }
   }
