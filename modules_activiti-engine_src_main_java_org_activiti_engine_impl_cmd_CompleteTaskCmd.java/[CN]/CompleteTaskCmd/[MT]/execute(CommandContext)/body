@@ -1,0 +1,16 @@
+{
+  TaskSession taskSession=commandContext.getTaskSession();
+  TaskEntity task=taskSession.findTaskById(taskId);
+  if (variables != null) {
+    task.setActivityInstanceVariables(variables);
+  }
+  if (task == null) {
+    throw new ActivitiException("Cannot find task with id " + taskId);
+  }
+  task.delete();
+  PvmExecution activityInstance=task.getExecution();
+  if (activityInstance != null) {
+    activityInstance.signal(null,null);
+  }
+  return null;
+}

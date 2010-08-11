@@ -1,0 +1,10 @@
+{
+  if (task.getRevision() == 0) {
+    commandContext.getDbSqlSession().insert(task);
+  }
+ else {
+    TaskEntity persistentTask=commandContext.getTaskSession().findTaskById(task.getId());
+    persistentTask.update(task);
+  }
+  return null;
+}

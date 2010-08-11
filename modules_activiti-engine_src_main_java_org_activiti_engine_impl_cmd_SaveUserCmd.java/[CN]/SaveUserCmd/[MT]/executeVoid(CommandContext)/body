@@ -1,9 +1,0 @@
-{
-  if (user.getRevision() == 0) {
-    commandContext.getIdentitySession().insertUser(user);
-  }
- else {
-    UserEntity persistentUser=commandContext.getIdentitySession().findUserById(user.getId());
-    persistentUser.update(user);
-  }
-}

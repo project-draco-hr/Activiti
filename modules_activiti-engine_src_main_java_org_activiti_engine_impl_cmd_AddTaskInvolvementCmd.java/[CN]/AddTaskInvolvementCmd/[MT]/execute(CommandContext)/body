@@ -1,0 +1,19 @@
+{
+  TaskSession taskSession=commandContext.getTaskSession();
+  TaskEntity task=taskSession.findTaskById(taskId);
+  if (task == null) {
+    throw new ActivitiException("Cannot find task with id " + taskId);
+  }
+  if (TaskInvolvementType.ASSIGNEE.equals(type)) {
+    task.setAssignee(userId);
+  }
+ else {
+    if (userId != null) {
+      addTaskInvolvement(task,userId,null);
+    }
+ else {
+      addTaskInvolvement(task,null,groupId);
+    }
+  }
+  return null;
+}
