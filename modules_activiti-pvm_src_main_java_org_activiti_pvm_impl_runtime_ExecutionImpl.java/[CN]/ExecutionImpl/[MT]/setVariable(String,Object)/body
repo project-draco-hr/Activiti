@@ -1,5 +1,15 @@
 {
   ensureVariablesInitialized();
-  log.fine("setting variable '" + variableName + "' to value '"+ value+ "'");
-  variables.put(variableName,value);
+  if (variables.containsKey(variableName)) {
+    setVariableLocally(variableName,value);
+  }
+ else {
+    ensureParentInitialized();
+    if (parent != null) {
+      parent.setVariable(variableName,value);
+    }
+ else {
+      setVariableLocally(variableName,value);
+    }
+  }
 }

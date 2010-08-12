@@ -1,11 +1,11 @@
 {
   ensureVariablesInitialized();
-  Object value=variables.get(variableName);
-  if (value != null) {
-    return value;
+  if (variables.containsKey(variableName)) {
+    return variables.get(variableName);
   }
-  if (getParent() != null) {
-    return getParent().getVariable(variableName);
+  ensureParentInitialized();
+  if (parent != null) {
+    return parent.getVariable(variableName);
   }
   return null;
 }

@@ -1,0 +1,8 @@
+{
+  if (isScope()) {
+    log.fine("initializing " + this);
+    for (    VariableDeclaration variableDeclaration : getScope().getVariableDeclarations()) {
+      variableDeclaration.initialize(this);
+    }
+  }
+}

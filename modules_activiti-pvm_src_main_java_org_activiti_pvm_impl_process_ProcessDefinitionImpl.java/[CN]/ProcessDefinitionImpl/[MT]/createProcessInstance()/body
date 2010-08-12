@@ -1,3 +1,18 @@
 {
-  return new ExecutionImpl(this);
+  ExecutionImpl processInstance=newProcessInstance();
+  processInstance.setProcessDefinition(this);
+  processInstance.setProcessInstance(processInstance);
+  processInstance.setScope(processDefinition);
+  processInstance.initialize();
+  ExecutionImpl scopeInstance=processInstance;
+  List<ActivityImpl> initialActivities=getInitialActivityStack();
+  for (  ActivityImpl initialActivity : initialActivities) {
+    if (initialActivity.isScope()) {
+      scopeInstance=scopeInstance.createExecution();
+      scopeInstance.setScope(initialActivity);
+      scopeInstance.initialize();
+    }
+  }
+  scopeInstance.setActivity(initial);
+  return processInstance;
 }

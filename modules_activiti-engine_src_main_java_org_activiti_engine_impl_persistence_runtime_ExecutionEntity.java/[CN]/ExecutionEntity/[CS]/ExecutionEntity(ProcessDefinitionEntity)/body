@@ -1,9 +1,0 @@
-{
-  super(processDefinition);
-  this.isNew=true;
-  this.executions=new ArrayList<ExecutionImpl>();
-  this.isExecutionsInitialized=true;
-  CommandContext.getCurrent().getDbSqlSession().insert(this);
-  setProcessInstance(this);
-  this.variables=VariableMap.createNewInitialized(id,processInstanceId);
-}

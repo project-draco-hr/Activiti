@@ -1,0 +1,26 @@
+{
+  if (execution.isScope()) {
+    ActivityImpl activity=execution.getActivity();
+    ActivityImpl parentActivity=activity.getParentActivity();
+    if (activity.isScope()) {
+      execution.destroy();
+      if (execution.isConcurrent()) {
+        execution.setScope(null);
+        execution.performOperation(ACTIVITY_END);
+      }
+ else {
+        execution.remove();
+        ExecutionImpl parentExecution=execution.getParent();
+        parentExecution.setActivity(parentActivity);
+        parentExecution.performOperation(ACTIVITY_END);
+      }
+    }
+ else     if (parentActivity != null) {
+      execution.setActivity(parentActivity);
+      execution.performOperation(ACTIVITY_END);
+    }
+ else {
+      execution.performOperation(PROCESS_END);
+    }
+  }
+}

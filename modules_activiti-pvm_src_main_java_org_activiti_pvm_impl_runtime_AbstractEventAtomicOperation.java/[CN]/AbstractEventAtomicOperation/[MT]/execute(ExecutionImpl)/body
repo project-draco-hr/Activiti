@@ -1,0 +1,19 @@
+{
+  ScopeImpl scope=getScope(execution);
+  List<EventListener> eventListeners=scope.getEventListeners(getEventName());
+  int eventListenerIndex=execution.getEventListenerIndex();
+  if (eventListeners.size() > eventListenerIndex) {
+    execution.setEventName(getEventName());
+    execution.setEventSource(scope);
+    EventListener listener=eventListeners.get(eventListenerIndex);
+    listener.notify(execution);
+    execution.setEventListenerIndex(eventListenerIndex + 1);
+    execution.performOperation(this);
+  }
+ else {
+    execution.setEventListenerIndex(0);
+    execution.setEventName(null);
+    execution.setEventSource(null);
+    eventNotificationsCompleted(execution);
+  }
+}

@@ -1,4 +1,11 @@
 {
   ensureVariablesInitialized();
-  return variables.containsKey(variableName);
+  if (variables.containsKey(variableName)) {
+    return true;
+  }
+  ensureParentInitialized();
+  if (parent != null) {
+    return parent.hasVariable(variableName);
+  }
+  return false;
 }

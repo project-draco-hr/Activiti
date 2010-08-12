@@ -1,3 +1,7 @@
 {
-  return isScope;
+  if (isProcessInstance()) {
+    return true;
+  }
+  ensureScopeInitialized();
+  return scope != null;
 }

@@ -1,0 +1,19 @@
+{
+  PvmProcessDefinition processDefinition=new ProcessDefinitionBuilder("scopes and events").variable("processVar1","one").variable("processVar2","two").createActivity("mostOuterNestedActivity").createActivity("outerScope").variable("outerVar","outerValue").createActivity("firstInnerScope").variable("firstInnerVar","firstInnerValue").createActivity("firstMostInnerNestedActivity").createActivity("start").initial().behavior(new Automatic()).transition("waitInFirst").endActivity().createActivity("waitInFirst").behavior(new WaitState()).transition("waitInSecond").endActivity().endActivity().endActivity().createActivity("secondInnerScope").variable("secondInnerVar","secondInnerValue").createActivity("secondMostInnerNestedActivity").createActivity("waitInSecond").behavior(new WaitState()).transition("end").endActivity().createActivity("end").behavior(new End()).endActivity().endActivity().endActivity().endActivity().endActivity().buildProcessDefinition();
+  PvmProcessInstance processInstance=processDefinition.createProcessInstance();
+  processInstance.start();
+  PvmExecution execution=processInstance.findExecution("waitInFirst");
+  Map<String,Object> expectedVariables=new HashMap<String,Object>();
+  expectedVariables.put("processVar1","one");
+  expectedVariables.put("processVar2","two");
+  expectedVariables.put("outerVar","outerValue");
+  expectedVariables.put("firstInnerVar","firstInnerValue");
+  assertEquals(expectedVariables,execution.getVariables());
+  execution.signal(null,null);
+  execution=processInstance.findExecution("waitInSecond");
+  expectedVariables=new HashMap<String,Object>();
+  expectedVariables.put("processVar1","one");
+  expectedVariables.put("processVar2","two");
+  expectedVariables.put("outerVar","outerValue");
+  expectedVariables.put("secondInnerVar","secondInnerValue");
+}

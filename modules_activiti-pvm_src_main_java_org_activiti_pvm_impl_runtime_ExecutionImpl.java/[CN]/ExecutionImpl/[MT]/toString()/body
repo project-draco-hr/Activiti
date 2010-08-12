@@ -3,6 +3,6 @@
     return "ProcessInstance[" + System.identityHashCode(this) + "]";
   }
  else {
-    return "Execution[" + System.identityHashCode(this) + "]";
+    return (isConcurrent ? "Concurrent" : "") + (isScope() ? "Scope" : "") + "Execution["+ System.identityHashCode(this)+ "]";
   }
 }

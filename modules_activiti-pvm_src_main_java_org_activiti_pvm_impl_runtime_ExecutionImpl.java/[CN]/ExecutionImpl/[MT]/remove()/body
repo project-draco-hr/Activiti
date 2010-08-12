@@ -1,5 +1,6 @@
 {
   if (parent != null) {
-    parent.removeExecution(this);
+    parent.ensureExecutionsInitialized();
+    parent.executions.remove(this);
   }
 }

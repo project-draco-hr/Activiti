@@ -1,0 +1,9 @@
+{
+  ExecutionEntity processInstance=new ExecutionEntity();
+  processInstance.executions=new ArrayList<ExecutionImpl>();
+  processInstance.isExecutionsInitialized=true;
+  CommandContext.getCurrent().getDbSqlSession().insert(processInstance);
+  processInstance.setProcessInstance(processInstance);
+  processInstance.variables=VariableMap.createNewInitialized(processInstance.getId(),processInstance.getId());
+  return processInstance;
+}
