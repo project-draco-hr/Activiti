@@ -5,9 +5,11 @@
   processInstance.start();
   List<String> expectedEvents=new ArrayList<String>();
   expectedEvents.add("start on ProcessDefinition(events)");
+  expectedEvents.add("start on Activity(start)");
   expectedEvents.add("end on Activity(start)");
   expectedEvents.add("take on (start)-->(end)");
   expectedEvents.add("start on Activity(end)");
+  expectedEvents.add("end on Activity(end)");
   expectedEvents.add("end on ProcessDefinition(events)");
-  assertEquals(expectedEvents,eventCollector.events);
+  assertEquals("expected " + expectedEvents + ", but was \n"+ eventCollector+ "\n",expectedEvents,eventCollector.events);
 }

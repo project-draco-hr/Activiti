@@ -5,16 +5,17 @@
   processInstance.start();
   List<String> expectedEvents=new ArrayList<String>();
   expectedEvents.add("start on ProcessDefinition(events)");
+  expectedEvents.add("start on Activity(start)");
   expectedEvents.add("end on Activity(start)");
   expectedEvents.add("take on (start)-->(wait)");
   expectedEvents.add("start on Activity(outerscope)");
   expectedEvents.add("start on Activity(innerscope)");
   expectedEvents.add("start on Activity(wait)");
-  assertEquals(expectedEvents,eventCollector.events);
+  assertEquals("expected " + expectedEvents + ", but was \n"+ eventCollector+ "\n",expectedEvents,eventCollector.events);
   PvmExecution execution=processInstance.findExecution("wait");
   execution.signal(null,null);
   expectedEvents.add("end on Activity(wait)");
   expectedEvents.add("end on Activity(innerscope)");
   expectedEvents.add("end on Activity(outerscope)");
-  assertEquals(expectedEvents,eventCollector.events);
+  assertEquals("expected " + expectedEvents + ", but was \n"+ eventCollector+ "\n",expectedEvents,eventCollector.events);
 }
