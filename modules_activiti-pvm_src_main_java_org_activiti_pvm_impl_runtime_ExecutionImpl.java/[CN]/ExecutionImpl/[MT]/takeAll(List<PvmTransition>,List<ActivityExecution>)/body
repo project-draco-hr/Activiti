@@ -42,6 +42,7 @@
       if (recyclableExecutions.isEmpty()) {
         ExecutionImpl outgoingExecution=concurrentRoot.createExecution();
         outgoingExecution.setActive(true);
+        outgoingExecution.setScope(false);
         outgoingExecution.setConcurrent(true);
         outgoingExecutions.add(new OutgoingExecution(outgoingExecution,outgoingTransition,true));
         log.fine("new " + outgoingExecution + " created to take transition "+ outgoingTransition);
@@ -50,6 +51,7 @@
         ExecutionImpl outgoingExecution=(ExecutionImpl)recyclableExecutions.remove(0);
         outgoingExecution.setActive(true);
         outgoingExecution.setConcurrent(true);
+        outgoingExecution.setScope(false);
         outgoingExecutions.add(new OutgoingExecution(outgoingExecution,outgoingTransition,true));
         log.fine("recycled " + outgoingExecution + " to take transition "+ outgoingTransition);
       }

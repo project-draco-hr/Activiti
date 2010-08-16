@@ -1,6 +1,7 @@
 {
   ExecutionEntity processInstance=new ExecutionEntity();
   processInstance.executions=new ArrayList<ExecutionImpl>();
+  processInstance.setProcessDefinition(processDefinition);
   processInstance.isExecutionsInitialized=true;
   CommandContext.getCurrent().getDbSqlSession().insert(processInstance);
   processInstance.setProcessInstance(processInstance);

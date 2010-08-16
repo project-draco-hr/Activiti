@@ -1,7 +1,14 @@
 {
   if (isScope()) {
     log.fine("initializing " + this);
-    for (    VariableDeclaration variableDeclaration : getScope().getVariableDeclarations()) {
+    ScopeImpl scope=null;
+    if (isProcessInstance()) {
+      scope=getProcessDefinition();
+    }
+ else {
+      scope=getActivity();
+    }
+    for (    VariableDeclaration variableDeclaration : scope.getVariableDeclarations()) {
       variableDeclaration.initialize(this);
     }
   }
