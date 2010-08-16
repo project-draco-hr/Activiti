@@ -1,7 +1,7 @@
 {
-  ScopeImpl parentActivity=execution.getActivity().getParent();
+  ScopeImpl parentScope=execution.getActivity().getParent();
   for (  ExecutionImpl other : execution.getParent().getExecutions()) {
-    if (other != execution && parentActivity.contains(other.getActivity())) {
+    if (other != execution && parentScope.contains(other.getActivity())) {
       return false;
     }
   }

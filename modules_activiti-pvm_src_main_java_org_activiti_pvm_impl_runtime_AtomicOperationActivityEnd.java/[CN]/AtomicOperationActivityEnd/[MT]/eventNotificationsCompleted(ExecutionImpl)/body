@@ -5,21 +5,23 @@
     execution.performOperation(PROCESS_END);
   }
  else   if (!execution.isConcurrent()) {
-    if (!activity.isScope()) {
-      execution.setActivity(parentActivity);
-      execution.performOperation(ACTIVITY_END);
+    if (parentActivity.isScope()) {
+      ActivityBehavior parentActivityBehavior=parentActivity.getActivityBehavior();
+      if (parentActivityBehavior instanceof CompositeActivityBehavior) {
+        execution.setActivity(parentActivity);
+        CompositeActivityBehavior compositeActivityBehavior=(CompositeActivityBehavior)parentActivityBehavior;
+        compositeActivityBehavior.lastExecutionEnded(execution);
+      }
+ else {
+        ExecutionImpl parentScopeExecution=execution.getParent();
+        execution.destroy();
+        execution.remove();
+        parentScopeExecution.performOperation(ACTIVITY_END);
+      }
     }
  else {
-      ExecutionImpl parent=execution.getParent();
-      execution.destroy();
-      execution.remove();
-      if (parentActivity != null) {
-        parent.setActivity(parentActivity);
-        parent.performOperation(ACTIVITY_END);
-      }
- else {
-        parent.performOperation(PROCESS_END);
-      }
+      execution.setActivity(parentActivity);
+      execution.performOperation(ACTIVITY_END);
     }
   }
  else   if (execution.isScope() && !activity.isScope()) {
@@ -41,6 +43,13 @@
         ExecutionImpl lastConcurrent=concurrentRoot.getExecutions().get(0);
         concurrentRoot.setActivity(lastConcurrent.getActivity());
         lastConcurrent.remove();
+      }
+ else       if (concurrentRoot.getExecutions().isEmpty()) {
+        ActivityBehavior parentActivityBehavior=parentActivity.getActivityBehavior();
+        if (parentActivityBehavior instanceof CompositeActivityBehavior) {
+          CompositeActivityBehavior compositeActivityBehavior=(CompositeActivityBehavior)parentActivityBehavior;
+          compositeActivityBehavior.lastExecutionEnded(execution);
+        }
       }
     }
   }
