@@ -4,7 +4,12 @@
   variables.clear();
   List<TaskEntity> tasks=(List)new TaskQueryImpl().executionId(id).executeList(CommandContext.getCurrent(),null);
   for (  TaskEntity task : tasks) {
-    task.delete();
+    if (replacedBy != null) {
+      task.setExecution(replacedBy);
+    }
+ else {
+      task.delete();
+    }
   }
   CommandContext.getCurrent().getDbSqlSession().delete(ExecutionEntity.class,id);
 }
