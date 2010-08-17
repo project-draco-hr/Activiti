@@ -1,9 +1,4 @@
 {
   final String query="org.activiti.persistence.selectJobByQueryCriteria";
-  if (page == null) {
-    return dbSqlSession.selectList(query,jobQuery);
-  }
- else {
-    return dbSqlSession.selectList(query,jobQuery,page.getOffset(),page.getMaxResults());
-  }
+  return dbSqlSession.selectList(query,jobQuery,page);
 }

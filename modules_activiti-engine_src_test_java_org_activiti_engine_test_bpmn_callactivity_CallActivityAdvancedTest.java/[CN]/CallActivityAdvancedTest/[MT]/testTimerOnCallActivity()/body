@@ -2,11 +2,11 @@
   Date startTime=ClockUtil.getCurrentTime();
   runtimeService.startProcessInstanceByKey("timerOnCallActivity");
   TaskQuery taskQuery=taskService.createTaskQuery();
-  Task taskInSubProcess=taskQuery.singleResult();
+  Task taskInSubProcess=taskQuery.listPage();
   assertEquals("Task in subprocess",taskInSubProcess.getName());
   ClockUtil.setCurrentTime(new Date(startTime.getTime() + (6 * 60 * 1000)));
-  waitForJobExecutorToProcessAllJobs(10000000,1000000);
-  Task escalatedTask=taskQuery.singleResult();
+  waitForJobExecutorToProcessAllJobs(10000,100);
+  Task escalatedTask=taskQuery.listPage();
   assertEquals("Escalated Task",escalatedTask.getName());
   taskService.complete(escalatedTask.getId());
   assertEquals(0,runtimeService.createExecutionQuery().list().size());

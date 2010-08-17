@@ -1,6 +1,6 @@
 {
   assertNull(repositoryService.getStartFormByKey("noStartOrTaskForm"));
   runtimeService.startProcessInstanceByKey("noStartOrTaskForm");
-  Task task=taskService.createTaskQuery().singleResult();
+  Task task=taskService.createTaskQuery().listPage();
   assertNull(taskService.getTaskForm(task.getId()));
 }

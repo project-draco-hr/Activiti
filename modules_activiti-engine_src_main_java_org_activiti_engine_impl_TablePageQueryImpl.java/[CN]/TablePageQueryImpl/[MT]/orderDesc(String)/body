@@ -1,8 +1,4 @@
 {
-  if (sortColumn != null) {
-    throw new ActivitiException("Invalid usage: cannot use both orderAsc and orderDesc in same query");
-  }
-  this.sortOrder=SortOrder.DESC;
-  this.sortColumn=column;
+  addOrder(column,AbstractQuery.SORTORDER_DESC);
   return this;
 }

@@ -8,7 +8,7 @@
   assertEquals("Investigate software",investigateSoftwareTask.getName());
   taskService.complete(investigateHardwareTask.getId());
   taskService.complete(investigateSoftwareTask.getId());
-  Task writeReportTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+  Task writeReportTask=taskService.createTaskQuery().processInstanceId(pi.getId()).listPage();
   assertEquals("Write report",writeReportTask.getName());
   repositoryService.deleteDeployment(deployment.getId());
 }

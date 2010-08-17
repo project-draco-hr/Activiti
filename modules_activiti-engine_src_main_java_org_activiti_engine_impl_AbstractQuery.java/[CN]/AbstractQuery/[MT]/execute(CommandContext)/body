@@ -5,8 +5,8 @@
  else   if (resultType == ResultType.SINGLE_RESULT) {
     return executeSingleResult(commandContext);
   }
- else   if (resultType == ResultType.PAGINATED_LIST) {
-    return executeList(commandContext,new Page(start,size));
+ else   if (resultType == ResultType.LIST_PAGE) {
+    return executeList(commandContext,new Page(firstResult,maxResults));
   }
  else {
     return executeCount(commandContext);

@@ -7,7 +7,17 @@
   for (  Deployer deployer : dbRepositorySessionFactory.getDeployers()) {
     List<ProcessDefinitionEntity> processDefinitions=deployer.deploy(deployment);
     for (    ProcessDefinitionEntity processDefinition : processDefinitions) {
+      int processDefinitionVersion;
+      ProcessDefinitionEntity latestProcessDefinition=findLatestProcessDefinitionByKey(processDefinition.getKey());
+      if (latestProcessDefinition != null) {
+        processDefinitionVersion=latestProcessDefinition.getVersion() + 1;
+      }
+ else {
+        processDefinitionVersion=1;
+      }
+      processDefinition.setVersion(processDefinitionVersion);
       processDefinition.setDeploymentId(deployment.getId());
+      processDefinition.setId(processDefinition.getKey() + ":" + processDefinition.getVersion());
       dbSqlSession.insert(processDefinition);
       addToProcessDefinitionCache(processDefinition);
     }

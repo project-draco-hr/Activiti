@@ -5,6 +5,7 @@
     throw new ActivitiException("Error while firing timer: border event activity " + configuration + " not found");
   }
   try {
+    execution.setActivity(borderEventActivity);
     borderEventActivity.getActivityBehavior().execute(execution);
   }
  catch (  RuntimeException e) {

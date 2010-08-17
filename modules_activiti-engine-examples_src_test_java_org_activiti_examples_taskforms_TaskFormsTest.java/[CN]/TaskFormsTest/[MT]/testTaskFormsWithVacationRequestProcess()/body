@@ -6,7 +6,7 @@
   parameters.put("numberOfDays","4");
   parameters.put("vacationMotivation","I'm tired");
   runtimeService.startProcessInstanceByKey("vacationRequest",parameters);
-  Task task=taskService.createTaskQuery().candidateGroup("management").singleResult();
+  Task task=taskService.createTaskQuery().candidateGroup("management").listPage();
   assertEquals("Vacation request by kermit",task.getDescription());
   Object taskForm=taskService.getTaskForm(task.getId());
   assertNotNull(taskForm);
