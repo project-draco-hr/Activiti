@@ -1,6 +1,5 @@
 {
-  if (!isExecutionsInitialized) {
+  if (executions == null) {
     this.executions=(List)CommandContext.getCurrent().getRuntimeSession().findChildExecutionsByParentExecutionId(id);
-    this.isExecutionsInitialized=true;
   }
 }

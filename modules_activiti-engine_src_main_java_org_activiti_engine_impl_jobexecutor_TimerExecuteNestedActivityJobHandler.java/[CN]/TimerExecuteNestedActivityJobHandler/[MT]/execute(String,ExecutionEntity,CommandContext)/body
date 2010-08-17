@@ -2,7 +2,17 @@
   ActivityImpl activity=execution.getActivity();
   ActivityImpl borderEventActivity=activity.getProcessDefinition().findActivity(configuration);
   if (borderEventActivity == null) {
-    throw new ActivitiException("Error while firing timer: activity " + configuration + " not found");
+    throw new ActivitiException("Error while firing timer: border event activity " + configuration + " not found");
   }
-  throw new UnsupportedOperationException("please implement me");
+  try {
+    borderEventActivity.getActivityBehavior().execute(execution);
+  }
+ catch (  RuntimeException e) {
+    log.log(Level.SEVERE,"exception during timer execution",e);
+    throw e;
+  }
+catch (  Exception e) {
+    log.log(Level.SEVERE,"exception during timer execution",e);
+    throw new ActivitiException("exception during timer execution: " + e.getMessage(),e);
+  }
 }

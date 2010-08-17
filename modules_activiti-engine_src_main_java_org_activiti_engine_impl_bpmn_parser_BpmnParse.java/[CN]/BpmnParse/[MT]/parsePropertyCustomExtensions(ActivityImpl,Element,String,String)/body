@@ -3,8 +3,9 @@
     String type=propertyElement.attribute("activiti:type");
     propertyType=type != null ? type : "string";
   }
-  VariableDeclarationImpl variableDeclaration=new VariableDeclarationImpl(propertyName,propertyType);
+  VariableDeclaration variableDeclaration=new VariableDeclaration(propertyName,propertyType);
   addVariableDeclaration(activity,variableDeclaration);
+  activity.setScope(true);
   String src=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"src");
   if (src != null) {
     variableDeclaration.setSourceVariableName(src);

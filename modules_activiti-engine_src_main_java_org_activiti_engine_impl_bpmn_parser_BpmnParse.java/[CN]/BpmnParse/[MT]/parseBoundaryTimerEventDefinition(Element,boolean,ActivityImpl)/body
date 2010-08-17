@@ -6,9 +6,11 @@
   if (timeDuration != null) {
     timeDurationText=timeDuration.getText();
   }
-  BusinessCalendar businessCalendar=businessCalendarManager.getBusinessCalendar(DurationBusinessCalendar.NAME);
-  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(businessCalendar,timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
+  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
   timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
   addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
+  if (timerActivity.getParent() instanceof ActivityImpl) {
+    ((ActivityImpl)timerActivity.getParent()).setScope(true);
+  }
   timerActivity.setActivityBehavior(boundaryTimerEventActivity);
 }

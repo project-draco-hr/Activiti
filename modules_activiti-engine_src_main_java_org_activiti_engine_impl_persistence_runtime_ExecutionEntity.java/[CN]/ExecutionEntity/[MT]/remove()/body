@@ -2,7 +2,8 @@
   super.remove();
   ensureVariablesInitialized();
   variables.clear();
-  List<TaskEntity> tasks=(List)new TaskQueryImpl().executionId(id).executeList(CommandContext.getCurrent(),null);
+  CommandContext commandContext=CommandContext.getCurrent();
+  List<TaskEntity> tasks=(List)new TaskQueryImpl().executionId(id).executeList(commandContext,null);
   for (  TaskEntity task : tasks) {
     if (replacedBy != null) {
       task.setExecution(replacedBy);
@@ -11,5 +12,14 @@
       task.delete();
     }
   }
-  CommandContext.getCurrent().getDbSqlSession().delete(ExecutionEntity.class,id);
+  List<Job> jobs=new JobQueryImpl().executionId(id).executeList(commandContext,null);
+  for (  Job job : jobs) {
+    if (replacedBy != null) {
+      ((JobEntity)job).setExecution((ExecutionEntity)replacedBy);
+    }
+ else {
+      commandContext.getDbSqlSession().delete(JobEntity.class,job.getId());
+    }
+  }
+  commandContext.getDbSqlSession().delete(ExecutionEntity.class,id);
 }

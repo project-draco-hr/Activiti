@@ -1,0 +1,28 @@
+{
+  if (destinationVariableName != null) {
+    if (innerScopeInstance.hasVariable(sourceVariableName)) {
+      Object value=innerScopeInstance.getVariable(sourceVariableName);
+      outerScopeInstance.setVariable(destinationVariableName,value);
+    }
+ else {
+      throw new ActivitiException("Couldn't destroy variable " + sourceVariableName + ", since it does not exist");
+    }
+  }
+  if (destinationValueExpression != null) {
+    Object value=destinationValueExpression.getValue(innerScopeInstance);
+    outerScopeInstance.setVariable(destinationVariableName,value);
+  }
+  if (link != null) {
+    if (innerScopeInstance.hasVariable(sourceVariableName)) {
+      Object value=innerScopeInstance.getVariable(sourceVariableName);
+      outerScopeInstance.setVariable(destinationVariableName,value);
+    }
+ else {
+      throw new ActivitiException("Couldn't destroy variable " + sourceVariableName + ", since it does not exist");
+    }
+  }
+  if (linkValueExpression != null) {
+    Object value=sourceValueExpression.getValue(innerScopeInstance);
+    outerScopeInstance.setVariable(destinationVariableName,value);
+  }
+}

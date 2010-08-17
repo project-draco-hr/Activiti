@@ -1,0 +1,22 @@
+{
+  log.fine("initializing " + this);
+  ScopeImpl scope=getScope();
+  ensureParentInitialized();
+  List<VariableDeclaration> variableDeclarations=(List<VariableDeclaration>)scope.getProperty(BpmnParse.PROPERTYNAME_VARIABLE_DECLARATIONS);
+  if (variableDeclarations != null) {
+    for (    VariableDeclaration variableDeclaration : variableDeclarations) {
+      variableDeclaration.initialize(this,parent);
+    }
+  }
+  List<TimerDeclarationImpl> timerDeclarations=(List<TimerDeclarationImpl>)scope.getProperty(BpmnParse.PROPERTYNAME_TIMER_DECLARATION);
+  if (timerDeclarations != null) {
+    for (    TimerDeclarationImpl timerDeclaration : timerDeclarations) {
+      BusinessCalendar businessCalendar=CommandContext.getCurrent().getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(DurationBusinessCalendar.NAME);
+      Date duedate=businessCalendar.resolveDuedate(timerDeclaration.getDuedateDescription());
+      TimerEntity timer=new TimerEntity(timerDeclaration);
+      timer.setDuedate(duedate);
+      timer.setExecution(this);
+      CommandContext.getCurrent().getTimerSession().schedule(timer);
+    }
+  }
+}

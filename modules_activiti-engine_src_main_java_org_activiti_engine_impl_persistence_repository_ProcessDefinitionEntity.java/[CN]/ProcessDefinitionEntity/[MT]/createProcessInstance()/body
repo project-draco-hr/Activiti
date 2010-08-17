@@ -1,3 +1,9 @@
 {
-  return ExecutionEntity.createProcessInstance(this);
+  ExecutionEntity processInstance=(ExecutionEntity)super.createProcessInstance();
+  processInstance.setExecutions(new ArrayList<ExecutionImpl>());
+  processInstance.setProcessDefinition(processDefinition);
+  processInstance.setProcessInstance(processInstance);
+  VariableMap variableMap=VariableMap.createNewInitialized(processInstance.getId(),processInstance.getId());
+  processInstance.setVariables(variableMap);
+  return processInstance;
 }

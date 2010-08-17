@@ -1,8 +1,15 @@
 {
+  List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
+  List<ExecutionImpl> interruptedExecutions=null;
   if (interrupting) {
-    leave(execution);
+    ExecutionImpl executionImpl=(ExecutionImpl)execution;
+    if (executionImpl.getSubProcessInstance() != null) {
+      executionImpl.getSubProcessInstance().deleteCascade(executionImpl.getDeleteReason());
+    }
+    interruptedExecutions=executionImpl.getExecutions();
+    for (    ExecutionImpl interruptedExecution : interruptedExecutions) {
+      interruptedExecution.deleteCascade("interrupting timer event '" + execution.getActivity().getId() + "' fired");
+    }
   }
- else {
-    throw new ActivitiException("Non-interrupting boundary timer event not yet implemented");
-  }
+  execution.takeAll(outgoingTransitions,(List)interruptedExecutions);
 }
