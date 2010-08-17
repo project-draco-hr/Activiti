@@ -1,13 +1,13 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
   TaskQuery taskQuery=taskService.createTaskQuery();
-  Task taskBeforeSubProcess=taskQuery.listPage();
+  Task taskBeforeSubProcess=taskQuery.singleResult();
   assertEquals("Task before subprocess",taskBeforeSubProcess.getName());
   taskService.complete(taskBeforeSubProcess.getId());
-  Task taskInSubProcess=taskQuery.listPage();
+  Task taskInSubProcess=taskQuery.singleResult();
   assertEquals("Task in subprocess",taskInSubProcess.getName());
   taskService.complete(taskInSubProcess.getId());
-  Task taskAfterSubProcess=taskQuery.listPage();
+  Task taskAfterSubProcess=taskQuery.singleResult();
   assertEquals("Task after subprocess",taskAfterSubProcess.getName());
   taskService.complete(taskAfterSubProcess.getId());
   assertProcessEnded(processInstance.getId());

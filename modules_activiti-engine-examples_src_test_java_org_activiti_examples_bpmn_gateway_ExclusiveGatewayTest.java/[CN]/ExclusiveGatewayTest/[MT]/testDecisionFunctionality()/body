@@ -2,15 +2,15 @@
   Map<String,Object> variables=new HashMap<String,Object>();
   variables.put("input",1);
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("exclusiveGateway",variables);
-  Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).listPage();
+  Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Send e-mail for more information",task.getName());
   variables.put("input",2);
   pi=runtimeService.startProcessInstanceByKey("exclusiveGateway",variables);
-  task=taskService.createTaskQuery().processInstanceId(pi.getId()).listPage();
+  task=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Check account balance",task.getName());
   variables.put("input",3);
   pi=runtimeService.startProcessInstanceByKey("exclusiveGateway",variables);
-  task=taskService.createTaskQuery().processInstanceId(pi.getId()).listPage();
+  task=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Call customer",task.getName());
   variables.put("input",4);
   try {

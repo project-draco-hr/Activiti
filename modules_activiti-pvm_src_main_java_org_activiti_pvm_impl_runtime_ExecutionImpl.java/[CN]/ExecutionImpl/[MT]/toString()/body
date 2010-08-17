@@ -1,8 +1,8 @@
 {
   if (isProcessInstance()) {
-    return "ProcessInstance[" + System.identityHashCode(this) + "]";
+    return "ProcessInstance[" + getToStringIdentity() + "]";
   }
  else {
-    return (isConcurrent ? "Concurrent" : "") + (isScope() ? "Scope" : "") + "Execution["+ System.identityHashCode(this)+ "]";
+    return (isConcurrent ? "Concurrent" : "") + (isScope() ? "Scope" : "") + "Execution["+ getToStringIdentity()+ "]";
   }
 }

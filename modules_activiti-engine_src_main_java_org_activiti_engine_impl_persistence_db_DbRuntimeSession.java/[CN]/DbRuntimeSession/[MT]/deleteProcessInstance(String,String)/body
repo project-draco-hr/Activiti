@@ -1,4 +1,8 @@
 {
   ExecutionEntity execution=findExecutionById(processInstanceId);
+  List<Task> tasks=new TaskQueryImpl().processInstanceId(processInstanceId).executeList(CommandContext.getCurrent(),null);
+  for (  Task task : tasks) {
+    dbSqlSession.delete(TaskEntity.class,task.getId());
+  }
   execution.deleteCascade(deleteReason);
 }
