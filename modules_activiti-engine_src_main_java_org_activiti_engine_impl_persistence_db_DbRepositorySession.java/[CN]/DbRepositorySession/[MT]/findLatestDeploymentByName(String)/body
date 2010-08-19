@@ -1,3 +1,7 @@
 {
-  return (DeploymentEntity)dbSqlSession.selectOne("selectLatestDeploymentByName",deploymentName);
+  List list=dbSqlSession.selectList("selectDeploymentsByName",deploymentName,new Page(0,1));
+  if (list != null && !list.isEmpty()) {
+    return (DeploymentEntity)list.get(0);
+  }
+  return null;
 }

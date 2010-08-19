@@ -1,0 +1,7 @@
+{
+  ExecutionEntity execution=commandContext.getRuntimeSession().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution with id " + executionId + " was not found");
+  }
+  return execution.findActiveActivityIds();
+}

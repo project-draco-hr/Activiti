@@ -8,7 +8,10 @@
       byte[] bytes=resource.getBytes();
       ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
       BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).name(resourceName).execute();
-      processDefinitions.addAll(bpmnParse.getProcessDefinitions());
+      for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
+        processDefinition.setResourceName(resourceName);
+        processDefinitions.add(processDefinition);
+      }
     }
   }
   return processDefinitions;

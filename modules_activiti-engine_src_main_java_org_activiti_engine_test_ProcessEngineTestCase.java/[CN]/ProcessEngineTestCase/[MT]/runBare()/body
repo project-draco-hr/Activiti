@@ -2,9 +2,7 @@
   if (processEngine == null) {
     processEngine=processEngines.get(configurationResource);
     if (processEngine == null) {
-      log.fine("==== BUILDING PROCESS ENGINE ========================================================================");
-      processEngine=new ProcessEngineBuilder().configureFromPropertiesResource(configurationResource).buildProcessEngine();
-      log.fine("==== PROCESS ENGINE CREATED =========================================================================");
+      initializeProcessEngine();
       processEngines.put(configurationResource,processEngine);
     }
     initializeServices();
