@@ -1,6 +1,6 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("scriptTask",CollectionUtil.singletonMap("numbers",Arrays.asList(1,2,3)));
-  Task task=taskService.createTaskQuery().processInstance(processInstance.getId()).singleResult();
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   assertEquals("Human task",task.getName());
   Integer sum=(Integer)runtimeService.getVariable(processInstance.getId(),"sum");
   assertEquals(6,sum.intValue());

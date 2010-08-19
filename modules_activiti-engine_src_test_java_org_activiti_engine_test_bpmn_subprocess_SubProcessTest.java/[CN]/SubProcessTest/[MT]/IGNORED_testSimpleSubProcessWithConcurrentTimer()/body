@@ -1,7 +1,7 @@
 {
   Date startTime=new Date();
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("simpleSubProcessWithConcurrentTimer");
-  TaskQuery taskQuery=taskService.createTaskQuery().processInstance(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
+  TaskQuery taskQuery=taskService.createTaskQuery().processInstanceId(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
   Task subProcessTask=taskQuery.singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
   ClockUtil.setCurrentTime(new Date(startTime.getTime() + (2 * 60 * 60* 1000) + 1000));

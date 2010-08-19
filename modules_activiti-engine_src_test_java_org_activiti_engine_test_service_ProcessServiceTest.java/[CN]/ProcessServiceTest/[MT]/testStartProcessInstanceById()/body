@@ -1,5 +1,5 @@
 {
-  List<ProcessDefinition> processDefinitions=repositoryService.findProcessDefinitions();
+  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().list();
   assertEquals(1,processDefinitions.size());
   ProcessDefinition processDefinition=processDefinitions.get(0);
   assertEquals("oneTaskProcess",processDefinition.getKey());

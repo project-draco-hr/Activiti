@@ -1,7 +1,7 @@
 {
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("simpleSubProcess");
-  Task subProcessTask=taskService.createTaskQuery().processInstance(pi.getId()).singleResult();
+  Task subProcessTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
   taskService.complete(subProcessTask.getId());
-  assertNull(runtimeService.findProcessInstanceById(pi.getId()));
+  assertNull(runtimeService.findExecutionById(pi.getId()));
 }

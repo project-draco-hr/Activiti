@@ -1,5 +1,5 @@
 {
-  List<ProcessDefinition> definitions=repositoryService.findProcessDefinitions();
+  List<ProcessDefinition> definitions=repositoryService.createProcessDefinitionQuery().list();
   assertEquals(1,definitions.size());
   ProcessDefinition processDefinition=repositoryService.findProcessDefinitionById(definitions.get(0).getId());
   assertNotNull(processDefinition);
