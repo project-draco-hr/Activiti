@@ -1,3 +1,6 @@
 {
+  if (processDefinitionId == null) {
+    throw new ActivitiException("processDefinitionId is null");
+  }
   return commandContext.getRepositorySession().findProcessDefinitionById(processDefinitionId);
 }

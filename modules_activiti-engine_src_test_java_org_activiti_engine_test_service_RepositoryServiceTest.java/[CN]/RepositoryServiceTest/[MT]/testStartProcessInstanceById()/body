@@ -4,7 +4,4 @@
   ProcessDefinition processDefinition=processDefinitions.get(0);
   assertEquals("oneTaskProcess",processDefinition.getKey());
   assertNotNull(processDefinition.getId());
-  ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
-  assertNotNull(processInstance);
-  assertNotNull(taskService.createTaskQuery().singleResult());
 }
