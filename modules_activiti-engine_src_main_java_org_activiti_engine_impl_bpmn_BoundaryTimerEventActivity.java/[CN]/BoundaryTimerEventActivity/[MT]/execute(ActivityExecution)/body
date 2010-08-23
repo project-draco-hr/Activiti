@@ -6,7 +6,7 @@
     if (executionImpl.getSubProcessInstance() != null) {
       executionImpl.getSubProcessInstance().deleteCascade(executionImpl.getDeleteReason());
     }
-    interruptedExecutions=executionImpl.getExecutions();
+    interruptedExecutions=new ArrayList<ExecutionImpl>(executionImpl.getExecutions());
     for (    ExecutionImpl interruptedExecution : interruptedExecutions) {
       interruptedExecution.deleteCascade("interrupting timer event '" + execution.getActivity().getId() + "' fired");
     }

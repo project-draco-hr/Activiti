@@ -1,7 +1,7 @@
 {
   for (  String jobId : jobIds) {
     try {
-      commandExecutor.execute(new ExecuteJobsCmd(jobHandlers,jobId));
+      commandExecutor.execute(new ExecuteJobsCmd(jobId));
     }
  catch (    Throwable exception) {
       commandExecutor.execute(new DecrementJobRetriesCmd(jobExecutor,jobId,exception));
