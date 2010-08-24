@@ -1,0 +1,8 @@
+{
+  RepositoryService repositoryService=processEngine.getRepositoryService();
+  for (  Resource resource : processResources) {
+    String resourceName=getResourceName(resource);
+    DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().enableDuplicateFiltering().name(resourceName);
+    deploy(deploymentBuilder,resource,resourceName);
+  }
+}

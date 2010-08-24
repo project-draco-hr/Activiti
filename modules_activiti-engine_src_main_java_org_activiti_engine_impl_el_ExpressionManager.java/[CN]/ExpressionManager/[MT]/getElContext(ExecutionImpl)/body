@@ -1,6 +1,6 @@
 {
   if (!(execution instanceof ExecutionEntity)) {
-    return createExecutionElContext(execution);
+    return createElContext(execution);
   }
   ExecutionEntity executionEntity=(ExecutionEntity)execution;
   ELContext elContext=null;
@@ -9,7 +9,7 @@ synchronized (execution) {
     if (elContext != null) {
       return elContext;
     }
-    elContext=createExecutionElContext(execution);
+    elContext=createElContext(execution);
     executionEntity.setCachedElContext(elContext);
   }
   return elContext;

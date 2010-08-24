@@ -1,5 +1,8 @@
 {
   ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)dbSqlSession.selectOne("selectLatestProcessDefinitionByKey",processDefinitionKey);
+  if (processDefinition == null) {
+    throw new ActivitiException("no processes deployed with key '" + processDefinitionKey + "'");
+  }
   processDefinition=resolveProcessDefinition(processDefinition);
   return processDefinition;
 }

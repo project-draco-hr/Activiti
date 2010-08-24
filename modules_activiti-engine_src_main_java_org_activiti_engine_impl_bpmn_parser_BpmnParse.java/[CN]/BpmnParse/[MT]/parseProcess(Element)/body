@@ -6,5 +6,8 @@
     LOG.fine("Parsing process " + processDefinition.getKey());
   }
   parseScope(processElement,processDefinition);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseProcess(processElement,processDefinition);
+  }
   return processDefinition;
 }
