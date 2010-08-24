@@ -1,0 +1,5 @@
+{
+  ExecutionEntity executionEntity=(ExecutionEntity)execution;
+  HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity(executionEntity.getId(),executionEntity.getProcessDefinitionId(),ClockUtil.getCurrentTime());
+  CommandContext.getCurrent().getDbSqlSession().insert(historicProcessInstance);
+}
