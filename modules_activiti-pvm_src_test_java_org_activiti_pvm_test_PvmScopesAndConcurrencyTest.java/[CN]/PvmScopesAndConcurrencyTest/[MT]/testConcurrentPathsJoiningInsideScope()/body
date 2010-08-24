@@ -24,11 +24,5 @@
   assertEquals("expected " + expectedEvents + ", but was \n"+ eventCollector+ "\n",expectedEvents,eventCollector.events);
   eventCollector.events.clear();
   execution=processInstance.findExecution("c2");
-  try {
-    execution.signal(null,null);
-    fail("expected exception");
-  }
- catch (  PvmException e) {
-    assertTextPresent("joining scope executions is not allowed",e.getMessage());
-  }
+  execution.signal(null,null);
 }
