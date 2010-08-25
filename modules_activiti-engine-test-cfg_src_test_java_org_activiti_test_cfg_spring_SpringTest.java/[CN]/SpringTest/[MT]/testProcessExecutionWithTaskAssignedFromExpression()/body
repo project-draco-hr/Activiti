@@ -1,7 +1,0 @@
-{
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("taskAssigneeExpressionProcess");
-  List<String> activeActivityIds=runtimeService.findActiveActivityIds(processInstance.getId());
-  assertEquals("[theTask]",activeActivityIds.toString());
-  List<Task> tasks=processEngine.getTaskService().findAssignedTasks("kermit");
-  assertEquals(1,tasks.size());
-}
