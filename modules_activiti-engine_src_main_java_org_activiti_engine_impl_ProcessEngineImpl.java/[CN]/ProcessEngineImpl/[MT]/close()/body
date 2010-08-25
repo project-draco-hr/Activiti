@@ -2,8 +2,11 @@
   if ((jobExecutor != null) && (jobExecutor.isActive())) {
     jobExecutor.shutdown();
   }
-  if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy) {
-    DbSqlSessionFactory dbSqlSessionFactory=processEngineConfiguration.getDbSqlSessionFactory();
-    dbSqlSessionFactory.dbSchemaDrop();
+  commandExecutor.execute(new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      performSchemaOperationsClose();
+      return null;
+    }
   }
+);
 }

@@ -9,20 +9,14 @@
   this.managementService=processEngineConfiguration.getManagementService();
   this.dbSchemaStrategy=processEngineConfiguration.getDbSchemaStrategy();
   this.jobExecutor=processEngineConfiguration.getJobExecutor();
-  DbSqlSessionFactory dbSqlSessionFactory=processEngineConfiguration.getDbSqlSessionFactory();
-  if (DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy) {
-    try {
-      dbSqlSessionFactory.dbSchemaDrop();
+  this.commandExecutor=processEngineConfiguration.getCommandExecutor();
+  commandExecutor.execute(new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      performSchemaOperationsCreate();
+      return null;
     }
- catch (    RuntimeException e) {
-    }
   }
-  if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy || DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy || DbSchemaStrategy.CREATE == dbSchemaStrategy) {
-    dbSqlSessionFactory.dbSchemaCreate();
-  }
- else   if (DbSchemaStrategy.CHECK_VERSION == dbSchemaStrategy) {
-    dbSqlSessionFactory.dbSchemaCheckVersion();
-  }
+);
   if (name == null) {
     log.info("default activiti ProcessEngine created");
   }

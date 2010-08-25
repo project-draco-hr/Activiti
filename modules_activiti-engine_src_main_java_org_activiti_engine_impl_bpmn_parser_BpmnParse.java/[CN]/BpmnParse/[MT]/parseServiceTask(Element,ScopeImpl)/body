@@ -1,10 +1,18 @@
 {
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scopeElement);
-  String expression=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
-  if (expression != null && expression.trim().length() > 0) {
-    activity.setActivityBehavior(new ServiceInvocationActivityBehaviour(expressionManager.createValueExpression(expression)));
+  String className=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
+  String methodExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"method-expr");
+  String valueExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"value-expr");
+  if (className != null && className.trim().length() > 0) {
+    activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(expressionManager.createValueExpression(className)));
+  }
+ else   if (methodExpr != null && methodExpr.trim().length() > 0) {
+    activity.setActivityBehavior(new ServiceTaskMethodExpressionActivityBehavior(expressionManager.createMethodExpression(methodExpr)));
+  }
+ else   if (valueExpr != null && valueExpr.trim().length() > 0) {
+    activity.setActivityBehavior(new ServiceTaskValueExpressionActivityBehavior(expressionManager.createValueExpression(valueExpr)));
   }
  else {
-    throw new ActivitiException("java attribute is mandatory on serviceTask");
+    throw new ActivitiException("'class' or 'expr' attribute is mandatory on serviceTask");
   }
 }

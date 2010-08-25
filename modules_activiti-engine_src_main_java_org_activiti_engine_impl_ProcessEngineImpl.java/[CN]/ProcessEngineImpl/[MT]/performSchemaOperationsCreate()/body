@@ -1,0 +1,16 @@
+{
+  DbSqlSessionFactory dbSqlSessionFactory=processEngineConfiguration.getDbSqlSessionFactory();
+  if (DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy) {
+    try {
+      dbSqlSessionFactory.dbSchemaDrop();
+    }
+ catch (    RuntimeException e) {
+    }
+  }
+  if (DbSchemaStrategy.CREATE_DROP == dbSchemaStrategy || DbSchemaStrategy.DROP_CREATE == dbSchemaStrategy || DbSchemaStrategy.CREATE == dbSchemaStrategy) {
+    dbSqlSessionFactory.dbSchemaCreate();
+  }
+ else   if (DbSchemaStrategy.CHECK_VERSION == dbSchemaStrategy) {
+    dbSqlSessionFactory.dbSchemaCheckVersion();
+  }
+}
