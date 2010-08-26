@@ -1,11 +1,9 @@
 {
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(userTaskElement,scopeElement);
-  UserTaskActivity userTaskActivity=new UserTaskActivity(expressionManager,parseTaskDefinition(userTaskElement));
-  String form=userTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
-  String formLanguage=userTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form-language",ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE);
-  if (form != null) {
-    activity.setProperty(PROPERTYNAME_FORM_REFERENCE,new FormReference(form,formLanguage));
-  }
+  TaskDefinition taskDefinition=parseTaskDefinition(userTaskElement);
+  UserTaskActivity userTaskActivity=new UserTaskActivity(expressionManager,taskDefinition);
+  String formResourceKey=userTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
+  taskDefinition.setFormResourceKey(formResourceKey);
   activity.setActivityBehavior(userTaskActivity);
   parseProperties(userTaskElement,activity);
 }

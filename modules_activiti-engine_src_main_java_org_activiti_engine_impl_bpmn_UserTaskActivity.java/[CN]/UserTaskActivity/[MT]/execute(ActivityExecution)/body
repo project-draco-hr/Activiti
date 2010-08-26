@@ -1,6 +1,7 @@
 {
   TaskEntity task=TaskEntity.createAndInsert();
   task.setExecution(execution);
+  task.setFormResourceKey(taskDefinition.getFormResourceKey());
   if (taskDefinition.getName() != null) {
     String name=evaluateExpression(taskDefinition.getName(),execution);
     task.setName(name);

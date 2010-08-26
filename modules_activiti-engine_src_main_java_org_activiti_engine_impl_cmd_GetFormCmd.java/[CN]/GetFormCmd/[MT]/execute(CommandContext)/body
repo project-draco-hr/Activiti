@@ -3,39 +3,37 @@
   ProcessDefinitionEntity processDefinition=null;
   TaskEntity task=null;
   ExecutionEntity execution=null;
-  FormReference formReference=null;
+  String formResourceKey=null;
   if (taskId != null) {
     task=commandContext.getTaskSession().findTaskById(taskId);
+    execution=task.getExecution();
+    processDefinition=(ProcessDefinitionEntity)execution.getProcessDefinition();
     if (task == null) {
       throw new ActivitiException("No task found for id = '" + taskId + "'");
     }
-    execution=task.getExecution();
-    processDefinition=repositorySession.findDeployedProcessDefinitionById(task.getProcessDefinitionId());
-    formReference=(FormReference)execution.getActivity().getProperty(BpmnParse.PROPERTYNAME_FORM_REFERENCE);
+    formResourceKey=task.getFormResourceKey();
   }
  else   if (processDefinitionId != null) {
     processDefinition=repositorySession.findDeployedProcessDefinitionById(processDefinitionId);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
     }
-    formReference=(FormReference)processDefinition.getInitial().getProperty(BpmnParse.PROPERTYNAME_FORM_REFERENCE);
+    formResourceKey=processDefinition.getStartFormResourceKey();
   }
  else   if (processDefinitionKey != null) {
     processDefinition=repositorySession.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
     }
-    formReference=(FormReference)processDefinition.getInitial().getProperty(BpmnParse.PROPERTYNAME_FORM_REFERENCE);
+    formResourceKey=processDefinition.getStartFormResourceKey();
   }
   String deploymentId=processDefinition.getDeploymentId();
   DeploymentEntity deployment=repositorySession.findDeploymentById(deploymentId);
   Object result=null;
-  if (formReference != null) {
-    String formLanguage=formReference.getLanguage();
-    String form=formReference.getForm();
-    String formTemplateString=getFormTemplateString(form,deployment);
+  if (formResourceKey != null) {
+    String formTemplateString=getFormTemplateString(formResourceKey,deployment);
     ScriptingEngines scriptingEngines=commandContext.getProcessEngineConfiguration().getScriptingEngines();
-    result=scriptingEngines.evaluate(formTemplateString,formLanguage,execution);
+    result=scriptingEngines.evaluate(formTemplateString,ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE,execution);
   }
   return result;
 }
