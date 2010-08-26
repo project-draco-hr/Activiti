@@ -1,0 +1,12 @@
+{
+  CycleConfigurationService cycleConfigurationService=new SimpleXstreamRepositoryConnectorConfigurationManager(configBaseDir);
+  ConfigurationContainer configuration;
+  try {
+    configuration=cycleConfigurationService.getConfiguration(currentUserId);
+  }
+ catch (  RepositoryException e) {
+    configuration=createDefaultDemoConfiguration(currentUserId);
+    cycleConfigurationService.saveConfiguration(configuration);
+  }
+  return configuration;
+}

@@ -1,0 +1,10 @@
+{
+  String authorization=req.getHeader("Authorization");
+  if (authorization != null) {
+    String[] parts=authorization.split(" ");
+    if (parts.length == 2) {
+      return new String(Base64.decode(parts[1])).split(":")[0];
+    }
+  }
+  return null;
+}

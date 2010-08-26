@@ -1,0 +1,9 @@
+{
+  if (attach == true) {
+    String headerValue="attachment";
+    if (attachFileName != null && attachFileName.length() > 0) {
+      headerValue+="; filename=" + attachFileName;
+    }
+    res.setHeader("Content-Disposition",headerValue);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  String key=currentUserId + "_connector";
+  RepositoryConnector connector=(RepositoryConnector)session.getAttribute(key);
+  if (connector == null) {
+    PluginFinder.registerServletContext(session.getServletContext());
+    String contextPath=session.getServletContext().getContextPath();
+    ConfigurationContainer configuration=loadUserConfiguration(currentUserId);
+    connector=new CustomizedViewConfiguration(contextPath,configuration).createConnector();
+    connector.login(currentUserId,currentUserId);
+    session.setAttribute(key,connector);
+  }
+  return connector;
+}
