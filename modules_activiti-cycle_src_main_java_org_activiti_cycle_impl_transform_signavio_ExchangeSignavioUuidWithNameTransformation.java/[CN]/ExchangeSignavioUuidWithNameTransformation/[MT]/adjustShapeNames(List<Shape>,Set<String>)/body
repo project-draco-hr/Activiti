@@ -1,0 +1,22 @@
+{
+  for (  Shape shape : shapes) {
+    String name=null;
+    if (shape.getProperty("name") != null && shape.getProperty("name").length() > 0) {
+      name=shape.getProperty("name");
+    }
+ else {
+      name=shape.getStencilId();
+    }
+    String newName=adjustNamesForEngine(name);
+    if (existingNames.contains(newName)) {
+      int counter=1;
+      while (existingNames.contains(newName + "_" + counter)) {
+        counter++;
+      }
+      newName=newName + "_" + counter;
+    }
+    existingNames.add(newName);
+    shape.setResourceId(newName);
+    adjustShapeNames(shape.getChildShapes(),existingNames);
+  }
+}
