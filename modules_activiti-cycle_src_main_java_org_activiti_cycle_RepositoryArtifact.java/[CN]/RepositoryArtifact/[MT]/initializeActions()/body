@@ -1,0 +1,21 @@
+{
+  cachedFileActions=new ArrayList<ArtifactAction>();
+  if (getArtifactType() != null) {
+    cachedFileActions=new ArrayList<ArtifactAction>();
+    for (    Class<? extends ArtifactAction> clazz : artifactType.getRegisteredActions()) {
+      try {
+        ArtifactAction action=clazz.newInstance();
+        action.setArtifact(this);
+        cachedFileActions.add(action);
+      }
+ catch (      Exception ex) {
+        log.log(Level.SEVERE,"couldn't create file action of class " + clazz,ex);
+      }
+    }
+    cachedFileActions.addAll(createDownloadContentActions());
+    log.fine("Actions for artifact '" + getId() + "' with type "+ getArtifactType().getName()+ " requested, returning "+ cachedFileActions.size()+ " actions.");
+  }
+ else {
+    log.fine("No artifact type set for artifact '" + getId() + "'. Don't return any actions.");
+  }
+}

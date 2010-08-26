@@ -1,0 +1,9 @@
+{
+  setName(name);
+  try {
+    setBasePath(baseFile.getCanonicalPath());
+  }
+ catch (  IOException ioe) {
+    throw new RepositoryException("Unable to get canonical representation of basePath for connector " + getName() + " for baseFile "+ baseFile,ioe);
+  }
+}

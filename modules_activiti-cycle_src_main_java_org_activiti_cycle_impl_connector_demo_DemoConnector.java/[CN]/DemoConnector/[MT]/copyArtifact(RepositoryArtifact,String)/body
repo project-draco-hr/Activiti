@@ -1,0 +1,11 @@
+{
+  RepositoryArtifact copy=clone(artifact);
+  copy.setId(targetName);
+  nodes.add(copy);
+  Collection<ContentRepresentationDefinition> contentRepresentationDefinitions=artifact.getContentRepresentationDefinitions();
+  for (  ContentRepresentationDefinition def : contentRepresentationDefinitions) {
+    def.getName();
+    Content cont=artifact.loadContent(def.getName());
+    addContentRepresentation(copy,def.getType(),cont.asByteArray());
+  }
+}

@@ -1,0 +1,12 @@
+{
+  try {
+    JSONObject jsonObject=new JSONObject(sourceJson);
+    for (    JsonTransformation trafo : registeredTransformations) {
+      trafo.transform(jsonObject);
+    }
+    return jsonObject.toString();
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Exception occured while transformation of BPMN model",e);
+  }
+}

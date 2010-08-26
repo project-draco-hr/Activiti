@@ -1,0 +1,8 @@
+{
+  for (  RepositoryConnector connector : getRepositoryConnectors()) {
+    if (connector.getConfiguration().getName().equals(name)) {
+      return connector;
+    }
+  }
+  throw new RepositoryException("Couldn't find Repository Connector with name '" + name + "'");
+}

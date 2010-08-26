@@ -1,0 +1,11 @@
+{
+  for (  Class<? extends ActivitiCyclePluginDefinition> pluginDefinitionClass : definitions) {
+    try {
+      ActivitiCyclePluginDefinition pluginDefinition=pluginDefinitionClass.newInstance();
+      ActivitiCyclePluginRegistry.addPluginDefinition(pluginDefinition);
+    }
+ catch (    Exception e) {
+      logger.log(Level.SEVERE,"Error while reading plugin configuration from class " + pluginDefinitionClass,e);
+    }
+  }
+}

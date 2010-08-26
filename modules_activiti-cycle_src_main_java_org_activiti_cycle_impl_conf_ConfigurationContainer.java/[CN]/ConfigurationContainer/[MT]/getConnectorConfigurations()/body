@@ -1,0 +1,8 @@
+{
+  ArrayList<RepositoryConnectorConfiguration> connectors=new ArrayList<RepositoryConnectorConfiguration>();
+  connectors.addAll(linkedConnectors);
+  for (  ConfigurationContainer parent : getParentContainers()) {
+    connectors.addAll(parent.getConnectorConfigurations());
+  }
+  return connectors;
+}

@@ -1,0 +1,14 @@
+{
+  List<RepositoryNode> nodes=conn.getChildNodes("");
+  for (  RepositoryNode repositoryNode : nodes) {
+    System.out.println(repositoryNode);
+    if (repositoryNode instanceof RepositoryArtifact) {
+      RepositoryArtifact artifact=(RepositoryArtifact)repositoryNode;
+      Collection<ContentRepresentationDefinition> contentRepresentations=artifact.getContentRepresentationDefinitions();
+      for (      ContentRepresentationDefinition contentRepresentation : contentRepresentations) {
+        System.out.println(contentRepresentation.getName() + " -> " + contentRepresentation.getClientUrl());
+        System.out.println("  # FETCHED CONTENT VIA API: # " + conn.getContent(artifact.getId(),contentRepresentation.getName()).asString());
+      }
+    }
+  }
+}

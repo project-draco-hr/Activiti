@@ -1,0 +1,17 @@
+{
+  if (repositoryNode instanceof RepositoryArtifact) {
+    RepositoryArtifact artifact=(RepositoryArtifact)repositoryNode;
+    artifact.initializeActions();
+  }
+  repositoryNode.setId(getIdWithRepoName(repositoryNode));
+  repositoryNode.setClientUrl(getClientUrl(repositoryNode));
+  if (repositoryNode instanceof RepositoryArtifact) {
+    RepositoryArtifact artifact=(RepositoryArtifact)repositoryNode;
+    Collection<ContentRepresentationDefinition> contentRepresentationDefinitions=artifact.getContentRepresentationDefinitions();
+    for (    ContentRepresentationDefinition contentRepresentationDefinition : contentRepresentationDefinitions) {
+      contentRepresentationDefinition.setClientUrl(getClientUrl(artifact,contentRepresentationDefinition));
+    }
+  }
+  repositoryNode.overwriteConnector(this);
+  return repositoryNode;
+}

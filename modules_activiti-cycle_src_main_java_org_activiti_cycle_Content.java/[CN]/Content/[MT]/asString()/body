@@ -1,0 +1,14 @@
+{
+  if (contentAsString != null) {
+    return contentAsString;
+  }
+ else   if (contentAsByteArray != null) {
+    return new String(contentAsByteArray);
+  }
+ else   if (contentAsInputStream != null) {
+    return new String(loadBytes(contentAsInputStream));
+  }
+ else {
+    throw new RuntimeException("Not yet implemented");
+  }
+}

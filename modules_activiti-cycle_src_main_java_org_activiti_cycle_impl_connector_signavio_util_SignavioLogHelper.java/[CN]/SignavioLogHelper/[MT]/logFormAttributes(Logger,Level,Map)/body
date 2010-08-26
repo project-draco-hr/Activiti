@@ -1,0 +1,13 @@
+{
+  org.restlet.data.Form formAttributes=(Form)attributes.get("org.restlet.http.headers");
+  if (formAttributes != null) {
+    try {
+      log.log(logLevel,"FormAttributes (URLDecoded) - " + URLDecoder.decode(formAttributes.getMatrixString(),"UTF-8"));
+    }
+ catch (    UnsupportedEncodingException e) {
+    }
+  }
+ else {
+    log.log(logLevel,"FormAttributes (URLDecoded) - NONE");
+  }
+}

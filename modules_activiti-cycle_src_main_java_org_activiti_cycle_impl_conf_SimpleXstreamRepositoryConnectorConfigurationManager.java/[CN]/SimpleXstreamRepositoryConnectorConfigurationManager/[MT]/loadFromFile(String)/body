@@ -1,0 +1,9 @@
+{
+  String configFileName=getFileName(name);
+  try {
+    return getXStream().fromXML(new FileReader(configFileName));
+  }
+ catch (  IOException ioe) {
+    throw new RepositoryException("Unable to load '" + name + "' as XML in the file system sd file '"+ configFileName+ "'",ioe);
+  }
+}

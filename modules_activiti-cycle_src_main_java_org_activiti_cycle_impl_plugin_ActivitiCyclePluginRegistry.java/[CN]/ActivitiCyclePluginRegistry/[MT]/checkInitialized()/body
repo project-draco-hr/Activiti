@@ -1,0 +1,10 @@
+{
+  if (!initialized) {
+synchronized (initialized) {
+      if (!initialized) {
+        new PluginFinder().publishAllPluginsToRegistry();
+        initialized=Boolean.TRUE;
+      }
+    }
+  }
+}

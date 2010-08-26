@@ -1,0 +1,15 @@
+{
+  Object value=parameters.get(name);
+  if (value == null || (value instanceof String && ((String)value).length() == 0)) {
+    if (required) {
+      throw new RepositoryException("Required parameter '" + name + "' not set while executing action '"+ getName()+ "'");
+    }
+ else {
+      return defaultValue;
+    }
+  }
+  if (expectedClass != null && !expectedClass.isAssignableFrom(value.getClass())) {
+    throw new RepositoryException("Parameter '" + name + "' with value '"+ value+ "' has wrong type "+ value.getClass()+ " instead of "+ expectedClass+ " not set while executing action '"+ getName()+ "'");
+  }
+  return value;
+}

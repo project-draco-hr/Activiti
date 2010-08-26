@@ -1,5 +1,38 @@
 {
   String artifactId=getString(req,"artifactId");
-  long id=Long.parseLong(artifactId);
-  model.put("artifact",new Artifact(id,id == 1 ? "http://jorambarrez.be/files/blog/bpmn2_sneakpeek/vacationRequest.png" : "http://www.jorambarrez.be/files/blog/jbpm_43_released/jbpm_evolution.png"));
+  String cuid=getCurrentUserId(req);
+  HttpSession session=((WebScriptServletRequest)req).getHttpServletRequest().getSession(true);
+  RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
+  RepositoryArtifact artifact=conn.getRepositoryArtifact(artifactId);
+  List<ContentView> contentViews=new ArrayList<ContentView>();
+  for (  ContentRepresentationDefinition representation : artifact.getContentRepresentationDefinitions()) {
+    try {
+      if (representation.getType().equals(ContentType.TEXT) || representation.getType().equals(ContentType.XML) || representation.getType().equals(ContentType.HTML)) {
+        String content=conn.getContent(artifactId,representation.getName()).asString();
+        contentViews.add(new ContentView(representation.getType(),representation.getName(),content));
+      }
+ else       if (representation.getType().startsWith("image/")) {
+        String url=req.getServerPath() + req.getContextPath() + "/service/content?artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(representation.getType(),"UTF-8");
+        contentViews.add(new ContentView(representation.getType(),representation.getName(),url));
+      }
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  model.put("actions",artifact.getParametrizedActions());
+  List<DownloadActionView> downloads=new ArrayList<DownloadActionView>();
+  for (  DownloadContentAction action : artifact.getDownloadContentActions()) {
+    try {
+      String url=req.getServerPath() + req.getContextPath() + "/service/content?artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(action.getDefiniton().getType(),"UTF-8");
+      downloads.add(new DownloadActionView(action.getLabel(),url,action.getDefiniton().getType()));
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  model.put("downloads",downloads);
+  model.put("links",artifact.getOpenUrlActions());
+  model.put("artifactId",artifact.getId());
+  model.put("contentViews",contentViews);
 }

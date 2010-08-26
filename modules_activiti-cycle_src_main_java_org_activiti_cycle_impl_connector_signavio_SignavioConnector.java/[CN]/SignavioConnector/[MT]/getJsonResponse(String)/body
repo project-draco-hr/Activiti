@@ -1,9 +1,5 @@
 {
-  Form requestHeaders=new Form();
-  requestHeaders.add("token",getSecurityToken());
   Request jsonRequest=new Request(Method.GET,new Reference(url));
   jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
-  jsonRequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
-  Client client=initClient();
-  return client.handle(jsonRequest);
+  return sendRequest(jsonRequest);
 }

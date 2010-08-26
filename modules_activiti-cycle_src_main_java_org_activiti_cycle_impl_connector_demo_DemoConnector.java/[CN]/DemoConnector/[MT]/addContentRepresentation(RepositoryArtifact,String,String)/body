@@ -1,12 +1,10 @@
 {
-  Map<String,byte[]> map=content.get(artifact);
-  if (map == null) {
-    map=new HashMap<String,byte[]>();
-    content.put(artifact,map);
-  }
   try {
     ByteArrayOutputStream byteStream=new ByteArrayOutputStream();
-    InputStream in=new URL(contentSourceUrl).openStream();
+    InputStream in=DemoConnector.class.getResourceAsStream(contentSourceUrl);
+    if (in == null) {
+      throw new RuntimeException("resource '" + contentSourceUrl + "' not found in classpath");
+    }
     byte[] buf=new byte[512];
     int len;
     while (true) {
@@ -17,7 +15,7 @@
       byteStream.write(buf,0,len);
     }
     byteStream.close();
-    map.put(name,byteStream.toByteArray());
+    addContentRepresentation(artifact,name,byteStream.toByteArray());
   }
  catch (  Exception ex) {
     log.log(Level.SEVERE,"couldn't load content for artifact " + artifact + " from URL "+ contentSourceUrl,ex);

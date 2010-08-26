@@ -1,6 +1,9 @@
 {
-  RepositoryArtifact newArtifact=new RepositoryArtifact();
-  newArtifact.setArtifactType(RepositoryRegistry.getArtifactTypeByIdentifier(artifactTypeIdentifier));
+  if (!id.startsWith("/")) {
+    id="/" + id;
+  }
+  RepositoryArtifact newArtifact=new RepositoryArtifact(this);
+  newArtifact.setArtifactType(ActivitiCyclePluginRegistry.getArtifactTypeByIdentifier(artifactTypeIdentifier));
   newArtifact.setId(id);
   newArtifact.getMetadata().setName(name);
   newArtifact.getMetadata().setPath(parentPath);

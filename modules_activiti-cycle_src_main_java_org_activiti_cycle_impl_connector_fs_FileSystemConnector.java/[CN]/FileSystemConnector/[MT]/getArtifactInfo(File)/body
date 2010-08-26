@@ -1,0 +1,9 @@
+{
+  RepositoryArtifact artifact=new RepositoryArtifact(this);
+  artifact.setId(getLocalPath(file.getCanonicalPath()));
+  artifact.getMetadata().setName(file.getName());
+  artifact.getMetadata().setPath(getConfiguration().getBasePath() + artifact.getId());
+  artifact.getMetadata().setLastChanged(new Date(file.lastModified()));
+  artifact.setArtifactType(ActivitiCyclePluginRegistry.getArtifactTypeByIdentifier(getMimeType(file)));
+  return artifact;
+}

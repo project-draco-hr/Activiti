@@ -1,5 +1,8 @@
 {
-  RepositoryFolder newFolder=new RepositoryFolder();
+  if (!id.startsWith("/")) {
+    id="/" + id;
+  }
+  RepositoryFolder newFolder=new RepositoryFolder(this);
   newFolder.setId(id);
   newFolder.getMetadata().setName(name);
   newFolder.getMetadata().setPath(parentPath);

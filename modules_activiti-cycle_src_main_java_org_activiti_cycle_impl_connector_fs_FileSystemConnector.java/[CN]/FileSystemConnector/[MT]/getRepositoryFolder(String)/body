@@ -1,0 +1,8 @@
+{
+  try {
+    return getFolderInfo(getFileFromId(id));
+  }
+ catch (  IOException ex) {
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryFolder.class,id,ex);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  RepositoryConnector connector=null;
+  int index=url.indexOf("/");
+  if (index == -1) {
+    connector=getRepositoryConnector(url);
+  }
+ else   if (index == 0) {
+    connector=getConnectorFromUrl(url.substring(1));
+  }
+ else {
+    String repositoryName=url.substring(0,index);
+    connector=getRepositoryConnector(repositoryName);
+  }
+  if (connector == null) {
+    throw new RepositoryException("Couldn't find any RepositoryConnector for url '" + url + "'");
+  }
+ else {
+    return connector;
+  }
+}

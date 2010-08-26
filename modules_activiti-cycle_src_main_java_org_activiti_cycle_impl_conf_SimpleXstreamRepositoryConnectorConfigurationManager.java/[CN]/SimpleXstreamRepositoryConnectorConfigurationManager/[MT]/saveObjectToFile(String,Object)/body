@@ -1,0 +1,9 @@
+{
+  String configFileName=getFileName(name);
+  try {
+    getXStream().toXML(o,new FileWriter(configFileName));
+  }
+ catch (  IOException ioe) {
+    throw new RepositoryException("Unable to persist '" + name + "' as XML in the file system sd file '"+ configFileName+ "'",ioe);
+  }
+}

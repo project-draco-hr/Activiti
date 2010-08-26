@@ -1,3 +1,10 @@
 {
-  throw new UnsupportedRepositoryOpperation("not yet implemented in Signavio repo");
+  try {
+    Request jsonRequest=new Request(Method.DELETE,new Reference(getConfiguration().getModelUrl(artifactId)));
+    jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
+    sendRequest(jsonRequest);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Unable to delete model " + artifactId);
+  }
 }

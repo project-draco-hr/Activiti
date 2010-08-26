@@ -1,0 +1,16 @@
+{
+  JsonRepresentation jsonData=null;
+  JSONObject jsonObject=null;
+  try {
+    Response modelResponse=getJsonResponse(getConfiguration().getModelUrl(id) + "/info");
+    jsonData=new JsonRepresentation(modelResponse.getEntity());
+    if (log.isLoggable(Level.FINE)) {
+      log.fine("JsonData - (" + jsonData.getText() + ")");
+    }
+    jsonObject=jsonData.toJsonObject();
+    return getArtifactInfoFromFile(id,jsonObject);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id,ex);
+  }
+}

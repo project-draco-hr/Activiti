@@ -1,0 +1,16 @@
+{
+  try {
+    Response jsonResponse=getJsonResponse(artifact,"/json");
+    JSONObject jsonData=new JSONObject(jsonResponse.getEntity().getText());
+    jsonData=new BpmnPoolExtraction("Engine Pool").transform(jsonData);
+    jsonData=new AdjustShapeNamesTransformation().transform(jsonData);
+    jsonData=new ExchangeSignavioUuidWithNameTransformation().transform(jsonData);
+    String bpmnXml=getConnector(artifact).transformJsonToBpmn20Xml(jsonData.toString());
+    bpmnXml=new RemedyTemporarySignavioIncompatibilityTransformation().transformBpmn20Xml(bpmnXml);
+    log.finest("BPMN 2.0 String: " + bpmnXml);
+    content.setValue(bpmnXml);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Error while accessing Signavio repository",ex);
+  }
+}

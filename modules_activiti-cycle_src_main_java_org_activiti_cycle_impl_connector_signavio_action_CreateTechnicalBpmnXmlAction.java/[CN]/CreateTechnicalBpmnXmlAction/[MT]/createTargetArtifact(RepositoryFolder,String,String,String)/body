@@ -1,0 +1,8 @@
+{
+  RepositoryArtifact targetArtifact=new RepositoryArtifact(targetFolder.getConnector());
+  targetArtifact.setId(artifactId);
+  targetArtifact.setArtifactType(ActivitiCyclePluginRegistry.getArtifactTypeByIdentifier(artifactTypeIdentifier));
+  Content content=new Content();
+  content.setValue(bpmnXml);
+  targetFolder.getConnector().createNewArtifact(targetFolder.getId(),targetArtifact,content);
+}

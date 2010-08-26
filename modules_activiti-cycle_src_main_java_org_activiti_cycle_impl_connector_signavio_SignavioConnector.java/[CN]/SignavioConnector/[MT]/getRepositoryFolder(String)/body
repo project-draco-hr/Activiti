@@ -1,0 +1,11 @@
+{
+  try {
+    Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
+    JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
+    JSONObject jsonObject=jsonData.toJsonObject();
+    return getFolderInfo(jsonObject);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id,ex);
+  }
+}

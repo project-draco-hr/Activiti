@@ -1,0 +1,12 @@
+{
+  int index=url.indexOf("/");
+  if (index == -1) {
+    return "/";
+  }
+ else   if (index == 0) {
+    return getRepositoryPartOfUrl(url.substring(1));
+  }
+ else {
+    return url.substring(index);
+  }
+}

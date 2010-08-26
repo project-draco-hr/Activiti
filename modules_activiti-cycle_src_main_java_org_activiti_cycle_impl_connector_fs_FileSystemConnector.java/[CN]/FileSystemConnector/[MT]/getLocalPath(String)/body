@@ -1,0 +1,11 @@
+{
+  if ("".equals(getConfiguration().getBasePath())) {
+    return path;
+  }
+ else   if (path.startsWith(getConfiguration().getBasePath())) {
+    path=path.replace(getConfiguration().getBasePath(),"");
+    path=path.replace("\\","/");
+    return path;
+  }
+  throw new RepositoryException("Unable to determine local path! ('" + path + "')");
+}

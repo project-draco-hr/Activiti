@@ -1,0 +1,9 @@
+{
+  ArrayList<DownloadContentAction> actions=new ArrayList<DownloadContentAction>();
+  for (  ArtifactAction action : getRegisteredActions()) {
+    if (action instanceof DownloadContentAction) {
+      actions.add((DownloadContentAction)action);
+    }
+  }
+  return actions;
+}

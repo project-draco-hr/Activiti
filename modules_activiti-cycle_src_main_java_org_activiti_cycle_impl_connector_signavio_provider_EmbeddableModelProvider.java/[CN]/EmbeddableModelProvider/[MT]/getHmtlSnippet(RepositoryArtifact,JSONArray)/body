@@ -1,6 +1,6 @@
 {
   JSONObject resultJsonObject=new JSONObject();
-  resultJsonObject.put("url",getConnector(artifact).getSignavioConfiguration().getModelUrl() + artifact.getId());
+  resultJsonObject.put("url",getConnector(artifact).getConfiguration().getModelUrl(artifact.getId()));
   resultJsonObject.put("overflowX","fit");
   resultJsonObject.put("overflowY","fit");
   resultJsonObject.put("zoomSlider",true);
@@ -10,13 +10,19 @@
   for (int i=0; i < embeddedModelJSONArray.length(); i++) {
     JSONObject tempJsonObject=embeddedModelJSONArray.getJSONObject(i).getJSONObject("rep");
     String tempRepType=tempJsonObject.getString("type");
-    if (tempRepType.equals("png"))     authKey_png=tempJsonObject.getString("authkey");
- else     if (tempRepType.equals("json"))     authKey_json=tempJsonObject.getString("authkey");
- else     if (tempRepType.equals("stencilset"))     authKey_stencilset=tempJsonObject.getString("authkey");
+    if (tempRepType.equals("png")) {
+      authKey_png=tempJsonObject.getString("authkey");
+    }
+ else     if (tempRepType.equals("json")) {
+      authKey_json=tempJsonObject.getString("authkey");
+    }
+ else     if (tempRepType.equals("stencilset")) {
+      authKey_stencilset=tempJsonObject.getString("authkey");
+    }
   }
   authToken=authKey_png + "_" + authKey_json+ "_"+ authKey_stencilset;
   resultJsonObject.put("authToken",authToken);
-  String firstScriptTag="<script type=\"text/javascript\" src=\"" + getConnector(artifact).getSignavioConfiguration().getMashupUrl() + "signavio.js"+ "\"></script>";
+  String firstScriptTag="<script type=\"text/javascript\" src=\"" + getConnector(artifact).getConfiguration().getMashupUrl() + "signavio.js"+ "\"></script>";
   String secondScriptTag="<script type=\"text/plain\">" + resultJsonObject.toString() + "</script>";
   String resultHtmlSnippet=firstScriptTag.concat(secondScriptTag);
   return resultHtmlSnippet;

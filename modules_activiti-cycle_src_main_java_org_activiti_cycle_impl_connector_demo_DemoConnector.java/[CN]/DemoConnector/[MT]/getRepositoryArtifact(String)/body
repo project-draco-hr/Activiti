@@ -1,0 +1,8 @@
+{
+  for (  RepositoryNode node : nodes) {
+    if (node.getId().equals(id) && node instanceof RepositoryArtifact) {
+      return clone((RepositoryArtifact)node);
+    }
+  }
+  throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id);
+}

@@ -1,10 +1,10 @@
 {
   try {
-    Response directoryResponse=getJsonResponse(conf.getDirectoryUrl() + parentId);
+    Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(parentId));
     JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
     JSONArray relJsonArray=jsonData.toJsonArray();
     if (log.isLoggable(Level.FINEST)) {
-      SignavioLogHelper.logJSONArray(log,relJsonArray);
+      SignavioLogHelper.logJSONArray(log,Level.FINEST,relJsonArray);
     }
     ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
     for (int i=0; i < relJsonArray.length(); i++) {
@@ -21,6 +21,6 @@
     return nodes;
   }
  catch (  Exception ex) {
-    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryFolder.class,parentId,ex);
   }
 }

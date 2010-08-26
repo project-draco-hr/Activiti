@@ -1,0 +1,23 @@
+{
+  try {
+    String resourceName=getFormResourceName();
+    if (resourceName == null) {
+      return null;
+    }
+    InputStream is=this.getClass().getResourceAsStream(resourceName);
+    if (is == null) {
+      throw new RepositoryException("HTML form for action " + this.getClass() + " from template '"+ getFormResourceName()+ "' doesn't exist in classpath");
+    }
+    BufferedReader reader=new BufferedReader(new InputStreamReader(is));
+    StringBuilder sb=new StringBuilder();
+    String line=null;
+    while ((line=reader.readLine()) != null) {
+      sb.append(line + "\n");
+    }
+    is.close();
+    return sb.toString();
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while creating HTML form for action " + this.getClass() + " from form template '"+ getFormResourceName()+ "'",ex);
+  }
+}

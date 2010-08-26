@@ -1,0 +1,15 @@
+{
+  try {
+    Form reivisionForm=new Form();
+    reivisionForm.add("comment",comment);
+    reivisionForm.add("parent","/directory/" + parentFolderId);
+    reivisionForm.add("revision",revisionId);
+    Representation modelRep=reivisionForm.getWebRepresentation();
+    Request jsonRequest=new Request(Method.PUT,new Reference(getConfiguration().getModelUrl(modelId)),modelRep);
+    jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
+    sendRequest(jsonRequest);
+  }
+ catch (  Exception je) {
+    throw new RepositoryException("Unable to restore revision '" + revisionId + "' of model '"+ modelId+ "' in directory '"+ parentFolderId+ "'",je);
+  }
+}

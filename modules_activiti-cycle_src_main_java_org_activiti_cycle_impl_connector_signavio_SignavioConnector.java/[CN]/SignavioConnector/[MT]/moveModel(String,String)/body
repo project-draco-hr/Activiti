@@ -1,0 +1,13 @@
+{
+  try {
+    Form bodyForm=new Form();
+    bodyForm.add("parent","/directory/" + targetFolderId);
+    Representation bodyRep=bodyForm.getWebRepresentation();
+    Request jsonRequest=new Request(Method.PUT,new Reference(getConfiguration().getModelUrl(modelId)),bodyRep);
+    jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
+    sendRequest(jsonRequest);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Unable to move model " + modelId + " to folder "+ targetFolderId,ex);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  getContentRepresentationDefinitions();
+  ArrayList<DownloadContentAction> actions=new ArrayList<DownloadContentAction>();
+  for (  ContentRepresentationProvider provider : getContentRepresentationProviders()) {
+    if (provider.isContentDownloadable()) {
+      actions.add(new DownloadContentAction(this,provider.getContentRepresentationName()));
+    }
+  }
+  return actions;
+}

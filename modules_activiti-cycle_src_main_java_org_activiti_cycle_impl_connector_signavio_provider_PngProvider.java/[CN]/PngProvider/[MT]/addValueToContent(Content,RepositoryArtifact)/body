@@ -1,0 +1,10 @@
+{
+  try {
+    String modelAsPngUrl=getModelAsPngUrl(artifact);
+    InputStream is=new URL(modelAsPngUrl).openStream();
+    content.setValue(is);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

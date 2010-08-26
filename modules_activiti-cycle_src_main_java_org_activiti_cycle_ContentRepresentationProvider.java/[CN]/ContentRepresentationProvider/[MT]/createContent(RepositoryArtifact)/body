@@ -1,0 +1,8 @@
+{
+  Content c=new Content();
+  addValueToContent(c,artifact);
+  if (c.isNull()) {
+    throw new RepositoryException("No content created for artifact " + artifact.getId() + " ' from provider '"+ getContentRepresentationName()+ "' (was null). Please check provider or artifact.");
+  }
+  return c;
+}

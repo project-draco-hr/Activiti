@@ -1,0 +1,12 @@
+{
+  RepositoryFolder folder=new RepositoryFolder(this);
+  String id=getLocalPath(file.getCanonicalPath());
+  if ("".equals(id)) {
+    id="/";
+  }
+  folder.setId(id);
+  folder.getMetadata().setName(file.getName());
+  folder.getMetadata().setPath(getConfiguration().getBasePath() + folder.getId());
+  folder.getMetadata().setLastChanged(new Date(file.lastModified()));
+  return folder;
+}
