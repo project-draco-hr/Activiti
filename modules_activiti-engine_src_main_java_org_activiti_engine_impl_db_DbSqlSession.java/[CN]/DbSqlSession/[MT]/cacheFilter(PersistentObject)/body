@@ -1,0 +1,8 @@
+{
+  PersistentObject cachedPersistentObject=cacheGet(persistentObject.getClass(),persistentObject.getId());
+  if (cachedPersistentObject != null) {
+    return cachedPersistentObject;
+  }
+  cachePut(persistentObject,true);
+  return persistentObject;
+}

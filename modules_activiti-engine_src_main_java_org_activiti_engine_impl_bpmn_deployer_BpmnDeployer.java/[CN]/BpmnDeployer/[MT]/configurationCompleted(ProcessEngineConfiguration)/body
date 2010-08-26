@@ -1,4 +1,7 @@
 {
   this.expressionManager=processEngineConfiguration.getExpressionManager();
   this.bpmnParser=new BpmnParser(expressionManager);
+  if (processEngineConfiguration.isHistoryEnabled()) {
+    bpmnParser.getParseListeners().add(new HistoryParseListener());
+  }
 }

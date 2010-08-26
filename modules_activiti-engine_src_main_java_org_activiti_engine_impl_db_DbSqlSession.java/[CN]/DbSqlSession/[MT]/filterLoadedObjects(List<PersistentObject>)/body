@@ -1,7 +1,7 @@
 {
   List<PersistentObject> filteredObjects=new ArrayList<PersistentObject>(loadedObjects.size());
   for (  PersistentObject loadedObject : loadedObjects) {
-    PersistentObject cachedPersistentObject=cacheGet(loadedObject);
+    PersistentObject cachedPersistentObject=cacheFilter(loadedObject);
     filteredObjects.add(cachedPersistentObject);
   }
   return filteredObjects;

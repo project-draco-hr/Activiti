@@ -1,0 +1,11 @@
+{
+  CachedObject cachedObject=null;
+  Map<String,CachedObject> classCache=cachedObjects.get(entityClass);
+  if (classCache != null) {
+    cachedObject=classCache.get(id);
+  }
+  if (cachedObject != null) {
+    return (T)cachedObject.getPersistentObject();
+  }
+  return null;
+}

@@ -1,0 +1,11 @@
+{
+  T persistentObject=cacheGet(entityClass,id);
+  if (persistentObject != null) {
+    return persistentObject;
+  }
+  String selectStatement=dbSqlSessionFactory.getSelectStatement(entityClass);
+  selectStatement=dbSqlSessionFactory.mapStatement(selectStatement);
+  persistentObject=(T)sqlSession.selectOne(selectStatement,id);
+  cachePut(persistentObject,true);
+  return persistentObject;
+}

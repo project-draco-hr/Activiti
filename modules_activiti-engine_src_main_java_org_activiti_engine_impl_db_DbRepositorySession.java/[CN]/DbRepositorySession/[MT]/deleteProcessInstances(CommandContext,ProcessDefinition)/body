@@ -1,0 +1,6 @@
+{
+  List<ProcessInstance> processInstances=new ProcessInstanceQueryImpl().processDefinitionId(processDefinition.getId()).executeList(commandContext,null);
+  for (  ProcessInstance processInstance : processInstances) {
+    commandContext.getRuntimeSession().deleteProcessInstance(processInstance.getId(),"deleted deployment");
+  }
+}
