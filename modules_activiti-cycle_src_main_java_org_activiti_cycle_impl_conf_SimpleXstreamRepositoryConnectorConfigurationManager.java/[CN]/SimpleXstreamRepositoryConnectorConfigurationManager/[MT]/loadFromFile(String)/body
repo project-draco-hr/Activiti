@@ -1,7 +1,10 @@
 {
   String configFileName=getFileName(name);
   try {
-    return getXStream().fromXML(new FileReader(configFileName));
+    FileReader fileReader=new FileReader(configFileName);
+    Object config=getXStream().fromXML(fileReader);
+    fileReader.close();
+    return config;
   }
  catch (  IOException ioe) {
     throw new RepositoryException("Unable to load '" + name + "' as XML in the file system sd file '"+ configFileName+ "'",ioe);
