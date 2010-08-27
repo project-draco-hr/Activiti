@@ -1,3 +1,7 @@
 {
-  model.put("tables",getManagementService().getTableCount());
+  Map<String,Long> tableCounts=getManagementService().getTableCount();
+  ArrayList<String> tableNames=new ArrayList<String>(tableCounts.keySet());
+  Collections.sort(tableNames);
+  model.put("tableNames",tableNames);
+  model.put("tables",tableCounts);
 }
