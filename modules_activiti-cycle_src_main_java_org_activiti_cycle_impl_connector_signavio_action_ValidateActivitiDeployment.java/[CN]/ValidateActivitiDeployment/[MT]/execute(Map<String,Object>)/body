@@ -1,0 +1,9 @@
+{
+  ProcessEngineConfiguration processEngineConfiguration=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration();
+  ExpressionManager expressionManager=processEngineConfiguration.getExpressionManager();
+  String sourceJson=getBpmn20Json();
+  String transformedJson=applyJsonTransformations(sourceJson);
+  String bpmnXml=transformToBpmn20(transformedJson);
+  BpmnParser bpmnParser=new BpmnParser(expressionManager);
+  bpmnParser.createParse().sourceString(bpmnXml).name(getArtifact().getId()).execute();
+}
