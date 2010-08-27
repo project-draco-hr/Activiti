@@ -25,7 +25,7 @@
   for (  DownloadContentAction action : artifact.getDownloadContentActions()) {
     try {
       String url=req.getServerPath() + req.getContextPath() + "/service/content?artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(action.getDefiniton().getType(),"UTF-8");
-      downloads.add(new DownloadActionView(action.getLabel(),url,action.getDefiniton().getType()));
+      downloads.add(new DownloadActionView(action.getLabel(),url,action.getDefiniton().getType(),action.getDefiniton().getName()));
     }
  catch (    UnsupportedEncodingException e) {
       throw new RuntimeException(e);
