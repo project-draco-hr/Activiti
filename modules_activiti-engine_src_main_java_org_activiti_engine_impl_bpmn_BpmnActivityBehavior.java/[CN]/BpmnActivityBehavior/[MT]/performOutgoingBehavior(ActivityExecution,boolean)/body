@@ -19,8 +19,10 @@
     joinedExecutions.add(execution);
     execution.takeAll(transitionsToTake,joinedExecutions);
   }
- else   if (log.isLoggable(Level.FINE)) {
-    log.fine("No outgoing sequence flow found for " + execution.getActivity().getId() + ". Ending execution.");
+ else {
+    if (log.isLoggable(Level.FINE)) {
+      log.fine("No outgoing sequence flow found for " + execution.getActivity().getId() + ". Ending execution.");
+    }
     execution.end();
   }
 }
