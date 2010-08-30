@@ -1,0 +1,32 @@
+{
+  Calendar calendar=new GregorianCalendar();
+  calendar.set(Calendar.YEAR,2010);
+  calendar.set(Calendar.MONTH,8);
+  calendar.set(Calendar.DAY_OF_MONTH,30);
+  calendar.set(Calendar.HOUR_OF_DAY,12);
+  calendar.set(Calendar.MINUTE,0);
+  calendar.set(Calendar.SECOND,0);
+  calendar.set(Calendar.MILLISECOND,0);
+  Date noon=calendar.getTime();
+  ClockUtil.setCurrentTime(noon);
+  final ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  HistoricProcessInstance historicProcessInstance=historicDataService.findHistoricProcessInstanceById(processInstance.getId());
+  assertNotNull(historicProcessInstance);
+  assertEquals(processInstance.getId(),historicProcessInstance.getProcessInstanceId());
+  assertEquals(processInstance.getProcessDefinitionId(),historicProcessInstance.getProcessDefinitionId());
+  assertEquals(noon,historicProcessInstance.getStartTime());
+  assertNull(historicProcessInstance.getEndTime());
+  assertNull(historicProcessInstance.getDurationInMillis());
+  List<Task> tasks=taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
+  assertEquals(1,tasks.size());
+  Date twentyFiveSecsAfterNoon=new Date(noon.getTime() + 25 * 1000);
+  ClockUtil.setCurrentTime(twentyFiveSecsAfterNoon);
+  taskService.complete(tasks.get(0).getId());
+  historicProcessInstance=historicDataService.findHistoricProcessInstanceById(processInstance.getId());
+  assertNotNull(historicProcessInstance);
+  assertEquals(processInstance.getId(),historicProcessInstance.getProcessInstanceId());
+  assertEquals(processInstance.getProcessDefinitionId(),historicProcessInstance.getProcessDefinitionId());
+  assertEquals(noon,historicProcessInstance.getStartTime());
+  assertEquals(twentyFiveSecsAfterNoon,historicProcessInstance.getEndTime());
+  assertEquals(new Long(25 * 1000),historicProcessInstance.getDurationInMillis());
+}
