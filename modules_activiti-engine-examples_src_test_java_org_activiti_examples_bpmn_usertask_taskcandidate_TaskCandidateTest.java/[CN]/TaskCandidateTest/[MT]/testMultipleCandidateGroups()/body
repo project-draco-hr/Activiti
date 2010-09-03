@@ -1,8 +1,8 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("multipleCandidatesGroup");
-  List<Task> tasks=taskService.findAssignedTasks(KERMIT);
+  List<Task> tasks=taskService.createTaskQuery().assignee(KERMIT).list();
   assertTrue(tasks.isEmpty());
-  tasks=taskService.findAssignedTasks(GONZO);
+  tasks=taskService.createTaskQuery().assignee(GONZO).list();
   assertTrue(tasks.isEmpty());
   assertEquals(1,taskService.findUnassignedTasks(KERMIT).size());
   assertEquals(1,taskService.findUnassignedTasks(GONZO).size());
@@ -16,8 +16,8 @@
   assertTrue(taskService.findUnassignedTasks(KERMIT).isEmpty());
   assertTrue(taskService.findUnassignedTasks(GONZO).isEmpty());
   assertEquals(0,taskService.createTaskQuery().candidateGroup("management").count());
-  assertEquals(1,taskService.findAssignedTasks(GONZO).size());
-  assertTrue(taskService.findAssignedTasks(KERMIT).isEmpty());
+  assertEquals(1,taskService.createTaskQuery().assignee(GONZO).count());
+  assertEquals(0,taskService.createTaskQuery().assignee(KERMIT).count());
   taskService.complete(task.getId());
   assertProcessEnded(processInstance.getId());
 }
