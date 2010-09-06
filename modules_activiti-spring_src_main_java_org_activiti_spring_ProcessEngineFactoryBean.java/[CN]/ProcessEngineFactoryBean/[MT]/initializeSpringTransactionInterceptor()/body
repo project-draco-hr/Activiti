@@ -1,0 +1,8 @@
+{
+  processEngineConfiguration.setLocalTransactions(transactionManager == null);
+  if (transactionManager != null) {
+    DefaultCommandExecutor commandExecutor=(DefaultCommandExecutor)processEngineConfiguration.getCommandExecutor();
+    commandExecutor.addCommandInterceptor(new SpringTransactionInterceptor(transactionManager));
+    processEngineConfiguration.setCommandExecutor(commandExecutor);
+  }
+}

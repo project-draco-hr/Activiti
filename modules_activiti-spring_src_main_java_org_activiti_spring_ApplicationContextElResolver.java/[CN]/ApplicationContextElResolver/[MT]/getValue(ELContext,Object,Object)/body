@@ -1,0 +1,10 @@
+{
+  if (base == null) {
+    String key=(String)property;
+    if (applicationContext.containsBean(key)) {
+      context.setPropertyResolved(true);
+      return applicationContext.getBean(key);
+    }
+  }
+  return null;
+}
