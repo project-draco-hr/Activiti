@@ -2,12 +2,12 @@
   TaskEntity task=TaskEntity.createAndInsert();
   task.setExecution(execution);
   task.setFormResourceKey(taskDefinition.getFormResourceKey());
-  if (taskDefinition.getName() != null) {
-    String name=evaluateExpression(taskDefinition.getName(),execution);
+  if (taskDefinition.getNameValueExpression() != null) {
+    String name=(String)taskDefinition.getNameValueExpression().getValue(execution);
     task.setName(name);
   }
-  if (taskDefinition.getDescription() != null) {
-    String description=evaluateExpression(taskDefinition.getDescription(),execution);
+  if (taskDefinition.getDescriptionValueExpression() != null) {
+    String description=(String)taskDefinition.getDescriptionValueExpression().getValue(execution);
     task.setDescription(description);
   }
   handleAssignments(task,execution);

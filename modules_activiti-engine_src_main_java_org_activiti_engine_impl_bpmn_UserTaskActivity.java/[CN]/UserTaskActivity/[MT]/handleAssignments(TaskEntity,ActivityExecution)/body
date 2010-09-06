@@ -1,15 +1,15 @@
 {
-  if (taskDefinition.getAssignee() != null) {
-    task.setAssignee(evaluateExpression(taskDefinition.getAssignee(),execution));
+  if (taskDefinition.getAssigneeValueExpression() != null) {
+    task.setAssignee((String)taskDefinition.getAssigneeValueExpression().getValue(execution));
   }
-  if (!taskDefinition.getCandidateGroupIds().isEmpty()) {
-    for (    String groupId : taskDefinition.getCandidateGroupIds()) {
-      task.addCandidateGroup(evaluateExpression(groupId,execution));
+  if (!taskDefinition.getCandidateGroupIdValueExpressions().isEmpty()) {
+    for (    ActivitiValueExpression groupIdExpr : taskDefinition.getCandidateGroupIdValueExpressions()) {
+      task.addCandidateGroup((String)groupIdExpr.getValue(execution));
     }
   }
-  if (!taskDefinition.getCandidateUserIds().isEmpty()) {
-    for (    String userId : taskDefinition.getCandidateUserIds()) {
-      task.addCandidateUser(evaluateExpression(userId,execution));
+  if (!taskDefinition.getCandidateUserIdValueExpressions().isEmpty()) {
+    for (    ActivitiValueExpression userIdExpr : taskDefinition.getCandidateUserIdValueExpressions()) {
+      task.addCandidateUser((String)userIdExpr.getValue(execution));
     }
   }
 }

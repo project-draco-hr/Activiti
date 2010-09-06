@@ -2,9 +2,12 @@
   TaskDefinition taskDefinition=new TaskDefinition();
   String name=taskElement.attribute("name");
   if (name != null) {
-    taskDefinition.setName(name);
+    taskDefinition.setNameValueExpression(expressionManager.createValueExpression(name));
   }
-  taskDefinition.setDescription(parseDocumentation(taskElement));
+  String descriptionStr=parseDocumentation(taskElement);
+  if (descriptionStr != null) {
+    taskDefinition.setDescriptionValueExpression(expressionManager.createValueExpression(descriptionStr));
+  }
   parseHumanPerformer(taskElement,taskDefinition);
   parsePotentialOwner(taskElement,taskDefinition);
   parseUserTaskCustomExtensions(taskElement,taskDefinition);

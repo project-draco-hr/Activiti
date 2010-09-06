@@ -7,13 +7,15 @@
       for (      String assignmentExpression : assignmentExpressions) {
         assignmentExpression=assignmentExpression.trim();
         if (assignmentExpression.startsWith(USER_PREFIX)) {
-          taskDefinition.addCandidateUserId(getAssignmentId(assignmentExpression,USER_PREFIX));
+          String userAssignementId=getAssignmentId(assignmentExpression,USER_PREFIX);
+          taskDefinition.addCandidateUserIdValueExpression(expressionManager.createValueExpression(userAssignementId));
         }
  else         if (assignmentExpression.startsWith(GROUP_PREFIX)) {
-          taskDefinition.addCandidateGroupId(getAssignmentId(assignmentExpression,GROUP_PREFIX));
+          String groupAssignementId=getAssignmentId(assignmentExpression,GROUP_PREFIX);
+          taskDefinition.addCandidateGroupIdValueExpression(expressionManager.createValueExpression(groupAssignementId));
         }
  else {
-          taskDefinition.addCandidateGroupId(assignmentExpression);
+          taskDefinition.addCandidateGroupIdValueExpression(expressionManager.createValueExpression(assignmentExpression));
         }
       }
     }
