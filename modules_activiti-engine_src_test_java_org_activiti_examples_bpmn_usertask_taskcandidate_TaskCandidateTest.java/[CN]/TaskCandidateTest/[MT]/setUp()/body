@@ -1,0 +1,16 @@
+{
+  Group accountants=identityService.newGroup("accountancy");
+  identityService.saveGroup(accountants);
+  Group managers=identityService.newGroup("management");
+  identityService.saveGroup(managers);
+  Group sales=identityService.newGroup("sales");
+  identityService.saveGroup(sales);
+  User kermit=identityService.newUser(KERMIT);
+  identityService.saveUser(kermit);
+  identityService.createMembership(KERMIT,"accountancy");
+  User gonzo=identityService.newUser(GONZO);
+  identityService.saveUser(gonzo);
+  identityService.createMembership(GONZO,"management");
+  identityService.createMembership(GONZO,"accountancy");
+  identityService.createMembership(GONZO,"sales");
+}
