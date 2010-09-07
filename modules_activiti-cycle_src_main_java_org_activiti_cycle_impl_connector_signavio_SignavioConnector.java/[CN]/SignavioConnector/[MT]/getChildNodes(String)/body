@@ -1,22 +1,28 @@
 {
   try {
-    Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(parentId));
-    JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
-    JSONArray relJsonArray=jsonData.toJsonArray();
-    if (log.isLoggable(Level.FINEST)) {
-      SignavioLogHelper.logJSONArray(log,Level.FINEST,relJsonArray);
+    ArrayList<RepositoryNode> nodes;
+    try {
+      nodes=new ArrayList<RepositoryNode>();
+      Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(parentId));
+      JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
+      JSONArray relJsonArray=jsonData.toJsonArray();
+      if (log.isLoggable(Level.FINEST)) {
+        SignavioLogHelper.logJSONArray(log,Level.FINEST,relJsonArray);
+      }
+      for (int i=0; i < relJsonArray.length(); i++) {
+        JSONObject relObject=relJsonArray.getJSONObject(i);
+        if ("dir".equals(relObject.getString("rel"))) {
+          RepositoryFolder folderInfo=getFolderInfo(relObject);
+          nodes.add(folderInfo);
+        }
+ else         if ("mod".equals(relObject.getString("rel"))) {
+          RepositoryArtifact fileInfo=getArtifactInfoFromFolderLink(relObject);
+          nodes.add(fileInfo);
+        }
+      }
     }
-    ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
-    for (int i=0; i < relJsonArray.length(); i++) {
-      JSONObject relObject=relJsonArray.getJSONObject(i);
-      if ("dir".equals(relObject.getString("rel"))) {
-        RepositoryFolder folderInfo=getFolderInfo(relObject);
-        nodes.add(folderInfo);
-      }
- else       if ("mod".equals(relObject.getString("rel"))) {
-        RepositoryArtifact fileInfo=getArtifactInfoFromFolderLink(relObject);
-        nodes.add(fileInfo);
-      }
+ catch (    RepositoryException e) {
+      nodes=getModelsFromOryxBackend();
     }
     return nodes;
   }

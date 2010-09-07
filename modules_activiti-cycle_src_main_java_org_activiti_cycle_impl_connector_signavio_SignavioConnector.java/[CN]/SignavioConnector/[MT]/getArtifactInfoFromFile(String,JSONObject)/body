@@ -1,9 +1,14 @@
 {
   RepositoryArtifact fileInfo=new RepositoryArtifact(this);
   fileInfo.setId(id);
-  fileInfo.getMetadata().setName(SignavioJsonHelper.getValueIfExists(json,"name"));
-  fileInfo.getMetadata().setVersion(SignavioJsonHelper.getValueIfExists(json,"rev"));
-  fileInfo.getMetadata().setLastAuthor(SignavioJsonHelper.getValueIfExists(json,"author"));
+  if (json.has("name")) {
+    fileInfo.getMetadata().setName(json.optString("name"));
+  }
+ else {
+    fileInfo.getMetadata().setName(json.optString("title"));
+  }
+  fileInfo.getMetadata().setVersion(json.optString("rev"));
+  fileInfo.getMetadata().setLastAuthor(json.optString("author"));
   fileInfo.getMetadata().setCreated(SignavioJsonHelper.getDateValueIfExists(json,"created"));
   fileInfo.getMetadata().setLastChanged(SignavioJsonHelper.getDateValueIfExists(json,"updated"));
   if (json.has("namespace")) {
