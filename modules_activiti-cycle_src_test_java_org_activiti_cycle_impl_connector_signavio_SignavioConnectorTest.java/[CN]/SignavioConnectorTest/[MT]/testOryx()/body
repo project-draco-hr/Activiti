@@ -1,5 +1,6 @@
 {
-  SignavioConnectorConfiguration conf=new SignavioConnectorConfiguration("http://oryx-project.org/backend/poem/");
+  SignavioConnectorConfiguration conf=new OryxConnectorConfiguration("http://oryx-project.org/");
   SignavioConnector connector=new SignavioConnector(conf);
-  connector.getChildNodes("/");
+  List<RepositoryNode> childNodes=connector.getChildNodes("/");
+  assertTrue(childNodes.size() > 0);
 }
