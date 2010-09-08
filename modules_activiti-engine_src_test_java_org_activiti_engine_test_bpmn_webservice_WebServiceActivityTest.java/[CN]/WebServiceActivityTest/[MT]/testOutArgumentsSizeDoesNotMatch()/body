@@ -1,0 +1,16 @@
+{
+  operation.addInArgument("valueToSet");
+  operation.addOutArgument("resultOfCall");
+  operation.addOutArgument("resultOfCall2");
+  activity.addOutTransformer(outTransformer);
+  try {
+    activity.execute(execution);
+    Assert.fail("Should have thrown an exception");
+  }
+ catch (  ActivitiException e) {
+    Assert.assertEquals("The size of OUT arguments and transformers does not match",e.getMessage());
+  }
+catch (  Exception e) {
+    Assert.fail("Should have thrown an ActivitiException");
+  }
+}

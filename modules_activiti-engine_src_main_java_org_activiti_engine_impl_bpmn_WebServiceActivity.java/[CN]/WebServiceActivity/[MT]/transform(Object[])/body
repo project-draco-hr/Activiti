@@ -1,0 +1,8 @@
+{
+  Object[] transformedArguments=new Object[arguments.length];
+  for (int i=0; i < transformedArguments.length; i++) {
+    Transformer transformer=this.inTransformers.get(i);
+    transformedArguments[i]=transformer.transform(arguments[i]);
+  }
+  return transformedArguments;
+}

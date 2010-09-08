@@ -1,0 +1,12 @@
+{
+  if (this.inTransformers.isEmpty() && this.operation.getInArgumentsSize() > 0) {
+    for (int i=0; i < this.operation.getInArgumentsSize(); i++) {
+      this.inTransformers.add(Identity.getInstance());
+    }
+  }
+  if (this.outTransformers.isEmpty() && this.operation.getOutArgumentsSize() > 0) {
+    for (int i=0; i < this.operation.getOutArgumentsSize(); i++) {
+      this.outTransformers.add(Identity.getInstance());
+    }
+  }
+}
