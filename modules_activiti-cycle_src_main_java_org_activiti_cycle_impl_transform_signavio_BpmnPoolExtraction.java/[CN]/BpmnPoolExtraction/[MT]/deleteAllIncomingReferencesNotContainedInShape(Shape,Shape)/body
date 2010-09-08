@@ -1,0 +1,17 @@
+{
+  ArrayList<Shape> incomings=shapeToClean.getIncomings();
+  if (incomings != null && incomings.size() > 0) {
+    ArrayList<Shape> removeIncomings=new ArrayList<Shape>();
+    for (    Shape incoming : incomings) {
+      Shape incomingSource=incoming.getIncomings().get(0);
+      if (incomingSource.getStencilId().equals("MessageFlow") || incomingSource.getStencilId().equals("SequenceFlow")) {
+        incomingSource=incoming;
+      }
+      if (!shapeIsContainedIn(incomingSource,sourceShape)) {
+        removeIncomings.add(incoming);
+      }
+    }
+    incomings.removeAll(removeIncomings);
+    shapeToClean.setIncomings(incomings);
+  }
+}

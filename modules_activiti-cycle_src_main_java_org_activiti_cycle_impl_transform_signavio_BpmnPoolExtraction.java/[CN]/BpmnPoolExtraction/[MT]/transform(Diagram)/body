@@ -3,7 +3,7 @@
   ArrayList<Shape> extractedChildShapes=new ArrayList<Shape>();
   Shape pool=null;
   for (  Shape childShape : childShapes) {
-    if ("Pool".equals(childShape.getStencil().getId()) && poolName.equals(childShape.getProperty("name"))) {
+    if ("Pool".equals(childShape.getStencil().getId()) && (childShape.getProperty("name").contains(poolName))) {
       extractedChildShapes.add(childShape);
       pool=childShape;
       break;
@@ -15,7 +15,7 @@
         extractedChildShapes.add(childShape);
       }
     }
-    deleteAllOutgoingReferencesNotContainedInShape(pool,null);
+    doCleanupOnShapes(pool,null);
     diagram.setChildShapes(extractedChildShapes);
   }
  else {

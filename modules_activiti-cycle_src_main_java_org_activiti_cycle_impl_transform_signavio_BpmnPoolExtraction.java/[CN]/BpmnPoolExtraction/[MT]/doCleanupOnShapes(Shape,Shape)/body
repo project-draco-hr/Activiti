@@ -1,0 +1,13 @@
+{
+  if (shape == null) {
+    shape=sourceShape;
+  }
+  deleteAllIncomingReferencesNotContainedInShape(sourceShape,shape);
+  deleteAllOutgoingReferencesNotContainedInShape(sourceShape,shape);
+  if (shape.getChildShapes().size() == 0) {
+    return;
+  }
+  for (  Shape child : shape.getChildShapes()) {
+    doCleanupOnShapes(sourceShape,child);
+  }
+}
