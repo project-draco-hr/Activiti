@@ -6,6 +6,6 @@
   String sourceJson=getBpmn20Json((SignavioConnector)connector,artifact);
   String transformedJson=applyJsonTransformations(sourceJson);
   String bpmnXml=transformToBpmn20((SignavioConnector)connector,transformedJson);
-  createTargetArtifact(targetConnector,targetFolderId,targetName + ".bpmn20.xml",bpmnXml);
+  createTargetArtifact(targetConnector,targetFolderId,targetName + ".bpmn20.xml",bpmnXml,FileSystemPluginDefinition.ARTIFACT_TYPE_BPMN_20_XML);
   targetConnector.commitPendingChanges(comment);
 }
