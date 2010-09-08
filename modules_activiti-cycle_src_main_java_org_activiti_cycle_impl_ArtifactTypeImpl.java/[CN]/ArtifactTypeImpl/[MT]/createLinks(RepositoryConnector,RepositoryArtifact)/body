@@ -1,0 +1,8 @@
+{
+  ArrayList<RepositoryArtifactOutgoingLink> list=new ArrayList<RepositoryArtifactOutgoingLink>();
+  for (  CreateUrlAction action : getCreateUrlActions()) {
+    RepositoryArtifactOutgoingLink link=new RepositoryArtifactOutgoingLink(action.getId(),action.getUrl(connector,artifact));
+    list.add(link);
+  }
+  return list;
+}

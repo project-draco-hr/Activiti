@@ -1,0 +1,11 @@
+{
+  for (  ArtifactType type : getArtifactTypes()) {
+    if (type.getId().equals(id)) {
+      return type;
+    }
+  }
+  if (getDefaultArtifactType() != null) {
+    return getDefaultArtifactType();
+  }
+  throw new RepositoryException("ArtifactType with id '" + id + "' doesn't exist. Possible types: "+ getArtifactTypes());
+}

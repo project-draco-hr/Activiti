@@ -1,21 +1,12 @@
 {
-  RepositoryFolder folder1=createFolder("/minutes","Meeting Minutes","/");
-  RepositoryArtifact file1=createArtifact("/minutes/20100701-KickOffMeeting.txt",ARTIFACT_TYPE_TEXT,"20100701-KickOffMeeting","/minutes");
-  addContentRepresentation(file1,"Text","/org/activiti/cycle/impl/connector/demo/demo-minutes.txt");
-  RepositoryArtifact file2=createArtifact("/minutes/InitialMindmap.mm",ARTIFACT_TYPE_MINDMAP,"InitialMindmap","/minutes");
-  addContentRepresentation(file2,"Image","/org/activiti/cycle/impl/connector/demo/mindmap.jpg");
-  addContentRepresentation(file2,"Text","/org/activiti/cycle/impl/connector/demo/mindmap.html");
+  RepositoryFolder folder1=createFolder("/","minutes");
+  RepositoryArtifact file1=createArtifact("/minutes","20100701-KickOffMeeting.txt",DemoConnectorPluginDefinition.ARTIFACT_TYPE_TEXT,createContent("/org/activiti/cycle/impl/connector/demo/demo-minutes.txt"));
+  RepositoryArtifact file2=createArtifact("/minutes","InitialMindmap.mm",DemoConnectorPluginDefinition.ARTIFACT_TYPE_MINDMAP,createContent("/org/activiti/cycle/impl/connector/demo/mindmap.html"));
+  addContentToInternalMap(file2.getId(),DemoConnectorPluginDefinition.CONTENT_REPRESENTATION_ID_PNG,createContent("/org/activiti/cycle/impl/connector/demo/mindmap.jpg").asByteArray());
   rootNodes.add(folder1);
-  nodes.add(folder1);
-  nodes.add(file1);
-  nodes.add(file2);
-  RepositoryFolder folder2=createFolder("/BPMN","BPMN","/");
-  RepositoryFolder folder3=createFolder("/BPMN/Level3","Level3","/BPMN");
-  RepositoryArtifact file3=createArtifact("/BPMN/Level3/789237892374239",ARTIFACT_TYPE_BPMN_20,"InitialBpmnModel","/BPMN/Level3");
-  addContentRepresentation(file3,"Image","/org/activiti/cycle/impl/connector/demo/bpmn.png");
-  addContentRepresentation(file3,"XML","/org/activiti/cycle/impl/connector/demo/engine-pool.xml");
+  RepositoryFolder folder2=createFolder("/","BPMN");
+  RepositoryFolder folder3=createFolder("/BPMN","Level3");
+  RepositoryArtifact file3=createArtifactFromContentRepresentation("/BPMN/Level3","InitialBpmnModel",DemoConnectorPluginDefinition.ARTIFACT_TYPE_BPMN_20,DemoConnectorPluginDefinition.CONTENT_REPRESENTATION_ID_XML,createContent("/org/activiti/cycle/impl/connector/demo/engine-pool.xml"));
+  addContentToInternalMap(file3.getId(),DemoConnectorPluginDefinition.CONTENT_REPRESENTATION_ID_PNG,createContent("/org/activiti/cycle/impl/connector/demo/bpmn.png").asByteArray());
   rootNodes.add(folder2);
-  nodes.add(folder2);
-  nodes.add(folder3);
-  nodes.add(file3);
 }

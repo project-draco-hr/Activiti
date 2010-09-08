@@ -1,0 +1,8 @@
+{
+  for (  ArtifactType type : getConfiguration().getArtifactTypes()) {
+    if (type.getId().equals(id)) {
+      return type;
+    }
+  }
+  throw new RepositoryException("ArtifactType with id '" + id + "' doesn't exist. Possible types are: "+ getConfiguration().getArtifactTypes());
+}

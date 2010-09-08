@@ -4,25 +4,16 @@
   RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
   String id=getString(req,"id");
   boolean folder=Boolean.parseBoolean(getString(req,"folder"));
-  List<RepositoryNode> subtree=new ArrayList<RepositoryNode>();
   if (folder) {
     try {
-      subtree=conn.getChildNodes(id);
+      RepositoryNodeCollection children=conn.getChildren(id);
+      model.put("files",children.getArtifactList());
+      model.put("folders",children.getFolderList());
     }
  catch (    RepositoryException e) {
-      log.log(Level.SEVERE,e.getMessage(),e);
+      log.log(Level.SEVERE,"Cannot load children for id '" + id + "'",e);
     }
   }
-  List<RepositoryArtifact> files=new ArrayList<RepositoryArtifact>();
-  List<RepositoryFolder> folders=new ArrayList<RepositoryFolder>();
-  for (  RepositoryNode node : subtree) {
-    if (node.getClass().isAssignableFrom(RepositoryArtifact.class)) {
-      files.add((RepositoryArtifact)node);
-    }
- else     if (node.getClass().isAssignableFrom(RepositoryFolder.class)) {
-      folders.add((RepositoryFolder)node);
-    }
-  }
-  model.put("files",files);
-  model.put("folders",folders);
+  model.put("files",new ArrayList<RepositoryArtifact>());
+  model.put("folders",new ArrayList<RepositoryFolder>());
 }

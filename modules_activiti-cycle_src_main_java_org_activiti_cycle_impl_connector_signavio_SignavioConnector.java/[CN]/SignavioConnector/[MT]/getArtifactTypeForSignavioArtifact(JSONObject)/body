@@ -1,0 +1,19 @@
+{
+  String artifactTypeID=null;
+  if (json.has("namespace")) {
+    String namespace=json.getString("namespace");
+    if (SignavioPluginDefinition.SIGNAVIO_NAMESPACE_FOR_BPMN_2_0.equals(namespace)) {
+      artifactTypeID=SignavioPluginDefinition.ARTIFACT_TYPE_BPMN_20;
+    }
+ else     if (SignavioPluginDefinition.SIGNAVIO_NAMESPACE_FOR_BPMN_JBPM4.equals(namespace)) {
+      artifactTypeID=SignavioPluginDefinition.ARTIFACT_TYPE_BPMN_FOR_JPDL4;
+    }
+  }
+ else {
+    String type=json.getString("type");
+    if (SignavioPluginDefinition.ORYX_TYPE_ATTRIBUTE_FOR_BPMN_20.equals(type)) {
+      artifactTypeID=SignavioPluginDefinition.ARTIFACT_TYPE_BPMN_20;
+    }
+  }
+  return getConfiguration().getArtifactType(artifactTypeID);
+}

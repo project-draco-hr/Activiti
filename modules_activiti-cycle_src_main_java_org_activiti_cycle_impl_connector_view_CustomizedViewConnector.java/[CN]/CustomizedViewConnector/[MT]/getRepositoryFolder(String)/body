@@ -1,5 +1,6 @@
 {
-  RepositoryFolder repositoryFolder=getConnectorFromUrl(id).getRepositoryFolder(getRepositoryPartOfUrl(id));
-  adjust(repositoryFolder);
+  RepositoryConnector connector=getConnectorFromUrl(id);
+  RepositoryFolder repositoryFolder=connector.getRepositoryFolder(getRepositoryPartOfUrl(id));
+  adjust(connector,repositoryFolder);
   return repositoryFolder;
 }

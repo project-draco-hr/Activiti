@@ -1,0 +1,25 @@
+{
+  Content result=new Content();
+  try {
+    ByteArrayOutputStream byteStream=new ByteArrayOutputStream();
+    InputStream in=DemoConnector.class.getResourceAsStream(contentSourceUrl);
+    if (in == null) {
+      throw new RuntimeException("resource '" + contentSourceUrl + "' not found in classpath");
+    }
+    byte[] buf=new byte[512];
+    int len;
+    while (true) {
+      len=in.read(buf);
+      if (len == -1) {
+        break;
+      }
+      byteStream.write(buf,0,len);
+    }
+    byteStream.close();
+    result.setValue(byteStream.toByteArray());
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("couldn't create content from URL " + contentSourceUrl,ex);
+  }
+  return result;
+}

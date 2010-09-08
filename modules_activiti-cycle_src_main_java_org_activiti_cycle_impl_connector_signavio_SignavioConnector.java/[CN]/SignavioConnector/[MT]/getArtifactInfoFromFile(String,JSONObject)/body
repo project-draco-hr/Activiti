@@ -1,6 +1,6 @@
 {
-  RepositoryArtifact fileInfo=new RepositoryArtifact(this);
-  fileInfo.setId(id);
+  ArtifactType artifactType=getArtifactTypeForSignavioArtifact(json);
+  RepositoryArtifactImpl fileInfo=new RepositoryArtifactImpl(id,artifactType,this);
   if (json.has("name")) {
     fileInfo.getMetadata().setName(json.optString("name"));
   }
@@ -11,13 +11,5 @@
   fileInfo.getMetadata().setLastAuthor(json.optString("author"));
   fileInfo.getMetadata().setCreated(SignavioJsonHelper.getDateValueIfExists(json,"created"));
   fileInfo.getMetadata().setLastChanged(SignavioJsonHelper.getDateValueIfExists(json,"updated"));
-  if (json.has("namespace")) {
-    String fileTypeIdentifier=json.getString("namespace");
-    fileInfo.setArtifactType(ActivitiCyclePluginRegistry.getArtifactTypeByIdentifier(fileTypeIdentifier));
-  }
- else {
-    String fileTypeIdentifier=json.getString("type");
-    fileInfo.setArtifactType(ActivitiCyclePluginRegistry.getArtifactTypeByIdentifier(fileTypeIdentifier));
-  }
   return fileInfo;
 }

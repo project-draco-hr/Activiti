@@ -1,0 +1,15 @@
+{
+  StringBuffer actionNames=new StringBuffer();
+  for (  ParameterizedAction action : getParameterizedActions()) {
+    if (action.getId().equals(id)) {
+      return action;
+    }
+ else {
+      if (actionNames.length() > 0) {
+        actionNames.append(", ");
+      }
+      actionNames.append(action.getId());
+    }
+  }
+  throw new RepositoryException("Action '" + id + "' not found, cannot be executed. Existing actions are: "+ actionNames.toString());
+}

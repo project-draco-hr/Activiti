@@ -1,0 +1,7 @@
+{
+  File newSubFolder=new File(getFileFromId(parentFolderId),parentFolderId);
+  if (!newSubFolder.mkdir()) {
+    throw new RepositoryException("Unable to create subfolder " + parentFolderId + " in parentfolder "+ parentFolderId);
+  }
+  return getRepositoryFolder(getRepositoryNodeId(parentFolderId,name));
+}

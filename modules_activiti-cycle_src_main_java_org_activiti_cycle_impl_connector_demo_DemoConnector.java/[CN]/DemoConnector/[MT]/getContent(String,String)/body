@@ -1,3 +1,7 @@
 {
-  return getRepositoryArtifact(nodeId).loadContent(representationName);
+  Map<String,byte[]> map=content.get(artifactId);
+  byte[] bs=map.get(representationName);
+  Content c=new Content();
+  c.setValue(bs);
+  return c;
 }

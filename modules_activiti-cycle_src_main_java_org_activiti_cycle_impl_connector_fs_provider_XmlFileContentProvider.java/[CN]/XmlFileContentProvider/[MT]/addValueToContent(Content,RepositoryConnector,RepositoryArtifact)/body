@@ -1,0 +1,14 @@
+{
+  String fileName=((FileSystemConnector)connector).getConfiguration().getBasePath() + artifact.getId();
+  File file=new File(fileName);
+  try {
+    DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
+    DocumentBuilder db;
+    db=dbf.newDocumentBuilder();
+    Document doc=db.parse(file);
+    content.setValue(getXmlAsString(new DOMSource(doc)));
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Error while retrieving artifact " + artifact + " as xml content",e);
+  }
+}

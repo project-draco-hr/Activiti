@@ -1,0 +1,6 @@
+{
+  if (folderId == null || folderId.length() <= 1) {
+    return new ArrayList<ArtifactType>();
+  }
+  return getConnectorFromUrl(folderId).getSupportedArtifactTypes(getRepositoryPartOfUrl(folderId));
+}

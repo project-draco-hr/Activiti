@@ -1,0 +1,10 @@
+{
+  for (  RepositoryNode node : nodes) {
+    if (node instanceof RepositoryFolder) {
+      printFolder(connector,intend + "   ",connector.getChildren(node.getId()));
+    }
+ else {
+      printArtifact(intend,(RepositoryArtifact)node);
+    }
+  }
+}

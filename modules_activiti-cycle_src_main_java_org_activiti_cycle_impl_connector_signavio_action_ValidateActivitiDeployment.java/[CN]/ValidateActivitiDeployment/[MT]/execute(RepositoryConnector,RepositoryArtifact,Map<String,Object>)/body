@@ -1,0 +1,9 @@
+{
+  ProcessEngineConfiguration processEngineConfiguration=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration();
+  ExpressionManager expressionManager=processEngineConfiguration.getExpressionManager();
+  String sourceJson=getBpmn20Json((SignavioConnector)connector,artifact);
+  String transformedJson=applyJsonTransformations(sourceJson);
+  String bpmnXml=transformToBpmn20((SignavioConnector)connector,transformedJson);
+  BpmnParser bpmnParser=new BpmnParser(expressionManager);
+  bpmnParser.createParse().sourceString(bpmnXml).name(artifact.getId()).execute();
+}

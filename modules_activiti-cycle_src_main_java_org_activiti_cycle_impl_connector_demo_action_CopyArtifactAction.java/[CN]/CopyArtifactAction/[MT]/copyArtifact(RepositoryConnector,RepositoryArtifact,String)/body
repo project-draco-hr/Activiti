@@ -1,0 +1,5 @@
+{
+  String path=artifact.getId().substring(0,artifact.getId().lastIndexOf("/"));
+  Content content=connector.getContent(artifact.getId(),artifact.getArtifactType().getDefaultContentRepresentation().getId());
+  connector.createArtifact(path,targetName,artifact.getArtifactType().getId(),content);
+}

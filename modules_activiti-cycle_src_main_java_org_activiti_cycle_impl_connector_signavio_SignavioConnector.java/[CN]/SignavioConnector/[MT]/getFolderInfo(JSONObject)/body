@@ -5,8 +5,8 @@
   String directoryName=jsonDirectoryObject.getJSONObject("rep").getString("name");
   log.finest("Directoryname: " + directoryName);
   String href=jsonDirectoryObject.getString("href");
-  RepositoryFolder folderInfo=new RepositoryFolder(this);
-  folderInfo.setId(getConfiguration().getDirectoryIdFromUrl(href));
+  String id=getConfiguration().getDirectoryIdFromUrl(href);
+  RepositoryFolderImpl folderInfo=new RepositoryFolderImpl(id);
   folderInfo.getMetadata().setName(directoryName);
   return folderInfo;
 }

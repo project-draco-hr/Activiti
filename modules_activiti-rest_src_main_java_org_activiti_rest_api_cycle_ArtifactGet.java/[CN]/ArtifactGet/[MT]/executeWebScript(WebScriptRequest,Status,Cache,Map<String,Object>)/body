@@ -5,34 +5,34 @@
   RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
   RepositoryArtifact artifact=conn.getRepositoryArtifact(artifactId);
   List<ContentView> contentViews=new ArrayList<ContentView>();
-  for (  ContentRepresentationDefinition representation : artifact.getContentRepresentationDefinitions()) {
+  for (  ContentRepresentation representation : artifact.getArtifactType().getContentRepresentations()) {
     try {
-      if (representation.getType().equals(ContentType.TEXT) || representation.getType().equals(ContentType.XML) || representation.getType().equals(ContentType.HTML)) {
-        String content=conn.getContent(artifactId,representation.getName()).asString();
-        contentViews.add(new ContentView(representation.getType(),representation.getName(),content));
+      if (representation.getMimeType().equals(ContentType.TEXT) || representation.getMimeType().equals(ContentType.XML) || representation.getMimeType().equals(ContentType.HTML)) {
+        String content=conn.getContent(artifactId,representation.getId()).asString();
+        contentViews.add(new ContentView(representation.getMimeType(),representation.getMimeType(),content));
       }
- else       if (representation.getType().startsWith("image/")) {
-        String url=req.getServerPath() + req.getContextPath() + "/service/content?artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(representation.getType(),"UTF-8");
-        contentViews.add(new ContentView(representation.getType(),representation.getName(),url));
+ else       if (representation.getMimeType().startsWith("image/")) {
+        String url=req.getServerPath() + req.getContextPath() + "/service/content?artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(representation.getMimeType(),"UTF-8");
+        contentViews.add(new ContentView(representation.getMimeType(),representation.getId(),url));
       }
     }
  catch (    UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
   }
-  model.put("actions",artifact.getParametrizedActions());
+  model.put("actions",artifact.getArtifactType().getParameterizedActions());
   List<DownloadActionView> downloads=new ArrayList<DownloadActionView>();
-  for (  DownloadContentAction action : artifact.getDownloadContentActions()) {
+  for (  DownloadContentAction action : artifact.getArtifactType().getDownloadContentActions()) {
     try {
-      String url=req.getServerPath() + req.getContextPath() + "/service/content?artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(action.getDefiniton().getType(),"UTF-8");
-      downloads.add(new DownloadActionView(action.getLabel(),url,action.getDefiniton().getType(),action.getDefiniton().getName()));
+      String url=req.getServerPath() + req.getContextPath() + "/service/content?artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(action.getContentRepresentation().getMimeType(),"UTF-8");
+      downloads.add(new DownloadActionView(action.getId(),url,action.getContentRepresentation().getMimeType(),action.getContentRepresentation().getId()));
     }
  catch (    UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
   }
   model.put("downloads",downloads);
-  model.put("links",artifact.getOpenUrlActions());
+  model.put("links",artifact.getOutgoingLinks());
   model.put("artifactId",artifact.getId());
   model.put("contentViews",contentViews);
 }

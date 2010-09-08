@@ -1,0 +1,7 @@
+{
+  ContentProvider provider=contentProviderMap.get(contentRepresentationId);
+  if (provider == null) {
+    throw new RepositoryException("Couldn't find or load ContentRepresentation '" + contentRepresentationId + "' for artifact type "+ this);
+  }
+  return provider;
+}

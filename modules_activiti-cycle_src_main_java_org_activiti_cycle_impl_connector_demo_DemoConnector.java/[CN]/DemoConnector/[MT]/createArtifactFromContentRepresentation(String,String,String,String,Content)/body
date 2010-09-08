@@ -1,0 +1,16 @@
+{
+  String id=containingFolderId;
+  if (!id.startsWith("/")) {
+    id="/" + id;
+  }
+  if (id.length() > 1) {
+    id=id + "/";
+  }
+  id=id + artifactName;
+  RepositoryArtifact newArtifact=new RepositoryArtifactImpl(id,getArtifactType(artifactType),this);
+  newArtifact.getMetadata().setName(artifactName);
+  newArtifact.getMetadata().setParentFolderId(containingFolderId);
+  nodes.add(newArtifact);
+  addContentToInternalMap(id,contentRepresentationName,artifactContent.asByteArray());
+  return newArtifact;
+}

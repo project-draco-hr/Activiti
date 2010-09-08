@@ -11,9 +11,9 @@
   HttpSession session=((WebScriptServletRequest)req).getHttpServletRequest().getSession(true);
   RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
   RepositoryArtifact artifact=conn.getRepositoryArtifact(artifactId);
-  Collection<ContentRepresentationDefinition> representations=artifact.getContentRepresentationDefinitions();
-  for (  ContentRepresentationDefinition representation : representations) {
-    if (representation.getType().equals(contentType)) {
+  Collection<ContentRepresentation> representations=artifact.getArtifactType().getContentRepresentations();
+  for (  ContentRepresentation representation : representations) {
+    if (representation.getMimeType().equals(contentType)) {
       boolean attach=contentType.startsWith("application/") ? true : false;
       String attachmentFileName=null;
       if (attach) {
@@ -40,7 +40,7 @@
           attachmentFileName+=".doc";
         }
       }
-      streamContentImpl(req,res,conn.getContent(artifact.getId(),representation.getName()).asInputStream(),attach,new Date(0),"W/\"647-1281077702000\"",attachmentFileName,contentType);
+      streamContentImpl(req,res,conn.getContent(artifact.getId(),representation.getId()).asInputStream(),attach,new Date(0),"W/\"647-1281077702000\"",attachmentFileName,contentType);
     }
   }
 }

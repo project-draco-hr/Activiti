@@ -1,0 +1,8 @@
+{
+  Map<String,byte[]> map=DemoConnector.content.get(artifact.getId());
+  if (map != null) {
+    content.setValue(map.get(contentRepresentationName));
+    return;
+  }
+  throw new RepositoryException("Couldn't find content representation '" + contentRepresentationName + "' for artifact "+ artifact.getId());
+}

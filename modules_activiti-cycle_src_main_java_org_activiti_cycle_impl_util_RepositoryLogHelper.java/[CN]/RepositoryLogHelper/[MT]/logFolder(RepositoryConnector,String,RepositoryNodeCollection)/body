@@ -1,0 +1,9 @@
+{
+  log.log(Level.INFO,intend + folder);
+  for (  RepositoryFolder subFolder : folder.getFolderList()) {
+    printFolder(connector,intend + "   ",connector.getChildren(subFolder.getId()));
+  }
+  for (  RepositoryArtifact file : folder.getArtifactList()) {
+    log.log(Level.INFO,intend + "-" + file);
+  }
+}

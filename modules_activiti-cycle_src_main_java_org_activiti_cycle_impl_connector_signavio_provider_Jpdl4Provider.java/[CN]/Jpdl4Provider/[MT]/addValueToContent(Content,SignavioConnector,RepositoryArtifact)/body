@@ -1,0 +1,12 @@
+{
+  try {
+    Response jpdlResponse=getJsonResponse(connector,artifact,"/jpdl4");
+    DomRepresentation xmlData=jpdlResponse.getEntityAsDom();
+    String jpdl4AsString=getXmlAsString(xmlData);
+    log.finest("JPDL4 String: " + jpdl4AsString);
+    content.setValue(jpdl4AsString);
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

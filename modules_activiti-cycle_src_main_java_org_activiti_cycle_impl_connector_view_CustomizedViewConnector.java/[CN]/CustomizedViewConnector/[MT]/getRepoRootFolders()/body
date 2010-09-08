@@ -2,12 +2,10 @@
   ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
   for (  RepositoryConnector connector : getRepositoryConnectors()) {
     String repoName=connector.getConfiguration().getName();
-    RepositoryFolder folder=new RepositoryFolder(this);
+    RepositoryFolderImpl folder=new RepositoryFolderImpl(repoName);
     folder.getMetadata().setName(repoName);
-    folder.getMetadata().setPath("/" + repoName);
-    folder.setId(repoName);
-    folder.setClientUrl(getClientUrl(folder));
+    folder.getMetadata().setParentFolderId("/");
     nodes.add(folder);
   }
-  return nodes;
+  return new RepositoryNodeCollectionImpl(nodes);
 }

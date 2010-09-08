@@ -1,0 +1,24 @@
+{
+  File newFile=new File(getFileFromId(containingFolderId),artifactName);
+  BufferedOutputStream bos=null;
+  try {
+    if (newFile.createNewFile()) {
+      bos=new BufferedOutputStream(new FileOutputStream(newFile));
+      bos.write(artifactContent.asByteArray());
+    }
+  }
+ catch (  IOException ioe) {
+    throw new RepositoryException("Unable to create file '" + artifactName + " in folder "+ containingFolderId);
+  }
+ finally {
+    if (bos != null) {
+      try {
+        bos.close();
+      }
+ catch (      IOException e) {
+        throw new RepositoryException("Unable to create file " + artifactName + " in folder "+ containingFolderId);
+      }
+    }
+  }
+  return getRepositoryArtifact(getRepositoryNodeId(containingFolderId,artifactName));
+}

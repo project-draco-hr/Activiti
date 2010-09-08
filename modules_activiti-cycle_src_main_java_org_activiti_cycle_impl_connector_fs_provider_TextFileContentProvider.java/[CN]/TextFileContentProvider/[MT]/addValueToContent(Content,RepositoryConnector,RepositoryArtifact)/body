@@ -1,0 +1,10 @@
+{
+  String fileName=((FileSystemConnector)connector).getConfiguration().getBasePath() + artifact.getId();
+  File file=new File(fileName);
+  try {
+    content.setValue(new FileInputStream(file));
+  }
+ catch (  FileNotFoundException fnfe) {
+    throw new RepositoryException("Unable to find artifact " + artifact,fnfe);
+  }
+}

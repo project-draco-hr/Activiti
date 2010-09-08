@@ -1,6 +1,6 @@
 {
   String artifactId=getMandatoryString(req,"artifactId");
-  String actionName=getMandatoryString(req,"actionName");
+  String actionId=getMandatoryString(req,"actionName");
   String cuid=getCurrentUserId(req);
   HttpSession session=((WebScriptServletRequest)req).getHttpServletRequest().getSession(true);
   RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
@@ -9,8 +9,8 @@
     throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "'.");
   }
   String form=null;
-  for (  ParametrizedAction action : artifact.getParametrizedActions()) {
-    if (action.getName().equals(actionName)) {
+  for (  ParameterizedAction action : artifact.getArtifactType().getParameterizedActions()) {
+    if (action.getId().equals(actionId)) {
       form=action.getFormAsHtml();
       break;
     }
@@ -19,6 +19,6 @@
     model.put("form",form);
   }
  else {
-    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no form for action '" + actionName + "'.");
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no form for action '" + actionId + "'.");
   }
 }
