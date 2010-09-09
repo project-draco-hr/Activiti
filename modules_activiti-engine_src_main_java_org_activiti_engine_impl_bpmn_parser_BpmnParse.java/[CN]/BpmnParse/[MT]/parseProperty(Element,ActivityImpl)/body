@@ -12,9 +12,10 @@
   String itemSubjectRef=propertyElement.attribute("itemSubjectRef");
   String type=null;
   if (itemSubjectRef != null) {
-    Element itemDefinitionRef=itemDefinitions.get(itemSubjectRef);
-    if (itemDefinitionRef != null) {
-      type=itemDefinitionRef.attribute("structureRef");
+    ItemDefinition itemDefinition=itemDefinitions.get(itemSubjectRef);
+    if (itemDefinition != null) {
+      Structure structure=itemDefinition.getStructure();
+      type=structure.getId();
     }
  else {
       throw new ActivitiException("Invalid itemDefinition reference: " + itemSubjectRef + " not found");

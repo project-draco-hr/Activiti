@@ -1,0 +1,16 @@
+{
+  activity.addInVariable("valueToSet");
+  activity.addOutVariable("resultOfCall");
+  inStructure.setFieldName(0,"f1");
+  outStructure.setFieldName(0,"fo1");
+  operation.setOutMessage(outMessage);
+  activity.addInTransformer(inTransformer);
+  when(execution.getVariable("valueToSet")).thenReturn("11");
+  when(inTransformer.transform("11")).thenReturn(11);
+  when(client.send("setTo",new Object[]{11})).thenReturn(new Object[]{33});
+  activity.execute(execution);
+  verify(client).send("setTo",new Object[]{11});
+  verify(execution).getVariable("valueToSet");
+  verify(execution).setVariable("resultOfCall",33);
+  verify(inTransformer).transform("11");
+}

@@ -1,0 +1,12 @@
+{
+  if (this.inTransformers.isEmpty() && this.getInStructure().getFieldSize() > 0) {
+    for (int i=0; i < this.getInStructure().getFieldSize(); i++) {
+      this.inTransformers.add(Identity.getInstance());
+    }
+  }
+  if (this.getOutStructure() != null && this.outTransformers.isEmpty() && this.getOutStructure().getFieldSize() > 0) {
+    for (int i=0; i < this.getOutStructure().getFieldSize(); i++) {
+      this.outTransformers.add(Identity.getInstance());
+    }
+  }
+}

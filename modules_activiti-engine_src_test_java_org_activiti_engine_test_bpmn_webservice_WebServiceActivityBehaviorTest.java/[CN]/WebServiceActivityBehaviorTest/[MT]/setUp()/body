@@ -1,0 +1,14 @@
+{
+  client=mock(SyncWebServiceClient.class);
+  execution=mock(ActivityExecution.class);
+  inTransformer=mock(Transformer.class);
+  outTransformer=mock(Transformer.class);
+  inStructure=new SimpleStructure("id");
+  ItemDefinition inItemDefinition=new ItemDefinition("id",inStructure);
+  inMessage=new Message("id",inItemDefinition);
+  outStructure=new SimpleStructure("id");
+  ItemDefinition outItemDefinition=new ItemDefinition("id",outStructure);
+  outMessage=new Message("id",outItemDefinition);
+  operation=new Operation("idSetTo","setTo",null,inMessage);
+  activity=new WebServiceActivityBehavior(client,operation);
+}

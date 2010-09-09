@@ -3,6 +3,8 @@
   String className=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
   String methodExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"method-expr");
   String valueExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"value-expr");
+  String implementation=serviceTaskElement.attribute("implementation");
+  String operationRef=serviceTaskElement.attribute("operationRef");
   if (className != null && className.trim().length() > 0) {
     activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(expressionManager.createValueExpression(className)));
   }
@@ -11,6 +13,15 @@
   }
  else   if (valueExpr != null && valueExpr.trim().length() > 0) {
     activity.setActivityBehavior(new ServiceTaskValueExpressionActivityBehavior(expressionManager.createValueExpression(valueExpr)));
+  }
+ else   if (implementation != null && operationRef != null && implementation.equalsIgnoreCase("##WebService")) {
+    if (!this.operations.containsKey(operationRef)) {
+      addProblem(operationRef + " does not exist",serviceTaskElement);
+    }
+ else {
+      Operation operation=this.operations.get(operationRef);
+      activity.setActivityBehavior(new WebServiceActivityBehavior(null,operation));
+    }
   }
  else {
     throw new ActivitiException("'class' or 'expr' attribute is mandatory on serviceTask");

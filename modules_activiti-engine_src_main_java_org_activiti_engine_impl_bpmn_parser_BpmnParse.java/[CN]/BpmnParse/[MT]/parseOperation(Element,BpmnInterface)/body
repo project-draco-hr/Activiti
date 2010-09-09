@@ -1,7 +1,20 @@
 {
-  String id=operationElement.attribute("id");
-  String name=operationElement.attribute("name");
-  Operation operation=new Operation(id,name,bpmnInterface);
-  operations.put(id,operation);
-  return operation;
+  Element inMessageRefElement=operationElement.element("inMessageRef");
+  if (!this.messages.containsKey(inMessageRefElement.getText())) {
+    addProblem(inMessageRefElement.getText() + " does not exist",inMessageRefElement);
+    return null;
+  }
+ else {
+    Message inMessage=this.messages.get(inMessageRefElement.getText());
+    String id=operationElement.attribute("id");
+    String name=operationElement.attribute("name");
+    Operation operation=new Operation(id,name,bpmnInterface,inMessage);
+    Element outMessageRefElement=operationElement.element("outMessageRef");
+    if (this.messages.containsKey(outMessageRefElement.getText())) {
+      Message outMessage=this.messages.get(outMessageRefElement.getText());
+      operation.setOutMessage(outMessage);
+    }
+    operations.put(id,operation);
+    return operation;
+  }
 }
