@@ -1,9 +1,0 @@
-{
-  try {
-    new ProcessEngineBuilder().configureFromPropertiesResource("org/activiti/test/db/activiti.properties").buildProcessEngine();
-    fail("expected exception");
-  }
- catch (  Exception e) {
-    assertTextPresent("no activiti tables in db.  set property db.schema.strategy=create-drop in activiti.properties for automatic schema creation",e.getMessage());
-  }
-}

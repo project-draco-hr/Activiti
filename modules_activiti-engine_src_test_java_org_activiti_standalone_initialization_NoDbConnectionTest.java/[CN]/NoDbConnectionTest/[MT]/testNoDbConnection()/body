@@ -1,0 +1,9 @@
+{
+  try {
+    new ProcessEngineBuilder().configureFromPropertiesResource("org/activiti/standalone/initialization/nodbconnection.activiti.properties").buildProcessEngine();
+    fail("expected exception");
+  }
+ catch (  RuntimeException e) {
+    assertTrue(containsSqlException(e));
+  }
+}
