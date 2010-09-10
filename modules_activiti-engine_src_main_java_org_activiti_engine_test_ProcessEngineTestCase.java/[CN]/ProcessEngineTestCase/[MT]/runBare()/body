@@ -1,15 +1,13 @@
 {
   if (processEngine == null) {
-    processEngine=processEngines.get(configurationResource);
-    if (processEngine == null) {
-      initializeProcessEngine();
-      processEngines.put(configurationResource,processEngine);
-    }
+    initializeProcessEngine();
+  }
+  if (repositoryService == null) {
     initializeServices();
   }
   log.severe(EMPTY_LINE);
   try {
-    annotationDeploymentBefore();
+    deploymentId=TestHelper.annotationDeploymentSetUp(processEngine,getClass(),getName());
     super.runBare();
   }
  catch (  AssertionFailedError e) {
@@ -25,7 +23,7 @@ catch (  Throwable e) {
     throw e;
   }
  finally {
-    annotationDeploymentAfter();
+    TestHelper.annotationDeploymentTearDown(processEngine,deploymentId,getClass(),getName());
     assertAndEnsureCleanDb();
     ClockUtil.reset();
   }
