@@ -1,0 +1,11 @@
+{
+  User johndoe=identityService.newUser("johndoe");
+  identityService.saveUser(johndoe);
+  try {
+    identityService.createMembership(johndoe.getId(),"unexistinggroup");
+    fail("Expected exception");
+  }
+ catch (  RuntimeException re) {
+  }
+  identityService.deleteUser(johndoe.getId());
+}

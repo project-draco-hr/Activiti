@@ -1,4 +1,10 @@
 {
+  if (userId == null) {
+    throw new ActivitiException("userId is null");
+  }
+  if (groupId == null) {
+    throw new ActivitiException("groupId is null");
+  }
   commandContext.getIdentitySession().createMembership(userId,groupId);
   return null;
 }

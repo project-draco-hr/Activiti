@@ -1,4 +1,7 @@
 {
+  if (user == null) {
+    throw new ActivitiException("user is null");
+  }
   if (user.getRevision() == 0) {
     commandContext.getIdentitySession().insertUser(user);
   }

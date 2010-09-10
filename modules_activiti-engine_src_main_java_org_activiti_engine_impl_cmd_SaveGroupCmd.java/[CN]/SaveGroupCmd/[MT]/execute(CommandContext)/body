@@ -1,4 +1,7 @@
 {
+  if (group == null) {
+    throw new ActivitiException("group is null");
+  }
   if (group.getRevision() == 0) {
     commandContext.getIdentitySession().insertGroup(group);
   }

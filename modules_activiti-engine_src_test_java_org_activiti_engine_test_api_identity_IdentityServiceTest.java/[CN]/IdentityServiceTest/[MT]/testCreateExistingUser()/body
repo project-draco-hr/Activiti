@@ -1,0 +1,12 @@
+{
+  User user=identityService.newUser("testuser");
+  identityService.saveUser(user);
+  try {
+    User secondUser=identityService.newUser("testuser");
+    identityService.saveUser(secondUser);
+    fail("Exception should have been thrown");
+  }
+ catch (  RuntimeException re) {
+  }
+  identityService.deleteUser(user.getId());
+}

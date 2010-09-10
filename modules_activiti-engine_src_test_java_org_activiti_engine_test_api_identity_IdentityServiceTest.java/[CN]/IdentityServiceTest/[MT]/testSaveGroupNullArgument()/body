@@ -1,0 +1,9 @@
+{
+  try {
+    identityService.saveGroup(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("group is null",ae.getMessage());
+  }
+}

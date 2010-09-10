@@ -1,0 +1,16 @@
+{
+  try {
+    identityService.createMembership(null,"group");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("userId is null",ae.getMessage());
+  }
+  try {
+    identityService.createMembership("userId",null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("groupId is null",ae.getMessage());
+  }
+}

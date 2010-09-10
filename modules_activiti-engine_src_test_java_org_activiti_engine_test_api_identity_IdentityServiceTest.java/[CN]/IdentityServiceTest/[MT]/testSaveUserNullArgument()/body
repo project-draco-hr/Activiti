@@ -1,0 +1,9 @@
+{
+  try {
+    identityService.saveUser(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("user is null",ae.getMessage());
+  }
+}

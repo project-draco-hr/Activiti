@@ -1,4 +1,10 @@
 {
+  if (userId == null) {
+    throw new ActivitiException("userId is null");
+  }
+  if (groupId == null) {
+    throw new ActivitiException("groupId is null");
+  }
   IdentitySession identitySession=commandContext.getIdentitySession();
   identitySession.deleteMembership(userId,groupId);
   return null;

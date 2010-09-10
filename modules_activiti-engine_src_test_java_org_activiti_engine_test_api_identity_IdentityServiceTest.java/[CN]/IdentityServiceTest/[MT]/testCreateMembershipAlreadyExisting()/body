@@ -1,0 +1,14 @@
+{
+  Group sales=identityService.newGroup("sales");
+  identityService.saveGroup(sales);
+  User johndoe=identityService.newUser("johndoe");
+  identityService.saveUser(johndoe);
+  identityService.createMembership(johndoe.getId(),sales.getId());
+  try {
+    identityService.createMembership(johndoe.getId(),sales.getId());
+  }
+ catch (  RuntimeException re) {
+  }
+  identityService.deleteGroup(sales.getId());
+  identityService.deleteUser(johndoe.getId());
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    identityService.findUsersByGroupId(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("groupId is null",ae.getMessage());
+  }
+}

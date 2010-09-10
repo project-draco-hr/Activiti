@@ -1,0 +1,16 @@
+{
+  try {
+    identityService.deleteMembership(null,"group");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("userId is null",ae.getMessage());
+  }
+  try {
+    identityService.deleteMembership("user",null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("groupId is null",ae.getMessage());
+  }
+}

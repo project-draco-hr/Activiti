@@ -1,0 +1,11 @@
+{
+  Group sales=identityService.newGroup("sales");
+  identityService.saveGroup(sales);
+  try {
+    identityService.createMembership("unexistinguser",sales.getId());
+    fail("Expected exception");
+  }
+ catch (  RuntimeException re) {
+  }
+  identityService.deleteGroup(sales.getId());
+}

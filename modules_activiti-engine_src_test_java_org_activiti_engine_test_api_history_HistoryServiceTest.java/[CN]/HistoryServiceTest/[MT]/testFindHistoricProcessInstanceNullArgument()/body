@@ -1,0 +1,9 @@
+{
+  try {
+    historicDataService.findHistoricProcessInstanceById(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("processInstanceId is null",ae.getMessage());
+  }
+}

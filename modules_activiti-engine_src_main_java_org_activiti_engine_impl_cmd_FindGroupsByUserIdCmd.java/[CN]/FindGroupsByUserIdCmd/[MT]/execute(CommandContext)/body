@@ -1,3 +1,6 @@
 {
+  if (userId == null) {
+    throw new ActivitiException("userId is null");
+  }
   return commandContext.getIdentitySession().findGroupsByUser(userId);
 }

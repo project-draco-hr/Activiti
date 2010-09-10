@@ -1,0 +1,15 @@
+{
+  Group sales=identityService.newGroup("sales");
+  identityService.saveGroup(sales);
+  User johndoe=identityService.newUser("johndoe");
+  identityService.saveUser(johndoe);
+  identityService.createMembership(johndoe.getId(),sales.getId());
+  List<Group> groups=identityService.findGroupsByUserId(johndoe.getId());
+  Assert.assertTrue(groups.size() == 1);
+  Assert.assertEquals("sales",groups.get(0).getId());
+  identityService.deleteMembership(johndoe.getId(),sales.getId());
+  groups=identityService.findGroupsByUserId(johndoe.getId());
+  Assert.assertTrue(groups.size() == 0);
+  identityService.deleteGroup("sales");
+  identityService.deleteUser("johndoe");
+}

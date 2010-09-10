@@ -1,0 +1,17 @@
+{
+  User user=identityService.newUser("johndoe");
+  user.setFirstName("John");
+  user.setLastName("Doe");
+  user.setEmail("johndoe@alfresco.com");
+  identityService.saveUser(user);
+  user=identityService.findUser("johndoe");
+  user.setEmail("updated@alfresco.com");
+  user.setFirstName("Jane");
+  user.setLastName("Donnel");
+  identityService.saveUser(user);
+  user=identityService.findUser("johndoe");
+  assertEquals("Jane",user.getFirstName());
+  assertEquals("Donnel",user.getLastName());
+  assertEquals("updated@alfresco.com",user.getEmail());
+  identityService.deleteUser(user.getId());
+}
