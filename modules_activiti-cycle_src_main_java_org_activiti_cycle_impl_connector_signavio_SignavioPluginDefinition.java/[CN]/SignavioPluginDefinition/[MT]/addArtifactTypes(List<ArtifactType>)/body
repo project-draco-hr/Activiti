@@ -19,4 +19,7 @@
   artifactType2.addDownloadContentAction(CONTENT_REPRESENTATION_ID_JPDL4);
   artifactType2.addDownloadContentAction(CONTENT_REPRESENTATION_ID_JSON);
   types.add(artifactType2);
+  ArtifactTypeImpl artifactTypeDefault=new ArtifactTypeImpl(ARTIFACT_TYPE_DEFAULT);
+  artifactTypeDefault.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_PNG,ContentType.PNG),new PngProvider());
+  types.add(artifactTypeDefault);
 }
