@@ -1,6 +1,6 @@
 {
   log.fine("==== BUILDING SPRING APPLICATION CONTEXT AND PROCESS ENGINE =========================================");
-  ApplicationContext applicationContext=new ClassPathXmlApplicationContext("activiti-context.xml");
+  ApplicationContext applicationContext=new ClassPathXmlApplicationContext("activiti-engine-testsuite-context.xml");
   Map<String,ProcessEngine> beansOfType=applicationContext.getBeansOfType(ProcessEngine.class);
   if ((beansOfType == null) || (beansOfType.isEmpty())) {
     throw new ActivitiException("no " + ProcessEngine.class.getName() + " defined in the application context activiti-context.xml");

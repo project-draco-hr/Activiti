@@ -1,19 +1,3 @@
 {
-  String processEngineInitializerClassName=System.getProperty("process.engine.nitializer");
-  if (processEngineInitializerClassName == null) {
-    log.fine("==== BUILDING PROCESS ENGINE ========================================================================");
-    processEngine=new ProcessEngineBuilder().configureFromPropertiesResource("activiti.properties").buildProcessEngine();
-    log.fine("==== PROCESS ENGINE CREATED =========================================================================");
-  }
- else {
-    try {
-      ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
-      Class<?> processEngineInitializerClass=Class.forName(processEngineInitializerClassName,true,classLoader);
-      ProcessEngineInitializer processEngineInitializer=(ProcessEngineInitializer)processEngineInitializerClass.newInstance();
-      processEngine=processEngineInitializer.getProcessEngine();
-    }
- catch (    Exception e) {
-      throw new RuntimeException("couldn't instantiate process engine initializer " + processEngineInitializerClassName + ": "+ e,e);
-    }
-  }
+  processEngine=processEngineInitializer.getProcessEngine();
 }
