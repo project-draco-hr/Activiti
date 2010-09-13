@@ -10,6 +10,14 @@
         }
       }
     }
+    if (log.isLoggable(Level.FINE)) {
+      if (removeOutgoings.size() > 0) {
+        log.fine("Deleting outgoings for shape: " + shapeToClean.getProperty("name") + ", "+ shapeToClean.getStencilId());
+        for (        Shape shape2 : removeOutgoings) {
+          log.fine("Delete Shape: " + shape2.getStencilId() + ", "+ shape2.getResourceId()+ " targeting "+ shape2.getTarget().getProperty("name")+ "("+ shape2.getStencilId()+ ")");
+        }
+      }
+    }
     outgoings.removeAll(removeOutgoings);
     shapeToClean.setOutgoings(outgoings);
   }
