@@ -2,5 +2,10 @@
   if (name == null) {
     return null;
   }
-  return name.replaceAll("\n"," ").replaceAll("'","").replaceAll("\"","");
+  try {
+    return URLEncoder.encode(name,"UTF-8");
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new IllegalStateException("Wired, platform couldn't encode UTF-8",e);
+  }
 }

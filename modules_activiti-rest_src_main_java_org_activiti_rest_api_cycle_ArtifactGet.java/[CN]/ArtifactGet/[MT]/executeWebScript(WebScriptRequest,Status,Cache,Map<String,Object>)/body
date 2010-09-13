@@ -16,8 +16,12 @@
         contentViews.add(new ContentView(representation.getMimeType(),representation.getId(),url));
       }
     }
- catch (    UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
+ catch (    Exception ex) {
+      log.log(Level.WARNING,"Exception while loading content representation",ex);
+      StringWriter sw=new StringWriter();
+      ex.printStackTrace(new PrintWriter(sw));
+      String stackTrace="Exception while accessing content. Details:\n\n" + sw.toString();
+      contentViews.add(new ContentView(ContentType.TEXT,representation.getId(),stackTrace));
     }
   }
   model.put("actions",artifact.getArtifactType().getParameterizedActions());
