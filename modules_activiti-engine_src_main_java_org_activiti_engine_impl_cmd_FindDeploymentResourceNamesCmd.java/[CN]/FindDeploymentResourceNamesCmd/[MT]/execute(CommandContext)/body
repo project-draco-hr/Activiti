@@ -1,4 +1,7 @@
 {
+  if (deploymentId == null) {
+    throw new ActivitiException("deploymentId is null");
+  }
   RepositorySession repositorySession=commandContext.getRepositorySession();
   return repositorySession.findDeploymentResourceNames(deploymentId);
 }

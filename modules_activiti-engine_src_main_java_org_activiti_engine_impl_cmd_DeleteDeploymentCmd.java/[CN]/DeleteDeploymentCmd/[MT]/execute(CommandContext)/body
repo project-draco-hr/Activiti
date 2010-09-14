@@ -1,4 +1,7 @@
 {
+  if (deploymentId == null) {
+    throw new ActivitiException("deploymentId is null");
+  }
   commandContext.getRepositorySession().deleteDeployment(deploymentId,cascade);
   return null;
 }

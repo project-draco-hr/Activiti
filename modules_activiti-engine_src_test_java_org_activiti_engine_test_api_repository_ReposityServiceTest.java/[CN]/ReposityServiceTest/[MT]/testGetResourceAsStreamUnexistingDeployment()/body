@@ -1,0 +1,9 @@
+{
+  try {
+    repositoryService.getResourceAsStream("unexistingdeployment","org/activiti/engine/test/api/unexistingProcess.bpmn.xml");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("no resource found with name",ae.getMessage());
+  }
+}

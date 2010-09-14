@@ -1,0 +1,6 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  List<String> activities=runtimeService.findActiveActivityIds(processInstance.getId());
+  Assert.assertNotNull(activities);
+  Assert.assertEquals(1,activities.size());
+}

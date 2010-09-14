@@ -1,0 +1,9 @@
+{
+  try {
+    runtimeService.deleteProcessInstance("enexistingInstanceId",null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("No process instance found for id",ae.getMessage());
+  }
+}

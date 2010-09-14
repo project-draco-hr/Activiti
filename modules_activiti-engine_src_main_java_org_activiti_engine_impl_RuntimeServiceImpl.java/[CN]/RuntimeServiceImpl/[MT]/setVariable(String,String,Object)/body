@@ -1,4 +1,7 @@
 {
+  if (variableName == null) {
+    throw new ActivitiException("variableName is null");
+  }
   Map<String,Object> variables=new HashMap<String,Object>();
   variables.put(variableName,value);
   commandExecutor.execute(new SetVariablesCmd(executionId,variables));

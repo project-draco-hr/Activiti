@@ -1,0 +1,10 @@
+{
+  try {
+    ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+    runtimeService.setVariable(processInstance.getId(),null,"variableValue");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("variableName is null",ae.getMessage());
+  }
+}

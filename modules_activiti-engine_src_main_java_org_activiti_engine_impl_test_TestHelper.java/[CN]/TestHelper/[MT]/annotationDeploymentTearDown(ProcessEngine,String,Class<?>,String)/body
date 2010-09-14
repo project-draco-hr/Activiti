@@ -1,4 +1,6 @@
 {
   log.fine("annotation @Deployment deletes deployment for " + ClassNameUtil.getClassNameWithoutPackage(testClass) + "."+ methodName);
-  processEngine.getRepositoryService().deleteDeploymentCascade(deploymentId);
+  if (deploymentId != null) {
+    processEngine.getRepositoryService().deleteDeploymentCascade(deploymentId);
+  }
 }

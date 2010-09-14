@@ -1,0 +1,9 @@
+{
+  try {
+    repositoryService.getStartFormById("unexistingId");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("no deployed process definition found with id",ae.getMessage());
+  }
+}

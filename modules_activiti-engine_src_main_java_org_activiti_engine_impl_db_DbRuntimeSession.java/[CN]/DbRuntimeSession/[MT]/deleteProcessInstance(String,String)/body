@@ -1,5 +1,8 @@
 {
   ExecutionEntity execution=findExecutionById(processInstanceId);
+  if (execution == null) {
+    throw new ActivitiException("No process instance found for id '" + processInstanceId + "'");
+  }
   List<TaskEntity> tasks=(List)new TaskQueryImpl().processInstanceId(processInstanceId).executeList(CommandContext.getCurrent(),null);
   for (  TaskEntity task : tasks) {
     task.delete();

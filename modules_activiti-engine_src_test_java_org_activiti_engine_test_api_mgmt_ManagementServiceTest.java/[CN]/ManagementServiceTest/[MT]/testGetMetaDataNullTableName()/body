@@ -1,0 +1,9 @@
+{
+  try {
+    managementService.getTableMetaData(null);
+    fail("Exception expected");
+  }
+ catch (  ActivitiException re) {
+    assertTextPresent("tableName is null",re.getMessage());
+  }
+}

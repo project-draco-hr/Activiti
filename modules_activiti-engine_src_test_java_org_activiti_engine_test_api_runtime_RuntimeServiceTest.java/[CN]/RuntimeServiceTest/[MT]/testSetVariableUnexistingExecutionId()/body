@@ -1,0 +1,9 @@
+{
+  try {
+    runtimeService.setVariable("unexistingExecutionId","variableName","value");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("execution unexistingExecutionId doesn't exist",ae.getMessage());
+  }
+}

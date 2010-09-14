@@ -1,0 +1,9 @@
+{
+  try {
+    managementService.executeJob(null);
+    fail("Exception expected");
+  }
+ catch (  ActivitiException re) {
+    assertTextPresent("jobId is null",re.getMessage());
+  }
+}

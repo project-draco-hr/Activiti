@@ -1,0 +1,9 @@
+{
+  try {
+    repositoryService.findDeploymentResourceNames(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("deploymentId is null",ae.getMessage());
+  }
+}

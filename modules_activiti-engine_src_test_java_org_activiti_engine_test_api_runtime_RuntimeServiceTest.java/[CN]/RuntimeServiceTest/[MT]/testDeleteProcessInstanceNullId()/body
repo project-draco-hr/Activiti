@@ -1,0 +1,9 @@
+{
+  try {
+    runtimeService.deleteProcessInstance(null,"test null id delete");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("processInstanceId is null",ae.getMessage());
+  }
+}

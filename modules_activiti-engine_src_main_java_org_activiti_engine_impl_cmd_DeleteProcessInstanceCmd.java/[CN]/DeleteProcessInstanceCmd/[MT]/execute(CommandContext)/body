@@ -1,4 +1,7 @@
 {
+  if (processInstanceId == null) {
+    throw new ActivitiException("processInstanceId is null");
+  }
   commandContext.getRuntimeSession().deleteProcessInstance(processInstanceId,deleteReason);
   return null;
 }

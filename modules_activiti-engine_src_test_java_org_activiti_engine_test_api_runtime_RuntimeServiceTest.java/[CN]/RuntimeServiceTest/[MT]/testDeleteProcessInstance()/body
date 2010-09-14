@@ -1,0 +1,6 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().processDefinitionKey("oneTaskProcess").count());
+  runtimeService.deleteProcessInstance(processInstance.getId(),"testing instance deletion");
+  Assert.assertEquals(0,runtimeService.createProcessInstanceQuery().processDefinitionKey("oneTaskProcess").count());
+}
