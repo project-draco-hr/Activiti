@@ -5,13 +5,5 @@
   tablePage.setTotal(getTableCount(tablePageQuery.getTableName()));
   tablePage.setRows(tableData);
   tablePage.setFirstResult(firstResult);
-  tablePage.setSort(tablePageQuery.getSortColumn());
-  String sortOrderString=tablePageQuery.getSortOrder();
-  if (AbstractQuery.SORTORDER_ASC.equals(sortOrderString)) {
-    tablePage.setOrder(SortOrder.ASC);
-  }
- else   if (AbstractQuery.SORTORDER_DESC.equals(sortOrderString)) {
-    tablePage.setOrder(SortOrder.DESC);
-  }
   return tablePage;
 }
