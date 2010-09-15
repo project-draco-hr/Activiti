@@ -1,0 +1,12 @@
+{
+  Group group=identityService.newGroup("group");
+  identityService.saveGroup(group);
+  try {
+    taskService.addCandidateGroup("unexistingTaskId",group.getId());
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Cannot find task with id unexistingTaskId",ae.getMessage());
+  }
+  identityService.deleteGroup(group.getId());
+}

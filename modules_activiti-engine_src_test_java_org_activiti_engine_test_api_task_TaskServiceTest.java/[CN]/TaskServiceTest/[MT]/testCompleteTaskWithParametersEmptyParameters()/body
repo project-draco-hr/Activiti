@@ -1,0 +1,7 @@
+{
+  Task task=taskService.newTask();
+  taskService.saveTask(task);
+  taskService.complete(task.getId(),Collections.EMPTY_MAP);
+  task=taskService.findTask(task.getId());
+  assertNull(task);
+}

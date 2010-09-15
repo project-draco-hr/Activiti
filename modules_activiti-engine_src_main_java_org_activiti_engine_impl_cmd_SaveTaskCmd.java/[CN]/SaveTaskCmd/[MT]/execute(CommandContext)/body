@@ -1,4 +1,7 @@
 {
+  if (task == null) {
+    throw new ActivitiException("task is null");
+  }
   if (task.getRevision() == 0) {
     commandContext.getDbSqlSession().insert(task);
   }

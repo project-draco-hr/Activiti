@@ -1,0 +1,9 @@
+{
+  try {
+    taskService.saveTask(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("task is null",ae.getMessage());
+  }
+}

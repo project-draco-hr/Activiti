@@ -1,4 +1,7 @@
 {
+  if (taskId == null) {
+    throw new ActivitiException("taskId is null");
+  }
   TaskSession taskSession=commandContext.getTaskSession();
   TaskEntity task=taskSession.findTaskById(taskId);
   if (variables != null) {

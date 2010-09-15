@@ -1,0 +1,9 @@
+{
+  try {
+    taskService.addGroupInvolvement(null,"groupId",TaskInvolvementType.CANDIDATE);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("taskId is null",ae.getMessage());
+  }
+}

@@ -2,10 +2,13 @@
   if (taskId != null) {
     deleteTask(commandContext,taskId);
   }
-  if (taskIds != null) {
+ else   if (taskIds != null) {
     for (    String taskId : taskIds) {
       deleteTask(commandContext,taskId);
     }
+  }
+ else {
+    throw new ActivitiException("taskId and taskIds are null");
   }
   return null;
 }

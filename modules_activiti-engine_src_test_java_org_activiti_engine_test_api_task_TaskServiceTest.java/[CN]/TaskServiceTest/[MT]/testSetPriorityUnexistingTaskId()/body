@@ -1,0 +1,9 @@
+{
+  try {
+    taskService.setPriority("unexistingtask",12345);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Cannot find task with id unexistingtask",ae.getMessage());
+  }
+}

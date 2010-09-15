@@ -1,0 +1,12 @@
+{
+  Task task=taskService.newTask();
+  taskService.saveTask(task);
+  try {
+    taskService.addCandidateGroup(task.getId(),"unexistinggroup");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Cannot find group with id unexistinggroup",ae.getMessage());
+  }
+  taskService.deleteTask(task.getId());
+}

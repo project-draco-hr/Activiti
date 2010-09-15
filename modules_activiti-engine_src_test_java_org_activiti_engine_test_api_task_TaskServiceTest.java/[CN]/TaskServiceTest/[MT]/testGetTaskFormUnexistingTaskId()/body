@@ -1,0 +1,9 @@
+{
+  try {
+    taskService.getTaskForm("unexistingtask");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("No task found for id = 'unexistingtask'",ae.getMessage());
+  }
+}

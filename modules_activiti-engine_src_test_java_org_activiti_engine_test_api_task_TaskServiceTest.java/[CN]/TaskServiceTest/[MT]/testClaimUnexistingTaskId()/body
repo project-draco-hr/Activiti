@@ -1,0 +1,12 @@
+{
+  User user=identityService.newUser("user");
+  identityService.saveUser(user);
+  try {
+    taskService.claim("unexistingtaskid",user.getId());
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Cannot find task with id unexistingtaskid",ae.getMessage());
+  }
+  identityService.deleteUser(user.getId());
+}

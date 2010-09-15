@@ -4,6 +4,9 @@
   if (task == null) {
     throw new ActivitiException("Cannot find task with id " + taskId);
   }
+  if (userId != null && commandContext.getIdentitySession().findUserById(userId) == null) {
+    throw new ActivitiException("Cannot find user with id " + userId);
+  }
   if (TaskInvolvementType.ASSIGNEE.equals(type)) {
     task.setAssignee(userId);
   }
@@ -12,6 +15,9 @@
       addTaskInvolvement(task,userId,null);
     }
  else {
+      if (commandContext.getIdentitySession().findGroupById(groupId) == null) {
+        throw new ActivitiException("Cannot find group with id " + groupId);
+      }
       addTaskInvolvement(task,null,groupId);
     }
   }

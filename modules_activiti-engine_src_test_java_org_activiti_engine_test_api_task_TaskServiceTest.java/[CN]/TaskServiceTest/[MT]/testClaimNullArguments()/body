@@ -1,0 +1,16 @@
+{
+  try {
+    taskService.claim(null,"userid");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("taskId is null",ae.getMessage());
+  }
+  try {
+    taskService.claim("taskId",null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("userId is null",ae.getMessage());
+  }
+}

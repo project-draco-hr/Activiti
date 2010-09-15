@@ -1,0 +1,11 @@
+{
+  Task task=taskService.newTask();
+  taskService.saveTask(task);
+  User user=identityService.newUser("user");
+  identityService.saveUser(user);
+  taskService.claim(task.getId(),user.getId());
+  task=taskService.findTask(task.getId());
+  taskService.claim(task.getId(),user.getId());
+  taskService.deleteTask(task.getId());
+  identityService.deleteUser(user.getId());
+}
