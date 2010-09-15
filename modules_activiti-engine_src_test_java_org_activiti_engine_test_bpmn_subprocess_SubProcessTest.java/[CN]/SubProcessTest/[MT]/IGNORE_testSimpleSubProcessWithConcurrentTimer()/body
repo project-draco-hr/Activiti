@@ -4,8 +4,8 @@
   TaskQuery taskQuery=taskService.createTaskQuery().processInstanceId(pi.getId()).orderAsc(TaskQuery.PROPERTY_NAME);
   Task subProcessTask=taskQuery.singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
-  ClockUtil.setCurrentTime(new Date(startTime.getTime() + (2 * 60 * 60* 1000) + 1000));
-  waitForJobExecutorToProcessAllJobs(5000L,50L);
+  Job job=managementService.createJobQuery().singleResult();
+  managementService.executeJob(job.getId());
   List<Task> tasksAfterTimer=taskQuery.list();
   assertEquals(2,tasksAfterTimer.size());
   Task taskAfterTimer1=tasksAfterTimer.get(0);
