@@ -2,8 +2,11 @@
   for (  Element endEventElement : parentElement.elements("endEvent")) {
     String id=endEventElement.attribute("id");
     String name=endEventElement.attribute("name");
-    ActivityImpl activity=scopeElement.createActivity(id);
+    ActivityImpl activity=scope.createActivity(id);
     activity.setProperty("name",name);
     activity.setActivityBehavior(new NoneEndEventActivity());
+    for (    BpmnParseListener parseListener : parseListeners) {
+      parseListener.parseEndEvent(endEventElement,scope,activity);
+    }
   }
 }

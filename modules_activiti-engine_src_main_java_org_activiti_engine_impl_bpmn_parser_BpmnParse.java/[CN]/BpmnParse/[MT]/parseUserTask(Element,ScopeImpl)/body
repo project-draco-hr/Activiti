@@ -1,9 +1,12 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(userTaskElement,scopeElement);
+  ActivityImpl activity=parseAndCreateActivityOnScopeElement(userTaskElement,scope);
   TaskDefinition taskDefinition=parseTaskDefinition(userTaskElement);
   UserTaskActivity userTaskActivity=new UserTaskActivity(expressionManager,taskDefinition);
   String formResourceKey=userTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
   taskDefinition.setFormResourceKey(formResourceKey);
   activity.setActivityBehavior(userTaskActivity);
   parseProperties(userTaskElement,activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseUserTask(userTaskElement,scope,activity);
+  }
 }

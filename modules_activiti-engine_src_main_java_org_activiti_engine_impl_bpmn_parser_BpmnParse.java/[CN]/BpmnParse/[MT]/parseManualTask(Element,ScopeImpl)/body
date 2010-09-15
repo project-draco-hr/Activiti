@@ -1,4 +1,7 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(manualTaskElement,scopeElement);
+  ActivityImpl activity=parseAndCreateActivityOnScopeElement(manualTaskElement,scope);
   activity.setActivityBehavior(new ManualTaskActivity());
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseManualTask(manualTaskElement,scope,activity);
+  }
 }

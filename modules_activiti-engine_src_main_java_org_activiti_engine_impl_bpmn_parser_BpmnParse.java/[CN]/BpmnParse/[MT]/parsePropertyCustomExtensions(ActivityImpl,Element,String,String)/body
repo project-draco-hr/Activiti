@@ -33,4 +33,7 @@
     ActivitiValueExpression linkValueExpression=expressionManager.createValueExpression(linkExpr);
     variableDeclaration.setLinkValueExpression(linkValueExpression);
   }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseProperty(propertyElement,variableDeclaration,activity);
+  }
 }

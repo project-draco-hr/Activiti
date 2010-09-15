@@ -1,5 +1,7 @@
 {
   HistoricProcessInstanceEntity historicProcessInstance=CommandContext.getCurrent().getHistorySession().findHistoricProcessInstance(execution.getId());
-  ExecutionEntity executionEntity=(ExecutionEntity)execution;
-  historicProcessInstance.markEnded(ClockUtil.getCurrentTime(),executionEntity.getActivityId());
+  Date endTime=ClockUtil.getCurrentTime();
+  long durationInMillis=endTime.getTime() - historicProcessInstance.getStartTime().getTime();
+  historicProcessInstance.setEndTime(endTime);
+  historicProcessInstance.setDurationInMillis(durationInMillis);
 }

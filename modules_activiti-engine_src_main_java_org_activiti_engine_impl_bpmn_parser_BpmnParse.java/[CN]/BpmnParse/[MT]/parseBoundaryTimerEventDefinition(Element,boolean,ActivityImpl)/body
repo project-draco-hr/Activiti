@@ -13,4 +13,7 @@
     ((ActivityImpl)timerActivity.getParent()).setScope(true);
   }
   timerActivity.setActivityBehavior(boundaryTimerEventActivity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,timerActivity);
+  }
 }

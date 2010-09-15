@@ -1,6 +1,11 @@
 {
   ExecutionEntity executionEntity=(ExecutionEntity)execution;
   String processInstanceId=executionEntity.getId();
-  HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity(processInstanceId,executionEntity.getProcessDefinitionId(),ClockUtil.getCurrentTime());
+  String processDefinitionId=executionEntity.getProcessDefinitionId();
+  HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity();
+  historicProcessInstance.setId(processInstanceId);
+  historicProcessInstance.setProcessInstanceId(processInstanceId);
+  historicProcessInstance.setProcessDefinitionId(processDefinitionId);
+  historicProcessInstance.setStartTime(ClockUtil.getCurrentTime());
   CommandContext.getCurrent().getDbSqlSession().insert(historicProcessInstance);
 }

@@ -1,5 +1,5 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scopeElement);
+  ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scope);
   String className=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
   String methodExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"method-expr");
   String valueExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"value-expr");
@@ -25,5 +25,8 @@
   }
  else {
     throw new ActivitiException("'class' or 'expr' attribute is mandatory on serviceTask");
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseServiceTask(serviceTaskElement,scope,activity);
   }
 }

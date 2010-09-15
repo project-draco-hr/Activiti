@@ -3,8 +3,8 @@
     String id=sequenceFlowElement.attribute("id");
     String sourceRef=sequenceFlowElement.attribute("sourceRef");
     String destinationRef=sequenceFlowElement.attribute("targetRef");
-    ActivityImpl sourceActivity=scopeElement.findActivity(sourceRef);
-    ActivityImpl destinationActivity=scopeElement.findActivity(destinationRef);
+    ActivityImpl sourceActivity=scope.findActivity(sourceRef);
+    ActivityImpl destinationActivity=scope.findActivity(destinationRef);
     if (sourceActivity == null) {
       throw new ActivitiException("Invalid source of sequence flow '" + id + "'");
     }
@@ -15,5 +15,8 @@
     transition.setProperty("name",sequenceFlowElement.attribute("name"));
     transition.setDestination(destinationActivity);
     parseSequenceFlowConditionExpression(sequenceFlowElement,transition);
+    for (    BpmnParseListener parseListener : parseListeners) {
+      parseListener.parseSequenceFlow(sequenceFlowElement,scope,transition);
+    }
   }
 }

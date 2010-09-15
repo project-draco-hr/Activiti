@@ -7,22 +7,25 @@
     Element startEventElement=startEventElements.get(0);
     String id=startEventElement.attribute("id");
     String name=startEventElement.attribute("name");
-    ActivityImpl activity=scope.createActivity(id);
-    activity.setProperty("name",name);
+    ActivityImpl startEventActivity=scope.createActivity(id);
+    startEventActivity.setProperty("name",name);
     if (scope instanceof ProcessDefinitionEntity) {
       ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)scope;
       if (processDefinition.getInitial() != null) {
         addProblem("multiple startEvents in a process definition are not yet supported",startEventElement);
       }
-      processDefinition.setInitial(activity);
+      processDefinition.setInitial(startEventActivity);
       String startFormResourceKey=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
       if (startFormResourceKey != null) {
         processDefinition.setStartFormResourceKey(startFormResourceKey);
       }
     }
  else {
-      scope.setProperty(PROPERTYNAME_INITIAL,activity);
+      scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
     }
-    activity.setActivityBehavior(new NoneStartEventActivity());
+    startEventActivity.setActivityBehavior(new NoneStartEventActivity());
+    for (    BpmnParseListener parseListener : parseListeners) {
+      parseListener.parseStartEvent(startEventElement,scope,startEventActivity);
+    }
   }
 }

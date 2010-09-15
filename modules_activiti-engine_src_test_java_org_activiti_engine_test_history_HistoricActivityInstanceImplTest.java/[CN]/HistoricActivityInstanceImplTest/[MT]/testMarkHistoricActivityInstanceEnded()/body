@@ -1,8 +1,0 @@
-{
-  Date startTime=new Date();
-  Date endTime=new Date(startTime.getTime() + 1234);
-  HistoricActivityInstanceEntity historicActivityInstance=new HistoricActivityInstanceEntity("activityId","activityName","activityType","processInstanceId","processInstanceId",startTime);
-  historicActivityInstance.markEnded(endTime);
-  assertEquals(endTime,historicActivityInstance.getEndTime());
-  assertEquals(Long.valueOf(1234),historicActivityInstance.getDurationInMillis());
-}

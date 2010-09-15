@@ -1,6 +1,9 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(subProcessElement,scopeElement);
+  ActivityImpl activity=parseAndCreateActivityOnScopeElement(subProcessElement,scope);
   activity.setScope(true);
   activity.setActivityBehavior(new SubProcessActivity());
   parseScope(subProcessElement,activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseSubProcess(subProcessElement,scope,activity);
+  }
 }
