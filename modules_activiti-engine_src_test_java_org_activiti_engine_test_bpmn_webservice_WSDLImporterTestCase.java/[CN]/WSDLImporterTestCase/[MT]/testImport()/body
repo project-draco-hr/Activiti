@@ -1,0 +1,23 @@
+{
+  WSDLImporter importer=new WSDLImporter();
+  URL url=Thread.currentThread().getContextClassLoader().getResource("org/activiti/engine/test/bpmn/servicetask/counter.wsdl");
+  importer.importFrom(url,null);
+  List<Structure> structures=new ArrayList<Structure>(importer.getStructures());
+  Collections.sort(structures,new Comparator<Structure>(){
+    @Override public int compare(    Structure o1,    Structure o2){
+      return o1.getId().compareTo(o2.getId());
+    }
+  }
+);
+  Assert.assertEquals(10,structures.size());
+  this.assertStructure(structures.get(0),"getCount",new String[]{},new Class<?>[]{});
+  this.assertStructure(structures.get(1),"getCountResponse",new String[]{"count"},new Class<?>[]{Integer.class});
+  this.assertStructure(structures.get(2),"inc",new String[]{},new Class<?>[]{});
+  this.assertStructure(structures.get(3),"incResponse",new String[]{},new Class<?>[]{});
+  this.assertStructure(structures.get(4),"prettyPrintCount",new String[]{"prefix","suffix"},new Class<?>[]{String.class,String.class});
+  this.assertStructure(structures.get(5),"prettyPrintCountResponse",new String[]{"prettyPrint"},new Class<?>[]{String.class});
+  this.assertStructure(structures.get(6),"reset",new String[]{},new Class<?>[]{});
+  this.assertStructure(structures.get(7),"resetResponse",new String[]{},new Class<?>[]{});
+  this.assertStructure(structures.get(8),"setTo",new String[]{"value"},new Class<?>[]{Integer.class});
+  this.assertStructure(structures.get(9),"setToResponse",new String[]{},new Class<?>[]{});
+}

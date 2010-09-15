@@ -1,0 +1,11 @@
+{
+  this.wsServices.clear();
+  this.wsOperations.clear();
+  this.structures.clear();
+  Parse importParse=Parser.INSTANCE.createParse();
+  Element root=importParse.sourceUrl(url).execute().getRootElement();
+  this.importServices(root);
+  this.importOperations(root);
+  this.importTypes(root);
+  this.transferImportsToParse(parse);
+}

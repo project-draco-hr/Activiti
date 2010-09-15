@@ -1,0 +1,10 @@
+{
+  this.wsdlLocation=element.attribute("location");
+  try {
+    URL url=new URL(this.wsdlLocation);
+    this.importFrom(url,parse);
+  }
+ catch (  MalformedURLException e) {
+    parse.addProblem("Invalid URL " + this.wsdlLocation,element);
+  }
+}

@@ -1,0 +1,7 @@
+{
+  List<Element> typeElements=root.element("wsdl:types").element("xs:schema").elements("xs:complexType");
+  for (  Element typeElement : typeElements) {
+    Structure structure=this.createStructureFrom(typeElement);
+    this.structures.put(structure.getId(),structure);
+  }
+}

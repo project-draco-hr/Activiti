@@ -35,5 +35,9 @@
   if ((jobExecutorAutoActivate != null) && (("false".equals(jobExecutorAutoActivate)) || ("disabled".equals(jobExecutorAutoActivate)) || ("off".equals(jobExecutorAutoActivate)))) {
     this.jobExecutorAutoActivate=false;
   }
+  String wsSyncFactory=configurationProperties.getProperty("ws.sync.factory");
+  if (wsSyncFactory != null) {
+    this.wsSyncFactoryClassName=wsSyncFactory;
+  }
   return this;
 }

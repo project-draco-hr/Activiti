@@ -10,5 +10,7 @@
   ItemDefinition outItemDefinition=new ItemDefinition("id",outStructure);
   outMessage=new Message("id",outItemDefinition);
   operation=new Operation("idSetTo","setTo",null,inMessage);
-  activity=new WebServiceActivityBehavior(client,operation);
+  WSService service=new WSService("counter","http://counter.example",client);
+  operation.setImplementation(new WSOperation("setTo",service));
+  activity=new WebServiceActivityBehavior(operation);
 }

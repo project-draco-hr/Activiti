@@ -8,7 +8,9 @@
     Message inMessage=this.messages.get(inMessageRefElement.getText());
     String id=operationElement.attribute("id");
     String name=operationElement.attribute("name");
+    String implementationRef=operationElement.attribute("implementationRef");
     Operation operation=new Operation(id,name,bpmnInterface,inMessage);
+    operation.setImplementation(this.operationImplementations.get(implementationRef));
     Element outMessageRefElement=operationElement.element("outMessageRef");
     if (this.messages.containsKey(outMessageRefElement.getText())) {
       Message outMessage=this.messages.get(outMessageRefElement.getText());
