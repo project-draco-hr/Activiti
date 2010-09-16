@@ -1,9 +1,9 @@
 {
-  Assert.assertTrue(historicDataService.createHistoricProcessInstanceQuery().count() == 0);
+  assertTrue(historicDataService.createHistoricProcessInstanceQuery().count() == 0);
   final ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
-  Assert.assertTrue(historicDataService.createHistoricProcessInstanceQuery().count() == 1);
+  assertTrue(historicDataService.createHistoricProcessInstanceQuery().count() == 1);
   List<Task> tasks=taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
   assertEquals(1,tasks.size());
   taskService.complete(tasks.get(0).getId());
-  Assert.assertTrue(historicDataService.createHistoricProcessInstanceQuery().count() == 1);
+  assertTrue(historicDataService.createHistoricProcessInstanceQuery().count() == 1);
 }

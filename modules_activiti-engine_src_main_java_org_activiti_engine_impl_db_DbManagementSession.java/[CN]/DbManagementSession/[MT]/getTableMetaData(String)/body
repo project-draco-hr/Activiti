@@ -13,5 +13,8 @@
  catch (  SQLException e) {
     throw new ActivitiException("Could not retrieve database metadata: " + e.getMessage());
   }
+  if (result.getColumnNames().size() == 0) {
+    result=null;
+  }
   return result;
 }

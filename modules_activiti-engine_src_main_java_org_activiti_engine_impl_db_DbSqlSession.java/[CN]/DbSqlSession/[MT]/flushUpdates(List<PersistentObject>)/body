@@ -8,7 +8,7 @@
     log.fine("updating: " + toString(updatedObject) + "]");
     int updatedRecords=sqlSession.update(updateStatement,updatedObject);
     if (updatedRecords != 1) {
-      throw new OptimisticLockingException(toString(updatedObject) + " was updated by another transaction concurrently");
+      throw new ActivitiOptimisticLockingException(toString(updatedObject) + " was updated by another transaction concurrently");
     }
   }
   updatedObjects.clear();

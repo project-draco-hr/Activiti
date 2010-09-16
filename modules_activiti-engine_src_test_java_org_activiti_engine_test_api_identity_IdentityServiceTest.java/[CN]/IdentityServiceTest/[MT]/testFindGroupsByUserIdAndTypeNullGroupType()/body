@@ -10,8 +10,8 @@
   identityService.createMembership(johndoe.getId(),sales.getId());
   identityService.createMembership(johndoe.getId(),admin.getId());
   List<Group> groups=identityService.findGroupsByUserIdAndGroupType(johndoe.getId(),null);
-  Assert.assertNotNull(groups);
-  Assert.assertEquals(2,groups.size());
+  assertNotNull(groups);
+  assertEquals(2,groups.size());
   identityService.deleteUser(johndoe.getId());
   identityService.deleteGroup(sales.getId());
   identityService.deleteGroup(admin.getId());
