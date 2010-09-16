@@ -1,2 +1,17 @@
 {
+  CommandContext commandContext=CommandContext.getCurrent();
+  IdGenerator idGenerator=commandContext.getProcessEngineConfiguration().getIdGenerator();
+  ExecutionEntity executionEntity=(ExecutionEntity)execution;
+  String processDefinitionId=executionEntity.getProcessDefinitionId();
+  String processInstanceId=executionEntity.getProcessInstanceId();
+  String executionId=execution.getId();
+  HistoricActivityInstanceEntity historicActivityInstance=new HistoricActivityInstanceEntity();
+  historicActivityInstance.setId(Long.toString(idGenerator.getNextId()));
+  historicActivityInstance.setProcessDefinitionId(processDefinitionId);
+  historicActivityInstance.setProcessInstanceId(processInstanceId);
+  historicActivityInstance.setExecutionId(executionId);
+  historicActivityInstance.setActivityId(executionEntity.getActivityId());
+  historicActivityInstance.setActivityType((String)executionEntity.getActivity().getProperty("type"));
+  historicActivityInstance.setStartTime(ClockUtil.getCurrentTime());
+  commandContext.getDbSqlSession().insert(historicActivityInstance);
 }

@@ -1,0 +1,15 @@
+{
+  super.setReplacedBy(replacedBy);
+  CommandContext commandContext=CommandContext.getCurrent();
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=dbSqlSession.findInCache(HistoricActivityInstanceEntity.class);
+  for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
+    if ((cachedHistoricActivityInstance.getEndTime() == null) && (id.equals(cachedHistoricActivityInstance.getExecutionId()))) {
+      cachedHistoricActivityInstance.setExecutionId(replacedBy.getId());
+    }
+  }
+  List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl().executionId(id).onlyOpen().executeList(commandContext,null);
+  for (  HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
+    historicActivityInstance.setExecutionId(replacedBy.getId());
+  }
+}
