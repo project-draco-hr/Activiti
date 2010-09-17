@@ -1,0 +1,11 @@
+{
+  Map<String,List<TaskListener>> taskListeners=CommandContext.getCurrent().getProcessEngineConfiguration().getTaskListeners();
+  if (taskListeners != null) {
+    List<TaskListener> taskAssignmentListeners=taskListeners.get(taskEventName);
+    if (taskAssignmentListeners != null) {
+      for (      TaskListener taskListener : taskAssignmentListeners) {
+        taskListener.notify(this);
+      }
+    }
+  }
+}

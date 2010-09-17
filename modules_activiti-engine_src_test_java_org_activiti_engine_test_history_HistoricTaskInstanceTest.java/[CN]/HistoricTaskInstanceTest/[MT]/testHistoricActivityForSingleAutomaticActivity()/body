@@ -1,0 +1,5 @@
+{
+  runtimeService.startProcessInstanceByKey("singleAutomaticActivity");
+  List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().list();
+  assertEquals(1,historicActivityInstances.size());
+}

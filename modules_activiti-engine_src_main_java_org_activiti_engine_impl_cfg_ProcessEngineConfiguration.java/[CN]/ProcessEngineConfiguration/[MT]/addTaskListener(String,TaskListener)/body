@@ -1,0 +1,11 @@
+{
+  if (taskListeners == null) {
+    taskListeners=new HashMap<String,List<TaskListener>>();
+  }
+  List<TaskListener> taskEventListeners=taskListeners.get(taskEventName);
+  if (taskEventListeners == null) {
+    taskEventListeners=new ArrayList<TaskListener>();
+    taskListeners.put(taskEventName,taskEventListeners);
+  }
+  taskEventListeners.add(taskListener);
+}

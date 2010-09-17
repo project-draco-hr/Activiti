@@ -1,0 +1,7 @@
+{
+  ExecutionEntity execution=task.getExecution();
+  if (execution != null) {
+    HistoricActivityInstanceEntity historicActivityInstance=ActivityInstanceEndHandler.findActivityInstance(execution);
+    historicActivityInstance.setAssignee(task.getAssignee());
+  }
+}

@@ -23,6 +23,9 @@
     notifyConfigurationComplete(variableTypes);
     notifyConfigurationComplete(expressionManager);
     notifyConfigurationComplete(businessCalendarManager);
+    if (isHistoryEnabled) {
+      addTaskListener(TaskListener.EVENTNAME_ASSIGNMENT,new HistoryTaskAssignmentHandler());
+    }
     isConfigurationCompleted=true;
   }
 }
