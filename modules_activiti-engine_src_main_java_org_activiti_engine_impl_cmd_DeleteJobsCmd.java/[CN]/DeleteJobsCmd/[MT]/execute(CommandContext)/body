@@ -1,7 +1,10 @@
 {
-  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  JobEntity jobToDelete=null;
   for (  String jobId : jobIds) {
-    dbSqlSession.delete(JobEntity.class,jobId);
+    jobToDelete=commandContext.getRuntimeSession().findJobById(jobId);
+    if (jobToDelete != null) {
+      jobToDelete.delete();
+    }
   }
   return null;
 }

@@ -1,0 +1,13 @@
+{
+  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
+  JobEntity job=runtimeSession.findJobById(jobId);
+  job.setRetries(job.getRetries() - 1);
+  job.setLockOwner(null);
+  job.setLockExpirationTime(null);
+  if (exception != null) {
+    job.setExceptionMessage(exception.getMessage());
+    job.setExceptionStacktrace(getExceptionStacktrace());
+  }
+  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(commandContext.getProcessEngineConfiguration().getJobExecutor()));
+  return null;
+}

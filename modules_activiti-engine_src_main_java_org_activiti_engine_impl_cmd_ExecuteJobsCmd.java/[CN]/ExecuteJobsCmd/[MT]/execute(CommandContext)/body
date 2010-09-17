@@ -1,0 +1,20 @@
+{
+  if (jobId == null) {
+    throw new ActivitiException("jobId is null");
+  }
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("Executing job " + jobId);
+  }
+  JobEntity job=commandContext.getRuntimeSession().findJobById(jobId);
+  if (job == null) {
+    throw new ActivitiException("No job found with id '" + jobId + "'");
+  }
+  try {
+    job.execute(commandContext);
+  }
+ catch (  RuntimeException exception) {
+    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new DecrementJobRetriesListener(jobId,exception));
+    throw exception;
+  }
+  return null;
+}

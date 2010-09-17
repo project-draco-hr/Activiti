@@ -1,0 +1,19 @@
+{
+  byte[] exceptionBytes=null;
+  if (exception == null) {
+    exceptionBytes=null;
+  }
+ else {
+    exceptionBytes=exception.getBytes(Charset.forName("UTF-8"));
+  }
+  ByteArrayEntity byteArray=getExceptionByteArray();
+  if (byteArray == null) {
+    byteArray=new ByteArrayEntity("job.exceptionByteArray",exceptionBytes);
+    CommandContext.getCurrent().getDbSqlSession().insert(byteArray);
+    exceptionByteArrayId=byteArray.getId();
+    exceptionByteArray=byteArray;
+  }
+ else {
+    byteArray.setBytes(exceptionBytes);
+  }
+}

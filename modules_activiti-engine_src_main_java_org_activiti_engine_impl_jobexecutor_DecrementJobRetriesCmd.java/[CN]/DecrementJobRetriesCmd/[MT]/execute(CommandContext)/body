@@ -1,9 +1,0 @@
-{
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
-  JobEntity job=runtimeSession.findJobById(jobId);
-  job.setRetries(job.getRetries() - 1);
-  job.setLockOwner(null);
-  job.setLockExpirationTime(null);
-  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(jobExecutor));
-  return null;
-}

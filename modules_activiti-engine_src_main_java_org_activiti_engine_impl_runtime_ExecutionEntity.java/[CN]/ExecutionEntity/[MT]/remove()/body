@@ -18,7 +18,7 @@
       ((JobEntity)job).setExecution((ExecutionEntity)replacedBy);
     }
  else {
-      commandContext.getDbSqlSession().delete(JobEntity.class,job.getId());
+      ((JobEntity)job).delete();
     }
   }
   commandContext.getDbSqlSession().delete(ExecutionEntity.class,id);

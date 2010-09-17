@@ -1,0 +1,9 @@
+{
+  try {
+    managementService.getJobExceptionStacktrace("unexistingjob");
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException re) {
+    assertTextPresent("No job found with id unexistingjob",re.getMessage());
+  }
+}

@@ -4,7 +4,7 @@
     if (log.isLoggable(Level.FINE)) {
       log.fine("Timer " + getId() + " fired. Deleting timer.");
     }
-    commandContext.getDbSqlSession().delete(JobEntity.class,id);
+    delete();
   }
  else {
     throw new UnsupportedOperationException("repeat not yet supported");
