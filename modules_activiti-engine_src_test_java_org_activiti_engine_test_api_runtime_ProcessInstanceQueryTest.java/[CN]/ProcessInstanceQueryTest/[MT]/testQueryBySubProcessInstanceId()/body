@@ -1,0 +1,6 @@
+{
+  ProcessInstance superProcessInstance=runtimeService.startProcessInstanceByKey("subProcessQueryTest");
+  ProcessInstance subProcessInstance=runtimeService.createProcessInstanceQuery().superProcessInstance(superProcessInstance.getId()).singleResult();
+  assertNotNull(subProcessInstance);
+  assertEquals(superProcessInstance.getId(),runtimeService.createProcessInstanceQuery().subProcessInstance(subProcessInstance.getId()).singleResult().getId());
+}

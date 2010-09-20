@@ -1,0 +1,18 @@
+{
+  assertEquals(12,taskService.createTaskQuery().orderByTaskId().asc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByName().asc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByPriority().asc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByAssignee().asc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByDescription().asc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByProcessInstanceId().asc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByExecutionId().asc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByTaskId().desc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByName().desc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByPriority().desc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByAssignee().desc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByDescription().desc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByProcessInstanceId().desc().list().size());
+  assertEquals(12,taskService.createTaskQuery().orderByExecutionId().desc().list().size());
+  assertEquals(6,taskService.createTaskQuery().orderByTaskId().name("testTask").asc().list().size());
+  assertEquals(6,taskService.createTaskQuery().orderByTaskId().name("testTask").desc().list().size());
+}

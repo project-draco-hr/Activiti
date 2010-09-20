@@ -1,7 +1,7 @@
 {
   runtimeService.startProcessInstanceByKey("candidateUsersExtension");
-  List<Task> tasks=taskService.findUnassignedTasks("kermit");
+  List<Task> tasks=taskService.createTaskQuery().candidateUser("kermit").list();
   assertEquals(1,tasks.size());
-  tasks=taskService.findUnassignedTasks("gonzo");
+  tasks=taskService.createTaskQuery().candidateUser("gonzo").list();
   assertEquals(1,tasks.size());
 }

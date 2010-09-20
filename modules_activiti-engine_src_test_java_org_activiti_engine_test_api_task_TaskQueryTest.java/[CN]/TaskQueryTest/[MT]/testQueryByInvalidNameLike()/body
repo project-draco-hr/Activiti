@@ -1,0 +1,12 @@
+{
+  TaskQuery query=taskService.createTaskQuery().name("1");
+  assertNull(query.singleResult());
+  assertEquals(0,query.list().size());
+  assertEquals(0,query.count());
+  try {
+    taskService.createTaskQuery().name(null).singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

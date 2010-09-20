@@ -1,0 +1,10 @@
+{
+  super.setUp();
+  repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/runtime/oneTaskProcess.bpmn20.xml").addClasspathResource("org/activiti/engine/test/api/runtime/concurrentExecution.bpmn20.xml").deploy();
+  concurrentProcessInstanceIds=new ArrayList<String>();
+  sequentialProcessInstanceIds=new ArrayList<String>();
+  for (int i=0; i < 4; i++) {
+    concurrentProcessInstanceIds.add(runtimeService.startProcessInstanceByKey(CONCURRENT_PROCESS_KEY).getId());
+  }
+  sequentialProcessInstanceIds.add(runtimeService.startProcessInstanceByKey(SEQUENTIAL_PROCESS_KEY).getId());
+}

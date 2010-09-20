@@ -1,8 +1,0 @@
-{
-  super.setUp();
-  repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/processinstance/oneTaskProcess.bpmn20.xml").addClasspathResource("org/activiti/engine/test/processinstance/oneTaskProcess2.bpmn20.xml").deploy();
-  for (int i=0; i < 4; i++) {
-    runtimeService.startProcessInstanceByKey(PROCESS_KEY);
-  }
-  runtimeService.startProcessInstanceByKey(PROCESS_KEY_2);
-}

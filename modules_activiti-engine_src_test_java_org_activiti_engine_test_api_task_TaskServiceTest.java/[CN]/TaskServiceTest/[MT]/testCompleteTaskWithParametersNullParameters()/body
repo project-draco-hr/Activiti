@@ -2,6 +2,6 @@
   Task task=taskService.newTask();
   taskService.saveTask(task);
   taskService.complete(task.getId(),null);
-  task=taskService.findTask(task.getId());
+  task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   assertNull(task);
 }

@@ -1,5 +1,5 @@
 {
   runtimeService.startProcessInstanceByKey("mixedCandidateUserAndGroup");
-  assertEquals(1,taskService.findUnassignedTasks(GONZO).size());
-  assertEquals(1,taskService.findUnassignedTasks(KERMIT).size());
+  assertEquals(1,taskService.createTaskQuery().candidateUser(GONZO).list().size());
+  assertEquals(1,taskService.createTaskQuery().candidateUser(KERMIT).list().size());
 }

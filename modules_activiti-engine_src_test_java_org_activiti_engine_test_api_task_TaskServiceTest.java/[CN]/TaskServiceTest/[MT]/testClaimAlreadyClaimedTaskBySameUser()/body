@@ -4,7 +4,7 @@
   User user=identityService.newUser("user");
   identityService.saveUser(user);
   taskService.claim(task.getId(),user.getId());
-  task=taskService.findTask(task.getId());
+  task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   taskService.claim(task.getId(),user.getId());
   taskService.deleteTask(task.getId());
   identityService.deleteUser(user.getId());

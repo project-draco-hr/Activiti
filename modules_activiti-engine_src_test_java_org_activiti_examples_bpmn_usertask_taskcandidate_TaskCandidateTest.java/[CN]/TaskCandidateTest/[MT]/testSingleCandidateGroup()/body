@@ -2,12 +2,12 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("singleCandidateGroup");
   List<Task> tasks=taskService.createTaskQuery().assignee(KERMIT).list();
   assertTrue(tasks.isEmpty());
-  tasks=taskService.findUnassignedTasks(KERMIT);
+  tasks=taskService.createTaskQuery().candidateUser(KERMIT).list();
   assertEquals(1,tasks.size());
   Task task=tasks.get(0);
   assertEquals("Pay out expenses",task.getName());
   taskService.claim(task.getId(),KERMIT);
-  tasks=taskService.findUnassignedTasks(KERMIT);
+  tasks=taskService.createTaskQuery().candidateUser(KERMIT).list();
   assertTrue(tasks.isEmpty());
   tasks=taskService.createTaskQuery().assignee(KERMIT).list();
   assertEquals(1,tasks.size());

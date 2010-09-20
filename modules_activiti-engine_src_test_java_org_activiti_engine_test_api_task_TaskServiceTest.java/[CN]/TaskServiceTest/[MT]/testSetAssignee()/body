@@ -5,7 +5,7 @@
   assertNull(task.getAssignee());
   taskService.saveTask(task);
   taskService.setAssignee(task.getId(),user.getId());
-  task=taskService.findTask(task.getId());
+  task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   assertEquals(user.getId(),task.getAssignee());
   identityService.deleteUser(user.getId());
   taskService.deleteTask(task.getId());

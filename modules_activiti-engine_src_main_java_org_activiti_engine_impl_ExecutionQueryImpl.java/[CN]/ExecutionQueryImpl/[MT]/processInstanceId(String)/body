@@ -1,5 +1,7 @@
 {
-  this.executionId=processInstanceId;
-  this.onlyProcessInstances=true;
+  if (processInstanceId == null) {
+    throw new ActivitiException("Process instance id is null");
+  }
+  this.processInstanceId=processInstanceId;
   return this;
 }

@@ -1,6 +1,6 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("simpleParallelSubProcessWithTimer");
-  List<Task> subProcessTasks=taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderAsc(TaskQuery.PROPERTY_NAME).list();
+  List<Task> subProcessTasks=taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByName().asc().list();
   Task taskA=subProcessTasks.get(0);
   Task taskB=subProcessTasks.get(1);
   assertEquals("Task A",taskA.getName());

@@ -1,6 +1,6 @@
 {
   runtimeService.startProcessInstanceByKey("callParallelSubProcess");
-  TaskQuery taskQuery=taskService.createTaskQuery().orderAsc(TaskQuery.PROPERTY_NAME);
+  TaskQuery taskQuery=taskService.createTaskQuery().orderByName().asc();
   List<Task> tasks=taskQuery.list();
   assertEquals(2,tasks.size());
   Task taskA=tasks.get(0);
