@@ -1,0 +1,5 @@
+{
+  runtimeService.startProcessInstanceByKey("taskAssigneeProcess");
+  HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().singleResult();
+  assertEquals("kermit",historicActivityInstance.getAssignee());
+}
