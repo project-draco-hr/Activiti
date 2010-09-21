@@ -1,0 +1,27 @@
+{
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().orderById().asc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderByDeploymentId().asc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderByKey().asc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderByVersion().asc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderById().desc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderByDeploymentId().desc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderByKey().desc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderByVersion().desc();
+  verifyQueryResults(query,3);
+  query=repositoryService.createProcessDefinitionQuery().orderByKey().asc().orderByVersion().desc();
+  List<ProcessDefinition> processDefinitions=query.list();
+  assertEquals(3,processDefinitions.size());
+  assertEquals("one",processDefinitions.get(0).getKey());
+  assertEquals(2,processDefinitions.get(0).getVersion());
+  assertEquals("one",processDefinitions.get(1).getKey());
+  assertEquals(1,processDefinitions.get(1).getVersion());
+  assertEquals("two",processDefinitions.get(2).getKey());
+  assertEquals(1,processDefinitions.get(2).getVersion());
+}

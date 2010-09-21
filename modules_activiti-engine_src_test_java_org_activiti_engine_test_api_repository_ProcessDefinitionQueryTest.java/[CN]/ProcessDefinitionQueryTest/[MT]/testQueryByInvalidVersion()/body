@@ -1,0 +1,16 @@
+{
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().version(3);
+  verifyQueryResults(query,0);
+  try {
+    repositoryService.createProcessDefinitionQuery().version(-1).list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    repositoryService.createProcessDefinitionQuery().version(null).list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (orderProperty != null) {
+    throw new ActivitiException("Invalid query: call asc() or desc() after using orderByXX()");
+  }
+  if (latest && ((id != null) || (name != null) || (nameLike != null)|| (version != null)|| (deploymentId != null))) {
+    throw new ActivitiException("Calling latest() can only be used in combination with key(String) and keyLike(String)");
+  }
+}

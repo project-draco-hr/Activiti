@@ -1,0 +1,8 @@
+{
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().key("one").version(1);
+  verifyQueryResults(query,1);
+  query=repositoryService.createProcessDefinitionQuery().key("one").version(2);
+  verifyQueryResults(query,1);
+  query=repositoryService.createProcessDefinitionQuery().key("one").version(3);
+  verifyQueryResults(query,0);
+}

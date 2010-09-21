@@ -1,0 +1,10 @@
+{
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().name("invalid");
+  verifyQueryResults(query,0);
+  try {
+    repositoryService.createProcessDefinitionQuery().name(null);
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

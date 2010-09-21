@@ -1,0 +1,10 @@
+{
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().key("invalid");
+  verifyQueryResults(query,0);
+  try {
+    repositoryService.createProcessDefinitionQuery().key(null);
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}
