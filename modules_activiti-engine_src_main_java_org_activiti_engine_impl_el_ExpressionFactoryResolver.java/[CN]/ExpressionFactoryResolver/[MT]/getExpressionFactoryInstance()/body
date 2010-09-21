@@ -1,0 +1,15 @@
+{
+  ClassLoader classLoader=getClassLoader();
+  String serviceId="META-INF/services/" + ExpressionFactory.class.getName();
+  String implClassName=getFactoryClassNameFromClasspath(classLoader,serviceId);
+  if (implClassName == null) {
+    implClassName=getFactoryClassNameFromJVM();
+    if (implClassName == null) {
+      implClassName=getFactoryClassNameFromSystemProps();
+    }
+  }
+  if (implClassName == null) {
+    throw new ActivitiException("Failed to resolve an implementation class for javax.el.ExpressionFactory");
+  }
+  return newInstance(implClassName,classLoader);
+}

@@ -4,7 +4,12 @@
     exceptionBytes=null;
   }
  else {
-    exceptionBytes=exception.getBytes(Charset.forName("UTF-8"));
+    try {
+      exceptionBytes=exception.getBytes("UTF-8");
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new ActivitiException("UTF-8 is not a supported encoding");
+    }
   }
   ByteArrayEntity byteArray=getExceptionByteArray();
   if (byteArray == null) {

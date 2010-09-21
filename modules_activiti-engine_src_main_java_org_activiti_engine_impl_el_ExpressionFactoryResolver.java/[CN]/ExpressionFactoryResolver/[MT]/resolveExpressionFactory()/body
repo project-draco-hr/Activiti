@@ -1,0 +1,12 @@
+{
+  ExpressionFactory expressionFactory=null;
+  try {
+    expressionFactory=ExpressionFactory.newInstance();
+    LOG.fine("Resolving ExpressionFactory using EL 1.1");
+  }
+ catch (  NoSuchMethodError nsme) {
+    LOG.fine("Resolving ExpressionFactory using EL 1.O");
+    expressionFactory=getExpressionFactoryInstance();
+  }
+  return expressionFactory;
+}
