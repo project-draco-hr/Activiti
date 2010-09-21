@@ -1,0 +1,11 @@
+{
+  SqlSessionFactory sqlMapper=getIbatisConfig();
+  SqlSession session=sqlMapper.openSession();
+  try {
+    session.delete("org.activiti.cycle.impl.conf.CycleConfigEntity.deleteCycleConfigById",id);
+  }
+  finally {
+    session.commit();
+    session.close();
+  }
+}

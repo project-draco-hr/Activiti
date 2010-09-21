@@ -1,0 +1,10 @@
+{
+  ProcessEngineConfiguration processEngineConfiguration=null;
+  if (processEngineName == null) {
+    processEngineConfiguration=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration();
+  }
+ else {
+    processEngineConfiguration=((ProcessEngineImpl)ProcessEngines.getProcessEngine(processEngineName)).getProcessEngineConfiguration();
+  }
+  return processEngineConfiguration;
+}
