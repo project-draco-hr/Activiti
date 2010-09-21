@@ -1,0 +1,9 @@
+{
+  try {
+    processEngineConfiguration.getCommandExecutor().execute(new ControlledCommand(activeThread,new SignalCmd(executionId,null,null)));
+  }
+ catch (  ActivitiOptimisticLockingException e) {
+    this.exception=e;
+  }
+  log.fine(getName() + " ends");
+}
