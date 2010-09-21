@@ -1,6 +1,8 @@
 {
   Object startForm=repositoryService.getStartFormByKey("vacationRequest");
   assertNotNull(startForm);
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertEquals("org/activiti/examples/taskforms/request.form",processDefinition.getStartFormResourceKey());
   Map<String,Object> variables=new HashMap<String,Object>();
   variables.put("employeeName","kermit");
   variables.put("numberOfDays","4");

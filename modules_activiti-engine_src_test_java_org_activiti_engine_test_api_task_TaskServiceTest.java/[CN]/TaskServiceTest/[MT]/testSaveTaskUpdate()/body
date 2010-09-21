@@ -7,7 +7,7 @@
   task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   assertEquals("description",task.getDescription());
   assertEquals("taskname",task.getName());
-  assertEquals(0,task.getPriority().intValue());
+  assertEquals(0,task.getPriority());
   task.setDescription("updateddescription");
   task.setName("updatedtaskname");
   task.setPriority(1);
@@ -15,6 +15,6 @@
   task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   assertEquals("updateddescription",task.getDescription());
   assertEquals("updatedtaskname",task.getName());
-  assertEquals(1,task.getPriority().intValue());
+  assertEquals(1,task.getPriority());
   taskService.deleteTask(task.getId());
 }
