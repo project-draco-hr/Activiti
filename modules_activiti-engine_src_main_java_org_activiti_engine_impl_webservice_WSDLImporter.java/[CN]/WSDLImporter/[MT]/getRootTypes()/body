@@ -1,0 +1,16 @@
+{
+  try {
+    com.sun.org.apache.xerces.internal.parsers.DOMParser parser=new com.sun.org.apache.xerces.internal.parsers.DOMParser();
+    parser.parse(this.wsdlLocation);
+    Document doc=parser.getDocument();
+    Element root=(Element)doc.getFirstChild();
+    Element typesElement=(Element)root.getElementsByTagName("wsdl:types").item(0);
+    return (Element)typesElement.getElementsByTagName("xs:schema").item(0);
+  }
+ catch (  SAXException e) {
+    throw new ActivitiException(e.getMessage(),e);
+  }
+catch (  IOException e) {
+    throw new ActivitiException(e.getMessage(),e);
+  }
+}

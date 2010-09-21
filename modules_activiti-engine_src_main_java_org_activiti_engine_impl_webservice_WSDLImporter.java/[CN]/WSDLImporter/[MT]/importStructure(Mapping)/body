@@ -1,0 +1,17 @@
+{
+  QName qname=mapping.getElement();
+  JDefinedClass theClass=(JDefinedClass)mapping.getType().getTypeClass();
+  SimpleStructure structure=(SimpleStructure)this.structures.get(qname.getLocalPart());
+  Map<String,JFieldVar> fields=theClass.fields();
+  int index=0;
+  for (  Entry<String,JFieldVar> entry : fields.entrySet()) {
+    try {
+      Class<?> fieldClass=Class.forName(entry.getValue().type().boxify().fullName());
+      structure.setFieldName(index,entry.getKey(),fieldClass);
+    }
+ catch (    ClassNotFoundException e) {
+      throw new ActivitiException(e.getMessage(),e);
+    }
+    index++;
+  }
+}

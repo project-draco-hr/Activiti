@@ -1,0 +1,14 @@
+{
+  this.wsServices.clear();
+  this.wsOperations.clear();
+  this.structures.clear();
+  this.wsdlLocation=url;
+  try {
+    Definition definition=this.parseWSDLDefinition();
+    this.importServicesAndOperations(definition);
+    this.importTypes(definition.getTypes());
+  }
+ catch (  WSDLException e) {
+    throw new ActivitiException(e.getMessage(),e);
+  }
+}

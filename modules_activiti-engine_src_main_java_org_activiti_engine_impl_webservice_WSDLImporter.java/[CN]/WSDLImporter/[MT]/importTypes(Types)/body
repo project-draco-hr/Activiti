@@ -1,0 +1,12 @@
+{
+  SchemaCompiler compiler=XJC.createSchemaCompiler();
+  ErrorListener elForRun=new ConsoleErrorReporter();
+  compiler.setErrorListener(elForRun);
+  Element rootTypes=this.getRootTypes();
+  this.createDefaultStructures(rootTypes);
+  S2JJAXBModel intermediateModel=this.compileModel(types,compiler,rootTypes);
+  Collection<? extends Mapping> mappings=intermediateModel.getMappings();
+  for (  Mapping mapping : mappings) {
+    this.importStructure(mapping);
+  }
+}
