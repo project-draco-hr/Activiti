@@ -1,0 +1,11 @@
+{
+  final Job job=managementService.createJobQuery().processInstanceId(processInstanceId).singleResult();
+  commandExecutor.execute(new Command<Void>(){
+    public Void execute(    CommandContext commandContext){
+      JobEntity timer=commandContext.getDbSqlSession().selectById(JobEntity.class,job.getId());
+      timer.setRetries(retries);
+      return null;
+    }
+  }
+);
+}

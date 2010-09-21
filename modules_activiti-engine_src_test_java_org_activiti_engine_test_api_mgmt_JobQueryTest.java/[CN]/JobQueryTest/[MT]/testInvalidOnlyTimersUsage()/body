@@ -1,0 +1,9 @@
+{
+  try {
+    managementService.createJobQuery().onlyTimers().onlyMessages().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("Cannot combine onlyTimers() with onlyMessages() in the same query",e.getMessage());
+  }
+}

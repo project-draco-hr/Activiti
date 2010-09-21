@@ -1,0 +1,26 @@
+{
+  super.setUp();
+  this.commandExecutor=processEngineConfiguration.getCommandExecutor();
+  deploymentId=repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/mgmt/timerOnTask.bpmn20.xml").deploy().getId();
+  Date t1=new Date();
+  ClockUtil.setCurrentTime(t1);
+  processInstanceIdOne=runtimeService.startProcessInstanceByKey("timerOnTask").getId();
+  testStartTime=t1;
+  timerOneFireTime=new Date(t1.getTime() + ONE_HOUR);
+  Date t2=new Date(t1.getTime() + ONE_HOUR);
+  ClockUtil.setCurrentTime(t2);
+  processInstanceIdTwo=runtimeService.startProcessInstanceByKey("timerOnTask").getId();
+  timerTwoFireTime=new Date(t2.getTime() + ONE_HOUR);
+  Date t3=new Date(t2.getTime() + ONE_HOUR);
+  ClockUtil.setCurrentTime(t3);
+  processInstanceIdThree=runtimeService.startProcessInstanceByKey("timerOnTask").getId();
+  timerThreeFireTime=new Date(t3.getTime() + ONE_HOUR);
+  messageId=commandExecutor.execute(new Command<String>(){
+    public String execute(    CommandContext commandContext){
+      MessageEntity message=new MessageEntity();
+      commandContext.getMessageSession().send(message);
+      return message.getId();
+    }
+  }
+);
+}

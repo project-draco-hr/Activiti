@@ -1,0 +1,6 @@
+{
+  JobQuery query=managementService.createJobQuery().withRetriesLeft();
+  verifyQueryResults(query,4);
+  setRetries(processInstanceIdOne,0);
+  verifyQueryResults(query,3);
+}

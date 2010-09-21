@@ -1,0 +1,6 @@
+{
+  Job job=managementService.createJobQuery().processInstanceId(processInstanceIdOne).singleResult();
+  JobQuery query=managementService.createJobQuery().executionId(job.getExecutionId());
+  assertEquals(query.singleResult().getId(),job.getId());
+  verifyQueryResults(query,1);
+}

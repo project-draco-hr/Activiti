@@ -1,0 +1,10 @@
+{
+  JobQuery query=managementService.createJobQuery().executionId("invalid");
+  verifyQueryResults(query,0);
+  try {
+    managementService.createJobQuery().executionId(null).list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}
