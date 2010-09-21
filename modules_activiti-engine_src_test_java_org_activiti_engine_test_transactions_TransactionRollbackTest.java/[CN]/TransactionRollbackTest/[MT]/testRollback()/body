@@ -1,0 +1,9 @@
+{
+  try {
+    runtimeService.startProcessInstanceByKey("RollbackProcess");
+  }
+ catch (  Exception e) {
+    assertEquals("Buzzz",e.getMessage());
+  }
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+}
