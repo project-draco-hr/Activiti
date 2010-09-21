@@ -1,0 +1,10 @@
+{
+  try {
+    JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
+    processEngineConfiguration.getCommandExecutor().execute(new ControllableAcquireJobsCmd(jobExecutor));
+  }
+ catch (  ActivitiOptimisticLockingException e) {
+    this.exception=e;
+  }
+  log.fine(getName() + " ends");
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    runtimeService.signal(executionId);
+  }
+ catch (  ActivitiOptimisticLockingException e) {
+    this.exception=e;
+  }
+  log.fine(getName() + " ends");
+}

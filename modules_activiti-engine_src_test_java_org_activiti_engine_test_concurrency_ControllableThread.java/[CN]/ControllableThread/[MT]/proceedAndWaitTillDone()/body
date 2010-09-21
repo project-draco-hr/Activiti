@@ -1,0 +1,10 @@
+{
+  log.fine("test thread will notify " + getName() + " and wait until it completes");
+  notify();
+  try {
+    join();
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+  }
+}

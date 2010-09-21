@@ -1,0 +1,16 @@
+{
+  runtimeService.startProcessInstanceByKey("CompetingJobAcquisitionProcess");
+  log.fine("test thread starts thread one");
+  JobAcquisitionThread threadOne=new JobAcquisitionThread();
+  threadOne.startAndWaitUntilControlIsReturned();
+  log.fine("test thread continues to start thread two");
+  JobAcquisitionThread threadTwo=new JobAcquisitionThread();
+  threadTwo.startAndWaitUntilControlIsReturned();
+  log.fine("test thread notifies thread 1");
+  threadOne.proceedAndWaitTillDone();
+  assertNull(threadOne.exception);
+  log.fine("test thread notifies thread 2");
+  threadTwo.proceedAndWaitTillDone();
+  assertNotNull(threadTwo.exception);
+  assertTextPresent("was updated by another transaction concurrently",threadTwo.exception.getMessage());
+}

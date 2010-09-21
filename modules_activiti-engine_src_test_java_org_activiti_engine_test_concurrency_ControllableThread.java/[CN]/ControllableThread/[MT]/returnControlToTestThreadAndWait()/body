@@ -1,0 +1,10 @@
+{
+  log.fine(getName() + " will notify test thread and till test thread proceeds this thread");
+  this.notify();
+  try {
+    this.wait();
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+  }
+}
