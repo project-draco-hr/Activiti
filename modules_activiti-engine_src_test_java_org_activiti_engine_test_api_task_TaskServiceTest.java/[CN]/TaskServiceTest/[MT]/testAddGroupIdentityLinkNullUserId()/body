@@ -1,0 +1,9 @@
+{
+  try {
+    taskService.addGroupIdentityLink("taskId",null,IdentityLinkType.CANDIDATE);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("userId and groupId cannot both be null",ae.getMessage());
+  }
+}

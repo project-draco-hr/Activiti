@@ -1,9 +1,0 @@
-{
-  try {
-    taskService.addUserInvolvement("taskId",null,TaskInvolvementType.CANDIDATE);
-    fail("ActivitiException expected");
-  }
- catch (  ActivitiException ae) {
-    assertTextPresent("userId and groupId cannot both be null",ae.getMessage());
-  }
-}

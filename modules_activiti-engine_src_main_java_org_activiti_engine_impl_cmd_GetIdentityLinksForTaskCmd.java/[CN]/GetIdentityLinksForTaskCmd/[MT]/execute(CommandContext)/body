@@ -1,0 +1,11 @@
+{
+  TaskEntity task=commandContext.getTaskSession().findTaskById(taskId);
+  List<IdentityLink> identityLinks=(List)task.getIdentityLinks();
+  if (task.getAssignee() != null) {
+    IdentityLinkEntity identityLink=new IdentityLinkEntity();
+    identityLink.setUserId(task.getAssignee());
+    identityLink.setType(IdentityLinkType.ASSIGNEE);
+    identityLinks.add(identityLink);
+  }
+  return (List)task.getIdentityLinks();
+}
