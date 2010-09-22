@@ -1,0 +1,8 @@
+{
+  GroupQuery query=identityService.createGroupQuery().nameLike("%Famous%");
+  verifyQueryResults(query,2);
+  query=identityService.createGroupQuery().nameLike("Famous%");
+  verifyQueryResults(query,2);
+  query=identityService.createGroupQuery().nameLike("%show%");
+  verifyQueryResults(query,1);
+}

@@ -1,0 +1,15 @@
+{
+  assertEquals(3,identityService.createUserQuery().orderById().asc().count());
+  assertEquals(3,identityService.createUserQuery().orderByEmail().asc().count());
+  assertEquals(3,identityService.createUserQuery().orderByFirstName().asc().count());
+  assertEquals(3,identityService.createUserQuery().orderByLastName().asc().count());
+  assertEquals(3,identityService.createUserQuery().orderById().desc().count());
+  assertEquals(3,identityService.createUserQuery().orderByEmail().desc().count());
+  assertEquals(3,identityService.createUserQuery().orderByFirstName().desc().count());
+  assertEquals(3,identityService.createUserQuery().orderByLastName().desc().count());
+  UserQuery query=identityService.createUserQuery().lastNameLike("%ea%").orderByFirstName().asc();
+  List<User> users=query.list();
+  assertEquals(2,users.size());
+  assertEquals("Fozzie",users.get(0).getFirstName());
+  assertEquals("Gonzo",users.get(1).getFirstName());
+}

@@ -1,0 +1,10 @@
+{
+  GroupQuery query=identityService.createGroupQuery().nameLike("%invalid%");
+  verifyQueryResults(query,0);
+  try {
+    identityService.createGroupQuery().nameLike(null).list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

@@ -1,0 +1,10 @@
+{
+  UserQuery query=identityService.createUserQuery().lastName("invalid");
+  verifyQueryResults(query,0);
+  try {
+    identityService.createUserQuery().lastName(null).singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

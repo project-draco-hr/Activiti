@@ -1,9 +1,9 @@
 {
   try {
-    identityService.findGroupById(null);
+    identityService.createGroupQuery().id(null).singleResult();
     fail("ActivitiException expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("groupId is null",ae.getMessage());
+    assertTextPresent("id is null",ae.getMessage());
   }
 }

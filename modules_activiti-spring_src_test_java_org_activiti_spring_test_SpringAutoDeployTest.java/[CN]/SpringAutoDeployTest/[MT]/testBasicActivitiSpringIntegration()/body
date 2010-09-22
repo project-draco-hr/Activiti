@@ -11,7 +11,7 @@
   expectedProcessDefinitionKeys.add("b");
   expectedProcessDefinitionKeys.add("c");
   assertEquals(expectedProcessDefinitionKeys,processDefinitionKeys);
-  String deploymentId=repositoryService.findDeployments().get(0).getId();
+  String deploymentId=repositoryService.createDeploymentQuery().list().get(0).getId();
   repositoryService.deleteDeploymentCascade(deploymentId);
   applicationContext.destroy();
 }

@@ -1,7 +1,12 @@
 {
   String user=getMandatoryString(req,"user");
   TaskService ts=getTaskService();
-  List<Group> groups=getIdentityService().findGroupsByUserIdAndGroupType(user,config.getAssignmentGroupTypeId());
+  GroupQuery query=getIdentityService().createGroupQuery().member(user);
+  String assignmentGroupType=config.getAssignmentGroupTypeId();
+  if (assignmentGroupType != null) {
+    query.type(assignmentGroupType);
+  }
+  List<Group> groups=query.list();
   Map<String,Long> unassignedByGroup=new HashMap<String,Long>();
   long tasksInGroup;
   for (  Group group : groups) {

@@ -1,0 +1,10 @@
+{
+  UserQuery query=identityService.createUserQuery().emailLike("%invalid%");
+  verifyQueryResults(query,0);
+  try {
+    identityService.createUserQuery().emailLike(null).singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

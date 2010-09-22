@@ -1,5 +1,5 @@
 {
-  List<User> users=identityService.findUsersByGroupId("unexistinggroup");
+  List<User> users=identityService.createUserQuery().memberOfGroup("unexistinggroup").list();
   assertNotNull(users);
   assertTrue(users.isEmpty());
 }

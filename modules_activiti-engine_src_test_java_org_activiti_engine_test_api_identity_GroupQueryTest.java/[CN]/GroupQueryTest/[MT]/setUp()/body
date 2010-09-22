@@ -1,0 +1,17 @@
+{
+  super.setUp();
+  createGroup("muppets","Muppet show characters","user");
+  createGroup("frogs","Famous frogs","user");
+  createGroup("mammals","Famous mammals from eighties","user");
+  createGroup("admin","Administrators","security");
+  identityService.saveUser(identityService.newUser("kermit"));
+  identityService.saveUser(identityService.newUser("fozzie"));
+  identityService.saveUser(identityService.newUser("mispiggy"));
+  identityService.createMembership("kermit","muppets");
+  identityService.createMembership("fozzie","muppets");
+  identityService.createMembership("mispiggy","muppets");
+  identityService.createMembership("kermit","frogs");
+  identityService.createMembership("fozzie","mammals");
+  identityService.createMembership("mispiggy","mammals");
+  identityService.createMembership("kermit","admin");
+}

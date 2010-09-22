@@ -1,0 +1,13 @@
+{
+  assertEquals(countExpected,query.list().size());
+  assertEquals(countExpected,query.count());
+  if (countExpected == 1) {
+    assertNotNull(query.singleResult());
+  }
+ else   if (countExpected > 1) {
+    verifySingleResultFails(query);
+  }
+ else   if (countExpected == 0) {
+    assertNull(query.singleResult());
+  }
+}

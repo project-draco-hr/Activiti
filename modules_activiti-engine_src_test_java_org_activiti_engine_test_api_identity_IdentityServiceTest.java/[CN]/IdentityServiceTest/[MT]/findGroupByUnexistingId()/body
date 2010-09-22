@@ -1,4 +1,4 @@
 {
-  Group group=identityService.findGroupById("unexistinggroup");
+  Group group=identityService.createGroupQuery().id("unexistinggroup").singleResult();
   assertNull(group);
 }

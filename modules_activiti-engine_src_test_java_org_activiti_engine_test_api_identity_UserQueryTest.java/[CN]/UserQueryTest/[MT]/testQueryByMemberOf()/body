@@ -1,0 +1,8 @@
+{
+  UserQuery query=identityService.createUserQuery().memberOfGroup("muppets");
+  verifyQueryResults(query,3);
+  query=identityService.createUserQuery().memberOfGroup("frogs");
+  verifyQueryResults(query,1);
+  User result=query.singleResult();
+  assertEquals("kermit",result.getId());
+}

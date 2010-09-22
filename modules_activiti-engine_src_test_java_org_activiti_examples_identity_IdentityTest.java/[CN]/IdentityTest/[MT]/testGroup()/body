@@ -2,7 +2,7 @@
   Group group=identityService.newGroup("sales");
   group.setName("Sales division");
   identityService.saveGroup(group);
-  group=identityService.findGroupById("sales");
+  group=identityService.createGroupQuery().id("sales").singleResult();
   assertEquals("sales",group.getId());
   assertEquals("Sales division",group.getName());
   identityService.deleteGroup("sales");

@@ -1,0 +1,17 @@
+{
+  GroupQuery query=identityService.createGroupQuery().member("fozzie");
+  verifyQueryResults(query,2);
+  query=identityService.createGroupQuery().member("kermit");
+  verifyQueryResults(query,3);
+  query=query.orderById().asc();
+  List<Group> groups=query.list();
+  assertEquals(3,groups.size());
+  assertEquals("admin",groups.get(0).getId());
+  assertEquals("frogs",groups.get(1).getId());
+  assertEquals("muppets",groups.get(2).getId());
+  query=query.type("user");
+  groups=query.list();
+  assertEquals(2,groups.size());
+  assertEquals("frogs",groups.get(0).getId());
+  assertEquals("muppets",groups.get(1).getId());
+}

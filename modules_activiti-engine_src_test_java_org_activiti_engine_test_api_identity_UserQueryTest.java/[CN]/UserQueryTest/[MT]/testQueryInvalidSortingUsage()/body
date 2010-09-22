@@ -1,0 +1,14 @@
+{
+  try {
+    identityService.createUserQuery().orderById().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    identityService.createUserQuery().orderById().orderByEmail().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

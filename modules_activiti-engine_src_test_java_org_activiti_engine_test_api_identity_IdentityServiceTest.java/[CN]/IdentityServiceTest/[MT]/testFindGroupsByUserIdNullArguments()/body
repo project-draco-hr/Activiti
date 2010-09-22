@@ -1,6 +1,6 @@
 {
   try {
-    identityService.findGroupsByUserId(null);
+    identityService.createGroupQuery().member(null).singleResult();
     fail("ActivitiException expected");
   }
  catch (  ActivitiException ae) {

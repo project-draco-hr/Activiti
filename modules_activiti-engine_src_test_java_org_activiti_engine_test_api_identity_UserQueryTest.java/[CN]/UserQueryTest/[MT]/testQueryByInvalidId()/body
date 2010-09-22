@@ -1,0 +1,10 @@
+{
+  UserQuery query=identityService.createUserQuery().id("invalid");
+  verifyQueryResults(query,0);
+  try {
+    identityService.createUserQuery().id(null).singleResult();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

@@ -1,0 +1,6 @@
+{
+  UserQuery query=identityService.createUserQuery().lastName("Bear");
+  verifyQueryResults(query,1);
+  User result=query.singleResult();
+  assertEquals("fozzie",result.getId());
+}

@@ -1,0 +1,12 @@
+{
+  super.setUp();
+  createUser("kermit","Kermit","Thefrog","kermit@muppetshow.com");
+  createUser("fozzie","Fozzie","Bear","fozzie@muppetshow.com");
+  createUser("gonzo","Gonzo","The great","gonzo@muppetshow.com");
+  identityService.saveGroup(identityService.newGroup("muppets"));
+  identityService.saveGroup(identityService.newGroup("frogs"));
+  identityService.createMembership("kermit","muppets");
+  identityService.createMembership("kermit","frogs");
+  identityService.createMembership("fozzie","muppets");
+  identityService.createMembership("gonzo","muppets");
+}

@@ -1,4 +1,4 @@
 {
   String groupId=req.getServiceMatch().getTemplateVars().get("groupId");
-  model.put("group",getIdentityService().findGroupById(groupId));
+  model.put("group",getIdentityService().createGroupQuery().id(groupId).singleResult());
 }

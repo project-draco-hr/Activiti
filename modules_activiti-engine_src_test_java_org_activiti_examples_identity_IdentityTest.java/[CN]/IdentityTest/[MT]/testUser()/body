@@ -4,7 +4,7 @@
   user.setLastName("Doe");
   user.setEmail("johndoe@alfresco.com");
   identityService.saveUser(user);
-  user=identityService.findUser("johndoe");
+  user=identityService.createUserQuery().id("johndoe").singleResult();
   assertEquals("johndoe",user.getId());
   assertEquals("John",user.getFirstName());
   assertEquals("Doe",user.getLastName());
