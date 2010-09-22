@@ -1,6 +1,12 @@
 {
   if (!isConfigurationCompleted) {
-    notifyConfigurationComplete(commandExecutor);
+    commandExecutorTxRequired=initializeInterceptorChain(commandInterceptorsTxRequired);
+    if (commandInterceptorsTxRequiresNew != commandInterceptorsTxRequired) {
+      commandExecutorTxRequiresNew=initializeInterceptorChain(commandInterceptorsTxRequiresNew);
+    }
+ else {
+      commandExecutorTxRequiresNew=commandExecutorTxRequired;
+    }
     notifyConfigurationComplete(commandContextFactory);
     notifyConfigurationComplete(transactionContextFactory);
     notifyConfigurationComplete(repositoryService);

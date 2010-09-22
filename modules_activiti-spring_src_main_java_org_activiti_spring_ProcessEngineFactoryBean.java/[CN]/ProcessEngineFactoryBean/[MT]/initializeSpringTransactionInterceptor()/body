@@ -1,8 +1,17 @@
 {
   processEngineConfiguration.setLocalTransactions(transactionManager == null);
   if (transactionManager != null) {
-    DefaultCommandExecutor commandExecutor=(DefaultCommandExecutor)processEngineConfiguration.getCommandExecutor();
-    commandExecutor.addCommandInterceptor(new SpringTransactionInterceptor(transactionManager));
-    processEngineConfiguration.setCommandExecutor(commandExecutor);
+    List<CommandInterceptor> commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>();
+    commandInterceptorsTxRequired.add(new LogInterceptor());
+    commandInterceptorsTxRequired.add(new SpringTransactionInterceptor(transactionManager,TransactionTemplate.PROPAGATION_REQUIRED));
+    commandInterceptorsTxRequired.add(new CommandContextInterceptor());
+    commandInterceptorsTxRequired.add(new CommandExecutorImpl());
+    processEngineConfiguration.setCommandInterceptorsTxRequired(commandInterceptorsTxRequired);
+    List<CommandInterceptor> commandInterceptorsTxRequiresNew=new ArrayList<CommandInterceptor>();
+    commandInterceptorsTxRequiresNew.add(new LogInterceptor());
+    commandInterceptorsTxRequiresNew.add(new SpringTransactionInterceptor(transactionManager,TransactionTemplate.PROPAGATION_REQUIRES_NEW));
+    commandInterceptorsTxRequiresNew.add(new CommandContextInterceptor());
+    commandInterceptorsTxRequiresNew.add(new CommandExecutorImpl());
+    processEngineConfiguration.setCommandInterceptorsTxRequiresNew(commandInterceptorsTxRequiresNew);
   }
 }

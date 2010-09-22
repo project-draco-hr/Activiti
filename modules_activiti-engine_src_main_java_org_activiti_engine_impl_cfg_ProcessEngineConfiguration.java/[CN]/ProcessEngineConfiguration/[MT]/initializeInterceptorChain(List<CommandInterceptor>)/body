@@ -1,0 +1,15 @@
+{
+  if (chain == null || chain.isEmpty()) {
+    throw new ActivitiException("invalid command interceptor chain configuration: " + chain);
+  }
+  for (int i=0; i < chain.size() - 1; i++) {
+    chain.get(i).setNext(chain.get(i + 1));
+  }
+  for (int i=0; i < chain.size(); i++) {
+    CommandInterceptor commandExecutor=chain.get(i);
+    if (commandExecutor instanceof ProcessEngineConfigurationAware) {
+      ((ProcessEngineConfigurationAware)commandExecutor).configurationCompleted(this);
+    }
+  }
+  return chain.get(0);
+}

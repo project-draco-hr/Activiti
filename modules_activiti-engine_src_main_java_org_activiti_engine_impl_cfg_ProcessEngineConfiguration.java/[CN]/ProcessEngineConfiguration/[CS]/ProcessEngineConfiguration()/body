@@ -1,6 +1,10 @@
 {
   processEngineName=ProcessEngines.NAME_DEFAULT;
-  commandExecutor=new DefaultCommandExecutor();
+  commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>();
+  commandInterceptorsTxRequired.add(new LogInterceptor());
+  commandInterceptorsTxRequired.add(new CommandContextInterceptor());
+  commandInterceptorsTxRequired.add(new CommandExecutorImpl());
+  commandInterceptorsTxRequiresNew=commandInterceptorsTxRequired;
   commandContextFactory=new CommandContextFactory(this);
   transactionContextFactory=new StandaloneIbatisTransactionContextFactory();
   repositoryService=new RepositoryServiceImpl();

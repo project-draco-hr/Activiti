@@ -1,6 +1,6 @@
 {
   super.setUp();
-  this.commandExecutor=processEngineConfiguration.getCommandExecutor();
+  this.commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
   deploymentId=repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/mgmt/timerOnTask.bpmn20.xml").deploy().getId();
   Date t1=new Date();
   ClockUtil.setCurrentTime(t1);

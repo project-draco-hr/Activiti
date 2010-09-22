@@ -1,0 +1,11 @@
+{
+  log.fine("                                                                                                    ");
+  log.fine("--- starting " + ClassNameUtil.getClassNameWithoutPackage(command) + " --------------------------------------------------------");
+  try {
+    return next.execute(command);
+  }
+  finally {
+    log.fine("--- " + ClassNameUtil.getClassNameWithoutPackage(command) + " finished --------------------------------------------------------");
+    log.fine("                                                                                                    ");
+  }
+}
