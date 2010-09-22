@@ -1,0 +1,7 @@
+{
+  ActivitiRequest.ActivitiWebScriptBody body=req.getBody();
+  String processDefinitionId=req.getMandatoryString(body,"processDefinitionId");
+  Map<String,Object> variables=req.getFormVariables(body);
+  variables.remove("processDefinitionId");
+  model.put("instance",getRuntimeService().startProcessInstanceById(processDefinitionId,variables));
+}

@@ -1,0 +1,19 @@
+{
+  String user=req.getMandatoryString("user");
+  TaskService ts=getTaskService();
+  GroupQuery query=getIdentityService().createGroupQuery().member(user);
+  String assignmentGroupType=config.getAssignmentGroupTypeId();
+  if (assignmentGroupType != null) {
+    query.type(assignmentGroupType);
+  }
+  List<Group> groups=query.list();
+  Map<String,Long> unassignedByGroup=new HashMap<String,Long>();
+  long tasksInGroup;
+  for (  Group group : groups) {
+    tasksInGroup=ts.createTaskQuery().candidateGroup(group.getId()).count();
+    unassignedByGroup.put(group.getId(),tasksInGroup);
+  }
+  model.put("unassignedByGroup",unassignedByGroup);
+  model.put("unassigned",ts.createTaskQuery().candidateUser(user).count());
+  model.put("assigned",ts.createTaskQuery().assignee(user).count());
+}

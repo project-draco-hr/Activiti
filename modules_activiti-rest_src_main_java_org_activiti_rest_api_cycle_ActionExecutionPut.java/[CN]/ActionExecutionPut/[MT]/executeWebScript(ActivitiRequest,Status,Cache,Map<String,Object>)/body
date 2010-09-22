@@ -1,0 +1,17 @@
+{
+  String artifactId=req.getMandatoryString("artifactId");
+  String actionId=req.getMandatoryString("actionName");
+  String cuid=req.getCurrentUserId();
+  HttpSession session=req.getHttpSession();
+  RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
+  ActivitiRequest.ActivitiWebScriptBody body=req.getBody();
+  Map<String,Object> parameters=req.getFormVariables(body);
+  try {
+    conn.executeParameterizedAction(artifactId,actionId,parameters);
+    model.put("result",true);
+  }
+ catch (  Exception e) {
+    model.put("result",false);
+    throw new RuntimeException(e);
+  }
+}

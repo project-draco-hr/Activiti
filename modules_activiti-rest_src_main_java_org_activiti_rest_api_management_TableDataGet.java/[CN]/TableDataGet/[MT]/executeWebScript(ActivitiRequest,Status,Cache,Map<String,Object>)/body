@@ -1,0 +1,21 @@
+{
+  String tableName=req.getMandatoryPathParameter("tableName");
+  int size=req.getInt("size",10);
+  int firstResult=req.getInt("start",10);
+  int maxResults=size;
+  TablePageQuery query=getManagementService().createTablePageQuery().tableName(tableName);
+  String sort=req.getString("sort");
+  if (sort != null && !sort.trim().equals("")) {
+    model.put("sortColumn",sort);
+    String order=req.getString("order","asc");
+    model.put("sortOrder",order);
+    if (order.equals("asc")) {
+      query.orderAsc(sort);
+    }
+ else {
+      query.orderDesc(sort);
+    }
+  }
+  model.put("size",maxResults);
+  model.put("tablePage",query.listPage(firstResult,maxResults));
+}

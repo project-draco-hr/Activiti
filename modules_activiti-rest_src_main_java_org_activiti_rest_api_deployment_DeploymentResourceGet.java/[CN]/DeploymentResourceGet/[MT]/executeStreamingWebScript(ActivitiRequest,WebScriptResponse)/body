@@ -1,0 +1,15 @@
+{
+  String deploymentId=req.getMandatoryPathParameter("deploymentId"), resourceName=req.getMandatoryPathParameter("resourceName");
+  InputStream resource=getRepositoryService().getResourceAsStream(deploymentId,resourceName);
+  if (resource != null) {
+    try {
+      streamResponse(res,resource,new Date(0),null,true,resourceName,getMimeType(resource));
+    }
+ catch (    IOException e) {
+      throw new WebScriptException(Status.STATUS_INTERNAL_SERVER_ERROR,"The resource with name '" + resourceName + "' for deployment with id '"+ deploymentId+ "' could not be streamed: "+ e.getMessage());
+    }
+  }
+ else {
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no resource with name '" + resourceName + "' for deployment with id '"+ deploymentId+ "'.");
+  }
+}

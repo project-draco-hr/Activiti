@@ -1,0 +1,20 @@
+{
+  String cuid=req.getCurrentUserId();
+  HttpSession session=req.getHttpServletRequest().getSession(true);
+  RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
+  String id=req.getString("id");
+  boolean folder=Boolean.parseBoolean(req.getString("folder"));
+  if (folder) {
+    try {
+      RepositoryNodeCollection children=conn.getChildren(id);
+      model.put("files",children.getArtifactList());
+      model.put("folders",children.getFolderList());
+      return;
+    }
+ catch (    RepositoryException e) {
+      log.log(Level.SEVERE,"Cannot load children for id '" + id + "'",e);
+    }
+  }
+  model.put("files",new ArrayList<RepositoryArtifact>());
+  model.put("folders",new ArrayList<RepositoryFolder>());
+}

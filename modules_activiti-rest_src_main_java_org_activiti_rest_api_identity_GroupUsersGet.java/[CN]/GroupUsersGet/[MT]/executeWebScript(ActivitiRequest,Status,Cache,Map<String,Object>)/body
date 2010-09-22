@@ -1,0 +1,4 @@
+{
+  String groupId=req.getMandatoryPathParameter("groupId");
+  model.put("users",getIdentityService().createUserQuery().memberOfGroup(groupId).list());
+}

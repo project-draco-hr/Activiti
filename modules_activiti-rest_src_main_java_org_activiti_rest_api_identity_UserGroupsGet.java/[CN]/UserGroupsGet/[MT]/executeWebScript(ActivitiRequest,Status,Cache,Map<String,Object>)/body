@@ -1,0 +1,14 @@
+{
+  String userId=req.getMandatoryPathParameter("userId");
+  String groupType=req.getString("type");
+  if (groupType != null && !groupType.trim().equals("")) {
+    GroupQuery query=getIdentityService().createGroupQuery().member(userId);
+    if (groupType != null) {
+      query.type(groupType);
+    }
+    model.put("groups",query.list());
+  }
+ else {
+    model.put("groups",getIdentityService().createGroupQuery().member(userId).list());
+  }
+}

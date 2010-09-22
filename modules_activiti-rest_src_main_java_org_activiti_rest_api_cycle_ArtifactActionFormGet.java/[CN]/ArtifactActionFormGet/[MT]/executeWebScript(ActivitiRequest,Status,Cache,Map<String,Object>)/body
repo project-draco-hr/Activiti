@@ -1,0 +1,24 @@
+{
+  String artifactId=req.getMandatoryString("artifactId");
+  String actionId=req.getMandatoryString("actionName");
+  String cuid=req.getCurrentUserId();
+  HttpSession session=req.getHttpSession();
+  RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
+  RepositoryArtifact artifact=conn.getRepositoryArtifact(artifactId);
+  if (artifact == null) {
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "'.");
+  }
+  String form=null;
+  for (  ParameterizedAction action : artifact.getArtifactType().getParameterizedActions()) {
+    if (action.getId().equals(actionId)) {
+      form=action.getFormAsHtml();
+      break;
+    }
+  }
+  if (form != null) {
+    model.put("form",form);
+  }
+ else {
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no form for action '" + actionId + "'.");
+  }
+}
