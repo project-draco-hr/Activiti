@@ -1,5 +1,7 @@
 {
-  @SuppressWarnings("unchecked") T result=(T)new TransactionTemplate(transactionManager).execute(new TransactionCallback(){
+  TransactionTemplate transactionTemplate=new TransactionTemplate(transactionManager);
+  transactionTemplate.setPropagationBehavior(TransactionTemplate.PROPAGATION_REQUIRES_NEW);
+  T result=(T)transactionTemplate.execute(new TransactionCallback(){
     public Object doInTransaction(    TransactionStatus status){
       return next.execute(command);
     }
