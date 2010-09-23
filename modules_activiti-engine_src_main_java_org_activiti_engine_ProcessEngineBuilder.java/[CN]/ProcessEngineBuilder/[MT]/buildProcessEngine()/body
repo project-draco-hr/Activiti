@@ -4,8 +4,8 @@
   }
   ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
   processEngineConfiguration.setProcessEngineName(processEngineName);
-  processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
   processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
+  processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
   processEngineConfiguration.setJdbcDriver(jdbcDriver);
   processEngineConfiguration.setJdbcUrl(jdbcUrl);
   processEngineConfiguration.setJdbcUsername(jdbcUsername);
@@ -13,5 +13,10 @@
   processEngineConfiguration.setDatabaseName(databaseName);
   processEngineConfiguration.setLocalTransactions(localTransactions);
   processEngineConfiguration.setWsSyncFactoryClassName(wsSyncFactoryClassName);
+  processEngineConfiguration.setMailServerSmtpHost(mailServerSmtpHost);
+  processEngineConfiguration.setMailServerSmtpPort(mailServerSmtpPort);
+  processEngineConfiguration.setMailServerSmtpUserName(mailServerSmtpUserName);
+  processEngineConfiguration.setMailServerSmtpPassword(mailServerSmtpPassword);
+  processEngineConfiguration.setMailServerDefaultFrom(mailServerDefaultFrom);
   return processEngineConfiguration.buildProcessEngine();
 }

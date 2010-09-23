@@ -1,0 +1,10 @@
+{
+  SimpleEmail email=new SimpleEmail();
+  try {
+    email.setMsg(text);
+    return email;
+  }
+ catch (  EmailException e) {
+    throw new ActivitiException("Could not create text-only email",e);
+  }
+}

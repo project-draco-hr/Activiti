@@ -1,0 +1,13 @@
+{
+  String[] ccs=splitAndTrim(cc);
+  if (ccs != null) {
+    for (    String c : ccs) {
+      try {
+        email.addCc(c);
+      }
+ catch (      EmailException e) {
+        throw new ActivitiException("Could not add " + c + " as cc recipient",e);
+      }
+    }
+  }
+}

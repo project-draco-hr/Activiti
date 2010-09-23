@@ -1,0 +1,11 @@
+{
+  if (html != null) {
+    return createHtmlEmail();
+  }
+ else   if (text != null) {
+    return createTextOnlyEmail();
+  }
+ else {
+    throw new ActivitiException("'html' or 'text' is required to be defined when using the mail activity");
+  }
+}

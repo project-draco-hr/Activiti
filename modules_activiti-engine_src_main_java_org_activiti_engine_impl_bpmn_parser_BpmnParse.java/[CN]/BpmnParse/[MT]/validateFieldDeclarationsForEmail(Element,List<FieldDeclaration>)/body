@@ -1,0 +1,11 @@
+{
+  boolean toDefined=false;
+  for (  FieldDeclaration fieldDeclaration : fieldDeclarations) {
+    if (fieldDeclaration.getName().equals("to")) {
+      toDefined=true;
+    }
+  }
+  if (!toDefined) {
+    addProblem("No recipient is defined on the mail activity",serviceTaskElement);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  if (fieldDeclarations != null) {
+    for (    FieldDeclaration fieldDeclaration : fieldDeclarations) {
+      Field field=ReflectUtil.getField(fieldDeclaration.getName(),object);
+      if (field == null) {
+        throw new ActivitiException("Invalid field declaration " + fieldDeclaration.getName() + " not found on"+ object.getClass().getCanonicalName());
+      }
+      ReflectUtil.setField(field,object,fieldDeclaration.getValueExpression().getValue(execution));
+    }
+  }
+}
