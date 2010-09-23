@@ -9,8 +9,7 @@
   List<FieldDeclaration> fieldDeclarations=parseFieldDeclarations(serviceTaskElement);
   if (type != null) {
     if (type.equalsIgnoreCase("mail")) {
-      validateFieldDeclarationsForEmail(serviceTaskElement,fieldDeclarations);
-      activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(new MailActivityBehavior(),fieldDeclarations));
+      parseEmailServiceTask(activity,serviceTaskElement,fieldDeclarations);
     }
  else {
       addProblem("Invalid usage of type attribute: '" + type + "'",serviceTaskElement);

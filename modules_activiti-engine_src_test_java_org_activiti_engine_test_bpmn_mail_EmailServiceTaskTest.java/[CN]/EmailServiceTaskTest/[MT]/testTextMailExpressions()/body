@@ -1,0 +1,16 @@
+{
+  String sender="mispiggy@activiti.org";
+  String recipient="fozziebear@activiti.org";
+  String recipientName="Mr. Fozzie";
+  String subject="Fozzie, you should see this!";
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("sender",sender);
+  vars.put("recipient",recipient);
+  vars.put("recipientName",recipientName);
+  vars.put("subject",subject);
+  runtimeService.startProcessInstanceByKey("textMailExpressions",vars);
+  List<WiserMessage> messages=wiser.getMessages();
+  assertEquals(1,messages.size());
+  WiserMessage message=messages.get(0);
+  assertEmailSend(message,false,subject,"Hello " + recipientName + ", this is an e-mail",sender,Arrays.asList(recipient),null);
+}

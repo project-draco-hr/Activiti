@@ -1,0 +1,13 @@
+{
+  runtimeService.startProcessInstanceByKey("simpleTextOnlyMultipleRecipients");
+  List<WiserMessage> messages=wiser.getMessages();
+  assertEquals(3,messages.size());
+  List<String> recipients=new ArrayList<String>();
+  for (  WiserMessage message : messages) {
+    recipients.add(message.getEnvelopeReceiver());
+  }
+  Collections.sort(recipients);
+  assertEquals("fozzie@activiti.org",recipients.get(0));
+  assertEquals("kermit@activiti.org",recipients.get(1));
+  assertEquals("mispiggy@activiti.org",recipients.get(2));
+}

@@ -1,29 +1,14 @@
 {
-  List<Element> fieldDeclarationElements=serviceTaskElement.elementsNS(BpmnParser.BPMN_EXTENSIONS_NS,"field");
-  if (fieldDeclarationElements != null && !fieldDeclarationElements.isEmpty()) {
-    List<FieldDeclaration> fieldDeclarations=new ArrayList<FieldDeclaration>();
-    for (    Element fieldDeclarationElement : fieldDeclarationElements) {
-      String fieldName=fieldDeclarationElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"name");
-      String type="java.lang.String";
-      ActivitiValueExpression valueExpression=null;
-      try {
-        Element stringElement=fieldDeclarationElement.elementNS(BpmnParser.BPMN_EXTENSIONS_NS,"string");
-        String value=stringElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"value");
-        String text=stringElement.getText();
-        if (value != null && (text != null || text.length() == 0)) {
-          addProblem("Invalid: both value and a text are provided",stringElement);
-        }
-        valueExpression=expressionManager.createValueExpression(value != null ? value : text);
+  List<FieldDeclaration> fieldDeclarations=new ArrayList<FieldDeclaration>();
+  Element extensionElement=serviceTaskElement.element("extensionElements");
+  if (extensionElement != null) {
+    List<Element> fieldDeclarationElements=extensionElement.elementsNS(BpmnParser.BPMN_EXTENSIONS_NS,"field");
+    if (fieldDeclarationElements != null && !fieldDeclarationElements.isEmpty()) {
+      for (      Element fieldDeclarationElement : fieldDeclarationElements) {
+        FieldDeclaration fieldDeclaration=parseFieldDeclaration(serviceTaskElement,fieldDeclarationElement);
+        fieldDeclarations.add(fieldDeclaration);
       }
- catch (      ActivitiException e) {
-        addProblem("Invalid: multiple field declarations found",serviceTaskElement);
-      }
-      FieldDeclaration fieldDeclaration=new FieldDeclaration(fieldName,type,valueExpression);
-      fieldDeclarations.add(fieldDeclaration);
     }
-    return fieldDeclarations;
   }
- else {
-    return null;
-  }
+  return fieldDeclarations;
 }

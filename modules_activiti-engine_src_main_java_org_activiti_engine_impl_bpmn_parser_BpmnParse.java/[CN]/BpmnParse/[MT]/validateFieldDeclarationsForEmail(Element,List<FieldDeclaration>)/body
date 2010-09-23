@@ -1,11 +1,21 @@
 {
   boolean toDefined=false;
+  boolean textOrHtmlDefined=false;
   for (  FieldDeclaration fieldDeclaration : fieldDeclarations) {
     if (fieldDeclaration.getName().equals("to")) {
       toDefined=true;
     }
+    if (fieldDeclaration.getName().equals("html")) {
+      textOrHtmlDefined=true;
+    }
+    if (fieldDeclaration.getName().equals("text")) {
+      textOrHtmlDefined=true;
+    }
   }
   if (!toDefined) {
     addProblem("No recipient is defined on the mail activity",serviceTaskElement);
+  }
+  if (!textOrHtmlDefined) {
+    addProblem("Text or html field should be provided",serviceTaskElement);
   }
 }

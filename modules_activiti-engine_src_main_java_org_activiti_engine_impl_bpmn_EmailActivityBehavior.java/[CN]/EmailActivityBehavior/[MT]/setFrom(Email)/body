@@ -1,0 +1,15 @@
+{
+  String fromAddres=null;
+  if (this.from != null) {
+    fromAddres=from;
+  }
+ else {
+    fromAddres=CommandContext.getCurrent().getProcessEngineConfiguration().getMailServerDefaultFrom();
+  }
+  try {
+    email.setFrom(fromAddres);
+  }
+ catch (  EmailException e) {
+    throw new ActivitiException("Could not set " + from + " as from address in email",e);
+  }
+}

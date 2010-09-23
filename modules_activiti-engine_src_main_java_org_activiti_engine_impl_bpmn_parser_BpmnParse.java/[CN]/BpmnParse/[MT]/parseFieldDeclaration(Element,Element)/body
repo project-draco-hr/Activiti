@@ -1,0 +1,19 @@
+{
+  String fieldName=fieldDeclarationElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"name");
+  String type="java.lang.String";
+  ActivitiValueExpression valueExpression=null;
+  try {
+    Element stringElement=fieldDeclarationElement.elementNS(BpmnParser.BPMN_EXTENSIONS_NS,"string");
+    String value=stringElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"value");
+    String text=stringElement.getText();
+    if (value != null && (text != null || text.length() == 0)) {
+      addProblem("Invalid: both value and a text are provided",stringElement);
+    }
+    valueExpression=expressionManager.createValueExpression(value != null ? value : text);
+  }
+ catch (  ActivitiException e) {
+    addProblem("Invalid: multiple field declarations found",serviceTaskElement);
+  }
+  FieldDeclaration fieldDeclaration=new FieldDeclaration(fieldName,type,valueExpression);
+  return fieldDeclaration;
+}
