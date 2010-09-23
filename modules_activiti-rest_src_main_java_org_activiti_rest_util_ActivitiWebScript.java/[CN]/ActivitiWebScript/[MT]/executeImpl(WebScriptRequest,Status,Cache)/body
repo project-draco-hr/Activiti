@@ -1,5 +1,12 @@
 {
   Map<String,Object> model=new HashMap<String,Object>();
-  executeWebScript(new ActivitiRequest(req),status,cache,model);
+  try {
+    ActivitiRequest ar=new ActivitiRequest(req);
+    getIdentityService().setAuthenticatedUserId(ar.getCurrentUserId());
+    executeWebScript(ar,status,cache,model);
+  }
+  finally {
+    getIdentityService().setAuthenticatedUserId(null);
+  }
   return model;
 }

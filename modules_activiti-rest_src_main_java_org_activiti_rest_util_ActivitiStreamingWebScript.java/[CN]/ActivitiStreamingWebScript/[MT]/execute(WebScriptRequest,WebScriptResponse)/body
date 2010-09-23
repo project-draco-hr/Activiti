@@ -1,3 +1,10 @@
 {
-  executeStreamingWebScript(new ActivitiRequest(req),res);
+  try {
+    ActivitiRequest ar=new ActivitiRequest(req);
+    getIdentityService().setAuthenticatedUserId(ar.getCurrentUserId());
+    executeStreamingWebScript(new ActivitiRequest(req),res);
+  }
+  finally {
+    getIdentityService().setAuthenticatedUserId(null);
+  }
 }
