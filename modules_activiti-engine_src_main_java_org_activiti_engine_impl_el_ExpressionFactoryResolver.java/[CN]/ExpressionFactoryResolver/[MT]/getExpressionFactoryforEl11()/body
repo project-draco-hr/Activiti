@@ -1,0 +1,18 @@
+{
+  try {
+    Method newInstanceMethod=ExpressionFactory.class.getMethod("newInstance",new Class<?>[0]);
+    return (ExpressionFactory)newInstanceMethod.invoke(null,new Object[0]);
+  }
+ catch (  SecurityException e) {
+  }
+catch (  NoSuchMethodException e) {
+  }
+catch (  IllegalArgumentException e) {
+  }
+catch (  IllegalAccessException e) {
+  }
+catch (  InvocationTargetException e) {
+    throw new ActivitiException(e.getCause().getMessage(),e.getCause());
+  }
+  return null;
+}

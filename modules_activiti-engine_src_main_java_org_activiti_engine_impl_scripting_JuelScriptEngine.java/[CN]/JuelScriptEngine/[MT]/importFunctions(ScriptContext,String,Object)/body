@@ -1,0 +1,25 @@
+{
+  Class<?> clazz=null;
+  if (obj instanceof Class) {
+    clazz=(Class<?>)obj;
+  }
+ else   if (obj instanceof String) {
+    try {
+      clazz=Class.forName((String)obj);
+    }
+ catch (    ClassNotFoundException cnfe) {
+      throw new ELException(cnfe);
+    }
+  }
+ else {
+    throw new ELException("Class or class name is missing");
+  }
+  Method[] methods=clazz.getMethods();
+  for (  Method m : methods) {
+    int mod=m.getModifiers();
+    if (Modifier.isStatic(mod) && Modifier.isPublic(mod)) {
+      String name=namespace + ":" + m.getName();
+      ctx.setAttribute(name,m,ScriptContext.ENGINE_SCOPE);
+    }
+  }
+}

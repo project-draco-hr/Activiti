@@ -1,0 +1,29 @@
+{
+  Object existingELCtx=scriptCtx.getAttribute("elcontext");
+  if (existingELCtx instanceof ELContext) {
+    return (ELContext)existingELCtx;
+  }
+  scriptCtx.setAttribute("context",scriptCtx,ScriptContext.ENGINE_SCOPE);
+  scriptCtx.setAttribute("out:print",getPrintMethod(),ScriptContext.ENGINE_SCOPE);
+  SecurityManager securityManager=System.getSecurityManager();
+  if (securityManager == null) {
+    scriptCtx.setAttribute("lang:import",getImportMethod(),ScriptContext.ENGINE_SCOPE);
+  }
+  ELContext elContext=new ELContext(){
+    ELResolver resolver=createElResolver();
+    VariableMapper varMapper=new ScriptContextVariableMapper(scriptCtx);
+    FunctionMapper funcMapper=new ScriptContextFunctionMapper(scriptCtx);
+    @Override public ELResolver getELResolver(){
+      return resolver;
+    }
+    @Override public VariableMapper getVariableMapper(){
+      return varMapper;
+    }
+    @Override public FunctionMapper getFunctionMapper(){
+      return funcMapper;
+    }
+  }
+;
+  scriptCtx.setAttribute("elcontext",elContext,ScriptContext.ENGINE_SCOPE);
+  return elContext;
+}

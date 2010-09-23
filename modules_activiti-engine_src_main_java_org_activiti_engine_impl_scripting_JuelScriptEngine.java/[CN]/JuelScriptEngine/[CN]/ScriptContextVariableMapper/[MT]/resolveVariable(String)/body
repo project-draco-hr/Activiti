@@ -1,0 +1,13 @@
+{
+  int scope=scriptContext.getAttributesScope(variableName);
+  if (scope != -1) {
+    Object value=scriptContext.getAttribute(variableName,scope);
+    if (value instanceof ValueExpression) {
+      return (ValueExpression)value;
+    }
+ else {
+      return expressionFactory.createValueExpression(value,Object.class);
+    }
+  }
+  return null;
+}

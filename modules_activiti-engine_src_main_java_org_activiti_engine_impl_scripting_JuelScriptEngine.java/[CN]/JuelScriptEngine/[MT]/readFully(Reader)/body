@@ -1,0 +1,14 @@
+{
+  char[] array=new char[8192];
+  StringBuilder strBuffer=new StringBuilder();
+  int count;
+  try {
+    while ((count=reader.read(array,0,array.length)) > 0) {
+      strBuffer.append(array,0,count);
+    }
+  }
+ catch (  IOException exp) {
+    throw new ScriptException(exp);
+  }
+  return strBuffer.toString();
+}

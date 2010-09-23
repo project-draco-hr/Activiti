@@ -1,11 +1,10 @@
 {
-  ExpressionFactory expressionFactory=null;
-  try {
-    expressionFactory=ExpressionFactory.newInstance();
+  ExpressionFactory expressionFactory=getExpressionFactoryforEl11();
+  if (expressionFactory != null) {
     LOG.fine("Resolving ExpressionFactory using EL 1.1");
   }
- catch (  NoSuchMethodError nsme) {
-    LOG.fine("Resolving ExpressionFactory using EL 1.O");
+ else {
+    LOG.fine("Resolving ExpressionFactory using EL 1.0");
     expressionFactory=getExpressionFactoryInstance();
   }
   return expressionFactory;

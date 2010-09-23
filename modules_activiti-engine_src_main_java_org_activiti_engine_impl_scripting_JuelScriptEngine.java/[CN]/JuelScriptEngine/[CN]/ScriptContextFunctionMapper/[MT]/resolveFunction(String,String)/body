@@ -1,0 +1,11 @@
+{
+  String functionName=getFullFunctionName(prefix,localName);
+  int scope=scriptContext.getAttributesScope(functionName);
+  if (scope != -1) {
+    Object attributeValue=scriptContext.getAttribute(functionName);
+    return (attributeValue instanceof Method) ? (Method)attributeValue : null;
+  }
+ else {
+    return null;
+  }
+}

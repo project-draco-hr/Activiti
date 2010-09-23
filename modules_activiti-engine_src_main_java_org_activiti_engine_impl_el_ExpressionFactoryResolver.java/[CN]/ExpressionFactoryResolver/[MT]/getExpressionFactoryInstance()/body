@@ -9,7 +9,8 @@
     }
   }
   if (implClassName == null) {
-    throw new ActivitiException("Failed to resolve an implementation class for javax.el.ExpressionFactory");
+    LOG.fine("No ExpressionFactory classname could be resolved, reverting to default: " + DEFAULT_EXPRESSION_FACTORY_CLASSNAME);
+    implClassName=DEFAULT_EXPRESSION_FACTORY_CLASSNAME;
   }
   return newInstance(implClassName,classLoader);
 }

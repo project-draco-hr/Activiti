@@ -1,0 +1,9 @@
+{
+  CompositeELResolver compositeResolver=new CompositeELResolver();
+  compositeResolver.add(new ArrayELResolver());
+  compositeResolver.add(new ListELResolver());
+  compositeResolver.add(new MapELResolver());
+  compositeResolver.add(new ResourceBundleELResolver());
+  compositeResolver.add(new BeanELResolver());
+  return new SimpleResolver(compositeResolver);
+}
