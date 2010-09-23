@@ -1,0 +1,8 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("name","kermit");
+  vars.put("gender","male");
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("expressionFieldInjection",vars);
+  Execution execution=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).activityId("waitState").singleResult();
+  assertEquals("HELLO MR. KERMIT",runtimeService.getVariable(execution.getId(),"var"));
+}
