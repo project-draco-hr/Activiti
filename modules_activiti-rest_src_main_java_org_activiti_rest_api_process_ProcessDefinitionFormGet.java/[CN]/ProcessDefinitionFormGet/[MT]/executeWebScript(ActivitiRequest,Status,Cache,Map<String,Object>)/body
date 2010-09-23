@@ -1,6 +1,6 @@
 {
   String processDefinitionId=req.getMandatoryPathParameter("processDefinitionId");
-  Object processDefinitionForm=getRepositoryService().getStartFormById(processDefinitionId);
+  Object processDefinitionForm=getTaskService().getRenderedStartFormById(processDefinitionId);
   if (processDefinitionForm != null) {
     if (processDefinitionForm instanceof String) {
       model.put("form",processDefinitionForm);

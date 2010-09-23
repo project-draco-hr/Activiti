@@ -1,5 +1,5 @@
 {
-  Object startForm=repositoryService.getStartFormByKey("vacationRequest");
+  Object startForm=taskService.getRenderedStartFormByKey("vacationRequest");
   assertNotNull(startForm);
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   assertEquals("org/activiti/examples/taskforms/request.form",processDefinition.getStartFormResourceKey());
@@ -10,6 +10,6 @@
   runtimeService.startProcessInstanceByKey("vacationRequest",variables);
   Task task=taskService.createTaskQuery().candidateGroup("management").singleResult();
   assertEquals("Vacation request by kermit",task.getDescription());
-  Object taskForm=taskService.getTaskForm(task.getId());
+  Object taskForm=taskService.getRenderedTaskForm(task.getId());
   assertNotNull(taskForm);
 }

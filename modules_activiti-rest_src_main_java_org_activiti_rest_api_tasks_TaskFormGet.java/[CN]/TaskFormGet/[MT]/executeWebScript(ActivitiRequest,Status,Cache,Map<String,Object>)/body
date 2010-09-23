@@ -1,6 +1,6 @@
 {
   String taskId=req.getMandatoryPathParameter("taskId");
-  Object taskForm=getTaskService().getTaskForm(taskId);
+  Object taskForm=getTaskService().getRenderedTaskForm(taskId);
   if (taskForm != null) {
     if (taskForm instanceof String) {
       model.put("form",taskForm);
