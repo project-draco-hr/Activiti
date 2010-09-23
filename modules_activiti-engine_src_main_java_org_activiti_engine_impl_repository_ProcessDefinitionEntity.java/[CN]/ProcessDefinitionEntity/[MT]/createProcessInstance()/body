@@ -3,6 +3,11 @@
   processInstance.setExecutions(new ArrayList<ExecutionImpl>());
   processInstance.setProcessDefinition(processDefinition);
   processInstance.setProcessInstance(processInstance);
+  String initiatorVariableName=(String)getProperty("initiatorVariableName");
+  if (initiatorVariableName != null) {
+    String authenticatedUserId=Authentication.getAuthenticatedUserId();
+    processInstance.setVariable(initiatorVariableName,authenticatedUserId);
+  }
   VariableMap variableMap=VariableMap.createNewInitialized(processInstance.getId(),processInstance.getId());
   processInstance.setVariables(variableMap);
   return processInstance;

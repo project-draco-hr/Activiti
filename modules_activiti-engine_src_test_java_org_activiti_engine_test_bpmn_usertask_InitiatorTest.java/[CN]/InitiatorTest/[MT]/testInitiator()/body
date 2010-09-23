@@ -1,0 +1,10 @@
+{
+  try {
+    identityService.setAuthenticatedUserId("bono");
+    runtimeService.startProcessInstanceByKey("InitiatorProcess");
+  }
+  finally {
+    identityService.setAuthenticatedUserId(null);
+  }
+  assertEquals(1,taskService.createTaskQuery().assignee("bono").count());
+}
