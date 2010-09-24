@@ -18,11 +18,7 @@
     assertEquals("Signavio SAAS",connectors.get(1).getName());
     assertEquals("Activiti Modeler",connectors.get(2).getName());
     RepositoryConnector connector=new CustomizedViewConfiguration("http://localhost:8080/activiti-cycle/",loadedConf).createConnector();
-    assertTrue(new File("bernd.cycle-conf.xml").delete());
-    assertTrue(new File("camunda.cycle-conf.xml").delete());
   }
   finally {
-    new File("bernd.cycle-conf.xml").delete();
-    new File("camunda.cycle-conf.xml").delete();
   }
 }
