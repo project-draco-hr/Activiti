@@ -1,5 +1,8 @@
 {
   ScriptingEngines scriptingEngines=CommandContext.getCurrent().getProcessEngineConfiguration().getScriptingEngines();
-  scriptingEngines.evaluate(script,language,execution);
+  Object result=scriptingEngines.evaluate(script,language,execution);
+  if (resultVariableName != null) {
+    execution.setVariable(resultVariableName,result);
+  }
   leave(execution);
 }
