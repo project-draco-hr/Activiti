@@ -1,0 +1,13 @@
+{
+  if (dbFactories.get(processEngineName) == null) {
+synchronized (dbFactories) {
+      if (dbFactories.get(processEngineName) == null) {
+        CycleDbSqlSessionFactory factory=new CycleDbSqlSessionFactory();
+        factory.configurationCompleted(getProcessEngineConfiguration());
+        performDbSchemaCreation(factory,getProcessEngineConfiguration());
+        dbFactories.put(processEngineName,factory);
+      }
+    }
+  }
+  return dbFactories.get(processEngineName).getSqlSessionFactory();
+}

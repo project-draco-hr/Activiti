@@ -3,7 +3,7 @@
   cycleConfig.setId(id);
   String configXML=getXStream().toXML(o);
   cycleConfig.setConfigXML(configXML);
-  SqlSessionFactory sqlMapper=getIbatisConfig();
+  SqlSessionFactory sqlMapper=getSessionFactory();
   SqlSession session=sqlMapper.openSession();
   session.insert("org.activiti.cycle.impl.conf.CycleConfigEntity.insertCycleConfig",cycleConfig);
   session.commit();
