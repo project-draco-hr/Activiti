@@ -1,12 +1,10 @@
 {
   SqlSessionFactory sqlMapper=getSessionFactory();
   SqlSession session=sqlMapper.openSession();
-  CycleConfigEntity cycleConfig=null;
   try {
-    cycleConfig=(CycleConfigEntity)session.selectOne("org.activiti.cycle.impl.conf.CycleConfigEntity.selectCycleConfigById",id);
+    return (CycleConfigEntity)session.selectOne("org.activiti.cycle.impl.conf.CycleConfigEntity.selectCycleConfigById",id);
   }
   finally {
     session.close();
   }
-  return cycleConfig;
 }

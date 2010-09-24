@@ -5,7 +5,11 @@
   cycleConfig.setConfigXML(configXML);
   SqlSessionFactory sqlMapper=getSessionFactory();
   SqlSession session=sqlMapper.openSession();
-  session.insert("org.activiti.cycle.impl.conf.CycleConfigEntity.insertCycleConfig",cycleConfig);
-  session.commit();
-  session.close();
+  try {
+    session.insert("org.activiti.cycle.impl.conf.CycleConfigEntity.insertCycleConfig",cycleConfig);
+    session.commit();
+  }
+  finally {
+    session.close();
+  }
 }

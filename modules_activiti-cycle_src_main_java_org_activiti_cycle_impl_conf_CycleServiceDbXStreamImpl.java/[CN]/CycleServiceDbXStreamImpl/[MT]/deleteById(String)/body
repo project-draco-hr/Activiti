@@ -3,9 +3,9 @@
   SqlSession session=sqlMapper.openSession();
   try {
     session.delete("org.activiti.cycle.impl.conf.CycleConfigEntity.deleteCycleConfigById",id);
+    session.commit();
   }
   finally {
-    session.commit();
     session.close();
   }
 }

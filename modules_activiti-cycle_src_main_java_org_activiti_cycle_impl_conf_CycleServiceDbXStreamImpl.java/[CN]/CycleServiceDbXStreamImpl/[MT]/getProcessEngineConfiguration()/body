@@ -1,10 +1,8 @@
 {
-  ProcessEngineConfiguration processEngineConfiguration=null;
   if (DEFAULT_ENGINE.equals(processEngineName)) {
-    processEngineConfiguration=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration();
+    return ((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration();
   }
  else {
-    processEngineConfiguration=((ProcessEngineImpl)ProcessEngines.getProcessEngine(processEngineName)).getProcessEngineConfiguration();
+    return ((ProcessEngineImpl)ProcessEngines.getProcessEngine(processEngineName)).getProcessEngineConfiguration();
   }
-  return processEngineConfiguration;
 }

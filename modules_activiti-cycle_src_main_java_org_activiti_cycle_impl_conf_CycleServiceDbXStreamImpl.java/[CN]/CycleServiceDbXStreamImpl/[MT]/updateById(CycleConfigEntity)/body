@@ -3,9 +3,9 @@
   SqlSession session=sqlMapper.openSession();
   try {
     session.update("org.activiti.cycle.impl.conf.CycleConfigEntity.updateCycleConfigById",cycleConfig);
+    session.commit();
   }
   finally {
-    session.commit();
     session.close();
   }
 }
