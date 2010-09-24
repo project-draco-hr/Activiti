@@ -28,8 +28,7 @@
   }
   String dbSchemaStrategy=configurationProperties.getProperty("db.schema.strategy");
   if (dbSchemaStrategy != null) {
-    String strategy=dbSchemaStrategy.toUpperCase().replace("-","_");
-    this.dbSchemaStrategy=DbSchemaStrategy.valueOf(strategy);
+    this.dbSchemaStrategy=dbSchemaStrategy;
   }
   String jobExecutorAutoActivate=configurationProperties.getProperty("job.executor.auto.activate");
   if ((jobExecutorAutoActivate != null) && (("false".equals(jobExecutorAutoActivate)) || ("disabled".equals(jobExecutorAutoActivate)) || ("off".equals(jobExecutorAutoActivate)))) {
