@@ -1,0 +1,14 @@
+{
+  byte[] buffer=new byte[(int)getFile(filePath).length()];
+  BufferedInputStream inputStream=null;
+  try {
+    inputStream=new BufferedInputStream(new FileInputStream(getFile(filePath)));
+    inputStream.read(buffer);
+  }
+  finally {
+    if (inputStream != null) {
+      inputStream.close();
+    }
+  }
+  return new String(buffer);
+}
