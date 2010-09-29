@@ -1,7 +1,7 @@
 {
   ConfigurationContainer userConfiguration=new ConfigurationContainer("bernd");
   userConfiguration.addRepositoryConnectorConfiguration(new DemoConnectorConfiguration("demo"));
-  RepositoryConnector conn=new CustomizedViewConfiguration("http://localhost:8080/activiti-cycle/",userConfiguration).createConnector();
+  RepositoryConnector conn=new GlobalTreeConnectorConfiguration(userConfiguration).createConnector();
   List<RepositoryNode> childNodes=conn.getChildren("/").asList();
   assertEquals(1,childNodes.size());
   assertEquals("demo",childNodes.get(0).getId());
