@@ -3,6 +3,6 @@
   configuration.addRepositoryConnectorConfiguration(new DemoConnectorConfiguration("demo"));
   configuration.addRepositoryConnectorConfiguration(new SignavioConnectorConfiguration("signavio","http://localhost:8080/activiti-modeler/"));
   configuration.addRepositoryConnectorConfiguration(new FileSystemConnectorConfiguration("files",new File("C:/temp")));
-  RepositoryConnector conn=new GlobalTreeConnectorConfiguration(configuration).createConnector();
+  RepositoryConnector conn=new RootConnectorConfiguration(configuration).createConnector();
   RepositoryLogHelper.printNodes(conn,conn.getChildren("/").asList());
 }

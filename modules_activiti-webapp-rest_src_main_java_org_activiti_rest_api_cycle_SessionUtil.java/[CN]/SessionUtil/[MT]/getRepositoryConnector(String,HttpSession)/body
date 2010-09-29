@@ -4,7 +4,7 @@
   if (connector == null) {
     PluginFinder.registerServletContext(session.getServletContext());
     ConfigurationContainer configuration=loadUserConfiguration(currentUserId);
-    connector=new GlobalTreeConnectorConfiguration(configuration).createConnector();
+    connector=new RootConnectorConfiguration(configuration).createConnector();
     connector.login(currentUserId,currentUserId);
     session.setAttribute(key,connector);
   }
