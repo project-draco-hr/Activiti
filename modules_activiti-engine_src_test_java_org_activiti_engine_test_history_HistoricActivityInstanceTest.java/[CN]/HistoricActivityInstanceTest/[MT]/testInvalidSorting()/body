@@ -1,0 +1,20 @@
+{
+  try {
+    historyService.createHistoricActivityInstanceQuery().asc().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    historyService.createHistoricActivityInstanceQuery().desc().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    historyService.createHistoricActivityInstanceQuery().orderByDuration().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

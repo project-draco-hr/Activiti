@@ -1,0 +1,20 @@
+{
+  try {
+    historyService.createHistoricProcessInstanceQuery().asc();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    historyService.createHistoricProcessInstanceQuery().desc();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    historyService.createHistoricProcessInstanceQuery().orderById().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

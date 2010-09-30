@@ -1,0 +1,9 @@
+{
+  assertEquals(0,runtimeService.createProcessInstanceQuery().businessKey("invalid").count());
+  try {
+    runtimeService.createProcessInstanceQuery().businessKey(null).count();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}
