@@ -1,0 +1,11 @@
+{
+  SqlSessionFactory sqlMapper=getSessionFactory();
+  SqlSession session=sqlMapper.openSession();
+  try {
+    session.insert("org.activiti.cycle.CycleLink.insertCycleLink",link);
+    session.commit();
+  }
+  finally {
+    session.close();
+  }
+}

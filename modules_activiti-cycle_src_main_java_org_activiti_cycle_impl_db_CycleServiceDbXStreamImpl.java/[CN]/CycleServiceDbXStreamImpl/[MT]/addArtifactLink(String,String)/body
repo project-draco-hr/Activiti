@@ -1,0 +1,14 @@
+{
+  CycleLink cycleLink=new CycleLink();
+  cycleLink.setSourceArtifactId(sourceArtifactId);
+  cycleLink.setTargetArtifactId(targetArtifactId);
+  SqlSessionFactory sqlMapper=getSessionFactory();
+  SqlSession session=sqlMapper.openSession();
+  try {
+    session.insert("org.activiti.cycle.CycleLink.insertCycleLink",cycleLink);
+    session.commit();
+  }
+  finally {
+    session.close();
+  }
+}

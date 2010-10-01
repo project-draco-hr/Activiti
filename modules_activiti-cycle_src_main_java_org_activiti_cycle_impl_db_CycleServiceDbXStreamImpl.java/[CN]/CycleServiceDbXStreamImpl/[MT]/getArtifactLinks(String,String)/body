@@ -1,0 +1,13 @@
+{
+  CycleLink cycleLink=new CycleLink();
+  cycleLink.setSourceArtifactId(sourceArtifactId);
+  cycleLink.setLinkType(type);
+  SqlSessionFactory sqlMapper=getSessionFactory();
+  SqlSession session=sqlMapper.openSession();
+  try {
+    return (List<CycleLink>)session.selectList("org.activiti.cycle.CycleLink.selectCycleLinkBySourceArtifactIdAndType",cycleLink);
+  }
+  finally {
+    session.close();
+  }
+}
