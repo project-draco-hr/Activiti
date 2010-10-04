@@ -1,0 +1,82 @@
+{
+  char c1=input.charAt(position);
+  char c2=position < input.length() - 1 ? input.charAt(position + 1) : (char)0;
+switch (c1) {
+case '*':
+    return fixed(Symbol.MUL);
+case '/':
+  return fixed(Symbol.DIV);
+case '%':
+return fixed(Symbol.MOD);
+case '+':
+return fixed(Symbol.PLUS);
+case '-':
+return fixed(Symbol.MINUS);
+case '?':
+return fixed(Symbol.QUESTION);
+case ':':
+return fixed(Symbol.COLON);
+case '[':
+return fixed(Symbol.LBRACK);
+case ']':
+return fixed(Symbol.RBRACK);
+case '(':
+return fixed(Symbol.LPAREN);
+case ')':
+return fixed(Symbol.RPAREN);
+case ',':
+return fixed(Symbol.COMMA);
+case '.':
+if (!isDigit(c2)) {
+return fixed(Symbol.DOT);
+}
+break;
+case '=':
+if (c2 == '=') {
+return fixed(Symbol.EQ);
+}
+break;
+case '&':
+if (c2 == '&') {
+return fixed(Symbol.AND);
+}
+break;
+case '|':
+if (c2 == '|') {
+return fixed(Symbol.OR);
+}
+break;
+case '!':
+if (c2 == '=') {
+return fixed(Symbol.NE);
+}
+return fixed(Symbol.NOT);
+case '<':
+if (c2 == '=') {
+return fixed(Symbol.LE);
+}
+return fixed(Symbol.LT);
+case '>':
+if (c2 == '=') {
+return fixed(Symbol.GE);
+}
+return fixed(Symbol.GT);
+case '"':
+case '\'':
+return nextString();
+}
+if (isDigit(c1) || c1 == '.') {
+return nextNumber();
+}
+if (Character.isJavaIdentifierStart(c1)) {
+int i=position + 1;
+int l=input.length();
+while (i < l && Character.isJavaIdentifierPart(input.charAt(i))) {
+i++;
+}
+String name=input.substring(position,i);
+Token keyword=keyword(name);
+return keyword == null ? token(Symbol.IDENTIFIER,name,i - position) : keyword;
+}
+throw new ScanException(position,"invalid character '" + c1 + "'","expression token");
+}

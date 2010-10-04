@@ -1,0 +1,51 @@
+{
+  Class<?>[] types=method.getParameterTypes();
+  Object[] args=new Object[types.length];
+  if (method.isVarArgs()) {
+    int varargIndex=types.length - 1;
+    if (params.length < varargIndex) {
+      throw new ELException("Bad argument count");
+    }
+    for (int i=0; i < varargIndex; i++) {
+      coerceValue(args,i,factory,params[i],types[i]);
+    }
+    Class<?> varargType=types[varargIndex].getComponentType();
+    int length=params.length - varargIndex;
+    Object array=null;
+    if (length == 1) {
+      Object source=params[varargIndex];
+      if (source != null && source.getClass().isArray()) {
+        if (types[varargIndex].isInstance(source)) {
+          array=source;
+        }
+ else {
+          length=Array.getLength(source);
+          array=Array.newInstance(varargType,length);
+          for (int i=0; i < length; i++) {
+            coerceValue(array,i,factory,Array.get(source,i),varargType);
+          }
+        }
+      }
+ else {
+        array=Array.newInstance(varargType,1);
+        coerceValue(array,0,factory,source,varargType);
+      }
+    }
+ else {
+      array=Array.newInstance(varargType,length);
+      for (int i=0; i < length; i++) {
+        coerceValue(array,i,factory,params[varargIndex + i],varargType);
+      }
+    }
+    args[varargIndex]=array;
+  }
+ else {
+    if (params.length != args.length) {
+      throw new ELException("Bad argument count");
+    }
+    for (int i=0; i < args.length; i++) {
+      coerceValue(args,i,factory,params[i],types[i]);
+    }
+  }
+  return args;
+}

@@ -1,0 +1,13 @@
+{
+  in.defaultReadObject();
+  MethodWrapper[] wrappers=(MethodWrapper[])in.readObject();
+  if (wrappers.length == 0) {
+    functions=NO_FUNCTIONS;
+  }
+ else {
+    functions=new Method[wrappers.length];
+    for (int i=0; i < functions.length; i++) {
+      functions[i]=wrappers[i].method;
+    }
+  }
+}

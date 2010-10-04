@@ -1,4 +1,10 @@
 {
-  MethodExpression methodExpression=expressionFactory.createMethodExpression(parsingElContext,expression,null,new Class<?>[]{});
-  return new ActivitiMethodExpression(methodExpression,this);
+  if (METHOD_PARAMS_PATTERN.matcher(expression).find()) {
+    ValueExpression valueExpression=expressionFactory.createValueExpression(parsingElContext,expression,Object.class);
+    return new ActivitiMethodExpression(valueExpression,this);
+  }
+ else {
+    MethodExpression methodExpression=expressionFactory.createMethodExpression(parsingElContext,expression,null,new Class<?>[]{});
+    return new ActivitiMethodExpression(methodExpression,this);
+  }
 }

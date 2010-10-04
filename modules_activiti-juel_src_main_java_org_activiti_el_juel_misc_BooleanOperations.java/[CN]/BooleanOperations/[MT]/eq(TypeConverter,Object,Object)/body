@@ -1,0 +1,35 @@
+{
+  if (o1 == o2) {
+    return true;
+  }
+  if (o1 == null || o2 == null) {
+    return false;
+  }
+  Class<?> t1=o1.getClass();
+  Class<?> t2=o2.getClass();
+  if (BigDecimal.class.isAssignableFrom(t1) || BigDecimal.class.isAssignableFrom(t2)) {
+    return converter.convert(o1,BigDecimal.class).equals(converter.convert(o2,BigDecimal.class));
+  }
+  if (SIMPLE_FLOAT_TYPES.contains(t1) || SIMPLE_FLOAT_TYPES.contains(t2)) {
+    return converter.convert(o1,Double.class).equals(converter.convert(o2,Double.class));
+  }
+  if (BigInteger.class.isAssignableFrom(t1) || BigInteger.class.isAssignableFrom(t2)) {
+    return converter.convert(o1,BigInteger.class).equals(converter.convert(o2,BigInteger.class));
+  }
+  if (SIMPLE_INTEGER_TYPES.contains(t1) || SIMPLE_INTEGER_TYPES.contains(t2)) {
+    return converter.convert(o1,Long.class).equals(converter.convert(o2,Long.class));
+  }
+  if (t1 == Boolean.class || t2 == Boolean.class) {
+    return converter.convert(o1,Boolean.class).equals(converter.convert(o2,Boolean.class));
+  }
+  if (o1 instanceof Enum<?>) {
+    return o1 == converter.convert(o2,o1.getClass());
+  }
+  if (o2 instanceof Enum<?>) {
+    return converter.convert(o1,o2.getClass()) == o2;
+  }
+  if (t1 == String.class || t2 == String.class) {
+    return converter.convert(o1,String.class).equals(converter.convert(o2,String.class));
+  }
+  return o1.equals(o2);
+}

@@ -1,0 +1,26 @@
+{
+  if (value == null || "".equals(value)) {
+    return BigInteger.valueOf(0l);
+  }
+  if (value instanceof BigInteger) {
+    return (BigInteger)value;
+  }
+  if (value instanceof BigDecimal) {
+    return ((BigDecimal)value).toBigInteger();
+  }
+  if (value instanceof Number) {
+    return BigInteger.valueOf(((Number)value).longValue());
+  }
+  if (value instanceof String) {
+    try {
+      return new BigInteger((String)value);
+    }
+ catch (    NumberFormatException e) {
+      throw new ELException(LocalMessages.get("error.coerce.value",value,BigInteger.class));
+    }
+  }
+  if (value instanceof Character) {
+    return BigInteger.valueOf((short)((Character)value).charValue());
+  }
+  throw new ELException(LocalMessages.get("error.coerce.type",value.getClass(),BigInteger.class));
+}

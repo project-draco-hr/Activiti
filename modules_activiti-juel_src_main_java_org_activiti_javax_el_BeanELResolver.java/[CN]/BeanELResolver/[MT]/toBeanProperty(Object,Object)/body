@@ -1,0 +1,15 @@
+{
+  BeanProperties beanProperties=cache.get(base.getClass());
+  if (beanProperties == null) {
+    BeanProperties newBeanProperties=new BeanProperties(base.getClass());
+    beanProperties=cache.putIfAbsent(base.getClass(),newBeanProperties);
+    if (beanProperties == null) {
+      beanProperties=newBeanProperties;
+    }
+  }
+  BeanProperty beanProperty=property == null ? null : beanProperties.getBeanProperty(property.toString());
+  if (beanProperty == null) {
+    throw new PropertyNotFoundException("Could not find property " + property + " in "+ base.getClass());
+  }
+  return beanProperty;
+}

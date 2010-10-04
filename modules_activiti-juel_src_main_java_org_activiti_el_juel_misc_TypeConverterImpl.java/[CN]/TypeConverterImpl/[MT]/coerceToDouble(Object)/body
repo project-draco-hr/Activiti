@@ -1,0 +1,23 @@
+{
+  if (value == null || "".equals(value)) {
+    return Double.valueOf(0);
+  }
+  if (value instanceof Double) {
+    return (Double)value;
+  }
+  if (value instanceof Number) {
+    return Double.valueOf(((Number)value).doubleValue());
+  }
+  if (value instanceof String) {
+    try {
+      return Double.valueOf((String)value);
+    }
+ catch (    NumberFormatException e) {
+      throw new ELException(LocalMessages.get("error.coerce.value",value,Double.class));
+    }
+  }
+  if (value instanceof Character) {
+    return Double.valueOf((short)((Character)value).charValue());
+  }
+  throw new ELException(LocalMessages.get("error.coerce.type",value.getClass(),Double.class));
+}

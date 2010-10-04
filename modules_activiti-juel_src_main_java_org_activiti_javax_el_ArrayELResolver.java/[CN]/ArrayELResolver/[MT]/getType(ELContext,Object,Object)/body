@@ -1,0 +1,12 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  Class<?> result=null;
+  if (isResolvable(base)) {
+    toIndex(base,property);
+    result=base.getClass().getComponentType();
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

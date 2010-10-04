@@ -1,0 +1,26 @@
+{
+  CompositeELResolver resolver=new CompositeELResolver();
+  resolver.setValue(context,null,"foo","bar");
+  resolver.setValue(context,"foo","class",Integer.class);
+  resolver.add(new MapELResolver());
+  resolver.setValue(context,null,"foo","bar");
+  resolver.setValue(context,"foo","class",Integer.class);
+  Map<?,?> map=sampleMap();
+  resolver.setValue(context,map,"foo","bar");
+  assertEquals("bar",map.get("foo"));
+  resolver.setValue(context,map,0,999);
+  assertEquals(999,map.get(0));
+  resolver.add(new BeanELResolver());
+  resolver.setValue(context,null,"foo","bar");
+  try {
+    resolver.setValue(context,"foo","class",Integer.class);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+  map=sampleMap();
+  resolver.setValue(context,map,"foo","bar");
+  assertEquals("bar",map.get("foo"));
+  resolver.setValue(context,map,0,999);
+  assertEquals(999,map.get(0));
+}

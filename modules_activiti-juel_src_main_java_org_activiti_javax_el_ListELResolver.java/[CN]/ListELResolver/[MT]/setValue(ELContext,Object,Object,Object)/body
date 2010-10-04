@@ -1,0 +1,22 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  if (isResolvable(base)) {
+    if (readOnly) {
+      throw new PropertyNotWritableException("resolver is read-only");
+    }
+    List list=(List)base;
+    int index=toIndex(list,property);
+    try {
+      list.set(index,value);
+    }
+ catch (    UnsupportedOperationException e) {
+      throw new PropertyNotWritableException(e);
+    }
+catch (    ArrayStoreException e) {
+      throw new IllegalArgumentException(e);
+    }
+    context.setPropertyResolved(true);
+  }
+}

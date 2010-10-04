@@ -1,0 +1,18 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  Object result=null;
+  if (isResolvable(base)) {
+    if (property != null) {
+      try {
+        result=((ResourceBundle)base).getObject(property.toString());
+      }
+ catch (      MissingResourceException e) {
+        result="???" + property + "???";
+      }
+    }
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

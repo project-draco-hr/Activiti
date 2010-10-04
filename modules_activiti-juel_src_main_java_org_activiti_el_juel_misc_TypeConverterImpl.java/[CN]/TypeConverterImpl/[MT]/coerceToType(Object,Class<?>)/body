@@ -1,0 +1,45 @@
+{
+  if (type == String.class) {
+    return coerceToString(value);
+  }
+  if (type == Long.class || type == long.class) {
+    return coerceToLong(value);
+  }
+  if (type == Double.class || type == double.class) {
+    return coerceToDouble(value);
+  }
+  if (type == Boolean.class || type == boolean.class) {
+    return coerceToBoolean(value);
+  }
+  if (type == Integer.class || type == int.class) {
+    return coerceToInteger(value);
+  }
+  if (type == Float.class || type == float.class) {
+    return coerceToFloat(value);
+  }
+  if (type == Short.class || type == short.class) {
+    return coerceToShort(value);
+  }
+  if (type == Byte.class || type == byte.class) {
+    return coerceToByte(value);
+  }
+  if (type == Character.class || type == char.class) {
+    return coerceToCharacter(value);
+  }
+  if (type == BigDecimal.class) {
+    return coerceToBigDecimal(value);
+  }
+  if (type == BigInteger.class) {
+    return coerceToBigInteger(value);
+  }
+  if (type.getSuperclass() == Enum.class) {
+    return coerceToEnum(value,(Class<? extends Enum>)type);
+  }
+  if (value == null || value.getClass() == type || type.isInstance(value)) {
+    return value;
+  }
+  if (value instanceof String) {
+    return coerceStringToType((String)value,type);
+  }
+  throw new ELException(LocalMessages.get("error.coerce.type",value.getClass(),type));
+}

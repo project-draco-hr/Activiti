@@ -1,0 +1,15 @@
+{
+  consumeToken(LPAREN);
+  List<AstNode> l=Collections.emptyList();
+  AstNode v=expr(false);
+  if (v != null) {
+    l=new ArrayList<AstNode>();
+    l.add(v);
+    while (token.getSymbol() == COMMA) {
+      consumeToken();
+      l.add(expr(true));
+    }
+  }
+  consumeToken(RPAREN);
+  return new AstParameters(l);
+}

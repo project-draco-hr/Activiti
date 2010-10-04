@@ -1,0 +1,30 @@
+{
+  TreeBuilder builder=null;
+  if (properties == null) {
+    builder=createTreeBuilder(null,profile.features());
+  }
+ else {
+    EnumSet<Builder.Feature> features=EnumSet.noneOf(Builder.Feature.class);
+    if (getFeatureProperty(profile,properties,Feature.METHOD_INVOCATIONS,PROP_METHOD_INVOCATIONS)) {
+      features.add(Builder.Feature.METHOD_INVOCATIONS);
+    }
+    if (getFeatureProperty(profile,properties,Feature.VARARGS,PROP_VAR_ARGS)) {
+      features.add(Builder.Feature.VARARGS);
+    }
+    if (getFeatureProperty(profile,properties,Feature.NULL_PROPERTIES,PROP_NULL_PROPERTIES)) {
+      features.add(Builder.Feature.NULL_PROPERTIES);
+    }
+    builder=createTreeBuilder(properties,features.toArray(new Builder.Feature[0]));
+  }
+  int cacheSize=defaultCacheSize;
+  if (properties != null && properties.containsKey(PROP_CACHE_SIZE)) {
+    try {
+      cacheSize=Integer.parseInt(properties.getProperty(PROP_CACHE_SIZE));
+    }
+ catch (    NumberFormatException e) {
+      throw new ELException("Cannot parse EL property " + PROP_CACHE_SIZE,e);
+    }
+  }
+  Cache cache=cacheSize > 0 ? new Cache(cacheSize) : null;
+  return new TreeStore(builder,cache);
+}

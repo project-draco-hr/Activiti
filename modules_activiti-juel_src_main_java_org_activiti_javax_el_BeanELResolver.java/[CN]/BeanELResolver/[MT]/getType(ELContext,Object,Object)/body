@@ -1,0 +1,11 @@
+{
+  if (context == null) {
+    throw new NullPointerException();
+  }
+  Class<?> result=null;
+  if (isResolvable(base)) {
+    result=toBeanProperty(base,property).getPropertyType();
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

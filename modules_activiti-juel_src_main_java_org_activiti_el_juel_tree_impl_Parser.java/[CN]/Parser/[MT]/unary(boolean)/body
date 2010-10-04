@@ -1,0 +1,28 @@
+{
+  AstNode v=null;
+switch (token.getSymbol()) {
+case NOT:
+    consumeToken();
+  v=createAstUnary(unary(true),AstUnary.NOT);
+break;
+case MINUS:
+consumeToken();
+v=createAstUnary(unary(true),AstUnary.NEG);
+break;
+case EMPTY:
+consumeToken();
+v=createAstUnary(unary(true),AstUnary.EMPTY);
+break;
+case EXTENSION:
+if (getExtensionHandler(token).getExtensionPoint() == ExtensionPoint.UNARY) {
+v=getExtensionHandler(consumeToken()).createAstNode(unary(true));
+break;
+}
+default :
+v=value();
+}
+if (v == null && required) {
+fail(EXPR_FIRST);
+}
+return v;
+}

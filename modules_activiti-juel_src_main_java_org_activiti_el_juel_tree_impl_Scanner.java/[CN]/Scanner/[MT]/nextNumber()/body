@@ -1,0 +1,33 @@
+{
+  int i=position;
+  int l=input.length();
+  while (i < l && isDigit(input.charAt(i))) {
+    i++;
+  }
+  Symbol symbol=Symbol.INTEGER;
+  if (i < l && input.charAt(i) == '.') {
+    i++;
+    while (i < l && isDigit(input.charAt(i))) {
+      i++;
+    }
+    symbol=Symbol.FLOAT;
+  }
+  if (i < l && (input.charAt(i) == 'e' || input.charAt(i) == 'E')) {
+    int e=i;
+    i++;
+    if (i < l && (input.charAt(i) == '+' || input.charAt(i) == '-')) {
+      i++;
+    }
+    if (i < l && isDigit(input.charAt(i))) {
+      i++;
+      while (i < l && isDigit(input.charAt(i))) {
+        i++;
+      }
+      symbol=Symbol.FLOAT;
+    }
+ else {
+      i=e;
+    }
+  }
+  return token(symbol,input.substring(position,i),i - position);
+}

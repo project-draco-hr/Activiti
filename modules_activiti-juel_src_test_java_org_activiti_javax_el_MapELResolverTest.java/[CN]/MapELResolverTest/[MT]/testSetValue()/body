@@ -1,0 +1,30 @@
+{
+  Integer scalar=0;
+  Map<Integer,Integer> map=sampleMap();
+  MapELResolver resolver=new MapELResolver();
+  MapELResolver resolverReadOnly=new MapELResolver(true);
+  context.setPropertyResolved(false);
+  resolver.setValue(context,null,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,scalar,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,map,1,999);
+  assertEquals(999,map.get(1).intValue());
+  assertTrue(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,map,999,"foo");
+  assertEquals(map.get(999),"foo");
+  assertTrue(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,map,1,null);
+  assertNull(map.get(1));
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolverReadOnly.setValue(context,map,1,999);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+}

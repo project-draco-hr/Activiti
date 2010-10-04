@@ -1,0 +1,15 @@
+{
+  this.primary=Collections.synchronizedMap(new LinkedHashMap<String,Tree>(16,0.75f,true){
+    @Override protected boolean removeEldestEntry(    Entry<String,Tree> eldest){
+      if (size() > size) {
+        if (Cache.this.secondary != null) {
+          Cache.this.secondary.put(eldest.getKey(),eldest.getValue());
+        }
+        return true;
+      }
+      return false;
+    }
+  }
+);
+  this.secondary=secondary == null ? null : Collections.synchronizedMap(secondary);
+}

@@ -1,0 +1,29 @@
+{
+  Integer scalar=0;
+  ResourceBundle bundle=sampleBundle();
+  ResourceBundleELResolver resolver=new ResourceBundleELResolver();
+  context.setPropertyResolved(false);
+  resolver.setValue(context,null,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,scalar,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  try {
+    resolver.setValue(context,bundle,"1",999);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+  try {
+    resolver.setValue(context,bundle,"1",null);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+  try {
+    resolver.setValue(context,bundle,"1","foo");
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+}

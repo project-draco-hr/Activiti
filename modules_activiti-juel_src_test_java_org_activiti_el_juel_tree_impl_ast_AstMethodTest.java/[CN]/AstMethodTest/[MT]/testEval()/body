@@ -1,0 +1,10 @@
+{
+  try {
+    parseNode("${base.bad()}").eval(bindings,context);
+    fail();
+  }
+ catch (  MethodNotFoundException e) {
+  }
+  assertEquals(1l,parseNode("${base.bar()}").eval(bindings,context));
+  assertEquals(3l,parseNode("${base.bar(3)}").eval(bindings,context));
+}

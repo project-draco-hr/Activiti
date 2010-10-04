@@ -1,0 +1,41 @@
+{
+  boolean lvalue=true;
+  AstNode v=nonliteral();
+  if (v == null) {
+    v=literal();
+    if (v == null) {
+      return null;
+    }
+    lvalue=false;
+  }
+  while (true) {
+switch (token.getSymbol()) {
+case DOT:
+      consumeToken();
+    String name=consumeToken(IDENTIFIER).getImage();
+  AstDot dot=createAstDot(v,name,lvalue);
+if (token.getSymbol() == LPAREN && context.isEnabled(METHOD_INVOCATIONS)) {
+  v=createAstMethod(dot,params());
+}
+ else {
+  v=dot;
+}
+break;
+case LBRACK:
+consumeToken();
+AstNode property=expr(true);
+boolean strict=!context.isEnabled(NULL_PROPERTIES);
+consumeToken(RBRACK);
+AstBracket bracket=createAstBracket(v,property,lvalue,strict);
+if (token.getSymbol() == LPAREN && context.isEnabled(METHOD_INVOCATIONS)) {
+v=createAstMethod(bracket,params());
+}
+ else {
+v=bracket;
+}
+break;
+default :
+return v;
+}
+}
+}

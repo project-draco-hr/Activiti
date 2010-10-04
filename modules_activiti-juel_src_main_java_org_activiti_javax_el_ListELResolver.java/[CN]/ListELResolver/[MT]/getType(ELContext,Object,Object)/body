@@ -1,0 +1,12 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  Class<?> result=null;
+  if (isResolvable(base)) {
+    toIndex((List<?>)base,property);
+    result=Object.class;
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

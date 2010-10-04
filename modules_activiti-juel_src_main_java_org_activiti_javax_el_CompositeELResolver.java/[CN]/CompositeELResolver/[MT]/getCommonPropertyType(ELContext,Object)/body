@@ -1,0 +1,15 @@
+{
+  Class<?> result=null;
+  for (  ELResolver resolver : resolvers) {
+    Class<?> type=resolver.getCommonPropertyType(context,base);
+    if (type != null) {
+      if (result == null || type.isAssignableFrom(result)) {
+        result=type;
+      }
+ else       if (!result.isAssignableFrom(type)) {
+        result=Object.class;
+      }
+    }
+  }
+  return result;
+}

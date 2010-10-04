@@ -1,0 +1,23 @@
+{
+  if (value == null || "".equals(value)) {
+    return Byte.valueOf((byte)0);
+  }
+  if (value instanceof Byte) {
+    return (Byte)value;
+  }
+  if (value instanceof Number) {
+    return Byte.valueOf(((Number)value).byteValue());
+  }
+  if (value instanceof String) {
+    try {
+      return Byte.valueOf((String)value);
+    }
+ catch (    NumberFormatException e) {
+      throw new ELException(LocalMessages.get("error.coerce.value",value,Byte.class));
+    }
+  }
+  if (value instanceof Character) {
+    return Byte.valueOf(Short.valueOf((short)((Character)value).charValue()).byteValue());
+  }
+  throw new ELException(LocalMessages.get("error.coerce.type",value.getClass(),Byte.class));
+}

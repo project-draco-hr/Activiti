@@ -1,0 +1,13 @@
+{
+  Method method=null;
+  try {
+    method=clazz.getMethod(name,paramTypes);
+  }
+ catch (  NoSuchMethodException e) {
+    throw new MethodNotFoundException(LocalMessages.get("error.property.method.notfound",name,clazz));
+  }
+  if (returnType != null && !returnType.isAssignableFrom(method.getReturnType())) {
+    throw new MethodNotFoundException(LocalMessages.get("error.property.method.notfound",name,clazz));
+  }
+  return method;
+}

@@ -1,0 +1,15 @@
+{
+  if (features == null || features.length == 0) {
+    this.features=EnumSet.noneOf(Feature.class);
+  }
+ else   if (features.length == 1) {
+    this.features=EnumSet.of(features[0]);
+  }
+ else {
+    Feature[] rest=new Feature[features.length - 1];
+    for (int i=1; i < features.length; i++) {
+      rest[i - 1]=features[i];
+    }
+    this.features=EnumSet.of(features[0],rest);
+  }
+}

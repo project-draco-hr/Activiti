@@ -1,0 +1,17 @@
+{
+  Object value=eval(bindings,context);
+  if (value == null) {
+    throw new MethodNotFoundException(LocalMessages.get("error.identifier.method.notfound",name));
+  }
+  if (value instanceof Method) {
+    Method method=(Method)value;
+    if (returnType != null && !returnType.isAssignableFrom(method.getReturnType())) {
+      throw new MethodNotFoundException(LocalMessages.get("error.identifier.method.notfound",name));
+    }
+    if (!Arrays.equals(method.getParameterTypes(),paramTypes)) {
+      throw new MethodNotFoundException(LocalMessages.get("error.identifier.method.notfound",name));
+    }
+    return method;
+  }
+  throw new MethodNotFoundException(LocalMessages.get("error.identifier.method.notamethod",name,value.getClass()));
+}

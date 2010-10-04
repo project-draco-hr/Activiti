@@ -1,0 +1,11 @@
+{
+  User user=identityService.newUser("user");
+  identityService.saveUser(user);
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("userstring","XXXuserXXX");
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("resolveUserProcess",vars);
+  Task task=taskService.createTaskQuery().assignee(user.getId()).singleResult();
+  Assert.assertNotNull(task);
+  runtimeService.deleteProcessInstance(pi.getId(),null);
+  identityService.deleteUser(user.getId());
+}

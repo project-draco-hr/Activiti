@@ -1,0 +1,20 @@
+{
+  Integer scalar=0;
+  Map<Integer,Integer> map=sampleMap();
+  MapELResolver resolver=new MapELResolver();
+  context.setPropertyResolved(false);
+  assertNull(resolver.getValue(context,null,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getValue(context,scalar,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertEquals(2,resolver.getValue(context,map,1));
+  assertTrue(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getValue(context,map,"foo"));
+  assertTrue(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getValue(context,map,null));
+  assertTrue(context.isPropertyResolved());
+}

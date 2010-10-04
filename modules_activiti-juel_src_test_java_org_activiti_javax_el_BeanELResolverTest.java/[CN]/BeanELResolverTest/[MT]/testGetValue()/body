@@ -1,0 +1,23 @@
+{
+  Properties properties=new Properties();
+  properties.setProperty(ExpressionFactory.class.getName(),TestFactory.class.getName());
+  BeanELResolver resolver=new BeanELResolver();
+  context.setPropertyResolved(false);
+  assertNull(resolver.getValue(context,null,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertEquals(456,resolver.getValue(context,new TestBean(),"readWrite"));
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolver.getValue(context,new TestBean(),"writeOnly");
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+  try {
+    resolver.getValue(context,new TestBean(),"doesntExist");
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+}

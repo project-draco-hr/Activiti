@@ -1,0 +1,29 @@
+{
+  AstNode v=unary(required);
+  if (v == null) {
+    return null;
+  }
+  while (true) {
+switch (token.getSymbol()) {
+case MUL:
+      consumeToken();
+    v=createAstBinary(v,unary(true),AstBinary.MUL);
+  break;
+case DIV:
+consumeToken();
+v=createAstBinary(v,unary(true),AstBinary.DIV);
+break;
+case MOD:
+consumeToken();
+v=createAstBinary(v,unary(true),AstBinary.MOD);
+break;
+case EXTENSION:
+if (getExtensionHandler(token).getExtensionPoint() == ExtensionPoint.MUL) {
+v=getExtensionHandler(consumeToken()).createAstNode(v,unary(true));
+break;
+}
+default :
+return v;
+}
+}
+}

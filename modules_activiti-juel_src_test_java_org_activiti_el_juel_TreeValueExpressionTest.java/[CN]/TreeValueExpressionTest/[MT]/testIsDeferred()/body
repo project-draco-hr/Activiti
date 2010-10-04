@@ -1,0 +1,5 @@
+{
+  assertFalse(new TreeValueExpression(store,null,null,null,"foo",Object.class).isDeferred());
+  assertFalse(new TreeValueExpression(store,null,null,null,"${foo}",Object.class).isDeferred());
+  assertTrue(new TreeValueExpression(store,null,null,null,"#{foo}",Object.class).isDeferred());
+}

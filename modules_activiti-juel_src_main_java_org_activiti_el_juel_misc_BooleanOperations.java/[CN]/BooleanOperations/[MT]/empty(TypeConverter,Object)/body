@@ -1,0 +1,15 @@
+{
+  if (o == null || "".equals(o)) {
+    return true;
+  }
+  if (o instanceof Object[]) {
+    return ((Object[])o).length == 0;
+  }
+  if (o instanceof Map<?,?>) {
+    return ((Map<?,?>)o).isEmpty();
+  }
+  if (o instanceof Collection<?>) {
+    return ((Collection<?>)o).isEmpty();
+  }
+  return false;
+}

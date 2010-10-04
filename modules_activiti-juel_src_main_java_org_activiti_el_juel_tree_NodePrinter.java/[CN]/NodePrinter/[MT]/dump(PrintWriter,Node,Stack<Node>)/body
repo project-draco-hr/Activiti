@@ -1,0 +1,32 @@
+{
+  if (!predecessors.isEmpty()) {
+    Node parent=null;
+    for (    Node predecessor : predecessors) {
+      if (isLastSibling(predecessor,parent)) {
+        writer.print("   ");
+      }
+ else {
+        writer.print("|  ");
+      }
+      parent=predecessor;
+    }
+    writer.println("|");
+  }
+  Node parent=null;
+  for (  Node predecessor : predecessors) {
+    if (isLastSibling(predecessor,parent)) {
+      writer.print("   ");
+    }
+ else {
+      writer.print("|  ");
+    }
+    parent=predecessor;
+  }
+  writer.print("+- ");
+  writer.println(node.toString());
+  predecessors.push(node);
+  for (int i=0; i < node.getCardinality(); i++) {
+    dump(writer,node.getChild(i),predecessors);
+  }
+  predecessors.pop();
+}

@@ -1,0 +1,38 @@
+{
+  Integer scalar=0;
+  List<Integer> list=Arrays.asList(1,2,3);
+  ListELResolver resolver=new ListELResolver();
+  context.setPropertyResolved(false);
+  assertNull(resolver.getType(context,null,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getType(context,scalar,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertSame(Object.class,resolver.getType(context,list,1));
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolver.getType(context,list,null);
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.getType(context,list,"foo");
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.getType(context,list,-1);
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+  try {
+    resolver.getType(context,list,list.size());
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+}

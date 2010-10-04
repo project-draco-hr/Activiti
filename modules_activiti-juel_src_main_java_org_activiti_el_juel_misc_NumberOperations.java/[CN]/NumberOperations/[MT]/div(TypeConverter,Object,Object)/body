@@ -1,0 +1,9 @@
+{
+  if (o1 == null && o2 == null) {
+    return LONG_ZERO;
+  }
+  if (isBigDecimalOrBigInteger(o1) || isBigDecimalOrBigInteger(o2)) {
+    return converter.convert(o1,BigDecimal.class).divide(converter.convert(o2,BigDecimal.class),BigDecimal.ROUND_HALF_UP);
+  }
+  return converter.convert(o1,Double.class) / converter.convert(o2,Double.class);
+}

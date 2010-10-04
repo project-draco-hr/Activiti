@@ -1,0 +1,23 @@
+{
+  if (value == null || "".equals(value)) {
+    return Float.valueOf(0);
+  }
+  if (value instanceof Float) {
+    return (Float)value;
+  }
+  if (value instanceof Number) {
+    return Float.valueOf(((Number)value).floatValue());
+  }
+  if (value instanceof String) {
+    try {
+      return Float.valueOf((String)value);
+    }
+ catch (    NumberFormatException e) {
+      throw new ELException(LocalMessages.get("error.coerce.value",value,Float.class));
+    }
+  }
+  if (value instanceof Character) {
+    return Float.valueOf((short)((Character)value).charValue());
+  }
+  throw new ELException(LocalMessages.get("error.coerce.type",value.getClass(),Float.class));
+}

@@ -1,0 +1,13 @@
+{
+  if (obj != null && obj.getClass() == getClass()) {
+    TreeValueExpression other=(TreeValueExpression)obj;
+    if (!builder.equals(other.builder)) {
+      return false;
+    }
+    if (type != other.type) {
+      return false;
+    }
+    return getStructuralId().equals(other.getStructuralId()) && bindings.equals(other.bindings);
+  }
+  return false;
+}

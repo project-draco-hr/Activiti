@@ -1,0 +1,20 @@
+{
+  Integer scalar=0;
+  ResourceBundle bundle=sampleBundle();
+  ResourceBundleELResolver resolver=new ResourceBundleELResolver();
+  assertNull(resolver.getFeatureDescriptors(context,scalar));
+  assertNull(resolver.getFeatureDescriptors(context,null));
+  assertNull(resolver.getCommonPropertyType(context,null));
+  Iterator<FeatureDescriptor> iterator=resolver.getFeatureDescriptors(context,bundle);
+  List<String> names=new ArrayList<String>();
+  while (iterator.hasNext()) {
+    FeatureDescriptor feature=iterator.next();
+    names.add(feature.getName());
+    assertSame(String.class,feature.getValue(ELResolver.TYPE));
+    assertSame(Boolean.TRUE,feature.getValue(ELResolver.RESOLVABLE_AT_DESIGN_TIME));
+  }
+  assertTrue(names.contains("0"));
+  assertTrue(names.contains("1"));
+  assertTrue(names.contains("2"));
+  assertEquals(3,names.size());
+}

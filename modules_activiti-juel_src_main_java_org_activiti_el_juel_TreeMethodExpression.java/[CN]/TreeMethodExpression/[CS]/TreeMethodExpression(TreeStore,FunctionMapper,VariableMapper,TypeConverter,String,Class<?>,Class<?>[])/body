@@ -1,0 +1,24 @@
+{
+  super();
+  Tree tree=store.get(expr);
+  this.builder=store.getBuilder();
+  this.bindings=tree.bind(functions,variables,converter);
+  this.expr=expr;
+  this.type=returnType;
+  this.types=paramTypes;
+  this.node=tree.getRoot();
+  this.deferred=tree.isDeferred();
+  if (node.isLiteralText()) {
+    if (returnType == void.class) {
+      throw new ELException(LocalMessages.get("error.method.literal.void",expr));
+    }
+  }
+ else   if (!node.isMethodInvocation()) {
+    if (!node.isLeftValue()) {
+      throw new ELException(LocalMessages.get("error.method.invalid",expr));
+    }
+    if (paramTypes == null) {
+      throw new ELException(LocalMessages.get("error.method.notypes"));
+    }
+  }
+}

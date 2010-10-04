@@ -1,0 +1,13 @@
+{
+  verifyEvalExpression("${a.a}","${ a . a }");
+  verifyEvalExpression("${a.a.a}");
+  verifyEvalExpression("${a[a]}","${ a [ a ] }");
+  verifyEvalExpression("${a[a][a]}");
+  verifyEvalExpression("${a[a[a]]}");
+  assertTrue(parse("${a.a}").getRoot().isLeftValue());
+  assertFalse(parse("${1 . a}").getRoot().isLeftValue());
+  assertTrue(parse("${(1).a}").getRoot().isLeftValue());
+  assertTrue(parse("${a[a]}").getRoot().isLeftValue());
+  assertFalse(parse("${1[a]}").getRoot().isLeftValue());
+  assertTrue(parse("${(1)[a]}").getRoot().isLeftValue());
+}

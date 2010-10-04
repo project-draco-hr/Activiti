@@ -1,11 +1,3 @@
 {
-  ExpressionFactory expressionFactory=getExpressionFactoryforEl11();
-  if (expressionFactory != null) {
-    LOG.fine("Resolving ExpressionFactory using EL 1.1");
-  }
- else {
-    LOG.fine("Resolving ExpressionFactory using EL 1.0");
-    expressionFactory=getExpressionFactoryInstance();
-  }
-  return expressionFactory;
+  return new ExpressionFactoryImpl();
 }

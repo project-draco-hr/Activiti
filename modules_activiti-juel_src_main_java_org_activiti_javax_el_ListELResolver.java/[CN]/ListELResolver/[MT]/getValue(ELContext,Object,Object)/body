@@ -1,0 +1,13 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  Object result=null;
+  if (isResolvable(base)) {
+    int index=toIndex(null,property);
+    List<?> list=(List<?>)base;
+    result=index < 0 || index >= list.size() ? null : list.get(index);
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

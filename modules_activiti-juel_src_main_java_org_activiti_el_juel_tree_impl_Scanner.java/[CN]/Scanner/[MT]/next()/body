@@ -1,0 +1,15 @@
+{
+  if (token != null) {
+    position+=token.getSize();
+  }
+  int length=input.length();
+  if (isEval()) {
+    while (position < length && Character.isWhitespace(input.charAt(position))) {
+      position++;
+    }
+  }
+  if (position == length) {
+    return token=fixed(Symbol.EOF);
+  }
+  return token=nextToken();
+}

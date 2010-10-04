@@ -1,0 +1,7 @@
+{
+  assertSame("foo",converter.coerceToString("foo"));
+  assertEquals("",converter.coerceToString(null));
+  assertEquals(Foo.BAR.name(),converter.coerceToString(Foo.BAR));
+  Object value=new BigDecimal("99.345");
+  assertEquals(value.toString(),converter.coerceToString(value));
+}

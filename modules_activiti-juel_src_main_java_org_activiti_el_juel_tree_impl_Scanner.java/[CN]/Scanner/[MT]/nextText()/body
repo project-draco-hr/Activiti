@@ -1,0 +1,48 @@
+{
+  builder.setLength(0);
+  int i=position;
+  int l=input.length();
+  boolean escaped=false;
+  while (i < l) {
+    char c=input.charAt(i);
+switch (c) {
+case '\\':
+      if (escaped) {
+        builder.append('\\');
+      }
+ else {
+        escaped=true;
+      }
+    break;
+case '#':
+case '$':
+  if (i + 1 < l && input.charAt(i + 1) == '{') {
+    if (escaped) {
+      builder.append(c);
+    }
+ else {
+      return token(Symbol.TEXT,builder.toString(),i - position);
+    }
+  }
+ else {
+    if (escaped) {
+      builder.append('\\');
+    }
+    builder.append(c);
+  }
+escaped=false;
+break;
+default :
+if (escaped) {
+builder.append('\\');
+}
+builder.append(c);
+escaped=false;
+}
+i++;
+}
+if (escaped) {
+builder.append('\\');
+}
+return token(Symbol.TEXT,builder.toString(),i - position);
+}

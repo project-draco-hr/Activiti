@@ -1,0 +1,20 @@
+{
+  Bindings bindings=parse("${ns:f0()+v0+g1(1)+v1+foo}").bind(context.getFunctionMapper(),context.getVariableMapper());
+  assertSame(context.getFunctionMapper().resolveFunction("ns","f0"),bindings.getFunction(0));
+  assertSame(context.getFunctionMapper().resolveFunction("","g1"),bindings.getFunction(1));
+  try {
+    bindings.getFunction(2);
+    fail();
+  }
+ catch (  Exception e) {
+  }
+  assertSame(context.getVariableMapper().resolveVariable("v0"),bindings.getVariable(0));
+  assertSame(context.getVariableMapper().resolveVariable("v1"),bindings.getVariable(1));
+  assertNull(bindings.getVariable(2));
+  try {
+    bindings.getVariable(3);
+    fail();
+  }
+ catch (  Exception e) {
+  }
+}

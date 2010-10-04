@@ -1,0 +1,33 @@
+{
+  assertEquals("foo",converter.coerceToType("foo",String.class));
+  assertEquals(new Long(0),converter.coerceToType("0",Long.class));
+  assertEquals(new Character('c'),converter.coerceToType("c",Character.class));
+  assertEquals(Boolean.TRUE,converter.coerceToType("true",Boolean.class));
+  assertEquals(Foo.BAR,converter.coerceToType("BAR",Foo.class));
+  assertNull(converter.coerceToType(null,Object.class));
+  Object value=new Date(0);
+  assertSame(value,converter.coerceToType(value,Object.class));
+  assertEquals(new Date(0),converter.coerceToType("0",Date.class));
+  assertNull(converter.coerceToType("",Date.class));
+  try {
+    converter.coerceToType("foo",Date.class);
+    fail();
+  }
+ catch (  Exception e) {
+  }
+  assertNull(converter.coerceToType("",getClass()));
+  try {
+    converter.coerceToType("bar",getClass());
+    fail();
+  }
+ catch (  Exception e) {
+  }
+  assertEquals(false,converter.coerceToType("false",boolean.class));
+  assertEquals((byte)0,converter.coerceToType("0",byte.class));
+  assertEquals((short)0,converter.coerceToType("0",short.class));
+  assertEquals(0,converter.coerceToType("0",int.class));
+  assertEquals((long)0,converter.coerceToType("0",long.class));
+  assertEquals((float)0,converter.coerceToType("0",float.class));
+  assertEquals((double)0,converter.coerceToType("0",double.class));
+  assertEquals('0',converter.coerceToType("0",char.class));
+}

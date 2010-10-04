@@ -1,0 +1,26 @@
+{
+  Properties properties=new Properties(loadDefaultProperties());
+  InputStream input=null;
+  try {
+    input=Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+  }
+ catch (  SecurityException e) {
+    input=ClassLoader.getSystemResourceAsStream(path);
+  }
+  if (input != null) {
+    try {
+      properties.load(input);
+    }
+ catch (    IOException e) {
+      throw new ELException("Cannot read EL properties",e);
+    }
+ finally {
+      try {
+        input.close();
+      }
+ catch (      IOException e) {
+      }
+    }
+  }
+  return properties;
+}

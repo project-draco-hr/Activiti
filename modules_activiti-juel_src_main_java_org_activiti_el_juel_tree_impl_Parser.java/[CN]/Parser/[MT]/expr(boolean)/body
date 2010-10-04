@@ -1,0 +1,14 @@
+{
+  AstNode v=or(required);
+  if (v == null) {
+    return null;
+  }
+  if (token.getSymbol() == QUESTION) {
+    consumeToken();
+    AstNode a=expr(true);
+    consumeToken(COLON);
+    AstNode b=expr(true);
+    v=createAstChoice(v,a,b);
+  }
+  return v;
+}

@@ -1,0 +1,15 @@
+{
+  CompositeELResolver resolver=new CompositeELResolver();
+  assertNull(resolver.getType(context,null,"foo"));
+  assertNull(resolver.getType(context,"foo","class"));
+  resolver.add(new MapELResolver());
+  assertNull(resolver.getType(context,null,"foo"));
+  assertNull(resolver.getType(context,"foo","class"));
+  assertEquals(Object.class,resolver.getType(context,sampleMap(),"foo"));
+  assertEquals(Object.class,resolver.getType(context,sampleMap(),0));
+  resolver.add(new BeanELResolver());
+  assertNull(resolver.getType(context,null,"foo"));
+  assertEquals(Class.class,resolver.getType(context,"foo","class"));
+  assertEquals(Object.class,resolver.getType(context,sampleMap(),"foo"));
+  assertEquals(Object.class,resolver.getType(context,sampleMap(),0));
+}

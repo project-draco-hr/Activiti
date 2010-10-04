@@ -1,0 +1,10 @@
+{
+  ArrayList<Symbol> list=new ArrayList<Symbol>();
+  Scanner scanner=new Scanner(expression);
+  Token token=scanner.next();
+  while (token.getSymbol() != EOF) {
+    list.add(token.getSymbol());
+    token=scanner.next();
+  }
+  return list.toArray(new Symbol[list.size()]);
+}

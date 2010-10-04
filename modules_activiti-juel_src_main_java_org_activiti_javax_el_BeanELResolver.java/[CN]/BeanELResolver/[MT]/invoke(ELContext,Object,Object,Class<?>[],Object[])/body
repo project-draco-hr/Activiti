@@ -1,0 +1,27 @@
+{
+  if (context == null) {
+    throw new NullPointerException();
+  }
+  Object result=null;
+  if (isResolvable(base)) {
+    if (params == null) {
+      params=new Object[0];
+    }
+    String name=method.toString();
+    Method target=findMethod(base,name,paramTypes,params.length);
+    if (target == null) {
+      throw new MethodNotFoundException("Cannot find method " + name + " with "+ params.length+ " parameters in "+ base.getClass());
+    }
+    try {
+      result=target.invoke(base,coerceParams(getExpressionFactory(context),target,params));
+    }
+ catch (    InvocationTargetException e) {
+      throw new ELException(e.getCause());
+    }
+catch (    IllegalAccessException e) {
+      throw new ELException(e);
+    }
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

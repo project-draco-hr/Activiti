@@ -1,0 +1,11 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  Object result=null;
+  if (isResolvable(base)) {
+    result=((Map<?,?>)base).get(property);
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

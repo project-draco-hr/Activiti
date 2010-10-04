@@ -1,0 +1,38 @@
+{
+  if (args.length != 1) {
+    System.err.println("usage: java " + Builder.class.getName() + " <expression string>");
+    System.exit(1);
+  }
+  PrintWriter out=new PrintWriter(System.out);
+  Tree tree=null;
+  try {
+    tree=new Builder(Feature.METHOD_INVOCATIONS).build(args[0]);
+  }
+ catch (  TreeBuilderException e) {
+    System.out.println(e.getMessage());
+    System.exit(0);
+  }
+  NodePrinter.dump(out,tree.getRoot());
+  if (!tree.getFunctionNodes().iterator().hasNext() && !tree.getIdentifierNodes().iterator().hasNext()) {
+    ELContext context=new ELContext(){
+      @Override public VariableMapper getVariableMapper(){
+        return null;
+      }
+      @Override public FunctionMapper getFunctionMapper(){
+        return null;
+      }
+      @Override public ELResolver getELResolver(){
+        return null;
+      }
+    }
+;
+    out.print(">> ");
+    try {
+      out.println(tree.getRoot().getValue(new Bindings(null,null),context,null));
+    }
+ catch (    ELException e) {
+      out.println(e.getMessage());
+    }
+  }
+  out.flush();
+}

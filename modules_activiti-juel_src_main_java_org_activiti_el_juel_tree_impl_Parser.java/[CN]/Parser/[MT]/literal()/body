@@ -1,0 +1,35 @@
+{
+  AstNode v=null;
+switch (token.getSymbol()) {
+case TRUE:
+    v=new AstBoolean(true);
+  consumeToken();
+break;
+case FALSE:
+v=new AstBoolean(false);
+consumeToken();
+break;
+case STRING:
+v=new AstString(token.getImage());
+consumeToken();
+break;
+case INTEGER:
+v=new AstNumber(parseInteger(token.getImage()));
+consumeToken();
+break;
+case FLOAT:
+v=new AstNumber(parseFloat(token.getImage()));
+consumeToken();
+break;
+case NULL:
+v=new AstNull();
+consumeToken();
+break;
+case EXTENSION:
+if (getExtensionHandler(token).getExtensionPoint() == ExtensionPoint.LITERAL) {
+v=getExtensionHandler(consumeToken()).createAstNode();
+break;
+}
+}
+return v;
+}

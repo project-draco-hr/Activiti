@@ -1,0 +1,10 @@
+{
+  if (obj != null && obj.getClass() == getClass()) {
+    ObjectValueExpression other=(ObjectValueExpression)obj;
+    if (type != other.type) {
+      return false;
+    }
+    return object == other.object || object != null && object.equals(other.object);
+  }
+  return false;
+}

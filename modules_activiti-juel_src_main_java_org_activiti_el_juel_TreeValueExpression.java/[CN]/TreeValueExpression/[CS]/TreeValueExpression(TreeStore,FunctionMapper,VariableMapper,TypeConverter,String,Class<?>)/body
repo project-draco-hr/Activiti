@@ -1,0 +1,13 @@
+{
+  super();
+  Tree tree=store.get(expr);
+  this.builder=store.getBuilder();
+  this.bindings=tree.bind(functions,variables,converter);
+  this.expr=expr;
+  this.type=type;
+  this.node=tree.getRoot();
+  this.deferred=tree.isDeferred();
+  if (type == null) {
+    throw new NullPointerException(LocalMessages.get("error.value.notype"));
+  }
+}

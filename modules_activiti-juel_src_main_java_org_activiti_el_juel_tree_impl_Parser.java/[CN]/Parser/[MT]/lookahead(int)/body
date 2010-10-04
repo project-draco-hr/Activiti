@@ -1,0 +1,9 @@
+{
+  if (lookahead.isEmpty()) {
+    lookahead=new LinkedList<LookaheadToken>();
+  }
+  while (index >= lookahead.size()) {
+    lookahead.add(new LookaheadToken(scanner.next(),scanner.getPosition()));
+  }
+  return lookahead.get(index).token;
+}

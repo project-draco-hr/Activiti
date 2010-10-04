@@ -1,0 +1,10 @@
+{
+  Object obj=context.getContext(ExpressionFactory.class);
+  if (obj instanceof ExpressionFactory) {
+    return (ExpressionFactory)obj;
+  }
+  if (defaultFactory == null) {
+    defaultFactory=ExpressionFactory.newInstance();
+  }
+  return defaultFactory;
+}

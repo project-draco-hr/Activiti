@@ -1,0 +1,27 @@
+{
+  int index=0;
+  if (property instanceof Number) {
+    index=((Number)property).intValue();
+  }
+ else   if (property instanceof String) {
+    try {
+      index=Integer.valueOf((String)property);
+    }
+ catch (    NumberFormatException e) {
+      throw new IllegalArgumentException("Cannot parse list index: " + property);
+    }
+  }
+ else   if (property instanceof Character) {
+    index=((Character)property).charValue();
+  }
+ else   if (property instanceof Boolean) {
+    index=((Boolean)property).booleanValue() ? 1 : 0;
+  }
+ else {
+    throw new IllegalArgumentException("Cannot coerce property to list index: " + property);
+  }
+  if (base != null && (index < 0 || index >= base.size())) {
+    throw new PropertyNotFoundException("List index out of bounds: " + index);
+  }
+  return index;
+}

@@ -1,0 +1,28 @@
+{
+  PropertyEditor editor=PropertyEditorManager.findEditor(type);
+  if (editor == null) {
+    if ("".equals(value)) {
+      return null;
+    }
+    throw new ELException(LocalMessages.get("error.coerce.type",String.class,type));
+  }
+ else {
+    if ("".equals(value)) {
+      try {
+        editor.setAsText(value);
+      }
+ catch (      IllegalArgumentException e) {
+        return null;
+      }
+    }
+ else {
+      try {
+        editor.setAsText(value);
+      }
+ catch (      IllegalArgumentException e) {
+        throw new ELException(LocalMessages.get("error.coerce.value",value,type));
+      }
+    }
+    return editor.getValue();
+  }
+}

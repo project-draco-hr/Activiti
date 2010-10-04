@@ -1,0 +1,26 @@
+{
+  return new Iterator<FeatureDescriptor>(){
+    Iterator<FeatureDescriptor> empty=Collections.<FeatureDescriptor>emptyList().iterator();
+    Iterator<ELResolver> resolvers=CompositeELResolver.this.resolvers.iterator();
+    Iterator<FeatureDescriptor> features=empty;
+    Iterator<FeatureDescriptor> features(){
+      while (!features.hasNext() && resolvers.hasNext()) {
+        features=resolvers.next().getFeatureDescriptors(context,base);
+        if (features == null) {
+          features=empty;
+        }
+      }
+      return features;
+    }
+    public boolean hasNext(){
+      return features().hasNext();
+    }
+    public FeatureDescriptor next(){
+      return features().next();
+    }
+    public void remove(){
+      features().remove();
+    }
+  }
+;
+}

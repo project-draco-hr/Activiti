@@ -1,0 +1,20 @@
+{
+  Integer scalar=0;
+  ResourceBundle bundle=sampleBundle();
+  ResourceBundleELResolver resolver=new ResourceBundleELResolver();
+  context.setPropertyResolved(false);
+  assertNull(resolver.getType(context,null,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getType(context,scalar,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getType(context,bundle,1));
+  assertTrue(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getType(context,bundle,null));
+  assertTrue(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getType(context,bundle,"foo"));
+  assertTrue(context.isPropertyResolved());
+}

@@ -1,0 +1,10 @@
+{
+  assertEquals(1l,parseNode("${base['foo']}").getValue(bindings,context,null));
+  assertEquals("1",parseNode("${base['foo']}").getValue(bindings,context,String.class));
+  if (BUILDER.isEnabled(Builder.Feature.NULL_PROPERTIES)) {
+    assertEquals("foo",parseNode("${nullmap[null]}").getValue(bindings,context,null));
+  }
+ else {
+    assertNull(parseNode("${nullmap[null]}").getValue(bindings,context,null));
+  }
+}

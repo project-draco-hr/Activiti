@@ -1,0 +1,60 @@
+{
+  int scalar=0;
+  int[] array={1,2,3};
+  ArrayELResolver resolver=new ArrayELResolver();
+  ArrayELResolver resolverReadOnly=new ArrayELResolver(true);
+  context.setPropertyResolved(false);
+  resolver.setValue(context,null,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,scalar,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,array,1,999);
+  assertEquals(999,array[1]);
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolver.setValue(context,array,null,999);
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.setValue(context,array,"foo",999);
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.setValue(context,array,-1,999);
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+  try {
+    resolver.setValue(context,array,array.length,999);
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+  try {
+    resolver.setValue(context,array,1,null);
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.setValue(context,array,1,"foo");
+    fail();
+  }
+ catch (  ClassCastException e) {
+  }
+catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolverReadOnly.setValue(context,array,1,999);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+}

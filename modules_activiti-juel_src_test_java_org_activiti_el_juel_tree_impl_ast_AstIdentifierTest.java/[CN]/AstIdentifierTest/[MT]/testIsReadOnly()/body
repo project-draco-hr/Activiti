@@ -1,0 +1,19 @@
+{
+  Tree tree=null;
+  Bindings bindings=null;
+  tree=parse("${var_long_1}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  assertTrue(getNode(tree).isReadOnly(bindings,context));
+  tree=parse("${property_long_1}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  assertFalse(getNode(tree).isReadOnly(bindings,context));
+  tree=parse("${var_var_long_1}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  assertTrue(getNode(tree).isReadOnly(bindings,context));
+  tree=parse("${var_property_long_1}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  assertFalse(getNode(tree).isReadOnly(bindings,context));
+  tree=parse("${indentifier_string}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  assertTrue(getNode(tree).isReadOnly(bindings,context));
+}

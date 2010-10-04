@@ -1,0 +1,9 @@
+{
+  context.setPropertyResolved(false);
+  for (  ELResolver resolver : resolvers) {
+    resolver.setValue(context,base,property,value);
+    if (context.isPropertyResolved()) {
+      return;
+    }
+  }
+}

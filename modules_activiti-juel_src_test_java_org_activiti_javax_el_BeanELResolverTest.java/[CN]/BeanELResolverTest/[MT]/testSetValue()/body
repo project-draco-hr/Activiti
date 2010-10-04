@@ -1,0 +1,38 @@
+{
+  BeanELResolver resolver=new BeanELResolver();
+  BeanELResolver resolverReadOnly=new BeanELResolver(true);
+  context.setPropertyResolved(false);
+  resolver.setValue(context,null,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  TestBean bean=new TestBean();
+  resolver.setValue(context,bean,"readWrite",999);
+  assertEquals(999,bean.getReadWrite());
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolver.setValue(context,new TestBean(),"readOnly",1);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+  try {
+    resolver.setValue(context,new TestBean(),"doesntExist",1);
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+  try {
+    resolver.setValue(context,new TestBean(),"readWrite","invalid");
+    fail();
+  }
+ catch (  ELException e) {
+  }
+catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolverReadOnly.setValue(context,bean,"readWrite",999);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+}

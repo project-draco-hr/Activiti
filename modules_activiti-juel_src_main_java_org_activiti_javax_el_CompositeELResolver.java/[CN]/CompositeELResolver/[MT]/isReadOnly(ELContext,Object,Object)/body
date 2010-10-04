@@ -1,0 +1,10 @@
+{
+  context.setPropertyResolved(false);
+  for (  ELResolver resolver : resolvers) {
+    boolean readOnly=resolver.isReadOnly(context,base,property);
+    if (context.isPropertyResolved()) {
+      return readOnly;
+    }
+  }
+  return false;
+}

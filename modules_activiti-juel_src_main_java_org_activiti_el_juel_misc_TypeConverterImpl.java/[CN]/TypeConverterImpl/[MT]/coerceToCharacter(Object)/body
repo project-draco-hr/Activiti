@@ -1,0 +1,15 @@
+{
+  if (value == null || "".equals(value)) {
+    return Character.valueOf((char)0);
+  }
+  if (value instanceof Character) {
+    return (Character)value;
+  }
+  if (value instanceof Number) {
+    return Character.valueOf((char)((Number)value).shortValue());
+  }
+  if (value instanceof String) {
+    return Character.valueOf(((String)value).charAt(0));
+  }
+  throw new ELException(LocalMessages.get("error.coerce.type",value.getClass(),Character.class));
+}

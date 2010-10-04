@@ -1,0 +1,10 @@
+{
+  context.setPropertyResolved(false);
+  for (  ELResolver resolver : resolvers) {
+    Object result=resolver.invoke(context,base,method,paramTypes,params);
+    if (context.isPropertyResolved()) {
+      return result;
+    }
+  }
+  return null;
+}

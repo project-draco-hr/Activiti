@@ -1,0 +1,26 @@
+{
+  AstNode v=null;
+switch (token.getSymbol()) {
+case IDENTIFIER:
+    String name=consumeToken().getImage();
+  if (token.getSymbol() == COLON && lookahead(0).getSymbol() == IDENTIFIER && lookahead(1).getSymbol() == LPAREN) {
+    consumeToken();
+    name+=":" + token.getImage();
+    consumeToken();
+  }
+if (token.getSymbol() == LPAREN) {
+  v=function(name,params());
+}
+ else {
+  v=identifier(name);
+}
+break;
+case LPAREN:
+consumeToken();
+v=expr(true);
+consumeToken(RPAREN);
+v=new AstNested(v);
+break;
+}
+return v;
+}

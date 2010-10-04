@@ -1,0 +1,30 @@
+{
+  builder.setLength(0);
+  char quote=input.charAt(position);
+  int i=position + 1;
+  int l=input.length();
+  while (i < l) {
+    char c=input.charAt(i++);
+    if (c == '\\') {
+      if (i == l) {
+        throw new ScanException(position,"unterminated string",quote + " or \\");
+      }
+ else {
+        c=input.charAt(i++);
+        if (c == '\\' || c == quote) {
+          builder.append(c);
+        }
+ else {
+          throw new ScanException(position,"invalid escape sequence \\" + c,"\\" + quote + " or \\\\");
+        }
+      }
+    }
+ else     if (c == quote) {
+      return token(Symbol.STRING,builder.toString(),i - position);
+    }
+ else {
+      builder.append(c);
+    }
+  }
+  throw new ScanException(position,"unterminated string",String.valueOf(quote));
+}

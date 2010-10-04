@@ -1,0 +1,12 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  if (isResolvable(base)) {
+    if (readOnly) {
+      throw new PropertyNotWritableException("resolver is read-only");
+    }
+    ((Map)base).put(property,value);
+    context.setPropertyResolved(true);
+  }
+}

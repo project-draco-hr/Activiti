@@ -1,0 +1,7 @@
+{
+  StringBuilder s=new StringBuilder();
+  parseNode("${!1}").appendStructure(s,bindings);
+  parseNode("${empty 1}").appendStructure(s,bindings);
+  parseNode("${-1}").appendStructure(s,bindings);
+  assertEquals("! 1empty 1- 1",s.toString());
+}

@@ -1,0 +1,11 @@
+{
+  if (context == null) {
+    throw new NullPointerException();
+  }
+  boolean result=readOnly;
+  if (isResolvable(base)) {
+    result|=toBeanProperty(base,property).isReadOnly();
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

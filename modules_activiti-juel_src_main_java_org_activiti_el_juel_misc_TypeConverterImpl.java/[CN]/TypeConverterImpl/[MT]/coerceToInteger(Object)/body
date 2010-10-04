@@ -1,0 +1,23 @@
+{
+  if (value == null || "".equals(value)) {
+    return Integer.valueOf(0);
+  }
+  if (value instanceof Integer) {
+    return (Integer)value;
+  }
+  if (value instanceof Number) {
+    return Integer.valueOf(((Number)value).intValue());
+  }
+  if (value instanceof String) {
+    try {
+      return Integer.valueOf((String)value);
+    }
+ catch (    NumberFormatException e) {
+      throw new ELException(LocalMessages.get("error.coerce.value",value,Integer.class));
+    }
+  }
+  if (value instanceof Character) {
+    return Integer.valueOf((short)((Character)value).charValue());
+  }
+  throw new ELException(LocalMessages.get("error.coerce.type",value.getClass(),Integer.class));
+}

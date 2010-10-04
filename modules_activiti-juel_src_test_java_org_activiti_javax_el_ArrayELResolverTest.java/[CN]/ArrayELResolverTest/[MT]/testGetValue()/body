@@ -1,0 +1,28 @@
+{
+  int scalar=0;
+  int[] array={1,2,3};
+  ArrayELResolver resolver=new ArrayELResolver();
+  context.setPropertyResolved(false);
+  assertNull(resolver.getValue(context,null,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertNull(resolver.getValue(context,scalar,"foo"));
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  assertEquals(2,resolver.getValue(context,array,1));
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolver.getValue(context,array,null);
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.getValue(context,array,"foo");
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  assertNull(resolver.getValue(context,array,-1));
+  assertNull(resolver.getValue(context,array,array.length));
+}

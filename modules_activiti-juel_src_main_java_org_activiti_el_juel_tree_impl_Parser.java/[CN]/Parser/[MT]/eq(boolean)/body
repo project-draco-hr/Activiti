@@ -1,0 +1,25 @@
+{
+  AstNode v=cmp(required);
+  if (v == null) {
+    return null;
+  }
+  while (true) {
+switch (token.getSymbol()) {
+case EQ:
+      consumeToken();
+    v=createAstBinary(v,cmp(true),AstBinary.EQ);
+  break;
+case NE:
+consumeToken();
+v=createAstBinary(v,cmp(true),AstBinary.NE);
+break;
+case EXTENSION:
+if (getExtensionHandler(token).getExtensionPoint() == ExtensionPoint.EQ) {
+v=getExtensionHandler(consumeToken()).createAstNode(v,cmp(true));
+break;
+}
+default :
+return v;
+}
+}
+}

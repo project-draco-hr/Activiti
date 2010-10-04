@@ -1,0 +1,22 @@
+{
+  Number zero=Long.valueOf(0l);
+  Number ninetynine=Long.valueOf(99l);
+  assertEquals(zero,converter.coerceToLong(null));
+  assertEquals(zero,converter.coerceToLong(""));
+  assertEquals(ninetynine,converter.coerceToLong(Character.valueOf('c')));
+  assertEquals(ninetynine,converter.coerceToLong(new Byte((byte)99)));
+  assertEquals(ninetynine,converter.coerceToLong(new Short((short)99)));
+  assertEquals(ninetynine,converter.coerceToLong(new Integer(99)));
+  assertEquals(ninetynine,converter.coerceToLong(new Long(99)));
+  assertEquals(ninetynine,converter.coerceToLong(new Float(99)));
+  assertEquals(ninetynine,converter.coerceToLong(new Double(99)));
+  assertEquals(ninetynine,converter.coerceToLong(new BigDecimal(99)));
+  assertEquals(ninetynine,converter.coerceToLong(new BigInteger("99")));
+  assertEquals(ninetynine,converter.coerceToLong(ninetynine.toString()));
+  try {
+    converter.coerceToLong("foo");
+    fail();
+  }
+ catch (  ELException e) {
+  }
+}

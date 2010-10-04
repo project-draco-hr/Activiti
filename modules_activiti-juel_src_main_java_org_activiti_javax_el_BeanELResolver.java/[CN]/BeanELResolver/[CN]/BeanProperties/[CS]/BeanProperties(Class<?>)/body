@@ -1,0 +1,12 @@
+{
+  PropertyDescriptor[] descriptors;
+  try {
+    descriptors=Introspector.getBeanInfo(baseClass).getPropertyDescriptors();
+  }
+ catch (  IntrospectionException e) {
+    throw new ELException(e);
+  }
+  for (  PropertyDescriptor descriptor : descriptors) {
+    map.put(descriptor.getName(),new BeanProperty(descriptor));
+  }
+}

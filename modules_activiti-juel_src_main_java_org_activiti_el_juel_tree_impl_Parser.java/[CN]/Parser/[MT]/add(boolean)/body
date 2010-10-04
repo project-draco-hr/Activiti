@@ -1,0 +1,25 @@
+{
+  AstNode v=mul(required);
+  if (v == null) {
+    return null;
+  }
+  while (true) {
+switch (token.getSymbol()) {
+case PLUS:
+      consumeToken();
+    v=createAstBinary(v,mul(true),AstBinary.ADD);
+  break;
+case MINUS:
+consumeToken();
+v=createAstBinary(v,mul(true),AstBinary.SUB);
+break;
+case EXTENSION:
+if (getExtensionHandler(token).getExtensionPoint() == ExtensionPoint.ADD) {
+v=getExtensionHandler(consumeToken()).createAstNode(v,mul(true));
+break;
+}
+default :
+return v;
+}
+}
+}

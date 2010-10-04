@@ -1,0 +1,48 @@
+{
+  if (targetType.isPrimitive()) {
+    if (targetType == boolean.class) {
+      if (obj == null) {
+        return false;
+      }
+      targetType=Boolean.class;
+    }
+    if (targetType == int.class) {
+      if (obj == null) {
+        return 0;
+      }
+      targetType=Integer.class;
+    }
+    if (targetType == long.class) {
+      if (obj == null) {
+        return 0;
+      }
+      targetType=Long.class;
+    }
+  }
+  if (targetType.isInstance(obj)) {
+    return obj;
+  }
+  if (targetType == String.class) {
+    return obj == null ? "" : obj.toString();
+  }
+  if (obj.getClass() == String.class) {
+    if (targetType == Boolean.class) {
+      return Boolean.valueOf(obj.toString());
+    }
+    if (targetType == Integer.class) {
+      return Integer.valueOf(obj.toString());
+    }
+  }
+  if (obj instanceof Number) {
+    if (targetType == Integer.class) {
+      return ((Number)obj).intValue();
+    }
+    if (targetType == Long.class) {
+      return ((Number)obj).longValue();
+    }
+    if (targetType == Double.class) {
+      return ((Number)obj).doubleValue();
+    }
+  }
+  throw new ELException("Test conversion failed: " + obj.getClass() + " --> "+ targetType);
+}

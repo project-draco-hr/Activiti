@@ -1,0 +1,41 @@
+{
+  Tree tree=null;
+  Bindings bindings=null;
+  MethodInfo info=null;
+  tree=parse("${bad}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  try {
+    getNode(tree).getMethodInfo(bindings,context,long.class,new Class[0]);
+    fail();
+  }
+ catch (  ELException e) {
+  }
+  tree=parse("${var_method_1}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  info=getNode(tree).getMethodInfo(bindings,context,long.class,new Class[0]);
+  assertEquals("method_1",info.getName());
+  assertTrue(Arrays.equals(new Class[0],info.getParamTypes()));
+  assertEquals(long.class,info.getReturnType());
+  tree=parse("${property_method_1}");
+  bindings=tree.bind(null,context.getVariableMapper());
+  info=getNode(tree).getMethodInfo(bindings,context,long.class,new Class[0]);
+  assertEquals("method_1",info.getName());
+  assertTrue(Arrays.equals(new Class[0],info.getParamTypes()));
+  assertEquals(long.class,info.getReturnType());
+  info=getNode(tree).getMethodInfo(bindings,context,null,new Class[0]);
+  assertEquals("method_1",info.getName());
+  assertTrue(Arrays.equals(new Class[0],info.getParamTypes()));
+  assertEquals(long.class,info.getReturnType());
+  try {
+    getNode(tree).getMethodInfo(bindings,context,int.class,new Class[0]);
+    fail();
+  }
+ catch (  ELException e) {
+  }
+  try {
+    getNode(tree).getMethodInfo(bindings,context,long.class,new Class[]{String.class});
+    fail();
+  }
+ catch (  ELException e) {
+  }
+}

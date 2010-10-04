@@ -1,0 +1,12 @@
+{
+  new TreeValueExpression(store,null,null,null,"${property_foo}",Object.class).setValue(context,"bar");
+  assertEquals("bar",new TreeValueExpression(store,null,null,null,"${property_foo}",Object.class).getValue(context));
+  new TreeValueExpression(store,null,context.getVariableMapper(),null,"${var_foobar}",Object.class).setValue(context,123);
+  assertEquals(123,foobar);
+  try {
+    context.getELResolver().getValue(context,null,"var_foobar");
+    fail("Bug in AstIdentifierNode.setValue(...)");
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+}

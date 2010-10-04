@@ -1,0 +1,13 @@
+{
+  AstEval v=null;
+  Symbol start_eval=deferred ? START_EVAL_DEFERRED : START_EVAL_DYNAMIC;
+  if (token.getSymbol() == start_eval) {
+    consumeToken();
+    v=new AstEval(expr(true),deferred);
+    consumeToken(END_EVAL);
+  }
+ else   if (required) {
+    fail(start_eval);
+  }
+  return v;
+}

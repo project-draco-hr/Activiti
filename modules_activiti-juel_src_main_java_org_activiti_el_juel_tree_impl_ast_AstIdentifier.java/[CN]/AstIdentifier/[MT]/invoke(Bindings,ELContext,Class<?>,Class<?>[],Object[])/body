@@ -1,0 +1,15 @@
+{
+  Method method=getMethod(bindings,context,returnType,paramTypes);
+  try {
+    return method.invoke(null,params);
+  }
+ catch (  IllegalAccessException e) {
+    throw new ELException(LocalMessages.get("error.identifier.method.access",name));
+  }
+catch (  IllegalArgumentException e) {
+    throw new ELException(LocalMessages.get("error.identifier.method.invocation",name,e));
+  }
+catch (  InvocationTargetException e) {
+    throw new ELException(LocalMessages.get("error.identifier.method.invocation",name,e.getCause()));
+  }
+}

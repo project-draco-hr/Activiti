@@ -1,0 +1,11 @@
+{
+  try {
+    return createParser(expression).tree();
+  }
+ catch (  ScanException e) {
+    throw new TreeBuilderException(expression,e.position,e.encountered,e.expected,e.getMessage());
+  }
+catch (  ParseException e) {
+    throw new TreeBuilderException(expression,e.position,e.encountered,e.expected,e.getMessage());
+  }
+}

@@ -1,0 +1,11 @@
+{
+  verifyCompositeExpression("a${a}a");
+  verifyCompositeExpression("a ${a} a");
+  verifyCompositeExpression("${a}${a}");
+  try {
+    parse("#{a}${a}");
+    fail();
+  }
+ catch (  Exception e) {
+  }
+}

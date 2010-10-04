@@ -1,9 +1,22 @@
 {
   ELContext elContext=expressionManager.getElContext((ExecutionEntity)execution);
-  try {
-    return methodExpression.invoke(elContext,null);
+  if (valueExpression != null) {
+    try {
+      return valueExpression.getValue(elContext);
+    }
+ catch (    ELException ele) {
+      throw new ActivitiException("Error occured while invoking method '" + valueExpression + "'",ele);
+    }
   }
- catch (  MethodNotFoundException e) {
-    throw new ActivitiException("Unknown method used in expression '" + methodExpression + "'",e);
+ else   if (methodExpression != null) {
+    try {
+      return methodExpression.invoke(elContext,null);
+    }
+ catch (    MethodNotFoundException e) {
+      throw new ActivitiException("Unknown method used in expression '" + methodExpression + "'",e);
+    }
+  }
+ else {
+    throw new ActivitiException("Nothing to invoke, both methodExpression and valueExpression are null");
   }
 }

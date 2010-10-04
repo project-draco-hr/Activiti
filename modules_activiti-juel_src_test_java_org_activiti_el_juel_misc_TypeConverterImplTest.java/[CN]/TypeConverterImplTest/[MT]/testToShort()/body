@@ -1,0 +1,22 @@
+{
+  Number zero=Short.valueOf((short)0);
+  Number ninetynine=Short.valueOf((short)99);
+  assertEquals(zero,converter.coerceToShort(null));
+  assertEquals(zero,converter.coerceToShort(""));
+  assertEquals(ninetynine,converter.coerceToShort(Character.valueOf('c')));
+  assertEquals(ninetynine,converter.coerceToShort(new Byte((byte)99)));
+  assertEquals(ninetynine,converter.coerceToShort(new Short((short)99)));
+  assertEquals(ninetynine,converter.coerceToShort(new Integer(99)));
+  assertEquals(ninetynine,converter.coerceToShort(new Long(99)));
+  assertEquals(ninetynine,converter.coerceToShort(new Float(99)));
+  assertEquals(ninetynine,converter.coerceToShort(new Double(99)));
+  assertEquals(ninetynine,converter.coerceToShort(new BigDecimal(99)));
+  assertEquals(ninetynine,converter.coerceToShort(new BigInteger("99")));
+  assertEquals(ninetynine,converter.coerceToShort(ninetynine.toString()));
+  try {
+    converter.coerceToShort("foo");
+    fail();
+  }
+ catch (  ELException e) {
+  }
+}

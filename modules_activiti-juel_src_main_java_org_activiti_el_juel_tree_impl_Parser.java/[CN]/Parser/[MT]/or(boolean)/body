@@ -1,0 +1,21 @@
+{
+  AstNode v=and(required);
+  if (v == null) {
+    return null;
+  }
+  while (true) {
+switch (token.getSymbol()) {
+case OR:
+      consumeToken();
+    v=createAstBinary(v,and(true),AstBinary.OR);
+  break;
+case EXTENSION:
+if (getExtensionHandler(token).getExtensionPoint() == ExtensionPoint.OR) {
+  v=getExtensionHandler(consumeToken()).createAstNode(v,and(true));
+  break;
+}
+default :
+return v;
+}
+}
+}

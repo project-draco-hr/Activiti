@@ -1,0 +1,23 @@
+{
+  if (context == null) {
+    throw new NullPointerException();
+  }
+  Object result=null;
+  if (isResolvable(base)) {
+    Method method=toBeanProperty(base,property).getReadMethod();
+    if (method == null) {
+      throw new PropertyNotFoundException("Cannot read property " + property);
+    }
+    try {
+      result=method.invoke(base);
+    }
+ catch (    InvocationTargetException e) {
+      throw new ELException(e.getCause());
+    }
+catch (    Exception e) {
+      throw new ELException(e);
+    }
+    context.setPropertyResolved(true);
+  }
+  return result;
+}

@@ -1,0 +1,35 @@
+{
+  assertEquals(new Long(0),NumberOperations.sub(converter,null,null));
+  BigDecimal bd1=new BigDecimal(1);
+  Integer i1=new Integer(1);
+  Long l1=new Long(1);
+  Float f1=new Float(1);
+  Double d1=new Double(1);
+  String e1="1e0";
+  String s1="1";
+  BigInteger bi1=new BigInteger("1");
+  Long l2=new Long(0);
+  BigDecimal bd2=new BigDecimal(0);
+  Double d2=new Double(0);
+  BigInteger bi2=new BigInteger("0");
+  assertEquals(bd2,NumberOperations.sub(converter,l1,bd1));
+  assertEquals(bd2,NumberOperations.sub(converter,bd1,l1));
+  assertEquals(bd2,NumberOperations.sub(converter,f1,bi1));
+  assertEquals(bd2,NumberOperations.sub(converter,bi1,f1));
+  assertEquals(d2,NumberOperations.sub(converter,f1,l1));
+  assertEquals(d2,NumberOperations.sub(converter,l1,f1));
+  assertEquals(bd2,NumberOperations.sub(converter,d1,bi1));
+  assertEquals(bd2,NumberOperations.sub(converter,bi1,d1));
+  assertEquals(d2,NumberOperations.sub(converter,d1,l1));
+  assertEquals(d2,NumberOperations.sub(converter,l1,d1));
+  assertEquals(bd2,NumberOperations.sub(converter,e1,bi1));
+  assertEquals(bd2,NumberOperations.sub(converter,bi1,e1));
+  assertEquals(d2,NumberOperations.sub(converter,e1,l1));
+  assertEquals(d2,NumberOperations.sub(converter,l1,e1));
+  assertEquals(bi2,NumberOperations.sub(converter,l1,bi1));
+  assertEquals(bi2,NumberOperations.sub(converter,bi1,l1));
+  assertEquals(l2,NumberOperations.sub(converter,i1,l1));
+  assertEquals(l2,NumberOperations.sub(converter,l1,i1));
+  assertEquals(l2,NumberOperations.sub(converter,i1,s1));
+  assertEquals(l2,NumberOperations.sub(converter,s1,i1));
+}

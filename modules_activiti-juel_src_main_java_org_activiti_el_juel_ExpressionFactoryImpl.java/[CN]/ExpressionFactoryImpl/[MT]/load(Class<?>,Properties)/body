@@ -1,0 +1,24 @@
+{
+  if (properties != null) {
+    String className=properties.getProperty(clazz.getName());
+    if (className != null) {
+      ClassLoader loader;
+      try {
+        loader=Thread.currentThread().getContextClassLoader();
+      }
+ catch (      Exception e) {
+        throw new ELException("Could not get context class loader",e);
+      }
+      try {
+        return loader == null ? Class.forName(className) : loader.loadClass(className);
+      }
+ catch (      ClassNotFoundException e) {
+        throw new ELException("Class " + className + " not found",e);
+      }
+catch (      Exception e) {
+        throw new ELException("Class " + className + " could not be instantiated",e);
+      }
+    }
+  }
+  return null;
+}

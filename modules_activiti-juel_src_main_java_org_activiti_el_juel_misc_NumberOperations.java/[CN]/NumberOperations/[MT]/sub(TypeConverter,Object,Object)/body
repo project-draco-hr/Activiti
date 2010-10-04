@@ -1,0 +1,18 @@
+{
+  if (o1 == null && o2 == null) {
+    return LONG_ZERO;
+  }
+  if (o1 instanceof BigDecimal || o2 instanceof BigDecimal) {
+    return converter.convert(o1,BigDecimal.class).subtract(converter.convert(o2,BigDecimal.class));
+  }
+  if (isFloatOrDoubleOrDotEe(o1) || isFloatOrDoubleOrDotEe(o2)) {
+    if (o1 instanceof BigInteger || o2 instanceof BigInteger) {
+      return converter.convert(o1,BigDecimal.class).subtract(converter.convert(o2,BigDecimal.class));
+    }
+    return converter.convert(o1,Double.class) - converter.convert(o2,Double.class);
+  }
+  if (o1 instanceof BigInteger || o2 instanceof BigInteger) {
+    return converter.convert(o1,BigInteger.class).subtract(converter.convert(o2,BigInteger.class));
+  }
+  return converter.convert(o1,Long.class) - converter.convert(o2,Long.class);
+}

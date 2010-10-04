@@ -1,0 +1,9 @@
+{
+  try {
+    parseNode("${base.bad}").eval(bindings,context);
+    fail();
+  }
+ catch (  ELException e) {
+  }
+  assertEquals(1l,parseNode("${base.foo}").eval(bindings,context));
+}

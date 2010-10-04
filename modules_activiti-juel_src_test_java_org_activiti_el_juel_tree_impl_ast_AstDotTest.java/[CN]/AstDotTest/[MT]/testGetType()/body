@@ -1,0 +1,10 @@
+{
+  try {
+    parseNode("${base.bad}").getType(bindings,context);
+    fail();
+  }
+ catch (  ELException e) {
+  }
+  assertEquals(long.class,parseNode("${base.foo}").getType(bindings,context));
+  assertNull(parseNode("${'base'.foo}").getType(bindings,context));
+}

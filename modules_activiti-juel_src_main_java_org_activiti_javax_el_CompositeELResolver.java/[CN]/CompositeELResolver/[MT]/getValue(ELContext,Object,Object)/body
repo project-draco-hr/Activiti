@@ -1,0 +1,10 @@
+{
+  context.setPropertyResolved(false);
+  for (  ELResolver resolver : resolvers) {
+    Object value=resolver.getValue(context,base,property);
+    if (context.isPropertyResolved()) {
+      return value;
+    }
+  }
+  return null;
+}

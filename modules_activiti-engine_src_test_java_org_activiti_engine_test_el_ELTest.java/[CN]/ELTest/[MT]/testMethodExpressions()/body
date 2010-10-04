@@ -1,0 +1,6 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("aString","abcdefgh");
+  runtimeService.startProcessInstanceByKey("methodExpressionProcess",vars);
+  Assert.assertEquals(0,runtimeService.createProcessInstanceQuery().processDefinitionKey("methodExpressionProcess").count());
+}

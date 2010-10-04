@@ -1,0 +1,12 @@
+{
+  Method method=bindings.getFunction(index);
+  try {
+    return invoke(bindings,context,null,method);
+  }
+ catch (  IllegalAccessException e) {
+    throw new ELException(LocalMessages.get("error.function.access",name),e);
+  }
+catch (  InvocationTargetException e) {
+    throw new ELException(LocalMessages.get("error.function.invocation",name),e.getCause());
+  }
+}

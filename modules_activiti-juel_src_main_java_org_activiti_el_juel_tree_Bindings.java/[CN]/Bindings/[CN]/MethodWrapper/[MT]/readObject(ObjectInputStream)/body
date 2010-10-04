@@ -1,0 +1,12 @@
+{
+  in.defaultReadObject();
+  Class<?> type=(Class<?>)in.readObject();
+  String name=(String)in.readObject();
+  Class<?>[] args=(Class<?>[])in.readObject();
+  try {
+    method=type.getDeclaredMethod(name,args);
+  }
+ catch (  NoSuchMethodException e) {
+    throw new IOException(e.getMessage());
+  }
+}

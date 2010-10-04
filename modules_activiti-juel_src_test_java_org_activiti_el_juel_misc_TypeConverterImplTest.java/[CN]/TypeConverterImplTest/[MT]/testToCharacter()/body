@@ -1,0 +1,33 @@
+{
+  assertEquals(Character.valueOf((char)0),converter.coerceToCharacter(null));
+  assertEquals(Character.valueOf((char)0),converter.coerceToCharacter(""));
+  Character c=Character.valueOf((char)99);
+  assertSame(c,converter.coerceToCharacter(c));
+  try {
+    converter.coerceToCharacter(Boolean.TRUE);
+    fail();
+  }
+ catch (  ELException e) {
+  }
+  try {
+    converter.coerceToCharacter(Boolean.FALSE);
+    fail();
+  }
+ catch (  ELException e) {
+  }
+  assertEquals(c,converter.coerceToCharacter(new Byte((byte)99)));
+  assertEquals(c,converter.coerceToCharacter(new Short((short)99)));
+  assertEquals(c,converter.coerceToCharacter(new Integer(99)));
+  assertEquals(c,converter.coerceToCharacter(new Long(99)));
+  assertEquals(c,converter.coerceToCharacter(new Float((float)99.5)));
+  assertEquals(c,converter.coerceToCharacter(new Double(99.5)));
+  assertEquals(c,converter.coerceToCharacter(new BigDecimal("99.5")));
+  assertEquals(c,converter.coerceToCharacter(new BigInteger("99")));
+  assertEquals(c,converter.coerceToCharacter("c#"));
+  try {
+    converter.coerceToCharacter(this);
+    fail();
+  }
+ catch (  ELException e) {
+  }
+}

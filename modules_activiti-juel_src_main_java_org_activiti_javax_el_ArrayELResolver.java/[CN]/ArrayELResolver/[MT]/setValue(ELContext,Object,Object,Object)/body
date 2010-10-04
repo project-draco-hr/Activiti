@@ -1,0 +1,12 @@
+{
+  if (context == null) {
+    throw new NullPointerException("context is null");
+  }
+  if (isResolvable(base)) {
+    if (readOnly) {
+      throw new PropertyNotWritableException("resolver is read-only");
+    }
+    Array.set(base,toIndex(base,property),value);
+    context.setPropertyResolved(true);
+  }
+}

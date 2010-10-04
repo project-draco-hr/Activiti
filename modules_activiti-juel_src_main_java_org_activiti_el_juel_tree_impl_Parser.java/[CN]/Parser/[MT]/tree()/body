@@ -1,0 +1,36 @@
+{
+  consumeToken();
+  AstNode t=text();
+  if (token.getSymbol() == EOF) {
+    if (t == null) {
+      t=new AstText("");
+    }
+    return new Tree(t,functions,identifiers,false);
+  }
+  AstEval e=eval();
+  if (token.getSymbol() == EOF && t == null) {
+    return new Tree(e,functions,identifiers,e.isDeferred());
+  }
+  ArrayList<AstNode> list=new ArrayList<AstNode>();
+  if (t != null) {
+    list.add(t);
+  }
+  list.add(e);
+  t=text();
+  if (t != null) {
+    list.add(t);
+  }
+  while (token.getSymbol() != EOF) {
+    if (e.isDeferred()) {
+      list.add(eval(true,true));
+    }
+ else {
+      list.add(eval(true,false));
+    }
+    t=text();
+    if (t != null) {
+      list.add(t);
+    }
+  }
+  return new Tree(createAstComposite(list),functions,identifiers,e.isDeferred());
+}

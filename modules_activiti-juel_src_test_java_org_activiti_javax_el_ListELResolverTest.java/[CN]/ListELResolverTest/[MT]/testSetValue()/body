@@ -1,0 +1,58 @@
+{
+  Integer scalar=0;
+  List<Integer> list=Arrays.asList(1,2,3);
+  ListELResolver resolver=new ListELResolver();
+  ListELResolver resolverReadOnly=new ListELResolver(true);
+  context.setPropertyResolved(false);
+  resolver.setValue(context,null,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,scalar,"foo",-1);
+  assertFalse(context.isPropertyResolved());
+  context.setPropertyResolved(false);
+  resolver.setValue(context,list,1,999);
+  assertEquals(999,list.get(1).intValue());
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolver.setValue(context,list,null,999);
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.setValue(context,list,"foo",999);
+    fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolver.setValue(context,list,-1,999);
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+  try {
+    resolver.setValue(context,list,list.size(),999);
+    fail();
+  }
+ catch (  PropertyNotFoundException e) {
+  }
+  context.setPropertyResolved(false);
+  resolver.setValue(context,list,1,null);
+  assertNull(list.get(1));
+  assertTrue(context.isPropertyResolved());
+  try {
+    resolver.setValue(context,list,1,"foo");
+    fail();
+  }
+ catch (  ClassCastException e) {
+  }
+catch (  IllegalArgumentException e) {
+  }
+  try {
+    resolverReadOnly.setValue(context,list,1,999);
+    fail();
+  }
+ catch (  PropertyNotWritableException e) {
+  }
+}

@@ -1,0 +1,10 @@
+{
+  AstEval e=eval(false,false);
+  if (e == null) {
+    e=eval(false,true);
+    if (e == null) {
+      fail(START_EVAL_DEFERRED + "|" + START_EVAL_DYNAMIC);
+    }
+  }
+  return e;
+}

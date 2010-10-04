@@ -1,0 +1,23 @@
+{
+  if (types != null) {
+    try {
+      return findAccessibleMethod(base.getClass().getMethod(name,types));
+    }
+ catch (    NoSuchMethodException e) {
+      return null;
+    }
+  }
+  Method varArgsMethod=null;
+  for (  Method method : base.getClass().getMethods()) {
+    if (method.getName().equals(name)) {
+      int formalParamCount=method.getParameterTypes().length;
+      if (method.isVarArgs() && paramCount >= formalParamCount - 1) {
+        varArgsMethod=method;
+      }
+ else       if (paramCount == formalParamCount) {
+        return findAccessibleMethod(method);
+      }
+    }
+  }
+  return varArgsMethod == null ? null : findAccessibleMethod(varArgsMethod);
+}

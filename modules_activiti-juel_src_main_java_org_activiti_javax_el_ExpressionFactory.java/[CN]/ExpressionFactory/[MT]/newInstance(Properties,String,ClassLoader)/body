@@ -1,0 +1,29 @@
+{
+  Class<?> clazz=null;
+  try {
+    clazz=classLoader.loadClass(className.trim());
+    if (!ExpressionFactory.class.isAssignableFrom(clazz)) {
+      throw new ELException("Invalid expression factory class: " + clazz.getName());
+    }
+  }
+ catch (  ClassNotFoundException e) {
+    throw new ELException("Could not find expression factory class",e);
+  }
+  try {
+    if (properties != null) {
+      Constructor<?> constructor=null;
+      try {
+        constructor=clazz.getConstructor(Properties.class);
+      }
+ catch (      Exception e) {
+      }
+      if (constructor != null) {
+        return (ExpressionFactory)constructor.newInstance(properties);
+      }
+    }
+    return (ExpressionFactory)clazz.newInstance();
+  }
+ catch (  Exception e) {
+    throw new ELException("Could not create expression factory instance",e);
+  }
+}
