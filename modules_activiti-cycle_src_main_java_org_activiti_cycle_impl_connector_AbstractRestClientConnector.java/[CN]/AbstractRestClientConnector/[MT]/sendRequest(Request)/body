@@ -1,5 +1,5 @@
 {
-  injectSecurityToken(request);
+  injectSecurityMechanism(request);
   if (log.isLoggable(Level.FINE)) {
     RestClientLogHelper.logHttpRequest(log,Level.FINE,request);
   }
@@ -11,5 +11,5 @@
   if (response.getStatus().isSuccess()) {
     return response;
   }
-  throw new RepositoryException("Encountered error while retrieving response (HttpStatus: " + response.getStatus() + ", Body: "+ response.getEntity().getText()+ ")");
+  throw new RepositoryException("Encountered error while retrieving http response (HttpStatus: " + response.getStatus() + ", Body: "+ response.getEntity().getText()+ ")");
 }

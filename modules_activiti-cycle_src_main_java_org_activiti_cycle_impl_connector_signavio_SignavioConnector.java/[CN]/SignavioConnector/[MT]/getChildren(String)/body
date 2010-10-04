@@ -6,7 +6,7 @@
       JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
       JSONArray relJsonArray=jsonData.toJsonArray();
       if (log.isLoggable(Level.FINEST)) {
-        SignavioLogHelper.logJSONArray(log,Level.FINEST,relJsonArray);
+        RestClientLogHelper.logJSONArray(log,Level.FINEST,relJsonArray);
       }
       for (int i=0; i < relJsonArray.length(); i++) {
         JSONObject relObject=relJsonArray.getJSONObject(i);

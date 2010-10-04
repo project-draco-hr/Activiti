@@ -1,0 +1,17 @@
+{
+  log.log(logLevel,"----- Start HttpRequest -----");
+  log.log(logLevel,"Method - (" + request.getMethod() + ")");
+  log.log(logLevel,"ResourceRef - (" + request.getResourceRef() + ")");
+  if (request.getEntity() != null && request.getEntity().isAvailable()) {
+    try {
+      log.log(logLevel,"Body - (" + request.getEntity().getText() + ")");
+    }
+ catch (    IOException e1) {
+      e1.printStackTrace();
+    }
+  }
+  if (request.getAttributes() != null) {
+    logFormAttributes(log,logLevel,request.getAttributes());
+  }
+  log.log(logLevel,"----- End HttpRequest -----");
+}
