@@ -1,12 +1,12 @@
 {
-  CycleConfigEntity cycleConfig=new CycleConfigEntity();
+  CycleConfig cycleConfig=new CycleConfig();
   cycleConfig.setId(id);
   String configXML=getXStream().toXML(o);
   cycleConfig.setConfigXML(configXML);
   SqlSessionFactory sqlMapper=getSessionFactory();
   SqlSession session=sqlMapper.openSession();
   try {
-    session.insert("org.activiti.cycle.impl.conf.CycleConfigEntity.insertCycleConfig",cycleConfig);
+    session.insert("org.activiti.cycle.CycleConfig.insertCycleConfig",cycleConfig);
     session.commit();
   }
   finally {
