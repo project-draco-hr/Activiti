@@ -1,0 +1,20 @@
+{
+  if (name == null) {
+    throw new ActivitiException("name is null");
+  }
+  if (value == null) {
+switch (operator) {
+case GREATER_THAN:
+      throw new ActivitiException("Nullvalue cannot be used in 'greater than' condition");
+case LESS_THAN:
+    throw new ActivitiException("Nullvalue cannot be used in 'less than' condition");
+case GREATER_THAN_OR_EQUAL:
+  throw new ActivitiException("Nullvalue cannot be used in 'greater than or equal' condition");
+case LESS_THAN_OR_EQUAL:
+throw new ActivitiException("Nullvalue cannot be used in 'less than or equal' condition");
+case LIKE:
+throw new ActivitiException("Nullvalue cannot be used in 'like' condition");
+}
+}
+variables.add(new QueryVariableValue(name,value,operator));
+}

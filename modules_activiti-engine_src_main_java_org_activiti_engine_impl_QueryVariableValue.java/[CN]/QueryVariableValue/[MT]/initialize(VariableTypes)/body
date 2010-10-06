@@ -1,0 +1,11 @@
+{
+  if (variableInstanceEntity == null) {
+    Type type=types.findVariableType(value);
+    if (type instanceof ByteArrayType) {
+      throw new ActivitiException("Variables of type ByteArray cannot be used to query");
+    }
+ else {
+      variableInstanceEntity=VariableInstanceEntity.create(name,type,value);
+    }
+  }
+}

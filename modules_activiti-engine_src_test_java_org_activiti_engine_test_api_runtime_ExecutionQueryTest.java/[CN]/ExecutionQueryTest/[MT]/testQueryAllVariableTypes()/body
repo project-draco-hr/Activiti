@@ -1,0 +1,16 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("nullVar",null);
+  vars.put("stringVar","string");
+  vars.put("longVar",10L);
+  vars.put("doubleVar",1.2);
+  vars.put("integerVar",1234);
+  vars.put("shortVar",(short)123);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  ExecutionQuery query=runtimeService.createExecutionQuery().variableValue("nullVar",null).variableValue("stringVar","string").variableValue("longVar",10L).variableValue("doubleVar",1.2).variableValue("integerVar",1234).variableValue("shortVar",(short)123);
+  List<Execution> executions=query.list();
+  Assert.assertNotNull(executions);
+  Assert.assertEquals(1,executions.size());
+  Assert.assertEquals(processInstance.getId(),executions.get(0).getId());
+  runtimeService.deleteProcessInstance(processInstance.getId(),"test");
+}

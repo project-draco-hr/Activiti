@@ -1,0 +1,66 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("nullVar",null);
+  ProcessInstance processInstance1=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  vars=new HashMap<String,Object>();
+  vars.put("nullVar","notnull");
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  vars=new HashMap<String,Object>();
+  vars.put("nullVarLong","notnull");
+  ProcessInstance processInstance3=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  vars=new HashMap<String,Object>();
+  vars.put("nullVarDouble","notnull");
+  ProcessInstance processInstance4=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  vars=new HashMap<String,Object>();
+  vars.put("nullVarByte","testbytes".getBytes());
+  ProcessInstance processInstance5=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  ExecutionQuery query=runtimeService.createExecutionQuery().variableValue("nullVar",null);
+  List<Execution> executions=query.list();
+  Assert.assertNotNull(executions);
+  Assert.assertEquals(1,executions.size());
+  Assert.assertEquals(processInstance1.getId(),executions.get(0).getId());
+  Assert.assertEquals(1,runtimeService.createExecutionQuery().variableValueNot("nullVar",null).count());
+  Assert.assertEquals(1,runtimeService.createExecutionQuery().variableValueNot("nullVarLong",null).count());
+  Assert.assertEquals(1,runtimeService.createExecutionQuery().variableValueNot("nullVarDouble",null).count());
+  Assert.assertEquals(1,runtimeService.createExecutionQuery().variableValueNot("nullVarByte",null).count());
+  try {
+    runtimeService.createExecutionQuery().variableValueGreaterThan("nullVar",null);
+    fail("Excetion expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Nullvalue cannot be used in 'greater than' condition",ae.getMessage());
+  }
+  try {
+    runtimeService.createExecutionQuery().variableValueGreaterThanOrEqual("nullVar",null);
+    fail("Excetion expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Nullvalue cannot be used in 'greater than or equal' condition",ae.getMessage());
+  }
+  try {
+    runtimeService.createExecutionQuery().variableValueLessThan("nullVar",null);
+    fail("Excetion expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Nullvalue cannot be used in 'less than' condition",ae.getMessage());
+  }
+  try {
+    runtimeService.createExecutionQuery().variableValueLessThanOrEqual("nullVar",null);
+    fail("Excetion expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Nullvalue cannot be used in 'less than or equal' condition",ae.getMessage());
+  }
+  try {
+    runtimeService.createExecutionQuery().variableValueLike("nullVar",null);
+    fail("Excetion expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("Nullvalue cannot be used in 'like' condition",ae.getMessage());
+  }
+  runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
+  runtimeService.deleteProcessInstance(processInstance2.getId(),"test");
+  runtimeService.deleteProcessInstance(processInstance3.getId(),"test");
+  runtimeService.deleteProcessInstance(processInstance4.getId(),"test");
+  runtimeService.deleteProcessInstance(processInstance5.getId(),"test");
+}
