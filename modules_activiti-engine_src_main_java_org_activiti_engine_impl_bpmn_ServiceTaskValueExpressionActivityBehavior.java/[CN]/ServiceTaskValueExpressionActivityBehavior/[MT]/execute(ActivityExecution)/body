@@ -1,4 +1,7 @@
 {
-  activitiValueExpression.getValue(execution);
+  Object value=activitiValueExpression.getValue(execution);
+  if (resultVariableName != null) {
+    execution.setVariable(resultVariableName,value);
+  }
   leave(execution);
 }
