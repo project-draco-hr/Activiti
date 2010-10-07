@@ -11,7 +11,9 @@
     if ((jdbcDriver == null) || (jdbcUrl == null) || (jdbcUsername == null)) {
       throw new ActivitiException("DataSource or JDBC properties have to be specified in a process engine configuration");
     }
-    dataSource=new PooledDataSource(Thread.currentThread().getContextClassLoader(),jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+    PooledDataSource pooledDataSource=new PooledDataSource(Thread.currentThread().getContextClassLoader(),jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+    pooledDataSource.forceCloseAll();
+    dataSource=pooledDataSource;
   }
   TransactionFactory transactionFactory=null;
   if (processEngineConfiguration.isLocalTransactions()) {
