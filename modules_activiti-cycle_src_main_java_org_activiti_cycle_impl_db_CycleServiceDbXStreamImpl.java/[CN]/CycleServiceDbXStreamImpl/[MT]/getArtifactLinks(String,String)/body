@@ -1,7 +1,11 @@
 {
   CycleLink cycleLink=new CycleLink();
+  CycleLinkTarget cycleLinkTarget=new CycleLinkTarget();
+  List<CycleLinkTarget> cycleLinkTargetList=new ArrayList<CycleLinkTarget>();
+  cycleLinkTarget.setLinkType(type);
+  cycleLinkTargetList.add(cycleLinkTarget);
   cycleLink.setSourceArtifactId(sourceArtifactId);
-  cycleLink.setLinkType(type);
+  cycleLink.setCycleLinkTarget(cycleLinkTargetList);
   SqlSessionFactory sqlMapper=getSessionFactory();
   SqlSession session=sqlMapper.openSession();
   try {
