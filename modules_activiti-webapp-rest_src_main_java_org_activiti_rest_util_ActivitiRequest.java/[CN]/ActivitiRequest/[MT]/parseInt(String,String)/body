@@ -1,0 +1,8 @@
+{
+  try {
+    return Integer.parseInt(value);
+  }
+ catch (  NumberFormatException nfe) {
+    throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Value for param '" + param + "' is not a valid int value: '"+ value+ "'");
+  }
+}

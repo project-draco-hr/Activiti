@@ -16,7 +16,7 @@
     }
     if (response.getStatus().getCode() == ResponseStatus.STATUS_OK) {
       JSONObject userJson=new JSONObject(response.getResponse());
-      response=connector.call("/user/" + URLEncoder.encode(userId) + "/groups");
+      response=connector.call("/user/" + URLEncoder.encode(userId) + "/groups?size="+ maximumNumberOfGroups);
       if (Status.STATUS_OK != response.getStatus().getCode()) {
         throw new UserFactoryException("Unable to create user - failed to retrieve group info: " + response.getStatus().getMessage(),(Exception)response.getStatus().getException());
       }

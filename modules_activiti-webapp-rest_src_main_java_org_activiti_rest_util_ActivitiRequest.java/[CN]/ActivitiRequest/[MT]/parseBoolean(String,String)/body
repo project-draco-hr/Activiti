@@ -1,0 +1,8 @@
+{
+  try {
+    return Boolean.parseBoolean(value);
+  }
+ catch (  NumberFormatException nfe) {
+    throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Value for param '" + param + "' is not a valid bool value: '"+ value+ "'");
+  }
+}

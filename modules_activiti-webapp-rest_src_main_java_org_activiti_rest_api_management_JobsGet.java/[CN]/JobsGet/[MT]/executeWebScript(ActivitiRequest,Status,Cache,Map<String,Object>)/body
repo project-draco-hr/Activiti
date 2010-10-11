@@ -1,0 +1,40 @@
+{
+  String processInstanceId=req.getString("process-instance",null);
+  Boolean withRetriesLeft=req.getBoolean("with-retries-left",null);
+  Boolean executable=req.getBoolean("executable",null);
+  Boolean onlyTimers=req.getBoolean("only-timers",null);
+  Boolean onlyMessages=req.getBoolean("only-messages",null);
+  Date dueDateLowerThen=req.getDate("duedate-lt",null);
+  Date dueDateLowerThenOrEquals=req.getDate("duedate-ltoe",null);
+  Date dueDateHigherThen=req.getDate("duedate-ht",null);
+  Date dueDateHigherThenOrEquals=req.getDate("duedate-htoe",null);
+  JobQuery jobQuery=getManagementService().createJobQuery();
+  if (processInstanceId != null) {
+    jobQuery.processInstanceId(processInstanceId);
+  }
+  if (withRetriesLeft != null) {
+    jobQuery.withRetriesLeft();
+  }
+  if (executable != null) {
+    jobQuery.executable();
+  }
+  if (onlyTimers != null) {
+    jobQuery.onlyTimers();
+  }
+  if (onlyMessages != null) {
+    jobQuery.onlyMessages();
+  }
+  if (dueDateLowerThen != null) {
+    jobQuery.duedateLowerThen(dueDateLowerThen);
+  }
+  if (dueDateLowerThenOrEquals != null) {
+    jobQuery.duedateLowerThenOrEquals(dueDateLowerThenOrEquals);
+  }
+  if (dueDateHigherThen != null) {
+    jobQuery.duedateHigherThen(dueDateHigherThen);
+  }
+  if (dueDateHigherThenOrEquals != null) {
+    jobQuery.duedateLowerThenOrEquals(dueDateLowerThenOrEquals);
+  }
+  paginateList(req,jobQuery,"jobs",model,"id");
+}

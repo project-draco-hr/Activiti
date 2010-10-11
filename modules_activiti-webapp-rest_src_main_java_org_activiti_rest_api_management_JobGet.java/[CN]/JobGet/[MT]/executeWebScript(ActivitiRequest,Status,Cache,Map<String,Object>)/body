@@ -1,0 +1,5 @@
+{
+  String jobId=req.getMandatoryPathParameter("jobId");
+  model.put("job",getManagementService().createJobQuery().id(jobId).singleResult());
+  model.put("stacktrace",getManagementService().getJobExceptionStacktrace(jobId));
+}

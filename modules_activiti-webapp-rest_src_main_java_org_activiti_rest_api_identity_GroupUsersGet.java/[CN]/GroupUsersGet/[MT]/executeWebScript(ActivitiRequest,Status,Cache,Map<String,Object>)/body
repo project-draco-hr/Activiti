@@ -1,4 +1,5 @@
 {
   String groupId=req.getMandatoryPathParameter("groupId");
-  model.put("users",getIdentityService().createUserQuery().memberOfGroup(groupId).list());
+  UserQuery userQuery=getIdentityService().createUserQuery().memberOfGroup(groupId);
+  paginateList(req,userQuery,"users",model,"id");
 }
