@@ -1,5 +1,5 @@
 {
-  ArtifactTypeImpl artifactType1=new ArtifactTypeImpl(ARTIFACT_TYPE_BPMN_20);
+  ArtifactTypeImpl artifactType1=new ArtifactTypeImpl(ARTIFACT_TYPE_BPMN_20,ContentType.XML);
   artifactType1.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_PNG,ContentType.PNG),new PngProvider());
   artifactType1.addContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_BPMN_20_DEVELOPER,ContentType.XML),new ActivitiCompliantBpmn20Provider());
   artifactType1.addContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_BPMN_20_RAW,ContentType.XML),new Bpmn20Provider());
@@ -11,7 +11,7 @@
   artifactType1.addDownloadContentAction(CONTENT_REPRESENTATION_ID_BPMN_20_RAW);
   artifactType1.addDownloadContentAction(CONTENT_REPRESENTATION_ID_JSON);
   types.add(artifactType1);
-  ArtifactTypeImpl artifactType2=new ArtifactTypeImpl(ARTIFACT_TYPE_BPMN_FOR_JPDL4);
+  ArtifactTypeImpl artifactType2=new ArtifactTypeImpl(ARTIFACT_TYPE_BPMN_FOR_JPDL4,ContentType.XML);
   artifactType2.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_PNG,ContentType.PNG),new PngProvider());
   artifactType2.addContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_JPDL4,ContentType.XML),new Jpdl4Provider());
   artifactType2.addContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_JSON,ContentType.XML),new JsonProvider());
@@ -19,7 +19,7 @@
   artifactType2.addDownloadContentAction(CONTENT_REPRESENTATION_ID_JPDL4);
   artifactType2.addDownloadContentAction(CONTENT_REPRESENTATION_ID_JSON);
   types.add(artifactType2);
-  ArtifactTypeImpl artifactTypeDefault=new ArtifactTypeImpl(ARTIFACT_TYPE_DEFAULT);
+  ArtifactTypeImpl artifactTypeDefault=new ArtifactTypeImpl(ARTIFACT_TYPE_DEFAULT,ContentType.XML);
   artifactTypeDefault.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_PNG,ContentType.PNG),new PngProvider());
   types.add(artifactTypeDefault);
 }
