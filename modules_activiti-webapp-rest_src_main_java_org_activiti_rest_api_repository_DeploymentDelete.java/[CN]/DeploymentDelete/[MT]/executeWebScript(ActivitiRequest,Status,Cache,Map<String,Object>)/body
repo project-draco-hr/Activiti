@@ -1,0 +1,10 @@
+{
+  String deploymentId=req.getMandatoryPathParameter("deploymentId");
+  Boolean cascade=req.getBoolean("cascade",false);
+  if (cascade) {
+    getRepositoryService().deleteDeployment(deploymentId);
+  }
+ else {
+    getRepositoryService().deleteDeploymentCascade(deploymentId);
+  }
+}
