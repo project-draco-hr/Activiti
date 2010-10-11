@@ -7,7 +7,7 @@
   RepositoryArtifact artifact=conn.getRepositoryArtifact(artifactId);
   Collection<ContentRepresentation> representations=artifact.getArtifactType().getContentRepresentations();
   for (  ContentRepresentation representation : representations) {
-    if (representation.getMimeType().equals(contentType)) {
+    if (representation.getContentType().getName().equals(contentType)) {
       boolean attach=contentType.startsWith("application/") ? true : false;
       String attachmentFileName=null;
       if (attach) {

@@ -10,8 +10,8 @@
   try {
     for (    ContentRepresentation contentRepresentation : artifact.getArtifactType().getContentRepresentations()) {
       if (contentRepresentation.getId().equals(representationId)) {
-        if (contentRepresentation.getMimeType().startsWith("image/")) {
-          String imageUrl=restProxyUri + "/content?artifactId=" + URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(contentRepresentation.getMimeType(),"UTF-8");
+        if (contentRepresentation.getContentType().getName().startsWith("image/")) {
+          String imageUrl=restProxyUri + "/content?artifactId=" + URLEncoder.encode(artifactId,"UTF-8")+ "&content-type="+ URLEncoder.encode(contentRepresentation.getContentType().getName(),"UTF-8");
           model.put("imageUrl",imageUrl);
         }
  else {
