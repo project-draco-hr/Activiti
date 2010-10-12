@@ -3,7 +3,7 @@
   String name=propertyElement.attribute("name");
   if (name == null) {
     if (id == null) {
-      throw new ActivitiException("Invalid property usage on line " + propertyElement.getLine() + ": no id or name specified.");
+      addError("Invalid property usage on line " + propertyElement.getLine() + ": no id or name specified.",propertyElement);
     }
  else {
       name=id;
@@ -18,7 +18,7 @@
       type=structure.getId();
     }
  else {
-      throw new ActivitiException("Invalid itemDefinition reference: " + itemSubjectRef + " not found");
+      addError("Invalid itemDefinition reference: " + itemSubjectRef + " not found",propertyElement);
     }
   }
   parsePropertyCustomExtensions(activity,propertyElement,name,type);

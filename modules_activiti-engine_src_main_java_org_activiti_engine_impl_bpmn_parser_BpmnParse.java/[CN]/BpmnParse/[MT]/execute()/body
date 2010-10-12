@@ -6,5 +6,11 @@
   parseMessages(rootElement);
   parseInterfaces(rootElement);
   parseProcessDefinitions(rootElement);
+  if (hasWarnings()) {
+    logWarnings();
+  }
+  if (hasErrors()) {
+    throwActivitiExceptionForErrors();
+  }
   return this;
 }

@@ -2,7 +2,7 @@
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(callActivityElement,scope);
   String calledElement=callActivityElement.attribute("calledElement");
   if (calledElement == null) {
-    throw new ActivitiException("Missing attribute 'calledElement' on callActivity (line " + +callActivityElement.getLine() + ")");
+    addError("Missing attribute 'calledElement'",callActivityElement);
   }
   activity.setActivityBehavior(new CallActivityBehaviour(calledElement));
   for (  BpmnParseListener parseListener : parseListeners) {

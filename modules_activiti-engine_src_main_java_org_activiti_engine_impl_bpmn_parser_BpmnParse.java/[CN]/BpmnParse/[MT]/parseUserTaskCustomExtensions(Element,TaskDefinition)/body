@@ -5,7 +5,7 @@
       taskDefinition.setAssigneeValueExpression(expressionManager.createValueExpression(assignee));
     }
  else {
-      throw new ActivitiException("Invalid usage: duplicate assignee declaration for task " + taskDefinition.getNameValueExpression());
+      addError("Invalid usage: duplicate assignee declaration for task " + taskDefinition.getNameValueExpression(),taskElement);
     }
   }
   String candidateUsersString=taskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,CANDIDATE_USERS_EXTENSION);

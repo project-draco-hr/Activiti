@@ -4,7 +4,7 @@
     String expr=conditionExprElement.getText().trim();
     String type=conditionExprElement.attributeNS(BpmnParser.XSI_NS,"type");
     if (type != null && !type.equals("tFormalExpression")) {
-      throw new ActivitiException("Invalid type on conditionExpression (" + conditionExprElement.getLine() + "). "+ "Only tFormalExpression is currently supported");
+      addError("Invalid type, only tFormalExpression is currently supported",conditionExprElement);
     }
     String language=conditionExprElement.attribute("language");
     if (language == null) {
@@ -18,7 +18,7 @@
       condition=new UelMethodExpressionCondition(expressionManager.createMethodExpression(expr));
     }
  else {
-      throw new ActivitiException("Unknown language for condition: " + language);
+      addError("Unknown language for condition: " + language,conditionExprElement);
     }
     seqFlow.setProperty(PROPERTYNAME_CONDITION,condition);
   }

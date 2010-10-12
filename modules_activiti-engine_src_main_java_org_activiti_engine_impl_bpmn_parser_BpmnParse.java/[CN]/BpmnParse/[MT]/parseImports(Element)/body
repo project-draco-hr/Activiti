@@ -4,7 +4,7 @@
     String importType=theImport.attribute("importType");
     XMLImporter importer=this.importers.get(importType);
     if (importer == null) {
-      addProblem("Could not import item of type " + importType,theImport);
+      addError("Could not import item of type " + importType,theImport);
     }
  else {
       importer.importFrom(theImport,this);

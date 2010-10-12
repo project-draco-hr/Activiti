@@ -6,10 +6,10 @@
     ActivityImpl sourceActivity=scope.findActivity(sourceRef);
     ActivityImpl destinationActivity=scope.findActivity(destinationRef);
     if (sourceActivity == null) {
-      throw new ActivitiException("Invalid source of sequence flow '" + id + "'");
+      addError("Invalid source of sequence flow '" + id + "'",sequenceFlowElement);
     }
     if (destinationActivity == null) {
-      throw new ActivitiException("Invalid destination of sequence flow '" + id + "'");
+      addError("Invalid destination of sequence flow '" + id + "'",sequenceFlowElement);
     }
     TransitionImpl transition=sourceActivity.createOutgoingTransition(id);
     transition.setProperty("name",sequenceFlowElement.attribute("name"));

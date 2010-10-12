@@ -1,7 +1,7 @@
 {
   List<Element> startEventElements=parentElement.elements("startEvent");
   if (startEventElements.size() > 1) {
-    throw new ActivitiException("Multiple start events are currently unsupported");
+    addError("Multiple start events are currently unsupported",parentElement);
   }
  else   if (startEventElements.size() > 0) {
     Element startEventElement=startEventElements.get(0);
@@ -12,7 +12,7 @@
     if (scope instanceof ProcessDefinitionEntity) {
       ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)scope;
       if (processDefinition.getInitial() != null) {
-        addProblem("multiple startEvents in a process definition are not yet supported",startEventElement);
+        addError("multiple startEvents in a process definition are not yet supported",startEventElement);
       }
       processDefinition.setInitial(startEventActivity);
       String startFormResourceKey=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");

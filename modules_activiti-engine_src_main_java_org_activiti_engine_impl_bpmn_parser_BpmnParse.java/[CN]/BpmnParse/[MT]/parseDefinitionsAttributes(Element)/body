@@ -1,10 +1,14 @@
 {
   String typeLanguage=rootElement.attribute("typeLanguage");
   String expressionLanguage=rootElement.attribute("expressionLanguage");
-  if (typeLanguage.contains("XMLSchema")) {
-    LOG.info("XMLSchema currently not supported as typeLanguage");
+  if (typeLanguage != null) {
+    if (typeLanguage.contains("XMLSchema")) {
+      LOG.info("XMLSchema currently not supported as typeLanguage");
+    }
   }
-  if (expressionLanguage.contains("XPath")) {
-    LOG.info("XPath currently not supported as typeLanguage");
+  if (expressionLanguage != null) {
+    if (expressionLanguage.contains("XPath")) {
+      LOG.info("XPath currently not supported as typeLanguage");
+    }
   }
 }

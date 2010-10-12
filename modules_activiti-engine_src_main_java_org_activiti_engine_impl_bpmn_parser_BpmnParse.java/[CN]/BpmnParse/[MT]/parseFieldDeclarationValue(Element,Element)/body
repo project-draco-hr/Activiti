@@ -7,20 +7,20 @@
     if (stringElement != null) {
       stringElementText=stringElement.getText();
       if (stringValue != null && (stringElementText != null || stringElementText.length() > 0)) {
-        addProblem("Invalid: both string-value and a text are provided",stringElement);
+        addError("Invalid: both string-value and a text are provided",stringElement);
       }
  else       if (stringValue == null && (stringElementText == null || stringElementText.length() == 0)) {
-        addProblem("Invalid declartion: no string-value or string element text provided",fieldDeclarationElement);
+        addError("Invalid declartion: no string-value or string element text provided",fieldDeclarationElement);
       }
     }
     valueExpression=expressionManager.createValueExpression(stringValue != null ? stringValue : stringElementText);
   }
  catch (  ActivitiException e) {
     if (e.getMessage().contains("multiple elements with tag name")) {
-      addProblem("Invalid: multiple field declarations found",serviceTaskElement);
+      addError("Invalid: multiple field declarations found",serviceTaskElement);
     }
  else {
-      addProblem("Error when paring field declarations: " + e.getMessage(),serviceTaskElement);
+      addError("Error when paring field declarations: " + e.getMessage(),serviceTaskElement);
     }
   }
   return valueExpression;
