@@ -2,7 +2,8 @@
   SqlSessionFactory sqlMapper=getSessionFactory();
   SqlSession session=sqlMapper.openSession();
   try {
-    return (List<CycleLink>)session.selectList("org.activiti.cycle.CycleLink.selectCycleLinkBySourceArtifactId",sourceArtifactId);
+    List<Artifact> artifactResultList=session.selectList("org.activiti.cycle.Artifact.selectArtifact",sourceArtifactId);
+    return artifactResultList;
   }
   finally {
     session.close();

@@ -1,18 +1,11 @@
 {
-  CycleLink cycleLink=new CycleLink();
-  CycleLinkTarget cycleLinkTarget=new CycleLinkTarget();
-  List<CycleLinkTarget> cycleLinkTargetList=new ArrayList<CycleLinkTarget>();
-  cycleLinkTarget.setTargetArtifactId(targetArtifactId);
-  cycleLinkTargetList.add(cycleLinkTarget);
-  cycleLink.setSourceArtifactId(sourceArtifactId);
-  cycleLink.setCycleLinkTarget(cycleLinkTargetList);
   SqlSessionFactory sqlMapper=getSessionFactory();
+  Artifact artifact=new Artifact();
+  artifact.setId(sourceArtifactId);
+  CycleLink cycleLink=new CycleLink();
+  cycleLink.setSourceArtifact(artifact);
+  cycleLink.setId(targetArtifactId);
   SqlSession session=sqlMapper.openSession();
-  try {
-    session.insert("org.activiti.cycle.CycleLink.insertCycleLink",cycleLink);
-    session.commit();
-  }
-  finally {
-    session.close();
-  }
+  session.insert("org.activiti.cycle.CycleLink.insertCycleLink",cycleLink);
+  session.commit();
 }
