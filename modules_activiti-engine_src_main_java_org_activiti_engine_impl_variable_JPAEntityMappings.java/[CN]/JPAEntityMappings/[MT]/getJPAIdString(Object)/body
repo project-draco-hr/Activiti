@@ -1,0 +1,8 @@
+{
+  EntityMetaData metaData=getEntityMetaData(value.getClass());
+  if (!metaData.isJPAEntity()) {
+    throw new ActivitiException("Object is not a JPA Entity: class='" + value.getClass() + "', "+ value);
+  }
+  Object idValue=getIdValue(value,metaData);
+  return getIdString(idValue);
+}

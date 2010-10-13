@@ -1,0 +1,13 @@
+{
+  Method idMethod=null;
+  Method[] methods=clazz.getMethods();
+  Id idAnnotation=null;
+  for (  Method method : methods) {
+    idAnnotation=method.getAnnotation(Id.class);
+    if (idAnnotation != null) {
+      idMethod=method;
+      break;
+    }
+  }
+  return idMethod;
+}

@@ -1,0 +1,42 @@
+{
+  Class<?> type=metaData.getIdType();
+  if (type == Long.class || type == long.class) {
+    return Long.parseLong(string);
+  }
+ else   if (type == String.class) {
+    return string;
+  }
+ else   if (type == Byte.class || type == byte.class) {
+    return Byte.parseByte(string);
+  }
+ else   if (type == Short.class || type == short.class) {
+    return Short.parseShort(string);
+  }
+ else   if (type == Integer.class || type == int.class) {
+    return Integer.parseInt(string);
+  }
+ else   if (type == Float.class || type == float.class) {
+    return Float.parseFloat(string);
+  }
+ else   if (type == Double.class || type == double.class) {
+    return Double.parseDouble(string);
+  }
+ else   if (type == Character.class || type == char.class) {
+    return new Character(string.charAt(0));
+  }
+ else   if (type == java.util.Date.class) {
+    return new java.util.Date(Long.parseLong(string));
+  }
+ else   if (type == java.sql.Date.class) {
+    return new java.sql.Date(Long.parseLong(string));
+  }
+ else   if (type == BigDecimal.class) {
+    return new BigDecimal(string);
+  }
+ else   if (type == BigInteger.class) {
+    return new BigInteger(string);
+  }
+ else {
+    throw new ActivitiException("Unsupported Primary key type for JPA-Entity: " + type.getName());
+  }
+}

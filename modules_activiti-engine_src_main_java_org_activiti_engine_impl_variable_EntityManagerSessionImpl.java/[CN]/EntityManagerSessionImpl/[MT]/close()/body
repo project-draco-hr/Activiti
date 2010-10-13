@@ -1,0 +1,10 @@
+{
+  if (closeEntityManager && entityManager != null && !entityManager.isOpen()) {
+    try {
+      entityManager.close();
+    }
+ catch (    IllegalStateException ise) {
+      throw new ActivitiException("Error while closing EntityManager, may have already been closed or it is container-managed",ise);
+    }
+  }
+}

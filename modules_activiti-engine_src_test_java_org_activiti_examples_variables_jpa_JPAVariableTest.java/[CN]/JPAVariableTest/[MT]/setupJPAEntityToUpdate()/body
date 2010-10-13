@@ -1,0 +1,10 @@
+{
+  EntityManager manager=entityManagerFactory.createEntityManager();
+  manager.getTransaction().begin();
+  entityToUpdate=new FieldAccessJPAEntity();
+  entityToUpdate.setId(3L);
+  manager.persist(entityToUpdate);
+  manager.flush();
+  manager.getTransaction().commit();
+  manager.close();
+}

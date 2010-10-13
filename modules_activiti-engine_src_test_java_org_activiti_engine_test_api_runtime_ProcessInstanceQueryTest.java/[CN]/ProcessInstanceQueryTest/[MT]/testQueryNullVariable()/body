@@ -14,15 +14,15 @@
   vars=new HashMap<String,Object>();
   vars.put("nullVarByte","testbytes".getBytes());
   ProcessInstance processInstance5=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
-  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValue("nullVar",null);
+  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValueEquals("nullVar",null);
   List<ProcessInstance> processInstances=query.list();
   Assert.assertNotNull(processInstances);
   Assert.assertEquals(1,processInstances.size());
   Assert.assertEquals(processInstance1.getId(),processInstances.get(0).getId());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNot("nullVar",null).count());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNot("nullVarLong",null).count());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNot("nullVarDouble",null).count());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNot("nullVarByte",null).count());
+  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVar",null).count());
+  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarLong",null).count());
+  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarDouble",null).count());
+  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarByte",null).count());
   try {
     runtimeService.createProcessInstanceQuery().variableValueGreaterThan("nullVar",null);
     fail("Excetion expected");

@@ -9,15 +9,15 @@
   vars=new HashMap<String,Object>();
   vars.put("stringVar","azerty");
   ProcessInstance processInstance3=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
-  ExecutionQuery query=runtimeService.createExecutionQuery().variableValue("stringVar","abcdef");
+  ExecutionQuery query=runtimeService.createExecutionQuery().variableValueEquals("stringVar","abcdef");
   List<Execution> executions=query.list();
   Assert.assertNotNull(executions);
   Assert.assertEquals(2,executions.size());
-  query=runtimeService.createExecutionQuery().variableValue("stringVar","abcdef").variableValue("stringVar2","ghijkl");
+  query=runtimeService.createExecutionQuery().variableValueEquals("stringVar","abcdef").variableValueEquals("stringVar2","ghijkl");
   Execution execution=query.singleResult();
   Assert.assertNotNull(execution);
   Assert.assertEquals(processInstance2.getId(),execution.getId());
-  execution=runtimeService.createExecutionQuery().variableValueNot("stringVar","abcdef").singleResult();
+  execution=runtimeService.createExecutionQuery().variableValueNotEquals("stringVar","abcdef").singleResult();
   Assert.assertNotNull(execution);
   Assert.assertEquals(processInstance3.getId(),execution.getId());
   execution=runtimeService.createExecutionQuery().variableValueGreaterThan("stringVar","abcdef").singleResult();

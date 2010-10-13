@@ -1,0 +1,11 @@
+{
+  if (entityManagerFactory == null) {
+    throw new ActivitiException("entityManagerFactory is null");
+  }
+  if (!(entityManagerFactory instanceof EntityManagerFactory)) {
+    throw new ActivitiException("EntityManagerFactory must implement 'javax.persistence.EntityManagerFactory'");
+  }
+  this.entityManagerFactory=(EntityManagerFactory)entityManagerFactory;
+  this.handleTransactions=handleTransactions;
+  this.closeEntityManager=closeEntityManager;
+}

@@ -1,0 +1,22 @@
+{
+  EntityMetaData metaData=new EntityMetaData();
+  metaData.setEntityClass(clazz);
+  boolean isEntity=isEntityAnnotationPresent(clazz);
+  metaData.setJPAEntity(isEntity);
+  if (isEntity) {
+    Field idField=getIdField(clazz);
+    if (idField != null) {
+      metaData.setIdField(idField);
+    }
+ else {
+      Method idMethod=getIdMethod(clazz);
+      if (idMethod != null) {
+        metaData.setIdMethod(idMethod);
+      }
+ else {
+        throw new ActivitiException("Cannot find field or method with annotation @Id on class '" + clazz.getName() + "', only single-valued primary keys are supported on JPA-enities");
+      }
+    }
+  }
+  return metaData;
+}

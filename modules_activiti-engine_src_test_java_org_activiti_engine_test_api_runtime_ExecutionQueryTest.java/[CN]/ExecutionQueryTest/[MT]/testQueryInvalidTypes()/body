@@ -4,14 +4,14 @@
   vars.put("serializableVar",new DummySerializable());
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
   try {
-    runtimeService.createExecutionQuery().variableValue("bytesVar","test".getBytes()).list();
+    runtimeService.createExecutionQuery().variableValueEquals("bytesVar","test".getBytes()).list();
     fail("Expected exception");
   }
  catch (  ActivitiException ae) {
     assertTextPresent("Variables of type ByteArray cannot be used to query",ae.getMessage());
   }
   try {
-    runtimeService.createExecutionQuery().variableValue("serializableVar",new DummySerializable()).list();
+    runtimeService.createExecutionQuery().variableValueEquals("serializableVar",new DummySerializable()).list();
     fail("Expected exception");
   }
  catch (  ActivitiException ae) {

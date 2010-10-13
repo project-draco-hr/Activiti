@@ -1,0 +1,16 @@
+{
+  if (entityManager != null && isTransactionActive()) {
+    try {
+      entityManager.flush();
+    }
+ catch (    IllegalStateException ise) {
+      throw new ActivitiException("Error while flushing EntityManager, illegal state",ise);
+    }
+catch (    TransactionRequiredException tre) {
+      throw new ActivitiException("Cannot flush EntityManager, an active transaction is required",tre);
+    }
+catch (    PersistenceException pe) {
+      throw new ActivitiException("Error while flushing EntityManager: " + pe.getMessage(),pe);
+    }
+  }
+}

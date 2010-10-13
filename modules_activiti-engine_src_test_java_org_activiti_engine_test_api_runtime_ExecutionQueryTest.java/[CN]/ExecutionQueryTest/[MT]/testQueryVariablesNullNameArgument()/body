@@ -1,13 +1,13 @@
 {
   try {
-    runtimeService.createExecutionQuery().variableValue(null,"value");
+    runtimeService.createExecutionQuery().variableValueEquals(null,"value");
     fail("Expected exception");
   }
  catch (  ActivitiException ae) {
     assertTextPresent("name is null",ae.getMessage());
   }
   try {
-    runtimeService.createExecutionQuery().variableValueNot(null,"value");
+    runtimeService.createExecutionQuery().variableValueNotEquals(null,"value");
     fail("Expected exception");
   }
  catch (  ActivitiException ae) {

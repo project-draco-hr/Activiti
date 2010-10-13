@@ -1,0 +1,8 @@
+{
+  EntityMetaData metaData=classMetaDatamap.get(clazz.getName());
+  if (metaData == null) {
+    metaData=scanClass(clazz);
+    classMetaDatamap.put(clazz.getName(),metaData);
+  }
+  return metaData;
+}

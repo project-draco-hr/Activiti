@@ -1,0 +1,13 @@
+{
+  EntityManager manager=entityManagerFactory.createEntityManager();
+  manager.getTransaction().begin();
+  compoundIdJPAEntity=new CompoundIdJPAEntity();
+  EmbeddableCompoundId id=new EmbeddableCompoundId();
+  id.setIdPart1(123L);
+  id.setIdPart2("part2");
+  compoundIdJPAEntity.setId(id);
+  manager.persist(compoundIdJPAEntity);
+  manager.flush();
+  manager.getTransaction().commit();
+  manager.close();
+}

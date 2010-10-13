@@ -9,15 +9,15 @@
   vars=new HashMap<String,Object>();
   vars.put("stringVar","azerty");
   ProcessInstance processInstance3=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
-  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValue("stringVar","abcdef");
+  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValueEquals("stringVar","abcdef");
   List<ProcessInstance> processInstances=query.list();
   Assert.assertNotNull(processInstances);
   Assert.assertEquals(2,processInstances.size());
-  query=runtimeService.createProcessInstanceQuery().variableValue("stringVar","abcdef").variableValue("stringVar2","ghijkl");
+  query=runtimeService.createProcessInstanceQuery().variableValueEquals("stringVar","abcdef").variableValueEquals("stringVar2","ghijkl");
   ProcessInstance resultInstance=query.singleResult();
   Assert.assertNotNull(resultInstance);
   Assert.assertEquals(processInstance2.getId(),resultInstance.getId());
-  resultInstance=runtimeService.createProcessInstanceQuery().variableValueNot("stringVar","abcdef").singleResult();
+  resultInstance=runtimeService.createProcessInstanceQuery().variableValueNotEquals("stringVar","abcdef").singleResult();
   Assert.assertNotNull(resultInstance);
   Assert.assertEquals(processInstance3.getId(),resultInstance.getId());
   resultInstance=runtimeService.createProcessInstanceQuery().variableValueGreaterThan("stringVar","abcdef").singleResult();

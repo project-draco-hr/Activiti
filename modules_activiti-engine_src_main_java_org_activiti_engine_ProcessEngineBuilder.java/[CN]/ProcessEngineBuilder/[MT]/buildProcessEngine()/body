@@ -18,5 +18,8 @@
   processEngineConfiguration.setMailServerSmtpUserName(mailServerSmtpUserName);
   processEngineConfiguration.setMailServerSmtpPassword(mailServerSmtpPassword);
   processEngineConfiguration.setMailServerDefaultFrom(mailServerDefaultFrom);
+  if (jpaEntityManagerFactory != null) {
+    processEngineConfiguration.enableJPA(jpaEntityManagerFactory,jpaHandleTransaction,jpaCloseEntityManager);
+  }
   return processEngineConfiguration.buildProcessEngine();
 }

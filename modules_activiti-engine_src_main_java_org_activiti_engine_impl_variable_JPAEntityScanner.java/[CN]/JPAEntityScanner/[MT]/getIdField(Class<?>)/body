@@ -1,0 +1,19 @@
+{
+  Field idField=null;
+  Field[] fields=clazz.getDeclaredFields();
+  Id idAnnotation=null;
+  for (  Field field : fields) {
+    idAnnotation=field.getAnnotation(Id.class);
+    if (idAnnotation != null) {
+      idField=field;
+      break;
+    }
+  }
+  if (idField == null) {
+    Class<?> superClass=clazz.getSuperclass();
+    if (superClass != null && !superClass.equals(Object.class)) {
+      idField=getIdField(superClass);
+    }
+  }
+  return idField;
+}
