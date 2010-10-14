@@ -1,7 +1,8 @@
 {
   ProcessDefinitionEntity processDefinition=new ProcessDefinitionEntity();
   processDefinition.setKey(processElement.attribute("id"));
-  processDefinition.setName(processElement.attribute("name"));
+  processDefinition.setProperty("name",processElement.attribute("name"));
+  processDefinition.setProperty("documentation",parseDocumentation(processElement));
   if (LOG.isLoggable(Level.FINE)) {
     LOG.fine("Parsing process " + processDefinition.getKey());
   }

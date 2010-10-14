@@ -1,11 +1,13 @@
 {
   String id=activityElement.attribute("id");
   String name=activityElement.attribute("name");
+  String documentation=parseDocumentation(activityElement);
   if (LOG.isLoggable(Level.FINE)) {
     LOG.fine("Parsing activity " + id);
   }
   ActivityImpl activity=scopeElement.createActivity(id);
-  activity.setName(name);
+  activity.setProperty("name",name);
+  activity.setProperty("documentation",documentation);
   activity.setProperty("type",activityElement.getTagName());
   activity.setProperty("line",activityElement.getLine());
   return activity;

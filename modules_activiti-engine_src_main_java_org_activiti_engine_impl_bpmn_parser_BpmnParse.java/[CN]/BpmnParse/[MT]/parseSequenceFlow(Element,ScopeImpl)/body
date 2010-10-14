@@ -13,6 +13,7 @@
     }
     TransitionImpl transition=sourceActivity.createOutgoingTransition(id);
     transition.setProperty("name",sequenceFlowElement.attribute("name"));
+    transition.setProperty("documentation",parseDocumentation(sequenceFlowElement));
     transition.setDestination(destinationActivity);
     parseSequenceFlowConditionExpression(sequenceFlowElement,transition);
     for (    BpmnParseListener parseListener : parseListeners) {
