@@ -1,40 +1,37 @@
 {
   String artifactId=req.getMandatoryString("artifactId");
-  String contentType=req.getMandatoryString("content-type");
+  String contentRepresentationId=req.getMandatoryString("contentRepresentationId");
   String cuid=req.getCurrentUserId();
   HttpSession session=req.getHttpSession();
   RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
   RepositoryArtifact artifact=conn.getRepositoryArtifact(artifactId);
-  Collection<ContentRepresentation> representations=artifact.getArtifactType().getContentRepresentations();
-  for (  ContentRepresentation representation : representations) {
-    if (representation.getContentType().getName().equals(contentType)) {
-      boolean attach=contentType.startsWith("application/") ? true : false;
-      String attachmentFileName=null;
-      if (attach) {
-        attachmentFileName=artifact.getMetadata().getName();
-        if (contentType.equals(ContentType.XML) && !attachmentFileName.endsWith(".xml")) {
-          attachmentFileName+=".xml";
-        }
- else         if (contentType.equals(ContentType.JSON) && !attachmentFileName.endsWith(".json")) {
-          attachmentFileName+=".json";
-        }
- else         if (contentType.equals(ContentType.TEXT) && !attachmentFileName.endsWith(".txt")) {
-          attachmentFileName+=".txt";
-        }
- else         if (contentType.equals(ContentType.PDF) && !attachmentFileName.endsWith(".pdf")) {
-          attachmentFileName+=".pdf";
-        }
- else         if (contentType.equals(ContentType.MS_EXCEL) && !attachmentFileName.endsWith(".xls")) {
-          attachmentFileName+=".xls";
-        }
- else         if (contentType.equals(ContentType.MS_POWERPOINT) && !attachmentFileName.endsWith(".ppt")) {
-          attachmentFileName+=".ppt";
-        }
- else         if (contentType.equals(ContentType.MS_WORD) && !attachmentFileName.endsWith(".doc")) {
-          attachmentFileName+=".doc";
-        }
-      }
-      streamResponse(res,conn.getContent(artifact.getId(),representation.getId()).asInputStream(),new Date(0),"W/\"647-1281077702000\"",attach,attachmentFileName,contentType);
+  ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(contentRepresentationId);
+  String contentType=contentRepresentation.getMimeType().getContentType();
+  boolean attach=contentType.startsWith("application/") ? true : false;
+  String attachmentFileName=null;
+  if (attach) {
+    attachmentFileName=artifact.getMetadata().getName();
+    if (contentType.equals(StandardMimeType.XML) && !attachmentFileName.endsWith(".xml")) {
+      attachmentFileName+=".xml";
+    }
+ else     if (contentType.equals(StandardMimeType.JSON) && !attachmentFileName.endsWith(".json")) {
+      attachmentFileName+=".json";
+    }
+ else     if (contentType.equals(StandardMimeType.TEXT) && !attachmentFileName.endsWith(".txt")) {
+      attachmentFileName+=".txt";
+    }
+ else     if (contentType.equals(StandardMimeType.PDF) && !attachmentFileName.endsWith(".pdf")) {
+      attachmentFileName+=".pdf";
+    }
+ else     if (contentType.equals(StandardMimeType.MS_EXCEL) && !attachmentFileName.endsWith(".xls")) {
+      attachmentFileName+=".xls";
+    }
+ else     if (contentType.equals(StandardMimeType.MS_POWERPOINT) && !attachmentFileName.endsWith(".ppt")) {
+      attachmentFileName+=".ppt";
+    }
+ else     if (contentType.equals(StandardMimeType.MS_WORD) && !attachmentFileName.endsWith(".doc")) {
+      attachmentFileName+=".doc";
     }
   }
+  streamResponse(res,conn.getContent(artifact.getId(),contentRepresentation.getId()).asInputStream(),new Date(0),"W/\"647-1281077702000\"",attach,attachmentFileName,contentType);
 }
