@@ -1,4 +1,8 @@
 {
+  List<HistoricVariableUpdateEntity> historicVariableUpdates=(List)new HistoricVariableUpdateQueryImpl().processInstanceId(historicProcessInstanceId).executeList(CommandContext.getCurrent(),null);
+  for (  HistoricVariableUpdateEntity historicVariableUpdate : historicVariableUpdates) {
+    historicVariableUpdate.delete();
+  }
   dbSqlSession.delete("deleteHistoricActivityInstancesByProcessInstanceId",historicProcessInstanceId);
   dbSqlSession.delete(HistoricProcessInstanceEntity.class,historicProcessInstanceId);
 }

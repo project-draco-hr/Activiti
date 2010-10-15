@@ -6,6 +6,12 @@
   if (execution == null) {
     throw new ActivitiException("execution " + executionId + " doesn't exist");
   }
-  execution.setVariables(variables);
+  try {
+    VariableMap.setExternalUpdate(Boolean.TRUE);
+    execution.setVariables(variables);
+  }
+  finally {
+    VariableMap.setExternalUpdate(null);
+  }
   return null;
 }

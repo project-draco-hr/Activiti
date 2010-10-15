@@ -1,0 +1,9 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("startFormParamA","one");
+  variables.put("startFormParamB",new Long(234));
+  variables.put("startFormParamC",new SerializableVariable("contents"));
+  runtimeService.startProcessInstanceByKey("HistoricVariableUpdateProcess",variables);
+  List<HistoricVariableUpdate> historicVariableUpdates=historyService.createHistoricVariableUpdateQuery().orderBy(HistoricVariableUpdateQueryProperty.INDEX).asc().list();
+  System.out.println(historicVariableUpdates);
+}

@@ -2,7 +2,7 @@
   DbSqlSession dbSqlSession=CommandContext.getCurrent().getDbSqlSession();
   dbSqlSession.delete(VariableInstanceEntity.class,id);
   if (byteArrayValueId != null) {
-    ByteArrayEntity byteArrayValue=getByteArrayValue();
-    dbSqlSession.delete(ByteArrayEntity.class,byteArrayValue.getId());
+    getByteArrayValue();
+    dbSqlSession.delete(ByteArrayEntity.class,byteArrayValueId);
   }
 }

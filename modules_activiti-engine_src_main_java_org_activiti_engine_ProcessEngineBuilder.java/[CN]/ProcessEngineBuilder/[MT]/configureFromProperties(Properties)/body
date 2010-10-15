@@ -63,5 +63,9 @@
   if (mailServerDefaultFrom != null) {
     this.mailServerDefaultFrom=mailServerDefaultFrom;
   }
+  String historyLevelText=configurationProperties.getProperty("history.level");
+  if (historyLevelText != null) {
+    historyLevel=ProcessEngineConfiguration.parseHistoryLevel(historyLevelText);
+  }
   return this;
 }

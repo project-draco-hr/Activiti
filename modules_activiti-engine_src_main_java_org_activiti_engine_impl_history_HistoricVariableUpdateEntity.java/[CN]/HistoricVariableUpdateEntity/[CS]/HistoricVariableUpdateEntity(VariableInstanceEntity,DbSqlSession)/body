@@ -1,0 +1,23 @@
+{
+  this.processInstanceId=variableInstance.getProcessInstanceId();
+  if (processInstanceId == null) {
+    throw new ActivitiException("bug");
+  }
+  this.executionId=variableInstance.getExecutionId();
+  if (executionId == null) {
+    throw new ActivitiException("bug");
+  }
+  this.name=variableInstance.getName();
+  this.type=variableInstance.getType();
+  this.time=ClockUtil.getCurrentTime();
+  this.index=variableInstance.generateNextHistoryIndex();
+  if (variableInstance.getByteArrayValueId() != null) {
+    this.byteArrayValue=new ByteArrayEntity(name,variableInstance.getByteArrayValue().getBytes());
+    dbSqlSession.insert(byteArrayValue);
+    this.byteArrayValueId=byteArrayValue.getId();
+  }
+  this.textValue=variableInstance.getTextValue();
+  this.textValue2=variableInstance.getTextValue2();
+  this.doubleValue=variableInstance.getDoubleValue();
+  this.longValue=variableInstance.getLongValue();
+}

@@ -3,6 +3,10 @@
   processDefinition.setKey(processElement.attribute("id"));
   processDefinition.setProperty("name",processElement.attribute("name"));
   processDefinition.setProperty("documentation",parseDocumentation(processElement));
+  String historyLevelText=processElement.attribute("history");
+  if (historyLevelText != null) {
+    processDefinition.setHistoryLevel(ProcessEngineConfiguration.parseHistoryLevel(historyLevelText));
+  }
   if (LOG.isLoggable(Level.FINE)) {
     LOG.fine("Parsing process " + processDefinition.getKey());
   }

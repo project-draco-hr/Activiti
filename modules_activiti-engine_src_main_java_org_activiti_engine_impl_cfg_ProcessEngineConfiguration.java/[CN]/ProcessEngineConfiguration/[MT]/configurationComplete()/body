@@ -29,7 +29,7 @@
     notifyConfigurationComplete(variableTypes);
     notifyConfigurationComplete(expressionManager);
     notifyConfigurationComplete(businessCalendarManager);
-    if (isHistoryEnabled) {
+    if (historyLevel >= HISTORYLEVEL_ACTIVITY) {
       addTaskListener(TaskListener.EVENTNAME_ASSIGNMENT,new HistoryTaskAssignmentHandler());
     }
     isConfigurationCompleted=true;

@@ -18,7 +18,13 @@
   }
   ExecutionEntity processInstance=processDefinition.createProcessInstance();
   if (variables != null) {
-    processInstance.setVariables(variables);
+    try {
+      VariableMap.setExternalUpdate(Boolean.TRUE);
+      processInstance.setVariables(variables);
+    }
+  finally {
+      VariableMap.setExternalUpdate(null);
+    }
   }
   if (businessKey != null) {
     processInstance.setBusinessKey(businessKey);

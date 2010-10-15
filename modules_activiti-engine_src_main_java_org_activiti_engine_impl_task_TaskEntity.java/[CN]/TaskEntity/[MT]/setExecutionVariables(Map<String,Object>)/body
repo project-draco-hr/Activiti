@@ -1,0 +1,11 @@
+{
+  if (getExecution() != null) {
+    try {
+      VariableMap.setExternalUpdate(Boolean.TRUE);
+      execution.setVariables(parameters);
+    }
+  finally {
+      VariableMap.setExternalUpdate(null);
+    }
+  }
+}

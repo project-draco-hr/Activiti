@@ -1,3 +1,6 @@
 {
-  return type.getValue(this);
+  if (!type.isCachable() || cachedValue == null) {
+    cachedValue=type.getValue(this);
+  }
+  return cachedValue;
 }

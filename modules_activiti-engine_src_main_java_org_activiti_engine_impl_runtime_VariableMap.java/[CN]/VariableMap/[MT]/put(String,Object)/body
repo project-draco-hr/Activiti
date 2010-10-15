@@ -5,14 +5,21 @@
     remove(key);
     variableInstance=null;
   }
+  CommandContext commandContext=CommandContext.getCurrent();
   if (variableInstance == null) {
-    VariableTypes variableTypes=CommandContext.getCurrent().getProcessEngineConfiguration().getVariableTypes();
+    VariableTypes variableTypes=commandContext.getProcessEngineConfiguration().getVariableTypes();
     Type type=variableTypes.findVariableType(value);
     variableInstance=VariableInstanceEntity.createAndInsert(key,type,value);
     variableInstance.setExecutionId(executionId);
     variableInstance.setProcessInstanceId(processInstanceId);
   }
   variableInstance.setValue(value);
+  int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+  if ((historyLevel >= ProcessEngineConfiguration.HISTORYLEVEL_AUDIT) && (Boolean.TRUE.equals(isExternalUpdateThreadLocal.get()))) {
+    DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+    HistoricVariableUpdateEntity historicVariableUpdate=new HistoricVariableUpdateEntity(variableInstance,dbSqlSession);
+    dbSqlSession.insert(historicVariableUpdate);
+  }
   variableInstances.put(key,variableInstance);
   return null;
 }

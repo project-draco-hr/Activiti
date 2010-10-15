@@ -5,7 +5,7 @@
   TaskSession taskSession=commandContext.getTaskSession();
   TaskEntity task=taskSession.findTaskById(taskId);
   if (variables != null) {
-    task.setActivityInstanceVariables(variables);
+    task.setExecutionVariables(variables);
   }
   if (task == null) {
     throw new ActivitiException("Cannot find task with id " + taskId);

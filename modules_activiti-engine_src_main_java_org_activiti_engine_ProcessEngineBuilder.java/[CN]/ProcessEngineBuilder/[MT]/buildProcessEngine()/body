@@ -5,6 +5,9 @@
   ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
   processEngineConfiguration.setProcessEngineName(processEngineName);
   processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
+  if (historyLevel != null) {
+    processEngineConfiguration.setHistoryLevel(historyLevel);
+  }
   processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
   processEngineConfiguration.setJdbcDriver(jdbcDriver);
   processEngineConfiguration.setJdbcUrl(jdbcUrl);
