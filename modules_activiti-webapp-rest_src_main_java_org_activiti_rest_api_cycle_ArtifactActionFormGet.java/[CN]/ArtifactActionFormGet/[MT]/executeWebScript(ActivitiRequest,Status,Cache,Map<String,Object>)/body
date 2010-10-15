@@ -1,10 +1,8 @@
 {
+  init(req);
   String artifactId=req.getMandatoryString("artifactId");
   String actionId=req.getMandatoryString("actionName");
-  String cuid=req.getCurrentUserId();
-  HttpSession session=req.getHttpSession();
-  RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
-  RepositoryArtifact artifact=conn.getRepositoryArtifact(artifactId);
+  RepositoryArtifact artifact=this.repositoryConnector.getRepositoryArtifact(artifactId);
   if (artifact == null) {
     throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "'.");
   }

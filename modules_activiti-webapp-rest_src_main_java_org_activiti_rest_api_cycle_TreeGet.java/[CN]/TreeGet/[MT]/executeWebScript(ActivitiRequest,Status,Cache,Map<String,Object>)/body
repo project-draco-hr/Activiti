@@ -1,12 +1,10 @@
 {
-  String cuid=req.getCurrentUserId();
-  HttpSession session=req.getHttpServletRequest().getSession(true);
-  RepositoryConnector conn=SessionUtil.getRepositoryConnector(cuid,session);
+  init(req);
   String id=req.getString("id");
   boolean folder=Boolean.parseBoolean(req.getString("folder"));
   if (folder) {
     try {
-      RepositoryNodeCollection children=conn.getChildren(id);
+      RepositoryNodeCollection children=this.repositoryConnector.getChildren(id);
       model.put("files",children.getArtifactList());
       model.put("folders",children.getFolderList());
       return;
