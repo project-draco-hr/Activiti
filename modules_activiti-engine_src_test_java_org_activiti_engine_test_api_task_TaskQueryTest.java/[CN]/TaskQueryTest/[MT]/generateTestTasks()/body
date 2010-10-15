@@ -1,5 +1,7 @@
 {
   List<String> ids=new ArrayList<String>();
+  SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+  ClockUtil.setCurrentTime(sdf.parse("01/01/2001 01:01:01.000"));
   for (int i=0; i < 6; i++) {
     Task task=taskService.newTask();
     task.setName("testTask");
@@ -9,6 +11,7 @@
     ids.add(task.getId());
     taskService.addCandidateUser(task.getId(),"kermit");
   }
+  ClockUtil.setCurrentTime(sdf.parse("02/02/2002 02:02:02.000"));
   Task task=taskService.newTask();
   task.setName("gonzoTask");
   task.setDescription("gonzo description");
@@ -16,6 +19,7 @@
   taskService.saveTask(task);
   taskService.setAssignee(task.getId(),"gonzo");
   ids.add(task.getId());
+  ClockUtil.setCurrentTime(sdf.parse("03/03/2003 03:03:03.000"));
   for (int i=0; i < 2; i++) {
     task=taskService.newTask();
     task.setName("managementTask");
@@ -24,6 +28,7 @@
     taskService.addCandidateGroup(task.getId(),"management");
     ids.add(task.getId());
   }
+  ClockUtil.setCurrentTime(sdf.parse("04/04/2004 04:04:04.000"));
   for (int i=0; i < 2; i++) {
     task=taskService.newTask();
     task.setName("accountancyTask");
@@ -32,6 +37,7 @@
     taskService.addCandidateGroup(task.getId(),"accountancy");
     ids.add(task.getId());
   }
+  ClockUtil.setCurrentTime(sdf.parse("05/05/2005 05:05:05.000"));
   task=taskService.newTask();
   task.setName("managementAndAccountancyTask");
   taskService.saveTask(task);
