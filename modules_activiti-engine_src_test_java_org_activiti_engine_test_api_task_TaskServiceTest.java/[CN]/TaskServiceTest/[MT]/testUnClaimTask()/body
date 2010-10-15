@@ -1,0 +1,14 @@
+{
+  Task task=taskService.newTask();
+  taskService.saveTask(task);
+  User user=identityService.newUser("user");
+  identityService.saveUser(user);
+  taskService.claim(task.getId(),user.getId());
+  task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+  assertEquals(user.getId(),task.getAssignee());
+  taskService.claim(task.getId(),null);
+  task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+  assertNull(task.getAssignee());
+  taskService.deleteTask(task.getId());
+  identityService.deleteUser(user.getId());
+}

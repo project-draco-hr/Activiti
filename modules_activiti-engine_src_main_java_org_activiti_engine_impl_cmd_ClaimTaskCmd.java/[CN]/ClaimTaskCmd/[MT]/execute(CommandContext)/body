@@ -1,7 +1,4 @@
 {
-  if (userId == null) {
-    throw new ActivitiException("userId is null");
-  }
   if (taskId == null) {
     throw new ActivitiException("taskId is null");
   }
@@ -11,18 +8,23 @@
   if (task == null) {
     throw new ActivitiException("Cannot find task with id " + taskId);
   }
-  if (task.getAssignee() != null) {
-    if (!task.getAssignee().equals(userId)) {
-      throw new ActivitiException("Task " + taskId + " is already claimed by someone else");
+  if (userId != null) {
+    if (task.getAssignee() != null) {
+      if (!task.getAssignee().equals(userId)) {
+        throw new ActivitiException("Task " + taskId + " is already claimed by someone else");
+      }
+    }
+ else {
+      if (identitySession.isValidUser(userId)) {
+        task.setAssignee(userId);
+      }
+ else {
+        throw new ActivitiException("Cannot claim task " + taskId + ": user "+ userId+ " unknown.");
+      }
     }
   }
  else {
-    if (identitySession.isValidUser(userId)) {
-      task.setAssignee(userId);
-    }
- else {
-      throw new ActivitiException("Cannot claim task " + taskId + ": user "+ userId+ " unknown.");
-    }
+    task.setAssignee(null);
   }
   return null;
 }
