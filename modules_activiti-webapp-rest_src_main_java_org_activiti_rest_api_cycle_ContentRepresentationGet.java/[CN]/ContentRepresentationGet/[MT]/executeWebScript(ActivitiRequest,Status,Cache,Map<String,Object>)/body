@@ -8,9 +8,10 @@
     ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(representationId);
 switch (contentRepresentation.getRenderInfo()) {
 case IMAGE:
-      String imageUrl=restProxyUri + "content?artifactId=" + URLEncoder.encode(artifactId,"UTF-8")+ "&contentRepresentationId="+ URLEncoder.encode(contentRepresentation.getId(),"UTF-8");
-    model.put("imageUrl",imageUrl);
-  break;
+      model.put("renderInfo",RenderInfo.IMAGE.name());
+    String imageUrl=restProxyUri + "content?artifactId=" + URLEncoder.encode(artifactId,"UTF-8")+ "&contentRepresentationId="+ URLEncoder.encode(contentRepresentation.getId(),"UTF-8");
+  model.put("imageUrl",imageUrl);
+break;
 case BINARY:
 case CODE:
 case HTML:
@@ -18,7 +19,9 @@ case TEXT_PLAIN:
 String content=this.repositoryConnector.getContent(artifactId,contentRepresentation.getId()).asString();
 model.put("content",content);
 }
-model.put("id",contentRepresentation.getId());
+model.put("renderInfo",contentRepresentation.getRenderInfo().name());
+model.put("contentRepresentationId",contentRepresentation.getId());
+model.put("contentType",contentRepresentation.getMimeType().getContentType());
 }
  catch (Exception ex) {
 log.log(Level.WARNING,"Exception while loading content representation",ex);

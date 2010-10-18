@@ -1,7 +1,7 @@
 {
   ArtifactTypeImpl artifactTypeDefault=new ArtifactTypeImpl(ARTIFACT_TYPE_DEFAULT,CycleDefaultMimeType.TEXT);
-  artifactTypeDefault.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_BINARY,CycleDefaultMimeType.TEXT,RenderInfo.TEXT_PLAIN),new FileBinaryContentProvider());
-  artifactTypeDefault.addDownloadContentAction(CONTENT_REPRESENTATION_ID_BINARY);
+  artifactTypeDefault.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_TEXT,CycleDefaultMimeType.TEXT,RenderInfo.TEXT_PLAIN),new FileBinaryContentProvider());
+  artifactTypeDefault.addDownloadContentAction(CONTENT_REPRESENTATION_ID_TEXT);
   types.add(artifactTypeDefault);
   ArtifactTypeImpl artifactType1=new ArtifactTypeImpl(ARTIFACT_TYPE_BPMN_20_XML,CycleDefaultMimeType.XML);
   artifactType1.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_XML,CycleDefaultMimeType.XML,RenderInfo.CODE),new XmlFileContentProvider());
@@ -31,4 +31,9 @@
   artifactType6.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_BINARY,CycleDefaultMimeType.PDF,RenderInfo.BINARY),new FileBinaryContentProvider());
   artifactType6.addDownloadContentAction(CONTENT_REPRESENTATION_ID_BINARY);
   types.add(artifactType6);
+  ArtifactTypeImpl artifactTypeHtml=new ArtifactTypeImpl(ARTIFACT_TYPE_HTML,CycleDefaultMimeType.HTML);
+  artifactTypeHtml.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_HTML,CycleDefaultMimeType.HTML,RenderInfo.HTML),new TextFileContentProvider());
+  artifactTypeHtml.addDownloadContentAction(CONTENT_REPRESENTATION_ID_HTML);
+  artifactTypeHtml.addContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_HTML_SOURCE,CycleDefaultMimeType.HTML,RenderInfo.CODE),new TextFileContentProvider());
+  types.add(artifactTypeHtml);
 }
