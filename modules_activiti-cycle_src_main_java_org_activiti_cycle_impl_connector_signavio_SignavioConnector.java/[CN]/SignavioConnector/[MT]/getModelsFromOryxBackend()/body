@@ -2,13 +2,13 @@
   ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
   Response filterResponse=getJsonResponse(getConfiguration().getRepositoryBackendUrl() + "filter?type=http%3A%2F%2Fb3mn.org%2Fstencilset%2Fbpmn2.0%23&sort=rating");
   JsonRepresentation jsonRepresentation=new JsonRepresentation(filterResponse.getEntity());
-  JSONArray modelRefs=jsonRepresentation.toJsonArray();
+  JSONArray modelRefs=jsonRepresentation.getJsonArray();
   for (int i=0; i < modelRefs.length(); i++) {
     String modelRef=modelRefs.getString(i);
     String modelId=getConfiguration().getModelIdFromUrl(modelRef);
     Response infoResponse=getJsonResponse(getConfiguration().getModelInfoUrl(modelId));
     jsonRepresentation=new JsonRepresentation(infoResponse.getEntity());
-    RepositoryArtifact fileInfo=getArtifactInfoFromFile(modelId,jsonRepresentation.toJsonObject());
+    RepositoryArtifact fileInfo=getArtifactInfoFromFile(modelId,jsonRepresentation.getJsonObject());
     nodes.add(fileInfo);
   }
   return nodes;

@@ -2,7 +2,7 @@
   try {
     Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
     JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
-    JSONObject jsonObject=jsonData.toJsonObject();
+    JSONObject jsonObject=jsonData.getJsonObject();
     return getFolderInfo(jsonObject);
   }
  catch (  Exception ex) {

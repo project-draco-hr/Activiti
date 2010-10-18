@@ -15,6 +15,6 @@
   embeddedBORequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
   Response embeddedBOResponse=client.handle(embeddedBORequest);
   JsonRepresentation jsonData=new JsonRepresentation(embeddedBOResponse.getEntity());
-  JSONArray jsonArray=jsonData.toJsonArray();
+  JSONArray jsonArray=jsonData.getJsonArray();
   return jsonArray;
 }
