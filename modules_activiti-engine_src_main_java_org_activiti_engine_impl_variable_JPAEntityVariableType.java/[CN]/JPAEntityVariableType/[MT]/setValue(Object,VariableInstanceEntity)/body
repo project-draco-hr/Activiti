@@ -1,6 +1,12 @@
 {
-  String className=mappings.getJPAClassString(value);
-  String idString=mappings.getJPAIdString(value);
-  variableInstanceEntity.setTextValue(className);
-  variableInstanceEntity.setTextValue2(idString);
+  if (value != null) {
+    String className=mappings.getJPAClassString(value);
+    String idString=mappings.getJPAIdString(value);
+    variableInstanceEntity.setTextValue(className);
+    variableInstanceEntity.setTextValue2(idString);
+  }
+ else {
+    variableInstanceEntity.setTextValue(null);
+    variableInstanceEntity.setTextValue2(null);
+  }
 }
