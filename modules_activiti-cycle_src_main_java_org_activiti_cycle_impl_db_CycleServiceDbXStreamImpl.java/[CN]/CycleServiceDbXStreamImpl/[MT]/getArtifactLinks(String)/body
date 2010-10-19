@@ -1,9 +1,26 @@
 {
+  List<RepositoryArtifactLink> repositoryArtifactLinkList=new ArrayList<RepositoryArtifactLink>();
   SqlSessionFactory sqlMapper=getSessionFactory();
   SqlSession session=sqlMapper.openSession();
   try {
-    List<Artifact> artifactResultList=session.selectList("org.activiti.cycle.Artifact.selectArtifact",sourceArtifactId);
-    return artifactResultList;
+    List<CycleLink> linkResultList=session.selectList("org.activiti.cycle.CycleLink.selectArtifactLinkForSourceArtifact",sourceArtifactId);
+    if (linkResultList != null && !linkResultList.isEmpty()) {
+      for (      CycleLink cycleLink : linkResultList) {
+        RepositoryArtifactLink repositoryArtifactLink=new RepositoryArtifactLinkImpl();
+        repositoryArtifactLink.setId(cycleLink.getId());
+        repositoryArtifactLink.setSourceElementId(cycleLink.getSourceElementId());
+        repositoryArtifactLink.setTargetElementId(cycleLink.getTargetElementId());
+        repositoryArtifactLink.setSourceElementName(cycleLink.getSourceElementName());
+        repositoryArtifactLink.setTargetElementName(cycleLink.getTargetElementName());
+        repositoryArtifactLink.setSourceRevision(cycleLink.getSourceRevision());
+        repositoryArtifactLink.setTargetRevision(cycleLink.getTargetRevision());
+        repositoryArtifactLink.setDescription(cycleLink.getDescription());
+        repositoryArtifactLink.setLinkType(cycleLink.getLinkType());
+        repositoryArtifactLink.setLinkedBothWays(cycleLink.isLinkedBothWays());
+        repositoryArtifactLinkList.add(repositoryArtifactLink);
+      }
+    }
+    return repositoryArtifactLinkList;
   }
   finally {
     session.close();
