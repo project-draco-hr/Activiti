@@ -1,10 +1,10 @@
 {
-  RepositoryArtifact copy=new RepositoryArtifactImpl(targetName,artifact.getArtifactType(),this);
+  RepositoryArtifact copy=new RepositoryArtifactImpl(getConfiguration().getId(),targetName,artifact.getArtifactType(),this);
   nodes.add(copy);
   Collection<ContentRepresentation> contentRepresentationDefinitions=artifact.getArtifactType().getContentRepresentations();
   for (  ContentRepresentation def : contentRepresentationDefinitions) {
     def.getId();
-    Content cont=getContent(artifact.getId(),def.getId());
-    addContentToInternalMap(copy.getId(),def.getId(),cont.asByteArray());
+    Content cont=getContent(artifact.getOriginalNodeId(),def.getId());
+    addContentToInternalMap(copy.getOriginalNodeId(),def.getId(),cont.asByteArray());
   }
 }

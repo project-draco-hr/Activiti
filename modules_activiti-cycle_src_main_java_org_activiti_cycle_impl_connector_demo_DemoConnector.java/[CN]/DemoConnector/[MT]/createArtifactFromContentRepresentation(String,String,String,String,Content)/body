@@ -7,7 +7,7 @@
     id=id + "/";
   }
   id=id + artifactName;
-  RepositoryArtifact newArtifact=new RepositoryArtifactImpl(id,getArtifactType(artifactType),this);
+  RepositoryArtifact newArtifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,getArtifactType(artifactType),this);
   newArtifact.getMetadata().setName(artifactName);
   newArtifact.getMetadata().setParentFolderId(containingFolderId);
   nodes.add(newArtifact);

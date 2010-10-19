@@ -1,18 +1,18 @@
 {
   RepositoryConnector connector=null;
-  int index=url.indexOf("/");
+  int index=parentCurrentPath.indexOf("/");
   if (index == -1) {
-    connector=getRepositoryConnector(url);
+    connector=getRepositoryConnector(parentCurrentPath);
   }
  else   if (index == 0) {
-    connector=getConnectorFromUrl(url.substring(1));
+    connector=getConnectorFromUrl(parentCurrentPath.substring(1));
   }
  else {
-    String repositoryName=url.substring(0,index);
+    String repositoryName=parentCurrentPath.substring(0,index);
     connector=getRepositoryConnector(repositoryName);
   }
   if (connector == null) {
-    throw new RepositoryException("Couldn't find any RepositoryConnector for url '" + url + "'");
+    throw new RepositoryException("Couldn't find any RepositoryConnector for url '" + parentCurrentPath + "'");
   }
  else {
     return connector;

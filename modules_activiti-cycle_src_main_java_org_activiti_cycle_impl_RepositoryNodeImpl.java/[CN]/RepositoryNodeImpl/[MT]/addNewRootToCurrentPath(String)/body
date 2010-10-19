@@ -1,0 +1,13 @@
+{
+  if (!getCurrentPath().startsWith("/")) {
+    throw new RepositoryException("RepositoryNode id doesn't start with a slash, which is considered invalid: '" + getCurrentPath() + "' in repository '"+ getConnectorId()+ "'");
+  }
+ else {
+    if (rootName.startsWith("/")) {
+      setCurrentPath(rootName + getCurrentPath());
+    }
+ else {
+      setCurrentPath("/" + rootName + getCurrentPath());
+    }
+  }
+}

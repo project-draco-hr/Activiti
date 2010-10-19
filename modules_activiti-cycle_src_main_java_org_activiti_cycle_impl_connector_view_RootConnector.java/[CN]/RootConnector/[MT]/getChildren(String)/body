@@ -1,10 +1,10 @@
 {
-  if ("/".equals(parentUrl)) {
+  if ("/".equals(parentCurrentPath)) {
     return getRepoRootFolders();
   }
-  RepositoryConnector connector=getConnectorFromUrl(parentUrl);
-  parentUrl=getRepositoryPartOfUrl(parentUrl);
-  RepositoryNodeCollection children=connector.getChildren(parentUrl);
+  RepositoryConnector connector=getConnectorFromUrl(parentCurrentPath);
+  parentCurrentPath=getRepositoryPartOfUrl(parentCurrentPath);
+  RepositoryNodeCollection children=connector.getChildren(parentCurrentPath);
   for (  RepositoryNode repositoryNode : children.asList()) {
     adjust(connector,repositoryNode);
   }

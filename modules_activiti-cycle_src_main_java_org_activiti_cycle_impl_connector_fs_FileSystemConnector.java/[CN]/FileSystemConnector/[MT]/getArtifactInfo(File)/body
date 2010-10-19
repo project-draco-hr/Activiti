@@ -2,7 +2,7 @@
   String id=getLocalPath(file.getCanonicalPath());
   String mimeType=getMimeType(file);
   ArtifactType artifactType=getConfiguration().getArtifactType(mimeType);
-  RepositoryArtifactImpl artifact=new RepositoryArtifactImpl(id,artifactType,this);
+  RepositoryArtifactImpl artifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,artifactType,this);
   artifact.getMetadata().setName(file.getName());
   artifact.getMetadata().setParentFolderId(getLocalPath(file.getParent()));
   artifact.getMetadata().setLastChanged(new Date(file.lastModified()));

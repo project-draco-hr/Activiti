@@ -1,6 +1,6 @@
 {
   ArtifactType artifactType=getArtifactTypeForSignavioArtifact(json);
-  RepositoryArtifactImpl fileInfo=new RepositoryArtifactImpl(id,artifactType,this);
+  RepositoryArtifactImpl fileInfo=new RepositoryArtifactImpl(getConfiguration().getId(),id,artifactType,this);
   if (json.has("name")) {
     fileInfo.getMetadata().setName(json.optString("name"));
   }

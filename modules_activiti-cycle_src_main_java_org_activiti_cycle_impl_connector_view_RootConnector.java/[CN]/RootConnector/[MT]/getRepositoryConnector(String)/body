@@ -1,8 +1,8 @@
 {
   for (  RepositoryConnector connector : getRepositoryConnectors()) {
-    if (connector.getConfiguration().getName().equals(name)) {
+    if (connector.getConfiguration().getId().equals(connectorId)) {
       return connector;
     }
   }
-  throw new RepositoryException("Couldn't find Repository Connector with name '" + name + "'");
+  throw new RepositoryException("Couldn't find Repository Connector with id '" + connectorId + "'");
 }
