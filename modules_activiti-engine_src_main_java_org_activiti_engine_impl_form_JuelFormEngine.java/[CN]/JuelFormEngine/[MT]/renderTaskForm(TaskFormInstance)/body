@@ -1,0 +1,10 @@
+{
+  if (taskFormInstance.getFormKey() == null) {
+    return null;
+  }
+  CommandContext commandContext=CommandContext.getCurrent();
+  String formTemplateString=getFormTemplateString(taskFormInstance,commandContext);
+  ScriptingEngines scriptingEngines=commandContext.getProcessEngineConfiguration().getScriptingEngines();
+  TaskEntity task=(TaskEntity)taskFormInstance.getTask();
+  return scriptingEngines.evaluate(formTemplateString,ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE,task.getExecution());
+}

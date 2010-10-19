@@ -1,6 +1,6 @@
 {
-  assertNull(taskService.getRenderedStartFormByKey("noStartOrTaskForm"));
+  assertNull(formService.getRenderedStartForm("noStartOrTaskForm:1"));
   runtimeService.startProcessInstanceByKey("noStartOrTaskForm");
   Task task=taskService.createTaskQuery().singleResult();
-  assertNull(taskService.getRenderedTaskForm(task.getId()));
+  assertNull(formService.getRenderedTaskForm(task.getId()));
 }

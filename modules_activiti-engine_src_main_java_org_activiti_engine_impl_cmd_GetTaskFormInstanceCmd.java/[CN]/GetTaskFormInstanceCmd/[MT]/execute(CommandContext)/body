@@ -1,0 +1,12 @@
+{
+  TaskSession taskSession=commandContext.getTaskSession();
+  TaskEntity task=taskSession.findTaskById(taskId);
+  if (task == null) {
+    throw new ActivitiException("No task found for taskId '" + taskId + "'");
+  }
+  TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
+  if (taskFormHandler == null) {
+    throw new ActivitiException("No taskFormHandler specified for task '" + taskId + "'");
+  }
+  return taskFormHandler.createTaskFormInstance(task);
+}

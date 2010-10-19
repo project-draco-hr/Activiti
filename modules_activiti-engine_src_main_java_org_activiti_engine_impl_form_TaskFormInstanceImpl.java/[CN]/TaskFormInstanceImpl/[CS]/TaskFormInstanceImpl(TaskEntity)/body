@@ -1,0 +1,7 @@
+{
+  this.task=task;
+  this.formKey=task.getTaskDefinition().getFormKey();
+  String processDefinitionId=task.getProcessDefinitionId();
+  ProcessDefinition processDefinition=new ProcessDefinitionQueryImpl().id(processDefinitionId).executeSingleResult(CommandContext.getCurrent());
+  this.deploymentId=processDefinition.getDeploymentId();
+}

@@ -1,0 +1,9 @@
+{
+  if (startFormInstance.getFormKey() == null) {
+    return null;
+  }
+  CommandContext commandContext=CommandContext.getCurrent();
+  String formTemplateString=getFormTemplateString(startFormInstance,commandContext);
+  ScriptingEngines scriptingEngines=commandContext.getProcessEngineConfiguration().getScriptingEngines();
+  return scriptingEngines.evaluate(formTemplateString,ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE,null);
+}

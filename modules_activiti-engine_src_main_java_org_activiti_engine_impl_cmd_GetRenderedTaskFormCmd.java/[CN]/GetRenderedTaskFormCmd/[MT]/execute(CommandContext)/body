@@ -1,0 +1,17 @@
+{
+  TaskSession taskSession=commandContext.getTaskSession();
+  TaskEntity task=taskSession.findTaskById(taskId);
+  if (task == null) {
+    throw new ActivitiException("Task '" + taskId + "' not found");
+  }
+  TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
+  if (taskFormHandler == null) {
+    return null;
+  }
+  FormEngine formEngine=commandContext.getProcessEngineConfiguration().getFormEngines().get(formEngineName);
+  if (formEngine == null) {
+    throw new ActivitiException("No formEngine '" + formEngineName + "' defined process engine configuration");
+  }
+  TaskFormInstance taskFormInstance=taskFormHandler.createTaskFormInstance(task);
+  return formEngine.renderTaskForm(taskFormInstance);
+}

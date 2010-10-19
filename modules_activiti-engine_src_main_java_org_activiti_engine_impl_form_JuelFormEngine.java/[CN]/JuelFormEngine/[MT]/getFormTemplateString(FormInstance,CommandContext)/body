@@ -1,0 +1,8 @@
+{
+  String deploymentId=formInstance.getDeploymentId();
+  String formKey=formInstance.getFormKey();
+  ResourceEntity resourceStream=commandContext.getRepositorySession().findResourceByDeploymentIdAndResourceName(deploymentId,formKey);
+  byte[] resourceBytes=resourceStream.getBytes();
+  String formTemplateString=new String(resourceBytes);
+  return formTemplateString;
+}

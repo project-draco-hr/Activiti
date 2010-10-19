@@ -10,6 +10,7 @@
   repositoryService=new RepositoryServiceImpl();
   runtimeService=new RuntimeServiceImpl();
   taskService=new TaskServiceImpl();
+  formService=new FormServiceImpl();
   managementService=new ManagementServiceImpl();
   identityService=new IdentityServiceImpl();
   historyService=new HistoryServiceImpl();
@@ -47,4 +48,8 @@
   businessCalendarManager=mapBusinessCalendarManager;
   mailServerDefaultFrom=DEFAULT_FROM_EMAIL_ADDRESS;
   mailServerSmtpPort=DEFAULT_MAIL_SERVER_SMTP_PORT;
+  formEngines=new HashMap<String,FormEngine>();
+  FormEngine defaultFormEngine=new JuelFormEngine();
+  formEngines.put(null,defaultFormEngine);
+  formEngines.put("juel",defaultFormEngine);
 }

@@ -3,6 +3,7 @@
   processDefinition.setKey(processElement.attribute("id"));
   processDefinition.setProperty("name",processElement.attribute("name"));
   processDefinition.setProperty("documentation",parseDocumentation(processElement));
+  processDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
   String historyLevelText=processElement.attribute("history");
   if (historyLevelText != null) {
     processDefinition.setHistoryLevel(ProcessEngineConfiguration.parseHistoryLevel(historyLevelText));

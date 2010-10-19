@@ -2,6 +2,6 @@
   List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().list();
   assertEquals(1,processDefinitions.size());
   ProcessDefinition processDefinition=processDefinitions.get(0);
-  Object startForm=taskService.getRenderedStartFormById(processDefinition.getId());
+  Object startForm=formService.getRenderedStartForm(processDefinition.getId());
   assertNotNull(startForm);
 }

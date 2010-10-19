@@ -7,10 +7,10 @@
   if (executionId == null) {
     throw new ActivitiException("bug");
   }
+  this.revision=variableInstance.getRevision();
   this.name=variableInstance.getName();
   this.type=variableInstance.getType();
   this.time=ClockUtil.getCurrentTime();
-  this.index=variableInstance.generateNextHistoryIndex();
   if (variableInstance.getByteArrayValueId() != null) {
     this.byteArrayValue=new ByteArrayEntity(name,variableInstance.getByteArrayValue().getBytes());
     dbSqlSession.insert(byteArrayValue);
