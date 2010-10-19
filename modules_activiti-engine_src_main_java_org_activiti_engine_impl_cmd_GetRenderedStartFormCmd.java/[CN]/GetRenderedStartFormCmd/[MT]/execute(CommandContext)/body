@@ -12,6 +12,6 @@
   if (formEngine == null) {
     throw new ActivitiException("No formEngine '" + formEngineName + "' defined process engine configuration");
   }
-  StartFormInstance startFormInstance=startFormHandler.createStartFormInstance(processDefinition);
-  return formEngine.renderStartForm(startFormInstance);
+  StartForm startForm=startFormHandler.createStartForm(processDefinition);
+  return formEngine.renderStartForm(startForm);
 }

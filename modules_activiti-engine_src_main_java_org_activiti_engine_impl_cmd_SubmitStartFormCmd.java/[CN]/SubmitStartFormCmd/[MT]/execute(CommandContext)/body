@@ -1,0 +1,18 @@
+{
+  RepositorySession repositorySession=commandContext.getRepositorySession();
+  ProcessDefinitionEntity processDefinition=repositorySession.findDeployedProcessDefinitionById(processDefinitionId);
+  if (processDefinition == null) {
+    throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
+  }
+  ExecutionEntity processInstance=null;
+  StartFormHandler startFormHandler=processDefinition.getStartFormHandler();
+  try {
+    VariableMap.setExternalUpdate(Boolean.TRUE);
+    processInstance=startFormHandler.submitStartForm(processDefinition,properties);
+  }
+  finally {
+    VariableMap.setExternalUpdate(null);
+  }
+  processInstance.start();
+  return processInstance;
+}

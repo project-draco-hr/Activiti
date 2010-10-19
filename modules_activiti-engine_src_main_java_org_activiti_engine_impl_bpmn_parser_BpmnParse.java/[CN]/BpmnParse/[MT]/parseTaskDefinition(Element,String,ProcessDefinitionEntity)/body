@@ -1,5 +1,7 @@
 {
-  TaskDefinition taskDefinition=new TaskDefinition();
+  String formKey=taskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"formKey");
+  String deploymentId=processDefinition.getDeploymentId();
+  TaskDefinition taskDefinition=new TaskDefinition(formKey,deploymentId);
   taskDefinition.setKey(taskDefinitionKey);
   processDefinition.getTaskDefinitions().put(taskDefinitionKey,taskDefinition);
   String name=taskElement.attribute("name");

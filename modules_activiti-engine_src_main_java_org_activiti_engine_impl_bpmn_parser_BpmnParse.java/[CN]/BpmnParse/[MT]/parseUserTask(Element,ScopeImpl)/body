@@ -2,8 +2,6 @@
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(userTaskElement,scope);
   TaskDefinition taskDefinition=parseTaskDefinition(userTaskElement,activity.getId(),(ProcessDefinitionEntity)scope.getProcessDefinition());
   UserTaskActivity userTaskActivity=new UserTaskActivity(expressionManager,taskDefinition);
-  String formResourceKey=userTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"form");
-  taskDefinition.setFormKey(formResourceKey);
   activity.setActivityBehavior(userTaskActivity);
   parseProperties(userTaskElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {

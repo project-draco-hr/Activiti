@@ -12,6 +12,6 @@
   if (formEngine == null) {
     throw new ActivitiException("No formEngine '" + formEngineName + "' defined process engine configuration");
   }
-  TaskFormInstance taskFormInstance=taskFormHandler.createTaskFormInstance(task);
-  return formEngine.renderTaskForm(taskFormInstance);
+  TaskForm taskForm=taskFormHandler.createTaskForm(task);
+  return formEngine.renderTaskForm(taskForm);
 }
