@@ -1,0 +1,6 @@
+{
+  assertEquals(-1,counter.getCount());
+  runtimeService.startProcessInstanceByKey("webServiceInvocation");
+  waitForJobExecutorToProcessAllJobs(10000L,250L);
+  assertEquals(0,counter.getCount());
+}

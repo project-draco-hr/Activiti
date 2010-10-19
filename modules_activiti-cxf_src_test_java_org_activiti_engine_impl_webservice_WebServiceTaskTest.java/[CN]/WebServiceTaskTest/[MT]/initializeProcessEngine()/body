@@ -1,0 +1,12 @@
+{
+  super.initializeProcessEngine();
+  counter=new CounterImpl();
+  JaxWsServerFactoryBean svrFactory=new JaxWsServerFactoryBean();
+  svrFactory.setServiceClass(Counter.class);
+  svrFactory.setAddress("http://localhost:63081/counter");
+  svrFactory.setServiceBean(counter);
+  svrFactory.getInInterceptors().add(new LoggingInInterceptor());
+  svrFactory.getOutInterceptors().add(new LoggingOutInterceptor());
+  server=svrFactory.create();
+  server.start();
+}
