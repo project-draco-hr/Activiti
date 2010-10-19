@@ -19,6 +19,7 @@ case TEXT_PLAIN:
 String content=this.repositoryConnector.getContent(artifactId,contentRepresentation.getId()).asString();
 model.put("content",content);
 }
+model.put("artifactId",artifactId);
 model.put("renderInfo",contentRepresentation.getRenderInfo().name());
 model.put("contentRepresentationId",contentRepresentation.getId());
 model.put("contentType",contentRepresentation.getMimeType().getContentType());
