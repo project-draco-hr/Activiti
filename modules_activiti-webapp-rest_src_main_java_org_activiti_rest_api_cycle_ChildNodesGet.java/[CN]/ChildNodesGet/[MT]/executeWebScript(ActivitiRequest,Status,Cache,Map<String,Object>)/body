@@ -1,8 +1,9 @@
 {
   init(req);
   String artifactId=req.getMandatoryString("artifactId");
+  String connectorId=req.getMandatoryString("connectorId");
   try {
-    RepositoryNodeCollection children=this.repositoryConnector.getChildren(artifactId);
+    RepositoryNodeCollection children=this.cycleService.getChildren(connectorId,artifactId);
     model.put("files",children.getArtifactList());
     model.put("folders",children.getFolderList());
     return;

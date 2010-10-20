@@ -1,0 +1,10 @@
+{
+  List<RepositoryArtifactLink> artifactLinks=new ArrayList<RepositoryArtifactLink>();
+  List<CycleLink> linkResultList=this.linkService.getCycleLinks(sourceArtifactId);
+  if (linkResultList != null && !linkResultList.isEmpty()) {
+    for (    CycleLink entity : linkResultList) {
+      artifactLinks.add(createLinkDtoFromLinkEntity(entity));
+    }
+  }
+  return artifactLinks;
+}

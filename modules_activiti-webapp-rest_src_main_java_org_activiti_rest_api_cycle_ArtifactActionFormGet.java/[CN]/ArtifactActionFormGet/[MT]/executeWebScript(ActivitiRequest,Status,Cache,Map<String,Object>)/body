@@ -1,10 +1,11 @@
 {
   init(req);
+  String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getMandatoryString("artifactId");
   String actionId=req.getMandatoryString("actionName");
-  RepositoryArtifact artifact=this.repositoryConnector.getRepositoryArtifact(artifactId);
+  RepositoryArtifact artifact=this.cycleService.getRepositoryArtifact(connectorId,artifactId);
   if (artifact == null) {
-    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "'.");
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "' for connector with id '"+ connectorId+ "'.");
   }
   String form=null;
   for (  ParameterizedAction action : artifact.getArtifactType().getParameterizedActions()) {

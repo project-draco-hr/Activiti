@@ -1,0 +1,27 @@
+{
+  RepositoryArtifactLink repositoryArtifactLink=new RepositoryArtifactLinkImpl();
+  repositoryArtifactLink.setId(entity.getId());
+  repositoryArtifactLink.setSourceElementId(entity.getSourceElementId());
+  repositoryArtifactLink.setSourceElementName(entity.getSourceElementName());
+  repositoryArtifactLink.setTargetElementId(entity.getTargetElementId());
+  repositoryArtifactLink.setTargetElementName(entity.getTargetElementName());
+  RepositoryArtifact sourceArtifact=null;
+  RepositoryArtifact targetArtifact=null;
+  for (  RepositoryConnector conn : this.repositoryConnectors) {
+    if (conn.getConfiguration().getId().equals(entity.getSourceConnectorId())) {
+      sourceArtifact=conn.getRepositoryArtifact(entity.getSourceArtifactId());
+    }
+    if (conn.getConfiguration().getId().equals(entity.getTargetConnectorId())) {
+      targetArtifact=conn.getRepositoryArtifact(entity.getTargetArtifactId());
+    }
+  }
+  if (sourceArtifact == null) {
+    throw new RuntimeException("Source-artifact with id '" + entity.getSourceArtifactId() + "' not found for artifact-link with id '"+ entity.getId()+ "'");
+  }
+  if (targetArtifact == null) {
+    throw new RuntimeException("Target-artifact with id '" + entity.getSourceArtifactId() + "' not found for artifact-link with id '"+ entity.getId()+ "'");
+  }
+  repositoryArtifactLink.setSourceArtifact(sourceArtifact);
+  repositoryArtifactLink.setTargetArtifact(targetArtifact);
+  return repositoryArtifactLink;
+}

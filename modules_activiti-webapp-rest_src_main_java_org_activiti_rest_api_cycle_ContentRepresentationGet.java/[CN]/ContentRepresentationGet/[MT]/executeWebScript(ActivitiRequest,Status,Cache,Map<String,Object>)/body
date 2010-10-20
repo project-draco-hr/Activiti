@@ -1,24 +1,22 @@
 {
   init(req);
+  String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getString("artifactId");
   String representationId=req.getString("representationId");
-  String restProxyUri=req.getString("restProxyUri");
-  RepositoryArtifact artifact=this.repositoryConnector.getRepositoryArtifact(artifactId);
+  RepositoryArtifact artifact=this.cycleService.getRepositoryArtifact(connectorId,artifactId);
   try {
     ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(representationId);
 switch (contentRepresentation.getRenderInfo()) {
 case IMAGE:
-      model.put("renderInfo",RenderInfo.IMAGE.name());
-    String imageUrl=restProxyUri + "content?artifactId=" + URLEncoder.encode(artifactId,"UTF-8")+ "&contentRepresentationId="+ URLEncoder.encode(contentRepresentation.getId(),"UTF-8");
-  model.put("imageUrl",imageUrl);
-break;
+case HTML:
+      break;
 case BINARY:
 case CODE:
-case HTML:
 case TEXT_PLAIN:
-String content=this.repositoryConnector.getContent(artifactId,contentRepresentation.getId()).asString();
-model.put("content",content);
+    String content=this.cycleService.getContent(connectorId,artifactId,contentRepresentation.getId()).asString();
+  model.put("content",content);
 }
+model.put("connectorId",connectorId);
 model.put("artifactId",artifactId);
 model.put("renderInfo",contentRepresentation.getRenderInfo().name());
 model.put("contentRepresentationId",contentRepresentation.getId());

@@ -1,8 +1,9 @@
 {
   init(req);
+  String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getString("artifactId");
   String restProxyUri=req.getString("restProxyUri");
-  RepositoryArtifact artifact=this.repositoryConnector.getRepositoryArtifact(artifactId);
+  RepositoryArtifact artifact=this.cycleService.getRepositoryArtifact(connectorId,artifactId);
   List<String> contentRepresentations=new ArrayList<String>();
   for (  ContentRepresentation representation : artifact.getArtifactType().getContentRepresentations()) {
     contentRepresentations.add(representation.getId());
@@ -12,7 +13,7 @@
   List<DownloadActionView> downloads=new ArrayList<DownloadActionView>();
   for (  DownloadContentAction action : artifact.getArtifactType().getDownloadContentActions()) {
     try {
-      String url=restProxyUri + "content?artifactId=" + URLEncoder.encode(artifactId,"UTF-8")+ "&contentRepresentationId="+ URLEncoder.encode(action.getContentRepresentation().getId(),"UTF-8");
+      String url=restProxyUri + "content?connectorId=" + URLEncoder.encode(connectorId,"UTF-8")+ "&artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&contentRepresentationId="+ URLEncoder.encode(action.getContentRepresentation().getId(),"UTF-8");
       downloads.add(new DownloadActionView(action.getId(),url,action.getContentRepresentation().getMimeType().getContentType(),action.getContentRepresentation().getId()));
     }
  catch (    UnsupportedEncodingException e) {
@@ -21,5 +22,6 @@
   }
   model.put("downloads",downloads);
   model.put("links",artifact.getOpenLinkActions());
-  model.put("artifactId",artifact.getCurrentPath());
+  model.put("artifactId",artifact.getOriginalNodeId());
+  model.put("connectorId",artifact.getConnectorId());
 }

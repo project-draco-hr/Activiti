@@ -1,0 +1,10 @@
+{
+  RepositoryConnector connector=getRepositoryConnector(connectorId);
+  for (  String key : parameters.keySet()) {
+    if (key.equals("targetConnectorId")) {
+      RepositoryConnector targetConnector=getRepositoryConnector((String)parameters.get(key));
+      parameters.put(key,targetConnector);
+    }
+  }
+  connector.executeParameterizedAction(artifactId,actionId,parameters);
+}

@@ -1,9 +1,0 @@
-{
-  SqlSessionFactory sqlMapper=getSessionFactory();
-  CycleLink link=new CycleLink();
-  link.setSourceArtifactId(sourceArtifactId);
-  link.setTargetArtifactId(targetArtifactId);
-  SqlSession session=sqlMapper.openSession();
-  session.insert("org.activiti.cycle.CycleLink.insertCycleLink",link);
-  session.commit();
-}

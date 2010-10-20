@@ -1,11 +1,12 @@
 {
   init(req);
+  String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getMandatoryString("artifactId");
   String actionId=req.getMandatoryString("actionName");
   ActivitiRequest.ActivitiWebScriptBody body=req.getBody();
   Map<String,Object> parameters=req.getFormVariables(body);
   try {
-    this.repositoryConnector.executeParameterizedAction(artifactId,actionId,parameters);
+    this.cycleService.executeParameterizedAction(connectorId,artifactId,actionId,parameters);
     model.put("result",true);
   }
  catch (  Exception e) {

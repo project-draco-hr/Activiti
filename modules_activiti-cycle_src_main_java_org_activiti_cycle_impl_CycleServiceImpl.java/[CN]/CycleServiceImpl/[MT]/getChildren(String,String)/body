@@ -1,0 +1,7 @@
+{
+  if ("/".equals(connectorId)) {
+    return getRepoRootFolders();
+  }
+  RepositoryConnector connector=getRepositoryConnector(connectorId);
+  return connector.getChildren(nodeId);
+}

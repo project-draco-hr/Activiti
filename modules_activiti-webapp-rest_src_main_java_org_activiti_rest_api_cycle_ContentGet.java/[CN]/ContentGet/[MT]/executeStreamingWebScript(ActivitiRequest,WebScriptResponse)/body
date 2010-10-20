@@ -1,8 +1,9 @@
 {
   init(req);
+  String cnonectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getMandatoryString("artifactId");
   String contentRepresentationId=req.getMandatoryString("contentRepresentationId");
-  RepositoryArtifact artifact=repositoryConnector.getRepositoryArtifact(artifactId);
+  RepositoryArtifact artifact=cycleService.getRepositoryArtifact(cnonectorId,artifactId);
   ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(contentRepresentationId);
   String contentType=contentRepresentation.getMimeType().getContentType();
   boolean attach=contentType.startsWith("application/") ? true : false;
@@ -31,5 +32,5 @@
       attachmentFileName+=".doc";
     }
   }
-  streamResponse(res,repositoryConnector.getContent(artifact.getCurrentPath(),contentRepresentation.getId()).asInputStream(),new Date(0),"W/\"647-1281077702000\"",attach,attachmentFileName,contentType);
+  streamResponse(res,this.cycleService.getContent(artifact.getConnectorId(),artifact.getOriginalNodeId(),contentRepresentation.getId()).asInputStream(),new Date(0),"W/\"647-1281077702000\"",attach,attachmentFileName,contentType);
 }
