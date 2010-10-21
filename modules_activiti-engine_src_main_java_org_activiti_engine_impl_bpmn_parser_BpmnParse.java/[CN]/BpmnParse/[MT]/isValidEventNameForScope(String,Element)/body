@@ -1,0 +1,14 @@
+{
+  if (eventName != null && eventName.trim().length() > 0) {
+    if ("start".equals(eventName) || "end".equals(eventName)) {
+      return true;
+    }
+ else {
+      addError("Attribute 'eventName' must be one of {start|end}",listenerElement);
+    }
+  }
+ else {
+    addError("Attribute 'eventName' is mandatory on listener",listenerElement);
+  }
+  return false;
+}

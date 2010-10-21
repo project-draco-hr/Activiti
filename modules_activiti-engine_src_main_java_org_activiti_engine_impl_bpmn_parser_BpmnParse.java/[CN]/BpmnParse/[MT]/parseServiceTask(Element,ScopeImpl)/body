@@ -7,7 +7,7 @@
   String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"result-variable-name");
   String implementation=serviceTaskElement.attribute("implementation");
   String operationRef=serviceTaskElement.attribute("operationRef");
-  List<FieldDeclaration> fieldDeclarations=parseFieldDeclarations(serviceTaskElement);
+  List<FieldDeclaration> fieldDeclarations=parseFieldDeclarationsOnServiceTask(serviceTaskElement);
   if (type != null) {
     if (type.equalsIgnoreCase("mail")) {
       parseEmailServiceTask(activity,serviceTaskElement,fieldDeclarations);
@@ -20,7 +20,7 @@
     if (resultVariableName != null) {
       addError("'result-variable-name' not supported for service tasks using 'class'",serviceTaskElement);
     }
-    activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(expressionManager.createValueExpression(className),fieldDeclarations));
+    activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(className,fieldDeclarations));
   }
  else   if (methodExpr != null && methodExpr.trim().length() > 0) {
     activity.setActivityBehavior(new ServiceTaskMethodExpressionActivityBehavior(expressionManager.createMethodExpression(methodExpr),resultVariableName));
@@ -40,6 +40,7 @@
  else {
     addError("'class', 'method-expr' or 'value-expr' attribute is mandatory on serviceTask",serviceTaskElement);
   }
+  parseEventListenersOnScope(serviceTaskElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseServiceTask(serviceTaskElement,scope,activity);
   }

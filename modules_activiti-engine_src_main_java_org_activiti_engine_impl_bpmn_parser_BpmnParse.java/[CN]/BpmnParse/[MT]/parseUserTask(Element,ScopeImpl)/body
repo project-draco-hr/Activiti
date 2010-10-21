@@ -4,6 +4,7 @@
   UserTaskActivity userTaskActivity=new UserTaskActivity(expressionManager,taskDefinition);
   activity.setActivityBehavior(userTaskActivity);
   parseProperties(userTaskElement,activity);
+  parseEventListenersOnScope(userTaskElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseUserTask(userTaskElement,scope,activity);
   }

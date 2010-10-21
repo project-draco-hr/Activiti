@@ -16,6 +16,7 @@
     transition.setProperty("documentation",parseDocumentation(sequenceFlowElement));
     transition.setDestination(destinationActivity);
     parseSequenceFlowConditionExpression(sequenceFlowElement,transition);
+    parseEventListenersOnTransition(sequenceFlowElement,transition);
     for (    BpmnParseListener parseListener : parseListeners) {
       parseListener.parseSequenceFlow(sequenceFlowElement,scope,transition);
     }

@@ -1,6 +1,7 @@
 {
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(parallelGwElement,scope);
   activity.setActivityBehavior(new ParallelGatewayActivity());
+  parseEventListenersOnScope(parallelGwElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseParallelGateway(parallelGwElement,scope,activity);
   }

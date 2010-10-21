@@ -1,0 +1,22 @@
+{
+  String value=null;
+  String attributeValue=element.attributeNS(namespace,attributeName);
+  Element childElement=element.elementNS(namespace,elementName);
+  String stringElementText=null;
+  if (attributeValue != null && childElement != null) {
+    addError("Can't use attribute '" + attributeName + "' and element '"+ elementName+ "' toghether, only use one",element);
+  }
+ else   if (childElement != null) {
+    stringElementText=childElement.getText();
+    if (stringElementText == null || stringElementText.length() == 0) {
+      addError("No valid value found in attribute '" + attributeName + "' nor element '"+ elementName+ "'",element);
+    }
+ else {
+      value=stringElementText;
+    }
+  }
+ else   if (attributeValue != null && attributeValue.length() > 0) {
+    value=attributeValue;
+  }
+  return value;
+}

@@ -1,15 +1,9 @@
 {
-  Object object=expression.getValue(execution);
-  if (object instanceof String) {
-    String className=(String)object;
-    if (className != null) {
-      object=ReflectUtil.instantiate(className);
-    }
-  }
-  if (object instanceof SignallableActivityBehavior) {
-    ((SignallableActivityBehavior)object).signal(execution,signalName,signalData);
+  Object delegate=getDelegateInstance();
+  if (delegate instanceof SignallableActivityBehavior) {
+    ((SignallableActivityBehavior)delegate).signal(execution,signalName,signalData);
   }
  else {
-    throw new ActivitiException("Service " + object + " is used in a serviceTask, but does not"+ " implement the "+ SignallableActivityBehavior.class.getCanonicalName()+ " interface");
+    throw new ActivitiException("Service of type '" + getDelegateClassName() + "' is used in a serviceTask, but does not"+ " implement the "+ SignallableActivityBehavior.class.getCanonicalName()+ " interface");
   }
 }

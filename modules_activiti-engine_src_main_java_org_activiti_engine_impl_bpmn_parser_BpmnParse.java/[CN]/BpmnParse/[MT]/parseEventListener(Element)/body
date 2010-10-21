@@ -1,0 +1,16 @@
+{
+  EventListener eventListener=null;
+  String className=eventListenerElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
+  String methodExpr=eventListenerElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"methodExpr");
+  List<FieldDeclaration> fieldDeclarations=parseFieldDeclarations(eventListenerElement);
+  if (className != null && className.trim().length() > 0) {
+    eventListener=new DelegateEventListener(className,fieldDeclarations);
+  }
+ else   if (methodExpr != null && methodExpr.trim().length() > 0) {
+    eventListener=new MethodExpressionEventListener(expressionManager.createMethodExpression(methodExpr));
+  }
+ else {
+    addError("Element 'class' or 'methodExpr' is mandatory on event-listener",eventListenerElement);
+  }
+  return eventListener;
+}

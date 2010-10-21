@@ -1,0 +1,17 @@
+{
+  try {
+    String fieldValue=getStringValueFromAttributeOrElement("stringValue","string",BpmnParser.BPMN_EXTENSIONS_NS,fieldDeclarationElement);
+    if (fieldValue != null) {
+      return new FieldDeclaration(fieldName,String.class.getName(),fieldValue);
+    }
+  }
+ catch (  ActivitiException ae) {
+    if (ae.getMessage().contains("multiple elements with tag name")) {
+      addError("Multiple string field declarations found",serviceTaskElement);
+    }
+ else {
+      addError("Error when paring field declarations: " + ae.getMessage(),serviceTaskElement);
+    }
+  }
+  return null;
+}

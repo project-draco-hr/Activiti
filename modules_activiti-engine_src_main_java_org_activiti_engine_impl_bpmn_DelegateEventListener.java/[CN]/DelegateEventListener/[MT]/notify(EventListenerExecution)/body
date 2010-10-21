@@ -1,0 +1,9 @@
+{
+  Object delegate=getDelegateInstance();
+  if (delegate instanceof EventListener) {
+    ((EventListener)delegate).notify(execution);
+  }
+ else {
+    throw new ActivitiException("Class " + getDelegateClassName() + " is used as event-listener but does not implement the interface "+ EventListener.class.getName());
+  }
+}

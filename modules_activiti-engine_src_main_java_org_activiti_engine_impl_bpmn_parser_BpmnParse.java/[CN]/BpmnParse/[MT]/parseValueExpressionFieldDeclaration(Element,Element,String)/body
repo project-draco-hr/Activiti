@@ -1,0 +1,17 @@
+{
+  try {
+    String valueExpression=getStringValueFromAttributeOrElement("valueExpr","valueExpr",BpmnParser.BPMN_EXTENSIONS_NS,fieldDeclarationElement);
+    if (valueExpression != null && valueExpression.trim().length() > 0) {
+      return new FieldDeclaration(fieldName,ActivitiValueExpression.class.getName(),expressionManager.createValueExpression(valueExpression));
+    }
+  }
+ catch (  ActivitiException ae) {
+    if (ae.getMessage().contains("multiple elements with tag name")) {
+      addError("Multiple value-expression field declarations found",serviceTaskElement);
+    }
+ else {
+      addError("Error when paring field declarations: " + ae.getMessage(),serviceTaskElement);
+    }
+  }
+  return null;
+}
