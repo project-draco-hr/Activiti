@@ -1,5 +1,7 @@
 {
   init(req);
+  String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getString("artifactId");
-  String restProxyUri=req.getString("restProxyUri");
+  List<RepositoryArtifactLink> links=this.cycleService.getArtifactLinks(connectorId,artifactId);
+  model.put("links",links);
 }
