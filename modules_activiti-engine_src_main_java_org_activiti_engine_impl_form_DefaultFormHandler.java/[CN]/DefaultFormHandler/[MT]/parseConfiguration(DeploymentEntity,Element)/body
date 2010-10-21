@@ -1,0 +1,26 @@
+{
+  this.deploymentId=deployment.getId();
+  this.formKey=activityElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"formKey");
+  Element extensionElement=activityElement.element("extensionElements");
+  if (extensionElement != null) {
+    List<Element> formDisplayPropertyElements=extensionElement.elementsNS(BpmnParser.BPMN_EXTENSIONS_NS,"formDisplay");
+    for (    Element formDisplayPropertyElement : formDisplayPropertyElements) {
+      FormDisplayProperty formDisplayProperty=new FormDisplayProperty();
+      String destProperty=formDisplayPropertyElement.attribute("destProperty");
+      formDisplayProperty.setDestProperty(destProperty);
+      String srcVariable=formDisplayPropertyElement.attribute("srcVar");
+      formDisplayProperty.setSrcVariable(srcVariable);
+      ExpressionManager expressionManager=CommandContext.getCurrent().getProcessEngineConfiguration().getExpressionManager();
+      String srcValueExpressionText=formDisplayPropertyElement.attribute("srcValueExpr");
+      if (srcValueExpressionText != null) {
+        ActivitiValueExpression srcValueExpression=expressionManager.createValueExpression(srcValueExpressionText);
+        formDisplayProperty.setSrcValueExpression(srcValueExpression);
+      }
+      String srcMethodExpressionText=formDisplayPropertyElement.attribute("srcMethodExpr");
+      if (srcMethodExpressionText != null) {
+        ActivitiMethodExpression srcMethodExpression=expressionManager.createMethodExpression(srcMethodExpressionText);
+        formDisplayProperty.setSrcMethodExpression(srcMethodExpression);
+      }
+    }
+  }
+}

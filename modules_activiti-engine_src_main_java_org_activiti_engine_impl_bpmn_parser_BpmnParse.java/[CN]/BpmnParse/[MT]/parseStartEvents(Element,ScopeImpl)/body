@@ -17,11 +17,16 @@
         addError("multiple startEvents in a process definition are not yet supported",startEventElement);
       }
       processDefinition.setInitial(startEventActivity);
-      String formKey=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"formKey");
-      if (formKey != null) {
-        String deploymentId=processDefinition.getDeploymentId();
-        processDefinition.setStartFormHandler(new DefaultStartFormHandler(formKey,deploymentId));
+      StartFormHandler startFormHandler;
+      String startFormHandlerClassName=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"formHandlerClass");
+      if (startFormHandlerClassName != null) {
+        startFormHandler=(StartFormHandler)ReflectUtil.instantiate(startFormHandlerClassName);
       }
+ else {
+        startFormHandler=new DefaultStartFormHandler();
+      }
+      startFormHandler.parseConfiguration(deployment,startEventElement);
+      processDefinition.setStartFormHandler(startFormHandler);
       String initiatorVariableName=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"initiator");
       if (initiatorVariableName != null) {
         processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,initiatorVariableName);

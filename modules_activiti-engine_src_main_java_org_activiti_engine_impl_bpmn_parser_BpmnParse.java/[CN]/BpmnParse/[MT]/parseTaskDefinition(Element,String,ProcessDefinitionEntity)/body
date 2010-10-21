@@ -1,7 +1,14 @@
 {
-  String formKey=taskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"formKey");
-  String deploymentId=processDefinition.getDeploymentId();
-  TaskDefinition taskDefinition=new TaskDefinition(formKey,deploymentId);
+  TaskFormHandler taskFormHandler;
+  String taskFormHandlerClassName=taskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"formHandlerClass");
+  if (taskFormHandlerClassName != null) {
+    taskFormHandler=(TaskFormHandler)ReflectUtil.instantiate(taskFormHandlerClassName);
+  }
+ else {
+    taskFormHandler=new DefaultTaskFormHandler();
+  }
+  taskFormHandler.parseConfiguration(deployment,taskElement);
+  TaskDefinition taskDefinition=new TaskDefinition(taskFormHandler);
   taskDefinition.setKey(taskDefinitionKey);
   processDefinition.getTaskDefinitions().put(taskDefinitionKey,taskDefinition);
   String name=taskElement.attribute("name");
