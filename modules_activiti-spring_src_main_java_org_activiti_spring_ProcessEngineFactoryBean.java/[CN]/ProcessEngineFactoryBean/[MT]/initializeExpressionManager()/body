@@ -1,3 +1,5 @@
 {
-  processEngineConfiguration.setExpressionManager(new SpringExpressionManager(applicationContext));
+  if (applicationContext != null) {
+    processEngineConfiguration.setExpressionManager(new SpringExpressionManager(applicationContext));
+  }
 }
