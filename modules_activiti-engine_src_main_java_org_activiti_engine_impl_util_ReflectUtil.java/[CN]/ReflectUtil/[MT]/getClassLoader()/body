@@ -1,3 +1,9 @@
 {
+  if (CommandContext.getCurrent() != null) {
+    final ClassLoader classLoader=CommandContext.getCurrent().getProcessEngineConfiguration().getClassLoader();
+    if (classLoader != null) {
+      return classLoader;
+    }
+  }
   return Thread.currentThread().getContextClassLoader();
 }

@@ -5,10 +5,10 @@
   }
  else   if (obj instanceof String) {
     try {
-      clazz=Class.forName((String)obj);
+      clazz=ReflectUtil.loadClass((String)obj);
     }
- catch (    ClassNotFoundException cnfe) {
-      throw new ELException(cnfe);
+ catch (    ActivitiException ae) {
+      throw new ELException(ae);
     }
   }
  else {

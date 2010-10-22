@@ -1,6 +1,5 @@
 {
-  ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
-  InputStream inputStream=classLoader.getResourceAsStream(resource);
+  InputStream inputStream=ReflectUtil.getClassLoader().getResourceAsStream(resource);
   if (inputStream == null) {
     throw new ActivitiException("resource '" + resource + "' not found");
   }

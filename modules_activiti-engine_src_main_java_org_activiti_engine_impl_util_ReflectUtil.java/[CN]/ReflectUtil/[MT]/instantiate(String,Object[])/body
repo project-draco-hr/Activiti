@@ -5,7 +5,7 @@
     throw new ActivitiException("couldn't find constructor for " + className + " with args "+ Arrays.asList(args));
   }
   try {
-    return (ProcessEngine)constructor.newInstance(args);
+    return constructor.newInstance(args);
   }
  catch (  Exception e) {
     throw new ActivitiException("couldn't find constructor for " + className + " with args "+ Arrays.asList(args),e);

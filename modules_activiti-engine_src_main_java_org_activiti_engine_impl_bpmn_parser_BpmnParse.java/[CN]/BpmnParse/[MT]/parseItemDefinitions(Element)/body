@@ -5,10 +5,10 @@
     String itemKind=itemDefinitionElement.attribute("itemKind");
     Structure structure=null;
     try {
-      Class<?> classStructure=this.getClass().getClassLoader().loadClass(structureRef);
+      Class<?> classStructure=ReflectUtil.loadClass(structureRef);
       structure=new ClassStructure(classStructure);
     }
- catch (    ClassNotFoundException e) {
+ catch (    ActivitiException e) {
       structure=this.structures.get(structureRef);
     }
     ItemDefinition itemDefinition=new ItemDefinition(id,structure);

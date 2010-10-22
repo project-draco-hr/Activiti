@@ -1,6 +1,6 @@
 {
   if (!isInitialized) {
-    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+    ClassLoader classLoader=ReflectUtil.getClassLoader();
     Enumeration<URL> resources=null;
     try {
       resources=classLoader.getResources("activiti.properties");

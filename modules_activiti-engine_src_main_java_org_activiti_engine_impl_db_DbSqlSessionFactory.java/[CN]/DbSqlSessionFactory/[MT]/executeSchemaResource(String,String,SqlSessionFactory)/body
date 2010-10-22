@@ -3,9 +3,8 @@
   boolean success=false;
   try {
     Connection connection=sqlSession.getConnection();
-    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
     String resource="org/activiti/db/" + operation + "/activiti."+ databaseName+ "."+ operation+ ".sql";
-    InputStream inputStream=classLoader.getResourceAsStream(resource);
+    InputStream inputStream=ReflectUtil.getClassLoader().getResourceAsStream(resource);
     if (inputStream == null) {
       throw new ActivitiException("resource '" + resource + "' is not available for creating the schema");
     }

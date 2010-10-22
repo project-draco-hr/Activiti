@@ -1,6 +1,6 @@
 {
   if (classLoader == null) {
-    classLoader=Thread.currentThread().getContextClassLoader();
+    classLoader=ReflectUtil.getClassLoader();
   }
   InputStream inputStream=classLoader.getResourceAsStream(resource);
   if (inputStream == null) {

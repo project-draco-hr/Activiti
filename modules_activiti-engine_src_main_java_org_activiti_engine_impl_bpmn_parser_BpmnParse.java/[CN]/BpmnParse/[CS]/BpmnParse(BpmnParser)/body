@@ -2,6 +2,6 @@
   super(parser);
   this.expressionManager=parser.getExpressionManager();
   this.parseListeners=parser.getParseListeners();
-  setSchemaResource(Thread.currentThread().getContextClassLoader().getResource(BpmnParser.SCHEMA_RESOURCE).toString());
+  setSchemaResource(ReflectUtil.getClassLoader().getResource(BpmnParser.SCHEMA_RESOURCE).toString());
   this.importers.put("http://schemas.xmlsoap.org/wsdl/",new WSDLImporter());
 }

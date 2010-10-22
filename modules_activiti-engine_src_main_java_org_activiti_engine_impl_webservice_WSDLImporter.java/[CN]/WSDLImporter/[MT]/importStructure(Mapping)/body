@@ -5,13 +5,8 @@
   Map<String,JFieldVar> fields=theClass.fields();
   int index=0;
   for (  Entry<String,JFieldVar> entry : fields.entrySet()) {
-    try {
-      Class<?> fieldClass=Class.forName(entry.getValue().type().boxify().fullName());
-      structure.setFieldName(index,entry.getKey(),fieldClass);
-    }
- catch (    ClassNotFoundException e) {
-      throw new ActivitiException(e.getMessage(),e);
-    }
+    Class<?> fieldClass=ReflectUtil.loadClass(entry.getValue().type().boxify().fullName());
+    structure.setFieldName(index,entry.getKey(),fieldClass);
     index++;
   }
 }
