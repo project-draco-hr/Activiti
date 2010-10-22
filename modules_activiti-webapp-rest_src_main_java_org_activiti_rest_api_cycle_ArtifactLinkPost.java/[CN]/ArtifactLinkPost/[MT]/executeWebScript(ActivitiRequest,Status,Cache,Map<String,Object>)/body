@@ -1,0 +1,19 @@
+{
+  init(req);
+  ActivitiRequest.ActivitiWebScriptBody body=req.getBody();
+  String srcConnectorId=req.getMandatoryString(body,"connectorId");
+  String srcArtifactId=req.getMandatoryString(body,"artifactId");
+  String tgtConnectorId=req.getMandatoryString(body,"targetConnectorId");
+  String tgtArtifactId=req.getMandatoryString(body,"targetArtifactId");
+  RepositoryArtifact srcArtifact=cycleService.getRepositoryArtifact(srcConnectorId,srcArtifactId);
+  RepositoryArtifact tgtArtifact=cycleService.getRepositoryArtifact(tgtConnectorId,tgtArtifactId);
+  RepositoryArtifactLink link=new RepositoryArtifactLinkImpl(null,srcArtifact,"","",tgtArtifact,"","");
+  try {
+    this.cycleService.addArtifactLink(link);
+    model.put("result",true);
+  }
+ catch (  Exception e) {
+    model.put("result",false);
+    throw new RuntimeException(e);
+  }
+}
