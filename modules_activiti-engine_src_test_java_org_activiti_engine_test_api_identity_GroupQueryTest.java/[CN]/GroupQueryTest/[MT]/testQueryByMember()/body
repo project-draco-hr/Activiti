@@ -3,7 +3,7 @@
   verifyQueryResults(query,2);
   query=identityService.createGroupQuery().member("kermit");
   verifyQueryResults(query,3);
-  query=query.orderById().asc();
+  query=query.orderByGroupId().asc();
   List<Group> groups=query.list();
   assertEquals(3,groups.size());
   assertEquals("admin",groups.get(0).getId());

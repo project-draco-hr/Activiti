@@ -1,5 +1,5 @@
 {
-  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().orderById().asc();
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().orderByProcessDefinitionId().asc();
   verifyQueryResults(query,3);
   query=repositoryService.createProcessDefinitionQuery().orderByDeploymentId().asc();
   verifyQueryResults(query,3);
@@ -7,7 +7,7 @@
   verifyQueryResults(query,3);
   query=repositoryService.createProcessDefinitionQuery().orderByVersion().asc();
   verifyQueryResults(query,3);
-  query=repositoryService.createProcessDefinitionQuery().orderById().desc();
+  query=repositoryService.createProcessDefinitionQuery().orderByProcessDefinitionId().desc();
   verifyQueryResults(query,3);
   query=repositoryService.createProcessDefinitionQuery().orderByDeploymentId().desc();
   verifyQueryResults(query,3);
