@@ -1,0 +1,10 @@
+{
+  Object value=json.get(param);
+  if (value == null) {
+    return null;
+  }
+  if (value instanceof Boolean) {
+    return json.getBoolean(param);
+  }
+  throw ActivitiRequest.getInvalidTypeException(param,value.toString(),BOOLEAN);
+}

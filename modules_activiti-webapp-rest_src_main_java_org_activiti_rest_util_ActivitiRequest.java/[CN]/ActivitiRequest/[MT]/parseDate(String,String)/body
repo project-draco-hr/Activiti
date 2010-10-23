@@ -3,6 +3,6 @@
     return ISO8601DateFormat.parse(value.replaceAll(" ","+"));
   }
  catch (  NumberFormatException nfe) {
-    throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Value for param '" + param + "' is not a valid iso8601 date value: '"+ value+ "'");
+    throw getInvalidTypeException(param,value,"iso8601 date");
   }
 }

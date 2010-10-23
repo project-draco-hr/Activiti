@@ -2,5 +2,5 @@
   if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
     return Boolean.parseBoolean(value);
   }
-  throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Value for param '" + param + "' is not a valid bool value: '"+ value+ "'");
+  throw getInvalidTypeException(param,value,"bool");
 }

@@ -3,8 +3,7 @@
   String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getMandatoryString("artifactId");
   String actionId=req.getMandatoryString("actionName");
-  ActivitiRequest.ActivitiWebScriptBody body=req.getBody();
-  Map<String,Object> parameters=req.getFormVariables(body);
+  Map<String,Object> parameters=req.getFormVariables();
   try {
     this.cycleService.executeParameterizedAction(connectorId,artifactId,actionId,parameters);
     model.put("result",true);

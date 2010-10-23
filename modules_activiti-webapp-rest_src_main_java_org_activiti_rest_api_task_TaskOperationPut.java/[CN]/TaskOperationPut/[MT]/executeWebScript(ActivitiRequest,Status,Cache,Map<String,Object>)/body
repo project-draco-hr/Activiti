@@ -1,8 +1,7 @@
 {
   String taskId=req.getMandatoryPathParameter("taskId");
   String operation=req.getMandatoryPathParameter("operation");
-  ActivitiRequest.ActivitiWebScriptBody body=req.getBody();
-  Map<String,Object> variables=req.getFormVariables(body);
+  Map<String,Object> variables=req.getFormVariables();
   String currentUserId=req.getCurrentUserId();
   if ("start".equals(operation)) {
     throw new WebScriptException(Status.STATUS_NOT_IMPLEMENTED,"Not implemented in this version");

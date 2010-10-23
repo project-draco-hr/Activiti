@@ -1,0 +1,10 @@
+{
+  Object value=json.get(param);
+  if (value == null) {
+    return null;
+  }
+  if (value instanceof JSONArray) {
+    return toList(json.getJSONArray(param));
+  }
+  throw ActivitiRequest.getInvalidTypeException(param,value.toString(),ARRAY);
+}

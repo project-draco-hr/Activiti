@@ -1,0 +1,17 @@
+{
+  List list=new ArrayList();
+  Object obj;
+  for (int i=0; i < jsonArray.length(); i++) {
+    obj=jsonArray.get(i);
+    if (obj instanceof JSONArray) {
+      list.add(toList((JSONArray)obj));
+    }
+    if (obj instanceof JSONObject) {
+      list.add(new JSONRequestObject((JSONObject)obj));
+    }
+ else {
+      list.add(obj);
+    }
+  }
+  return list;
+}

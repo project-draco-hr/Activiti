@@ -1,0 +1,10 @@
+{
+  Object value=json.get(param);
+  if (value == null) {
+    return null;
+  }
+  if (value instanceof String) {
+    return ActivitiRequest.parseDate(json.getString(param),param);
+  }
+  throw ActivitiRequest.getInvalidTypeException(param,value.toString(),DATE);
+}

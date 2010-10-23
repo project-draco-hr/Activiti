@@ -1,10 +1,10 @@
 {
   init(req);
-  ActivitiRequest.ActivitiWebScriptBody body=req.getBody();
-  String srcConnectorId=req.getMandatoryString(body,"connectorId");
-  String srcArtifactId=req.getMandatoryString(body,"artifactId");
-  String tgtConnectorId=req.getMandatoryString(body,"targetConnectorId");
-  String tgtArtifactId=req.getMandatoryString(body,"targetArtifactId");
+  ActivitiRequestObject obj=req.getBody();
+  String srcConnectorId=req.getMandatoryString(obj,"connectorId");
+  String srcArtifactId=req.getMandatoryString(obj,"artifactId");
+  String tgtConnectorId=req.getMandatoryString(obj,"targetConnectorId");
+  String tgtArtifactId=req.getMandatoryString(obj,"targetArtifactId");
   RepositoryArtifact srcArtifact=cycleService.getRepositoryArtifact(srcConnectorId,srcArtifactId);
   RepositoryArtifact tgtArtifact=cycleService.getRepositoryArtifact(tgtConnectorId,tgtArtifactId);
   RepositoryArtifactLink link=new RepositoryArtifactLinkImpl(null,srcArtifact,"","",tgtArtifact,"","");

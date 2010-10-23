@@ -1,0 +1,7 @@
+{
+  ActivitiRequestObject obj=req.getBody();
+  List deploymentIds=req.getMandatoryList(obj,"jobIds",ActivitiRequestObject.STRING);
+  for (  Object jobId : deploymentIds) {
+    getManagementService().executeJob((String)jobId);
+  }
+}
