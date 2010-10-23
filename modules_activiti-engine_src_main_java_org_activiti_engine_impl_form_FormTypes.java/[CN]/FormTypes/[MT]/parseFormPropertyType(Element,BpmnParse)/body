@@ -1,0 +1,22 @@
+{
+  AbstractFormType formType=null;
+  String typeText=formPropertyElement.attribute("http://activiti.org/bpmn-extensions:type");
+  if (typeText != null) {
+    formType=formTypes.get(typeText);
+    if (formType == null) {
+      if ("enum".equals(formType)) {
+        Map<String,String> values=new HashMap<String,String>();
+        for (        Element valueElement : formPropertyElement.elements("value")) {
+          String valueId=valueElement.attribute("id");
+          String valueName=valueElement.attribute("name");
+          values.put(valueId,valueName);
+        }
+        formType=new EnumFormType(values);
+      }
+ else {
+        bpmnParse.addError("unknown type '" + typeText + "'",formPropertyElement);
+      }
+    }
+  }
+  return formType;
+}

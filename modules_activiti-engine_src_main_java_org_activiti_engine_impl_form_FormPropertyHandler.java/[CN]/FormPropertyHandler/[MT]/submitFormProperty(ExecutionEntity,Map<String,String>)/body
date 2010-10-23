@@ -1,0 +1,27 @@
+{
+  if (!isWritable && properties.containsKey(id)) {
+    throw new ActivitiException("form property '" + id + "' is not writable");
+  }
+  if (isRequired && !properties.containsKey(id)) {
+    throw new ActivitiException("form property '" + id + "' is required");
+  }
+  if (properties.containsKey(id)) {
+    String propertyValue=properties.remove(id);
+    Object modelValue;
+    if (type != null) {
+      modelValue=type.convertFormValueToModelValue(propertyValue);
+    }
+ else {
+      modelValue=propertyValue;
+    }
+    if (variableName != null) {
+      execution.setVariable(variableName,modelValue);
+    }
+ else     if (variableExpression != null) {
+      variableExpression.setValue(modelValue,execution);
+    }
+ else {
+      execution.setVariable(id,modelValue);
+    }
+  }
+}

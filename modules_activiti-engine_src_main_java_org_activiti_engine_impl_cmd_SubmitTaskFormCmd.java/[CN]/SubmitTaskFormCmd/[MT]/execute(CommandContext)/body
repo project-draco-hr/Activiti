@@ -10,10 +10,11 @@
   TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
   try {
     VariableMap.setExternalUpdate(Boolean.TRUE);
-    taskFormHandler.submitTaskForm(task,properties);
+    taskFormHandler.submitTaskFormData(task,properties);
   }
   finally {
     VariableMap.setExternalUpdate(null);
   }
+  task.complete();
   return null;
 }

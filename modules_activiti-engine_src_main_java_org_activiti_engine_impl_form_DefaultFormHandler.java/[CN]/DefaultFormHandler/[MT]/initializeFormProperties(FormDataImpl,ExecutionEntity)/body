@@ -1,0 +1,10 @@
+{
+  List<FormProperty> formProperties=new ArrayList<FormProperty>();
+  for (  FormPropertyHandler formPropertyHandler : formPropertyHandlers) {
+    if (formPropertyHandler.isReadable()) {
+      FormProperty formProperty=formPropertyHandler.createFormProperty(execution);
+      formProperties.add(formProperty);
+    }
+  }
+  formData.setFormProperties(formProperties);
+}

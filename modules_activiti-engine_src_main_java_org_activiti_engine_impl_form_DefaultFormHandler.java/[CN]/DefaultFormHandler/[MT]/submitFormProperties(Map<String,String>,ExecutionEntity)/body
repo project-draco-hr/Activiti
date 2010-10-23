@@ -1,0 +1,9 @@
+{
+  Map<String,String> propertiesCopy=new HashMap<String,String>(properties);
+  for (  FormPropertyHandler formPropertyHandler : formPropertyHandlers) {
+    formPropertyHandler.submitFormProperty(execution,propertiesCopy);
+  }
+  for (  String propertyId : propertiesCopy.keySet()) {
+    execution.setVariable(propertyId,propertiesCopy.get(propertyId));
+  }
+}

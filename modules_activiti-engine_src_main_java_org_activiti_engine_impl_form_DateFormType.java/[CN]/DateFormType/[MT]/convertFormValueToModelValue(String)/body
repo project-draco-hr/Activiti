@@ -1,0 +1,11 @@
+{
+  if (propertyValue == null || "".equals(propertyValue)) {
+    return null;
+  }
+  try {
+    return dateFormat.parseObject(propertyValue);
+  }
+ catch (  ParseException e) {
+    throw new ActivitiException("invalid date value " + propertyValue);
+  }
+}

@@ -7,7 +7,7 @@
  else {
     taskFormHandler=new DefaultTaskFormHandler();
   }
-  taskFormHandler.parseConfiguration(deployment,taskElement);
+  taskFormHandler.parseConfiguration(taskElement,deployment,this);
   TaskDefinition taskDefinition=new TaskDefinition(taskFormHandler);
   taskDefinition.setKey(taskDefinitionKey);
   processDefinition.getTaskDefinitions().put(taskDefinitionKey,taskDefinition);

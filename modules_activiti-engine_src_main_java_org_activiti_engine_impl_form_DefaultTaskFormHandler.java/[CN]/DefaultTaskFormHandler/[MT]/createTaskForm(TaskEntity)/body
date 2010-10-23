@@ -1,3 +1,8 @@
 {
-  return new TaskFormImpl(formKey,deploymentId,task);
+  TaskFormDataImpl taskFormData=new TaskFormDataImpl();
+  taskFormData.setFormKey(formKey);
+  taskFormData.setDeploymentId(deploymentId);
+  taskFormData.setTask(task);
+  initializeFormProperties(taskFormData,task.getExecution());
+  return taskFormData;
 }

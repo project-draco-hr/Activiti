@@ -3,12 +3,12 @@
   assertNotNull(startForm);
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   String processDefinitionId=processDefinition.getId();
-  assertEquals("org/activiti/examples/taskforms/request.form",formService.getStartForm(processDefinitionId).getFormKey());
-  Map<String,Object> formProperties=new HashMap<String,Object>();
+  assertEquals("org/activiti/examples/taskforms/request.form",formService.getStartFormData(processDefinitionId).getFormKey());
+  Map<String,String> formProperties=new HashMap<String,String>();
   formProperties.put("employeeName","kermit");
   formProperties.put("numberOfDays","4");
   formProperties.put("vacationMotivation","I'm tired");
-  formService.submitStartForm("vacationRequest:1",formProperties);
+  formService.submitStartFormData("vacationRequest:1",formProperties);
   Task task=taskService.createTaskQuery().candidateGroup("management").singleResult();
   assertEquals("Vacation request by kermit",task.getDescription());
   Object taskForm=formService.getRenderedTaskForm(task.getId());
