@@ -1,18 +1,23 @@
 {
-  CycleLink cycleLink=new CycleLink();
-  cycleLink.setId(repositoryArtifactLink.getId());
-  cycleLink.setSourceConnectorId(repositoryArtifactLink.getSourceArtifact().getConnectorId());
-  cycleLink.setSourceArtifactId(repositoryArtifactLink.getSourceArtifact().getNodeId());
-  cycleLink.setSourceElementId(repositoryArtifactLink.getSourceElementId());
-  cycleLink.setSourceElementName(repositoryArtifactLink.getSourceElementName());
-  cycleLink.setSourceRevision(repositoryArtifactLink.getSourceArtifact().getArtifactType().getRevision());
-  cycleLink.setTargetConnectorId(repositoryArtifactLink.getTargetArtifact().getConnectorId());
-  cycleLink.setTargetArtifactId(repositoryArtifactLink.getTargetArtifact().getNodeId());
-  cycleLink.setTargetElementId(repositoryArtifactLink.getTargetElementId());
-  cycleLink.setTargetElementName(repositoryArtifactLink.getTargetElementName());
-  cycleLink.setTargetRevision(repositoryArtifactLink.getTargetArtifact().getArtifactType().getRevision());
-  cycleLink.setDescription("");
-  cycleLink.setLinkedBothWays(false);
-  cycleLink.setLinkType("");
-  cycleDAO.insertCycleLink(cycleLink);
+  if (repositoryArtifactLink instanceof CycleLink) {
+    cycleDAO.insertCycleLink((CycleLink)repositoryArtifactLink);
+  }
+ else {
+    CycleLink cycleLink=new CycleLink();
+    cycleLink.setId(repositoryArtifactLink.getId());
+    cycleLink.setSourceConnectorId(repositoryArtifactLink.getSourceArtifact().getConnectorId());
+    cycleLink.setSourceArtifactId(repositoryArtifactLink.getSourceArtifact().getNodeId());
+    cycleLink.setSourceElementId(repositoryArtifactLink.getSourceElementId());
+    cycleLink.setSourceElementName(repositoryArtifactLink.getSourceElementName());
+    cycleLink.setSourceRevision(repositoryArtifactLink.getSourceArtifact().getArtifactType().getRevision());
+    cycleLink.setTargetConnectorId(repositoryArtifactLink.getTargetArtifact().getConnectorId());
+    cycleLink.setTargetArtifactId(repositoryArtifactLink.getTargetArtifact().getNodeId());
+    cycleLink.setTargetElementId(repositoryArtifactLink.getTargetElementId());
+    cycleLink.setTargetElementName(repositoryArtifactLink.getTargetElementName());
+    cycleLink.setTargetRevision(repositoryArtifactLink.getTargetArtifact().getArtifactType().getRevision());
+    cycleLink.setLinkType(repositoryArtifactLink.getLinkType());
+    cycleLink.setComment(repositoryArtifactLink.getComment());
+    cycleLink.setLinkedBothWays(false);
+    cycleDAO.insertCycleLink(cycleLink);
+  }
 }

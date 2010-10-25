@@ -2,7 +2,8 @@
   List<RepositoryArtifactLink> artifactLinks=new ArrayList<RepositoryArtifactLink>();
   List<CycleLink> linkResultList=cycleDAO.getOutgoingCycleLinks(sourceConnectorId,sourceArtifactId);
   for (  CycleLink entity : linkResultList) {
-    artifactLinks.add(createLinkDtoFromLinkEntity(entity));
+    entity.resolveArtifacts(this);
+    artifactLinks.add(entity);
   }
   return artifactLinks;
 }

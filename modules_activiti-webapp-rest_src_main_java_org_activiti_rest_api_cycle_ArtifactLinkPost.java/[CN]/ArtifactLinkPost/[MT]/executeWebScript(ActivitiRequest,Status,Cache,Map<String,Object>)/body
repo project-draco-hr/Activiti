@@ -1,15 +1,17 @@
 {
   init(req);
   ActivitiRequestObject obj=req.getBody();
-  String srcConnectorId=req.getMandatoryString(obj,"connectorId");
-  String srcArtifactId=req.getMandatoryString(obj,"artifactId");
-  String tgtConnectorId=req.getMandatoryString(obj,"targetConnectorId");
-  String tgtArtifactId=req.getMandatoryString(obj,"targetArtifactId");
-  RepositoryArtifact srcArtifact=cycleService.getRepositoryArtifact(srcConnectorId,srcArtifactId);
-  RepositoryArtifact tgtArtifact=cycleService.getRepositoryArtifact(tgtConnectorId,tgtArtifactId);
-  RepositoryArtifactLink link=new RepositoryArtifactLinkImpl(null,srcArtifact,"","",tgtArtifact,"","");
+  String sourceConnectorId=req.getMandatoryString(obj,"connectorId");
+  String sourceArtifactId=req.getMandatoryString(obj,"artifactId");
+  String targetConnectorId=req.getMandatoryString(obj,"targetConnectorId");
+  String targetArtifactId=req.getMandatoryString(obj,"targetArtifactId");
+  CycleLink link=new CycleLink();
+  link.setSourceConnectorId(sourceConnectorId);
+  link.setSourceArtifactId(sourceArtifactId);
+  link.setTargetConnectorId(targetConnectorId);
+  link.setTargetArtifactId(targetArtifactId);
   try {
-    this.cycleService.addArtifactLink(link);
+    cycleService.addArtifactLink(link);
     model.put("result",true);
   }
  catch (  Exception e) {

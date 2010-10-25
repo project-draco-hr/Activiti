@@ -1,7 +1,10 @@
 {
   SqlSession session=openSession();
   try {
-    List<CycleLink> linkResultList=session.selectList("org.activiti.cycle.impl.db.entity.CycleLink.selectArtifactLinkForTargetArtifact",targetArtifactId);
+    HashMap<String,Object> parameters=new HashMap<String,Object>();
+    parameters.put("connectorId",targetConnectorId);
+    parameters.put("artifactId",targetArtifactId);
+    List<CycleLink> linkResultList=session.selectList("org.activiti.cycle.impl.db.entity.CycleLink.selectArtifactLinkForTargetArtifact",parameters);
     if (linkResultList != null) {
       return linkResultList;
     }
