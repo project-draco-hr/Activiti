@@ -1,0 +1,17 @@
+{
+  try {
+    String expression=getStringValueFromAttributeOrElement("expression","expression",BpmnParser.BPMN_EXTENSIONS_NS,fieldDeclarationElement);
+    if (expression != null && expression.trim().length() > 0) {
+      return new FieldDeclaration(fieldName,Expression.class.getName(),expressionManager.createExpression(expression));
+    }
+  }
+ catch (  ActivitiException ae) {
+    if (ae.getMessage().contains("multiple elements with tag name")) {
+      addError("Multiple expression field declarations found",serviceTaskElement);
+    }
+ else {
+      addError("Error when paring field declarations: " + ae.getMessage(),serviceTaskElement);
+    }
+  }
+  return null;
+}

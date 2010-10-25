@@ -2,12 +2,12 @@
   TaskEntity task=TaskEntity.createAndInsert();
   task.setExecution(execution);
   task.setTaskDefinition(taskDefinition);
-  if (taskDefinition.getNameValueExpression() != null) {
-    String name=(String)taskDefinition.getNameValueExpression().getValue(execution);
+  if (taskDefinition.getNameExpression() != null) {
+    String name=(String)taskDefinition.getNameExpression().getValue(execution);
     task.setName(name);
   }
-  if (taskDefinition.getDescriptionValueExpression() != null) {
-    String description=(String)taskDefinition.getDescriptionValueExpression().getValue(execution);
+  if (taskDefinition.getDescriptionExpression() != null) {
+    String description=(String)taskDefinition.getDescriptionExpression().getValue(execution);
     task.setDescription(description);
   }
   handleAssignments(task,execution);

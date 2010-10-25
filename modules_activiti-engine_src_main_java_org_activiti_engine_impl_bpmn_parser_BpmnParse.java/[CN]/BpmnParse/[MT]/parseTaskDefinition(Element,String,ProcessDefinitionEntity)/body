@@ -13,11 +13,11 @@
   processDefinition.getTaskDefinitions().put(taskDefinitionKey,taskDefinition);
   String name=taskElement.attribute("name");
   if (name != null) {
-    taskDefinition.setNameValueExpression(expressionManager.createValueExpression(name));
+    taskDefinition.setNameExpression(expressionManager.createExpression(name));
   }
   String descriptionStr=parseDocumentation(taskElement);
   if (descriptionStr != null) {
-    taskDefinition.setDescriptionValueExpression(expressionManager.createValueExpression(descriptionStr));
+    taskDefinition.setDescriptionExpression(expressionManager.createExpression(descriptionStr));
   }
   parseHumanPerformer(taskElement,taskDefinition);
   parsePotentialOwner(taskElement,taskDefinition);

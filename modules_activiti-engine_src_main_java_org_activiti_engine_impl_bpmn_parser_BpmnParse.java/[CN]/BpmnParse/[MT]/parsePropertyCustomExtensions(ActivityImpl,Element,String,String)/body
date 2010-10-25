@@ -12,8 +12,8 @@
   }
   String srcExpr=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"srcExpr");
   if (srcExpr != null) {
-    ActivitiValueExpression sourceValueExpression=expressionManager.createValueExpression(srcExpr);
-    variableDeclaration.setSourceValueExpression(sourceValueExpression);
+    Expression sourceExpression=expressionManager.createExpression(srcExpr);
+    variableDeclaration.setSourceExpression(sourceExpression);
   }
   String dst=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"dst");
   if (dst != null) {
@@ -21,8 +21,8 @@
   }
   String destExpr=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"dstExpr");
   if (destExpr != null) {
-    ActivitiValueExpression destinationValueExpression=expressionManager.createValueExpression(destExpr);
-    variableDeclaration.setDestinationValueExpression(destinationValueExpression);
+    Expression destinationExpression=expressionManager.createExpression(destExpr);
+    variableDeclaration.setDestinationExpression(destinationExpression);
   }
   String link=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"link");
   if (link != null) {
@@ -30,8 +30,8 @@
   }
   String linkExpr=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"linkExpr");
   if (linkExpr != null) {
-    ActivitiValueExpression linkValueExpression=expressionManager.createValueExpression(linkExpr);
-    variableDeclaration.setLinkValueExpression(linkValueExpression);
+    Expression linkExpression=expressionManager.createExpression(linkExpr);
+    variableDeclaration.setLinkExpression(linkExpression);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseProperty(propertyElement,variableDeclaration,activity);

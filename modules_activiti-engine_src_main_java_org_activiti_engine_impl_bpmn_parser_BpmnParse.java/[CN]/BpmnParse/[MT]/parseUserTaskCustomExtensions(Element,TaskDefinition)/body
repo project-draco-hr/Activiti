@@ -1,25 +1,25 @@
 {
   String assignee=taskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,ASSIGNEE_EXTENSION);
   if (assignee != null) {
-    if (taskDefinition.getAssigneeValueExpression() == null) {
-      taskDefinition.setAssigneeValueExpression(expressionManager.createValueExpression(assignee));
+    if (taskDefinition.getAssigneeExpression() == null) {
+      taskDefinition.setAssigneeExpression(expressionManager.createExpression(assignee));
     }
  else {
-      addError("Invalid usage: duplicate assignee declaration for task " + taskDefinition.getNameValueExpression(),taskElement);
+      addError("Invalid usage: duplicate assignee declaration for task " + taskDefinition.getNameExpression(),taskElement);
     }
   }
   String candidateUsersString=taskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,CANDIDATE_USERS_EXTENSION);
   if (candidateUsersString != null) {
     String[] candidateUsers=candidateUsersString.split(",");
     for (    String candidateUser : candidateUsers) {
-      taskDefinition.addCandidateUserIdValueExpression(expressionManager.createValueExpression(candidateUser.trim()));
+      taskDefinition.addCandidateUserIdExpression(expressionManager.createExpression(candidateUser.trim()));
     }
   }
   String candidateGroupsString=taskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,CANDIDATE_GROUPS_EXTENSION);
   if (candidateGroupsString != null) {
     String[] candidateGroups=candidateGroupsString.split(",");
     for (    String candidateGroup : candidateGroups) {
-      taskDefinition.addCandidateGroupIdValueExpression(expressionManager.createValueExpression(candidateGroup.trim()));
+      taskDefinition.addCandidateGroupIdExpression(expressionManager.createExpression(candidateGroup.trim()));
     }
   }
 }

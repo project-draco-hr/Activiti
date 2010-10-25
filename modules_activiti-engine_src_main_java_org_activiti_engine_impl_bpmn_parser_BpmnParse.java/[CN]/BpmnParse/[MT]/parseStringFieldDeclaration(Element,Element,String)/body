@@ -2,7 +2,7 @@
   try {
     String fieldValue=getStringValueFromAttributeOrElement("stringValue","string",BpmnParser.BPMN_EXTENSIONS_NS,fieldDeclarationElement);
     if (fieldValue != null) {
-      return new FieldDeclaration(fieldName,String.class.getName(),fieldValue);
+      return new FieldDeclaration(fieldName,Expression.class.getName(),new FixedValue(fieldValue));
     }
   }
  catch (  ActivitiException ae) {

@@ -6,20 +6,7 @@
     if (type != null && !type.equals("tFormalExpression")) {
       addError("Invalid type, only tFormalExpression is currently supported",conditionExprElement);
     }
-    String language=conditionExprElement.attribute("language");
-    if (language == null) {
-      language=ExpressionManager.DEFAULT_EXPRESSION_LANGUAGE;
-    }
-    Condition condition=null;
-    if ("uel-value".equals(language)) {
-      condition=new UelValueExpressionCondition(expressionManager.createValueExpression(expr));
-    }
- else     if ("uel-method".equals(language)) {
-      condition=new UelMethodExpressionCondition(expressionManager.createMethodExpression(expr));
-    }
- else {
-      addError("Unknown language for condition: " + language,conditionExprElement);
-    }
+    Condition condition=new UelExpressionCondition(expressionManager.createExpression(expr));
     seqFlow.setProperty(PROPERTYNAME_CONDITION,condition);
   }
 }

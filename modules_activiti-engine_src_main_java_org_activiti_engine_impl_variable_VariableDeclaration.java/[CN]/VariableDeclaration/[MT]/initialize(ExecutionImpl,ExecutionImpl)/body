@@ -8,8 +8,8 @@
       throw new ActivitiException("Couldn't create variable '" + destinationVariableName + "', since the source variable '"+ sourceVariableName+ "does not exist");
     }
   }
-  if (sourceValueExpression != null) {
-    Object value=sourceValueExpression.getValue(outerScopeInstance);
+  if (sourceExpression != null) {
+    Object value=sourceExpression.getValue(outerScopeInstance);
     innerScopeInstance.setVariable(destinationVariableName,value);
   }
   if (link != null) {
@@ -21,8 +21,8 @@
       throw new ActivitiException("Couldn't create variable '" + destinationVariableName + "', since the source variable '"+ sourceVariableName+ "does not exist");
     }
   }
-  if (linkValueExpression != null) {
-    Object value=sourceValueExpression.getValue(outerScopeInstance);
+  if (linkExpression != null) {
+    Object value=sourceExpression.getValue(outerScopeInstance);
     innerScopeInstance.setVariable(destinationVariableName,value);
   }
 }

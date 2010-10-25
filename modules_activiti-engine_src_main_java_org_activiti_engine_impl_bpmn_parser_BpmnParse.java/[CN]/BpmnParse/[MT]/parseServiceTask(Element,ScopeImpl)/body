@@ -2,8 +2,7 @@
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scope);
   String type=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"type");
   String className=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
-  String methodExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"method-expr");
-  String valueExpr=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"value-expr");
+  String expression=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"expression");
   String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"result-variable-name");
   String implementation=serviceTaskElement.attribute("implementation");
   String operationRef=serviceTaskElement.attribute("operationRef");
@@ -22,11 +21,8 @@
     }
     activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(className,fieldDeclarations));
   }
- else   if (methodExpr != null && methodExpr.trim().length() > 0) {
-    activity.setActivityBehavior(new ServiceTaskMethodExpressionActivityBehavior(expressionManager.createMethodExpression(methodExpr),resultVariableName));
-  }
- else   if (valueExpr != null && valueExpr.trim().length() > 0) {
-    activity.setActivityBehavior(new ServiceTaskValueExpressionActivityBehavior(expressionManager.createValueExpression(valueExpr),resultVariableName));
+ else   if (expression != null && expression.trim().length() > 0) {
+    activity.setActivityBehavior(new ServiceTaskExpressionActivityBehavior(expressionManager.createExpression(expression),resultVariableName));
   }
  else   if (implementation != null && operationRef != null && implementation.equalsIgnoreCase("##WebService")) {
     if (!this.operations.containsKey(operationRef)) {
@@ -38,7 +34,7 @@
     }
   }
  else {
-    addError("'class', 'method-expr' or 'value-expr' attribute is mandatory on serviceTask",serviceTaskElement);
+    addError("'class', 'type', or 'expression' attribute is mandatory on serviceTask",serviceTaskElement);
   }
   parseEventListenersOnScope(serviceTaskElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {

@@ -8,14 +8,14 @@
         assignmentExpression=assignmentExpression.trim();
         if (assignmentExpression.startsWith(USER_PREFIX)) {
           String userAssignementId=getAssignmentId(assignmentExpression,USER_PREFIX);
-          taskDefinition.addCandidateUserIdValueExpression(expressionManager.createValueExpression(userAssignementId));
+          taskDefinition.addCandidateUserIdExpression(expressionManager.createExpression(userAssignementId));
         }
  else         if (assignmentExpression.startsWith(GROUP_PREFIX)) {
           String groupAssignementId=getAssignmentId(assignmentExpression,GROUP_PREFIX);
-          taskDefinition.addCandidateGroupIdValueExpression(expressionManager.createValueExpression(groupAssignementId));
+          taskDefinition.addCandidateGroupIdExpression(expressionManager.createExpression(groupAssignementId));
         }
  else {
-          taskDefinition.addCandidateGroupIdValueExpression(expressionManager.createValueExpression(assignmentExpression));
+          taskDefinition.addCandidateGroupIdExpression(expressionManager.createExpression(assignmentExpression));
         }
       }
     }

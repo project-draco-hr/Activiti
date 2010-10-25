@@ -8,8 +8,8 @@
       throw new ActivitiException("Couldn't destroy variable " + sourceVariableName + ", since it does not exist");
     }
   }
-  if (destinationValueExpression != null) {
-    Object value=destinationValueExpression.getValue(innerScopeInstance);
+  if (destinationExpression != null) {
+    Object value=destinationExpression.getValue(innerScopeInstance);
     outerScopeInstance.setVariable(destinationVariableName,value);
   }
   if (link != null) {
@@ -21,8 +21,8 @@
       throw new ActivitiException("Couldn't destroy variable " + sourceVariableName + ", since it does not exist");
     }
   }
-  if (linkValueExpression != null) {
-    Object value=sourceValueExpression.getValue(innerScopeInstance);
+  if (linkExpression != null) {
+    Object value=sourceExpression.getValue(innerScopeInstance);
     outerScopeInstance.setVariable(destinationVariableName,value);
   }
 }
