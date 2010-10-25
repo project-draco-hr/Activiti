@@ -1,0 +1,13 @@
+{
+  SqlSession session=openSession();
+  try {
+    List<CycleLink> linkResultList=session.selectList("org.activiti.cycle.impl.db.entity.CycleLink.selectArtifactLinkForTargetArtifact",targetArtifactId);
+    if (linkResultList != null) {
+      return linkResultList;
+    }
+    return new ArrayList<CycleLink>();
+  }
+  finally {
+    session.close();
+  }
+}

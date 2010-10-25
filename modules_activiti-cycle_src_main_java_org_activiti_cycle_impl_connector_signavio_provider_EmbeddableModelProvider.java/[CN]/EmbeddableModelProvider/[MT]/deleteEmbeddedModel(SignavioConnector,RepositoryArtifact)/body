@@ -1,7 +1,7 @@
 {
   try {
     Client client=connector.initClient();
-    Reference embeddedModelRef=new Reference(connector.getConfiguration().getSignavioUrl() + "purl/" + artifact.getOriginalNodeId()+ "/info/");
+    Reference embeddedModelRef=new Reference(connector.getConfiguration().getSignavioUrl() + "purl/" + artifact.getNodeId()+ "/info/");
     Request embeddedModelRequest=new Request(Method.DELETE,embeddedModelRef);
     Form requestHeaders=new Form();
     requestHeaders.add("token",connector.getSecurityToken());

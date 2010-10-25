@@ -4,7 +4,7 @@
   Collection<ContentRepresentation> contentRepresentationDefinitions=artifact.getArtifactType().getContentRepresentations();
   for (  ContentRepresentation def : contentRepresentationDefinitions) {
     def.getId();
-    Content cont=getContent(artifact.getOriginalNodeId(),def.getId());
-    addContentToInternalMap(copy.getOriginalNodeId(),def.getId(),cont.asByteArray());
+    Content cont=getContent(artifact.getNodeId(),def.getId());
+    addContentToInternalMap(copy.getNodeId(),def.getId(),cont.asByteArray());
   }
 }

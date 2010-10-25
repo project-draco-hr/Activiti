@@ -1,0 +1,15 @@
+{
+  for (  CycleArtifactTagEntity tag : containedArtifactIds) {
+    RepositoryNode node=null;
+    try {
+      node=service.getRepositoryFolder(tag.getConnectorId(),tag.getArtifactId());
+    }
+ catch (    RepositoryNodeNotFoundException ex) {
+      node=service.getRepositoryArtifact(tag.getConnectorId(),tag.getArtifactId());
+    }
+    if (tag.hasAlias()) {
+      node.getMetadata().setName(tag.getAlias());
+    }
+    containedNodes.add(node);
+  }
+}

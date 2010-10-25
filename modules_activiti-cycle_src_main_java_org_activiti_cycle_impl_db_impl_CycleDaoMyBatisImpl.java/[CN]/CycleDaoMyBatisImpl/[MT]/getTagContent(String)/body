@@ -1,0 +1,14 @@
+{
+  SqlSession session=openSession();
+  try {
+    CycleTagContentImpl tagContent=new CycleTagContentImpl(name);
+    List<CycleArtifactTagEntity> tags=session.selectList("org.activiti.cycle.impl.db.entity.CycleArtifactTag.selectTagsByName",name);
+    for (    CycleArtifactTagEntity tag : tags) {
+      tagContent.addArtifact(tag);
+    }
+    return tagContent;
+  }
+  finally {
+    session.close();
+  }
+}

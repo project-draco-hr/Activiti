@@ -2,17 +2,17 @@
   CycleLink cycleLink=new CycleLink();
   cycleLink.setId(repositoryArtifactLink.getId());
   cycleLink.setSourceConnectorId(repositoryArtifactLink.getSourceArtifact().getConnectorId());
-  cycleLink.setSourceArtifactId(repositoryArtifactLink.getSourceArtifact().getOriginalNodeId());
+  cycleLink.setSourceArtifactId(repositoryArtifactLink.getSourceArtifact().getNodeId());
   cycleLink.setSourceElementId(repositoryArtifactLink.getSourceElementId());
   cycleLink.setSourceElementName(repositoryArtifactLink.getSourceElementName());
   cycleLink.setSourceRevision(repositoryArtifactLink.getSourceArtifact().getArtifactType().getRevision());
   cycleLink.setTargetConnectorId(repositoryArtifactLink.getTargetArtifact().getConnectorId());
-  cycleLink.setTargetArtifactId(repositoryArtifactLink.getTargetArtifact().getOriginalNodeId());
+  cycleLink.setTargetArtifactId(repositoryArtifactLink.getTargetArtifact().getNodeId());
   cycleLink.setTargetElementId(repositoryArtifactLink.getTargetElementId());
   cycleLink.setTargetElementName(repositoryArtifactLink.getTargetElementName());
   cycleLink.setTargetRevision(repositoryArtifactLink.getTargetArtifact().getArtifactType().getRevision());
   cycleLink.setDescription("");
   cycleLink.setLinkedBothWays(false);
   cycleLink.setLinkType("");
-  this.linkService.updateCycleLink(cycleLink);
+  cycleDAO.insertCycleLink(cycleLink);
 }

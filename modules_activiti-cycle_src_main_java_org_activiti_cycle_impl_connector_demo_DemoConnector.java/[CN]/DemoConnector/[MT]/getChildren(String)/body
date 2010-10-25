@@ -7,8 +7,8 @@
   }
  else {
     for (    RepositoryNode node : nodes) {
-      if (node.getOriginalNodeId().startsWith(parentUrl) && !node.getOriginalNodeId().equals(parentUrl)) {
-        String remainingUrl=node.getOriginalNodeId().substring(parentUrl.length() + 1);
+      if (node.getNodeId().startsWith(parentUrl) && !node.getNodeId().equals(parentUrl)) {
+        String remainingUrl=node.getNodeId().substring(parentUrl.length() + 1);
         remainingUrl=remainingUrl.substring(0,remainingUrl.length() - 1);
         if (!remainingUrl.contains("/")) {
           list.add(clone(node));

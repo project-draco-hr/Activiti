@@ -1,0 +1,10 @@
+{
+  SqlSession session=openSession();
+  try {
+    List<CycleTagContentImpl> tags=session.selectList("org.activiti.cycle.impl.db.entity.CycleArtifactTag.selectTagsGroupedByName");
+    return tags;
+  }
+  finally {
+    session.close();
+  }
+}

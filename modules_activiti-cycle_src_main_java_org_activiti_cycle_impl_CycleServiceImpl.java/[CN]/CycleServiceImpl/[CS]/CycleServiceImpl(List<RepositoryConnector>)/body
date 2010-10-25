@@ -1,5 +1,6 @@
 {
   PluginFinder.checkPluginInitialization();
-  this.linkService=new CycleLinkServiceImpl();
+  this.cycleDAO=new CycleDaoMyBatisImpl();
   this.repositoryConnectors=repositoryConnectors;
+  this.repositoryConnectors.add(new TagConnectorConfiguration(this).createConnector());
 }
