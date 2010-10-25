@@ -8,13 +8,7 @@
     throw new ActivitiException("Cannot find task with id " + taskId);
   }
   TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
-  try {
-    VariableMap.setExternalUpdate(Boolean.TRUE);
-    taskFormHandler.submitTaskFormData(task,properties);
-  }
-  finally {
-    VariableMap.setExternalUpdate(null);
-  }
+  taskFormHandler.submitFormProperties(properties,task.getExecution());
   task.complete();
   return null;
 }

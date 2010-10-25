@@ -7,7 +7,7 @@
     XMLConfigBuilder parser=new XMLConfigBuilder(reader);
     Configuration configuration=parser.getConfiguration();
     configuration.setEnvironment(environment);
-    configuration.getTypeHandlerRegistry().register(Type.class,JdbcType.VARCHAR,new IbatisVariableTypeHandler());
+    configuration.getTypeHandlerRegistry().register(VariableType.class,JdbcType.VARCHAR,new IbatisVariableTypeHandler());
     configuration=parser.parse();
     return new DefaultSqlSessionFactory(configuration);
   }

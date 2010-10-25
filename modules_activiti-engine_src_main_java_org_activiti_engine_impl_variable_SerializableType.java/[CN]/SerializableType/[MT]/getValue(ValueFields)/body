@@ -1,0 +1,21 @@
+{
+  Object cachedObject=valueFields.getCachedValue();
+  if (cachedObject != null) {
+    return cachedObject;
+  }
+  byte[] bytes=(byte[])super.getValue(valueFields);
+  ByteArrayInputStream bais=new ByteArrayInputStream(bytes);
+  Object deserializedObject;
+  try {
+    ObjectInputStream ois=new ObjectInputStream(bais);
+    deserializedObject=ois.readObject();
+    valueFields.setCachedValue(deserializedObject);
+    if (valueFields instanceof VariableInstanceEntity) {
+      CommandContext.getCurrent().getDbSqlSession().addDeserializedObject(deserializedObject,bytes,(VariableInstanceEntity)valueFields);
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("coudn't deserialize object in variable '" + valueFields.getName() + "'",e);
+  }
+  return deserializedObject;
+}

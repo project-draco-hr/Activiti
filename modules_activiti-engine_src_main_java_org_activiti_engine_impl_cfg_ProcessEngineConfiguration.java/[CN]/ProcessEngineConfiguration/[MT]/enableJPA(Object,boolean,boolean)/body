@@ -4,7 +4,7 @@
   }
   if (!sessionFactories.containsKey(EntityManagerSession.class)) {
     sessionFactories.put(EntityManagerSession.class,new EntityManagerSessionFactory(entityManagerFactory,true,true));
-    Type jpaType=variableTypes.getVariableType(JPAEntityVariableType.TYPE_NAME);
+    VariableType jpaType=variableTypes.getVariableType(JPAEntityVariableType.TYPE_NAME);
     if (jpaType == null) {
       int serializableIndex=variableTypes.getTypeIndex(SerializableType.TYPE_NAME);
       if (serializableIndex > -1) {

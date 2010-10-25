@@ -1,8 +1,7 @@
 {
-  DbSqlSession dbSqlSession=CommandContext.getCurrent().getDbSqlSession();
-  dbSqlSession.delete(HistoricVariableUpdateEntity.class,id);
+  super.delete();
   if (byteArrayValueId != null) {
     getByteArrayValue();
-    dbSqlSession.delete(ByteArrayEntity.class,byteArrayValueId);
+    CommandContext.getCurrentSession(DbSqlSession.class).delete(ByteArrayEntity.class,byteArrayValueId);
   }
 }
