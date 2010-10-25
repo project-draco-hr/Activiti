@@ -5,6 +5,8 @@
   String representationId=req.getString("representationId");
   RepositoryArtifact artifact=this.cycleService.getRepositoryArtifact(connectorId,artifactId);
   try {
+    model.put("connectorId",connectorId);
+    model.put("artifactId",artifactId);
     ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(representationId);
 switch (contentRepresentation.getRenderInfo()) {
 case IMAGE:
@@ -17,13 +19,17 @@ case TEXT_PLAIN:
     String content=this.cycleService.getContent(connectorId,artifactId,contentRepresentation.getId()).asString();
   model.put("content",content);
 }
-model.put("connectorId",connectorId);
-model.put("artifactId",artifactId);
 model.put("renderInfo",contentRepresentation.getRenderInfo().name());
 model.put("contentRepresentationId",contentRepresentation.getId());
 model.put("contentType",contentRepresentation.getMimeType().getContentType());
 }
- catch (Exception ex) {
+ catch (TransformationException e) {
+model.put("renderInfo",RenderInfo.HTML);
+model.put("contentRepresentationId","Exception");
+model.put("content",e.getRenderContent());
+model.put("contentType",CycleDefaultMimeType.HTML.getContentType());
+}
+catch (Exception ex) {
 log.log(Level.WARNING,"Exception while loading content representation",ex);
 StringWriter sw=new StringWriter();
 ex.printStackTrace(new PrintWriter(sw));
