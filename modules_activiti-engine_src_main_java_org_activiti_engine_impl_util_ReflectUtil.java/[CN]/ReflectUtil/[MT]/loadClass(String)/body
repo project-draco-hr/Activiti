@@ -1,9 +1,22 @@
 {
-  try {
-    ClassLoader classLoader=getClassLoader();
-    return Class.forName(className,true,classLoader);
+  Class<?> clazz=null;
+  ClassLoader classLoader=getCustomClassLoader();
+  if (classLoader != null) {
+    LOG.finest("Trying to load class with custom classloader: " + className);
+    clazz=loadClassSilent(className,classLoader);
   }
- catch (  Exception e) {
-    throw new ActivitiException("couldn't load class " + className,e);
+  if (clazz == null) {
+    LOG.finest("Trying to load class with current thread context classloader: " + className);
+    classLoader=Thread.currentThread().getContextClassLoader();
+    clazz=loadClassSilent(className,classLoader);
+    if (clazz == null) {
+      LOG.finest("Trying to load class with local classloader: " + className);
+      classLoader=ReflectUtil.class.getClassLoader();
+      clazz=loadClassSilent(className,classLoader);
+    }
   }
+  if (clazz == null) {
+    throw new ActivitiException("Couldn't load class " + className);
+  }
+  return clazz;
 }

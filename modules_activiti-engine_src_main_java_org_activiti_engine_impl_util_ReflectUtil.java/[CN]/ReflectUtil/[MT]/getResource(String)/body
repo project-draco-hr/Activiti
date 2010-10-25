@@ -1,0 +1,16 @@
+{
+  URL url=null;
+  ClassLoader classLoader=getCustomClassLoader();
+  if (classLoader != null) {
+    url=classLoader.getResource(name);
+  }
+  if (url == null) {
+    classLoader=Thread.currentThread().getContextClassLoader();
+    url=classLoader.getResource(name);
+    if (url == null) {
+      classLoader=ReflectUtil.class.getClassLoader();
+      url=classLoader.getResource(name);
+    }
+  }
+  return url;
+}

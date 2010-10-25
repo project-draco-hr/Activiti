@@ -1,0 +1,16 @@
+{
+  InputStream resourceStream=null;
+  ClassLoader classLoader=getCustomClassLoader();
+  if (classLoader != null) {
+    resourceStream=classLoader.getResourceAsStream(name);
+  }
+  if (resourceStream == null) {
+    classLoader=Thread.currentThread().getContextClassLoader();
+    resourceStream=classLoader.getResourceAsStream(name);
+    if (resourceStream == null) {
+      classLoader=ReflectUtil.class.getClassLoader();
+      resourceStream=classLoader.getResourceAsStream(name);
+    }
+  }
+  return resourceStream;
+}

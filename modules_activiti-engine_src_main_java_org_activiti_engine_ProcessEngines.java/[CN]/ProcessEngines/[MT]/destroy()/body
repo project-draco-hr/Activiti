@@ -1,7 +1,7 @@
 {
   if (isInitialized) {
     Map<String,ProcessEngine> engines=new HashMap<String,ProcessEngine>(processEngines);
-    processEngines=Collections.unmodifiableMap(Collections.EMPTY_MAP);
+    processEngines=new HashMap<String,ProcessEngine>();
     for (    String processEngineName : engines.keySet()) {
       ProcessEngine processEngine=engines.get(processEngineName);
       try {

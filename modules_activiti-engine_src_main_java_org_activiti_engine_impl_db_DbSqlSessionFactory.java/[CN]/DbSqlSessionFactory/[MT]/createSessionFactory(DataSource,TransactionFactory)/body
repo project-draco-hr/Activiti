@@ -1,6 +1,6 @@
 {
   try {
-    InputStream inputStream=ReflectUtil.getClassLoader().getResourceAsStream("org/activiti/db/ibatis/activiti.ibatis.mem.conf.xml");
+    InputStream inputStream=ReflectUtil.getResourceAsStream("org/activiti/db/ibatis/activiti.ibatis.mem.conf.xml");
     Environment environment=new Environment("default",transactionFactory,dataSource);
     Reader reader=new InputStreamReader(inputStream);
     XMLConfigBuilder parser=new XMLConfigBuilder(reader);
