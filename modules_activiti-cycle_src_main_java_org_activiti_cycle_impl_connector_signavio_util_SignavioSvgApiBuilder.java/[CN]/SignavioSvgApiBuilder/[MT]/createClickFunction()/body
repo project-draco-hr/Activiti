@@ -1,0 +1,12 @@
+{
+  if (clickFunction != null && clickFunction.length() > 0) {
+    return ", " + clickFunction;
+  }
+ else {
+    String function=", click: function(node, editor) {";
+    function+="if(node.properties[\"oryx-name\"]||node.properties[\"oryx-title\"]) {";
+    function+="alert(\"Name: \" + node.properties[\"oryx-name\"] + \" (Sid: \" + node.resourceId + \")\");";
+    function+="} }";
+    return function;
+  }
+}

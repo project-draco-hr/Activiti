@@ -1,0 +1,21 @@
+{
+  if (nodes == null || nodes.isEmpty()) {
+    return "";
+  }
+  String highlightning=",focus: [{";
+  highlightning+="nodes:[";
+  for (  Object node : nodes.entrySet()) {
+    Entry nodeEntry=(Entry)node;
+    highlightning+=highlightNode((String)nodeEntry.getKey(),(String)nodeEntry.getValue(),color);
+  }
+  highlightning+="\"\"";
+  highlightning+="],";
+  if (color != null && color.length() > 0) {
+    highlightning+="attributes:{ fill:\"" + color + "\" }";
+  }
+ else {
+    highlightning+="attributes:{ fill:\"red\" }";
+  }
+  highlightning+="}]";
+  return highlightning;
+}

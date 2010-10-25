@@ -2,6 +2,7 @@
   ArtifactTypeImpl artifactType1=new ArtifactTypeImpl(ARTIFACT_TYPE_TEXT,CycleDefaultMimeType.TEXT);
   artifactType1.addDefaultContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_TEXT,CycleDefaultMimeType.TEXT,RenderInfo.TEXT_PLAIN),new DemoProvider(CONTENT_REPRESENTATION_ID_TEXT));
   artifactType1.addContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_EXCEPTION,CycleDefaultMimeType.TEXT,RenderInfo.TEXT_PLAIN),new ExceptionProvider());
+  artifactType1.addContentRepresentation(new ContentRepresentationImpl(CONTENT_REPRESENTATION_ID_TRAFOEXCEPTION,CycleDefaultMimeType.XML,RenderInfo.CODE),new TransformationExceptionProvider());
   artifactType1.addParameterizedAction(new CopyArtifactAction());
   artifactType1.addOpenUrlAction(new OpenActivitiAction());
   artifactType1.addDownloadContentAction(CONTENT_REPRESENTATION_ID_TEXT);
