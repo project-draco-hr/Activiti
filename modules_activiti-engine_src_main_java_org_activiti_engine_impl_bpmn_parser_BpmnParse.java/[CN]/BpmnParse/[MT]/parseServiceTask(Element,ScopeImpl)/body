@@ -3,7 +3,7 @@
   String type=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"type");
   String className=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
   String expression=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"expression");
-  String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"result-variable-name");
+  String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"resultVariableName");
   String implementation=serviceTaskElement.attribute("implementation");
   String operationRef=serviceTaskElement.attribute("operationRef");
   List<FieldDeclaration> fieldDeclarations=parseFieldDeclarationsOnServiceTask(serviceTaskElement);
@@ -17,7 +17,7 @@
   }
  else   if (className != null && className.trim().length() > 0) {
     if (resultVariableName != null) {
-      addError("'result-variable-name' not supported for service tasks using 'class'",serviceTaskElement);
+      addError("'resultVariableName' not supported for service tasks using 'class'",serviceTaskElement);
     }
     activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(className,fieldDeclarations));
   }
