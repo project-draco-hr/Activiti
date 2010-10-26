@@ -1,7 +1,7 @@
 {
   EventListener eventListener=null;
-  String className=eventListenerElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"class");
-  String expression=eventListenerElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"expression");
+  String className=eventListenerElement.attribute("class");
+  String expression=eventListenerElement.attribute("expression");
   List<FieldDeclaration> fieldDeclarations=parseFieldDeclarations(eventListenerElement);
   if (className != null && className.trim().length() > 0) {
     eventListener=new DelegateEventListener(className,fieldDeclarations);

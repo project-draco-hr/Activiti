@@ -1,6 +1,6 @@
 {
   try {
-    String expression=getStringValueFromAttributeOrElement("expression","expression",BpmnParser.BPMN_EXTENSIONS_NS,fieldDeclarationElement);
+    String expression=getStringValueFromAttributeOrElement("expression","expression",null,fieldDeclarationElement);
     if (expression != null && expression.trim().length() > 0) {
       return new FieldDeclaration(fieldName,Expression.class.getName(),expressionManager.createExpression(expression));
     }

@@ -1,6 +1,6 @@
 {
   if (propertyType == null) {
-    String type=propertyElement.attribute("activiti:type");
+    String type=propertyElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"type");
     propertyType=type != null ? type : "string";
   }
   VariableDeclaration variableDeclaration=new VariableDeclaration(propertyName,propertyType);
