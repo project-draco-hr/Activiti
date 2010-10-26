@@ -1,6 +1,6 @@
 {
   String deploymentId=repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/db/processOne.bpmn20.xml").deploy().getId();
-  ReadOnlyProcessDefinition processDefinition=repositoryService.getDeployedProcessDefinition("processOne:1");
+  ReadOnlyProcessDefinition processDefinition=((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition("processOne:1");
   assertEquals("processOne:1",processDefinition.getId());
   assertEquals("Process One",processDefinition.getProperty("name"));
   assertEquals("the first process",processDefinition.getProperty("documentation"));
