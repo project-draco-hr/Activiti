@@ -4,10 +4,10 @@
     ClassLoader classLoader=ReflectUtil.getClassLoader();
     Enumeration<URL> resources=null;
     try {
-      resources=classLoader.getResources("activiti.properties");
+      resources=classLoader.getResources("activiti.cfg.xml");
     }
  catch (    IOException e) {
-      throw new ActivitiException("can't find activiti.properties resources on the classpath: " + System.getProperty("java.class.path"),e);
+      throw new ActivitiException("can't find activiti.cfg.xml resources on the classpath: " + System.getProperty("java.class.path"),e);
     }
     while (resources.hasMoreElements()) {
       URL resource=resources.nextElement();

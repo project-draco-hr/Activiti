@@ -1,0 +1,18 @@
+{
+  Element databaseElement=rootElement.element("database");
+  if (databaseElement != null) {
+    this.databaseName=databaseElement.attribute("name");
+    this.databaseSchemaStrategy=databaseElement.attribute("schema-strategy");
+    Element jdbcElement=databaseElement.element("jdbc");
+    if (jdbcElement != null) {
+      this.isJdbcConfigured=true;
+      this.jdbcUrl=jdbcElement.attribute("url");
+      this.jdbcDriver=jdbcElement.attribute("driver");
+      this.jdbcUsername=jdbcElement.attribute("username");
+      this.jdbcPassword=jdbcElement.attribute("password");
+    }
+  }
+ else {
+    addError("Could not find required element 'database'",rootElement);
+  }
+}

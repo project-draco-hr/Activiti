@@ -30,12 +30,12 @@
   jobHandlers.addJobHandler(new TimerExecuteNestedActivityJobHandler());
   jobExecutor=new JobExecutor();
   jobExecutorAutoActivate=false;
-  databaseName=DEFAULT_DATABASE_NAME;
+  databaseName="h2";
   dbSchemaStrategy=DbSchemaStrategy.CREATE_DROP;
   idGenerator=new DbIdGenerator();
   idBlockSize=100;
   dataSource=null;
-  localTransactions=true;
+  transactionsExternallyManaged=false;
   jdbcDriver=DEFAULT_JDBC_DRIVER;
   jdbcUrl=DEFAULT_JDBC_URL;
   jdbcUsername=DEFAULT_JDBC_USERNAME;
@@ -46,8 +46,9 @@
   MapBusinessCalendarManager mapBusinessCalendarManager=new MapBusinessCalendarManager();
   mapBusinessCalendarManager.addBusinessCalendar(DurationBusinessCalendar.NAME,new DurationBusinessCalendar());
   businessCalendarManager=mapBusinessCalendarManager;
+  historyLevel=HISTORYLEVEL_AUDIT;
   mailServerDefaultFrom=DEFAULT_FROM_EMAIL_ADDRESS;
-  mailServerSmtpPort=DEFAULT_MAIL_SERVER_SMTP_PORT;
+  mailServerPort=DEFAULT_MAIL_SERVER_SMTP_PORT;
   formEngines=new HashMap<String,FormEngine>();
   FormEngine defaultFormEngine=new JuelFormEngine();
   formEngines.put(null,defaultFormEngine);

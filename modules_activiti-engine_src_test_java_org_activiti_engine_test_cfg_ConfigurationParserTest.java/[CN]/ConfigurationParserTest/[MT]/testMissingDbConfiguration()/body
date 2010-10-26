@@ -1,0 +1,9 @@
+{
+  try {
+    configurationParser.createParse().sourceResource("org/activiti/engine/test/cfg/no-db-config.activiti.cfg.xml").execute();
+    fail("Invalid config xml should not parse");
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("Could not find required element 'database'",e.getMessage());
+  }
+}

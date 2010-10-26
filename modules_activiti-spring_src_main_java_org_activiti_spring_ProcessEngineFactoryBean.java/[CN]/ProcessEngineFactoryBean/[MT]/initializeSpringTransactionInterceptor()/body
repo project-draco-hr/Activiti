@@ -1,5 +1,5 @@
 {
-  processEngineConfiguration.setLocalTransactions(transactionManager == null);
+  processEngineConfiguration.setTransactionsExternallyManaged(transactionManager != null);
   if (transactionManager != null) {
     List<CommandInterceptor> commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>();
     commandInterceptorsTxRequired.add(new LogInterceptor());

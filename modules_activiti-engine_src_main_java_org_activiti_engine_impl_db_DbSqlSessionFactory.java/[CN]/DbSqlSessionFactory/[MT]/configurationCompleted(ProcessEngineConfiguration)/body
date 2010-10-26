@@ -16,11 +16,11 @@
     dataSource=pooledDataSource;
   }
   TransactionFactory transactionFactory=null;
-  if (processEngineConfiguration.isLocalTransactions()) {
-    transactionFactory=new JdbcTransactionFactory();
+  if (processEngineConfiguration.isTransactionsExternallyManaged()) {
+    transactionFactory=new ManagedTransactionFactory();
   }
  else {
-    transactionFactory=new ManagedTransactionFactory();
+    transactionFactory=new JdbcTransactionFactory();
   }
   this.sqlSessionFactory=createSessionFactory(dataSource,transactionFactory);
 }

@@ -1,0 +1,17 @@
+{
+  InputStream inputStream=ReflectUtil.getClassLoader().getResourceAsStream(resource);
+  if (inputStream == null) {
+    throw new ActivitiException("configuration resource '" + resource + "' is unavailable on classpath "+ System.getProperty("java.class.path"));
+  }
+  try {
+    configureFromInputStream(inputStream);
+    inputStream.close();
+  }
+ catch (  IOException e) {
+    throw new ActivitiException("Exception while closing inputstream",e);
+  }
+ finally {
+    IoUtil.closeSilently(inputStream);
+  }
+  return this;
+}

@@ -1,30 +1,3 @@
 {
-  if (databaseName == null) {
-    throw new ActivitiException("no database name specified (used to look up queries and scripts)");
-  }
-  ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
-  processEngineConfiguration.setProcessEngineName(processEngineName);
-  processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
-  if (historyLevel != null) {
-    processEngineConfiguration.setHistoryLevel(historyLevel);
-  }
-  processEngineConfiguration.setDbSchemaStrategy(dbSchemaStrategy);
-  processEngineConfiguration.setJdbcDriver(jdbcDriver);
-  processEngineConfiguration.setJdbcUrl(jdbcUrl);
-  processEngineConfiguration.setJdbcUsername(jdbcUsername);
-  processEngineConfiguration.setJdbcPassword(jdbcPassword);
-  processEngineConfiguration.setDatabaseName(databaseName);
-  processEngineConfiguration.setLocalTransactions(localTransactions);
-  processEngineConfiguration.setWsSyncFactoryClassName(wsSyncFactoryClassName);
-  processEngineConfiguration.setMailServerSmtpHost(mailServerSmtpHost);
-  processEngineConfiguration.setMailServerSmtpPort(mailServerSmtpPort);
-  processEngineConfiguration.setMailServerSmtpUserName(mailServerSmtpUserName);
-  processEngineConfiguration.setMailServerSmtpPassword(mailServerSmtpPassword);
-  processEngineConfiguration.setMailServerDefaultFrom(mailServerDefaultFrom);
-  if (jpaEntityManagerFactory != null) {
-    processEngineConfiguration.enableJPA(jpaEntityManagerFactory,jpaHandleTransaction,jpaCloseEntityManager);
-  }
-  ProcessEngine engine=processEngineConfiguration.buildProcessEngine();
-  ProcessEngines.registerProcessEngine(engine);
-  return engine;
+  return processEngineConfiguration.buildProcessEngine();
 }

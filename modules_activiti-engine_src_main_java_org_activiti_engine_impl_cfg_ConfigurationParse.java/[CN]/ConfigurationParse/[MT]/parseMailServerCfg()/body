@@ -1,0 +1,15 @@
+{
+  Element mailElement=rootElement.element("mail");
+  if (mailElement != null) {
+    this.mailServerHost=mailElement.attribute("host");
+    this.mailServerUsername=mailElement.attribute("username");
+    this.mailServerPassword=mailElement.attribute("password");
+    this.mailDefaultFrom=mailElement.attribute("default-from");
+    try {
+      this.mailServerPort=Integer.parseInt(mailElement.attribute("port"));
+    }
+ catch (    NumberFormatException e) {
+      addError("Invalid port for mail service",mailElement);
+    }
+  }
+}

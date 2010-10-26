@@ -1,0 +1,14 @@
+{
+  for (  Element messageElement : rootElement.elements("message")) {
+    String id=messageElement.attribute("id");
+    String itemRef=messageElement.attribute("itemRef");
+    if (!this.itemDefinitions.containsKey(itemRef)) {
+      addError(itemRef + " does not exist",messageElement);
+    }
+ else {
+      ItemDefinition itemDefinition=this.itemDefinitions.get(itemRef);
+      Message message=new Message(id,itemDefinition);
+      this.messages.put(id,message);
+    }
+  }
+}

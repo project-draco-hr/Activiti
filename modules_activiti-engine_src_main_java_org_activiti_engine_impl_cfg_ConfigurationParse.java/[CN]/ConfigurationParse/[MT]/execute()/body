@@ -1,0 +1,15 @@
+{
+  super.execute();
+  parseRootElementAttributes();
+  parseDatabaseCfg();
+  parseJobExecutorCfg();
+  parseMailServerCfg();
+  parseHistoryCfg();
+  if (hasWarnings()) {
+    logWarnings();
+  }
+  if (hasErrors()) {
+    throwActivitiExceptionForErrors();
+  }
+  return this;
+}
