@@ -7,9 +7,10 @@
     task.log("not waiting for a launch completion msg.");
   }
   ProcessBuilder processBuilder=new ProcessBuilder(cmd).redirectErrorStream(true).directory(dir);
+  InputStream consoleStream=null;
   try {
     Process process=processBuilder.start();
-    InputStream consoleStream=process.getInputStream();
+    consoleStream=process.getInputStream();
     BufferedReader consoleReader=new BufferedReader(new InputStreamReader(consoleStream));
     String consoleLine="";
     while ((consoleLine != null) && (msg == null || consoleLine.indexOf(msg) == -1)) {
@@ -24,5 +25,8 @@
   }
  catch (  Exception e) {
     throw new BuildException("couldn't launch " + cmdString(cmd),e);
+  }
+ finally {
+    IoUtil.closeSilently(consoleStream);
   }
 }

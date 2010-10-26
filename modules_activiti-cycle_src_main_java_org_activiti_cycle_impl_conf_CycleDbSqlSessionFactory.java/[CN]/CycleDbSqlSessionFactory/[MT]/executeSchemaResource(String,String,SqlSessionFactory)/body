@@ -1,11 +1,12 @@
 {
   SqlSession sqlSession=sqlSessionFactory.openSession();
   boolean success=false;
+  InputStream inputStream=null;
   try {
     Connection connection=sqlSession.getConnection();
     ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
     String resource="org/activiti/db/cycle/" + operation + "/activiti."+ databaseName+ "."+ operation+ ".sql";
-    InputStream inputStream=classLoader.getResourceAsStream(resource);
+    inputStream=classLoader.getResourceAsStream(resource);
     if (inputStream == null) {
       throw new ActivitiException("resource '" + resource + "' is not available for creating the schema");
     }
@@ -39,6 +40,7 @@
     throw new ActivitiException("couldn't create db schema",e);
   }
  finally {
+    IoUtil.closeSilently(inputStream);
     if (success) {
       sqlSession.commit(true);
     }

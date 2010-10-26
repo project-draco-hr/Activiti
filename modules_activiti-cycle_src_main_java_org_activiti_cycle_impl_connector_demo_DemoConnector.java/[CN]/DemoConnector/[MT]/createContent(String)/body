@@ -1,8 +1,9 @@
 {
   Content result=new Content();
+  InputStream in=null;
   try {
     ByteArrayOutputStream byteStream=new ByteArrayOutputStream();
-    InputStream in=DemoConnector.class.getResourceAsStream(contentSourceUrl);
+    in=DemoConnector.class.getResourceAsStream(contentSourceUrl);
     if (in == null) {
       throw new RuntimeException("resource '" + contentSourceUrl + "' not found in classpath");
     }
@@ -20,6 +21,9 @@
   }
  catch (  Exception ex) {
     throw new RepositoryException("couldn't create content from URL " + contentSourceUrl,ex);
+  }
+ finally {
+    IoUtil.closeSilently(in);
   }
   return result;
 }

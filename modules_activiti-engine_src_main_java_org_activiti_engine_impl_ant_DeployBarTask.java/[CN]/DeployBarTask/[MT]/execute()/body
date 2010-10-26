@@ -48,7 +48,7 @@
           repositoryService.createDeployment().name(file.getName()).addZipInputStream(new ZipInputStream(inputStream)).deploy();
         }
   finally {
-          inputStream.close();
+          IoUtil.closeSilently(inputStream);
         }
       }
  catch (      Exception e) {

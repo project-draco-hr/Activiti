@@ -1,7 +1,8 @@
 {
+  InputStream inputStream=null;
   try {
     ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
-    InputStream inputStream=classLoader.getResourceAsStream("org/activiti/db/cycle/ibatis/activiti.ibatis.mem.conf.xml");
+    inputStream=classLoader.getResourceAsStream("org/activiti/db/cycle/ibatis/activiti.ibatis.mem.conf.xml");
     Environment environment=new Environment("default",transactionFactory,dataSource);
     Reader reader=new InputStreamReader(inputStream);
     XMLConfigBuilder parser=new XMLConfigBuilder(reader);
@@ -13,5 +14,8 @@
   }
  catch (  Exception e) {
     throw new ActivitiException("Error while building ibatis SqlSessionFactory: " + e.getMessage(),e);
+  }
+ finally {
+    IoUtil.closeSilently(inputStream);
   }
 }

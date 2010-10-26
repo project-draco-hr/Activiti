@@ -17,5 +17,8 @@
  catch (  Exception e) {
     throw new ActivitiException("coudn't deserialize object in variable '" + valueFields.getName() + "'",e);
   }
+ finally {
+    IoUtil.closeSilently(bais);
+  }
   return deserializedObject;
 }

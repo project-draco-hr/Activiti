@@ -10,11 +10,12 @@
       }
       byteStream.write(buf,0,len);
     }
-    inputStream.close();
-    byteStream.close();
     return byteStream.toByteArray();
   }
  catch (  IOException ex) {
     throw new RepositoryException("Couldn't load from InputStream of content, check nested exception.",ex);
+  }
+ finally {
+    IoUtil.closeSilently(inputStream);
   }
 }

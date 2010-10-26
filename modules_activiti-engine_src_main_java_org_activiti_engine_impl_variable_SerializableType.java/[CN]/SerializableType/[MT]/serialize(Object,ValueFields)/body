@@ -3,12 +3,16 @@
     return null;
   }
   ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  ObjectOutputStream ois=null;
   try {
-    ObjectOutputStream ois=new ObjectOutputStream(baos);
+    ois=new ObjectOutputStream(baos);
     ois.writeObject(value);
   }
  catch (  Exception e) {
     throw new ActivitiException("coudn't deserialize value '" + value + "' in variable '"+ valueFields.getName()+ "'",e);
+  }
+ finally {
+    IoUtil.closeSilently(ois);
   }
   return baos.toByteArray();
 }

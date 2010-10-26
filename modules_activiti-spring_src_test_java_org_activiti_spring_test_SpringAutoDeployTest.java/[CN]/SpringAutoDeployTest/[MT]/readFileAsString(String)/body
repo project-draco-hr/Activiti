@@ -6,9 +6,7 @@
     inputStream.read(buffer);
   }
   finally {
-    if (inputStream != null) {
-      inputStream.close();
-    }
+    IoUtil.closeSilently(inputStream);
   }
   return new String(buffer);
 }

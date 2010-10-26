@@ -32,10 +32,15 @@
       attachmentFileName+=".doc";
     }
   }
+  InputStream contentInputStream=null;
   try {
-    streamResponse(res,this.cycleService.getContent(artifact.getConnectorId(),artifact.getNodeId(),contentRepresentation.getId()).asInputStream(),new Date(0),"W/\"647-1281077702000\"",attach,attachmentFileName,contentType);
+    contentInputStream=this.cycleService.getContent(artifact.getConnectorId(),artifact.getNodeId(),contentRepresentation.getId()).asInputStream();
+    streamResponse(res,contentInputStream,new Date(0),"W/\"647-1281077702000\"",attach,attachmentFileName,contentType);
   }
  catch (  TransformationException e) {
     streamResponse(res,new ByteArrayInputStream(e.getRenderContent().getBytes()),new Date(0),"W/\"647-1281077702000\"",false,null,CycleDefaultMimeType.HTML.getContentType());
+  }
+ finally {
+    IoUtil.closeSilently(contentInputStream);
   }
 }
