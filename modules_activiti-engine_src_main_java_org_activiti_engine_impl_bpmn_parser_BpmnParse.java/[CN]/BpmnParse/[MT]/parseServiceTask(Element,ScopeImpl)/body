@@ -19,7 +19,16 @@
     if (resultVariableName != null) {
       addError("'resultVariableName' not supported for service tasks using 'class'",serviceTaskElement);
     }
-    activity.setActivityBehavior(new ServiceTaskDelegateActivityBehaviour(className,fieldDeclarations));
+    Object delegateInstance=new FieldDeclarationDelegate(className,fieldDeclarations).getDelegateInstance();
+    if (delegateInstance instanceof ActivityBehavior) {
+      activity.setActivityBehavior((ActivityBehavior)delegateInstance);
+    }
+ else     if (delegateInstance instanceof JavaDelegation) {
+      activity.setActivityBehavior(new JavaDelegationDelegate((JavaDelegation)delegateInstance));
+    }
+ else {
+      addError(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegation.class.getName()+ " nor "+ ActivityBehavior.class.getName(),serviceTaskElement);
+    }
   }
  else   if (expression != null && expression.trim().length() > 0) {
     activity.setActivityBehavior(new ServiceTaskExpressionActivityBehavior(expressionManager.createExpression(expression),resultVariableName));

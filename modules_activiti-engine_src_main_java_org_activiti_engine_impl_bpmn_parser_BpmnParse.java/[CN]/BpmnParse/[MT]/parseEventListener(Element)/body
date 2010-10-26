@@ -4,7 +4,16 @@
   String expression=eventListenerElement.attribute("expression");
   List<FieldDeclaration> fieldDeclarations=parseFieldDeclarations(eventListenerElement);
   if (className != null && className.trim().length() > 0) {
-    eventListener=new DelegateEventListener(className,fieldDeclarations);
+    Object delegateInstance=new DelegateEventListener(className,fieldDeclarations).getDelegateInstance();
+    if (delegateInstance instanceof EventListener) {
+      eventListener=(EventListener)delegateInstance;
+    }
+ else     if (delegateInstance instanceof JavaDelegation) {
+      eventListener=new JavaDelegationDelegate((JavaDelegation)delegateInstance);
+    }
+ else {
+      addError(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegation.class.getName()+ " nor "+ EventListener.class.getName(),eventListenerElement);
+    }
   }
  else   if (expression != null && expression.trim().length() > 0) {
     eventListener=new ExpressionEventListener(expressionManager.createExpression(expression));
