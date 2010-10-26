@@ -8,9 +8,9 @@
   if (processEngineName != null) {
     processEngineConfiguration.setProcessEngineName(processEngineName);
   }
-  String databaseName=cfgParse.getDatabaseName();
-  if (databaseName != null) {
-    processEngineConfiguration.setDatabaseName(databaseName);
+  String databaseType=cfgParse.getDatabaseType();
+  if (databaseType != null) {
+    processEngineConfiguration.setDatabaseType(databaseType);
   }
   String databaseSchemaStrategy=cfgParse.getDatabaseSchemaStrategy();
   if (databaseSchemaStrategy != null) {
@@ -33,6 +33,22 @@
     if (databasePassword != null) {
       processEngineConfiguration.setJdbcPassword(databasePassword);
     }
+    Integer maxActiveConnections=cfgParse.getMaxActiveConnections();
+    if (maxActiveConnections != null) {
+      processEngineConfiguration.setMaxActiveConnections(maxActiveConnections);
+    }
+    Integer maxIdleConnections=cfgParse.getMaxIdleConnections();
+    if (maxIdleConnections != null) {
+      processEngineConfiguration.setMaxIdleConnections(maxIdleConnections);
+    }
+    Integer maxCheckoutTime=cfgParse.getMaxCheckoutTime();
+    if (maxCheckoutTime != null) {
+      processEngineConfiguration.setMaxCheckoutTime(maxCheckoutTime);
+    }
+    Integer maxWaitTime=cfgParse.getMaxWaitTime();
+    if (maxWaitTime != null) {
+      processEngineConfiguration.setMaxWaitTime(maxWaitTime);
+    }
   }
   String mailServerHost=cfgParse.getMailServerHost();
   if (mailServerHost != null) {
@@ -54,9 +70,9 @@
   if (mailDefaultFrom != null) {
     processEngineConfiguration.setMailServerDefaultFrom(mailDefaultFrom);
   }
-  Boolean jobExecutorAutoActivate=cfgParse.getIsJobExecutorAutoActivate();
-  if (jobExecutorAutoActivate != null) {
-    processEngineConfiguration.setJobExecutorAutoActivate(jobExecutorAutoActivate);
+  Boolean jobExecutorActivate=cfgParse.getJobExecutorActivate();
+  if (jobExecutorActivate != null) {
+    processEngineConfiguration.setJobExecutorActivate(jobExecutorActivate);
   }
   Integer historyLevel=cfgParse.getHistoryLevel();
   if (historyLevel != null) {

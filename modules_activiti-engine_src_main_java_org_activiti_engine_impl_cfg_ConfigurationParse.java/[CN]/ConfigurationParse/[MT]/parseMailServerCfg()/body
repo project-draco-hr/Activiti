@@ -1,15 +1,13 @@
 {
   Element mailElement=rootElement.element("mail");
   if (mailElement != null) {
-    this.mailServerHost=mailElement.attribute("host");
+    this.mailServerHost=mailElement.attribute("server");
+    if (mailServerHost == null) {
+      addError("server is a required attribute when configuring e-mail",mailElement);
+    }
     this.mailServerUsername=mailElement.attribute("username");
     this.mailServerPassword=mailElement.attribute("password");
     this.mailDefaultFrom=mailElement.attribute("default-from");
-    try {
-      this.mailServerPort=Integer.parseInt(mailElement.attribute("port"));
-    }
- catch (    NumberFormatException e) {
-      addError("Invalid port for mail service",mailElement);
-    }
+    this.mailServerPort=stringToInteger(mailElement,"mail port",mailElement.attribute("port"));
   }
 }

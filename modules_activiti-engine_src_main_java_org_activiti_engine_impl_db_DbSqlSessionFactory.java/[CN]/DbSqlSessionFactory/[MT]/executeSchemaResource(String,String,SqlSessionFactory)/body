@@ -4,7 +4,7 @@
   InputStream inputStream=null;
   try {
     Connection connection=sqlSession.getConnection();
-    String resource="org/activiti/db/" + operation + "/activiti."+ databaseName+ "."+ operation+ ".sql";
+    String resource="org/activiti/db/" + operation + "/activiti."+ databaseType+ "."+ operation+ ".sql";
     inputStream=ReflectUtil.getResourceAsStream(resource);
     if (inputStream == null) {
       throw new ActivitiException("resource '" + resource + "' is not available for creating the schema");

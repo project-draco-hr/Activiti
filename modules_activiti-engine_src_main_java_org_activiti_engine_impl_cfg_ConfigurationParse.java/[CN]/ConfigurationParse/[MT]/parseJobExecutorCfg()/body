@@ -1,13 +1,13 @@
 {
   Element jobExecutorElement=rootElement.element("job-executor");
   if (jobExecutorElement != null) {
-    String autoActivateString=jobExecutorElement.attribute("auto-activate");
-    if (autoActivateString != null) {
-      if (autoActivateString.equals("off") || autoActivateString.equals("disabled") || autoActivateString.equals("false")) {
-        this.isJobExecutorAutoActivate=false;
+    String activateString=jobExecutorElement.attribute("activate");
+    if (activateString != null) {
+      if (activateString.equals("off") || activateString.equals("disabled") || activateString.equals("false")) {
+        this.jobExecutorActivate=false;
       }
- else       if (autoActivateString.equals("on") || autoActivateString.equals("enabled") || autoActivateString.equals("true")) {
-        this.isJobExecutorAutoActivate=true;
+ else       if (activateString.equals("on") || activateString.equals("enabled") || activateString.equals("true")) {
+        this.jobExecutorActivate=true;
       }
  else {
         addError("Invalid value for 'auto-activate', current values are supported:" + "on/off enabled/disabled true/false",jobExecutorElement);
