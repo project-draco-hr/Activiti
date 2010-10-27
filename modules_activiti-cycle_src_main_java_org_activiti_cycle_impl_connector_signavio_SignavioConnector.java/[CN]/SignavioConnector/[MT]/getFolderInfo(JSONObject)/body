@@ -3,6 +3,15 @@
     throw new RepositoryException(jsonDirectoryObject + " is not a directory");
   }
   String directoryName=jsonDirectoryObject.getJSONObject("rep").getString("name");
+  if (jsonDirectoryObject.getJSONObject("rep").has("type")) {
+    String type=jsonDirectoryObject.getJSONObject("rep").optString("type");
+    if ("public".equals(type)) {
+      directoryName="Public";
+    }
+    if ("private".equals(type)) {
+      directoryName="Private";
+    }
+  }
   log.finest("Directoryname: " + directoryName);
   String href=jsonDirectoryObject.getString("href");
   String id=getConfiguration().getDirectoryIdFromUrl(href);
