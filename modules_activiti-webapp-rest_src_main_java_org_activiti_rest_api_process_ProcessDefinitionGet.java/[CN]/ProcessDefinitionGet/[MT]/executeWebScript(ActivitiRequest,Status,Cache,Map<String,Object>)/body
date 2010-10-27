@@ -1,4 +1,10 @@
 {
   String processDefinitionId=req.getMandatoryPathParameter("processDefinitionId");
-  model.put("processDefinition",getRepositoryService().createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult());
+  ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)getRepositoryService().createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+  RestProcessDefinition restProcessDefinition=new RestProcessDefinition(processDefinition);
+  StartFormData startFormData=getFormService().getStartFormData(processDefinitionId);
+  if (startFormData != null) {
+    restProcessDefinition.setStartFormResourceKey(startFormData.getFormKey());
+  }
+  model.put("processDefinition",restProcessDefinition);
 }

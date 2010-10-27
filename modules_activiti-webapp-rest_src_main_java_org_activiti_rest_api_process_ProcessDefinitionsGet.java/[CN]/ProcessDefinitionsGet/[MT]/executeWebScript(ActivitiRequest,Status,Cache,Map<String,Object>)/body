@@ -1,3 +1,16 @@
 {
   paginateList(req,getRepositoryService().createProcessDefinitionQuery(),"processDefinitions",model,"id");
+  List<ProcessDefinition> processDefinitions=(List<ProcessDefinition>)model.get("processDefinitions");
+  if (processDefinitions != null) {
+    List<RestProcessDefinition> processDefinitionTasks=new ArrayList<RestProcessDefinition>();
+    for (    ProcessDefinition p : processDefinitions) {
+      RestProcessDefinition restProcessDefinition=new RestProcessDefinition((ProcessDefinitionEntity)p);
+      StartFormData startFormData=getFormService().getStartFormData(p.getId());
+      if (startFormData != null) {
+        restProcessDefinition.setStartFormResourceKey(startFormData.getFormKey());
+      }
+      processDefinitionTasks.add(restProcessDefinition);
+    }
+    model.put("processDefinitions",processDefinitionTasks);
+  }
 }

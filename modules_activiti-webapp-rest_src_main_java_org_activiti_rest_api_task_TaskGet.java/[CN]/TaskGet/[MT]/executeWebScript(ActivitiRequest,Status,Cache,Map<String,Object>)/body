@@ -1,4 +1,10 @@
 {
   String taskId=req.getMandatoryPathParameter("taskId");
-  model.put("task",getTaskService().createTaskQuery().taskId(taskId));
+  TaskEntity task=(TaskEntity)getTaskService().createTaskQuery().taskId(taskId).singleResult();
+  RestTask restTask=new RestTask(task);
+  TaskFormData taskFormData=getFormService().getTaskFormData(taskId);
+  if (taskFormData != null) {
+    restTask.setFormResourceKey(taskFormData.getFormKey());
+  }
+  model.put("task",restTask);
 }

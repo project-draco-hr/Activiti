@@ -16,4 +16,17 @@
     throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Tasks must be filtered with 'assignee', 'candidate' or 'candidate-group'");
   }
   paginateList(req,taskQuery,"tasks",model,"id");
+  List<Task> tasks=(List<Task>)model.get("tasks");
+  if (tasks != null) {
+    List<RestTask> restTasks=new ArrayList<RestTask>();
+    for (    Task t : tasks) {
+      RestTask restTask=new RestTask((TaskEntity)t);
+      TaskFormData taskFormData=getFormService().getTaskFormData(t.getId());
+      if (taskFormData != null) {
+        restTask.setFormResourceKey(taskFormData.getFormKey());
+      }
+      restTasks.add(restTask);
+    }
+    model.put("tasks",restTasks);
+  }
 }
