@@ -3,7 +3,7 @@
   properties.put("startFormParamA","one");
   properties.put("startFormParamB","234");
   String processInstanceId=formService.submitStartFormData("HistoricVariableUpdateProcess:1",properties).getId();
-  List<HistoricDetail> historicDetails=historyService.createHistoricDetailQuery().orderBy(HistoricDetailQueryProperty.VARIABLE_NAME).asc().list();
+  List<HistoricDetail> historicDetails=historyService.createHistoricDetailQuery().orderByVariableName().asc().list();
   System.out.println(historicDetails);
   HistoricFormProperty historicFormProperty=(HistoricFormProperty)historicDetails.get(0);
   assertEquals(processInstanceId,historicFormProperty.getProcessInstanceId());

@@ -1,8 +1,8 @@
 {
-  UserQuery query=identityService.createUserQuery().lastNameLike("%invalid%");
+  UserQuery query=identityService.createUserQuery().userLastNameLike("%invalid%");
   verifyQueryResults(query,0);
   try {
-    identityService.createUserQuery().lastNameLike(null).singleResult();
+    identityService.createUserQuery().userLastNameLike(null).singleResult();
     fail();
   }
  catch (  ActivitiException e) {

@@ -1,8 +1,8 @@
 {
-  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().keyLike("%invalid%");
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().processDefinitionKeyLike("%invalid%");
   verifyQueryResults(query,0);
   try {
-    repositoryService.createProcessDefinitionQuery().keyLike(null);
+    repositoryService.createProcessDefinitionQuery().processDefinitionKeyLike(null);
     fail();
   }
  catch (  ActivitiException e) {

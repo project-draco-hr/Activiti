@@ -1,23 +1,23 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("multipleCandidatesGroup");
-  List<Task> tasks=taskService.createTaskQuery().assignee(KERMIT).list();
+  List<Task> tasks=taskService.createTaskQuery().taskAssignee(KERMIT).list();
   assertTrue(tasks.isEmpty());
-  tasks=taskService.createTaskQuery().assignee(GONZO).list();
+  tasks=taskService.createTaskQuery().taskAssignee(GONZO).list();
   assertTrue(tasks.isEmpty());
-  assertEquals(1,taskService.createTaskQuery().candidateUser(KERMIT).list().size());
-  assertEquals(1,taskService.createTaskQuery().candidateUser(GONZO).list().size());
-  assertEquals(1,taskService.createTaskQuery().candidateGroup("management").count());
-  assertEquals(1,taskService.createTaskQuery().candidateGroup("accountancy").count());
-  assertEquals(0,taskService.createTaskQuery().candidateGroup("sales").count());
-  tasks=taskService.createTaskQuery().candidateUser(GONZO).list();
+  assertEquals(1,taskService.createTaskQuery().taskCandidateUser(KERMIT).list().size());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateUser(GONZO).list().size());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroup("management").count());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroup("accountancy").count());
+  assertEquals(0,taskService.createTaskQuery().taskCandidateGroup("sales").count());
+  tasks=taskService.createTaskQuery().taskCandidateUser(GONZO).list();
   Task task=tasks.get(0);
   assertEquals("Approve expenses",task.getName());
   taskService.claim(task.getId(),GONZO);
-  assertTrue(taskService.createTaskQuery().candidateUser(KERMIT).list().isEmpty());
-  assertTrue(taskService.createTaskQuery().candidateUser(GONZO).list().isEmpty());
-  assertEquals(0,taskService.createTaskQuery().candidateGroup("management").count());
-  assertEquals(1,taskService.createTaskQuery().assignee(GONZO).count());
-  assertEquals(0,taskService.createTaskQuery().assignee(KERMIT).count());
+  assertTrue(taskService.createTaskQuery().taskCandidateUser(KERMIT).list().isEmpty());
+  assertTrue(taskService.createTaskQuery().taskCandidateUser(GONZO).list().isEmpty());
+  assertEquals(0,taskService.createTaskQuery().taskCandidateGroup("management").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee(GONZO).count());
+  assertEquals(0,taskService.createTaskQuery().taskAssignee(KERMIT).count());
   taskService.complete(task.getId());
   assertProcessEnded(processInstance.getId());
 }

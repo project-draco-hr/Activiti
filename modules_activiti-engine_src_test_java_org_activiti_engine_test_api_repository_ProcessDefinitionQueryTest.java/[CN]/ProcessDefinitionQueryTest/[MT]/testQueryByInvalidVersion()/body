@@ -1,14 +1,14 @@
 {
-  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().version(3);
+  ProcessDefinitionQuery query=repositoryService.createProcessDefinitionQuery().processDefinitionVersion(3);
   verifyQueryResults(query,0);
   try {
-    repositoryService.createProcessDefinitionQuery().version(-1).list();
+    repositoryService.createProcessDefinitionQuery().processDefinitionVersion(-1).list();
     fail();
   }
  catch (  ActivitiException e) {
   }
   try {
-    repositoryService.createProcessDefinitionQuery().version(null).list();
+    repositoryService.createProcessDefinitionQuery().processDefinitionVersion(null).list();
     fail();
   }
  catch (  ActivitiException e) {

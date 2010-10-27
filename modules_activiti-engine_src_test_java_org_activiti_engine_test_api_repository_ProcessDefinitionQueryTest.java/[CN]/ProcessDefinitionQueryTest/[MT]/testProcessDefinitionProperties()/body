@@ -1,5 +1,5 @@
 {
-  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().orderBy(ProcessDefinitionQueryProperty.NAME).asc().orderBy(ProcessDefinitionQueryProperty.VERSION).asc().orderBy(ProcessDefinitionQueryProperty.CATEGORY).asc().list();
+  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().orderByProcessDefinitionName().asc().orderByProcessDefinitionVersion().asc().orderByProcessDefinitionCategory().asc().list();
   ProcessDefinition processDefinition=processDefinitions.get(0);
   assertEquals("one",processDefinition.getKey());
   assertEquals("One",processDefinition.getName());

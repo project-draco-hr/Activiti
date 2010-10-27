@@ -1,10 +1,10 @@
 {
-  DeploymentQuery query=repositoryService.createDeploymentQuery().name("invalid");
+  DeploymentQuery query=repositoryService.createDeploymentQuery().deploymentName("invalid");
   assertNull(query.singleResult());
   assertEquals(0,query.list().size());
   assertEquals(0,query.count());
   try {
-    repositoryService.createDeploymentQuery().name(null);
+    repositoryService.createDeploymentQuery().deploymentName(null);
     fail();
   }
  catch (  ActivitiException e) {

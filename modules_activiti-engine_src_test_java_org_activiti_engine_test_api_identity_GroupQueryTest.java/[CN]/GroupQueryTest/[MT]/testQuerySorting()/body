@@ -1,11 +1,11 @@
 {
   assertEquals(4,identityService.createGroupQuery().orderByGroupId().asc().count());
-  assertEquals(4,identityService.createGroupQuery().orderByName().asc().count());
-  assertEquals(4,identityService.createGroupQuery().orderByType().asc().count());
+  assertEquals(4,identityService.createGroupQuery().orderByGroupName().asc().count());
+  assertEquals(4,identityService.createGroupQuery().orderByGroupType().asc().count());
   assertEquals(4,identityService.createGroupQuery().orderByGroupId().desc().count());
-  assertEquals(4,identityService.createGroupQuery().orderByName().desc().count());
-  assertEquals(4,identityService.createGroupQuery().orderByType().desc().count());
-  GroupQuery query=identityService.createGroupQuery().orderByType().asc().orderByName().desc();
+  assertEquals(4,identityService.createGroupQuery().orderByGroupName().desc().count());
+  assertEquals(4,identityService.createGroupQuery().orderByGroupType().desc().count());
+  GroupQuery query=identityService.createGroupQuery().orderByGroupType().asc().orderByGroupName().desc();
   List<Group> groups=query.list();
   assertEquals(4,query.count());
   assertEquals("security",groups.get(0).getType());

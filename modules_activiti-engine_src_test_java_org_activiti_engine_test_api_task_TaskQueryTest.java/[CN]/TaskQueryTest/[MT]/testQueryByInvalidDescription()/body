@@ -1,10 +1,10 @@
 {
-  TaskQuery query=taskService.createTaskQuery().description("invalid");
+  TaskQuery query=taskService.createTaskQuery().taskDescription("invalid");
   assertNull(query.singleResult());
   assertEquals(0,query.list().size());
   assertEquals(0,query.count());
   try {
-    taskService.createTaskQuery().description(null).list();
+    taskService.createTaskQuery().taskDescription(null).list();
     fail();
   }
  catch (  ActivitiException e) {

@@ -1,30 +1,30 @@
 {
   try {
-    repositoryService.createProcessDefinitionQuery().processDefinitionId("test").latest().list();
+    repositoryService.createProcessDefinitionQuery().processDefinitionId("test").latestVersion().list();
     fail();
   }
  catch (  ActivitiException e) {
   }
   try {
-    repositoryService.createProcessDefinitionQuery().name("test").latest().list();
+    repositoryService.createProcessDefinitionQuery().processDefinitionName("test").latestVersion().list();
     fail();
   }
  catch (  ActivitiException e) {
   }
   try {
-    repositoryService.createProcessDefinitionQuery().nameLike("test").latest().list();
+    repositoryService.createProcessDefinitionQuery().processDefinitionNameLike("test").latestVersion().list();
     fail();
   }
  catch (  ActivitiException e) {
   }
   try {
-    repositoryService.createProcessDefinitionQuery().version(1).latest().list();
+    repositoryService.createProcessDefinitionQuery().processDefinitionVersion(1).latestVersion().list();
     fail();
   }
  catch (  ActivitiException e) {
   }
   try {
-    repositoryService.createProcessDefinitionQuery().deploymentId("test").latest().list();
+    repositoryService.createProcessDefinitionQuery().deploymentId("test").latestVersion().list();
     fail();
   }
  catch (  ActivitiException e) {

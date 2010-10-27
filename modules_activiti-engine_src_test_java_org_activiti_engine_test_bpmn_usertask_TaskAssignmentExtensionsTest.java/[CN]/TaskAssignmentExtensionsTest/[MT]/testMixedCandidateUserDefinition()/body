@@ -1,11 +1,11 @@
 {
   runtimeService.startProcessInstanceByKey("mixedCandidateUser");
-  List<Task> tasks=taskService.createTaskQuery().candidateUser("kermit").list();
+  List<Task> tasks=taskService.createTaskQuery().taskCandidateUser("kermit").list();
   assertEquals(1,tasks.size());
-  tasks=taskService.createTaskQuery().candidateUser("fozzie").list();
+  tasks=taskService.createTaskQuery().taskCandidateUser("fozzie").list();
   assertEquals(1,tasks.size());
-  tasks=taskService.createTaskQuery().candidateUser("gonzo").list();
+  tasks=taskService.createTaskQuery().taskCandidateUser("gonzo").list();
   assertEquals(1,tasks.size());
-  tasks=taskService.createTaskQuery().candidateUser("mispiggy").list();
+  tasks=taskService.createTaskQuery().taskCandidateUser("mispiggy").list();
   assertEquals(0,tasks.size());
 }

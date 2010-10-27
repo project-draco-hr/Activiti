@@ -8,7 +8,7 @@
     if (qp == null) {
       throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
     }
-    query.orderBy(qp);
+    ((AbstractQuery)query).orderBy(qp);
     if (order.equals("asc")) {
       query.asc();
     }

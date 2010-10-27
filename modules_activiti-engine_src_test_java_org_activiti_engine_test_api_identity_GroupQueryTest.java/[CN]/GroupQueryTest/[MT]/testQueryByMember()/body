@@ -1,7 +1,7 @@
 {
-  GroupQuery query=identityService.createGroupQuery().member("fozzie");
+  GroupQuery query=identityService.createGroupQuery().groupMember("fozzie");
   verifyQueryResults(query,2);
-  query=identityService.createGroupQuery().member("kermit");
+  query=identityService.createGroupQuery().groupMember("kermit");
   verifyQueryResults(query,3);
   query=query.orderByGroupId().asc();
   List<Group> groups=query.list();
@@ -9,7 +9,7 @@
   assertEquals("admin",groups.get(0).getId());
   assertEquals("frogs",groups.get(1).getId());
   assertEquals("muppets",groups.get(2).getId());
-  query=query.type("user");
+  query=query.groupType("user");
   groups=query.list();
   assertEquals(2,groups.size());
   assertEquals("frogs",groups.get(0).getId());

@@ -1,12 +1,12 @@
 {
   runtimeService.startProcessInstanceByKey("candidateGroupsExtension");
-  List<Task> tasks=taskService.createTaskQuery().candidateUser("kermit").list();
+  List<Task> tasks=taskService.createTaskQuery().taskCandidateUser("kermit").list();
   assertEquals(1,tasks.size());
   assertEquals("make profit",tasks.get(0).getName());
-  tasks=taskService.createTaskQuery().candidateUser("fozzie").list();
+  tasks=taskService.createTaskQuery().taskCandidateUser("fozzie").list();
   assertEquals(1,tasks.size());
   assertEquals("make profit",tasks.get(0).getName());
   TaskQuery query=taskService.createTaskQuery();
-  assertEquals(1,query.candidateGroup("management").count());
-  assertEquals(1,query.candidateGroup("accountancy").count());
+  assertEquals(1,query.taskCandidateGroup("management").count());
+  assertEquals(1,query.taskCandidateGroup("accountancy").count());
 }

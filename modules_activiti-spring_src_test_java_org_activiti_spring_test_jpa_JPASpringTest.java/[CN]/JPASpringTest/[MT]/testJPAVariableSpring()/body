@@ -42,6 +42,6 @@
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(task);
   assertEquals("Send rejection letter",task.getName());
-  String deploymentId=repositoryService.createProcessDefinitionQuery().key("LoanRequestProcess").singleResult().getDeploymentId();
+  String deploymentId=repositoryService.createProcessDefinitionQuery().processDefinitionKey("LoanRequestProcess").singleResult().getDeploymentId();
   repositoryService.deleteDeploymentCascade(deploymentId);
 }

@@ -13,11 +13,11 @@
   identityService.createMembership("joesmoe","sales");
   identityService.createMembership("joesmoe","development");
   identityService.createMembership("jackblack","development");
-  List<Group> groups=identityService.createGroupQuery().member("johndoe").list();
+  List<Group> groups=identityService.createGroupQuery().groupMember("johndoe").list();
   assertEquals(createStringSet("sales"),getGroupIds(groups));
-  groups=identityService.createGroupQuery().member("joesmoe").list();
+  groups=identityService.createGroupQuery().groupMember("joesmoe").list();
   assertEquals(createStringSet("sales","development"),getGroupIds(groups));
-  groups=identityService.createGroupQuery().member("jackblack").list();
+  groups=identityService.createGroupQuery().groupMember("jackblack").list();
   assertEquals(createStringSet("development"),getGroupIds(groups));
   List<User> users=identityService.createUserQuery().memberOfGroup("sales").list();
   assertEquals(createStringSet("johndoe","joesmoe"),getUserIds(users));

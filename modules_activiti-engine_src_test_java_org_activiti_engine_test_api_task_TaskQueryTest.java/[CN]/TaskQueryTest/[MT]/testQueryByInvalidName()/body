@@ -1,10 +1,10 @@
 {
-  TaskQuery query=taskService.createTaskQuery().name("invalid");
+  TaskQuery query=taskService.createTaskQuery().taskName("invalid");
   assertNull(query.singleResult());
   assertEquals(0,query.list().size());
   assertEquals(0,query.count());
   try {
-    taskService.createTaskQuery().name(null).singleResult();
+    taskService.createTaskQuery().taskName(null).singleResult();
     fail("expected exception");
   }
  catch (  ActivitiException e) {

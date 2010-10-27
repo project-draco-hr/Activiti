@@ -1,6 +1,6 @@
 {
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("forkJoin");
-  TaskQuery query=taskService.createTaskQuery().processInstanceId(pi.getId()).orderByName().asc();
+  TaskQuery query=taskService.createTaskQuery().processInstanceId(pi.getId()).orderByTaskName().asc();
   List<Task> tasks=query.list();
   assertEquals(2,tasks.size());
   Task task1=tasks.get(0);

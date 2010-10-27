@@ -1,8 +1,8 @@
 {
-  UserQuery query=identityService.createUserQuery().firstNameLike("%mispiggy%");
+  UserQuery query=identityService.createUserQuery().userFirstNameLike("%mispiggy%");
   verifyQueryResults(query,0);
   try {
-    identityService.createUserQuery().firstNameLike(null).singleResult();
+    identityService.createUserQuery().userFirstNameLike(null).singleResult();
     fail();
   }
  catch (  ActivitiException e) {

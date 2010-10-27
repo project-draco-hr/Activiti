@@ -12,10 +12,10 @@
     return true;
   }
  else {
-    GroupQuery query=ProcessEngines.getProcessEngine(config.getEngine()).getIdentityService().createGroupQuery().member(username);
+    GroupQuery query=ProcessEngines.getProcessEngine(config.getEngine()).getIdentityService().createGroupQuery().groupMember(username);
     String securityRoleGroupTypeId=config.getSecurityRoleGroupTypeId();
     if (securityRoleGroupTypeId != null) {
-      query.type(securityRoleGroupTypeId);
+      query.groupType(securityRoleGroupTypeId);
     }
     List<Group> userGroups=query.list();
     for (    Group group : userGroups) {
