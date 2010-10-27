@@ -1,7 +1,8 @@
 {
   ProcessDefinitionEntity processDefinition=new ProcessDefinitionEntity();
   processDefinition.setKey(processElement.attribute("id"));
-  processDefinition.setProperty("name",processElement.attribute("name"));
+  processDefinition.setName(processElement.attribute("name"));
+  processDefinition.setCategory(rootElement.attribute("targetNamespace"));
   processDefinition.setProperty("documentation",parseDocumentation(processElement));
   processDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
   processDefinition.setDeploymentId(deployment.getId());

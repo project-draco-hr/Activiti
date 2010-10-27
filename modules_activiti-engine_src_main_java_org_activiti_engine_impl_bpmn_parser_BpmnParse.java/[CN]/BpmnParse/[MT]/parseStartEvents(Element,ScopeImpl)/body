@@ -18,7 +18,7 @@
       }
       processDefinition.setInitial(startEventActivity);
       StartFormHandler startFormHandler;
-      String startFormHandlerClassName=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"formHandlerClass");
+      String startFormHandlerClassName=startEventElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"formHandlerClass");
       if (startFormHandlerClassName != null) {
         startFormHandler=(StartFormHandler)ReflectUtil.instantiate(startFormHandlerClassName);
       }
@@ -27,7 +27,7 @@
       }
       startFormHandler.parseConfiguration(startEventElement,deployment,this);
       processDefinition.setStartFormHandler(startFormHandler);
-      String initiatorVariableName=startEventElement.attributeNS(BpmnParser.BPMN_EXTENSIONS_NS,"initiator");
+      String initiatorVariableName=startEventElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"initiator");
       if (initiatorVariableName != null) {
         processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,initiatorVariableName);
       }

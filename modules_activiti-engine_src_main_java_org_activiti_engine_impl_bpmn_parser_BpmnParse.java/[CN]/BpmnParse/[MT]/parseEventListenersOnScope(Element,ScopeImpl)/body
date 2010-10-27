@@ -1,7 +1,7 @@
 {
   Element extentionsElement=scopeElement.element("extensionElements");
   if (extentionsElement != null) {
-    List<Element> listenerElements=extentionsElement.elementsNS(BpmnParser.BPMN_EXTENSIONS_NS,"listener");
+    List<Element> listenerElements=extentionsElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"listener");
     for (    Element listenerElement : listenerElements) {
       String eventName=listenerElement.attribute("eventName");
       if (isValidEventNameForScope(eventName,listenerElement)) {
