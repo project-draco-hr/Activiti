@@ -11,7 +11,7 @@
   assertEquals(4,managementService.createJobQuery().orderByJobRetries().desc().count());
   setRetries(processInstanceIdTwo,2);
   ClockUtil.setCurrentTime(new Date(timerThreeFireTime.getTime() + ONE_SECOND));
-  JobQuery query=managementService.createJobQuery().onlyTimers().executable().orderByJobRetries().asc().orderByJobDuedate().desc();
+  JobQuery query=managementService.createJobQuery().timers().executable().orderByJobRetries().asc().orderByJobDuedate().desc();
   List<Job> jobs=query.list();
   assertEquals(3,jobs.size());
   assertEquals(2,jobs.get(0).getRetries());
