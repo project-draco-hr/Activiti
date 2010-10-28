@@ -1,7 +1,0 @@
-{
-  PvmProcessDefinition processDefinition=new ProcessDefinitionBuilder().createActivity("one").initial().behavior(new Automatic()).transition("two").endActivity().createActivity("two").behavior(new Automatic()).transition("three").endActivity().createActivity("three").behavior(new End()).endActivity().buildProcessDefinition();
-  PvmProcessInstance processInstance=processDefinition.createProcessInstance();
-  processInstance.start();
-  assertEquals(new ArrayList<String>(),processInstance.findActiveActivityIds());
-  assertTrue(processInstance.isEnded());
-}
