@@ -3,9 +3,15 @@
   String targetName=(String)getParameter(parameters,PARAM_TARGET_NAME,false,getProcessName(artifact),String.class);
   String comment=(String)getParameter(parameters,PARAM_COMMENT,false,null,String.class);
   RepositoryConnector targetConnector=(RepositoryConnector)getParameter(parameters,PARAM_TARGET_CONNECTOR,true,null,RepositoryConnector.class);
-  String sourceJson=getBpmn20Json((SignavioConnector)connector,artifact);
-  String transformedJson=applyJsonTransformations(sourceJson);
-  String bpmnXml=transformToBpmn20((SignavioConnector)connector,transformedJson);
-  createTargetArtifact(targetConnector,targetFolderId,targetName + ".bpmn20.xml",bpmnXml,FileSystemPluginDefinition.ARTIFACT_TYPE_BPMN_20_XML);
+  boolean createLink=(Boolean)getParameter(parameters,CREATE_LINK_NAME,true,Boolean.TRUE,Boolean.class);
+  RepositoryArtifact targetArtifact=createArtifact(connector,artifact,targetFolderId,targetName,targetConnector);
   targetConnector.commitPendingChanges(comment);
+  if (createLink) {
+    RepositoryArtifactLink link=new RepositoryArtifactLinkImpl();
+    link.setSourceArtifact(artifact);
+    link.setTargetArtifact(targetArtifact);
+    link.setComment(comment);
+    link.setLinkType(getLinkType());
+    connector.getConfiguration().getCycleService().addArtifactLink(link);
+  }
 }

@@ -2,5 +2,8 @@
   PluginFinder.checkPluginInitialization();
   this.cycleDAO=new CycleDaoMyBatisImpl();
   this.repositoryConnectors=repositoryConnectors;
+  for (  RepositoryConnector repositoryConnector : repositoryConnectors) {
+    repositoryConnector.getConfiguration().setCycleService(this);
+  }
   this.repositoryConnectors.add(new TagConnectorConfiguration(this).createConnector());
 }

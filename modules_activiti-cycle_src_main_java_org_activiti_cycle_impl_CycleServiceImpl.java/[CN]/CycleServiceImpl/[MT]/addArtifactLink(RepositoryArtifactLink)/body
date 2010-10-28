@@ -1,9 +1,9 @@
 {
-  if (repositoryArtifactLink instanceof CycleLink) {
-    cycleDAO.insertCycleLink((CycleLink)repositoryArtifactLink);
+  if (repositoryArtifactLink instanceof RepositoryArtifactLinkImpl) {
+    cycleDAO.insertCycleLink((RepositoryArtifactLinkImpl)repositoryArtifactLink);
   }
  else {
-    CycleLink cycleLink=new CycleLink();
+    RepositoryArtifactLinkImpl cycleLink=new RepositoryArtifactLinkImpl();
     cycleLink.setId(repositoryArtifactLink.getId());
     cycleLink.setSourceConnectorId(repositoryArtifactLink.getSourceArtifact().getConnectorId());
     cycleLink.setSourceArtifactId(repositoryArtifactLink.getSourceArtifact().getNodeId());

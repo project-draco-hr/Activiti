@@ -4,11 +4,11 @@
     HashMap<String,Object> parameters=new HashMap<String,Object>();
     parameters.put("connectorId",targetConnectorId);
     parameters.put("artifactId",targetArtifactId);
-    List<CycleLink> linkResultList=session.selectList("org.activiti.cycle.impl.db.entity.CycleLink.selectArtifactLinkForTargetArtifact",parameters);
+    List<RepositoryArtifactLinkImpl> linkResultList=session.selectList("org.activiti.cycle.impl.db.entity.CycleLink.selectArtifactLinkForTargetArtifact",parameters);
     if (linkResultList != null) {
       return linkResultList;
     }
-    return new ArrayList<CycleLink>();
+    return new ArrayList<RepositoryArtifactLinkImpl>();
   }
   finally {
     session.close();
