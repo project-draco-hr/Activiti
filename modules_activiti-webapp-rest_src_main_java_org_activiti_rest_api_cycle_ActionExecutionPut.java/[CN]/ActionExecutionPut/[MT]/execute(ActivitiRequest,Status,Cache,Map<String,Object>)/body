@@ -1,0 +1,14 @@
+{
+  String connectorId=req.getMandatoryString("connectorId");
+  String artifactId=req.getMandatoryString("artifactId");
+  String actionId=req.getMandatoryString("actionName");
+  Map<String,Object> parameters=req.getFormVariables();
+  try {
+    this.cycleService.executeParameterizedAction(connectorId,artifactId,actionId,parameters);
+    model.put("result",true);
+  }
+ catch (  Exception e) {
+    model.put("result",false);
+    throw new RuntimeException(e);
+  }
+}

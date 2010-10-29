@@ -1,0 +1,20 @@
+{
+  ActivitiRequestObject obj=req.getBody();
+  String sourceConnectorId=req.getMandatoryString(obj,"connectorId");
+  String sourceArtifactId=req.getMandatoryString(obj,"artifactId");
+  String targetConnectorId=req.getMandatoryString(obj,"targetConnectorId");
+  String targetArtifactId=req.getMandatoryString(obj,"targetArtifactId");
+  RepositoryArtifactLinkImpl link=new RepositoryArtifactLinkImpl();
+  link.setSourceConnectorId(sourceConnectorId);
+  link.setSourceArtifactId(sourceArtifactId);
+  link.setTargetConnectorId(targetConnectorId);
+  link.setTargetArtifactId(targetArtifactId);
+  try {
+    cycleService.addArtifactLink(link);
+    model.put("result",true);
+  }
+ catch (  Exception e) {
+    model.put("result",false);
+    throw new RuntimeException(e);
+  }
+}
