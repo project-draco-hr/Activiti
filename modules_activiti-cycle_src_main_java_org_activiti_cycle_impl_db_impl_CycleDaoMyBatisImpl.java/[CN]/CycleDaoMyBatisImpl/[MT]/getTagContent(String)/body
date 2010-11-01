@@ -2,8 +2,8 @@
   SqlSession session=openSession();
   try {
     CycleTagContentImpl tagContent=new CycleTagContentImpl(name);
-    List<CycleArtifactTagEntity> tags=session.selectList("org.activiti.cycle.impl.db.entity.CycleArtifactTag.selectTagsByName",name);
-    for (    CycleArtifactTagEntity tag : tags) {
+    List<RepositoryNodeTagEntity> tags=session.selectList("selectTagsByName",name);
+    for (    RepositoryNodeTagEntity tag : tags) {
       tagContent.addArtifact(tag);
     }
     return tagContent;

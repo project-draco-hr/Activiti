@@ -1,3 +1,14 @@
 {
-  throw new RuntimeException("not yet implemented");
+  SqlSession session=openSession();
+  try {
+    HashMap<String,Object> parameters=new HashMap<String,Object>();
+    parameters.put("connectorId",connectorId);
+    parameters.put("artifactId",artifactId);
+    parameters.put("name",tagName);
+    session.delete("deleteArtifactTag",parameters);
+    session.commit();
+  }
+  finally {
+    session.close();
+  }
 }

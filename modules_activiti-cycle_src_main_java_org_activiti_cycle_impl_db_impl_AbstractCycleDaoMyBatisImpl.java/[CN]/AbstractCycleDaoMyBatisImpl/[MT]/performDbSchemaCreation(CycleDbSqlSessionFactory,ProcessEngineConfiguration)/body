@@ -13,4 +13,7 @@
  else   if (DbSchemaStrategy.CHECK_VERSION.equals(dbSchemaStrategy)) {
     dbSqlSessionFactory.dbSchemaCheckVersion();
   }
+ else   if (ProcessEngineConfiguration.DBSCHEMASTRATEGY_CREATE_IF_NECESSARY.equals(dbSchemaStrategy)) {
+    log.warning("Cycle doesn't support '" + ProcessEngineConfiguration.DBSCHEMASTRATEGY_CREATE_IF_NECESSARY + "' DB strategy at the moment. Nothing is created!");
+  }
 }

@@ -1,14 +1,12 @@
 {
-  if (nodes == null || nodes.isEmpty()) {
+  if (nodesToHighlight == null || nodesToHighlight.isEmpty()) {
     return "";
   }
   String mappingValidationErrorHtml="<h2>Mapping validation issues</h2>";
-  for (  Object nodeMap : nodes.entrySet()) {
-    Entry entryNodeMap=(Entry)nodeMap;
-    mappingValidationErrorHtml+="<ul style=\"" + (String)entryNodeMap.getValue() + "\">";
-    for (    Object errorObj : ((Map)entryNodeMap.getKey()).entrySet()) {
-      Entry mappingValidationError=(Entry)errorObj;
-      mappingValidationErrorHtml+="<li>SID: " + mappingValidationError.getKey() + " - Message: "+ mappingValidationError.getValue()+ "</li>";
+  for (  Entry<String,Map<String,String>> entry : nodesToHighlight.entrySet()) {
+    mappingValidationErrorHtml+="<ul style=\"" + (String)entry.getKey() + "\">";
+    for (    Entry<String,String> messageObject : entry.getValue().entrySet()) {
+      mappingValidationErrorHtml+="<li>SID: " + messageObject.getKey() + " - Message: "+ messageObject.getValue()+ "</li>";
     }
     mappingValidationErrorHtml+="</ul>";
   }

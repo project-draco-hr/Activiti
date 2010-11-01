@@ -1,8 +1,7 @@
 {
-  SqlSessionFactory sqlMapper=getSessionFactory();
-  SqlSession session=sqlMapper.openSession();
+  SqlSession session=openSession();
   try {
-    session.delete("org.activiti.cycle.impl.db.entity.CycleConfig.deleteCycleConfigById",id);
+    session.delete("deleteCycleConfigById",id);
     session.commit();
   }
   finally {

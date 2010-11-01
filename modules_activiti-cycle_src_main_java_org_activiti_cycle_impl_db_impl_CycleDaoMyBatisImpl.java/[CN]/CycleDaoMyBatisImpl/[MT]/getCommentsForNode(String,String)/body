@@ -1,0 +1,12 @@
+{
+  SqlSession session=openSession();
+  try {
+    HashMap<String,Object> parameters=new HashMap<String,Object>();
+    parameters.put("connectorId",connectorId);
+    parameters.put("artifactId",artifactId);
+    return session.selectList("selectCycleCommentForSourceArtifact",parameters);
+  }
+  finally {
+    session.close();
+  }
+}

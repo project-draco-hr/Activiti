@@ -1,11 +1,14 @@
 {
   SqlSession session=openSession();
   try {
-    List<CycleArtifactTagEntity> linkResultList=session.selectList("org.activiti.cycle.impl.db.entity.CycleArtifactTag.selectTagsForNode",artifactId);
+    HashMap<String,Object> parameters=new HashMap<String,Object>();
+    parameters.put("connectorId",connectorId);
+    parameters.put("artifactId",artifactId);
+    List<RepositoryNodeTagEntity> linkResultList=session.selectList("selectTagsForNode",parameters);
     if (linkResultList != null) {
       return linkResultList;
     }
-    return new ArrayList<CycleArtifactTagEntity>();
+    return new ArrayList<RepositoryNodeTagEntity>();
   }
   finally {
     session.close();

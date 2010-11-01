@@ -1,0 +1,16 @@
+{
+  SqlSession session=openSession();
+  try {
+    HashMap<String,Object> parameters=new HashMap<String,Object>();
+    parameters.put("connectorId",sourceConnectorId);
+    parameters.put("artifactId",sourceArtifactId);
+    List<RepositoryArtifactLinkEntity> linkResultList=session.selectList("selectArtifactLinkForSourceArtifact",parameters);
+    if (linkResultList != null) {
+      return linkResultList;
+    }
+    return new ArrayList<RepositoryArtifactLinkEntity>();
+  }
+  finally {
+    session.close();
+  }
+}

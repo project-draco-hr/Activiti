@@ -7,7 +7,7 @@
   RepositoryArtifact targetArtifact=createArtifact(connector,artifact,targetFolderId,targetName,targetConnector);
   targetConnector.commitPendingChanges(comment);
   if (createLink) {
-    RepositoryArtifactLink link=new RepositoryArtifactLinkImpl();
+    RepositoryArtifactLink link=new RepositoryArtifactLinkEntity();
     link.setSourceArtifact(artifact);
     link.setTargetArtifact(targetArtifact);
     link.setComment(comment);

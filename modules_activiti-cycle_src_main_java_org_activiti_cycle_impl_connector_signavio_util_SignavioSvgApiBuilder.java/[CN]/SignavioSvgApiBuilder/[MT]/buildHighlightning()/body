@@ -1,11 +1,10 @@
 {
-  if (nodes == null || nodes.isEmpty()) {
+  if (nodesToHighlight == null || nodesToHighlight.isEmpty()) {
     return "";
   }
   String highlightning=",focus: [";
-  for (  Object nodeMap : nodes.entrySet()) {
-    Entry nodeEntry=(Entry)nodeMap;
-    highlightning+=highlightNodesMap((Map)nodeEntry.getKey(),(String)nodeEntry.getValue());
+  for (  Entry<String,Map<String,String>> entry : nodesToHighlight.entrySet()) {
+    highlightning+=highlightNodesMap((String)entry.getKey(),(Map<String,String>)entry.getValue());
     highlightning+=", ";
   }
   highlightning+="\"\"";

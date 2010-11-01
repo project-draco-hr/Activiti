@@ -1,0 +1,11 @@
+{
+  cycleLink.setId(UUID.randomUUID().toString());
+  SqlSession session=openSession();
+  try {
+    session.insert("insertCycleLink",cycleLink);
+    session.commit();
+  }
+  finally {
+    session.close();
+  }
+}

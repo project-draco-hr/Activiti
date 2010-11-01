@@ -1,0 +1,12 @@
+{
+  SqlSession session=openSession();
+  try {
+    HashMap<String,Object> parameters=new HashMap<String,Object>();
+    parameters.put("connectorId",targetConnectorId);
+    parameters.put("artifactId",targetArtifactId);
+    return session.selectList("selectArtifactLinkForTargetArtifact",parameters);
+  }
+  finally {
+    session.close();
+  }
+}

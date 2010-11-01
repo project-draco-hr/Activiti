@@ -1,0 +1,11 @@
+{
+  tag.createId();
+  SqlSession session=openSession();
+  try {
+    session.insert("insertCycleArtifactTag",tag);
+    session.commit();
+  }
+  finally {
+    session.close();
+  }
+}

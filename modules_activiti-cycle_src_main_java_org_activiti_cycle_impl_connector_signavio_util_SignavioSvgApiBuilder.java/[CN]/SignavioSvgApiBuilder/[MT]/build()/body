@@ -1,18 +1,3 @@
 {
-  String svgApiCall="";
-  svgApiCall+=HEADER;
-  svgApiCall+="<script type=\"text/javascript\" src=\"" + SVGAPI_URL + "\"></script>";
-  svgApiCall+="<script type=\"text/plain\">";
-  svgApiCall+="{";
-  svgApiCall+=createUrl();
-  if (authToken != null && authToken.length() > 0) {
-    svgApiCall+=", authToken: \"" + authToken + "\",";
-  }
-  svgApiCall+=createClickFunction();
-  svgApiCall+=buildHighlightning();
-  svgApiCall+="}";
-  svgApiCall+="</script>";
-  svgApiCall+=buildMessages();
-  svgApiCall+=FOOTER;
-  return svgApiCall;
+  return buildHtml();
 }

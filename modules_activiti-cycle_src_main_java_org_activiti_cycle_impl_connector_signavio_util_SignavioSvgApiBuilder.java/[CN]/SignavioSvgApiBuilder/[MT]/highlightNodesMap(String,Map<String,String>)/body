@@ -1,0 +1,17 @@
+{
+  if (nodes == null || nodes.isEmpty()) {
+    return "";
+  }
+  if (color == null || color.length() == 0) {
+    color="red";
+  }
+  String highlightning="{ nodes:[";
+  for (  Entry<String,String> nodeEntry : nodes.entrySet()) {
+    highlightning+=highlightNode((String)nodeEntry.getKey(),(String)nodeEntry.getValue());
+  }
+  highlightning+="\"\"";
+  highlightning+="],";
+  highlightning+="attributes:{ fill:\"" + color + "\" }";
+  highlightning+="}";
+  return highlightning;
+}

@@ -1,0 +1,6 @@
+{
+  String targetNodeId=(String)getParameter(parameters,PARAM_TARGET_ARTIFACT,true,null,String.class);
+  RepositoryConnector targetConnector=(RepositoryConnector)getParameter(parameters,PARAM_TARGET_CONNECTOR,true,null,RepositoryConnector.class);
+  RepositoryArtifact targetArtifact=targetConnector.getRepositoryArtifact(targetNodeId);
+  SignavioDiffProvider.targetArtifact=targetArtifact;
+}

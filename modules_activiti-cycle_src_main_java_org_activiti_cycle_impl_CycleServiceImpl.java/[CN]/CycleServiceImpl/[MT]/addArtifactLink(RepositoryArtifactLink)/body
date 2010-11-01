@@ -1,9 +1,9 @@
 {
-  if (repositoryArtifactLink instanceof RepositoryArtifactLinkImpl) {
-    cycleDAO.insertCycleLink((RepositoryArtifactLinkImpl)repositoryArtifactLink);
+  if (repositoryArtifactLink instanceof RepositoryArtifactLinkEntity) {
+    cycleDAO.insertArtifactLink((RepositoryArtifactLinkEntity)repositoryArtifactLink);
   }
  else {
-    RepositoryArtifactLinkImpl cycleLink=new RepositoryArtifactLinkImpl();
+    RepositoryArtifactLinkEntity cycleLink=new RepositoryArtifactLinkEntity();
     cycleLink.setId(repositoryArtifactLink.getId());
     cycleLink.setSourceConnectorId(repositoryArtifactLink.getSourceArtifact().getConnectorId());
     cycleLink.setSourceArtifactId(repositoryArtifactLink.getSourceArtifact().getNodeId());
@@ -18,6 +18,6 @@
     cycleLink.setLinkType(repositoryArtifactLink.getLinkType());
     cycleLink.setComment(repositoryArtifactLink.getComment());
     cycleLink.setLinkedBothWays(false);
-    cycleDAO.insertCycleLink(cycleLink);
+    cycleDAO.insertArtifactLink(cycleLink);
   }
 }

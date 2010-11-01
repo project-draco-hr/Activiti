@@ -10,11 +10,11 @@
   RepositoryArtifact targetArtifact=targetConnector.createArtifact(targetFolderId,targetName,artifact.getArtifactType().getId(),content);
   targetConnector.commitPendingChanges(comment);
   if (createLink) {
-    RepositoryArtifactLink link=new RepositoryArtifactLinkImpl();
+    RepositoryArtifactLink link=new RepositoryArtifactLinkEntity();
     link.setSourceArtifact(artifact);
     link.setTargetArtifact(targetArtifact);
     link.setComment(comment);
-    link.setLinkType(RepositoryArtifactLinkImpl.TYPE_COPY);
+    link.setLinkType(RepositoryArtifactLinkEntity.TYPE_COPY);
     connector.getConfiguration().getCycleService().addArtifactLink(link);
   }
 }
