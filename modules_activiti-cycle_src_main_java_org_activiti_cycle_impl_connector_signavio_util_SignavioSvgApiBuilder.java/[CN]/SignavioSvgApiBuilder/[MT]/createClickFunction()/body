@@ -1,12 +1,11 @@
 {
   StringBuilder clickFunc=new StringBuilder();
   clickFunc.append("function(node, editor) {");
-  clickFunc.append("var errorMessages = " + createJsonMessagesObject() + ";");
   if (clickFunction != null && clickFunction.length() > 0) {
     clickFunc.append(clickFunction);
   }
  else {
-    clickFunc.append("if(node.properties[\"oryx-name\"]||node.properties[\"oryx-title\"]) {");
+    clickFunc.append("if(node.properties[\"oryx-name\"] || node.properties[\"oryx-title\"]) {");
     clickFunc.append("alert(\"Name: \" + node.properties[\"oryx-name\"] + \" (Sid: \" + node.resourceId + \")\");");
     clickFunc.append("}");
   }

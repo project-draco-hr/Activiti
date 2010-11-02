@@ -1,13 +1,16 @@
 {
+  if (nodesToHighlight == null || nodesToHighlight.isEmpty()) {
+    return "";
+  }
   StringBuilder callbackFunc=new StringBuilder();
   callbackFunc.append("function(editor) {");
   callbackFunc.append("editor.registerOnEvent(\"mouseover\", function(evt, node) {");
   callbackFunc.append("var errorMessages = " + createJsonMessagesObject() + ";");
   callbackFunc.append("var myNodeMessages = errorMessages[node.resourceId];");
-  callbackFunc.append("if (myNodeMessages.length > 0) {");
-  callbackFunc.append("var myNodeMessagesStr;");
+  callbackFunc.append("if (myNodeMessages != undefined) {");
+  callbackFunc.append("var myNodeMessagesStr = \"\";");
   callbackFunc.append("for (msg in myNodeMessages) {");
-  callbackFunc.append("myNodeMessagesStr += myNodeMessages[msg] + \"\n\";");
+  callbackFunc.append("myNodeMessagesStr += myNodeMessages[msg] + \"\\n\";");
   callbackFunc.append("}");
   callbackFunc.append("}");
   callbackFunc.append("if (node instanceof me.ORYX.Core.Shape) {");
