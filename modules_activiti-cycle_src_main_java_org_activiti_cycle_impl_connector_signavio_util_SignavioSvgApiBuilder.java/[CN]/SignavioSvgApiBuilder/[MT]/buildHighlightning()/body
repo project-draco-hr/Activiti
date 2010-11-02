@@ -2,12 +2,9 @@
   if (nodesToHighlight == null || nodesToHighlight.isEmpty()) {
     return "";
   }
-  String highlightning=",focus: [";
-  for (  Entry<String,Map<String,String>> entry : nodesToHighlight.entrySet()) {
-    highlightning+=highlightNodesMap((String)entry.getKey(),(Map<String,String>)entry.getValue());
-    highlightning+=", ";
+  JSONArray focusArr=new JSONArray();
+  for (  Entry<String,Map<String,List<String>>> entry : nodesToHighlight.entrySet()) {
+    focusArr.put(highlightNodesMap((String)entry.getKey(),(Map<String,List<String>>)entry.getValue()));
   }
-  highlightning+="\"\"";
-  highlightning+="]";
-  return highlightning;
+  return focusArr.toString();
 }

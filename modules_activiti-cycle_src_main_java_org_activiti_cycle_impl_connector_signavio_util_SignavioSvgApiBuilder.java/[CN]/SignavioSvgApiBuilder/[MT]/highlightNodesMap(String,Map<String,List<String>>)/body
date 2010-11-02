@@ -1,0 +1,14 @@
+{
+  if (map == null || map.isEmpty()) {
+    return null;
+  }
+  if (color == null || color.length() == 0) {
+    color="red";
+  }
+  JSONObject highlightNodesObj=new JSONObject();
+  highlightNodesObj.put("nodes",map.keySet());
+  JSONObject attributes=new JSONObject();
+  attributes.put("fill",color);
+  highlightNodesObj.put("attributes",attributes);
+  return highlightNodesObj;
+}

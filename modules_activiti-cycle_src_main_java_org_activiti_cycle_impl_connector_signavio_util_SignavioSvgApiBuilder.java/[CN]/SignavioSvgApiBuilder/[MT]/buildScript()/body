@@ -1,15 +1,17 @@
 {
-  String svgApiCall="<script type=\"text/javascript\" src=\"" + SVGAPI_URL + "\"></script>";
-  svgApiCall+="<script type=\"text/plain\">";
-  svgApiCall+="{";
-  svgApiCall+=createUrl();
+  StringBuilder svgApiCall=new StringBuilder();
+  svgApiCall.append("<script type=\"text/javascript\" src=\"" + SVGAPI_URL + "\"></script>");
+  svgApiCall.append("<script type=\"text/plain\">");
+  svgApiCall.append("{");
+  svgApiCall.append("url: \"http://localhost:8080/activiti-modeler\"");
   if (authToken != null && authToken.length() > 0) {
-    svgApiCall+=", authToken: \"" + authToken + "\",";
+    svgApiCall.append(", authToken: \"" + authToken + "\",");
   }
-  svgApiCall+=createClickFunction();
-  svgApiCall+=buildHighlightning();
-  svgApiCall+="}";
-  svgApiCall+="</script>";
-  svgApiCall+=buildMessages();
-  return svgApiCall;
+  svgApiCall.append(", callback: " + registerMouseOverEvent());
+  svgApiCall.append(", click: " + createClickFunction());
+  svgApiCall.append(", focus: " + buildHighlightning());
+  svgApiCall.append("}");
+  svgApiCall.append("</script>");
+  svgApiCall.append("<div id=\"messages\">" + buildMessages() + "</div>");
+  return svgApiCall.toString();
 }

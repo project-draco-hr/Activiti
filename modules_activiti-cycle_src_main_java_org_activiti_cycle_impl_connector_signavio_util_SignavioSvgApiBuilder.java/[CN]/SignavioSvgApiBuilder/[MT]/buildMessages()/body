@@ -2,13 +2,29 @@
   if (nodesToHighlight == null || nodesToHighlight.isEmpty()) {
     return "";
   }
-  String mappingValidationErrorHtml="<h2>Mapping validation issues</h2>";
-  for (  Entry<String,Map<String,String>> entry : nodesToHighlight.entrySet()) {
-    mappingValidationErrorHtml+="<ul style=\"" + (String)entry.getKey() + "\">";
-    for (    Entry<String,String> messageObject : entry.getValue().entrySet()) {
-      mappingValidationErrorHtml+="<li>SID: " + messageObject.getKey() + " - Message: "+ messageObject.getValue()+ "</li>";
+  StringBuilder mappingValidationErrorHtml=new StringBuilder();
+  mappingValidationErrorHtml.append("<h2>Mapping validation issues</h2>");
+  for (  Entry<String,Map<String,List<String>>> entry : nodesToHighlight.entrySet()) {
+    if (entry.getValue() != null && !entry.getValue().isEmpty()) {
+      mappingValidationErrorHtml.append("<table border=\"1\">");
+      mappingValidationErrorHtml.append("<thead><tr>");
+      mappingValidationErrorHtml.append("<th>SignavioId</th><th>Mapping validation messages</th>");
+      mappingValidationErrorHtml.append("</tr></thead>");
+      mappingValidationErrorHtml.append("<tbody>");
+      for (      Entry<String,List<String>> mapEntry : entry.getValue().entrySet()) {
+        mappingValidationErrorHtml.append("<tr>");
+        mappingValidationErrorHtml.append("<td>" + mapEntry.getKey() + "</td>");
+        mappingValidationErrorHtml.append("<td>");
+        for (        String message : mapEntry.getValue()) {
+          mappingValidationErrorHtml.append(message + "<br/>");
+        }
+        mappingValidationErrorHtml.append("</td>");
+        mappingValidationErrorHtml.append("</tr>");
+      }
+      mappingValidationErrorHtml.append("</tbody>");
+      mappingValidationErrorHtml.append("</table>");
+      mappingValidationErrorHtml.append("<br/>");
     }
-    mappingValidationErrorHtml+="</ul>";
   }
-  return mappingValidationErrorHtml;
+  return mappingValidationErrorHtml.toString();
 }

@@ -1,13 +1,15 @@
 {
-  String function=", click : function(node, editor) {";
+  StringBuilder clickFunc=new StringBuilder();
+  clickFunc.append("function(node, editor) {");
+  clickFunc.append("var errorMessages = " + createJsonMessagesObject() + ";");
   if (clickFunction != null && clickFunction.length() > 0) {
-    function+=clickFunction;
+    clickFunc.append(clickFunction);
   }
  else {
-    function+="if(node.properties[\"oryx-name\"]||node.properties[\"oryx-title\"]) {";
-    function+="alert(\"Name: \" + node.properties[\"oryx-name\"] + \" (Sid: \" + node.resourceId + \")\");";
-    function+="}";
+    clickFunc.append("if(node.properties[\"oryx-name\"]||node.properties[\"oryx-title\"]) {");
+    clickFunc.append("alert(\"Name: \" + node.properties[\"oryx-name\"] + \" (Sid: \" + node.resourceId + \")\");");
+    clickFunc.append("}");
   }
-  function+="}";
-  return function;
+  clickFunc.append("}");
+  return clickFunc.toString();
 }
