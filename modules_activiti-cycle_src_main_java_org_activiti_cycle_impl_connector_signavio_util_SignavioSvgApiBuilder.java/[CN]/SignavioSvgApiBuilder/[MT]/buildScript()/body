@@ -3,7 +3,7 @@
   svgApiCall.append("<script type=\"text/javascript\" src=\"" + SVGAPI_URL + "\"></script>");
   svgApiCall.append("<script type=\"text/plain\">");
   svgApiCall.append("{");
-  svgApiCall.append("url: \"http://localhost:8080/activiti-modeler\"");
+  svgApiCall.append("url: \"" + connector.getConfiguration().getModelUrl(artifact.getNodeId()) + "\"");
   if (authToken != null && authToken.length() > 0) {
     svgApiCall.append(", authToken: \"" + authToken + "\",");
   }
