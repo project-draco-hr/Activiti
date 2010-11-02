@@ -1,0 +1,13 @@
+{
+  Object[] results=null;
+  try {
+    results=this.service.getClient().send(this.name,arguments);
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.WARNING,"Error calling WS " + this.service.getName(),e);
+  }
+  if (results == null) {
+    results=new Object[]{};
+  }
+  return results;
+}

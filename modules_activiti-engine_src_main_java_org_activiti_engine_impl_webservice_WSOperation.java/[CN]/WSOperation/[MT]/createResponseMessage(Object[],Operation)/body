@@ -1,0 +1,10 @@
+{
+  MessageInstance message=operation.getOutMessage().createInstance();
+  int fieldSize=message.getFieldSize();
+  for (int i=0; i < fieldSize; i++) {
+    String fieldName=message.getFieldNameAt(i);
+    Object fieldValue=results[i];
+    message.setFieldValue(fieldName,fieldValue);
+  }
+  return message;
+}

@@ -1,0 +1,10 @@
+{
+  int fieldSize=message.getFieldSize();
+  Object[] arguments=new Object[fieldSize];
+  for (int i=0; i < fieldSize; i++) {
+    String fieldName=message.getFieldNameAt(i);
+    Object argument=message.getFieldValue(fieldName);
+    arguments[i]=argument;
+  }
+  return arguments;
+}
