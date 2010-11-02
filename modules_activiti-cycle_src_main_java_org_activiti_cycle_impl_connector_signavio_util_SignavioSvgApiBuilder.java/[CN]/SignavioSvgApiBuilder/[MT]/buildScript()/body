@@ -1,20 +1,25 @@
 {
-  StringBuilder svgApiCall=new StringBuilder();
-  svgApiCall.append("<script type=\"text/javascript\" src=\"" + SVGAPI_URL + "\"></script>");
-  svgApiCall.append("<script type=\"text/plain\">");
-  svgApiCall.append("{");
-  svgApiCall.append("url: \"" + connector.getConfiguration().getModelUrl(artifact.getNodeId()) + "\"");
-  if (useLocalScripts) {
-    svgApiCall.append(", server: \"" + SERVER_SCRIPT_URL + "\"");
+  try {
+    StringBuilder svgApiCall=new StringBuilder();
+    svgApiCall.append("<script type=\"text/javascript\" src=\"" + SVGAPI_URL + "\"></script>");
+    svgApiCall.append("<script type=\"text/plain\">");
+    svgApiCall.append("{");
+    svgApiCall.append("url: \"" + connector.getConfiguration().getModelUrl(artifact.getNodeId()) + "\"");
+    if (useLocalScripts) {
+      svgApiCall.append(", server: \"" + SERVER_SCRIPT_URL + "\"");
+    }
+    if (authToken != null && authToken.length() > 0) {
+      svgApiCall.append(", authToken: \"" + authToken + "\",");
+    }
+    svgApiCall.append(", callback: " + registerMouseOverEvent());
+    svgApiCall.append(", click: " + createClickFunction());
+    svgApiCall.append(", focus: " + buildHighlightning());
+    svgApiCall.append("}");
+    svgApiCall.append("</script>");
+    svgApiCall.append("<div id=\"messages\">" + buildMessages() + "</div>");
+    return svgApiCall.toString();
   }
-  if (authToken != null && authToken.length() > 0) {
-    svgApiCall.append(", authToken: \"" + authToken + "\",");
+ catch (  JSONException ex) {
+    throw new RepositoryException("Unexpected exception with JSON handling for " + artifact,ex);
   }
-  svgApiCall.append(", callback: " + registerMouseOverEvent());
-  svgApiCall.append(", click: " + createClickFunction());
-  svgApiCall.append(", focus: " + buildHighlightning());
-  svgApiCall.append("}");
-  svgApiCall.append("</script>");
-  svgApiCall.append("<div id=\"messages\">" + buildMessages() + "</div>");
-  return svgApiCall.toString();
 }
