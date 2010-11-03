@@ -1,4 +1,5 @@
 {
+  RepositoryArtifact result=null;
   try {
     ZipInputStream projectTemplateInputStream=new ZipInputStream(getProjectTemplate());
     ZipEntry zipEntry=null;
@@ -22,6 +23,7 @@
         path=path.replace(rootSubstitution,projectName);
       }
       String absolutePath=rootFolderId + "/" + path;
+      boolean isBpmnModel=false;
       if (zipEntry.isDirectory()) {
         connector.createFolder(absolutePath,name);
       }
@@ -30,6 +32,7 @@
         if ("template.bpmn20.xml".equals(name)) {
           content.setValue(processDefinitionXml);
           name=projectName + ".bpmn20.xml";
+          isBpmnModel=true;
           log.log(Level.INFO,"Create processdefinition from Signavio process model " + projectName);
         }
  else {
@@ -38,7 +41,10 @@
           content.setValue(txtContent);
         }
         log.log(Level.INFO,"Create new artifact from zip entry '" + zipEntry.getName() + "' in folder '"+ absolutePath+ "' with name '"+ name+ "'");
-        connector.createArtifact(absolutePath,name,null,content);
+        RepositoryArtifact artifact=connector.createArtifact(absolutePath,name,null,content);
+        if (isBpmnModel) {
+          result=artifact;
+        }
       }
       projectTemplateInputStream.closeEntry();
     }
@@ -47,4 +53,5 @@
  catch (  IOException ex) {
     throw new RepositoryException("Couldn't create maven project due to IO errors",ex);
   }
+  return result;
 }
