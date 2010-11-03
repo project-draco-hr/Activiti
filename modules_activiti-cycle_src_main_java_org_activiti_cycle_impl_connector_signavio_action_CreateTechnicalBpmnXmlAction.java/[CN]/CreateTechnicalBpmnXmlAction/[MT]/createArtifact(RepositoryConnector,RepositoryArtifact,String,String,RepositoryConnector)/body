@@ -1,7 +1,5 @@
 {
-  String sourceJson=getBpmn20Json((SignavioConnector)connector,artifact);
-  String transformedJson=applyJsonTransformations(sourceJson);
-  String bpmnXml=transformToBpmn20((SignavioConnector)connector,transformedJson);
+  String bpmnXml=createBpmnXml(connector,artifact);
   RepositoryArtifact targetArtifact=createTargetArtifact(targetConnector,targetFolderId,targetName + ".bpmn20.xml",bpmnXml,FileSystemPluginDefinition.ARTIFACT_TYPE_BPMN_20_XML);
   return targetArtifact;
 }

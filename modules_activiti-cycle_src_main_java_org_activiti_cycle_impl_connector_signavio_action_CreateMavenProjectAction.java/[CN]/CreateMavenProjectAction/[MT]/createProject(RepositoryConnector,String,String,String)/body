@@ -1,0 +1,50 @@
+{
+  try {
+    ZipInputStream projectTemplateInputStream=new ZipInputStream(getProjectTemplate());
+    ZipEntry zipEntry=null;
+    String rootSubstitution=null;
+    while ((zipEntry=projectTemplateInputStream.getNextEntry()) != null) {
+      String zipName=zipEntry.getName();
+      if (zipName.endsWith("/")) {
+        zipName=zipName.substring(0,zipName.length() - 1);
+      }
+      String path="";
+      String name=zipName;
+      if (zipName.contains("/")) {
+        path=zipName.substring(0,zipName.lastIndexOf("/"));
+        name=zipName.substring(zipName.lastIndexOf("/") + 1);
+      }
+      if ("".equals(path)) {
+        rootSubstitution=name;
+        name=projectName;
+      }
+ else {
+        path=path.replace(rootSubstitution,projectName);
+      }
+      String absolutePath=rootFolderId + "/" + path;
+      if (zipEntry.isDirectory()) {
+        connector.createFolder(absolutePath,name);
+      }
+ else {
+        Content content=new Content();
+        if ("template.bpmn20.xml".equals(name)) {
+          content.setValue(processDefinitionXml);
+          name=projectName + ".bpmn20.xml";
+          log.log(Level.INFO,"Create processdefinition from Signavio process model " + projectName);
+        }
+ else {
+          byte[] bytes=IoUtil.readInputStream(projectTemplateInputStream,"ZIP entry '" + zipName + "'");
+          String txtContent=new String(bytes).replaceAll(REPLACE_STRING,projectName);
+          content.setValue(txtContent);
+        }
+        log.log(Level.INFO,"Create new artifact from zip entry '" + zipEntry.getName() + "' in folder '"+ absolutePath+ "' with name '"+ name+ "'");
+        connector.createArtifact(absolutePath,name,null,content);
+      }
+      projectTemplateInputStream.closeEntry();
+    }
+    projectTemplateInputStream.close();
+  }
+ catch (  IOException ex) {
+    throw new RepositoryException("Couldn't create maven project due to IO errors",ex);
+  }
+}

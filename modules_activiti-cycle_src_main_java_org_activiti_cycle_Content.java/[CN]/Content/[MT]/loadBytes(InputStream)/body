@@ -1,21 +1,5 @@
 {
-  ByteArrayOutputStream byteStream=new ByteArrayOutputStream();
-  try {
-    byte[] buf=new byte[512];
-    int len;
-    while (true) {
-      len=inputStream.read(buf);
-      if (len == -1) {
-        break;
-      }
-      byteStream.write(buf,0,len);
-    }
-    return byteStream.toByteArray();
-  }
- catch (  IOException ex) {
-    throw new RepositoryException("Couldn't load from InputStream of content, check nested exception.",ex);
-  }
- finally {
-    IoUtil.closeSilently(inputStream);
-  }
+  byte[] bytes=IoUtil.readInputStream(inputStream,"Repository Artifact Content");
+  IoUtil.closeSilently(inputStream);
+  return bytes;
 }

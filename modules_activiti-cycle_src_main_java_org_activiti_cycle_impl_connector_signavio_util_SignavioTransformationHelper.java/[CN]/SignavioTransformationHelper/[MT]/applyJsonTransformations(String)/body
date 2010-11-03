@@ -1,7 +1,7 @@
 {
   try {
     JSONObject jsonObject=new JSONObject(sourceJson);
-    for (    JsonTransformation trafo : registeredTransformations) {
+    for (    JsonTransformation trafo : getRegisteredTransformations()) {
       jsonObject=trafo.transform(jsonObject);
     }
     return jsonObject.toString();

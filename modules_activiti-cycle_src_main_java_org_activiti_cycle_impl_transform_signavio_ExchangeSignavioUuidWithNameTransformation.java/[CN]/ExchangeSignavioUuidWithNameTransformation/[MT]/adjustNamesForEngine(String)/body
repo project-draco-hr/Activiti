@@ -2,10 +2,5 @@
   if (name == null) {
     return null;
   }
-  try {
-    return URLEncoder.encode(name.replace(' ','_'),"UTF-8");
-  }
- catch (  UnsupportedEncodingException e) {
-    throw new IllegalStateException("Wired, platform couldn't encode UTF-8",e);
-  }
+  return name.replaceAll("[^a-zA-Z0-9-]","_");
 }
