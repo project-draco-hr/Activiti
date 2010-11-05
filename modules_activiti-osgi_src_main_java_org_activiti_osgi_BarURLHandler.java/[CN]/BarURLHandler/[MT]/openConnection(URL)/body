@@ -1,0 +1,8 @@
+{
+  if (url.getPath() == null || url.getPath().trim().length() == 0) {
+    throw new MalformedURLException("Path can not be null or empty. Syntax: " + SYNTAX);
+  }
+  barXmlURL=new URL(url.getPath());
+  LOGGER.log(Level.FINE,"bar xml URL is: [" + barXmlURL + "]");
+  return new Connection(url);
+}

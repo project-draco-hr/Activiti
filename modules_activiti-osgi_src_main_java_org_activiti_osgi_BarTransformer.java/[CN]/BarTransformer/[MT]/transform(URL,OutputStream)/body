@@ -1,0 +1,72 @@
+{
+  String name=url.getPath();
+  int idx=name.lastIndexOf('/');
+  if (idx >= 0) {
+    name=name.substring(idx + 1);
+  }
+  String[] str=extractNameVersionType(name);
+  String pathHeader;
+  JarInputStream jis=new JarInputStream(url.openStream());
+  try {
+    Set<String> paths=new TreeSet<String>();
+    ZipEntry e;
+    while ((e=jis.getNextEntry()) != null) {
+      String n=e.getName();
+      int i=n.lastIndexOf('/');
+      if (i < n.length() - 1) {
+        paths.add(n.substring(0,i + 1));
+      }
+    }
+    StringBuilder sb=new StringBuilder();
+    for (    String s : paths) {
+      if (sb.length() > 0) {
+        sb.append(",");
+      }
+      sb.append(s);
+    }
+    pathHeader=sb.toString();
+  }
+  finally {
+    jis.close();
+  }
+  jis=new JarInputStream(url.openStream());
+  try {
+    JarOutputStream jos=new JarOutputStream(os);
+    jos.setLevel(Deflater.NO_COMPRESSION);
+    Manifest m=jis.getManifest();
+    if (m == null) {
+      m=new Manifest();
+      m.getMainAttributes().putValue("Manifest-Version","2");
+    }
+    if (m.getMainAttributes().getValue(BUNDLE_MANIFESTVERSION) == null) {
+      m.getMainAttributes().putValue(BUNDLE_MANIFESTVERSION,"2");
+    }
+    if (m.getMainAttributes().getValue(BUNDLE_SYMBOLICNAME) == null) {
+      m.getMainAttributes().putValue(BUNDLE_SYMBOLICNAME,str[0]);
+    }
+    if (m.getMainAttributes().getValue(BUNDLE_VERSION) == null) {
+      m.getMainAttributes().putValue(BUNDLE_VERSION,str[1]);
+    }
+    m.getMainAttributes().putValue(BUNDLE_ACTIVITI_HEADER,pathHeader);
+    ZipEntry e=new ZipEntry(JarFile.MANIFEST_NAME);
+    jos.putNextEntry(e);
+    m.write(jos);
+    jos.closeEntry();
+    byte[] readBuffer=new byte[8192];
+    while ((e=jis.getNextEntry()) != null) {
+      ZipEntry e2=new ZipEntry(e.getName());
+      jos.putNextEntry(e2);
+      int bytesIn=jis.read(readBuffer);
+      while (bytesIn != -1) {
+        jos.write(readBuffer,0,bytesIn);
+        bytesIn=jis.read(readBuffer);
+      }
+      jos.closeEntry();
+    }
+    jos.finish();
+    jos.flush();
+  }
+  finally {
+    jis.close();
+  }
+}

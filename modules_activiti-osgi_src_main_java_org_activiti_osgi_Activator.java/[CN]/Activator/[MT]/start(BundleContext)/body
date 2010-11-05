@@ -1,0 +1,13 @@
+{
+  callbacks.add(new Service(context,URLStreamHandlerService.class.getName(),new BpmnURLHandler(),props("url.handler.protocol","bpmn")));
+  callbacks.add(new Service(context,URLStreamHandlerService.class.getName(),new BarURLHandler(),props("url.handler.protocol","bar")));
+  try {
+    callbacks.add(new Service(context,new String[]{ArtifactUrlTransformer.class.getName(),ArtifactListener.class.getName()},new BpmnDeploymentListener(),null));
+    callbacks.add(new Service(context,new String[]{ArtifactUrlTransformer.class.getName(),ArtifactListener.class.getName()},new BarDeploymentListener(),null));
+  }
+ catch (  NoClassDefFoundError e) {
+    LOGGER.log(Level.WARNING,"FileInstall package is not available, disabling fileinstall support");
+    LOGGER.log(Level.FINE,"FileInstall package is not available, disabling fileinstall support",e);
+  }
+  callbacks.add(new Tracker(new Extender(context)));
+}

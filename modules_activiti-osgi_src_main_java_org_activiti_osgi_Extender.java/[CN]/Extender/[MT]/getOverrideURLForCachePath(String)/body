@@ -1,0 +1,13 @@
+{
+  URL override=null;
+  File privateDataVersion=context.getDataFile(privatePath);
+  if (privateDataVersion != null && privateDataVersion.exists()) {
+    try {
+      override=privateDataVersion.toURI().toURL();
+    }
+ catch (    MalformedURLException e) {
+      LOGGER.log(Level.SEVERE,"Unexpected URL Conversion Issue",e);
+    }
+  }
+  return override;
+}

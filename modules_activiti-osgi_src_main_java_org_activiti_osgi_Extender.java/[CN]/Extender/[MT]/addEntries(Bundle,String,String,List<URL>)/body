@@ -1,0 +1,13 @@
+{
+  Enumeration e=bundle.findEntries(path,filePattern,false);
+  while (e != null && e.hasMoreElements()) {
+    URL u=(URL)e.nextElement();
+    URL override=getOverrideURL(bundle,u,path);
+    if (override == null) {
+      pathList.add(u);
+    }
+ else {
+      pathList.add(override);
+    }
+  }
+}

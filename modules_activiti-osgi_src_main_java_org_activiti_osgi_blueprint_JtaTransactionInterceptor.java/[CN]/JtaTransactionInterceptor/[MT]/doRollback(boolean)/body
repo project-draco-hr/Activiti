@@ -1,0 +1,13 @@
+{
+  try {
+    if (isNew) {
+      transactionManager.setRollbackOnly();
+    }
+ else {
+      transactionManager.rollback();
+    }
+  }
+ catch (  SystemException e) {
+    LOGGER.log(Level.FINE,"Error when rolling back transaction",e);
+  }
+}

@@ -1,0 +1,66 @@
+{
+  LOGGER.log(Level.FINE,"Scanning bundle {} for activiti process",bundle.getSymbolicName());
+  try {
+    List<URL> pathList=new ArrayList<URL>();
+    String activitiHeader=(String)bundle.getHeaders().get(BUNDLE_ACTIVITI_HEADER);
+    if (activitiHeader == null) {
+      activitiHeader="OSGI-INF/activiti/";
+    }
+    List<PathElement> paths=HeaderParser.parseHeader(activitiHeader);
+    for (    PathElement path : paths) {
+      String name=path.getName();
+      if (name.endsWith("/")) {
+        addEntries(bundle,name,"*.*",pathList);
+      }
+ else {
+        String baseName;
+        String filePattern;
+        int pos=name.lastIndexOf('/');
+        if (pos < 0) {
+          baseName="/";
+          filePattern=name;
+        }
+ else {
+          baseName=name.substring(0,pos + 1);
+          filePattern=name.substring(pos + 1);
+        }
+        if (hasWildcards(filePattern)) {
+          addEntries(bundle,baseName,filePattern,pathList);
+        }
+ else {
+          addEntry(bundle,name,pathList);
+        }
+      }
+    }
+    if (!pathList.isEmpty()) {
+      LOGGER.log(Level.FINE,"Found activiti process in bundle " + bundle.getSymbolicName() + " with paths: "+ pathList);
+      ProcessEngine engine=(ProcessEngine)engineServiceTracker.waitForService(timeout);
+      if (engine == null) {
+        throw new IllegalStateException("Unable to find a ProcessEngine service");
+      }
+      RepositoryService service=engine.getRepositoryService();
+      DeploymentBuilder builder=service.createDeployment();
+      builder.name(bundle.getSymbolicName());
+      for (      URL url : pathList) {
+        InputStream is=url.openStream();
+        if (is == null) {
+          throw new IOException("Error opening url: " + url);
+        }
+        try {
+          builder.addInputStream(url.toExternalForm(),is);
+        }
+  finally {
+          is.close();
+        }
+      }
+      builder.enableDuplicateFiltering();
+      builder.deploy();
+    }
+ else {
+      LOGGER.log(Level.FINE,"No activiti process found in bundle {}",bundle.getSymbolicName());
+    }
+  }
+ catch (  Throwable t) {
+    LOGGER.log(Level.SEVERE,"Unable to deploy activiti bundle",t);
+  }
+}

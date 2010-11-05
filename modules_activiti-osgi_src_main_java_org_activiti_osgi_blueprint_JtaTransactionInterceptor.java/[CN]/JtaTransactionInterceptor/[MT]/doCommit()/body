@@ -1,0 +1,25 @@
+{
+  try {
+    transactionManager.commit();
+  }
+ catch (  HeuristicMixedException e) {
+    throw new TransactionException("Unable to commit transaction",e);
+  }
+catch (  HeuristicRollbackException e) {
+    throw new TransactionException("Unable to commit transaction",e);
+  }
+catch (  RollbackException e) {
+    throw new TransactionException("Unable to commit transaction",e);
+  }
+catch (  SystemException e) {
+    throw new TransactionException("Unable to commit transaction",e);
+  }
+catch (  RuntimeException e) {
+    doRollback(true);
+    throw e;
+  }
+catch (  Error e) {
+    doRollback(true);
+    throw e;
+  }
+}

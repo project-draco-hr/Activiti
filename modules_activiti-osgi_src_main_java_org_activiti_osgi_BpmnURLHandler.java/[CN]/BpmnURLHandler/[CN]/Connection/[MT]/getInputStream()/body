@@ -1,0 +1,12 @@
+{
+  try {
+    ByteArrayOutputStream os=new ByteArrayOutputStream();
+    BpmnTransformer.transform(bpmnXmlURL,os);
+    os.close();
+    return new ByteArrayInputStream(os.toByteArray());
+  }
+ catch (  Exception e) {
+    logger.log(Level.SEVERE,"Error opening spring xml url",e);
+    throw (IOException)new IOException("Error opening spring xml url").initCause(e);
+  }
+}

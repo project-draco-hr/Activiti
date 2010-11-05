@@ -1,0 +1,24 @@
+{
+  final PipedInputStream pin=new PipedInputStream();
+  final PipedOutputStream pout=new PipedOutputStream(pin);
+  new Thread(){
+    public void run(){
+      try {
+        BarTransformer.transform(barXmlURL,pout);
+      }
+ catch (      Exception e) {
+        LOGGER.log(Level.WARNING,"Bundle cannot be generated");
+      }
+ finally {
+        try {
+          pout.close();
+        }
+ catch (        IOException ignore) {
+          LOGGER.log(Level.SEVERE,"Bundle cannot be generated",ignore);
+        }
+      }
+    }
+  }
+.start();
+  return pin;
+}

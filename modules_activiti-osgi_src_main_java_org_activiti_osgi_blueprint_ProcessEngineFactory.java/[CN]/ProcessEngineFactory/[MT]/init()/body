@@ -1,0 +1,16 @@
+{
+  ClassLoader previous=Thread.currentThread().getContextClassLoader();
+  try {
+    ClassLoader cl=new BundleDelegatingClassLoader(bundle);
+    Thread.currentThread().setContextClassLoader(new ClassLoaderWrapper(cl,ProcessEngineFactory.class.getClassLoader(),ProcessEngineConfiguration.class.getClassLoader(),previous));
+    initializeTransactionInterceptor();
+    initializeJPA();
+    ProcessEngineConfiguration.setCurrentClassLoaderParameter(cl);
+    processEngine=(ProcessEngineImpl)processEngineConfiguration.buildProcessEngine();
+    ProcessEngines.getProcessEngines().put(processEngine.getName(),processEngine);
+    ProcessEngines.registerProcessEngine(processEngine);
+  }
+  finally {
+    Thread.currentThread().setContextClassLoader(previous);
+  }
+}

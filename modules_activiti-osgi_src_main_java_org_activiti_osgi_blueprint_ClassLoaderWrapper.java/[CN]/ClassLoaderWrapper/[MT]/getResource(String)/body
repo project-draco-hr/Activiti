@@ -1,0 +1,10 @@
+{
+  for (int i=0; i < parents.length; i++) {
+    ClassLoader parent=parents[i];
+    URL url=parent.getResource(name);
+    if (url != null) {
+      return url;
+    }
+  }
+  return null;
+}

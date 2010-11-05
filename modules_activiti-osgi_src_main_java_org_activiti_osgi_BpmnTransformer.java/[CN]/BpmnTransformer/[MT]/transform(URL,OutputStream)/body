@@ -1,0 +1,49 @@
+{
+  Document doc=parse(url);
+  String name=url.getPath();
+  int idx=name.lastIndexOf('/');
+  if (idx >= 0) {
+    name=name.substring(idx + 1);
+  }
+  String[] str=extractNameVersionType(name);
+  Manifest m=new Manifest();
+  m.getMainAttributes().putValue("Manifest-Version","2");
+  m.getMainAttributes().putValue(BUNDLE_MANIFESTVERSION,"2");
+  m.getMainAttributes().putValue(BUNDLE_SYMBOLICNAME,str[0]);
+  m.getMainAttributes().putValue(BUNDLE_VERSION,str[1]);
+  m.getMainAttributes().putValue(BUNDLE_ACTIVITI_HEADER,"OSGI-INF/activiti/");
+  NodeList l=doc.getElementsByTagName("manifest");
+  if (l != null) {
+    for (int i=0; i < l.getLength(); i++) {
+      Element e=(Element)l.item(i);
+      String text=e.getTextContent();
+      Properties props=new Properties();
+      props.load(new ByteArrayInputStream(text.trim().getBytes()));
+      Enumeration en=props.propertyNames();
+      while (en.hasMoreElements()) {
+        String k=(String)en.nextElement();
+        String v=props.getProperty(k);
+        m.getMainAttributes().putValue(k,v);
+      }
+      e.getParentNode().removeChild(e);
+    }
+  }
+  JarOutputStream out=new JarOutputStream(os);
+  ZipEntry e=new ZipEntry(JarFile.MANIFEST_NAME);
+  out.putNextEntry(e);
+  m.write(out);
+  out.closeEntry();
+  e=new ZipEntry("OSGI-INF/");
+  out.putNextEntry(e);
+  e=new ZipEntry("OSGI-INF/activiti/");
+  out.putNextEntry(e);
+  out.closeEntry();
+  e=new ZipEntry("OSGI-INF/activiti/" + name);
+  out.putNextEntry(e);
+  if (tf == null) {
+    tf=TransformerFactory.newInstance();
+  }
+  tf.newTransformer().transform(new DOMSource(doc),new StreamResult(out));
+  out.closeEntry();
+  out.close();
+}

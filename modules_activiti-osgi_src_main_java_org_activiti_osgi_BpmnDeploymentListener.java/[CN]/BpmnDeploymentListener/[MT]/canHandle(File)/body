@@ -1,0 +1,16 @@
+{
+  try {
+    if (artifact.isFile() && artifact.getName().endsWith(".xml")) {
+      Document doc=parse(artifact);
+      String name=doc.getDocumentElement().getLocalName();
+      String uri=doc.getDocumentElement().getNamespaceURI();
+      if ("definitions".equals(name) && "http://www.omg.org/spec/BPMN/20100524/MODEL".equals(uri)) {
+        return true;
+      }
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.SEVERE,"Unable to parse deployed file " + artifact.getAbsolutePath(),e);
+  }
+  return false;
+}
