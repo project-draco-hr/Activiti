@@ -1,0 +1,13 @@
+{
+  JSONObject result=new JSONObject();
+  Map<String,Object> model=getModelAsMap(modelObject);
+  JSONUtil.putPagingInfo(result,model);
+  List<Task> tasks=(List<Task>)model.get("tasks");
+  JSONArray taskArray=JSONUtil.putNewArray(result,"data");
+  if (tasks != null) {
+    for (    Task task : tasks) {
+      taskArray.put(converter.getJSONObject(task));
+    }
+  }
+  return result;
+}

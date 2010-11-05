@@ -1,0 +1,8 @@
+{
+  JSONObject json=new JSONObject();
+  JSONUtil.putRetainNull(json,"id",deployment.getId());
+  JSONUtil.putRetainNull(json,"name",deployment.getName());
+  String deploymentTime=JSONUtil.formatISO8601Date(deployment.getDeploymentTime());
+  JSONUtil.putRetainNull(json,"deploymentTime",deploymentTime);
+  return json;
+}

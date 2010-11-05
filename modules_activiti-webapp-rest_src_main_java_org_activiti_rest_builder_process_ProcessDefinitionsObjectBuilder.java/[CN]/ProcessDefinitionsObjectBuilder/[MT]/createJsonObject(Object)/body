@@ -1,0 +1,12 @@
+{
+  Map<String,Object> model=getModelAsMap(modelObject);
+  JSONObject result=new JSONObject();
+  JSONUtil.putPagingInfo(result,model);
+  List<ProcessDefinition> definitions=(List<ProcessDefinition>)model.get("processDefinitions");
+  JSONArray dataArray=JSONUtil.putNewArray(result,"data");
+  for (  ProcessDefinition processDefinition : definitions) {
+    JSONObject jsonTask=converter.getJSONObject(processDefinition);
+    dataArray.put(jsonTask);
+  }
+  return result;
+}

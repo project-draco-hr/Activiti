@@ -1,0 +1,11 @@
+{
+  JSONObject json=new JSONObject();
+  JSONUtil.putRetainNull(json,"id",job.getId());
+  JSONUtil.putRetainNull(json,"executionId",job.getExecutionId());
+  JSONUtil.putRetainNull(json,"retries",job.getRetries());
+  JSONUtil.putRetainNull(json,"processInstanceId",job.getProcessInstanceId());
+  String dueDate=JSONUtil.formatISO8601Date(job.getDuedate());
+  JSONUtil.putRetainNull(json,"dueDate",dueDate);
+  JSONUtil.putRetainNull(json,"exceptionMessage",job.getExceptionMessage());
+  return json;
+}

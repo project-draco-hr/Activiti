@@ -1,0 +1,10 @@
+{
+  if (applicationContext != null) {
+    Map<String,JSONObjectBuilder> buildersFromContext=applicationContext.getBeansOfType(JSONObjectBuilder.class);
+    Map<String,JSONObjectBuilder> newBuilders=new HashMap<String,JSONObjectBuilder>();
+    for (    JSONObjectBuilder builder : buildersFromContext.values()) {
+      newBuilders.put(templateNamePrefix + builder.getTemplateName(),builder);
+    }
+    objectBuilders=newBuilders;
+  }
+}

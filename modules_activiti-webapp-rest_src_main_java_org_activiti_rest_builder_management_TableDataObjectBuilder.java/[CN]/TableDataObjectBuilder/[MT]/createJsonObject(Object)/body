@@ -1,0 +1,13 @@
+{
+  Map<String,Object> model=getModelAsMap(modelObject);
+  JSONObject result=new JSONObject();
+  JSONUtil.putPagingInfo(result,model);
+  JSONArray rows=JSONUtil.putNewArray(result,"data");
+  TablePage tablePage=(TablePage)model.get("tablePage");
+  if (tablePage != null) {
+    for (    Map<String,Object> row : tablePage.getRows()) {
+      rows.put(createJSONObjectForRow(row));
+    }
+  }
+  return result;
+}

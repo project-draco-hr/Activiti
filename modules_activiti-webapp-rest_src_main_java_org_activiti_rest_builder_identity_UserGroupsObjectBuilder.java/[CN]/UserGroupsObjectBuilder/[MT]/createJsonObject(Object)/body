@@ -1,0 +1,13 @@
+{
+  JSONObject result=new JSONObject();
+  Map<String,Object> model=getModelAsMap(modelObject);
+  List<Group> groups=(List<Group>)model.get("groups");
+  JSONArray groupsArray=JSONUtil.putNewArray(result,"data");
+  if (groups != null) {
+    for (    Group user : groups) {
+      groupsArray.put(converter.getJSONObject(user));
+    }
+  }
+  JSONUtil.putPagingInfo(result,model);
+  return result;
+}

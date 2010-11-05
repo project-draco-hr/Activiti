@@ -1,0 +1,17 @@
+{
+  JSONObject json=new JSONObject();
+  JSONUtil.putRetainNull(json,"tableName",tableMetaData.getTableName());
+  JSONArray namesArray=JSONUtil.putNewArray(json,"columnNames");
+  if (tableMetaData.getColumnNames() != null) {
+    for (    String columnName : tableMetaData.getColumnNames()) {
+      namesArray.put(columnName);
+    }
+  }
+  JSONArray typesArray=JSONUtil.putNewArray(json,"columnTypes");
+  if (tableMetaData.getColumnTypes() != null) {
+    for (    String columnType : tableMetaData.getColumnTypes()) {
+      typesArray.put(columnType);
+    }
+  }
+  return json;
+}

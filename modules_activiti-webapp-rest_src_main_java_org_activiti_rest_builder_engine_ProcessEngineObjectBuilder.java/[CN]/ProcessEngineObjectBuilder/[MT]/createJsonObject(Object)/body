@@ -1,0 +1,12 @@
+{
+  JSONObject result=new JSONObject();
+  Map<String,Object> model=getModelAsMap(modelObject);
+  JSONUtil.putRetainNull(result,"version",model.get("version"));
+  ProcessEngineInfo processEngineInfo=(ProcessEngineInfo)model.get("processEngineInfo");
+  if (processEngineInfo != null) {
+    JSONUtil.putRetainNull(result,"name",processEngineInfo.getName());
+    JSONUtil.putRetainNull(result,"resourceUrl",processEngineInfo.getResourceUrl());
+    JSONUtil.putRetainNull(result,"exception",processEngineInfo.getException());
+  }
+  return result;
+}
