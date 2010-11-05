@@ -2,13 +2,13 @@
   FormField file=((WebScriptServletRequest)req.getWebScriptRequest()).getFileField("file");
   ActivitiRequestObject obj=req.getBody();
   String connectorId=req.getMandatoryString(obj,"connectorId");
-  String containingFolderId=req.getMandatoryString(obj,"containingFolderId");
+  String parentFolderId=req.getMandatoryString(obj,"parentFolderId");
   String artifactName=req.getMandatoryString(obj,"artifactName");
   String artifactType="";
   Content artifactContent=new Content();
   artifactContent.setValue(file.getInputStream());
   try {
-    this.cycleService.createArtifact(connectorId,containingFolderId,artifactName,artifactType,artifactContent);
+    this.cycleService.createArtifact(connectorId,parentFolderId,artifactName,artifactType,artifactContent);
     model.put("result",true);
   }
  catch (  Exception e) {

@@ -1,5 +1,5 @@
 {
-  String id=containingFolderId;
+  String id=parentFolderId;
   if (!id.startsWith("/")) {
     id="/" + id;
   }
@@ -9,7 +9,7 @@
   id=id + artifactName;
   RepositoryArtifact newArtifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,getArtifactType(artifactType),this);
   newArtifact.getMetadata().setName(artifactName);
-  newArtifact.getMetadata().setParentFolderId(containingFolderId);
+  newArtifact.getMetadata().setParentFolderId(parentFolderId);
   nodes.add(newArtifact);
   addContentToInternalMap(id,contentRepresentationName,artifactContent.asByteArray());
   return newArtifact;

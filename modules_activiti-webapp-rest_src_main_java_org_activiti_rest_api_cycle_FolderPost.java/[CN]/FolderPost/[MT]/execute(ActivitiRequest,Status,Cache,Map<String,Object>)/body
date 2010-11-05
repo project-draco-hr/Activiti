@@ -1,0 +1,13 @@
+{
+  ActivitiRequestObject obj=req.getBody();
+  String connectorId=req.getMandatoryString(obj,"connectorId");
+  String parentFolderId=req.getMandatoryString(obj,"parentFolderId");
+  String name=req.getMandatoryString(obj,"name");
+  try {
+    this.cycleService.createFolder(connectorId,parentFolderId,name);
+    model.put("result",true);
+  }
+ catch (  Exception e) {
+    model.put("result",false);
+  }
+}
