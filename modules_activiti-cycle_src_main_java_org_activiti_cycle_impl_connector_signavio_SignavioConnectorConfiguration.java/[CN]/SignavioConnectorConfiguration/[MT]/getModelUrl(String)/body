@@ -1,8 +1,6 @@
 {
   if (id.startsWith("/")) {
-    return getRepositoryBackendUrl() + MODEL_URL_SUFFIX + encode(id);
+    id=id.substring(1);
   }
- else {
-    return getRepositoryBackendUrl() + MODEL_URL_SUFFIX + "/"+ encode(id);
-  }
+  return getRepositoryBackendUrl() + MODEL_URL_SUFFIX + "/"+ encode(id);
 }
