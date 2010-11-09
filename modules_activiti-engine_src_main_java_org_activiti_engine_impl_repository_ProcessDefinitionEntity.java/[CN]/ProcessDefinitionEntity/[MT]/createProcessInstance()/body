@@ -1,22 +1,3 @@
 {
-  ExecutionEntity processInstance=(ExecutionEntity)super.createProcessInstance();
-  CommandContext commandContext=CommandContext.getCurrent();
-  commandContext.getDbSqlSession().insert(processInstance);
-  processInstance.setExecutions(new ArrayList<ExecutionImpl>());
-  processInstance.setProcessDefinition(processDefinition);
-  processInstance.setProcessInstance(processInstance);
-  String initiatorVariableName=(String)getProperty("initiatorVariableName");
-  if (initiatorVariableName != null) {
-    String authenticatedUserId=Authentication.getAuthenticatedUserId();
-    processInstance.setVariable(initiatorVariableName,authenticatedUserId);
-  }
-  VariableMap variableMap=VariableMap.createNewInitialized(processInstance.getId(),processInstance.getId());
-  processInstance.setVariables(variableMap);
-  int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
-  if (historyLevel >= ProcessEngineConfiguration.HISTORYLEVEL_ACTIVITY) {
-    DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
-    HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity(processInstance);
-    dbSqlSession.insert(historicProcessInstance);
-  }
-  return processInstance;
+  return createProcessInstance(null);
 }
