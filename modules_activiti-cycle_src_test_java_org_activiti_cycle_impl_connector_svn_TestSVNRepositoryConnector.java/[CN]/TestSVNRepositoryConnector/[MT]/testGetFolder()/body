@@ -1,0 +1,10 @@
+{
+  RepositoryFolder folder=connector.getRepositoryFolder("activiti/trunk");
+  Assert.assertEquals("trunk",folder.getMetadata().getName());
+  try {
+    connector.getRepositoryArtifact("activiti/trun");
+    Assert.fail();
+  }
+ catch (  RepositoryNodeNotFoundException e) {
+  }
+}

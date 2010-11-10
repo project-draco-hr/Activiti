@@ -1,0 +1,11 @@
+{
+  try {
+    String bestClientType=SVNClientAdapterFactory.getPreferredSVNClientType();
+    log.fine("Using " + bestClientType + " factory");
+    svnClientAdapter=SVNClientAdapterFactory.createSVNClient(bestClientType);
+  }
+ catch (  SVNClientException e) {
+    log.log(Level.SEVERE,"Cannot create an SVN Client. No client library installed? This activiti-cycle connector is not usable.",e);
+    return;
+  }
+}

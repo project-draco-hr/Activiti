@@ -1,0 +1,6 @@
+{
+  RepositoryArtifact artifact=connector.getRepositoryArtifact("activiti/trunk/pom.xml");
+  System.out.println(artifact.getArtifactType());
+  Content content=connector.getContent(artifact.getNodeId(),artifact.getArtifactType().getContentRepresentations().get(0).getId());
+  System.out.println(content.asByteArray().length);
+}

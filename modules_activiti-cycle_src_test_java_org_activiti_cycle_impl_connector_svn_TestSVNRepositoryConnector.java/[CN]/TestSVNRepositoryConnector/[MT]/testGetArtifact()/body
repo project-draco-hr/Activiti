@@ -1,0 +1,10 @@
+{
+  RepositoryArtifact artifact=connector.getRepositoryArtifact("activiti/trunk/pom.xml");
+  Assert.assertEquals("pom.xml",artifact.getMetadata().getName());
+  try {
+    connector.getRepositoryArtifact("activiti/trunk/pom2.xml");
+    Assert.fail();
+  }
+ catch (  RepositoryNodeNotFoundException e) {
+  }
+}

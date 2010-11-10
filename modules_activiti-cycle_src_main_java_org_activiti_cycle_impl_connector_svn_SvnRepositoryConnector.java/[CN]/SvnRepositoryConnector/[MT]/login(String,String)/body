@@ -1,0 +1,16 @@
+{
+  ISVNClientAdapter clientAdapter=getSvnClientAdapter();
+  if (clientAdapter == null)   return false;
+  clientAdapter.setUsername(username);
+  clientAdapter.setPassword(password);
+  try {
+    clientAdapter.getList(new SVNUrl(getConfiguration().getRepositoryPath()),SVNRevision.HEAD,false);
+    return true;
+  }
+ catch (  MalformedURLException e) {
+    throw new RuntimeException("Cannot login to repository, malformed URL",e);
+  }
+catch (  SVNClientException e) {
+    throw new RuntimeException("Cannot login to repository",e);
+  }
+}
