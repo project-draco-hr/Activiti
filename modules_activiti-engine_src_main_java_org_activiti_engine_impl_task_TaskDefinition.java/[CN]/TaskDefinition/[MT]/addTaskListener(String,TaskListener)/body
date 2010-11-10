@@ -1,0 +1,8 @@
+{
+  List<TaskListener> taskEventListeners=taskListeners.get(eventName);
+  if (taskEventListeners == null) {
+    taskEventListeners=new ArrayList<TaskListener>();
+    taskListeners.put(eventName,taskEventListeners);
+  }
+  taskEventListeners.add(taskListener);
+}

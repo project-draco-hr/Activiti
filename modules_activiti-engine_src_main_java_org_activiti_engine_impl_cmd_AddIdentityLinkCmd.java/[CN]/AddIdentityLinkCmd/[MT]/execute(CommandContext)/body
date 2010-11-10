@@ -7,19 +7,14 @@
   if (userId != null && commandContext.getIdentitySession().findUserById(userId) == null) {
     throw new ActivitiException("Cannot find user with id " + userId);
   }
+  if (groupId != null && commandContext.getIdentitySession().findGroupById(groupId) == null) {
+    throw new ActivitiException("Cannot find group with id " + groupId);
+  }
   if (IdentityLinkType.ASSIGNEE.equals(type)) {
     task.setAssignee(userId);
   }
  else {
-    if (userId != null) {
-      addIdentityLink(task,userId,null);
-    }
- else {
-      if (commandContext.getIdentitySession().findGroupById(groupId) == null) {
-        throw new ActivitiException("Cannot find group with id " + groupId);
-      }
-      addIdentityLink(task,null,groupId);
-    }
+    task.createIdentityLink(userId,groupId,type);
   }
   return null;
 }
