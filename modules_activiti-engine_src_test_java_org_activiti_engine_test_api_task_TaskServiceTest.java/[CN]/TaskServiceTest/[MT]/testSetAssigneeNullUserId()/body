@@ -1,9 +1,0 @@
-{
-  try {
-    taskService.setAssignee("taskId",null);
-    fail("ActivitiException expected");
-  }
- catch (  ActivitiException ae) {
-    assertTextPresent("userId and groupId cannot both be null",ae.getMessage());
-  }
-}
