@@ -1,0 +1,14 @@
+{
+  String name=service.getQName().getLocalPart();
+  Port port=(Port)service.getPorts().values().iterator().next();
+  String location="";
+  List extensionElements=port.getExtensibilityElements();
+  for (  Object extension : extensionElements) {
+    if (extension instanceof SOAPAddress) {
+      SOAPAddress address=(SOAPAddress)extension;
+      location=address.getLocationURI();
+    }
+  }
+  WSService wsService=new WSService(name,location,this.wsdlLocation);
+  return wsService;
+}

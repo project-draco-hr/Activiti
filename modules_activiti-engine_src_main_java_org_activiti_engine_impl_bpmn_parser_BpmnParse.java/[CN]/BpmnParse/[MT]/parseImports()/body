@@ -2,7 +2,7 @@
   List<Element> imports=rootElement.elements("import");
   for (  Element theImport : imports) {
     String importType=theImport.attribute("importType");
-    XMLImporter importer=this.importers.get(importType);
+    XMLImporter importer=this.getImporter(importType,theImport);
     if (importer == null) {
       addError("Could not import item of type " + importType,theImport);
     }
