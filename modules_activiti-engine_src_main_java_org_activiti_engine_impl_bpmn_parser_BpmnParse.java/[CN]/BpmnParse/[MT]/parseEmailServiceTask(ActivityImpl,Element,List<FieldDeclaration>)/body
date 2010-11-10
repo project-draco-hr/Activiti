@@ -1,5 +1,4 @@
 {
   validateFieldDeclarationsForEmail(serviceTaskElement,fieldDeclarations);
-  ActivityBehavior mailBehavior=(ActivityBehavior)new FieldDeclarationDelegate(MailActivityBehavior.class.getName(),fieldDeclarations).getDelegateInstance();
-  activity.setActivityBehavior(mailBehavior);
+  activity.setActivityBehavior(instantiateAndHandleFieldDeclarations(MailActivityBehavior.class,fieldDeclarations));
 }

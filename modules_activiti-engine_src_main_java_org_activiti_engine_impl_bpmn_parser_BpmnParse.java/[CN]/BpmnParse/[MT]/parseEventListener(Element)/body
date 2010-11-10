@@ -2,9 +2,8 @@
   EventListener eventListener=null;
   String className=eventListenerElement.attribute("class");
   String expression=eventListenerElement.attribute("expression");
-  List<FieldDeclaration> fieldDeclarations=parseFieldDeclarations(eventListenerElement);
   if (className != null && className.trim().length() > 0) {
-    Object delegateInstance=new DelegateEventListener(className,fieldDeclarations).getDelegateInstance();
+    Object delegateInstance=instantiateDelegate(className,parseFieldDeclarations(eventListenerElement));
     if (delegateInstance instanceof EventListener) {
       eventListener=(EventListener)delegateInstance;
     }

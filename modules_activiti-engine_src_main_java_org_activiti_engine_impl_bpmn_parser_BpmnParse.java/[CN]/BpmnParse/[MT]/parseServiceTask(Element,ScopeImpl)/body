@@ -19,7 +19,7 @@
     if (resultVariableName != null) {
       addError("'resultVariableName' not supported for service tasks using 'class'",serviceTaskElement);
     }
-    Object delegateInstance=new FieldDeclarationDelegate(className,fieldDeclarations).getDelegateInstance();
+    Object delegateInstance=instantiateDelegate(className,fieldDeclarations);
     if (delegateInstance instanceof ActivityBehavior) {
       activity.setActivityBehavior((ActivityBehavior)delegateInstance);
     }
