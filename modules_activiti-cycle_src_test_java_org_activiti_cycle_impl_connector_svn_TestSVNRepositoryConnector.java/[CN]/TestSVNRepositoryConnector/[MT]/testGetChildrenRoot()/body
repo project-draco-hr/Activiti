@@ -1,4 +1,10 @@
 {
   RepositoryNodeCollection result=connector.getChildren("");
   Assert.assertTrue(result.asList().size() > 0);
+  try {
+    result=connector.getChildren("nonExistentPath");
+    Assert.fail();
+  }
+ catch (  RepositoryNodeNotFoundException e) {
+  }
 }

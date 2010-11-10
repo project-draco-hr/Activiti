@@ -7,10 +7,8 @@
     clientAdapter.getList(new SVNUrl(getConfiguration().getRepositoryPath()),SVNRevision.HEAD,false);
     return true;
   }
- catch (  MalformedURLException e) {
-    throw new RuntimeException("Cannot login to repository, malformed URL",e);
-  }
-catch (  SVNClientException e) {
-    throw new RuntimeException("Cannot login to repository",e);
+ catch (  Exception e) {
+    log.log(Level.WARNING,"cannot log into repository",e);
+    return false;
   }
 }

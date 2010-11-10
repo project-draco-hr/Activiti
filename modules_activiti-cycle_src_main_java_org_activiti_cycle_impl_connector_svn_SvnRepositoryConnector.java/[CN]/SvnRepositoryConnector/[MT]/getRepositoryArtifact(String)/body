@@ -1,22 +1,13 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
-  if (clientAdapter == null)   return null;
+  if (clientAdapter == null)   throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id);
   ISVNDirEntry entry=null;
   try {
     entry=clientAdapter.getDirEntry(buildSVNURL(id),SVNRevision.HEAD);
-  }
- catch (  SVNClientException e) {
-    log.log(Level.WARNING,"cannot get Children of " + id,e);
-    return null;
-  }
-catch (  MalformedURLException e) {
-    log.log(Level.WARNING,"cannot get children, malformed URL ",e);
-    throw new RepositoryNodeNotFoundException("cannot get Children of, malformed URL " + id);
-  }
-  try {
     return (RepositoryArtifact)createRepositoryNode(entry,id);
   }
  catch (  Exception e) {
-    throw new RepositoryNodeNotFoundException("Node with id '" + id + "' not found: "+ e);
+    log.log(Level.WARNING,"cannot get Artifact " + id,e);
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id,e);
   }
 }
