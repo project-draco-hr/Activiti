@@ -1,6 +1,6 @@
 {
   StringBuffer html=new StringBuffer();
-  if (nodesMap != null || !nodesMap.isEmpty()) {
+  if (nodesMap != null && !nodesMap.isEmpty()) {
     html.append("<h2>" + headline + "</h2>");
     html.append("<table border=\"1\">");
     html.append("<thead><tr>");
@@ -9,7 +9,7 @@
     html.append("<tbody>");
     for (    Entry<String,List<String>> mapEntry : nodesMap.entrySet()) {
       html.append("<tr>");
-      html.append("<td>" + mapEntry.getKey() + "</td>");
+      html.append("<td style=\"vertical-align: top\">" + mapEntry.getKey() + "</td>");
       html.append("<td>");
       for (      String message : mapEntry.getValue()) {
         html.append(message + "<br/>");

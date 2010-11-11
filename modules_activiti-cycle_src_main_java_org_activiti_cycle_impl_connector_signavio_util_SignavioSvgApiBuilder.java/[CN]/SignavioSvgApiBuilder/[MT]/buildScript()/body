@@ -1,31 +1,3 @@
 {
-  try {
-    StringBuilder svgApiCall=new StringBuilder();
-    svgApiCall.append("<script type=\"text/javascript\" src=\"");
-    if (useLocalScripts) {
-      svgApiCall.append(SVGAPI_URL_LOCAL);
-    }
- else {
-      svgApiCall.append(SVGAPI_URL_REMOTE);
-    }
-    svgApiCall.append("\"></script>");
-    svgApiCall.append("<script type=\"text/plain\">");
-    svgApiCall.append("{");
-    svgApiCall.append("url: \"" + connector.getConfiguration().getModelUrl(artifact.getNodeId()) + "\"");
-    if (useLocalScripts) {
-      svgApiCall.append(", server: \"" + SERVER_SCRIPT_URL + "\"");
-    }
-    svgApiCall.append(", element: \"model\"");
-    if (authToken != null && authToken.length() > 0) {
-      svgApiCall.append(", authToken: \"" + authToken + "\",");
-    }
-    svgApiCall.append(", click: " + createClickFunction());
-    svgApiCall.append(", focus: " + buildHighlightning());
-    svgApiCall.append("}");
-    svgApiCall.append("</script>");
-    return svgApiCall.toString();
-  }
- catch (  JSONException ex) {
-    throw new RepositoryException("Unexpected exception with JSON handling for " + artifact,ex);
-  }
+  return buildScript(100);
 }
