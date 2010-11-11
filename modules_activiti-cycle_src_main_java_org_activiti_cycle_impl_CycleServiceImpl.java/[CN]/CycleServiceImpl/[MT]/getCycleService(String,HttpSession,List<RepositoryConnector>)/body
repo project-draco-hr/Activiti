@@ -1,0 +1,9 @@
+{
+  String key=currentUserId + "_cycleService";
+  CycleService cycleService=(CycleService)session.getAttribute(key);
+  if (cycleService == null) {
+    cycleService=new CycleServiceImpl(connectors);
+    session.setAttribute(key,cycleService);
+  }
+  return cycleService;
+}

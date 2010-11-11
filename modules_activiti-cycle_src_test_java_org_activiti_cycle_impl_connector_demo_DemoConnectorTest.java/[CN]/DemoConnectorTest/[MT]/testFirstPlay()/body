@@ -3,7 +3,7 @@
   RepositoryConnectorConfiguration configuration=new DemoConnectorConfiguration("demo");
   configurationContainer.addRepositoryConnectorConfiguration(configuration);
   CycleService cycleService=new CycleServiceImpl(configurationContainer.getConnectorList());
-  cycleService.login("bernd","bernd");
+  cycleService.login("bernd","bernd","demo");
   List<RepositoryNode> childNodes=cycleService.getChildren("demo","/").asList();
   assertEquals(2,childNodes.size());
   assertTrue(childNodes.get(0) instanceof RepositoryFolder);

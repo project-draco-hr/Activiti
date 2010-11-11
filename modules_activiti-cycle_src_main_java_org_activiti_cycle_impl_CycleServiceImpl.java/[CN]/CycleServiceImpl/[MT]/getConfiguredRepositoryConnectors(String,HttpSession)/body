@@ -1,0 +1,11 @@
+{
+  String key=currentUserId + "_cycleConfiguredRepositoryConnectors";
+  @SuppressWarnings("unchecked") List<RepositoryConnector> connectors=((List<RepositoryConnector>)session.getAttribute(key));
+  if (connectors == null) {
+    PluginFinder.registerServletContext(session.getServletContext());
+    ConfigurationContainer container=loadUserConfiguration(currentUserId);
+    connectors=container.getConnectorList();
+    session.setAttribute(key,connectors);
+  }
+  return connectors;
+}

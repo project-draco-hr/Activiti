@@ -5,5 +5,20 @@
   for (  RepositoryConnector repositoryConnector : repositoryConnectors) {
     repositoryConnector.getConfiguration().setCycleService(this);
   }
+  for (  RepositoryConnector connector : this.repositoryConnectors) {
+    if (PasswordEnabledRepositoryConnectorConfiguration.class.isInstance(connector.getConfiguration())) {
+      PasswordEnabledRepositoryConnectorConfiguration conf=(PasswordEnabledRepositoryConnectorConfiguration)connector.getConfiguration();
+      String username=conf.getUser();
+      String password=conf.getPassword();
+      try {
+        this.login(username,password,conf.getId());
+      }
+ catch (      RepositoryException e) {
+        Map<String,String> connectorMap=new HashMap<String,String>();
+        connectorMap.put(conf.getId(),conf.getName());
+        throw new RepositoryAuthenticationException("Repository authentication error: couldn't login to " + conf.getName(),connectorMap,e);
+      }
+    }
+  }
   this.repositoryConnectors.add(new TagConnectorConfiguration(this).createConnector());
 }
