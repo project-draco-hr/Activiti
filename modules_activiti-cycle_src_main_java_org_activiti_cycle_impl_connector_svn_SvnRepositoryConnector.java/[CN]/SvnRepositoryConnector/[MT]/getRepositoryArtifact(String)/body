@@ -1,6 +1,5 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
-  if (clientAdapter == null)   throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id);
   ISVNDirEntry entry=null;
   try {
     entry=clientAdapter.getDirEntry(buildSVNURL(id),SVNRevision.HEAD);

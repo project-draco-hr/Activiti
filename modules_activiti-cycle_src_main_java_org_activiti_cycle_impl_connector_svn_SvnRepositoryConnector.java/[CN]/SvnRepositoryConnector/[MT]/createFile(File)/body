@@ -1,0 +1,11 @@
+{
+  try {
+    newFile.createNewFile();
+  }
+ catch (  IOException e) {
+    log.log(Level.WARNING,"could not create file " + newFile,e);
+  }
+ finally {
+    if (!newFile.exists())     throw new RepositoryException("could not create file " + newFile);
+  }
+}

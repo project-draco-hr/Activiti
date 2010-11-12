@@ -1,0 +1,16 @@
+{
+synchronized (transaction_lock) {
+    if (transactionActive == true) {
+      throw new RuntimeException("Cannot begin repository transaction; already active.");
+    }
+    transactionActive=true;
+  }
+  ISVNClientAdapter clientAdapter=getSvnClientAdapter();
+  try {
+    SVNUrl url=buildSVNURL(onFolderId);
+    lockedURL=url;
+  }
+ catch (  Exception e) {
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryFolder.class,onFolderId,e);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  ISVNClientAdapter clientAdapter=getSvnClientAdapter();
+  try {
+    File temporaryFileStrore=new File(getConfiguration().getTemporaryFileStore() + File.separator + UUID.randomUUID());
+    SVNUrl parentFolderUrl=buildSVNURL(folderId);
+    clientAdapter.checkout(parentFolderUrl,temporaryFileStrore,SVNRevision.HEAD,false);
+    dirtyFolders.add(temporaryFileStrore);
+    return temporaryFileStrore;
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Could not checkout " + folderId + ".",e);
+  }
+}

@@ -1,3 +1,10 @@
 {
-  throw new UnsupportedOperationException("deleteFolder");
+  ISVNClientAdapter clientAdapter=getSvnClientAdapter();
+  try {
+    SVNUrl url=buildSVNURL(folderId);
+    clientAdapter.remove(new SVNUrl[]{url},folderId + "Removed by Activiti Cycle");
+  }
+ catch (  Exception e) {
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,folderId,e);
+  }
 }

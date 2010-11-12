@@ -1,7 +1,6 @@
 {
   userConfiguration=new ConfigurationContainer("daniel");
-  userConfiguration.addRepositoryConnectorConfiguration(new SvnConnectorConfiguration("svn",REPO_LOCATION));
+  userConfiguration.addRepositoryConnectorConfiguration(new SvnConnectorConfiguration("svn",REPO_LOCATION,"/tmp"));
   connector=userConfiguration.getConnector("svn");
   PluginFinder.checkPluginInitialization();
-  connector.login("guest","");
 }
