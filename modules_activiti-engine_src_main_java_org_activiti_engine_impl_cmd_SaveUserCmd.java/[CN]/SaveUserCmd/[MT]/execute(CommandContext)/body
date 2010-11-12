@@ -6,8 +6,7 @@
     commandContext.getIdentitySession().insertUser(user);
   }
  else {
-    UserEntity persistentUser=commandContext.getIdentitySession().findUserById(user.getId());
-    persistentUser.update(user);
+    commandContext.getIdentitySession().updateUser(user);
   }
   return null;
 }

@@ -1,7 +1,7 @@
 {
-  List<GroupEntity> groups=CommandContext.getCurrent().getIdentitySession().findGroupsByUser(candidateUser);
+  List<Group> groups=CommandContext.getCurrent().getIdentitySession().findGroupsByUser(candidateUser);
   List<String> groupIds=new ArrayList<String>();
-  for (  GroupEntity group : groups) {
+  for (  Group group : groups) {
     groupIds.add(group.getId());
   }
   return groupIds;

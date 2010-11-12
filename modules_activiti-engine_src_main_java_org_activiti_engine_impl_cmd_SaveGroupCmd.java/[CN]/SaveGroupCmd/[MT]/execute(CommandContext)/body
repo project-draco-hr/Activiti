@@ -6,8 +6,7 @@
     commandContext.getIdentitySession().insertGroup(group);
   }
  else {
-    GroupEntity persistentGroup=commandContext.getIdentitySession().findGroupById(group.getId());
-    persistentGroup.update(group);
+    commandContext.getIdentitySession().updateGroup(group);
   }
   return null;
 }
