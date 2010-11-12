@@ -8,8 +8,10 @@
       byte[] bytes=resource.getBytes();
       ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
       BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).deployment(deployment).name(resourceName).execute();
+      String diagramResource=getDiagramResource(resourceName,resources);
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setResourceName(resourceName);
+        processDefinition.setDiagramResourceName(diagramResource);
         processDefinitions.add(processDefinition);
       }
     }

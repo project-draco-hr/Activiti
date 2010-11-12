@@ -1,26 +1,4 @@
 {
-  assertNotNull("Provided inputstream is null",inputStream);
-  BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
-  StringBuilder strb=new StringBuilder();
-  try {
-    String line=reader.readLine();
-    while (line != null) {
-      strb.append(line);
-      line=reader.readLine();
-    }
-  }
- catch (  IOException e) {
-    fail("Couldnt read from inputstream");
-  }
- finally {
-    if (reader != null) {
-      try {
-        reader.close();
-      }
- catch (      IOException e) {
-        fail("Couldn't close reader");
-      }
-    }
-  }
-  return strb.toString();
+  byte[] bytes=IoUtil.readInputStream(inputStream,"input stream");
+  return new String(bytes);
 }

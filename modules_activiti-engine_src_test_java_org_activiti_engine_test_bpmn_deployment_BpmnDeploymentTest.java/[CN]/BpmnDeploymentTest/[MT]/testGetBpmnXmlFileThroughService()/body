@@ -4,6 +4,10 @@
   assertEquals(1,deploymentResources.size());
   String bpmnResourceName="org/activiti/engine/test/bpmn/deployment/BpmnDeploymentTest.testGetBpmnXmlFileThroughService.bpmn20.xml";
   assertEquals(bpmnResourceName,deploymentResources.get(0));
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertEquals(bpmnResourceName,processDefinition.getResourceName());
+  ReadOnlyProcessDefinition readOnlyProcessDefinition=((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processDefinition.getId());
+  assertNull(readOnlyProcessDefinition.getDiagramResourceName());
   InputStream deploymentInputStream=repositoryService.getResourceAsStream(deploymentId,bpmnResourceName);
   String contentFromDeployment=readInputStreamToString(deploymentInputStream);
   assertTrue(contentFromDeployment.length() > 0);

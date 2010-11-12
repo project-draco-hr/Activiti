@@ -1,0 +1,10 @@
+{
+  String processResourceBase=resourceName.substring(0,resourceName.length() - 10);
+  for (  String diagramSuffix : DIAGRAM_SUFFIXES) {
+    String processDiagramResource=processResourceBase + diagramSuffix;
+    if (resources.containsKey(processDiagramResource)) {
+      return processDiagramResource;
+    }
+  }
+  return null;
+}
