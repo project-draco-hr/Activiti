@@ -1,0 +1,22 @@
+{
+  for (  Shape shape : diagram.getShapes()) {
+    if (STENCIL_COLLAPSED_SUBPROCESS.equals(shape.getStencilId())) {
+      String subProcessUrl=shape.getProperty(PROPERTY_ENTRY);
+      if (subProcessUrl != null && subProcessUrl.length() > 0) {
+        try {
+          Response jsonResponse=signavioConnector.getJsonResponse(subProcessUrl);
+          String subProcessJson=jsonResponse.getEntity().getText();
+          ;
+          Diagram subProcess=DiagramBuilder.parseJson(subProcessJson);
+          shape.setStencil(new StencilType(STENCIL_SUBPROCESS));
+          ArrayList<Shape> childShapes=shape.getChildShapes();
+          childShapes.addAll(subProcess.getChildShapes());
+        }
+ catch (        Exception e) {
+          throw new JsonTransformationException("Error while retrieving Sub-Process" + " '" + shape.getProperty(PROPERTY_NAME) + "'"+ " (URL: "+ subProcessUrl+ ").",e);
+        }
+      }
+    }
+  }
+  return diagram;
+}
