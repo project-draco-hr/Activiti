@@ -4,7 +4,7 @@
   String expression=taskListenerElement.attribute("expression");
   if (className != null && className.trim().length() > 0) {
     Object delegateInstance=instantiateDelegate(className,parseFieldDeclarations(taskListenerElement));
-    if (delegateInstance instanceof EventListener) {
+    if (delegateInstance instanceof TaskListener) {
       taskListener=(TaskListener)delegateInstance;
     }
  else {

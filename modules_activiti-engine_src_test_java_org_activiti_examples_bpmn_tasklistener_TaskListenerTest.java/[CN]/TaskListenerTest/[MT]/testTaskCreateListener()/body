@@ -1,0 +1,6 @@
+{
+  runtimeService.startProcessInstanceByKey("taskListenerProcess");
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("Schedule meeting",task.getName());
+  assertEquals("TaskCreateListener is listening!",task.getDescription());
+}

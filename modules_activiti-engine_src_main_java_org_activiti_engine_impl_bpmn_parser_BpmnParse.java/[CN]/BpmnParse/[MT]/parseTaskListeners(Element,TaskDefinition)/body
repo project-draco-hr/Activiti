@@ -3,9 +3,9 @@
   if (extentionsElement != null) {
     List<Element> taskListenerElements=extentionsElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"taskListener");
     for (    Element taskListenerElement : taskListenerElements) {
-      String eventName=taskListenerElement.attribute("eventName");
+      String eventName=taskListenerElement.attribute("event");
       if (eventName != null) {
-        if (TaskListener.EVENTNAME_CREATE.equals(eventName) && TaskListener.EVENTNAME_ASSIGNMENT.equals(eventName)) {
+        if (TaskListener.EVENTNAME_CREATE.equals(eventName) || TaskListener.EVENTNAME_ASSIGNMENT.equals(eventName) || TaskListener.EVENTNAME_COMPLETE.equals(eventName)) {
           TaskListener taskListener=parseTaskListener(taskListenerElement);
           taskDefinition.addTaskListener(eventName,taskListener);
         }
