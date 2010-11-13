@@ -1,11 +1,11 @@
 {
   TransitionImpl transition=execution.getTransition();
-  List<EventListener> eventListeners=transition.getEventListeners();
-  int eventListenerIndex=execution.getEventListenerIndex();
-  if (eventListeners.size() > eventListenerIndex) {
-    execution.setEventName(EventListener.EVENTNAME_TAKE);
+  List<ExecutionListener> executionListeners=transition.getExecutionListeners();
+  int executionListenerIndex=execution.getExecutionListenerIndex();
+  if (executionListeners.size() > executionListenerIndex) {
+    execution.setEventName(ExecutionListener.EVENTNAME_TAKE);
     execution.setEventSource(transition);
-    EventListener listener=eventListeners.get(eventListenerIndex);
+    ExecutionListener listener=executionListeners.get(executionListenerIndex);
     try {
       listener.notify(execution);
     }
@@ -15,12 +15,12 @@
 catch (    Exception e) {
       throw new PvmException("couldn't execute event listener : " + e.getMessage(),e);
     }
-    execution.setEventListenerIndex(eventListenerIndex + 1);
+    execution.setExecutionListenerIndex(executionListenerIndex + 1);
     execution.performOperation(this);
   }
  else {
     log.fine(execution + " takes transition " + transition);
-    execution.setEventListenerIndex(0);
+    execution.setExecutionListenerIndex(0);
     execution.setEventName(null);
     execution.setEventSource(null);
     ActivityImpl activity=execution.getActivity();

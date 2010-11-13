@@ -1,9 +1,0 @@
-{
-  Map<String,Object> variables=new HashMap<String,Object>();
-  variables.put("myVar","listening!");
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("eventListenersProcess",variables);
-  Object varSetByListener=runtimeService.getVariable(processInstance.getId(),"var");
-  assertNotNull(varSetByListener);
-  assertTrue(varSetByListener instanceof String);
-  assertEquals("Yes, I am listening!",varSetByListener);
-}

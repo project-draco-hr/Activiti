@@ -5,7 +5,7 @@
     addError("Missing attribute 'calledElement'",callActivityElement);
   }
   activity.setActivityBehavior(new CallActivityBehaviour(calledElement));
-  parseEventListenersOnScope(callActivityElement,activity);
+  parseExecutionListenersOnScope(callActivityElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseCallActivity(callActivityElement,scope,activity);
   }
