@@ -1,0 +1,7 @@
+{
+  ClassPathXmlApplicationContext applicationContext=new ClassPathXmlApplicationContext("org/activiti/spring/test/taskassignment/taskassignment-context.xml");
+  RuntimeService runtimeService=(RuntimeService)applicationContext.getBean(RuntimeService.class);
+  TaskService taskService=(TaskService)applicationContext.getBean(TaskService.class);
+  runtimeService.startProcessInstanceByKey("assigneeThroughSpringService",CollectionUtil.singletonMap("emp","fozzie"));
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("Kermit The Frog").count());
+}
