@@ -1,12 +1,17 @@
 {
+  SimpleStructureDefinition simpleStructureDefinition=new SimpleStructureDefinition("structure-id");
+  simpleStructureDefinition.setFieldName(0,"prefix",String.class);
+  simpleStructureDefinition.setFieldName(1,"suffix",String.class);
+  ItemDefinition itemDefinition=new ItemDefinition("definition-id",simpleStructureDefinition);
+  ItemInstance itemInstance=itemDefinition.createInstance();
+  FieldBaseStructureInstance structureInstance=(FieldBaseStructureInstance)itemInstance.getStructureInstance();
+  structureInstance.setFieldValue("prefix","The counter has the value ");
+  structureInstance.setFieldValue("suffix",". Good news");
   Map<String,Object> variables=new HashMap<String,Object>();
-  Message message=null;
-  MessageInstance processInput=message.createInstance();
-  processInput.setFieldValue("prefix","The counter has the value ");
-  processInput.setFieldValue("suffix",". Good news");
-  variables.put("dataInputOfProcess",processInput);
+  variables.put("dataInputOfProcess",itemInstance);
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey("webServiceInvocationWithDataFlowUEL",variables);
   waitForJobExecutorToProcessAllJobs(10000L,250L);
   MessageInstance response=(MessageInstance)processEngine.getRuntimeService().getVariable(instance.getId(),"dataOutputOfProcess");
-  assertEquals("The counter has the value -1. Good news",response.getFieldValue("prettyPrint"));
+  structureInstance=(FieldBaseStructureInstance)response.getStructureInstance();
+  assertEquals("The counter has the value -1. Good news",structureInstance.getFieldValue("prettyPrint"));
 }

@@ -1,0 +1,12 @@
+{
+  String sourceRef=dataAssociationElement.element("sourceRef").getText();
+  String targetRef=dataAssociationElement.element("targetRef").getText();
+  DataInputAssociation dataAssociation=new DataInputAssociation(sourceRef,targetRef);
+  for (  Element assigmentElement : dataAssociationElement.elements("assignment")) {
+    Expression from=this.expressionManager.createExpression(assigmentElement.element("from").getText());
+    Expression to=this.expressionManager.createExpression(assigmentElement.element("to").getText());
+    Assignment assignment=new Assignment(from,to);
+    dataAssociation.addAssignment(assignment);
+  }
+  return dataAssociation;
+}

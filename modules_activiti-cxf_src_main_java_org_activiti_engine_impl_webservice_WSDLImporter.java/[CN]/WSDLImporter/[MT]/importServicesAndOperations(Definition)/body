@@ -2,13 +2,13 @@
   for (  Object serviceObject : definition.getServices().values()) {
     Service service=(Service)serviceObject;
     WSService wsService=this.importService(service);
-    this.wsServices.put(wsService.getName(),wsService);
+    this.wsServices.put(this.namespace + wsService.getName(),wsService);
     Port port=(Port)service.getPorts().values().iterator().next();
     for (    Object bindOperationObject : port.getBinding().getBindingOperations()) {
       BindingOperation bindOperation=(BindingOperation)bindOperationObject;
       WSOperation operation=this.processOperation(bindOperation.getOperation(),wsService);
       wsService.addOperation(operation);
-      this.wsOperations.put(operation.getName(),operation);
+      this.wsOperations.put(this.namespace + operation.getName(),operation);
     }
   }
 }

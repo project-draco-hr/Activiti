@@ -7,9 +7,9 @@
   WSService service=services.get(0);
   Assert.assertEquals("Counter",service.getName());
   Assert.assertEquals("http://localhost:63081/counter",service.getLocation());
-  List<Structure> structures=new ArrayList<Structure>(importer.getStructures());
-  Collections.sort(structures,new Comparator<Structure>(){
-    public int compare(    Structure o1,    Structure o2){
+  List<StructureDefinition> structures=new ArrayList<StructureDefinition>(importer.getStructures());
+  Collections.sort(structures,new Comparator<StructureDefinition>(){
+    public int compare(    StructureDefinition o1,    StructureDefinition o2){
       return o1.getId().compareTo(o2.getId());
     }
   }

@@ -1,0 +1,8 @@
+{
+  SimpleStructureDefinition simpleStructure=(SimpleStructureDefinition)structure;
+  Assert.assertEquals(structureId,simpleStructure.getId());
+  for (int i=0; i < simpleStructure.getFieldSize(); i++) {
+    Assert.assertEquals(parameters[i],simpleStructure.getFieldNameAt(i));
+    Assert.assertEquals(classes[i],simpleStructure.getFieldTypeAt(i));
+  }
+}

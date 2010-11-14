@@ -2,8 +2,8 @@
   NodeList complexTypes=rootTypes.getElementsByTagName("xs:complexType");
   for (int i=0; i < complexTypes.getLength(); i++) {
     Element element=(Element)complexTypes.item(i);
-    String structureName=element.getAttribute("name");
-    SimpleStructure structure=new SimpleStructure(structureName);
+    String structureName=this.namespace + element.getAttribute("name");
+    SimpleStructureDefinition structure=new SimpleStructureDefinition(structureName);
     this.structures.put(structure.getId(),structure);
   }
 }

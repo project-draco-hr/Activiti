@@ -2,13 +2,13 @@
   for (  Element interfaceElement : rootElement.elements("interface")) {
     String id=interfaceElement.attribute("id");
     String name=interfaceElement.attribute("name");
-    String implementationRef=interfaceElement.attribute("implementationRef");
-    BpmnInterface bpmnInterface=new BpmnInterface(id,name);
+    String implementationRef=this.resolveName(interfaceElement.attribute("implementationRef"));
+    BpmnInterface bpmnInterface=new BpmnInterface(this.targetNamespace + ":" + id,name);
     bpmnInterface.setImplementation(this.interfaceImplementations.get(implementationRef));
     for (    Element operationElement : interfaceElement.elements("operation")) {
       Operation operation=parseOperation(operationElement,bpmnInterface);
       bpmnInterface.addOperation(operation);
     }
-    bpmnInterfaces.put(id,bpmnInterface);
+    bpmnInterfaces.put(bpmnInterface.getId(),bpmnInterface);
   }
 }

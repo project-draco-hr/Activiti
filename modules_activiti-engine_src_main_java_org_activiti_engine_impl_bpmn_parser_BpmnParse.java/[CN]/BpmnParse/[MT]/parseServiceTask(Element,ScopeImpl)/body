@@ -5,7 +5,7 @@
   String expression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"expression");
   String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
   String implementation=serviceTaskElement.attribute("implementation");
-  String operationRef=serviceTaskElement.attribute("operationRef");
+  String operationRef=this.resolveName(serviceTaskElement.attribute("operationRef"));
   List<FieldDeclaration> fieldDeclarations=parseFieldDeclarationsOnServiceTask(serviceTaskElement);
   if (type != null) {
     if (type.equalsIgnoreCase("mail")) {
@@ -39,7 +39,21 @@
     }
  else {
       Operation operation=this.operations.get(operationRef);
-      activity.setActivityBehavior(new WebServiceActivityBehavior(operation));
+      WebServiceActivityBehavior webServiceActivityBehavior=new WebServiceActivityBehavior(operation);
+      Element ioSpecificationElement=serviceTaskElement.element("ioSpecification");
+      if (ioSpecificationElement != null) {
+        IOSpecification ioSpecification=this.parseIOSpecification(ioSpecificationElement);
+        webServiceActivityBehavior.setIoSpecification(ioSpecification);
+      }
+      for (      Element dataAssociationElement : serviceTaskElement.elements("dataInputAssociation")) {
+        DataInputAssociation dataAssociation=this.parseDataInputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataInputAssociation(dataAssociation);
+      }
+      for (      Element dataAssociationElement : serviceTaskElement.elements("dataOutputAssociation")) {
+        DataOutputAssociation dataAssociation=this.parseDataOutputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataOutputAssociation(dataAssociation);
+      }
+      activity.setActivityBehavior(webServiceActivityBehavior);
     }
   }
  else {

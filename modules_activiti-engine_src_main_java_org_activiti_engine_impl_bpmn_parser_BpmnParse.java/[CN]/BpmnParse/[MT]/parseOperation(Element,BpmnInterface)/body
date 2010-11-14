@@ -1,22 +1,24 @@
 {
   Element inMessageRefElement=operationElement.element("inMessageRef");
-  if (!this.messages.containsKey(inMessageRefElement.getText())) {
-    addError(inMessageRefElement.getText() + " does not exist",inMessageRefElement);
+  String inMessageRef=this.resolveName(inMessageRefElement.getText());
+  if (!this.messages.containsKey(inMessageRef)) {
+    addError(inMessageRef + " does not exist",inMessageRefElement);
     return null;
   }
  else {
-    Message inMessage=this.messages.get(inMessageRefElement.getText());
+    MessageDefinition inMessage=this.messages.get(inMessageRef);
     String id=operationElement.attribute("id");
     String name=operationElement.attribute("name");
-    String implementationRef=operationElement.attribute("implementationRef");
-    Operation operation=new Operation(id,name,bpmnInterface,inMessage);
+    String implementationRef=this.resolveName(operationElement.attribute("implementationRef"));
+    Operation operation=new Operation(this.targetNamespace + ":" + id,name,bpmnInterface,inMessage);
     operation.setImplementation(this.operationImplementations.get(implementationRef));
     Element outMessageRefElement=operationElement.element("outMessageRef");
-    if (this.messages.containsKey(outMessageRefElement.getText())) {
-      Message outMessage=this.messages.get(outMessageRefElement.getText());
+    String outMessageRef=this.resolveName(outMessageRefElement.getText());
+    if (this.messages.containsKey(outMessageRef)) {
+      MessageDefinition outMessage=this.messages.get(outMessageRef);
       operation.setOutMessage(outMessage);
     }
-    operations.put(id,operation);
+    operations.put(operation.getId(),operation);
     return operation;
   }
 }

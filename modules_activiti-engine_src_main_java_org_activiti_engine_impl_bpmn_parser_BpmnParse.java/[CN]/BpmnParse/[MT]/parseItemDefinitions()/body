@@ -1,20 +1,20 @@
 {
   for (  Element itemDefinitionElement : rootElement.elements("itemDefinition")) {
     String id=itemDefinitionElement.attribute("id");
-    String structureRef=itemDefinitionElement.attribute("structureRef");
+    String structureRef=this.resolveName(itemDefinitionElement.attribute("structureRef"));
     String itemKind=itemDefinitionElement.attribute("itemKind");
-    Structure structure=null;
+    StructureDefinition structure=null;
     try {
       Class<?> classStructure=ReflectUtil.loadClass(structureRef);
-      structure=new ClassStructure(classStructure);
+      structure=new ClassStructureDefinition(classStructure);
     }
  catch (    ActivitiException e) {
       structure=this.structures.get(structureRef);
     }
-    ItemDefinition itemDefinition=new ItemDefinition(id,structure);
+    ItemDefinition itemDefinition=new ItemDefinition(this.targetNamespace + ":" + id,structure);
     if (itemKind != null) {
       itemDefinition.setItemKind(ItemKind.valueOf(itemKind));
     }
-    itemDefinitions.put(id,itemDefinition);
+    itemDefinitions.put(itemDefinition.getId(),itemDefinition);
   }
 }

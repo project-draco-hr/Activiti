@@ -1,6 +1,18 @@
 {
-  MessageInstance message=this.createEmptyMessage();
+  MessageInstance message;
+  if (ioSpecification != null) {
+    this.ioSpecification.initialize(execution);
+    ItemInstance inputItem=(ItemInstance)execution.getVariable(this.ioSpecification.getFirstDataInputId());
+    message=new MessageInstance(this.operation.getInMessage(),inputItem);
+  }
+ else {
+    message=this.operation.getInMessage().createInstance();
+  }
   this.fillMessage(message,execution);
   MessageInstance receivedMessage=this.operation.sendMessage(message);
+  if (ioSpecification != null) {
+    ItemInstance outputItem=(ItemInstance)execution.getVariable(this.ioSpecification.getFirstDataOutputId());
+    outputItem.getStructureInstance().loadFrom(receivedMessage.getStructureInstance().toArray());
+  }
   this.returnMessage(receivedMessage,execution);
 }
