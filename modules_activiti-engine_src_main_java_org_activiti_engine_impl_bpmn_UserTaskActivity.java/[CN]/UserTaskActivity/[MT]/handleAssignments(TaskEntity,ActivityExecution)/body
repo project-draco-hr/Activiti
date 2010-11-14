@@ -4,12 +4,30 @@
   }
   if (!taskDefinition.getCandidateGroupIdExpressions().isEmpty()) {
     for (    Expression groupIdExpr : taskDefinition.getCandidateGroupIdExpressions()) {
-      task.addCandidateGroup((String)groupIdExpr.getValue(execution));
+      Object value=groupIdExpr.getValue(execution);
+      if (value instanceof String) {
+        task.addCandidateGroup((String)value);
+      }
+ else       if (value instanceof Collection) {
+        task.addCandidateGroups((Collection)value);
+      }
+ else {
+        throw new ActivitiException("Expression did not resolve to a string or collection of strings");
+      }
     }
   }
   if (!taskDefinition.getCandidateUserIdExpressions().isEmpty()) {
     for (    Expression userIdExpr : taskDefinition.getCandidateUserIdExpressions()) {
-      task.addCandidateUser((String)userIdExpr.getValue(execution));
+      Object value=userIdExpr.getValue(execution);
+      if (value instanceof String) {
+        task.addCandidateUser((String)value);
+      }
+ else       if (value instanceof Collection) {
+        task.addCandidateUsers((Collection)value);
+      }
+ else {
+        throw new ActivitiException("Expression did not resolve to a string or collection of strings");
+      }
     }
   }
 }

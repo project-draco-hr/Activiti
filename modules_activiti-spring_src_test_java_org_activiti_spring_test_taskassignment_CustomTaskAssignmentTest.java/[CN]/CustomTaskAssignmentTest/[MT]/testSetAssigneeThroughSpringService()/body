@@ -4,9 +4,5 @@
   TaskService taskService=applicationContext.getBean(TaskService.class);
   runtimeService.startProcessInstanceByKey("assigneeThroughSpringService",CollectionUtil.singletonMap("emp","fozzie"));
   assertEquals(1,taskService.createTaskQuery().taskAssignee("Kermit The Frog").count());
-  RepositoryService repositoryService=applicationContext.getBean(RepositoryService.class);
-  for (  Deployment deployment : repositoryService.createDeploymentQuery().list()) {
-    repositoryService.deleteDeploymentCascade(deployment.getId());
-  }
-  applicationContext.destroy();
+  cleanup(applicationContext);
 }
