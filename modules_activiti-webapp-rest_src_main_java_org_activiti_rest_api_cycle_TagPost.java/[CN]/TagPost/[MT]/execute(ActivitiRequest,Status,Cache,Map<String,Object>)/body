@@ -1,0 +1,12 @@
+{
+  ActivitiRequestObject obj=req.getBody();
+  String connectorId=req.getMandatoryString(obj,"connectorId");
+  String artifactId=req.getMandatoryString(obj,"artifactId");
+  String tagName=req.getMandatoryString(obj,"tagName");
+  String alias=req.getMandatoryString(obj,"alias");
+  this.cycleService.addTag(connectorId,artifactId,tagName,alias);
+  model.put("connectorId",connectorId);
+  model.put("artifactId",artifactId);
+  model.put("tagName",tagName);
+  model.put("alias",alias);
+}
