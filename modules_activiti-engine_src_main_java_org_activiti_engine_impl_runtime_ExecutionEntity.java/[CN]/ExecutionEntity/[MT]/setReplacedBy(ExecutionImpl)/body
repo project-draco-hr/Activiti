@@ -8,7 +8,7 @@
       cachedHistoricActivityInstance.setExecutionId(replacedBy.getId());
     }
   }
-  List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl().executionId(id).open().executeList(commandContext,null);
+  List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl().executionId(id).unfinished().executeList(commandContext,null);
   for (  HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
     historicActivityInstance.setExecutionId(replacedBy.getId());
   }
