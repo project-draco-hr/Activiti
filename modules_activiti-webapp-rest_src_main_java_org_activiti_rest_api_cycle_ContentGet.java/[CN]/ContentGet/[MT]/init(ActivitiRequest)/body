@@ -2,21 +2,5 @@
   String cuid=req.getCurrentUserId();
   HttpSession session=req.getHttpServletRequest().getSession(true);
   List<RepositoryConnector> connectors=CycleServiceImpl.getConfiguredRepositoryConnectors(cuid,session);
-  for (  RepositoryConnector connector : getPasswordEnabledConnectors(connectors)) {
-    Map<String,String> connectorsMap=new HashMap<String,String>();
-    PasswordEnabledRepositoryConnectorConfiguration conf=(PasswordEnabledRepositoryConnectorConfiguration)connector.getConfiguration();
-    String username=req.getString(conf.getId() + "_username");
-    String password=req.getString(conf.getId() + "_password");
-    if (username != null && password != null) {
-      conf.setUser(username);
-      conf.setPassword(password);
-    }
- else     if (conf.getUser() == null || conf.getPassword() == null) {
-      connectorsMap.put(conf.getId(),conf.getName());
-    }
-    if (connectorsMap.size() > 0) {
-      throw new RepositoryAuthenticationException("Repository authentication error: missing login",connectorsMap);
-    }
-  }
   this.cycleService=CycleServiceImpl.getCycleService(cuid,session,connectors);
 }
