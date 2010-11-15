@@ -12,6 +12,7 @@
   assertEquals(Collections.EMPTY_LIST,start.getActivities());
   List<PvmTransition> outgoingTransitions=start.getOutgoingTransitions();
   assertEquals(1,outgoingTransitions.size());
+  assertEquals("${a == b}",outgoingTransitions.get(0).getProperty(BpmnParse.PROPERTYNAME_CONDITION_TEXT));
   PvmActivity end=processDefinition.findActivity("end");
   assertNotNull(end);
   assertEquals("end",end.getId());
