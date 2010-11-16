@@ -1,0 +1,16 @@
+{
+  String connectorId=req.getString("connectorId");
+  String artifactId=req.getString("artifactId");
+  String tag=req.getString("tag");
+  Map<String,String> tags;
+  if (connectorId != null && artifactId != null) {
+    tags=getTagsByArtifact(connectorId,artifactId);
+  }
+ else   if (tag != null) {
+    tags=getTagsById(tag);
+  }
+ else {
+    throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Missing parameter, please provide either 'connectorId' and 'artifactId' to retrieve tags for an artifact or 'tag' to search for tags that contain the given string");
+  }
+  model.put("tags",tags);
+}

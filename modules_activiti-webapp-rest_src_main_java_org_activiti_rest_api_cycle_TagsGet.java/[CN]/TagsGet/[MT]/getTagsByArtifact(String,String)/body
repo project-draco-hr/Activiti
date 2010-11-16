@@ -1,0 +1,7 @@
+{
+  Map<String,String> tags=new HashMap<String,String>();
+  for (  RepositoryNodeTag repositoryNodeTag : this.cycleService.getTagsForNode(connectorId,artifactId)) {
+    tags.put(repositoryNodeTag.getName(),repositoryNodeTag.getAlias());
+  }
+  return tags;
+}
