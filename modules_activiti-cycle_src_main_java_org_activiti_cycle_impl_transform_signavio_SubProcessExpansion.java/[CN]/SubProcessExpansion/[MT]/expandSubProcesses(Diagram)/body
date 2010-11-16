@@ -1,0 +1,24 @@
+{
+  List<Shape> shapes=diagram.getShapes();
+  for (  Shape shape : shapes) {
+    if (STENCIL_COLLAPSED_SUBPROCESS.equals(shape.getStencilId())) {
+      String subProcessUrl=shape.getProperty(PROPERTY_ENTRY);
+      if (subProcessUrl != null && subProcessUrl.length() > 0) {
+        String subProcessName=shape.getProperty(PROPERTY_NAME);
+        try {
+          String subProcessId=getModelIdFromSignavioUrl(subProcessUrl);
+          String representationName=SignavioPluginDefinition.CONTENT_REPRESENTATION_ID_JSON;
+          String subProcessJson=connector.getContent(subProcessId,representationName).asString();
+          Diagram subProcess=DiagramBuilder.parseJson(subProcessJson);
+          expandSubProcesses(subProcess);
+          shape.setStencil(new StencilType(STENCIL_SUBPROCESS));
+          ArrayList<Shape> childShapes=shape.getChildShapes();
+          childShapes.addAll(subProcess.getChildShapes());
+        }
+ catch (        Exception e) {
+          throw new JsonTransformationException("Error while retrieving Sub-Process" + " '" + subProcessName + "'"+ " (URL: "+ subProcessUrl+ ").",e);
+        }
+      }
+    }
+  }
+}
