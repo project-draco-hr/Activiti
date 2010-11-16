@@ -7,11 +7,4 @@ synchronized (transaction_lock) {
     this.autocommit=autocommit;
   }
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
-  try {
-    SVNUrl url=buildSVNURL(onFolderId);
-    lockedURL=url;
-  }
- catch (  Exception e) {
-    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryFolder.class,onFolderId,e);
-  }
 }

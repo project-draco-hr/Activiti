@@ -1,0 +1,9 @@
+{
+  if (info.getNodeKind().equals(SVNNodeKind.DIR)) {
+    return createFolderNode(info,id);
+  }
+  if (info.getNodeKind().equals(SVNNodeKind.FILE)) {
+    return createArtifactNode(info,id);
+  }
+  return null;
+}

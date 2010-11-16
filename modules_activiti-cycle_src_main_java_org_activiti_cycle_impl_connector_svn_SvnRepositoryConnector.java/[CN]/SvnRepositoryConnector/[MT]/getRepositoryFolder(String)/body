@@ -1,9 +1,15 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
-  ISVNDirEntry entry=null;
+  ISVNInfo entry=null;
   try {
-    entry=clientAdapter.getDirEntry(buildSVNURL(id),SVNRevision.HEAD);
-    return (RepositoryFolder)createRepositoryNode(entry,id);
+    File dirtyFolder=isDirty(id);
+    if (dirtyFolder != null) {
+      entry=clientAdapter.getInfo(dirtyFolder);
+    }
+ else {
+      entry=clientAdapter.getInfo(buildSVNURL(id));
+    }
+    return (RepositoryFolder)initRepositoryNode(entry,id);
   }
  catch (  Exception e) {
     log.log(Level.WARNING,"cannot get Folder " + id,e);

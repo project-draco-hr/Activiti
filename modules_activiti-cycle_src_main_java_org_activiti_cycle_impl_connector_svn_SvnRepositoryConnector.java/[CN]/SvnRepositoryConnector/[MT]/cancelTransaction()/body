@@ -1,16 +1,11 @@
 {
 synchronized (transaction_lock) {
     ISVNClientAdapter clientAdapter=getSvnClientAdapter();
-    try {
-      clientAdapter.unlock(new SVNUrl[]{lockedURL},true);
-    }
- catch (    Exception e) {
-      log.log(Level.SEVERE,"Error while unlocking " + lockedURL,e);
-    }
     for (    File dirtyFolder : dirtyFolders.values()) {
       recDelete(dirtyFolder);
     }
     dirtyFolders.clear();
+    createdFolders.clear();
     transactionActive=false;
   }
 }

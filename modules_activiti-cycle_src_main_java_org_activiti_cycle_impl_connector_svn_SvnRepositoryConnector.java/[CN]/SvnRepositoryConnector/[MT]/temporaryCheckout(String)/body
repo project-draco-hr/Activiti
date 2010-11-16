@@ -4,6 +4,8 @@
     SVNUrl parentFolderUrl=buildSVNURL(folderId);
     File temporaryFileStrore=dirtyFolders.get(parentFolderUrl.toString());
     if (temporaryFileStrore != null)     return temporaryFileStrore;
+    temporaryFileStrore=createdFolders.get(folderId);
+    if (temporaryFileStrore != null)     return temporaryFileStrore;
     temporaryFileStrore=new File(getConfiguration().getTemporaryFileStore() + File.separator + UUID.randomUUID());
     clientAdapter.checkout(parentFolderUrl,temporaryFileStrore,SVNRevision.HEAD,false);
     dirtyFolders.put(parentFolderUrl.toString(),temporaryFileStrore);

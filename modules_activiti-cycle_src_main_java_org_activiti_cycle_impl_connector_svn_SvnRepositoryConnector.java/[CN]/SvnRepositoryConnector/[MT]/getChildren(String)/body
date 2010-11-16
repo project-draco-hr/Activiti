@@ -1,19 +1,39 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
-  ISVNDirEntry[] dirEntries;
+  List<RepositoryNode> nodeList=new ArrayList<RepositoryNode>();
   try {
-    dirEntries=clientAdapter.getList(buildSVNURL(id),SVNRevision.HEAD,false);
+    File dirtyFolder=isDirty(id);
+    if (dirtyFolder != null) {
+      File[] list=dirtyFolder.listFiles();
+      for (      File file : list) {
+        if (file.isHidden()) {
+          continue;
+        }
+        ISVNInfo info=clientAdapter.getInfo(file);
+        String nodeId=buildId(id,info.getFile().getName());
+        if (info != null) {
+          RepositoryNode node=initRepositoryNode(info,nodeId);
+          if (node != null) {
+            nodeList.add(node);
+          }
+        }
+      }
+    }
+ else {
+      ISVNDirEntry[] dirEntries=clientAdapter.getList(buildSVNURL(id),SVNRevision.HEAD,false);
+      for (      ISVNDirEntry isvnDirEntry : dirEntries) {
+        String nodeId=buildId(id,isvnDirEntry.getPath());
+        ISVNInfo info=clientAdapter.getInfo(buildSVNURL(nodeId));
+        RepositoryNode node=initRepositoryNode(info,nodeId);
+        if (node != null) {
+          nodeList.add(node);
+        }
+      }
+    }
   }
  catch (  Exception e) {
     log.log(Level.WARNING,"cannot get children of " + id,e);
     throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryFolder.class,id,e);
-  }
-  List<RepositoryNode> nodeList=new ArrayList<RepositoryNode>();
-  for (  ISVNDirEntry isvnDirEntry : dirEntries) {
-    RepositoryNode node=createRepositoryNode(isvnDirEntry,id);
-    if (node != null) {
-      nodeList.add(node);
-    }
   }
   RepositoryNodeCollection result=new RepositoryNodeCollectionImpl(nodeList);
   return result;

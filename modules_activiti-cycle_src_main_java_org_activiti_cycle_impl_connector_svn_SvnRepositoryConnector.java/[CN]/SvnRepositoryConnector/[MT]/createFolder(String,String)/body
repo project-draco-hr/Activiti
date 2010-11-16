@@ -7,11 +7,12 @@
     File newDirectory=new File(temporaryFileStrore + File.separator + name);
     createDirectory(newDirectory);
     clientAdapter.addFile(newDirectory);
+    String newFolderId=buildId(parentFolderId,name);
+    createdFolders.put(newFolderId,newDirectory);
     if (this.autocommit) {
       commitPendingChanges("Activiti-Cycle created folder " + name + " in "+ parentFolderId);
-      return getRepositoryFolder(buildId(parentFolderId,name));
     }
-    return null;
+    return getRepositoryFolder(newFolderId);
   }
  catch (  Exception e) {
     String error="Error while creating folder" + name + " in "+ parentFolderId;

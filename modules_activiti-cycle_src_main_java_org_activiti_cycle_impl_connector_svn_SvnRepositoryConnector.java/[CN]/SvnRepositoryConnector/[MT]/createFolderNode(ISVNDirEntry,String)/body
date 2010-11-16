@@ -1,9 +1,0 @@
-{
-  String path=isvnDirEntry.getPath();
-  RepositoryFolderImpl folder=new RepositoryFolderImpl(getConfiguration().getId(),nodeId);
-  String filename=new File(path).getName();
-  folder.getMetadata().setName(filename);
-  folder.getMetadata().setLastAuthor(isvnDirEntry.getLastCommitAuthor());
-  folder.getMetadata().setVersion(isvnDirEntry.getLastChangedRevision().toString());
-  return folder;
-}

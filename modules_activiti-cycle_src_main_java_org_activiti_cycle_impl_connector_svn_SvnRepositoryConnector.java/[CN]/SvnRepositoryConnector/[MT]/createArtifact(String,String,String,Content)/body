@@ -10,9 +10,8 @@
     clientAdapter.addFile(newFile);
     if (this.autocommit) {
       commitPendingChanges("Activiti-Cycle created file " + artifactName + " in "+ parentFolderId);
-      return getRepositoryArtifact(buildId(parentFolderId,artifactName));
     }
-    return null;
+    return getRepositoryArtifact(buildId(parentFolderId,artifactName));
   }
  catch (  Exception e) {
     log.log(Level.WARNING,"Unable to create" + artifactName + " in "+ parentFolderId,e);
