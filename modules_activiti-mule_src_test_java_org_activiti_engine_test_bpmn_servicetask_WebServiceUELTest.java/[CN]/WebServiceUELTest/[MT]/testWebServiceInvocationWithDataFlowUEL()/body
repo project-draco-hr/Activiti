@@ -11,7 +11,6 @@
   variables.put("dataInputOfProcess",itemInstance);
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey("webServiceInvocationWithDataFlowUEL",variables);
   waitForJobExecutorToProcessAllJobs(10000L,250L);
-  MessageInstance response=(MessageInstance)processEngine.getRuntimeService().getVariable(instance.getId(),"dataOutputOfProcess");
-  structureInstance=(FieldBaseStructureInstance)response.getStructureInstance();
-  assertEquals("The counter has the value -1. Good news",structureInstance.getFieldValue("prettyPrint"));
+  String response=(String)processEngine.getRuntimeService().getVariable(instance.getId(),"dataOutputOfProcess");
+  assertEquals("The counter has the value -1. Good news",response);
 }

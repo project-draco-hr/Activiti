@@ -4,6 +4,7 @@
   compositeResolver.add(new ListELResolver());
   compositeResolver.add(new MapELResolver());
   compositeResolver.add(new ResourceBundleELResolver());
+  compositeResolver.add(new DynamicBeanPropertyELResolver(ItemInstance.class,"getFieldValue","setFieldValue"));
   compositeResolver.add(new BeanELResolver());
   return new SimpleResolver(compositeResolver);
 }

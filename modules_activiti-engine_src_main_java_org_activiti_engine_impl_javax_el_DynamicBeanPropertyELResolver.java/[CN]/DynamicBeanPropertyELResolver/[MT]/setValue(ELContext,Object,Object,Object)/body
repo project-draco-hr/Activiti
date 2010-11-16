@@ -1,0 +1,13 @@
+{
+  if (base == null || this.getCommonPropertyType(context,base) == null) {
+    return;
+  }
+  String propertyName=property.toString();
+  try {
+    ReflectUtil.invoke(base,this.writeMethodName,new Object[]{propertyName,value});
+    context.setPropertyResolved(true);
+  }
+ catch (  Exception e) {
+    throw new ELException(e);
+  }
+}
