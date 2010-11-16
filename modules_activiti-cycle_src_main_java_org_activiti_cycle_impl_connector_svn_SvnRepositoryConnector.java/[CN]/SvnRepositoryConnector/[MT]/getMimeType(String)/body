@@ -1,12 +1,19 @@
 {
   ArtifactType artifactType=null;
   String extension=path;
-  if (!extension.contains(".")) {
-    return getConfiguration().getDefaultArtifactType();
+  while (extension.contains(".")) {
+    extension=extension.substring(path.indexOf(".") + 1);
+    try {
+      artifactType=getConfiguration().getArtifactType(extension);
+    }
+ catch (    Exception e) {
+    }
+    if (artifactType != null) {
+      break;
+    }
   }
-  while (artifactType == null || extension.contains(".")) {
-    extension=path.substring(path.indexOf(".") + 1);
-    artifactType=getConfiguration().getArtifactType(extension);
+  if (artifactType == null) {
+    return getConfiguration().getDefaultArtifactType();
   }
   return artifactType;
 }

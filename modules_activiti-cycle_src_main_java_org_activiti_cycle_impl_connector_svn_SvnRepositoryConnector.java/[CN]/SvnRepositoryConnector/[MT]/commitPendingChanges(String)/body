@@ -1,22 +1,25 @@
 {
 synchronized (transaction_lock) {
     if (!transactionActive) {
-      throw new RuntimeException("No transaction active");
+      return;
     }
   }
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
   try {
-    clientAdapter.commit(dirtyFolders.toArray(new File[0]),comment,true);
+    clientAdapter.commit(dirtyFolders.values().toArray(new File[0]),comment,true);
 synchronized (transaction_lock) {
       transactionActive=false;
     }
   }
  catch (  SVNClientException e) {
-    log.log(Level.SEVERE,"Could not commit changes in " + dirtyFolders.toArray(new File[0]) + " "+ e.getMessage());
+    log.log(Level.SEVERE,"Could not commit changes in " + dirtyFolders.values().toArray(new File[0]) + " "+ e.getMessage());
     cancelTransaction();
-    throw new RepositoryException("Could not commit changes in " + dirtyFolders.toArray(new File[0]),e);
+    throw new RepositoryException("Could not commit changes in " + dirtyFolders.values().toArray(new File[0]),e);
   }
  finally {
+    for (    File dirtyFolder : dirtyFolders.values()) {
+      recDelete(dirtyFolder);
+    }
     dirtyFolders.clear();
   }
 }

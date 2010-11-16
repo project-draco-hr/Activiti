@@ -11,22 +11,19 @@
     parentFolderId="";
     fileName=artifactId;
   }
-  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".");
+  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".",!transactionActive);
   try {
     temporaryFileStrore=temporaryCheckout(parentFolderId);
     File file=new File(temporaryFileStrore.getAbsolutePath() + File.separator + fileName);
     writeToFile(file,content);
-    commitPendingChanges("Activiti-Cycle updated file " + fileName + " in "+ parentFolderId);
+    if (this.autocommit) {
+      commitPendingChanges("Activiti-Cycle updated file " + fileName + " in "+ parentFolderId);
+    }
   }
  catch (  Exception e) {
     String error="Error while updating file " + fileName + " in "+ parentFolderId;
     log.log(Level.WARNING,error,e);
     cancelTransaction();
     throw new RepositoryException(error,e);
-  }
- finally {
-    if (temporaryFileStrore.exists()) {
-      recDelete(temporaryFileStrore);
-    }
   }
 }

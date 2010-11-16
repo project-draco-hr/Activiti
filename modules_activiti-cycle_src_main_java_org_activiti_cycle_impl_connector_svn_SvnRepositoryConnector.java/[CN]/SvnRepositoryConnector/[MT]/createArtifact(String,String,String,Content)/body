@@ -1,24 +1,22 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
   File temporaryFileStrore=null;
-  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".");
+  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".",!transactionActive);
   try {
     temporaryFileStrore=temporaryCheckout(parentFolderId);
     File newFile=new File(temporaryFileStrore + File.separator + artifactName);
     createFile(newFile);
     writeToFile(newFile,artifactContent);
     clientAdapter.addFile(newFile);
-    commitPendingChanges("Activiti-Cycle created file " + artifactName + " in "+ parentFolderId);
-    return getRepositoryArtifact(parentFolderId + "/" + artifactName);
+    if (this.autocommit) {
+      commitPendingChanges("Activiti-Cycle created file " + artifactName + " in "+ parentFolderId);
+      return getRepositoryArtifact(buildId(parentFolderId,artifactName));
+    }
+    return null;
   }
  catch (  Exception e) {
-    log.log(Level.WARNING,"Error while creating artifact" + artifactName + " in "+ parentFolderId,e);
+    log.log(Level.WARNING,"Unable to create" + artifactName + " in "+ parentFolderId,e);
     cancelTransaction();
-    throw new RepositoryException("Unable to create " + artifactName + " in "+ parentFolderId+ " "+ e.getMessage());
-  }
- finally {
-    if (temporaryFileStrore.exists()) {
-      recDelete(temporaryFileStrore);
-    }
+    throw new RepositoryException("Unable to create " + artifactName + " in "+ parentFolderId+ " "+ e.getMessage(),e);
   }
 }

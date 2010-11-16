@@ -1,6 +1,9 @@
 {
-  RepositoryNodeCollection result=connector.getChildren("");
+  RepositoryNodeCollection result=connector.getChildren("c38797fd-5800-4bb9-9286-c90161d099ff");
   Assert.assertTrue(result.asList().size() > 0);
+  for (  RepositoryNode node : result.asList()) {
+    System.out.println(node.getNodeId());
+  }
   try {
     result=connector.getChildren("nonExistentPath");
     Assert.fail();

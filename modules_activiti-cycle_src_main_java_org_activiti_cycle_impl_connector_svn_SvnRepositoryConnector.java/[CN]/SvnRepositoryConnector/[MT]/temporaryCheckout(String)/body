@@ -1,10 +1,12 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
   try {
-    File temporaryFileStrore=new File(getConfiguration().getTemporaryFileStore() + File.separator + UUID.randomUUID());
     SVNUrl parentFolderUrl=buildSVNURL(folderId);
+    File temporaryFileStrore=dirtyFolders.get(parentFolderUrl.toString());
+    if (temporaryFileStrore != null)     return temporaryFileStrore;
+    temporaryFileStrore=new File(getConfiguration().getTemporaryFileStore() + File.separator + UUID.randomUUID());
     clientAdapter.checkout(parentFolderUrl,temporaryFileStrore,SVNRevision.HEAD,false);
-    dirtyFolders.add(temporaryFileStrore);
+    dirtyFolders.put(parentFolderUrl.toString(),temporaryFileStrore);
     return temporaryFileStrore;
   }
  catch (  Exception e) {

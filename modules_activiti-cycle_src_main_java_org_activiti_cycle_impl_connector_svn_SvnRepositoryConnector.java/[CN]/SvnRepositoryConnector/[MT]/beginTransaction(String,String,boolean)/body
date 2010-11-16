@@ -1,9 +1,10 @@
 {
 synchronized (transaction_lock) {
     if (transactionActive == true) {
-      throw new RuntimeException("Cannot begin repository transaction; already active.");
+      return;
     }
-    transactionActive=true;
+    this.transactionActive=true;
+    this.autocommit=autocommit;
   }
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
   try {

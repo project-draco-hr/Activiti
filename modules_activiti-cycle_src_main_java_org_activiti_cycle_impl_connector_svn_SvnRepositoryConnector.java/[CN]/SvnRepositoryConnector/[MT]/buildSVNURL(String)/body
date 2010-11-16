@@ -1,8 +1,4 @@
 {
-  String urlString=getConfiguration().getRepositoryPath();
-  if (!urlString.endsWith("/")) {
-    urlString+="/";
-  }
-  urlString+=id;
-  return new SVNUrl(urlString);
+  String repositoryPath=getConfiguration().getRepositoryPath();
+  return new SVNUrl(buildId(repositoryPath,id));
 }

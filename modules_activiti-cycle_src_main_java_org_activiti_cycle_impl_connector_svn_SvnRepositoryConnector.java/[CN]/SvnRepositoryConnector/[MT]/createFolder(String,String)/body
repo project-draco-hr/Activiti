@@ -1,24 +1,22 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
   File temporaryFileStrore=null;
-  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".");
+  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".",!transactionActive);
   try {
     temporaryFileStrore=temporaryCheckout(parentFolderId);
     File newDirectory=new File(temporaryFileStrore + File.separator + name);
     createDirectory(newDirectory);
     clientAdapter.addFile(newDirectory);
-    commitPendingChanges("Activiti-Cycle created folder " + name + " in "+ parentFolderId);
-    return getRepositoryFolder(parentFolderId + "/" + name);
+    if (this.autocommit) {
+      commitPendingChanges("Activiti-Cycle created folder " + name + " in "+ parentFolderId);
+      return getRepositoryFolder(buildId(parentFolderId,name));
+    }
+    return null;
   }
  catch (  Exception e) {
     String error="Error while creating folder" + name + " in "+ parentFolderId;
     log.log(Level.WARNING,error,e);
     cancelTransaction();
     throw new RepositoryException(error,e);
-  }
- finally {
-    if (temporaryFileStrore.exists()) {
-      recDelete(temporaryFileStrore);
-    }
   }
 }
