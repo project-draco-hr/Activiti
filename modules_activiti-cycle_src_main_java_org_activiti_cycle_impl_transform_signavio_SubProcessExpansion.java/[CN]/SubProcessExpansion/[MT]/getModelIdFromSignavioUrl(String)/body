@@ -1,0 +1,14 @@
+{
+  String modelId=null;
+  List<Pattern> patterns=new ArrayList<Pattern>();
+  patterns.add(Pattern.compile("^.*/p/model/(.*)$"));
+  patterns.add(Pattern.compile("^.*/p/editor[?]id=(.*)$"));
+  for (  Pattern pattern : patterns) {
+    Matcher matcher=pattern.matcher(subProcessUrl);
+    if (matcher.matches()) {
+      modelId=URLDecoder.decode(matcher.group(1),"UTF-8");
+      break;
+    }
+  }
+  return modelId;
+}
