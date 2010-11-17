@@ -7,7 +7,11 @@
       ResourceEntity resource=resources.get(resourceName);
       byte[] bytes=resource.getBytes();
       ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
-      BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).deployment(deployment).name(resourceName).execute();
+      BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).deployment(deployment).name(resourceName);
+      if (!deployment.isValidatingSchema()) {
+        bpmnParse.setSchemaResource(null);
+      }
+      bpmnParse.execute();
       String diagramResource=getDiagramResource(resourceName,resources);
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setResourceName(resourceName);

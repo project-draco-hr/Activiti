@@ -8,11 +8,14 @@
  else {
     message=this.operation.getInMessage().createInstance();
   }
+  execution.setVariable(CURRENT_MESSAGE,message);
   this.fillMessage(message,execution);
   MessageInstance receivedMessage=this.operation.sendMessage(message);
+  execution.setVariable(CURRENT_MESSAGE,receivedMessage);
   if (ioSpecification != null) {
     ItemInstance outputItem=(ItemInstance)execution.getVariable(this.ioSpecification.getFirstDataOutputName());
     outputItem.getStructureInstance().loadFrom(receivedMessage.getStructureInstance().toArray());
   }
   this.returnMessage(receivedMessage,execution);
+  execution.setVariable(CURRENT_MESSAGE,null);
 }

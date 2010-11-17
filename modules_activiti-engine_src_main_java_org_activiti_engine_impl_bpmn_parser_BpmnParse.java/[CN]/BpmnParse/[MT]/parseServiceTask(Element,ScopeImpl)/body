@@ -46,11 +46,11 @@
         webServiceActivityBehavior.setIoSpecification(ioSpecification);
       }
       for (      Element dataAssociationElement : serviceTaskElement.elements("dataInputAssociation")) {
-        DataInputAssociation dataAssociation=this.parseDataInputAssociation(dataAssociationElement);
+        AbstractDataInputAssociation dataAssociation=this.parseDataInputAssociation(dataAssociationElement);
         webServiceActivityBehavior.addDataInputAssociation(dataAssociation);
       }
       for (      Element dataAssociationElement : serviceTaskElement.elements("dataOutputAssociation")) {
-        DataOutputAssociation dataAssociation=this.parseDataOutputAssociation(dataAssociationElement);
+        AbstractDataOutputAssociation dataAssociation=this.parseDataOutputAssociation(dataAssociationElement);
         webServiceActivityBehavior.addDataOutputAssociation(dataAssociation);
       }
       activity.setActivityBehavior(webServiceActivityBehavior);

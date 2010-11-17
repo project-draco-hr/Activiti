@@ -9,5 +9,7 @@
   DeploymentBuilder deploymentBuilder=processEngine.getRepositoryService().createDeployment().name(ClassNameUtil.getClassNameWithoutPackage(this.getClass()) + "." + this.getName());
   String resource=TestHelper.getBpmnProcessDefinitionResource(this.getClass(),this.getName());
   deploymentBuilder.addClasspathResource(resource);
+  DeploymentBuilderImpl impl=(DeploymentBuilderImpl)deploymentBuilder;
+  impl.getDeployment().setValidatingSchema(this.isValidating());
   deploymentId=deploymentBuilder.deploy().getId();
 }

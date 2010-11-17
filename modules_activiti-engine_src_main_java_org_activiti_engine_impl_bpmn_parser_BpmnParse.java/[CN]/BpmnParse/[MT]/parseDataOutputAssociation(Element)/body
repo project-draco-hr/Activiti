@@ -1,6 +1,12 @@
 {
   String targetRef=dataAssociationElement.element("targetRef").getText();
-  Expression transformation=this.expressionManager.createExpression(dataAssociationElement.element("transformation").getText());
-  DataOutputAssociation dataOutputAssociation=new DataOutputAssociation(targetRef,transformation);
-  return dataOutputAssociation;
+  if (dataAssociationElement.element("sourceRef") != null) {
+    String sourceRef=dataAssociationElement.element("sourceRef").getText();
+    return new MessageImplicitDataOutputAssociation(targetRef,sourceRef);
+  }
+ else {
+    Expression transformation=this.expressionManager.createExpression(dataAssociationElement.element("transformation").getText());
+    AbstractDataOutputAssociation dataOutputAssociation=new TransformationDataOutputAssociation(targetRef,transformation);
+    return dataOutputAssociation;
+  }
 }
