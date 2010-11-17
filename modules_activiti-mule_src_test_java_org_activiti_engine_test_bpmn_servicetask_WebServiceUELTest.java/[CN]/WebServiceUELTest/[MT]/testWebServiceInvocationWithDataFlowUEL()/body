@@ -1,8 +1,7 @@
 {
-  SimpleStructureDefinition simpleStructureDefinition=new SimpleStructureDefinition("structure-id");
-  simpleStructureDefinition.setFieldName(0,"prefix",String.class);
-  simpleStructureDefinition.setFieldName(1,"suffix",String.class);
-  ItemDefinition itemDefinition=new ItemDefinition("definition-id",simpleStructureDefinition);
+  DbRepositorySessionFactory dbRepositorySessionFactory=(DbRepositorySessionFactory)this.processEngineConfiguration.getSessionFactories().get(RepositorySession.class);
+  ProcessDefinition processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get("webServiceInvocationWithDataFlowUEL:1");
+  ItemDefinition itemDefinition=processDefinition.getIoSpecification().getDataInputs().get(0).getDefinition();
   ItemInstance itemInstance=itemDefinition.createInstance();
   FieldBaseStructureInstance structureInstance=(FieldBaseStructureInstance)itemInstance.getStructureInstance();
   structureInstance.setFieldValue("prefix","The counter has the value ");
