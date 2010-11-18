@@ -1,0 +1,64 @@
+{
+  String documentPath=null;
+  try {
+    final URL url=ResourceUtils.getURL(resourcePath);
+    String urlString=resourcePath;
+    if (isJarURL(url)) {
+      String jarUrlString=extractJarFileURL(url).toExternalForm();
+      final int x=urlString.indexOf(jarUrlString);
+      if (x != -1) {
+        urlString=urlString.substring(x + jarUrlString.length());
+        if (urlString.charAt(0) == '!') {
+          urlString=urlString.substring(1);
+        }
+        if (urlString.charAt(0) == '/') {
+          urlString=urlString.substring(1);
+        }
+      }
+    }
+    if (urlString.startsWith(ResourceUtils.CLASSPATH_URL_PREFIX)) {
+      urlString=urlString.substring(ResourceUtils.CLASSPATH_URL_PREFIX.length());
+    }
+    if (urlString.startsWith(ResourceUtils.FILE_URL_PREFIX)) {
+      if (storeDirs == null) {
+        throw new WebScriptException("Unable to resolve a file: resource without a storeDir.");
+      }
+      for (int i=0; i < this.storeDirs.length; i++) {
+        if (urlString.startsWith(this.storeDirs[i])) {
+          urlString=urlString.substring(this.storeDirs[i].length());
+          break;
+        }
+      }
+    }
+ else     if (urlString.startsWith(VFSFILE_URL_PREFIX)) {
+      if (storeDirs == null) {
+        throw new WebScriptException("Unable to resolve a vfsfile: resource without a storeDir.");
+      }
+      for (int i=0; i < this.storeDirs.length; i++) {
+        if (urlString.startsWith(this.storeDirs[i])) {
+          urlString=urlString.substring(this.storeDirs[i].length() + 3);
+          break;
+        }
+      }
+    }
+ else {
+      if (classPath != null && classPath.length() != 0) {
+        int idx=urlString.indexOf(classPath);
+        if (idx >= 0) {
+          urlString=urlString.substring(idx + classPath.length());
+        }
+        if (urlString.charAt(0) == '/') {
+          urlString=urlString.substring(1);
+        }
+      }
+    }
+    documentPath=urlString;
+  }
+ catch (  FileNotFoundException fnfe) {
+    if (logger.isWarnEnabled())     logger.warn("Unable to determine document path for resource: " + resourcePath + " with base path "+ classPath,fnfe);
+  }
+catch (  MalformedURLException mue) {
+    if (logger.isWarnEnabled())     logger.warn("Unable to determine document path for resource: " + resourcePath + " with base path "+ classPath,mue);
+  }
+  return documentPath;
+}

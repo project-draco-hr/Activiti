@@ -1,0 +1,9 @@
+{
+  Resource[] resources=getDocumentResources(pattern);
+  List<String> documentPaths=new ArrayList<String>(resources.length);
+  for (  Resource resource : resources) {
+    String documentPath=toDocumentPath(resource.getURL().toExternalForm());
+    documentPaths.add(documentPath);
+  }
+  return documentPaths;
+}
