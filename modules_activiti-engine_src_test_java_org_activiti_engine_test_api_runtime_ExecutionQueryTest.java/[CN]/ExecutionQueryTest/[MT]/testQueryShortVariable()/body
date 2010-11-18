@@ -9,7 +9,7 @@
   vars.put("shortVar2",shortVar2);
   ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
   vars=new HashMap<String,Object>();
-  vars.put("shortVar",5555);
+  vars.put("shortVar",(short)5555);
   ProcessInstance processInstance3=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
   ExecutionQuery query=runtimeService.createExecutionQuery().variableValueEquals("shortVar",shortVar);
   List<Execution> executions=query.list();
@@ -19,7 +19,7 @@
   Execution execution=query.singleResult();
   Assert.assertNotNull(execution);
   Assert.assertEquals(processInstance2.getId(),execution.getId());
-  short unexistingValue=9999;
+  short unexistingValue=(short)9999;
   execution=runtimeService.createExecutionQuery().variableValueEquals("shortVar",unexistingValue).singleResult();
   Assert.assertNull(execution);
   execution=runtimeService.createExecutionQuery().variableValueNotEquals("shortVar",(short)1234).singleResult();
