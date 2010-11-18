@@ -28,35 +28,35 @@
     fail("Excetion expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("Nullvalue cannot be used in 'greater than' condition",ae.getMessage());
+    assertTextPresent("Booleans and null cannot be used in 'greater than' condition",ae.getMessage());
   }
   try {
     runtimeService.createProcessInstanceQuery().variableValueGreaterThanOrEqual("nullVar",null);
     fail("Excetion expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("Nullvalue cannot be used in 'greater than or equal' condition",ae.getMessage());
+    assertTextPresent("Booleans and null cannot be used in 'greater than or equal' condition",ae.getMessage());
   }
   try {
     runtimeService.createProcessInstanceQuery().variableValueLessThan("nullVar",null);
     fail("Excetion expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("Nullvalue cannot be used in 'less than' condition",ae.getMessage());
+    assertTextPresent("Booleans and null cannot be used in 'less than' condition",ae.getMessage());
   }
   try {
     runtimeService.createProcessInstanceQuery().variableValueLessThanOrEqual("nullVar",null);
     fail("Excetion expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("Nullvalue cannot be used in 'less than or equal' condition",ae.getMessage());
+    assertTextPresent("Booleans and null cannot be used in 'less than or equal' condition",ae.getMessage());
   }
   try {
     runtimeService.createProcessInstanceQuery().variableValueLike("nullVar",null);
     fail("Excetion expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("Nullvalue cannot be used in 'like' condition",ae.getMessage());
+    assertTextPresent("Booleans and null cannot be used in 'like' condition",ae.getMessage());
   }
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance2.getId(),"test");

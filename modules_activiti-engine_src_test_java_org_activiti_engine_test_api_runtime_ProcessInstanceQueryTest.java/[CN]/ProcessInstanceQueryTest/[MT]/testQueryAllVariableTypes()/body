@@ -5,9 +5,10 @@
   vars.put("longVar",10L);
   vars.put("doubleVar",1.2);
   vars.put("integerVar",1234);
+  vars.put("booleanVar",true);
   vars.put("shortVar",(short)123);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
-  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValueEquals("nullVar",null).variableValueEquals("stringVar","string").variableValueEquals("longVar",10L).variableValueEquals("doubleVar",1.2).variableValueEquals("integerVar",1234).variableValueEquals("shortVar",(short)123);
+  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValueEquals("nullVar",null).variableValueEquals("stringVar","string").variableValueEquals("longVar",10L).variableValueEquals("doubleVar",1.2).variableValueEquals("integerVar",1234).variableValueEquals("booleanVar",true).variableValueEquals("shortVar",(short)123);
   List<ProcessInstance> processInstances=query.list();
   Assert.assertNotNull(processInstances);
   Assert.assertEquals(1,processInstances.size());
