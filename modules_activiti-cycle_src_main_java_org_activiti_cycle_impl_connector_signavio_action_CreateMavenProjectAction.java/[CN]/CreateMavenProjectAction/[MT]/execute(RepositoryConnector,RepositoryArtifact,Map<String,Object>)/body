@@ -4,6 +4,10 @@
   String comment=(String)getParameter(parameters,PARAM_COMMENT,false,null,String.class);
   RepositoryConnector targetConnector=(RepositoryConnector)getParameter(parameters,PARAM_TARGET_CONNECTOR,true,null,RepositoryConnector.class);
   boolean createLink=(Boolean)getParameter(parameters,CREATE_LINK_NAME,true,Boolean.TRUE,Boolean.class);
+  if (targetConnector instanceof SvnRepositoryConnector) {
+    SvnRepositoryConnector svnRepoConnector=(SvnRepositoryConnector)targetConnector;
+    svnRepoConnector.beginTransaction(targetFolderId,"",false);
+  }
   RepositoryArtifact bpmnArtifact=createProject(targetConnector,targetFolderId,targetName,createBpmnXml(connector,artifact));
   targetConnector.commitPendingChanges(comment);
   if (createLink && bpmnArtifact != null) {
