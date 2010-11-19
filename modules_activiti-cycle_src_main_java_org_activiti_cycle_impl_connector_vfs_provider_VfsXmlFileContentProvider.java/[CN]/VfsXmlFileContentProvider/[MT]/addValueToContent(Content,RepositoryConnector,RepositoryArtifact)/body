@@ -1,0 +1,22 @@
+{
+  super.addValueToContent(content,connector,artifact);
+  InputStream is=content.asInputStream();
+  try {
+    DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
+    DocumentBuilder db;
+    db=dbf.newDocumentBuilder();
+    Document doc=db.parse(is);
+    content.setValue(getXmlAsString(new DOMSource(doc)));
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Error while retrieving artifact " + artifact + " as xml content",e);
+  }
+ finally {
+    try {
+      is.close();
+    }
+ catch (    IOException e) {
+      log.log(Level.WARNING,"Error while closing input stream while  retreiving content of " + artifact,e);
+    }
+  }
+}

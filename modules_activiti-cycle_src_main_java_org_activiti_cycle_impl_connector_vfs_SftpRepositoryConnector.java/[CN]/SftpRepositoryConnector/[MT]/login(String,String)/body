@@ -1,0 +1,17 @@
+{
+  try {
+    getFileSystemManager();
+    connectionString=getConfiguration().getProtocol();
+    connectionString+="://";
+    connectionString+=username + ":";
+    connectionString+=password;
+    connectionString+="@";
+    connectionString+=getConfiguration().getRepositoryPath();
+    fileSystemManager.resolveFile(connectionString,fileSystemOptions);
+  }
+ catch (  Exception e) {
+    log.log(Level.WARNING,"Could not login to " + getConfiguration().getRepositoryPath(),e);
+    return false;
+  }
+  return true;
+}

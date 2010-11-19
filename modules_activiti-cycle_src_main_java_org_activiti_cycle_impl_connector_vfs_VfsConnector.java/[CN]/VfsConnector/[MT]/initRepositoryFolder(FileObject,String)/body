@@ -1,0 +1,7 @@
+{
+  String name=child.getName().getBaseName();
+  if (name.equals(".") || name.equals(".."))   return null;
+  RepositoryFolderImpl newFolder=new RepositoryFolderImpl(getConfiguration().getId(),id);
+  newFolder.getMetadata().setName(name);
+  return newFolder;
+}

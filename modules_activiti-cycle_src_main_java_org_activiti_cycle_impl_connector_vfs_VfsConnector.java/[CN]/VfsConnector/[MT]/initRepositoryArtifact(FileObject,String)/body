@@ -1,0 +1,9 @@
+{
+  String name=child.getName().getBaseName();
+  if (name.equals(".") || name.equals(".."))   return null;
+  ArtifactType type=ConnectorPathUtils.getMimeType(child.getName().getBaseName(),getConfiguration());
+  if (type == null)   return null;
+  RepositoryArtifact newArtifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,type,this);
+  newArtifact.getMetadata().setName(name);
+  return newArtifact;
+}

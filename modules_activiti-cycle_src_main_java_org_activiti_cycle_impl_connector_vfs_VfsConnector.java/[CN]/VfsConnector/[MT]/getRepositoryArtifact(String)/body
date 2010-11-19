@@ -1,0 +1,18 @@
+{
+  String filename=buildFilename(id);
+  FileObject fileObject=null;
+  RepositoryArtifact artifact=null;
+  try {
+    fileObject=fileSystemManager.resolveFile(filename);
+    artifact=initRepositoryArtifact(fileObject,id);
+    if (artifact == null)     throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id);
+  }
+ catch (  FileSystemException e) {
+    log.log(Level.WARNING,"cannot get artifact with id  " + id,e);
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id,e);
+  }
+ finally {
+    close(fileObject);
+  }
+  return artifact;
+}

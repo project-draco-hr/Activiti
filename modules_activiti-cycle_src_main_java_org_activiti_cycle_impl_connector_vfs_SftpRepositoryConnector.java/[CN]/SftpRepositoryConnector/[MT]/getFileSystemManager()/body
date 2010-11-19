@@ -1,0 +1,13 @@
+{
+  if (fileSystemManager == null) {
+    try {
+      fileSystemOptions=new FileSystemOptions();
+      SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(fileSystemOptions,"no");
+      fileSystemManager=VFS.getManager();
+    }
+ catch (    Exception e) {
+      throw new RepositoryException("Cannot initialize FileSystemManager: " + e.getMessage(),e);
+    }
+  }
+  return fileSystemManager;
+}

@@ -1,0 +1,6 @@
+{
+  if (protocol.equals("sftp")) {
+    return new SftpRepositoryConnector(this);
+  }
+  throw new RepositoryException("No connector found for protocol " + protocol);
+}
