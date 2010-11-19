@@ -1,3 +1,10 @@
 {
-  return Math.min(configurationhistoryLevel,((ProcessDefinitionEntity)scopeElement.getProcessDefinition()).getHistoryLevel());
+  ProcessDefinitionImpl processDefinition=scopeElement.getProcessDefinition();
+  if (processDefinition != null) {
+    Integer processHistoryLevel=((ProcessDefinitionEntity)processDefinition).getHistoryLevel();
+    if (processHistoryLevel != null) {
+      return Math.min(configurationhistoryLevel,((ProcessDefinitionEntity)scopeElement.getProcessDefinition()).getHistoryLevel());
+    }
+  }
+  return configurationhistoryLevel;
 }
