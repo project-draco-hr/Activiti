@@ -1,0 +1,16 @@
+{
+  int startIndex=xml.indexOf("<" + elementName);
+  while (startIndex != -1) {
+    int endIndex=xml.indexOf("</" + elementName + ">");
+    if (endIndex != -1) {
+      endIndex=endIndex + elementName.length() + 3;
+    }
+ else {
+      endIndex=xml.indexOf("/>",startIndex) + 2;
+    }
+    String lastPartOfString=xml.substring(endIndex);
+    xml=xml.substring(0,startIndex) + lastPartOfString;
+    startIndex=xml.indexOf("<" + elementName);
+  }
+  return xml;
+}
