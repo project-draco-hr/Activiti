@@ -13,7 +13,6 @@ synchronized (transaction_lock) {
   }
  catch (  SVNClientException e) {
     log.log(Level.SEVERE,"Could not commit changes in " + dirtyFolders.values().toArray(new File[0]) + " "+ e.getMessage());
-    cancelTransaction();
     throw new RepositoryException("Could not commit changes in " + dirtyFolders.values().toArray(new File[0]),e);
   }
  finally {

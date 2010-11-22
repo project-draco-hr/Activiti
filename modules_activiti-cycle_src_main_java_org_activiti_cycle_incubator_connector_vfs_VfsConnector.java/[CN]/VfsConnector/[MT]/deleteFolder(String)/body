@@ -1,3 +1,20 @@
 {
-  throw new UnsupportedOperationException("deleteFolder not yet implemented");
+  checkRepository();
+  String folderFileName=buildFilename(folderId);
+  FileObject file=null;
+  try {
+    file=fileSystemManager.resolveFile(folderFileName);
+    file.delete(new FileSelector(){
+      public boolean traverseDescendents(      FileSelectInfo fileInfo) throws Exception {
+        return true;
+      }
+      public boolean includeFile(      FileSelectInfo fileInfo) throws Exception {
+        return true;
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Could not delete folder '" + folderId + "'. Reason: "+ e.getMessage(),e);
+  }
 }

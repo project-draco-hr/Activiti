@@ -10,7 +10,7 @@
           continue;
         }
         ISVNInfo info=clientAdapter.getInfo(file);
-        String nodeId=buildId(id,info.getFile().getName());
+        String nodeId=ConnectorPathUtils.buildId(id,info.getFile().getName());
         if (info != null) {
           RepositoryNode node=initRepositoryNode(info,nodeId);
           if (node != null) {
@@ -22,7 +22,7 @@
  else {
       ISVNDirEntry[] dirEntries=clientAdapter.getList(buildSVNURL(id),SVNRevision.HEAD,false);
       for (      ISVNDirEntry isvnDirEntry : dirEntries) {
-        String nodeId=buildId(id,isvnDirEntry.getPath());
+        String nodeId=ConnectorPathUtils.buildId(id,isvnDirEntry.getPath());
         ISVNInfo info=clientAdapter.getInfo(buildSVNURL(nodeId));
         RepositoryNode node=initRepositoryNode(info,nodeId);
         if (node != null) {

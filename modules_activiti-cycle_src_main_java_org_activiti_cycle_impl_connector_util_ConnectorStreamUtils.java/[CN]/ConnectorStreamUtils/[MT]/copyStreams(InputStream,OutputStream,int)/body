@@ -1,0 +1,10 @@
+{
+  os=new BufferedOutputStream(os,bufferSize);
+  is=new BufferedInputStream(is,bufferSize);
+  byte[] buffer=new byte[bufferSize];
+  for (int c; (c=is.read(buffer)) > 0; ) {
+    os.write(buffer,0,c);
+  }
+  os.flush();
+  os.close();
+}

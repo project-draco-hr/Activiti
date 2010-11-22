@@ -1,13 +1,13 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
   File temporaryFileStrore=null;
-  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".",!transactionActive);
+  beginTransaction(!transactionActive);
   try {
     temporaryFileStrore=temporaryCheckout(parentFolderId);
     File newDirectory=new File(temporaryFileStrore + File.separator + name);
     createDirectory(newDirectory);
     clientAdapter.addFile(newDirectory);
-    String newFolderId=buildId(parentFolderId,name);
+    String newFolderId=ConnectorPathUtils.buildId(parentFolderId,name);
     createdFolders.put(newFolderId,newDirectory);
     if (this.autocommit) {
       commitPendingChanges("Activiti-Cycle created folder " + name + " in "+ parentFolderId);
@@ -17,7 +17,9 @@
  catch (  Exception e) {
     String error="Error while creating folder" + name + " in "+ parentFolderId;
     log.log(Level.WARNING,error,e);
-    cancelTransaction();
+    if (autocommit) {
+      rollbackTransaction();
+    }
     throw new RepositoryException(error,e);
   }
 }

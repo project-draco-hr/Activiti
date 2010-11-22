@@ -8,7 +8,6 @@
   Content content=new Content();
   content.setValue(contentAsString);
   RepositoryArtifact targetArtifact=targetConnector.createArtifact(targetFolderId,targetName,artifact.getArtifactType().getId(),content);
-  targetConnector.commitPendingChanges(comment);
   if (createLink) {
     RepositoryArtifactLink link=new RepositoryArtifactLinkEntity();
     link.setSourceArtifact(artifact);

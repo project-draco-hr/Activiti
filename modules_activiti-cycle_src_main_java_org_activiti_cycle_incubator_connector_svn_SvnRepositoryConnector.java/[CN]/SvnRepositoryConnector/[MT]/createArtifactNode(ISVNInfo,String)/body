@@ -3,7 +3,7 @@
   if (filename.startsWith(".")) {
     return null;
   }
-  ArtifactType artifactType=getMimeType(filename);
+  ArtifactType artifactType=ConnectorPathUtils.getMimeType(filename,getConfiguration());
   RepositoryArtifactImpl artifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,artifactType,this);
   artifact.getMetadata().setName(filename);
   artifact.getMetadata().setLastAuthor(info.getLastCommitAuthor());

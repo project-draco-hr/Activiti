@@ -11,7 +11,7 @@
     parentFolderId="";
     fileName=artifactId;
   }
-  beginTransaction(parentFolderId,"Temporarily locked by Activiti-Cycle for transactional commit on " + new Date() + ".",!transactionActive);
+  beginTransaction(!transactionActive);
   try {
     temporaryFileStrore=temporaryCheckout(parentFolderId);
     File file=new File(temporaryFileStrore.getAbsolutePath() + File.separator + fileName);
@@ -23,7 +23,9 @@
  catch (  Exception e) {
     String error="Error while updating file " + fileName + " in "+ parentFolderId;
     log.log(Level.WARNING,error,e);
-    cancelTransaction();
+    if (autocommit) {
+      rollbackTransaction();
+    }
     throw new RepositoryException(error,e);
   }
 }

@@ -1,5 +1,8 @@
 {
   for (  RepositoryConnector connector : this.repositoryConnectors) {
-    connector.commitPendingChanges(comment);
+    if (connector instanceof TransactionalRepositoryConnector) {
+      TransactionalRepositoryConnector transactionalConnector=(TransactionalRepositoryConnector)connector;
+      transactionalConnector.commitPendingChanges(comment);
+    }
   }
 }

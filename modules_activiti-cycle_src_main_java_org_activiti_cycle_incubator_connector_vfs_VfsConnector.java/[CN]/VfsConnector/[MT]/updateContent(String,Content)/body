@@ -1,3 +1,14 @@
 {
-  throw new UnsupportedOperationException("Update content not yet implemented");
+  checkRepository();
+  String artifactFileName=buildFilename(artifactId);
+  FileObject file=null;
+  try {
+    file=fileSystemManager.resolveFile(artifactFileName);
+    OutputStream os=file.getContent().getOutputStream();
+    InputStream is=content.asInputStream();
+    ConnectorStreamUtils.copyStreams(is,os,2024);
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Could not update content of  artifact '" + artifactId + "'. Reason: "+ e.getMessage(),e);
+  }
 }

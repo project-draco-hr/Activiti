@@ -5,9 +5,16 @@
   RepositoryConnector targetConnector=(RepositoryConnector)getParameter(parameters,PARAM_TARGET_CONNECTOR,true,null,RepositoryConnector.class);
   boolean createLink=(Boolean)getParameter(parameters,CREATE_LINK_NAME,true,Boolean.TRUE,Boolean.class);
   String bpmnXml=ActivitiCompliantBpmn20Provider.createBpmnXml(connector,artifact);
-  targetConnector.beginTransaction(targetFolderId,"create maven project for " + artifact,false);
-  RepositoryArtifact bpmnArtifact=createProject(targetConnector,targetFolderId,targetName,bpmnXml);
-  targetConnector.commitPendingChanges(comment);
+  RepositoryArtifact bpmnArtifact=null;
+  TransactionalConnectorUtils.beginTransaction(targetConnector);
+  try {
+    bpmnArtifact=createProject(targetConnector,targetFolderId,targetName,bpmnXml);
+    TransactionalConnectorUtils.commitPendingChanges(targetConnector,comment);
+  }
+ catch (  RepositoryException e) {
+    TransactionalConnectorUtils.rollbackTransaction(targetConnector);
+    throw e;
+  }
   if (createLink && bpmnArtifact != null) {
     RepositoryArtifactLink link=new RepositoryArtifactLinkEntity();
     link.setSourceArtifact(artifact);
