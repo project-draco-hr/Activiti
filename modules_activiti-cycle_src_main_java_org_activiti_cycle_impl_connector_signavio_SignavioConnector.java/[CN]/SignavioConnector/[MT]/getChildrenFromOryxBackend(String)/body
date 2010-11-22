@@ -1,0 +1,63 @@
+{
+  ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
+  SignavioConnectorConfiguration connectorConfiguration=getConfiguration();
+  String connectorId=connectorConfiguration.getId();
+  int pageSize=10;
+  if ("/".equals(id)) {
+    JSONArray stencilsets=getStencilsets();
+    for (int i=0; i < stencilsets.length(); i++) {
+      JSONObject stencilsetInfo=stencilsets.getJSONObject(i);
+      String stencilsetName=stencilsetInfo.getString("title");
+      String stencilsetNamespace=stencilsetInfo.getString("namespace");
+      String folderId=stencilsetNamespace;
+      String folderName=stencilsetName;
+      RepositoryFolder virtualFolder=new RepositoryFolderImpl(connectorId,folderId);
+      virtualFolder.getMetadata().setName(folderName);
+      nodes.add(virtualFolder);
+    }
+  }
+ else {
+    int lastIndexOfNumberSign=id.lastIndexOf('#');
+    if (lastIndexOfNumberSign == id.length() - 1) {
+      JSONArray modelRefs=getModelIdsFromOryxBackend(id);
+      int numberOfModels=modelRefs.length();
+      if (numberOfModels <= pageSize) {
+        for (int i=modelRefs.length() - 1; (i >= 0 && i > modelRefs.length() - pageSize); i--) {
+          String modelRef=modelRefs.getString(i);
+          String modelId=connectorConfiguration.getModelIdFromUrl(modelRef);
+          Response infoResponse=getJsonResponse(connectorConfiguration.getModelInfoUrl(modelId));
+          JsonRepresentation jsonRepresentation=new JsonRepresentation(infoResponse.getEntity());
+          RepositoryArtifact fileInfo=getArtifactInfoFromFile(modelId,jsonRepresentation.getJsonObject());
+          nodes.add(fileInfo);
+        }
+      }
+ else {
+        for (int j=0; j <= numberOfModels / pageSize; j++) {
+          String folderId=id + j;
+          int upperBound=numberOfModels;
+          if (j + 1 <= numberOfModels / pageSize) {
+            upperBound=(j + 1) * pageSize;
+          }
+          String folderName=j * pageSize + "-" + upperBound;
+          RepositoryFolder virtualFolder=new RepositoryFolderImpl(connectorId,folderId);
+          virtualFolder.getMetadata().setName(folderName);
+          nodes.add(virtualFolder);
+        }
+      }
+    }
+ else {
+      Integer pageNumber=Integer.valueOf(id.substring(lastIndexOfNumberSign + 1));
+      id=(String)id.subSequence(0,lastIndexOfNumberSign + 1);
+      JSONArray modelRefs=getModelIdsFromOryxBackend(id);
+      for (int i=modelRefs.length() - 1 - pageNumber * pageSize; (i >= 0 && i > modelRefs.length() - (pageNumber + 1) * pageSize); i--) {
+        String modelRef=modelRefs.getString(i);
+        String modelId=connectorConfiguration.getModelIdFromUrl(modelRef);
+        Response infoResponse=getJsonResponse(connectorConfiguration.getModelInfoUrl(modelId));
+        JsonRepresentation jsonRepresentation=new JsonRepresentation(infoResponse.getEntity());
+        RepositoryArtifact fileInfo=getArtifactInfoFromFile(modelId,jsonRepresentation.getJsonObject());
+        nodes.add(fileInfo);
+      }
+    }
+  }
+  return nodes;
+}

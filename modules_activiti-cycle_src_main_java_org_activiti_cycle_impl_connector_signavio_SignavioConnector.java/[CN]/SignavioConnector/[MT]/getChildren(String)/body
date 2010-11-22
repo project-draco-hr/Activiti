@@ -1,7 +1,10 @@
 {
   try {
     ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
-    try {
+    if (getConfiguration() instanceof OryxConnectorConfiguration) {
+      nodes=getChildrenFromOryxBackend(id);
+    }
+ else {
       Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
       JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
       JSONArray relJsonArray=jsonData.getJsonArray();
@@ -19,9 +22,6 @@
           nodes.add(fileInfo);
         }
       }
-    }
- catch (    RepositoryException e) {
-      nodes=getModelsFromOryxBackend();
     }
     return new RepositoryNodeCollectionImpl(nodes);
   }
