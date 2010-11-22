@@ -6,10 +6,9 @@
   String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
   String implementation=serviceTaskElement.attribute("implementation");
   String operationRef=this.resolveName(serviceTaskElement.attribute("operationRef"));
-  List<FieldDeclaration> fieldDeclarations=parseFieldDeclarationsOnServiceTask(serviceTaskElement);
   if (type != null) {
     if (type.equalsIgnoreCase("mail")) {
-      parseEmailServiceTask(activity,serviceTaskElement,fieldDeclarations);
+      parseEmailServiceTask(activity,serviceTaskElement,parseFieldDeclarations(serviceTaskElement));
     }
  else {
       addError("Invalid usage of type attribute: '" + type + "'",serviceTaskElement);
@@ -19,16 +18,7 @@
     if (resultVariableName != null) {
       addError("'resultVariableName' not supported for service tasks using 'class'",serviceTaskElement);
     }
-    Object delegateInstance=instantiateDelegate(className,fieldDeclarations);
-    if (delegateInstance instanceof ActivityBehavior) {
-      activity.setActivityBehavior((ActivityBehavior)delegateInstance);
-    }
- else     if (delegateInstance instanceof JavaDelegation) {
-      activity.setActivityBehavior(new JavaDelegationDelegate((JavaDelegation)delegateInstance));
-    }
- else {
-      addError(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegation.class.getName()+ " nor "+ ActivityBehavior.class.getName(),serviceTaskElement);
-    }
+    activity.setActivityBehavior(new ClassDelegate(className,parseFieldDeclarations(serviceTaskElement)));
   }
  else   if (expression != null && expression.trim().length() > 0) {
     activity.setActivityBehavior(new ServiceTaskExpressionActivityBehavior(expressionManager.createExpression(expression),resultVariableName));

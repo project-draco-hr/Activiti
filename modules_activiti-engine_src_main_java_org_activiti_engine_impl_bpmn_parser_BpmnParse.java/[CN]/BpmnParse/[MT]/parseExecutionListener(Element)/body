@@ -3,16 +3,7 @@
   String className=executionListenerElement.attribute("class");
   String expression=executionListenerElement.attribute("expression");
   if (className != null && className.trim().length() > 0) {
-    Object delegateInstance=instantiateDelegate(className,parseFieldDeclarations(executionListenerElement));
-    if (delegateInstance instanceof ExecutionListener) {
-      executionListener=(ExecutionListener)delegateInstance;
-    }
- else     if (delegateInstance instanceof JavaDelegation) {
-      executionListener=new JavaDelegationDelegate((JavaDelegation)delegateInstance);
-    }
- else {
-      addError(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegation.class.getName()+ " nor "+ ExecutionListener.class.getName(),executionListenerElement);
-    }
+    executionListener=new ClassDelegate(className,parseFieldDeclarations(executionListenerElement));
   }
  else   if (expression != null && expression.trim().length() > 0) {
     executionListener=new ExpressionExecutionListener(expressionManager.createExpression(expression));

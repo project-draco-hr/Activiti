@@ -1,0 +1,12 @@
+{
+  Object delegateInstance=instantiateDelegate(className,fieldDeclarations);
+  if (delegateInstance instanceof ActivityBehavior) {
+    return (ActivityBehavior)delegateInstance;
+  }
+ else   if (delegateInstance instanceof JavaDelegation) {
+    return new JavaDelegationDelegate((JavaDelegation)delegateInstance);
+  }
+ else {
+    throw new ActivitiException(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegation.class.getName()+ " nor "+ ActivityBehavior.class.getName());
+  }
+}

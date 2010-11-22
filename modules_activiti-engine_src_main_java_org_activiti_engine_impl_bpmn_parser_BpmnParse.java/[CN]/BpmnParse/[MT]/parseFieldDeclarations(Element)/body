@@ -1,6 +1,10 @@
 {
   List<FieldDeclaration> fieldDeclarations=new ArrayList<FieldDeclaration>();
-  List<Element> fieldDeclarationElements=element.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"field");
+  Element elementWithFieldInjections=element.element("extensionElements");
+  if (elementWithFieldInjections == null) {
+    elementWithFieldInjections=element;
+  }
+  List<Element> fieldDeclarationElements=elementWithFieldInjections.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"field");
   if (fieldDeclarationElements != null && !fieldDeclarationElements.isEmpty()) {
     for (    Element fieldDeclarationElement : fieldDeclarationElements) {
       FieldDeclaration fieldDeclaration=parseFieldDeclaration(element,fieldDeclarationElement);
