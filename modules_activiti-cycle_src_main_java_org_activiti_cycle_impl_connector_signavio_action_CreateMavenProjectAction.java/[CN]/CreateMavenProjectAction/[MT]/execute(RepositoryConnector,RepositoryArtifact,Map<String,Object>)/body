@@ -9,7 +9,7 @@
   TransactionalConnectorUtils.beginTransaction(targetConnector);
   try {
     bpmnArtifact=createProject(targetConnector,targetFolderId,targetName,bpmnXml);
-    TransactionalConnectorUtils.commitPendingChanges(targetConnector,comment);
+    TransactionalConnectorUtils.commitTransaction(targetConnector,comment);
   }
  catch (  RepositoryException e) {
     TransactionalConnectorUtils.rollbackTransaction(targetConnector);

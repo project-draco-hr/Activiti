@@ -10,7 +10,7 @@
     String newFolderId=ConnectorPathUtils.buildId(parentFolderId,name);
     createdFolders.put(newFolderId,newDirectory);
     if (this.autocommit) {
-      commitPendingChanges("Activiti-Cycle created folder " + name + " in "+ parentFolderId);
+      commitTransaction("Activiti-Cycle created folder " + name + " in "+ parentFolderId);
     }
     return getRepositoryFolder(newFolderId);
   }

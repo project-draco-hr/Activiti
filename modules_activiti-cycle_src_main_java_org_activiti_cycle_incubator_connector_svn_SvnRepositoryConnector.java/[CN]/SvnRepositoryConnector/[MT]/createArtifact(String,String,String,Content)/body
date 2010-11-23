@@ -9,7 +9,7 @@
     writeToFile(newFile,artifactContent);
     clientAdapter.addFile(newFile);
     if (this.autocommit) {
-      commitPendingChanges("Activiti-Cycle created file " + artifactName + " in "+ parentFolderId);
+      commitTransaction("Activiti-Cycle created file " + artifactName + " in "+ parentFolderId);
     }
     return getRepositoryArtifact(ConnectorPathUtils.buildId(parentFolderId,artifactName));
   }

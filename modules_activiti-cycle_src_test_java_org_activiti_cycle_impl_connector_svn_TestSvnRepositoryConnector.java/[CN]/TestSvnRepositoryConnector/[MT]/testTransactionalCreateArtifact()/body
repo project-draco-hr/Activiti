@@ -10,7 +10,7 @@
   Assert.assertNotNull(newArtifact);
   RepositoryNodeCollection nodeCollection=connector.getChildren(folder2.getNodeId());
   Assert.assertTrue(nodeCollection.containsArtifact(newArtifact.getGlobalUniqueId()));
-  connector.commitPendingChanges("");
+  connector.commitTransaction("");
   nodeCollection=connector.getChildren(folder2.getNodeId());
   Assert.assertTrue(nodeCollection.containsArtifact(newArtifact.getGlobalUniqueId()));
 }

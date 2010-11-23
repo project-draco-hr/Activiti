@@ -17,7 +17,7 @@
     File file=new File(temporaryFileStrore.getAbsolutePath() + File.separator + fileName);
     writeToFile(file,content);
     if (this.autocommit) {
-      commitPendingChanges("Activiti-Cycle updated file " + fileName + " in "+ parentFolderId);
+      commitTransaction("Activiti-Cycle updated file " + fileName + " in "+ parentFolderId);
     }
   }
  catch (  Exception e) {
