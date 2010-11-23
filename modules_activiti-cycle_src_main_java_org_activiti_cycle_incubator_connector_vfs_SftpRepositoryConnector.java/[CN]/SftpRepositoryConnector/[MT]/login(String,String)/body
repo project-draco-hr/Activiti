@@ -6,11 +6,14 @@
     connectionString+=username + ":";
     connectionString+=password;
     connectionString+="@";
-    connectionString+=getConfiguration().getRepositoryPath();
+    connectionString+=getConfiguration().getHostname();
+    if (getConfiguration().getPath() != null) {
+      connectionString+=getConfiguration().getPath();
+    }
     fileSystemManager.resolveFile(connectionString,fileSystemOptions);
   }
  catch (  Exception e) {
-    log.log(Level.WARNING,"Could not login to " + getConfiguration().getRepositoryPath(),e);
+    log.log(Level.WARNING,"Could not login to " + getConfiguration().getHostname(),e);
     return false;
   }
   return true;
