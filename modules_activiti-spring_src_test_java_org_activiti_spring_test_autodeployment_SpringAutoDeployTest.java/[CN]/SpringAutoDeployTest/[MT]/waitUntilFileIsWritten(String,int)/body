@@ -1,0 +1,11 @@
+{
+  while (IoUtil.getFile(filePath).length() != (long)expectedBytes) {
+    try {
+      wait(100L);
+    }
+ catch (    InterruptedException e) {
+      fail(e.getMessage());
+    }
+  }
+  return true;
+}

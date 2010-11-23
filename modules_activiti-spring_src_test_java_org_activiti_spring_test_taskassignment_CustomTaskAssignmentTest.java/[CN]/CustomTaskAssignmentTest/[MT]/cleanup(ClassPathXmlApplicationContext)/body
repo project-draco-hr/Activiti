@@ -1,7 +1,0 @@
-{
-  RepositoryService repositoryService=applicationContext.getBean(RepositoryService.class);
-  for (  Deployment deployment : repositoryService.createDeploymentQuery().list()) {
-    repositoryService.deleteDeploymentCascade(deployment.getId());
-  }
-  applicationContext.destroy();
-}

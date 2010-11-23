@@ -2,11 +2,15 @@
   TaskListener taskListener=null;
   String className=taskListenerElement.attribute("class");
   String expression=taskListenerElement.attribute("expression");
-  if (className != null && className.trim().length() > 0) {
+  String delegateExpression=taskListenerElement.attribute("delegateExpression");
+  if (className != null) {
     taskListener=new ClassDelegate(className,parseFieldDeclarations(taskListenerElement));
   }
- else   if (expression != null && expression.trim().length() > 0) {
+ else   if (expression != null) {
     taskListener=new ExpressionTaskListener(expressionManager.createExpression(expression));
+  }
+ else   if (delegateExpression != null) {
+    taskListener=new DelegateExpressionTaskListener(expressionManager.createExpression(delegateExpression));
   }
  else {
     addError("Element 'class' or 'expression' is mandatory on taskListener",taskListenerElement);

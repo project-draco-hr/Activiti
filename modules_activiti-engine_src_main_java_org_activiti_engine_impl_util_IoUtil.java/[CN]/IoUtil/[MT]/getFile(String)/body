@@ -1,0 +1,9 @@
+{
+  URL url=IoUtil.class.getClassLoader().getResource(filePath);
+  try {
+    return new File(url.toURI());
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Couldn't get file " + filePath + ": "+ e.getMessage());
+  }
+}

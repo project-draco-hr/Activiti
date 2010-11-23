@@ -1,0 +1,5 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("executionAndTaskListenerDelegation");
+  assertEquals("working",runtimeService.getVariable(processInstance.getId(),"executionListenerVar"));
+  assertEquals("working",runtimeService.getVariable(processInstance.getId(),"taskListenerVar"));
+}

@@ -1,0 +1,14 @@
+{
+  BufferedOutputStream outputStream=null;
+  try {
+    outputStream=new BufferedOutputStream(new FileOutputStream(getFile(filePath)));
+    outputStream.write(content.getBytes());
+    outputStream.flush();
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Couldn't write file " + filePath + ": "+ e.getMessage());
+  }
+ finally {
+    IoUtil.closeSilently(outputStream);
+  }
+}

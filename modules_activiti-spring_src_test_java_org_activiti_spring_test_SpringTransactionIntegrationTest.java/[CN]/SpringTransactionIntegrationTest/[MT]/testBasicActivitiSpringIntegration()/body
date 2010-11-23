@@ -1,8 +1,0 @@
-{
-  ClassPathXmlApplicationContext applicationContext=new ClassPathXmlApplicationContext("org/activiti/spring/test/SpringTransactionIntegrationTest-context.xml");
-  RepositoryService repositoryService=(RepositoryService)applicationContext.getBean("repositoryService");
-  String deploymentId=repositoryService.createDeployment().addClasspathResource("org/activiti/spring/test/hello.bpmn20.xml").deploy().getId();
-  UserBean userBean=(UserBean)applicationContext.getBean("userBean");
-  userBean.hello();
-  repositoryService.deleteDeploymentCascade(deploymentId);
-}

@@ -2,11 +2,15 @@
   ExecutionListener executionListener=null;
   String className=executionListenerElement.attribute("class");
   String expression=executionListenerElement.attribute("expression");
-  if (className != null && className.trim().length() > 0) {
+  String delegateExpression=executionListenerElement.attribute("delegateExpression");
+  if (className != null) {
     executionListener=new ClassDelegate(className,parseFieldDeclarations(executionListenerElement));
   }
- else   if (expression != null && expression.trim().length() > 0) {
+ else   if (expression != null) {
     executionListener=new ExpressionExecutionListener(expressionManager.createExpression(expression));
+  }
+ else   if (delegateExpression != null) {
+    executionListener=new DelegateExpressionExecutionListener(expressionManager.createExpression(delegateExpression));
   }
  else {
     addError("Element 'class' or 'expression' is mandatory on executionListener",executionListenerElement);

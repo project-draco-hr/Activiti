@@ -1,11 +1,7 @@
 {
-  ClassPathXmlApplicationContext applicationContext=new ClassPathXmlApplicationContext("org/activiti/spring/test/taskassignment/taskassignment-context.xml");
-  RuntimeService runtimeService=applicationContext.getBean(RuntimeService.class);
-  TaskService taskService=applicationContext.getBean(TaskService.class);
   runtimeService.startProcessInstanceByKey("candidateUsersThroughSpringService",CollectionUtil.singletonMap("emp","fozzie"));
   assertEquals(1,taskService.createTaskQuery().taskCandidateUser("kermit").count());
   assertEquals(1,taskService.createTaskQuery().taskCandidateUser("fozzie").count());
   assertEquals(1,taskService.createTaskQuery().taskCandidateUser("gonzo").count());
   assertEquals(0,taskService.createTaskQuery().taskCandidateUser("mispiggy").count());
-  cleanup(applicationContext);
 }

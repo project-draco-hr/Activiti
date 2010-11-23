@@ -3,6 +3,7 @@
   String type=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"type");
   String className=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"class");
   String expression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"expression");
+  String delegateExpression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"delegateExpression");
   String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
   String implementation=serviceTaskElement.attribute("implementation");
   String operationRef=this.resolveName(serviceTaskElement.attribute("operationRef"));
@@ -19,6 +20,12 @@
       addError("'resultVariableName' not supported for service tasks using 'class'",serviceTaskElement);
     }
     activity.setActivityBehavior(new ClassDelegate(className,parseFieldDeclarations(serviceTaskElement)));
+  }
+ else   if (delegateExpression != null) {
+    if (resultVariableName != null) {
+      addError("'resultVariableName' not supported for service tasks using 'delegateExpression'",serviceTaskElement);
+    }
+    activity.setActivityBehavior(new ServiceTaskDelegateExpressionActivityBehavior(expressionManager.createExpression(delegateExpression)));
   }
  else   if (expression != null && expression.trim().length() > 0) {
     activity.setActivityBehavior(new ServiceTaskExpressionActivityBehavior(expressionManager.createExpression(expression),resultVariableName));
@@ -47,7 +54,7 @@
     }
   }
  else {
-    addError("'class', 'type', or 'expression' attribute is mandatory on serviceTask",serviceTaskElement);
+    addError("'class', 'delegateExpression', type', or 'expression' attribute is mandatory on serviceTask",serviceTaskElement);
   }
   parseExecutionListenersOnScope(serviceTaskElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
