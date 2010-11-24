@@ -1,14 +1,12 @@
 {
-  String filename=info.getFile().getName();
+  String filename=getFilename(svnEntry);
   if (filename.startsWith(".")) {
     return null;
   }
   ArtifactType artifactType=ConnectorPathUtils.getMimeType(filename,getConfiguration());
   RepositoryArtifactImpl artifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,artifactType,this);
   artifact.getMetadata().setName(filename);
-  artifact.getMetadata().setLastAuthor(info.getLastCommitAuthor());
-  if (info.getLastChangedRevision() != null) {
-    artifact.getMetadata().setVersion(info.getLastChangedRevision().toString());
-  }
+  artifact.getMetadata().setLastAuthor(getLastCommitAuthor(svnEntry));
+  artifact.getMetadata().setVersion(getLastChangedRevision(svnEntry));
   return artifact;
 }

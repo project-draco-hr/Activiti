@@ -1,9 +1,8 @@
 {
-synchronized (transaction_lock) {
-    if (transactionActive == true) {
-      return;
-    }
-    this.transactionActive=true;
-    this.autocommit=autocommit;
+  transactionLock.lock();
+  if (transactionActive == true) {
+    return;
   }
+  this.transactionActive=true;
+  this.autocommit=autocommit;
 }

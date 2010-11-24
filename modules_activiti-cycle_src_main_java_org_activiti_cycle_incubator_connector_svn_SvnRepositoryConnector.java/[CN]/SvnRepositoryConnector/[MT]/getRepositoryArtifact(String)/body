@@ -1,15 +1,15 @@
 {
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
-  ISVNInfo entry=null;
   try {
     File dirtyFile=isDirty(id);
     if (dirtyFile != null) {
-      entry=clientAdapter.getInfo(dirtyFile);
+      ISVNInfo entry=clientAdapter.getInfo(dirtyFile);
+      return (RepositoryArtifact)initRepositoryNode(entry,id);
     }
  else {
-      entry=clientAdapter.getInfo(buildSVNURL(id));
+      ISVNDirEntry entry=clientAdapter.getDirEntry(buildSVNURL(id),SVNRevision.HEAD);
+      return (RepositoryArtifact)initRepositoryNode(entry,id);
     }
-    return (RepositoryArtifact)initRepositoryNode(entry,id);
   }
  catch (  Exception e) {
     log.log(Level.WARNING,"cannot get Artifact " + id,e);

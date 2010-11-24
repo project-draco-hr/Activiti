@@ -1,0 +1,11 @@
+{
+  if (o instanceof ISVNDirEntry) {
+    ISVNDirEntry dirEntry=(ISVNDirEntry)o;
+    return dirEntry.getLastCommitAuthor();
+  }
+  if (o instanceof ISVNInfo) {
+    ISVNInfo info=(ISVNInfo)o;
+    return info.getLastCommitAuthor();
+  }
+  throw new RepositoryException("must be called using an ISVNDirEntry or a ISVNInfo");
+}

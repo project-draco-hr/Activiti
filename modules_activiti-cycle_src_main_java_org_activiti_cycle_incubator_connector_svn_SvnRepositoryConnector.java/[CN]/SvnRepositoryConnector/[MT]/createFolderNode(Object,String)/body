@@ -1,0 +1,8 @@
+{
+  String filename=getFilename(svnEntry);
+  RepositoryFolderImpl folder=new RepositoryFolderImpl(getConfiguration().getId(),nodeId);
+  folder.getMetadata().setName(filename);
+  folder.getMetadata().setLastAuthor(getLastCommitAuthor(svnEntry));
+  folder.getMetadata().setVersion(getLastChangedRevision(svnEntry));
+  return folder;
+}

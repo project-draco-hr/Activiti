@@ -1,11 +1,18 @@
 {
-synchronized (transaction_lock) {
-    getSvnClientAdapter();
+  transactionLock.lock();
+  if (!transactionActive)   return;
+  try {
     for (    File dirtyFolder : dirtyFolders.values()) {
       recDelete(dirtyFolder);
     }
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Error during rollback",e);
+  }
+ finally {
     dirtyFolders.clear();
     createdFolders.clear();
     transactionActive=false;
+    unlock();
   }
 }
