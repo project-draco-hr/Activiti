@@ -1,16 +1,13 @@
 {
   String connectorId=req.getString("connectorId");
-  String artifactId=req.getString("artifactId");
+  String repositoryNodeId=req.getString("repositoryNodeId");
   String tag=req.getString("tag");
-  Map<String,String> tags;
-  if (connectorId != null && artifactId != null) {
-    tags=getTagsByArtifact(connectorId,artifactId);
-  }
- else   if (tag != null) {
-    tags=getTagsById(tag);
+  List<String> tags;
+  if (connectorId != null && repositoryNodeId != null) {
+    tags=this.cycleService.getTags(connectorId,repositoryNodeId);
   }
  else {
-    throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Missing parameter, please provide either 'connectorId' and 'artifactId' to retrieve tags for an artifact or 'tag' to search for tags that contain the given string");
+    tags=this.cycleService.getSimiliarTagNames(tag != null ? tag : "");
   }
   model.put("tags",tags);
 }
