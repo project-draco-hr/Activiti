@@ -3,7 +3,14 @@
   for (  RepositoryNodeTagEntity tagEntity : tagsForNode) {
     cycleDAO.deleteTag(connectorId,nodeId,tagEntity.getName());
   }
+  HashSet<String> alreadyAddedTags=new HashSet<String>();
   for (  String tag : tags) {
-    addTag(connectorId,nodeId,tag,null);
+    if (tag != null) {
+      tag=tag.trim();
+    }
+    if (!alreadyAddedTags.contains(tag) && tag.length() > 0) {
+      addTag(connectorId,nodeId,tag,null);
+      alreadyAddedTags.add(tag);
+    }
   }
 }
