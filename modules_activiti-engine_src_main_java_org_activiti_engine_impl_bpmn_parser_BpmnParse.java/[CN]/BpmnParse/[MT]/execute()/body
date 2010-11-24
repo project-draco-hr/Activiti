@@ -1,16 +1,23 @@
 {
   super.execute();
-  parseDefinitionsAttributes();
-  parseImports();
-  parseItemDefinitions();
-  parseMessages();
-  parseInterfaces();
-  parseProcessDefinitions();
-  if (hasWarnings()) {
-    logWarnings();
+  try {
+    parseDefinitionsAttributes();
+    parseImports();
+    parseItemDefinitions();
+    parseMessages();
+    parseInterfaces();
+    parseProcessDefinitions();
   }
-  if (hasErrors()) {
-    throwActivitiExceptionForErrors();
+ catch (  Exception e) {
+    LOG.log(Level.SEVERE,"Uknown exception",e);
+  }
+ finally {
+    if (hasWarnings()) {
+      logWarnings();
+    }
+    if (hasErrors()) {
+      throwActivitiExceptionForErrors();
+    }
   }
   return this;
 }
