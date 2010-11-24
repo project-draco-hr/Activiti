@@ -1,4 +1,5 @@
 {
+  createAppContext(CTX_PATH);
   assertEquals(1,repositoryService.createDeploymentQuery().count());
   ((AbstractXmlApplicationContext)applicationContext).destroy();
   String filePath="org/activiti/spring/test/autodeployment/autodeploy.a.bpmn20.xml";
@@ -8,7 +9,7 @@
   IoUtil.writeStringToFile(updatedBpmnFileContent,filePath);
   waitUntilFileIsWritten(filePath,updatedBpmnFileContent.length());
   try {
-    applicationContext=new ClassPathXmlApplicationContext(CTX_NO_DROP);
+    applicationContext=new ClassPathXmlApplicationContext(CTX_NO_DROP_PATH);
     repositoryService=(RepositoryService)applicationContext.getBean("repositoryService");
   }
   finally {
