@@ -1,0 +1,35 @@
+{
+  if (deploymentResources != null && deploymentResources.length > 0) {
+    RepositoryService repositoryService=processEngine.getRepositoryService();
+    DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().enableDuplicateFiltering().name(deploymentName);
+    for (    Resource resource : deploymentResources) {
+      String resourceName=null;
+      if (resource instanceof ContextResource) {
+        resourceName=((ContextResource)resource).getPathWithinContext();
+      }
+ else       if (resource instanceof ByteArrayResource) {
+        resourceName=resource.getDescription();
+      }
+ else {
+        try {
+          resourceName=resource.getFile().getAbsolutePath();
+        }
+ catch (        IOException e) {
+          resourceName=resource.getFilename();
+        }
+      }
+      try {
+        if (resourceName.endsWith(".bar") || resourceName.endsWith(".zip") || resourceName.endsWith(".jar")) {
+          deploymentBuilder.addZipInputStream(new ZipInputStream(resource.getInputStream()));
+        }
+ else {
+          deploymentBuilder.addInputStream(resourceName,resource.getInputStream());
+        }
+      }
+ catch (      IOException e) {
+        throw new ActivitiException("couldn't auto deploy resource '" + resource + "': "+ e.getMessage(),e);
+      }
+    }
+    deploymentBuilder.deploy();
+  }
+}

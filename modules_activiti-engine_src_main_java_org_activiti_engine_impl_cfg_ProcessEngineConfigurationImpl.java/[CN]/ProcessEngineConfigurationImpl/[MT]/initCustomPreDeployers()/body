@@ -1,0 +1,13 @@
+{
+  if (customPreDeployers == null && customPreDeployerClasses != null) {
+    customPreDeployers=new ArrayList<Deployer>();
+    for (    Class<?> customPreDeployerClass : customPreDeployerClasses) {
+      try {
+        customPreDeployers.add((Deployer)customPreDeployerClass.newInstance());
+      }
+ catch (      Exception e) {
+        new ActivitiException("problem instantiating custom deployer " + customPreDeployerClass + ": "+ e.getMessage(),e);
+      }
+    }
+  }
+}

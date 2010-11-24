@@ -1,14 +1,14 @@
 {
-  ProcessEngine processEngine=new ProcessEngineBuilder().configureFromResource("org/activiti/engine/test/db/connection-pool.activiti.cfg.xml").buildProcessEngine();
-  ProcessEngineConfiguration config=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration();
+  ProcessEngineConfigurationImpl config=(ProcessEngineConfigurationImpl)ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("org/activiti/engine/test/db/connection-pool.activiti.cfg.xml");
+  config.buildProcessEngine();
   int maxActive=25;
   int maxIdle=10;
   int maxCheckoutTime=30000;
   int maxWaitTime=25000;
-  assertEquals(maxActive,config.getMaxActiveConnections());
-  assertEquals(maxIdle,config.getMaxIdleConnections());
-  assertEquals(maxCheckoutTime,config.getMaxCheckoutTime());
-  assertEquals(maxWaitTime,config.getMaxWaitTime());
+  assertEquals(maxActive,config.getJdbcMaxActiveConnections());
+  assertEquals(maxIdle,config.getJdbcMaxIdleConnections());
+  assertEquals(maxCheckoutTime,config.getJdbcMaxCheckoutTime());
+  assertEquals(maxWaitTime,config.getJdbcMaxWaitTime());
   DataSource datasource=config.getDbSqlSessionFactory().getSqlSessionFactory().getConfiguration().getEnvironment().getDataSource();
   assertTrue(datasource instanceof PooledDataSource);
   PooledDataSource pooledDataSource=(PooledDataSource)datasource;

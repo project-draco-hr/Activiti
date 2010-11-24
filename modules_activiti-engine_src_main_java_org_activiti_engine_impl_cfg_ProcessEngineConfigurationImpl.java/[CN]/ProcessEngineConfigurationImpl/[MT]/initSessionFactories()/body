@@ -1,0 +1,32 @@
+{
+  if (sessionFactories == null) {
+    sessionFactories=new HashMap<Class<?>,SessionFactory>();
+    addSessionFactory(new DbRuntimeSessionFactory());
+    addSessionFactory(new DbTaskSessionFactory());
+    addSessionFactory(new DbIdentitySessionFactory());
+    addSessionFactory(new DbManagementSessionFactory());
+    addSessionFactory(new JobExecutorTimerSessionFactory());
+    addSessionFactory(new DbHistorySessionFactory());
+    DbRepositorySessionFactory dbRepositorySessionFactory=new DbRepositorySessionFactory();
+    dbRepositorySessionFactory.setDeployers(deployers);
+    addSessionFactory(dbRepositorySessionFactory);
+    JobExecutorMessageSessionFactory jobExecutorMessageSessionFactory=new JobExecutorMessageSessionFactory();
+    addSessionFactory(jobExecutorMessageSessionFactory);
+    dbSqlSessionFactory=new DbSqlSessionFactory();
+    dbSqlSessionFactory.setDatabaseType(databaseType);
+    dbSqlSessionFactory.setIdGenerator(idGenerator);
+    dbSqlSessionFactory.setSqlSessionFactory(sqlSessionFactory);
+    addSessionFactory(dbSqlSessionFactory);
+  }
+  if (customSessionFactoryClasses != null) {
+    for (    Class<?> customSessionFactoryClass : customSessionFactoryClasses) {
+      try {
+        SessionFactory sessionFactory=(SessionFactory)customSessionFactoryClass.newInstance();
+        addSessionFactory(sessionFactory);
+      }
+ catch (      Exception e) {
+        throw new ActivitiException("problem instantiating new custom session factory for class+ " + customSessionFactoryClass + ": "+ e.getMessage(),e);
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (customPostDeployers == null && customPostDeployerClasses != null) {
+    customPostDeployers=new ArrayList<Deployer>();
+    for (    Class<?> customPostDeployerClass : customPostDeployerClasses) {
+      try {
+        customPostDeployers.add((Deployer)customPostDeployerClass.newInstance());
+      }
+ catch (      Exception e) {
+        new ActivitiException("problem instantiating custom deployer " + customPostDeployerClass + ": "+ e.getMessage(),e);
+      }
+    }
+  }
+}

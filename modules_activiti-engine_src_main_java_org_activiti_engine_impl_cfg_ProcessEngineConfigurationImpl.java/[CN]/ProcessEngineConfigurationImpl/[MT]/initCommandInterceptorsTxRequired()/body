@@ -1,0 +1,14 @@
+{
+  if (commandInterceptorsTxRequired == null) {
+    if (customPreCommandInterceptorsTxRequired != null) {
+      commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>(customPreCommandInterceptorsTxRequired);
+    }
+ else {
+      commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>();
+    }
+    commandInterceptorsTxRequired.addAll(getDefaultCommandInterceptorsTxRequired());
+    if (customPostCommandInterceptorsTxRequired != null) {
+      commandInterceptorsTxRequired.addAll(customPostCommandInterceptorsTxRequired);
+    }
+  }
+}

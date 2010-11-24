@@ -1,0 +1,10 @@
+{
+  if (jobExecutor == null) {
+    jobExecutor=new JobExecutor();
+  }
+  jobHandlers=new HashMap<String,JobHandler>();
+  TimerExecuteNestedActivityJobHandler timerExecuteNestedActivityJobHandler=new TimerExecuteNestedActivityJobHandler();
+  jobHandlers.put(timerExecuteNestedActivityJobHandler.getType(),timerExecuteNestedActivityJobHandler);
+  jobExecutor.setCommandExecutor(commandExecutorTxRequired);
+  jobExecutor.setAutoActivate(jobExecutorActivate);
+}

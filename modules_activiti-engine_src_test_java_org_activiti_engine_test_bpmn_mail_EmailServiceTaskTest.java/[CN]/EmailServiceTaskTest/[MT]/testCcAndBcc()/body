@@ -1,6 +1,6 @@
 {
   runtimeService.startProcessInstanceByKey("ccAndBcc");
   List<WiserMessage> messages=wiser.getMessages();
-  assertEmailSend(messages.get(0),false,"Hello world","This is the content","noreply@activiti.org",Arrays.asList("kermit@activiti.org"),Arrays.asList("fozzie@activiti.org"));
+  assertEmailSend(messages.get(0),false,"Hello world","This is the content","activiti@localhost",Arrays.asList("kermit@activiti.org"),Arrays.asList("fozzie@activiti.org"));
   assertEquals(3,messages.size());
 }

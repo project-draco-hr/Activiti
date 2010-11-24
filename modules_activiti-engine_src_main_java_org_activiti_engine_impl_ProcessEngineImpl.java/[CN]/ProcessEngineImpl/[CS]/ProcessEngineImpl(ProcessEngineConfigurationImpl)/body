@@ -1,0 +1,34 @@
+{
+  this.processEngineConfiguration=processEngineConfiguration;
+  this.name=processEngineConfiguration.getProcessEngineName();
+  this.repositoryService=processEngineConfiguration.getRepositoryService();
+  this.runtimeService=processEngineConfiguration.getRuntimeService();
+  this.historicDataService=processEngineConfiguration.getHistoryService();
+  this.identityService=processEngineConfiguration.getIdentityService();
+  this.taskService=processEngineConfiguration.getTaskService();
+  this.formService=processEngineConfiguration.getFormService();
+  this.managementService=processEngineConfiguration.getManagementService();
+  this.dbSchemaStrategy=processEngineConfiguration.getDbSchemaStrategy();
+  this.jobExecutor=processEngineConfiguration.getJobExecutor();
+  this.commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  this.sessionFactories=processEngineConfiguration.getSessionFactories();
+  this.historyLevel=processEngineConfiguration.getHistoryLevel();
+  this.transactionContextFactory=processEngineConfiguration.getTransactionContextFactory();
+  commandExecutor.execute(new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      performSchemaOperationsCreate();
+      return null;
+    }
+  }
+);
+  if (name == null) {
+    log.info("default activiti ProcessEngine created");
+  }
+ else {
+    log.info("ProcessEngine " + name + " created");
+  }
+  ProcessEngines.registerProcessEngine(this);
+  if ((jobExecutor != null) && (jobExecutor.isAutoActivate())) {
+    jobExecutor.start();
+  }
+}

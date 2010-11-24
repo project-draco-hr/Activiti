@@ -4,7 +4,7 @@
   if (executionId != null) {
     execution=runtimeSession.findExecutionById(executionId);
   }
-  JobHandlers jobHandlers=commandContext.getProcessEngineConfiguration().getJobHandlers();
-  JobHandler jobHandler=jobHandlers.getJobHandler(jobHandlerType);
+  Map<String,JobHandler> jobHandlers=commandContext.getProcessEngineConfiguration().getJobHandlers();
+  JobHandler jobHandler=jobHandlers.get(jobHandlerType);
   jobHandler.execute(jobHandlerConfiguration,execution,commandContext);
 }

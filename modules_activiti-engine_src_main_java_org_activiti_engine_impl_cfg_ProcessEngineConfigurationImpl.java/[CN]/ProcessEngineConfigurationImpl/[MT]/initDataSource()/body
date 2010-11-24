@@ -1,0 +1,24 @@
+{
+  if (dataSource == null && jdbcUrl != null) {
+    if ((jdbcDriver == null) || (jdbcUrl == null) || (jdbcUsername == null)) {
+      throw new ActivitiException("DataSource or JDBC properties have to be specified in a process engine configuration");
+    }
+    PooledDataSource pooledDataSource=new PooledDataSource(ReflectUtil.getClassLoader(),jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
+    if (jdbcMaxActiveConnections > 0) {
+      pooledDataSource.setPoolMaximumActiveConnections(jdbcMaxActiveConnections);
+    }
+    if (jdbcMaxIdleConnections > 0) {
+      pooledDataSource.setPoolMaximumIdleConnections(jdbcMaxIdleConnections);
+    }
+    if (jdbcMaxCheckoutTime > 0) {
+      pooledDataSource.setPoolMaximumCheckoutTime(jdbcMaxCheckoutTime);
+    }
+    if (jdbcMaxWaitTime > 0) {
+      pooledDataSource.setPoolTimeToWait(jdbcMaxWaitTime);
+    }
+    dataSource=pooledDataSource;
+  }
+  if (dataSource instanceof PooledDataSource) {
+    ((PooledDataSource)dataSource).forceCloseAll();
+  }
+}

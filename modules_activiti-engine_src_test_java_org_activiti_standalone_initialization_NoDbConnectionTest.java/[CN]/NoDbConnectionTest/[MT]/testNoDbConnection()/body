@@ -1,6 +1,6 @@
 {
   try {
-    new ProcessEngineBuilder().configureFromResource("org/activiti/standalone/initialization/nodbconnection.activiti.cfg.xml").buildProcessEngine();
+    ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("org/activiti/standalone/initialization/nodbconnection.activiti.cfg.xml").buildProcessEngine();
     fail("expected exception");
   }
  catch (  RuntimeException e) {

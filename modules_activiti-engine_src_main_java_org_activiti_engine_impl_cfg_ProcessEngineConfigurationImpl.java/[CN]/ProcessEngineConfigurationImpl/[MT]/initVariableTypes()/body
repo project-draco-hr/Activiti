@@ -1,0 +1,15 @@
+{
+  if (variableTypes == null) {
+    variableTypes=new DefaultVariableTypes();
+  }
+  if (customVariableTypeClasses != null) {
+    for (    Class<?> customVariableTypeClass : customVariableTypeClasses) {
+      try {
+        variableTypes.addType((VariableType)customVariableTypeClass.newInstance());
+      }
+ catch (      Exception e) {
+        new ActivitiException("problem instantiating custom variable type " + customVariableTypeClass + ": "+ e.getMessage(),e);
+      }
+    }
+  }
+}

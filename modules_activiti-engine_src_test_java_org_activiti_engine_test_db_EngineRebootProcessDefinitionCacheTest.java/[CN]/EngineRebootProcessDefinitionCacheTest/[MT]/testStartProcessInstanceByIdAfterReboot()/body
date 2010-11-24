@@ -1,9 +1,9 @@
 {
   ActivitiInternalTestCase.closeProcessEngine();
-  ProcessEngineConfiguration processEngineConfiguration=new ProcessEngineConfiguration();
+  ProcessEngineConfigurationImpl processEngineConfiguration=new StandaloneInMemProcessEngineConfiguration();
   processEngineConfiguration.setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000");
-  processEngineConfiguration.dbSchemaCreate();
-  ProcessEngine processEngine=new ProcessEngineBuilder().setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorAutoActivation(false).buildProcessEngine();
+  ProcessEngine schemaProcessEngine=processEngineConfiguration.buildProcessEngine();
+  ProcessEngine processEngine=new StandaloneProcessEngineConfiguration().setDbSchemaStrategy(ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/engine/test/db/EngineRebootProcessDefinitionCacheTest.bpmn20.xml").deploy();
   List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().createProcessDefinitionQuery().list();
   assertEquals(1,processDefinitions.size());
@@ -12,7 +12,7 @@
   assertNotNull(processInstance);
   processEngine.close();
   assertNotNull(processEngine.getRuntimeService());
-  processEngine=new ProcessEngineBuilder().setDbSchemaStrategy(DbSchemaStrategy.CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorAutoActivation(false).buildProcessEngine();
+  processEngine=new StandaloneProcessEngineConfiguration().setDbSchemaStrategy(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   processInstance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
   assertNotNull(processInstance);
   TaskService taskService=processEngine.getTaskService();
@@ -23,5 +23,5 @@
   processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinitions.get(0).getId());
   assertNotNull(processInstance);
   processEngine.close();
-  processEngineConfiguration.dbSchemaDrop();
+  schemaProcessEngine.close();
 }

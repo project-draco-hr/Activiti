@@ -1,11 +1,5 @@
 {
-  initializeSpringTransactionInterceptor();
   initializeExpressionManager();
-  initializeJPA();
   processEngine=(ProcessEngineImpl)processEngineConfiguration.buildProcessEngine();
-  if (deploymentResources.length > 0) {
-    autoDeployResources();
-  }
-  ProcessEngines.registerProcessEngine(processEngine);
   return processEngine;
 }

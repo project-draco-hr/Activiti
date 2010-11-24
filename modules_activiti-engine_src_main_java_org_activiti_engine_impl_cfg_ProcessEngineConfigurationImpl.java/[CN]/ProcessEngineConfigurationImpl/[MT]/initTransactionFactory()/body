@@ -1,0 +1,10 @@
+{
+  if (transactionFactory == null) {
+    if (transactionsExternallyManaged) {
+      transactionFactory=new ManagedTransactionFactory();
+    }
+ else {
+      transactionFactory=new JdbcTransactionFactory();
+    }
+  }
+}

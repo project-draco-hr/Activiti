@@ -1,0 +1,22 @@
+{
+  if (sqlSessionFactory == null) {
+    InputStream inputStream=null;
+    try {
+      inputStream=ReflectUtil.getResourceAsStream("org/activiti/db/ibatis/activiti.ibatis.mem.conf.xml");
+      Environment environment=new Environment("default",transactionFactory,dataSource);
+      Reader reader=new InputStreamReader(inputStream);
+      XMLConfigBuilder parser=new XMLConfigBuilder(reader);
+      Configuration configuration=parser.getConfiguration();
+      configuration.setEnvironment(environment);
+      configuration.getTypeHandlerRegistry().register(VariableType.class,JdbcType.VARCHAR,new IbatisVariableTypeHandler());
+      configuration=parser.parse();
+      sqlSessionFactory=new DefaultSqlSessionFactory(configuration);
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Error while building ibatis SqlSessionFactory: " + e.getMessage(),e);
+    }
+ finally {
+      IoUtil.closeSilently(inputStream);
+    }
+  }
+}

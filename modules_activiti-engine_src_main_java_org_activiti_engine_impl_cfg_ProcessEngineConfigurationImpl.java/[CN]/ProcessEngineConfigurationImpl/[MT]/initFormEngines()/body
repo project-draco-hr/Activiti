@@ -1,0 +1,19 @@
+{
+  if (formEngines == null) {
+    formEngines=new HashMap<String,FormEngine>();
+    FormEngine defaultFormEngine=new JuelFormEngine();
+    formEngines.put(null,defaultFormEngine);
+    formEngines.put(defaultFormEngine.getName(),defaultFormEngine);
+  }
+  if (customFormEngineClasses != null) {
+    for (    Class<?> customFormEngineClass : customFormEngineClasses) {
+      try {
+        FormEngine formEngine=(FormEngine)customFormEngineClass.newInstance();
+        formEngines.put(formEngine.getName(),formEngine);
+      }
+ catch (      Exception e) {
+        new ActivitiException("problem instantiating custom form engine " + customFormEngineClass + ": "+ e.getMessage(),e);
+      }
+    }
+  }
+}

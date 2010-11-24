@@ -1,0 +1,18 @@
+{
+  if (jpaPersistenceUnitName != null) {
+    jpaEntityManagerFactory=Persistence.createEntityManagerFactory(jpaPersistenceUnitName);
+  }
+  if (jpaEntityManagerFactory != null) {
+    sessionFactories.put(EntityManagerSession.class,new EntityManagerSessionFactory(jpaEntityManagerFactory,jpaHandleTransaction,jpaCloseEntityManager));
+    VariableType jpaType=variableTypes.getVariableType(JPAEntityVariableType.TYPE_NAME);
+    if (jpaType == null) {
+      int serializableIndex=variableTypes.getTypeIndex(SerializableType.TYPE_NAME);
+      if (serializableIndex > -1) {
+        variableTypes.addType(new JPAEntityVariableType(),serializableIndex);
+      }
+ else {
+        variableTypes.addType(new JPAEntityVariableType());
+      }
+    }
+  }
+}
