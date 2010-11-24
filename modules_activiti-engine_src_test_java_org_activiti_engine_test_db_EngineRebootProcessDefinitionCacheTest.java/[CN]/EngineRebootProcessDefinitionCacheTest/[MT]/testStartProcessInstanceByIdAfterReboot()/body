@@ -3,7 +3,7 @@
   ProcessEngineConfigurationImpl processEngineConfiguration=new StandaloneInMemProcessEngineConfiguration();
   processEngineConfiguration.setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000");
   ProcessEngine schemaProcessEngine=processEngineConfiguration.buildProcessEngine();
-  ProcessEngine processEngine=new StandaloneProcessEngineConfiguration().setDbSchemaStrategy(ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
+  ProcessEngine processEngine=new StandaloneProcessEngineConfiguration().setDatabaseSchemaStrategy(ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/engine/test/db/EngineRebootProcessDefinitionCacheTest.bpmn20.xml").deploy();
   List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().createProcessDefinitionQuery().list();
   assertEquals(1,processDefinitions.size());
@@ -12,7 +12,7 @@
   assertNotNull(processInstance);
   processEngine.close();
   assertNotNull(processEngine.getRuntimeService());
-  processEngine=new StandaloneProcessEngineConfiguration().setDbSchemaStrategy(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
+  processEngine=new StandaloneProcessEngineConfiguration().setDatabaseSchemaStrategy(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CHECK_VERSION).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   processInstance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
   assertNotNull(processInstance);
   TaskService taskService=processEngine.getTaskService();
