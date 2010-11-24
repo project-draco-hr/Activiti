@@ -1,0 +1,9 @@
+{
+  DelegateExecution execution=delegateTask.getExecution();
+  Map<String,String> assigneeMappingTable=(Map<String,String>)execution.getVariable("assigneeMappingTable");
+  String assigneeFromProcessDefinition=delegateTask.getAssignee();
+  if (assigneeMappingTable.containsKey(assigneeFromProcessDefinition)) {
+    String assigneeFromMappingTable=assigneeMappingTable.get(assigneeFromProcessDefinition);
+    delegateTask.setAssignee(assigneeFromMappingTable);
+  }
+}
