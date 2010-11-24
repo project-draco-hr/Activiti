@@ -1,9 +1,0 @@
-{
-  try {
-    configurationParser.createParse().sourceResource("org/activiti/engine/test/cfg/multiple-db-config.activiti.cfg.xml").execute();
-    fail("Invalid config xml should not parse");
-  }
- catch (  ActivitiException e) {
-    assertTextPresent("multiple elements with tag name database found",e.getMessage());
-  }
-}

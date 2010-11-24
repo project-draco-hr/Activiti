@@ -1,18 +1,18 @@
 {
-  if (ProcessEngineConfigurationImpl.DB_SCHEMA_STRATEGY_DROP_CREATE.equals(databaseSchemaStrategy)) {
+  if (ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(databaseSchemaUpdate)) {
     try {
       getDbSqlSessionFactory().dbSchemaDrop();
     }
  catch (    RuntimeException e) {
     }
   }
-  if (org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CREATE_DROP.equals(databaseSchemaStrategy) || ProcessEngineConfigurationImpl.DB_SCHEMA_STRATEGY_DROP_CREATE.equals(databaseSchemaStrategy) || ProcessEngineConfigurationImpl.DB_SCHEMA_STRATEGY_CREATE.equals(databaseSchemaStrategy)) {
+  if (org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_CREATE_DROP.equals(databaseSchemaUpdate) || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(databaseSchemaUpdate) || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_CREATE.equals(databaseSchemaUpdate)) {
     getDbSqlSessionFactory().dbSchemaCreate();
   }
- else   if (org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_STRATEGY_CHECK_VERSION.equals(databaseSchemaStrategy)) {
+ else   if (org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE.equals(databaseSchemaUpdate)) {
     getDbSqlSessionFactory().dbSchemaCheckVersion();
   }
- else   if (ProcessEngineConfigurationImpl.DB_SCHEMA_STRATEGY_CREATE_IF_NECESSARY.equals(databaseSchemaStrategy)) {
+ else   if (ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE.equals(databaseSchemaUpdate)) {
     try {
       getDbSqlSessionFactory().dbSchemaCheckVersion();
     }
