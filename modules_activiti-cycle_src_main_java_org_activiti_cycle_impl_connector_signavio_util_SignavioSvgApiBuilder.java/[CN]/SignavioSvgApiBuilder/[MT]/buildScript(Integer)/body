@@ -10,7 +10,7 @@
     svgApiCall.append("{");
     svgApiCall.append("url: \"" + connector.getConfiguration().getModelUrl(artifact.getNodeId()) + "\"");
     if (useLocalScripts) {
-      svgApiCall.append(", server: \"" + SERVER_SCRIPT_URL + "\"");
+      svgApiCall.append(", server: \"" + connector.getConfiguration().getSignavioUrl() + "\"");
     }
     svgApiCall.append(", element: \"model\"");
     if (authToken != null && authToken.length() > 0) {

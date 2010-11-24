@@ -6,6 +6,15 @@
     color="red";
   }
   JSONObject highlightNodesObj=new JSONObject();
+  List<String> lanes=new ArrayList<String>();
+  for (  Entry<String,List<String>> entry : map.entrySet()) {
+    for (    String name : entry.getValue()) {
+      if (name.toLowerCase().contains("lane"))       lanes.add(entry.getKey());
+    }
+  }
+  for (  String string : lanes) {
+    map.remove(string);
+  }
   highlightNodesObj.put("nodes",map.keySet());
   JSONObject attributes=new JSONObject();
   attributes.put("fill",color);
