@@ -7,5 +7,24 @@
   runtimeService.setVariable(processInstance.getId(),"number","two");
   runtimeService.setVariable(processInstance.getId(),"bytes",":-)".getBytes());
   List<HistoricDetail> historicDetails=historyService.createHistoricDetailQuery().orderByVariableName().asc().orderByVariableRevision().asc().list();
-  System.out.println(historicDetails);
+  HistoricVariableUpdate historicVariableUpdate=(HistoricVariableUpdate)historicDetails.get(0);
+  assertEquals("bytes",historicVariableUpdate.getVariableName());
+  assertEquals(":-(",new String((byte[])historicVariableUpdate.getValue()));
+  assertEquals(0,historicVariableUpdate.getRevision());
+  historicVariableUpdate=(HistoricVariableUpdate)historicDetails.get(1);
+  assertEquals("bytes",historicVariableUpdate.getVariableName());
+  assertEquals(":-)",new String((byte[])historicVariableUpdate.getValue()));
+  assertEquals(1,historicVariableUpdate.getRevision());
+  historicVariableUpdate=(HistoricVariableUpdate)historicDetails.get(2);
+  assertEquals("character",historicVariableUpdate.getVariableName());
+  assertEquals("a",historicVariableUpdate.getValue());
+  assertEquals(0,historicVariableUpdate.getRevision());
+  historicVariableUpdate=(HistoricVariableUpdate)historicDetails.get(3);
+  assertEquals("number",historicVariableUpdate.getVariableName());
+  assertEquals("one",historicVariableUpdate.getValue());
+  assertEquals(0,historicVariableUpdate.getRevision());
+  historicVariableUpdate=(HistoricVariableUpdate)historicDetails.get(4);
+  assertEquals("number",historicVariableUpdate.getVariableName());
+  assertEquals("two",historicVariableUpdate.getValue());
+  assertEquals(1,historicVariableUpdate.getRevision());
 }
