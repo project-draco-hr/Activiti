@@ -2,7 +2,7 @@
   List<CommandInterceptor> defaultCommandInterceptorsTxRequiresNew=new ArrayList<CommandInterceptor>();
   defaultCommandInterceptorsTxRequiresNew.add(new LogInterceptor());
   defaultCommandInterceptorsTxRequiresNew.add(new JtaTransactionInterceptor(transactionManager,true));
-  defaultCommandInterceptorsTxRequiresNew.add(new CommandContextInterceptor());
+  defaultCommandInterceptorsTxRequiresNew.add(new CommandContextInterceptor(commandContextFactory));
   defaultCommandInterceptorsTxRequiresNew.add(new CommandExecutorImpl());
   return defaultCommandInterceptorsTxRequiresNew;
 }
