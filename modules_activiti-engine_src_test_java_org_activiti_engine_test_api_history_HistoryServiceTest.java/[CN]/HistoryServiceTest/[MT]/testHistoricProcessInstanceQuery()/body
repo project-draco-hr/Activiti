@@ -1,6 +1,6 @@
 {
   assertTrue(historyService.createHistoricProcessInstanceQuery().count() == 0);
-  final ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   assertTrue(historyService.createHistoricProcessInstanceQuery().count() == 1);
   List<Task> tasks=taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
   assertEquals(1,tasks.size());
