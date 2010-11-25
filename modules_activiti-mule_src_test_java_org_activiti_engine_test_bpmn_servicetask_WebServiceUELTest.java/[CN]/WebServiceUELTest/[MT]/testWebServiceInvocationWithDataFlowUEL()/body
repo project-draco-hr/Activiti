@@ -1,6 +1,6 @@
 {
   DbRepositorySessionFactory dbRepositorySessionFactory=(DbRepositorySessionFactory)this.processEngineConfiguration.getSessionFactories().get(RepositorySession.class);
-  ProcessDefinition processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get("webServiceInvocationWithDataFlowUEL:1");
+  ProcessDefinitionEntity processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get("webServiceInvocationWithDataFlowUEL:1");
   ItemDefinition itemDefinition=processDefinition.getIoSpecification().getDataInputs().get(0).getDefinition();
   ItemInstance itemInstance=itemDefinition.createInstance();
   FieldBaseStructureInstance structureInstance=(FieldBaseStructureInstance)itemInstance.getStructureInstance();
