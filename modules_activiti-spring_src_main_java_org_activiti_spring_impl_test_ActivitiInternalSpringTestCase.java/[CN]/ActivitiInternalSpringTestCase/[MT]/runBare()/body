@@ -1,10 +1,10 @@
 {
   testContextManager.prepareTestInstance(this);
   try {
-    ActivitiInternalTestCase.processEngine=applicationContext.getBean(ProcessEngine.class);
+    PluggableActivitiTestCase.cachedProcessEngine=applicationContext.getBean(ProcessEngine.class);
     super.runBare();
   }
   finally {
-    ActivitiInternalTestCase.processEngine=null;
+    PluggableActivitiTestCase.cachedProcessEngine=null;
   }
 }

@@ -1,0 +1,7 @@
+{
+  processEngine=cachedProcessEngines.get(activitiConfigurationResource);
+  if (processEngine == null) {
+    processEngine=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(activitiConfigurationResource).buildProcessEngine();
+    cachedProcessEngines.put(activitiConfigurationResource,processEngine);
+  }
+}
