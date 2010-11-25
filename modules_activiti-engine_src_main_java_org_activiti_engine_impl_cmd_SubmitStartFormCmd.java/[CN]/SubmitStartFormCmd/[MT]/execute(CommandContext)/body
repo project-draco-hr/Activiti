@@ -7,9 +7,9 @@
   ExecutionEntity processInstance=null;
   processInstance=processDefinition.createProcessInstance();
   int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
-  if (historyLevel >= ProcessEngineConfiguration.HISTORYLEVEL_ACTIVITY) {
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
     DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
-    if (historyLevel >= ProcessEngineConfiguration.HISTORYLEVEL_AUDIT) {
+    if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
       for (      String propertyId : properties.keySet()) {
         String propertyValue=properties.get(propertyId);
         HistoricFormPropertyEntity historicFormProperty=new HistoricFormPropertyEntity(processInstance,propertyId,propertyValue);

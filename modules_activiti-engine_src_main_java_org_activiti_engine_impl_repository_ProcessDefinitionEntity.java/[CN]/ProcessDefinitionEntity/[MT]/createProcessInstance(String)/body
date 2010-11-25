@@ -16,7 +16,7 @@
   VariableMap variableMap=VariableMap.createNewInitialized(processInstance.getId(),processInstance.getId());
   processInstance.setVariables(variableMap);
   int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
-  if (historyLevel >= ProcessEngineConfiguration.HISTORYLEVEL_ACTIVITY) {
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
     DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
     HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity(processInstance);
     dbSqlSession.insert(historicProcessInstance);

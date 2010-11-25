@@ -1,0 +1,17 @@
+{
+  if (HISTORY_NONE.equalsIgnoreCase(history)) {
+    historyLevel=0;
+  }
+ else   if (HISTORY_ACTIVITY.equalsIgnoreCase(history)) {
+    historyLevel=1;
+  }
+ else   if (HISTORY_AUDIT.equalsIgnoreCase(history)) {
+    historyLevel=2;
+  }
+ else   if (HISTORY_FULL.equalsIgnoreCase(history)) {
+    historyLevel=3;
+  }
+ else {
+    throw new ActivitiException("invalid history level: " + history);
+  }
+}

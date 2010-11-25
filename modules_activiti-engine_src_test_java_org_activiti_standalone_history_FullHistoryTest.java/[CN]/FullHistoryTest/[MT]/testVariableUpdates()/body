@@ -1,0 +1,11 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("number","one");
+  variables.put("character","a");
+  variables.put("bytes",":-(".getBytes());
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("receiveTask",variables);
+  runtimeService.setVariable(processInstance.getId(),"number","two");
+  runtimeService.setVariable(processInstance.getId(),"bytes",":-)".getBytes());
+  List<HistoricDetail> historicDetails=historyService.createHistoricDetailQuery().orderByVariableName().asc().orderByVariableRevision().asc().list();
+  System.out.println(historicDetails);
+}
