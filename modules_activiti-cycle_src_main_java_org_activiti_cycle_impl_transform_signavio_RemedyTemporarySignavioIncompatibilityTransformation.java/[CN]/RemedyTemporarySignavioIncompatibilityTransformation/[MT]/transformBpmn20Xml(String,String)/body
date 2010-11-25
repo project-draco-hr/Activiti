@@ -1,6 +1,8 @@
 {
   processName=ExchangeSignavioUuidWithNameTransformation.adjustNamesForEngine(processName);
   xml=setAttributeText(xml,"process","id",processName);
-  xml=addAttribute(xml,"process","name",processName);
+  if (!existAttribute(xml,"process","name")) {
+    xml=addAttribute(xml,"process","name",processName);
+  }
   return transformBpmn20Xml(xml);
 }

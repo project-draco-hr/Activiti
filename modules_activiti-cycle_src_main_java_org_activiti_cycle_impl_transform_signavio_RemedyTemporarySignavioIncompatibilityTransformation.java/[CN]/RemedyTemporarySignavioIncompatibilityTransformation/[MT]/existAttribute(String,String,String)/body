@@ -1,0 +1,8 @@
+{
+  int elementStartIndex=xml.indexOf("<" + elementName);
+  if (elementStartIndex == -1)   return false;
+  int elementEndIndex=xml.indexOf(">",elementStartIndex);
+  xml=xml.substring(0,elementEndIndex);
+  int startIndex=xml.indexOf(attributeName + "=\"",elementStartIndex);
+  return (startIndex > -1);
+}
