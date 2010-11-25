@@ -3,10 +3,10 @@
   if (delegate instanceof ExecutionListener) {
     ((ExecutionListener)delegate).notify(execution);
   }
- else   if (delegate instanceof JavaDelegation) {
-    ((JavaDelegation)delegate).execute(execution);
+ else   if (delegate instanceof JavaDelegate) {
+    ((JavaDelegate)delegate).execute(execution);
   }
  else {
-    throw new ActivitiException("Delegate expression " + expression + " did not resolve to an implementation of "+ ExecutionListener.class+ " nor "+ JavaDelegation.class);
+    throw new ActivitiException("Delegate expression " + expression + " did not resolve to an implementation of "+ ExecutionListener.class+ " nor "+ JavaDelegate.class);
   }
 }

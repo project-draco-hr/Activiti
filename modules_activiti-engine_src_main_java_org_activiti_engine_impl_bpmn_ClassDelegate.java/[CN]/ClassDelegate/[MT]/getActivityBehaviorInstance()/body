@@ -3,10 +3,10 @@
   if (delegateInstance instanceof ActivityBehavior) {
     return (ActivityBehavior)delegateInstance;
   }
- else   if (delegateInstance instanceof JavaDelegation) {
-    return new JavaDelegationDelegate((JavaDelegation)delegateInstance);
+ else   if (delegateInstance instanceof JavaDelegate) {
+    return new JavaDelegateDelegate((JavaDelegate)delegateInstance);
   }
  else {
-    throw new ActivitiException(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegation.class.getName()+ " nor "+ ActivityBehavior.class.getName());
+    throw new ActivitiException(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegate.class.getName()+ " nor "+ ActivityBehavior.class.getName());
   }
 }
