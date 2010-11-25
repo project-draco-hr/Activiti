@@ -27,11 +27,4 @@ model.put("renderInfo",RenderInfo.HTML);
 model.put("contentRepresentationId",representationId);
 model.put("contentType",CycleDefaultMimeType.HTML.getContentType());
 }
-catch (Exception ex) {
-log.log(Level.WARNING,"Exception while loading content representation",ex);
-StringWriter sw=new StringWriter();
-ex.printStackTrace(new PrintWriter(sw));
-String stackTrace="Exception while accessing content. Details:\n\n" + sw.toString();
-model.put("exception",stackTrace);
-}
 }
