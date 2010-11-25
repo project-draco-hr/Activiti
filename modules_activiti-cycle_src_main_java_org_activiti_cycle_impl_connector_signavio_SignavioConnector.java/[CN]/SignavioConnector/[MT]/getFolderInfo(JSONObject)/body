@@ -1,5 +1,5 @@
 {
-  if (!"dir".equals(jsonDirectoryObject.getString("rel"))) {
+  if (!"dir".equals(jsonDirectoryObject.getString("rel")) && !"info".equals(jsonDirectoryObject.getString("rel"))) {
     throw new RepositoryException(jsonDirectoryObject + " is not a directory");
   }
   String directoryName=jsonDirectoryObject.getJSONObject("rep").getString("name");
@@ -14,7 +14,13 @@
   }
   log.finest("Directoryname: " + directoryName);
   String href=jsonDirectoryObject.getString("href");
-  String id=getConfiguration().getDirectoryIdFromUrl(href);
+  String id=null;
+  if (href.endsWith("/info")) {
+    id=getConfiguration().getDirectoryIdFromInfoUrl(href);
+  }
+ else {
+    id=getConfiguration().getDirectoryIdFromUrl(href);
+  }
   RepositoryFolderImpl folderInfo=new RepositoryFolderImpl(getConfiguration().getId(),id);
   folderInfo.getMetadata().setName(directoryName);
   return folderInfo;

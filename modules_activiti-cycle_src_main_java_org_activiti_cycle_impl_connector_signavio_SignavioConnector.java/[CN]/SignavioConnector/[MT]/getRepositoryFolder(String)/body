@@ -2,8 +2,16 @@
   try {
     Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
     JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
-    JSONObject jsonObject=jsonData.getJsonObject();
-    return getFolderInfo(jsonObject);
+    JSONArray jsonArray=jsonData.getJsonArray();
+    JSONObject jsonDir=null;
+    for (int i=0; i < jsonArray.length(); i++) {
+      jsonDir=jsonArray.getJSONObject(i);
+      if ("info".equals(jsonDir.get("rel"))) {
+        break;
+      }
+      jsonDir=null;
+    }
+    return getFolderInfo(jsonDir);
   }
  catch (  Exception ex) {
     throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryArtifact.class,id,ex);
