@@ -1,6 +1,6 @@
 {
   if (jpaPersistenceUnitName != null) {
-    jpaEntityManagerFactory=Persistence.createEntityManagerFactory(jpaPersistenceUnitName);
+    jpaEntityManagerFactory=JpaHelper.createEntityManagerFactory(jpaPersistenceUnitName);
   }
   if (jpaEntityManagerFactory != null) {
     sessionFactories.put(EntityManagerSession.class,new EntityManagerSessionFactory(jpaEntityManagerFactory,jpaHandleTransaction,jpaCloseEntityManager));
