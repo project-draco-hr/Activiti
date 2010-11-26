@@ -1,9 +1,15 @@
 {
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(sendTaskElement,scope);
-  String type=null;
+  String type=sendTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"type");
   String implementation=sendTaskElement.attribute("implementation");
   String operationRef=this.resolveName(sendTaskElement.attribute("operationRef"));
   if (type != null) {
+    if (type.equalsIgnoreCase("mail")) {
+      parseEmailServiceTask(activity,sendTaskElement,parseFieldDeclarations(sendTaskElement));
+    }
+ else {
+      addError("Invalid usage of type attribute: '" + type + "'",sendTaskElement);
+    }
   }
  else   if (implementation != null && operationRef != null && implementation.equalsIgnoreCase("##WebService")) {
     if (!this.operations.containsKey(operationRef)) {
