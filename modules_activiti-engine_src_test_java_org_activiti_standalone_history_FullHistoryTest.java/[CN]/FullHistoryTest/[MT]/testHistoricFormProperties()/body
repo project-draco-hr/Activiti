@@ -1,0 +1,22 @@
+{
+  Date startedDate=new SimpleDateFormat("dd/MM/yyyy hh:mm:ss SSS").parse("01/01/2001 01:23:46 000");
+  ClockUtil.setCurrentTime(startedDate);
+  Map<String,String> formProperties=new HashMap<String,String>();
+  formProperties.put("formProp1","Activiti rocks");
+  formProperties.put("formProp2","12345");
+  ProcessDefinition procDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("historicFormPropertiesProcess").singleResult();
+  ProcessInstance processInstance=formService.submitStartFormData(procDef.getId(),formProperties);
+  List<HistoricDetail> props=historyService.createHistoricDetailQuery().formProperties().processInstanceId(processInstance.getId()).orderByFormPropertyId().asc().list();
+  HistoricFormProperty historicProperty1=(HistoricFormProperty)props.get(0);
+  assertEquals("formProp1",historicProperty1.getPropertyId());
+  assertEquals("Activiti rocks",historicProperty1.getPropertyValue());
+  assertEquals(startedDate,historicProperty1.getTime());
+  assertEquals(processInstance.getId(),historicProperty1.getProcessInstanceId());
+  assertNull(historicProperty1.getActivityInstanceId());
+  HistoricFormProperty historicProperty2=(HistoricFormProperty)props.get(1);
+  assertEquals("formProp2",historicProperty2.getPropertyId());
+  assertEquals("12345",historicProperty2.getPropertyValue());
+  assertEquals(startedDate,historicProperty2.getTime());
+  assertEquals(processInstance.getId(),historicProperty2.getProcessInstanceId());
+  assertNull(historicProperty2.getActivityInstanceId());
+}

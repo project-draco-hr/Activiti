@@ -1,0 +1,19 @@
+{
+  Map<String,String> formProperties=new HashMap<String,String>();
+  formProperties.put("stringVar","activiti rocks!");
+  formProperties.put("longVar","12345");
+  ProcessDefinition procDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").singleResult();
+  formService.submitStartFormData(procDef.getId(),formProperties);
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByProcessInstanceId().asc().count());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByTime().asc().count());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByFormPropertyId().asc().count());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByProcessInstanceId().desc().count());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByTime().desc().count());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByFormPropertyId().desc().count());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByProcessInstanceId().asc().list().size());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByTime().asc().list().size());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByFormPropertyId().asc().list().size());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByProcessInstanceId().desc().list().size());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByTime().desc().list().size());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().orderByFormPropertyId().desc().list().size());
+}

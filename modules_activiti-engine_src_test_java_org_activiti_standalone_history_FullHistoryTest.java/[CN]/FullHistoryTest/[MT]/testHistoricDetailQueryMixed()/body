@@ -1,0 +1,25 @@
+{
+  Map<String,String> formProperties=new HashMap<String,String>();
+  formProperties.put("formProp1","activiti rocks!");
+  formProperties.put("formProp2","12345");
+  ProcessDefinition procDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("historicDetailMixed").singleResult();
+  ProcessInstance processInstance=formService.submitStartFormData(procDef.getId(),formProperties);
+  List<HistoricDetail> details=historyService.createHistoricDetailQuery().processInstanceId(processInstance.getId()).orderByVariableName().asc().list();
+  assertEquals(4,details.size());
+  assertTrue(details.get(0) instanceof HistoricFormProperty);
+  HistoricFormProperty formProp1=(HistoricFormProperty)details.get(0);
+  assertEquals("formProp1",formProp1.getPropertyId());
+  assertEquals("activiti rocks!",formProp1.getPropertyValue());
+  assertTrue(details.get(1) instanceof HistoricFormProperty);
+  HistoricFormProperty formProp2=(HistoricFormProperty)details.get(1);
+  assertEquals("formProp2",formProp2.getPropertyId());
+  assertEquals("12345",formProp2.getPropertyValue());
+  assertTrue(details.get(2) instanceof HistoricVariableUpdate);
+  HistoricVariableUpdate varUpdate1=(HistoricVariableUpdate)details.get(2);
+  assertEquals("variable1",varUpdate1.getVariableName());
+  assertEquals("activiti rocks!",varUpdate1.getValue());
+  assertTrue(details.get(3) instanceof HistoricVariableUpdate);
+  HistoricVariableUpdate varUpdate2=(HistoricVariableUpdate)details.get(3);
+  assertEquals("variable2",varUpdate2.getVariableName());
+  assertEquals(12345L,varUpdate2.getValue());
+}
