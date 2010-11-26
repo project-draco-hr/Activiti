@@ -1,6 +1,7 @@
 {
   try {
     JSONObject json=new JSONObject(jsonData);
+    de.hpi.bpmn2_0.factory.configuration.Configuration.ensureSignavioStyle=false;
     Json2XmlConverter converter=new Json2XmlConverter(json.toString(),this.getClass().getClassLoader().getResource("META-INF/validation/xsd/BPMN20.xsd").toString());
     return converter.getXml().toString();
   }
