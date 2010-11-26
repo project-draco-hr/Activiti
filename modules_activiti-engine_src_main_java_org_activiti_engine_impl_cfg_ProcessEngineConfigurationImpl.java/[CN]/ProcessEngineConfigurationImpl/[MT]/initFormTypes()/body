@@ -5,15 +5,9 @@
     formTypes.addFormType(new LongFormType());
     formTypes.addFormType(new DateFormType("dd/MM/yyyy"));
   }
-  if (customFormTypeClasses != null) {
-    for (    Class<?> customFormTypeClass : customFormTypeClasses) {
-      try {
-        FormType formType=(FormType)customFormTypeClass.newInstance();
-        formTypes.addFormType((AbstractFormType)formType);
-      }
- catch (      Exception e) {
-        new ActivitiException("problem instantiating custom form type " + customFormTypeClass + ": "+ e.getMessage(),e);
-      }
+  if (customFormTypes != null) {
+    for (    AbstractFormType customFormType : customFormTypes) {
+      formTypes.addFormType(customFormType);
     }
   }
 }

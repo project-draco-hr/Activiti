@@ -18,15 +18,9 @@
     dbSqlSessionFactory.setSqlSessionFactory(sqlSessionFactory);
     addSessionFactory(dbSqlSessionFactory);
   }
-  if (customSessionFactoryClasses != null) {
-    for (    Class<?> customSessionFactoryClass : customSessionFactoryClasses) {
-      try {
-        SessionFactory sessionFactory=(SessionFactory)customSessionFactoryClass.newInstance();
-        addSessionFactory(sessionFactory);
-      }
- catch (      Exception e) {
-        throw new ActivitiException("problem instantiating new custom session factory for class+ " + customSessionFactoryClass + ": "+ e.getMessage(),e);
-      }
+  if (customSessionFactories != null) {
+    for (    SessionFactory sessionFactory : customSessionFactories) {
+      addSessionFactory(sessionFactory);
     }
   }
 }

@@ -1,14 +1,26 @@
 {
   if (variableTypes == null) {
     variableTypes=new DefaultVariableTypes();
-  }
-  if (customVariableTypeClasses != null) {
-    for (    Class<?> customVariableTypeClass : customVariableTypeClasses) {
-      try {
-        variableTypes.addType((VariableType)customVariableTypeClass.newInstance());
+    if (customPreVariableTypes != null) {
+      for (      VariableType customVariableType : customPreVariableTypes) {
+        variableTypes.addType(customVariableType);
       }
- catch (      Exception e) {
-        new ActivitiException("problem instantiating custom variable type " + customVariableTypeClass + ": "+ e.getMessage(),e);
+    }
+    variableTypes.addType(new NullType());
+    variableTypes.addType(new StringType());
+    variableTypes.addType(new BooleanType());
+    variableTypes.addType(new ShortType());
+    variableTypes.addType(new IntegerType());
+    variableTypes.addType(new LongType());
+    variableTypes.addType(new DateType());
+    variableTypes.addType(new DoubleType());
+    variableTypes.addType(new ByteArrayType());
+    variableTypes.addType(new SerializableType());
+    variableTypes.addType(new CustomObjectType("item",ItemInstance.class));
+    variableTypes.addType(new CustomObjectType("message",MessageInstance.class));
+    if (customPostVariableTypes != null) {
+      for (      VariableType customVariableType : customPostVariableTypes) {
+        variableTypes.addType(customVariableType);
       }
     }
   }
