@@ -1,5 +1,9 @@
 {
-  MessageInstance message=operation.getOutMessage().createInstance();
-  message.getStructureInstance().loadFrom(results);
+  MessageInstance message=null;
+  MessageDefinition outMessage=operation.getOutMessage();
+  if (outMessage != null) {
+    message=outMessage.createInstance();
+    message.getStructureInstance().loadFrom(results);
+  }
   return message;
 }
