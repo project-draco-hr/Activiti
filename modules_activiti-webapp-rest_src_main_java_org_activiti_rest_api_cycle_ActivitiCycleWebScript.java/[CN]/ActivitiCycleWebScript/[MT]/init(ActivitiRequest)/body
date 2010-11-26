@@ -8,15 +8,20 @@
     String username=req.getString(conf.getId() + "_username");
     String password=req.getString(conf.getId() + "_password");
     if (username != null && password != null) {
-      conf.setUser(username);
-      conf.setPassword(password);
+      if (username.equals("\"\"") && password.equals("\"\"")) {
+        connectors.remove(connector);
+      }
+ else {
+        conf.setUser(username);
+        conf.setPassword(password);
+      }
     }
  else     if (conf.getUser() == null || conf.getPassword() == null) {
       connectorsWithoutLoginMap.put(conf.getId(),conf.getName());
     }
   }
   if (connectorsWithoutLoginMap.size() > 0) {
-    throw new RepositoryAuthenticationException("Repository authentication error: missing login",connectorsWithoutLoginMap);
+    throw new RepositoryAuthenticationException("Please provide your username and password for the following repositories:",connectorsWithoutLoginMap);
   }
   this.cycleService=CycleServiceImpl.getCycleService(cuid,session,connectors);
 }
