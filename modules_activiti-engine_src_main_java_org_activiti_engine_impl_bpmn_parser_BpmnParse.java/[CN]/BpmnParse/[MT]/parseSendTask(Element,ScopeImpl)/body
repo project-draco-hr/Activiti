@@ -1,0 +1,38 @@
+{
+  ActivityImpl activity=parseAndCreateActivityOnScopeElement(sendTaskElement,scope);
+  String type=null;
+  String implementation=sendTaskElement.attribute("implementation");
+  String operationRef=this.resolveName(sendTaskElement.attribute("operationRef"));
+  if (type != null) {
+  }
+ else   if (implementation != null && operationRef != null && implementation.equalsIgnoreCase("##WebService")) {
+    if (!this.operations.containsKey(operationRef)) {
+      addError(operationRef + " does not exist",sendTaskElement);
+    }
+ else {
+      Operation operation=this.operations.get(operationRef);
+      WebServiceActivityBehavior webServiceActivityBehavior=new WebServiceActivityBehavior(operation);
+      Element ioSpecificationElement=sendTaskElement.element("ioSpecification");
+      if (ioSpecificationElement != null) {
+        IOSpecification ioSpecification=this.parseIOSpecification(ioSpecificationElement);
+        webServiceActivityBehavior.setIoSpecification(ioSpecification);
+      }
+      for (      Element dataAssociationElement : sendTaskElement.elements("dataInputAssociation")) {
+        AbstractDataInputAssociation dataAssociation=this.parseDataInputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataInputAssociation(dataAssociation);
+      }
+      for (      Element dataAssociationElement : sendTaskElement.elements("dataOutputAssociation")) {
+        AbstractDataOutputAssociation dataAssociation=this.parseDataOutputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataOutputAssociation(dataAssociation);
+      }
+      activity.setActivityBehavior(webServiceActivityBehavior);
+    }
+  }
+ else {
+    addError("One of the attributes 'type' or 'operation' is mandatory on sendTask.",sendTaskElement);
+  }
+  parseExecutionListenersOnScope(sendTaskElement,activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseSendTask(sendTaskElement,scope,activity);
+  }
+}

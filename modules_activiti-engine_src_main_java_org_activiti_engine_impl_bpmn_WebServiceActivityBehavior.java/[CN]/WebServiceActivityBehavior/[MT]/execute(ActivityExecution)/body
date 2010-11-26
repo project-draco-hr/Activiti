@@ -13,8 +13,11 @@
   MessageInstance receivedMessage=this.operation.sendMessage(message);
   execution.setVariable(CURRENT_MESSAGE,receivedMessage);
   if (ioSpecification != null) {
-    ItemInstance outputItem=(ItemInstance)execution.getVariable(this.ioSpecification.getFirstDataOutputName());
-    outputItem.getStructureInstance().loadFrom(receivedMessage.getStructureInstance().toArray());
+    String firstDataOutputName=this.ioSpecification.getFirstDataOutputName();
+    if (firstDataOutputName != null) {
+      ItemInstance outputItem=(ItemInstance)execution.getVariable(firstDataOutputName);
+      outputItem.getStructureInstance().loadFrom(receivedMessage.getStructureInstance().toArray());
+    }
   }
   this.returnMessage(receivedMessage,execution);
   execution.setVariable(CURRENT_MESSAGE,null);
