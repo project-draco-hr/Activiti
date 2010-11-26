@@ -4,5 +4,8 @@
   if (!existAttribute(xml,"process","name")) {
     xml=addAttribute(xml,"process","name",processName);
   }
+ else {
+    xml=setAttributeText(xml,"process","name",processName);
+  }
   return transformBpmn20Xml(xml);
 }
