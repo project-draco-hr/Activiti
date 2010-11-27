@@ -37,7 +37,7 @@
         }
  else {
           byte[] bytes=IoUtil.readInputStream(projectTemplateInputStream,"ZIP entry '" + zipName + "'");
-          String txtContent=new String(bytes).replaceAll(REPLACE_STRING,projectName);
+          String txtContent=new String(bytes).replaceAll(REPLACE_STRING,projectName).replaceAll("@@ACTIVITI.HOME@@",ACTIVITI_HOME_PATH);
           content.setValue(txtContent);
         }
         log.log(Level.INFO,"Create new artifact from zip entry '" + zipEntry.getName() + "' in folder '"+ absolutePath+ "' with name '"+ name+ "'");
