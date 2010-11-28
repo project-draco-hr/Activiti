@@ -1,20 +1,7 @@
 {
   JSONRequestObject json=(JSONRequestObject)req.getBody();
-  Map<String,List<Map<String,String>>> connectorConfigMap=new HashMap<String,List<Map<String,String>>>();
-  for (  String key : json.getFormVariables().keySet()) {
-    List<Map<String,String>> configs;
-    Object value=json.getFormVariables().get(key);
-    if (value instanceof JSONObject) {
-      configs=new ArrayList<Map<String,String>>();
-      configs.add(getConfigParams((JSONObject)value));
-      connectorConfigMap.put(key,configs);
-    }
- else     if (value instanceof JSONArray) {
-      configs=new ArrayList<Map<String,String>>();
-      for (int i=0; i < ((JSONArray)value).length(); i++) {
-        configs.add(getConfigParams(((JSONArray)value).getJSONObject(i)));
-        connectorConfigMap.put(key,configs);
-      }
-    }
-  }
+  String configurationClass=json.getString("configurationClass");
+  String configurationId=json.getString("configurationId");
+  Map<String,String> values=json.getMap("values");
+  this.cycleService.updateRepositoryConnectorConfiguration(configurationClass,configurationId,values,req.getCurrentUserId());
 }
