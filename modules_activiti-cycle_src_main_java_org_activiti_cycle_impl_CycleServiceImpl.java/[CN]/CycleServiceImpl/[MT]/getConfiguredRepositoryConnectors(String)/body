@@ -1,4 +1,5 @@
 {
+  if (currentUserId == null)   throw new IllegalArgumentException("currentUserId must not be null");
   ConfigurationContainer configuration=getConfigurationContainer(currentUserId);
   Map<String,List<String>> result=new HashMap<String,List<String>>();
   List<RepositoryConnectorConfiguration> configurationList=configuration.getConnectorConfigurations();

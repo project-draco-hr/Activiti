@@ -1,4 +1,6 @@
 {
+  if (currentUserId == null)   throw new IllegalArgumentException("currentUserId must not be null");
+  if (connectorConfigurationId == null)   throw new IllegalArgumentException("connectorConfigurationId must not be null");
   ConfigurationContainer configuration=getConfigurationContainer(currentUserId);
   List<RepositoryConnectorConfiguration> configurationList=configuration.getConnectorConfigurations();
   RepositoryConnectorConfiguration repoConfiguration=null;

@@ -4,7 +4,7 @@
       String methodname="set";
       methodname+=fieldName.substring(0,1).toUpperCase();
       methodname+=fieldName.substring(1);
-      Class clazz=String.class;
+      @SuppressWarnings("rawtypes") Class clazz=String.class;
       Method method=repositoryConnectorInstance.getClass().getMethod(methodname,clazz);
       method.invoke(repositoryConnectorInstance,fields.get(fieldName));
     }
