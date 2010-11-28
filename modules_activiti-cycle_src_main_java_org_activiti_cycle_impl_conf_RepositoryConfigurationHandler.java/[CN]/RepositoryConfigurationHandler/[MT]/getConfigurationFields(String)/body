@@ -1,0 +1,12 @@
+{
+  Map<String,String> result=new HashMap<String,String>();
+  try {
+    Class<? extends RepositoryConnectorConfiguration> configuration=(Class<? extends RepositoryConnectorConfiguration>)Class.forName(configurationClazzName);
+    addFields(result,configuration);
+  }
+ catch (  ClassNotFoundException e) {
+    log.log(Level.WARNING,"could not get configuration fields " + e.getMessage(),e);
+    throw new RuntimeException(e);
+  }
+  return result;
+}

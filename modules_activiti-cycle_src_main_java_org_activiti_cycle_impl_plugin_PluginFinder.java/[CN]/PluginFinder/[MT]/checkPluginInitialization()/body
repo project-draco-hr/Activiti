@@ -1,9 +1,9 @@
 {
-  if (!initialized) {
-synchronized (initialized) {
-      if (!initialized) {
-        new PluginFinder().publishAllPluginsToRegistry();
-        initialized=Boolean.TRUE;
+  if (instance == null) {
+synchronized (PluginFinder.class) {
+      if (instance == null) {
+        instance=new PluginFinder();
+        instance.publishAllPluginsToRegistry();
       }
     }
   }

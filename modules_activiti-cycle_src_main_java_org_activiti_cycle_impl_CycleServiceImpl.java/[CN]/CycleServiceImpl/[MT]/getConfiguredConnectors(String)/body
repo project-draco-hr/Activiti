@@ -1,0 +1,15 @@
+{
+  ConfigurationContainer configuration=getConfigurationContainer(currentUserId);
+  Map<String,List<String>> result=new HashMap<String,List<String>>();
+  List<RepositoryConnectorConfiguration> configurationList=configuration.getConnectorConfigurations();
+  for (  RepositoryConnectorConfiguration repositoryConnectorConfiguration : configurationList) {
+    String className=repositoryConnectorConfiguration.getClass().getCanonicalName();
+    List<String> configuredConnectorsForThisClass=result.get(className);
+    if (configuredConnectorsForThisClass == null) {
+      configuredConnectorsForThisClass=new ArrayList<String>();
+      result.put(className,configuredConnectorsForThisClass);
+    }
+    configuredConnectorsForThisClass.add(repositoryConnectorConfiguration.getId());
+  }
+  return result;
+}

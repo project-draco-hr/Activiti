@@ -1,0 +1,12 @@
+{
+  Map<String,List<String>> connectors=this.cycleService.getConfiguredConnectors(req.getCurrentUserId());
+  Map<String,List<Map<String,String>>> connectorsForJson=new HashMap<String,List<Map<String,String>>>();
+  for (  String key : connectors.keySet()) {
+    List<Map<String,String>> configs=new ArrayList<Map<String,String>>();
+    for (    String configId : connectors.get(key)) {
+      configs.add(this.cycleService.getConfigurationValues(configId,req.getCurrentUserId()));
+    }
+    connectorsForJson.put(key,configs);
+  }
+  model.put("userConfig",connectorsForJson);
+}

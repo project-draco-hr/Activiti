@@ -1,0 +1,11 @@
+{
+  for (  Method method : configuration.getMethods()) {
+    if (!method.getName().startsWith("set") || method.getParameterTypes().length != 1 || !method.getParameterTypes()[0].getCanonicalName().equals(String.class.getCanonicalName())) {
+      continue;
+    }
+    String fieldName=method.getName();
+    fieldName=fieldName.replace("set","");
+    fieldName=fieldName.substring(0,1).toLowerCase().concat(fieldName.substring(1));
+    result.put(fieldName,String.class.getCanonicalName());
+  }
+}
