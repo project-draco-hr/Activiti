@@ -1,5 +1,4 @@
 {
-  Counter counter=(Counter)((DefaultJavaComponent)context.getRegistry().lookupService("counterService").getComponent()).getObjectFactory().getInstance();
   assertEquals(-1,counter.getCount());
   DbRepositorySessionFactory dbRepositorySessionFactory=(DbRepositorySessionFactory)this.processEngineConfiguration.getSessionFactories().get(RepositorySession.class);
   ProcessDefinitionEntity processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get("asyncWebServiceInvocationWithDataFlowUEL:1");

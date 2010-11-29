@@ -12,4 +12,6 @@
   DeploymentBuilderImpl impl=(DeploymentBuilderImpl)deploymentBuilder;
   impl.getDeployment().setValidatingSchema(this.isValidating());
   deploymentId=deploymentBuilder.deploy().getId();
+  counter=(Counter)((DefaultJavaComponent)context.getRegistry().lookupService("counterService").getComponent()).getObjectFactory().getInstance();
+  counter.initialize();
 }

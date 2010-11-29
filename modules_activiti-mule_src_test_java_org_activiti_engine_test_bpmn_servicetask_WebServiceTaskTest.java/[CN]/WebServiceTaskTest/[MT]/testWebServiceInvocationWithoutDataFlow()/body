@@ -1,5 +1,4 @@
 {
-  Counter counter=(Counter)((DefaultJavaComponent)context.getRegistry().lookupService("counterService").getComponent()).getObjectFactory().getInstance();
   assertEquals(-1,counter.getCount());
   processEngine.getRuntimeService().startProcessInstanceByKey("webServiceInvocationWithoutDataFlow");
   waitForJobExecutorToProcessAllJobs(10000L,250L);
