@@ -1,0 +1,14 @@
+{
+  CycleConfigEntity cycleConfig=new CycleConfigEntity();
+  cycleConfig.setId(id);
+  String configXML=XmlSerializer.serializeObject(o);
+  cycleConfig.setConfigXML(configXML);
+  SqlSession session=openSession();
+  try {
+    session.insert("insertCycleConfig",cycleConfig);
+    session.commit();
+  }
+  finally {
+    session.close();
+  }
+}

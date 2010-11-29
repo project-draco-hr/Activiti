@@ -1,0 +1,6 @@
+{
+  RepositoryArtifact artifact=connector.getRepositoryArtifact("build.xml");
+  Content content=connector.getContent(artifact.getNodeId(),VfsConnectorPluginDefinition.CONTENT_REPRESENTATION_ID_XML);
+  RepositoryArtifact newArtifact=connector.createArtifact("tmp/",UUID.randomUUID() + ".xml","Text",content);
+  connector.deleteArtifact(newArtifact.getNodeId());
+}

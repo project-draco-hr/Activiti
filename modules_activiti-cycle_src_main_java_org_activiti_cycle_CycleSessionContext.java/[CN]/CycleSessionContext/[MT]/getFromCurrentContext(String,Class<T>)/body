@@ -1,0 +1,9 @@
+{
+  Context context=localContext.get();
+  if (context == null)   throw new IllegalStateException("No context available");
+  Object obj=context.get(key);
+  if (obj != null) {
+    return (T)obj;
+  }
+  return null;
+}

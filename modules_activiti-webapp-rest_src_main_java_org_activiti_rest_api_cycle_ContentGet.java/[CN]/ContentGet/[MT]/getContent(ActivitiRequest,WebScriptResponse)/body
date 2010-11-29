@@ -1,0 +1,63 @@
+{
+  String cnonectorId=req.getMandatoryString("connectorId");
+  String artifactId=req.getMandatoryString("artifactId");
+  String contentRepresentationId=req.getMandatoryString("contentRepresentationId");
+  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(cnonectorId,artifactId);
+  ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(contentRepresentationId);
+  String contentType=contentRepresentation.getMimeType().getContentType();
+  boolean attach=contentType.startsWith("application/") ? true : false;
+  String attachmentFileName=null;
+  if (attach) {
+    attachmentFileName=artifact.getMetadata().getName();
+    if (contentType.equals(CycleDefaultMimeType.XML) && !attachmentFileName.endsWith(".xml")) {
+      attachmentFileName+=".xml";
+    }
+ else     if (contentType.equals(CycleDefaultMimeType.JSON) && !attachmentFileName.endsWith(".json")) {
+      attachmentFileName+=".json";
+    }
+ else     if (contentType.equals(CycleDefaultMimeType.TEXT) && !attachmentFileName.endsWith(".txt")) {
+      attachmentFileName+=".txt";
+    }
+ else     if (contentType.equals(CycleDefaultMimeType.PDF) && !attachmentFileName.endsWith(".pdf")) {
+      attachmentFileName+=".pdf";
+    }
+ else     if (contentType.equals(CycleDefaultMimeType.MS_EXCEL) && !attachmentFileName.endsWith(".xls")) {
+      attachmentFileName+=".xls";
+    }
+ else     if (contentType.equals(CycleDefaultMimeType.MS_POWERPOINT) && !attachmentFileName.endsWith(".ppt")) {
+      attachmentFileName+=".ppt";
+    }
+ else     if (contentType.equals(CycleDefaultMimeType.MS_WORD) && !attachmentFileName.endsWith(".doc")) {
+      attachmentFileName+=".doc";
+    }
+  }
+  InputStream contentInputStream=null;
+  try {
+    contentInputStream=repositoryService.getContent(artifact.getConnectorId(),artifact.getNodeId(),contentRepresentation.getId()).asInputStream();
+    MessageDigest md=MessageDigest.getInstance("MD5");
+    byte[] messageDigest=md.digest(repositoryService.getContent(artifact.getConnectorId(),artifact.getNodeId(),contentRepresentation.getId()).asByteArray());
+    BigInteger number=new BigInteger(1,messageDigest);
+    String etag=number.toString(16);
+    while (etag.length() < 32) {
+      etag="0" + etag;
+    }
+    String requestEtag=req.getHttpServletRequest().getHeader("If-None-Match");
+    if (requestEtag != null) {
+      requestEtag=requestEtag.replace("\"","");
+    }
+    if (etag.equals(requestEtag)) {
+      throw new WebScriptException(HttpServletResponse.SC_NOT_MODIFIED,"");
+    }
+ else {
+      streamResponse(res,contentInputStream,new Date(0),etag,attach,attachmentFileName,contentType);
+    }
+  }
+ catch (  TransformationException e) {
+    streamResponse(res,new ByteArrayInputStream(e.getRenderContent().getBytes()),new Date(0),"",false,null,CycleDefaultMimeType.HTML.getContentType());
+  }
+catch (  NoSuchAlgorithmException e) {
+  }
+ finally {
+    IoUtil.closeSilently(contentInputStream);
+  }
+}

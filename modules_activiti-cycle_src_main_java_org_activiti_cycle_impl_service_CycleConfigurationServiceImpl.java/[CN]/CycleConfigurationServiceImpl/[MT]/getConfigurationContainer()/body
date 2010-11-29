@@ -1,0 +1,13 @@
+{
+  String currentUserId=getCurrentUserId();
+  PluginFinder.checkPluginInitialization();
+  ConfigurationContainer configuration;
+  try {
+    configuration=cycleConfigurationDao.getConfiguration(currentUserId);
+  }
+ catch (  RepositoryException e) {
+    configuration=createDefaultDemoConfiguration(currentUserId);
+    cycleConfigurationDao.saveConfiguration(configuration);
+  }
+  return configuration;
+}

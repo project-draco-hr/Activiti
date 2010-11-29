@@ -1,0 +1,8 @@
+{
+  for (  RepositoryConnector connector : getRuntimeRepositoryConnectors()) {
+    if (connector.getConfiguration().getId().equals(connectorId)) {
+      return connector;
+    }
+  }
+  throw new RepositoryException("Couldn't find Repository Connector with id '" + connectorId + "'");
+}

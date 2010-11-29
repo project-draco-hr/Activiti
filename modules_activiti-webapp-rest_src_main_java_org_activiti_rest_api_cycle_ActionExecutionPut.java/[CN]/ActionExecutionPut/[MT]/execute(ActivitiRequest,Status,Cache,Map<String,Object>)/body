@@ -4,7 +4,7 @@
   String actionId=req.getMandatoryString("actionName");
   Map<String,Object> parameters=req.getFormVariables();
   try {
-    this.cycleService.executeParameterizedAction(connectorId,artifactId,actionId,parameters);
+    repositoryService.executeParameterizedAction(connectorId,artifactId,actionId,parameters);
     model.put("result",true);
   }
  catch (  Exception e) {

@@ -8,7 +8,7 @@
   Content artifactContent=new Content();
   artifactContent.setValue(file.getInputStream());
   try {
-    this.cycleService.createArtifact(connectorId,parentFolderId,artifactName,artifactType,artifactContent);
+    repositoryService.createArtifact(connectorId,parentFolderId,artifactName,artifactType,artifactContent);
     model.put("result",true);
   }
  catch (  Exception e) {

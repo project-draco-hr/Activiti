@@ -1,0 +1,14 @@
+{
+  String currentUserId=getCurrentUserId();
+  if (currentUserId == null)   throw new IllegalArgumentException("currentUserId must not be null");
+  if (connectorConfigurationId == null)   throw new IllegalArgumentException("connectorConfigurationId must not be null");
+  ConfigurationContainer configuration=getConfigurationContainer();
+  List<RepositoryConnectorConfiguration> configurationList=configuration.getConnectorConfigurations();
+  RepositoryConnectorConfiguration repoConfiguration=null;
+  for (  RepositoryConnectorConfiguration repositoryConnectorConfiguration : configurationList) {
+    if (!repositoryConnectorConfiguration.getId().equals(connectorConfigurationId))     continue;
+    repoConfiguration=repositoryConnectorConfiguration;
+  }
+  if (repoConfiguration == null)   throw new RepositoryException("Cannot find Connector with id '" + connectorConfigurationId + "' for user '"+ currentUserId+ "'");
+  return RepositoryConfigurationHandler.getValueMap(repoConfiguration);
+}

@@ -1,9 +1,12 @@
 {
   try {
-    init(req);
+    CycleHttpSession.openSession(req);
     execute(req,status,cache,model);
   }
  catch (  RepositoryAuthenticationException e) {
     model.put("authenticationException",e);
+  }
+ finally {
+    CycleHttpSession.closeSession();
   }
 }

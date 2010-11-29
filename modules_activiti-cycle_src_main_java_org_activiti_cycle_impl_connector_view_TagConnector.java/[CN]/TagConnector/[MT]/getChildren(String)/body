@@ -4,7 +4,7 @@
   }
  else {
     String name=id.substring(id.lastIndexOf("/") + 1);
-    CycleTagContent tagContent=getConfiguration().getCycleService().getTagContent(name);
+    CycleTagContent tagContent=tagService.getTagContent(name);
     return new RepositoryNodeCollectionImpl(tagContent.getTaggedRepositoryNodes());
   }
 }

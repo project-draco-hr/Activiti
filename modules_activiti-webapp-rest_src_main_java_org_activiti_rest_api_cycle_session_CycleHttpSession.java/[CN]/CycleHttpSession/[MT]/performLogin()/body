@@ -1,0 +1,20 @@
+{
+  RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
+  CycleRepositoryService repositoryService=CycleServiceImpl.getInstance().getRepositoryService();
+  for (  RepositoryConnector connector : connectorList.connectors) {
+    if (PasswordEnabledRepositoryConnectorConfiguration.class.isInstance(connector.getConfiguration())) {
+      PasswordEnabledRepositoryConnectorConfiguration conf=(PasswordEnabledRepositoryConnectorConfiguration)connector.getConfiguration();
+      String username=conf.getUser();
+      String password=conf.getPassword();
+      try {
+        repositoryService.login(username,password,conf.getId());
+      }
+ catch (      RepositoryException e) {
+        Map<String,String> connectorMap=new HashMap<String,String>();
+        connectorMap.put(conf.getId(),conf.getName());
+        throw new RepositoryAuthenticationException("Repository authentication error: couldn't login to " + conf.getName(),connectorMap,e);
+      }
+    }
+  }
+  connectorList.connectors.add(0,new TagConnectorConfiguration(CycleServiceImpl.getInstance()).createConnector());
+}

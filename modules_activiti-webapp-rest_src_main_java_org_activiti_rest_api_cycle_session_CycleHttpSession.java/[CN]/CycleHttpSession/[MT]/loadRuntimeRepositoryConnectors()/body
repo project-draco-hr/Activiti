@@ -1,0 +1,17 @@
+{
+  boolean couldRestore=false;
+  RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
+  if (connectorList == null) {
+    connectorList=new RuntimeConnectorList();
+    CycleSessionContext.setInCurrentContext(RuntimeConnectorList.class,connectorList);
+  }
+  if (connectorList.connectors == null) {
+    ConfigurationContainer container=CycleServiceImpl.getInstance().getConfigurationService().getConfigurationContainer();
+    List<RepositoryConnector> connectors=container.getConnectorList();
+    connectorList.connectors=connectors;
+  }
+ else {
+    couldRestore=true;
+  }
+  return couldRestore;
+}

@@ -1,0 +1,7 @@
+{
+  userConfiguration=new ConfigurationContainer("daniel");
+  userConfiguration.addRepositoryConnectorConfiguration(new VfsConnectorConfiguration("sftp","localhost","/home/guest/","sftp"));
+  connector=(VfsConnector)userConfiguration.getConnector("sftp");
+  PluginFinder.checkPluginInitialization();
+  connector.login("guest","guestlogin");
+}

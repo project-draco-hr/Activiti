@@ -1,0 +1,10 @@
+{
+  RepositoryConfigurationHandler handler=new RepositoryConfigurationHandler();
+  Map<String,String> keyValueMap=new HashMap<String,String>();
+  for (  String fieldname : handler.getConfigurationFields(SvnConnectorConfiguration.class.getCanonicalName()).keySet()) {
+    keyValueMap.put(fieldname,UUID.randomUUID().toString());
+  }
+  SvnConnectorConfiguration config=new SvnConnectorConfiguration();
+  handler.setConfigurationfields(keyValueMap,config);
+  System.out.println(config);
+}

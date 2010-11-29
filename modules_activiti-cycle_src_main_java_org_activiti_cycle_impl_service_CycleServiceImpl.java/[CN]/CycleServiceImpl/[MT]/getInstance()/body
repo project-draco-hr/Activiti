@@ -1,0 +1,10 @@
+{
+  if (INSTANCE == null) {
+synchronized (CycleServiceImpl.class) {
+      if (INSTANCE == null) {
+        INSTANCE=new CycleServiceImpl();
+      }
+    }
+  }
+  return INSTANCE;
+}

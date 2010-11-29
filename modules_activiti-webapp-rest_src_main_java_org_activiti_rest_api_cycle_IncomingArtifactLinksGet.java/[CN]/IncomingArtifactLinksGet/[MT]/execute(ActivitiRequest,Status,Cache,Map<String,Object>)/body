@@ -1,6 +1,6 @@
 {
   String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getString("artifactId");
-  List<RepositoryArtifactLink> links=this.cycleService.getIncomingArtifactLinks(connectorId,artifactId);
+  List<RepositoryArtifactLink> links=repositoryService.getIncomingArtifactLinks(connectorId,artifactId);
   model.put("links",links);
 }

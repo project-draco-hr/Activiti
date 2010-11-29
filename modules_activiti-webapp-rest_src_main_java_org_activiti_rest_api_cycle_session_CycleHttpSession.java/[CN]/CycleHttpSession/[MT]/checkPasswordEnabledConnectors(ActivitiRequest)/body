@@ -1,0 +1,24 @@
+{
+  RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
+  Map<String,String> connectorsWithoutLoginMap=new HashMap<String,String>();
+  for (  RepositoryConnector connector : getPasswordEnabledConnectors(connectorList.connectors)) {
+    PasswordEnabledRepositoryConnectorConfiguration conf=(PasswordEnabledRepositoryConnectorConfiguration)connector.getConfiguration();
+    String username=req.getString(conf.getId() + "_username");
+    String password=req.getString(conf.getId() + "_password");
+    if (username != null && password != null) {
+      if (username.equals("\"\"") && password.equals("\"\"")) {
+        connectorList.connectors.remove(connector);
+      }
+ else {
+        conf.setUser(username);
+        conf.setPassword(password);
+      }
+    }
+ else     if (conf.getUser() == null || conf.getPassword() == null) {
+      connectorsWithoutLoginMap.put(conf.getId(),conf.getName());
+    }
+  }
+  if (connectorsWithoutLoginMap.size() > 0) {
+    throw new RepositoryAuthenticationException("Please provide your username and password for the following repositories:",connectorsWithoutLoginMap);
+  }
+}

@@ -1,0 +1,12 @@
+{
+  HttpSession httpSession=req.getHttpServletRequest().getSession(true);
+  String cuid=req.getCurrentUserId();
+  PluginFinder.registerServletContext(httpSession.getServletContext());
+  CycleSessionContext.setCurrentContext(new HttpSessionContext(httpSession));
+  CycleSessionContext.setInCurrentContext("cuid",cuid);
+  boolean couldRestoreConnectors=loadRuntimeRepositoryConnectors();
+  checkPasswordEnabledConnectors(req);
+  if (!couldRestoreConnectors) {
+    performLogin();
+  }
+}

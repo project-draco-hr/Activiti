@@ -14,6 +14,7 @@
     link.setTargetArtifact(targetArtifact);
     link.setComment(comment);
     link.setLinkType(RepositoryArtifactLinkEntity.TYPE_COPY);
-    connector.getConfiguration().getCycleService().addArtifactLink(link);
+    CycleRepositoryService repositoryService=CycleServiceImpl.getInstance().getRepositoryService();
+    repositoryService.addArtifactLink(link);
   }
 }
