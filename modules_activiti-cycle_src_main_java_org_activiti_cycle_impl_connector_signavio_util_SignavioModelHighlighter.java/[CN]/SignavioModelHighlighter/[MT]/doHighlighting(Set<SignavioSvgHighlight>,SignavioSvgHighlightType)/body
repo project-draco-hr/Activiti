@@ -1,0 +1,52 @@
+{
+  Set<String> containers=new HashSet<String>();
+  Set<String> nodes=new HashSet<String>();
+  Set<String> connectors=new HashSet<String>();
+  for (  SignavioSvgHighlight signavioSvgHighlight : highlightset) {
+    if (SignavioSvgNodeType.CONTAINER.equals(signavioSvgHighlight.getNodeType())) {
+      containers.add(signavioSvgHighlight.getNodeId());
+      continue;
+    }
+    if (SignavioSvgNodeType.CONNECTOR.equals(signavioSvgHighlight.getNodeType())) {
+      connectors.add(signavioSvgHighlight.getNodeId());
+      continue;
+    }
+    if (SignavioSvgNodeType.NODE.equals(signavioSvgHighlight.getNodeType())) {
+      nodes.add(signavioSvgHighlight.getNodeId());
+      continue;
+    }
+  }
+  List<Object> result=new ArrayList<Object>();
+  if (containers.size() > 0) {
+    for (    String containerId : containers) {
+      result.add(containerId);
+    }
+  }
+  try {
+    if (nodes.size() > 0) {
+      JSONObject obj=new JSONObject();
+      obj.put("nodes",nodes);
+      JSONObject attributes=new JSONObject();
+      attributes.put("fill",highlightColorMap.get(highlightType));
+      obj.put("attributes",attributes);
+      result.add(obj);
+    }
+  }
+ catch (  JSONException e) {
+    log.log(Level.WARNING,e.getMessage(),e);
+  }
+  try {
+    if (connectors.size() > 0) {
+      JSONObject obj=new JSONObject();
+      obj.put("nodes",connectors);
+      JSONObject attributes=new JSONObject();
+      attributes.put("stroke",highlightColorMap.get(highlightType));
+      obj.put("attributes",attributes);
+      result.add(obj);
+    }
+  }
+ catch (  JSONException e) {
+    log.log(Level.WARNING,e.getMessage(),e);
+  }
+  return result.toArray(new Object[0]);
+}

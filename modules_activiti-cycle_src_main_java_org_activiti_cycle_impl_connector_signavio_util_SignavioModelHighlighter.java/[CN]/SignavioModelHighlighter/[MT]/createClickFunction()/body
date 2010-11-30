@@ -1,0 +1,21 @@
+{
+  try {
+    StringBuilder clickFunc=new StringBuilder();
+    clickFunc.append("function(node, editor) {");
+    clickFunc.append("var errorMessages = " + createJsonMessagesObject() + ";");
+    clickFunc.append("var myNodeMessages = errorMessages[node.resourceId];");
+    clickFunc.append("if (myNodeMessages != '' && myNodeMessages != 'undefined' && myNodeMessages != undefined) {");
+    clickFunc.append("var myNodeMessagesStr = \"\";");
+    clickFunc.append("for (msg in myNodeMessages) {");
+    clickFunc.append("myNodeMessagesStr += myNodeMessages[msg] + \"\\n\";");
+    clickFunc.append("}");
+    clickFunc.append("alert(\"Sid: \" + node.resourceId + \"\\nErrorMessages: \" + myNodeMessagesStr);");
+    clickFunc.append("}");
+    clickFunc.append("}");
+    return clickFunc.toString();
+  }
+ catch (  JSONException e) {
+    log.log(Level.WARNING,e.getMessage(),e);
+    return null;
+  }
+}

@@ -1,3 +1,7 @@
 {
-  return buildHtml(buildScript(),null);
+  String template=loadTemplate(SIGNAVIO_SVG_API_HTML_TEMPLATE);
+  if (template == null)   return "";
+  template=template.replace("SCRIPT",buildScript());
+  template=template.replaceAll("HTML_CONTENT",htmlContent);
+  return template;
 }

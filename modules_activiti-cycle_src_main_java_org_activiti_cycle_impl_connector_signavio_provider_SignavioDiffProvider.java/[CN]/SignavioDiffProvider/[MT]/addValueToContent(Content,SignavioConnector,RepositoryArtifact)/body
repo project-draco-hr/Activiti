@@ -3,8 +3,8 @@
   if (targetArtifact == null) {
     diffTarget=artifact;
   }
-  Map<String,List<String>> missingSourceElements=new HashMap<String,List<String>>();
-  Map<String,List<String>> missingTargetElements=new HashMap<String,List<String>>();
+  List<SignavioSvgHighlight> missingSourceElements=new ArrayList<SignavioSvgHighlight>();
+  List<SignavioSvgHighlight> missingTargetElements=new ArrayList<SignavioSvgHighlight>();
   String sourceJson=connector.getContent(artifact.getNodeId(),SignavioPluginDefinition.CONTENT_REPRESENTATION_ID_JSON).asString();
   String targetJson=connector.getContent(diffTarget.getNodeId(),SignavioPluginDefinition.CONTENT_REPRESENTATION_ID_JSON).asString();
   try {
@@ -19,9 +19,7 @@
         }
       }
       if (!existant) {
-        ArrayList<String> messages=new ArrayList<String>();
-        messages.add("MISSING");
-        missingSourceElements.put(sourceId,messages);
+        missingSourceElements.add(new SignavioSvgHighlight(SignavioSvgNodeType.NODE,SignavioSvgHighlightType.INFO,sourceId,"MISSING"));
       }
     }
     for (    Shape targetShape : targetDiagram.getShapes()) {
@@ -33,23 +31,21 @@
         }
       }
       if (!existant) {
-        ArrayList<String> messages=new ArrayList<String>();
-        messages.add("MISSING");
-        missingTargetElements.put(targetId,messages);
+        missingTargetElements.add(new SignavioSvgHighlight(SignavioSvgNodeType.NODE,SignavioSvgHighlightType.INFO,targetId,"MISSING"));
       }
     }
   }
  catch (  Exception e) {
     throw new RepositoryException("Could not create DIFF due to exception",e);
   }
-  String script1=new SignavioSvgApiBuilder(connector,artifact).highlightNodes(missingSourceElements,INFO_COLOR).buildScript(75);
-  String script2=new SignavioSvgApiBuilder(connector,diffTarget).highlightNodes(missingTargetElements,INFO_COLOR).buildScript(75);
+  String script1=new SignavioSvgApiBuilder(connector,artifact).highlightNodes(missingSourceElements).buildScript(75);
+  String script2=new SignavioSvgApiBuilder(connector,diffTarget).highlightNodes(missingTargetElements).buildScript(75);
   Integer height=200;
   String htmlContent="<p><b>Expertimental</b> feature to play around with Signavio diffing.<br/>Currently, showing diff against artifact " + diffTarget.getGlobalUniqueId() + ".<br/>Use the Actions menu to select another diff target.</p>";
   String additionalContent="<p>Changes from " + diffTarget.getMetadata().getName() + " in "+ artifact.getMetadata().getName();
   additionalContent+="<div id=\"model1\" style=\"height: " + height + "px;\">"+ script1+ "</div>";
   additionalContent+="Changes from " + artifact.getMetadata().getName() + " in "+ diffTarget.getMetadata().getName();
   additionalContent+="<div id=\"model2\" style=\"height: " + height + "px;\">"+ script2+ "</div>";
-  String html=SignavioSvgApiBuilder.buildHtml(htmlContent,additionalContent);
+  String html=new SignavioSvgApiBuilder(connector,artifact).buildHtml(htmlContent,additionalContent);
   content.setValue(html);
 }
