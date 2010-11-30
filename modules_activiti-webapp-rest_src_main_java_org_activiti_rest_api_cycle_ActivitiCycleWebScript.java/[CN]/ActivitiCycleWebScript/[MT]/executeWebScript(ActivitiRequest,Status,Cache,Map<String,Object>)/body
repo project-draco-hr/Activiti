@@ -4,7 +4,13 @@
     execute(req,status,cache,model);
   }
  catch (  RepositoryAuthenticationException e) {
-    model.put("authenticationException",e);
+    try {
+      CycleHttpSession.tryConnectorLogin(req,e.getConnectorId());
+      execute(req,status,cache,model);
+    }
+ catch (    RepositoryAuthenticationException e2) {
+      model.put("authenticationException",e2);
+    }
   }
  finally {
     CycleHttpSession.closeSession();

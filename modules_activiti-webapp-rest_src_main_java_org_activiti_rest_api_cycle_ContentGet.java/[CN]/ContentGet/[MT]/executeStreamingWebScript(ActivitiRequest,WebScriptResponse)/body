@@ -3,7 +3,11 @@
     CycleHttpSession.openSession(req);
     getContent(req,res);
   }
-  finally {
+ catch (  RepositoryAuthenticationException e) {
+    CycleHttpSession.tryConnectorLogin(req,e.getConnectorId());
+    getContent(req,res);
+  }
+ finally {
     CycleHttpSession.closeSession();
   }
 }

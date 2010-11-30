@@ -4,9 +4,15 @@
   PluginFinder.registerServletContext(httpSession.getServletContext());
   CycleSessionContext.setCurrentContext(new HttpSessionContext(httpSession));
   CycleSessionContext.setInCurrentContext("cuid",cuid);
-  boolean couldRestoreConnectors=loadRuntimeRepositoryConnectors();
-  checkPasswordEnabledConnectors(req);
-  if (!couldRestoreConnectors) {
-    performLogin();
+  RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
+  if (connectorList == null) {
+    connectorList=new RuntimeConnectorList();
+    CycleSessionContext.setInCurrentContext(RuntimeConnectorList.class,connectorList);
+  }
+  if (connectorList.connectors == null) {
+    ConfigurationContainer container=CycleServiceFactory.getConfigurationService().getConfigurationContainer();
+    List<RepositoryConnector> connectors=container.getConnectorList();
+    connectors.add(0,new TagConnectorConfiguration().createConnector());
+    connectorList.connectors=connectors;
   }
 }

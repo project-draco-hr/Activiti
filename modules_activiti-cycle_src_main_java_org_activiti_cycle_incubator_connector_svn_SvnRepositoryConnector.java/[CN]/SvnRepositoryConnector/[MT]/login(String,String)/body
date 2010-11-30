@@ -1,9 +1,11 @@
 {
+  checkLoggedIn();
   ISVNClientAdapter clientAdapter=getSvnClientAdapter();
   clientAdapter.setUsername(username);
   clientAdapter.setPassword(password);
   try {
     clientAdapter.getList(new SVNUrl(getConfiguration().getRepositoryPath()),SVNRevision.HEAD,false);
+    loggedIn=true;
     return true;
   }
  catch (  Exception e) {
