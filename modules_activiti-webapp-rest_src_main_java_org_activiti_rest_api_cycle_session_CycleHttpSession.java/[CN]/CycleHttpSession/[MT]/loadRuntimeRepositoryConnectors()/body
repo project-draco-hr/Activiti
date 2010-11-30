@@ -6,7 +6,7 @@
     CycleSessionContext.setInCurrentContext(RuntimeConnectorList.class,connectorList);
   }
   if (connectorList.connectors == null) {
-    ConfigurationContainer container=CycleServiceImpl.getInstance().getConfigurationService().getConfigurationContainer();
+    ConfigurationContainer container=CycleServiceFactory.getConfigurationService().getConfigurationContainer();
     List<RepositoryConnector> connectors=container.getConnectorList();
     connectorList.connectors=connectors;
   }

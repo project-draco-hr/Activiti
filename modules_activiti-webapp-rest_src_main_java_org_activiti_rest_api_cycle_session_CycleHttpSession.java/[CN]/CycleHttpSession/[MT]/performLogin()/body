@@ -1,6 +1,6 @@
 {
   RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
-  CycleRepositoryService repositoryService=CycleServiceImpl.getInstance().getRepositoryService();
+  CycleRepositoryService repositoryService=CycleServiceFactory.getRepositoryService();
   for (  RepositoryConnector connector : connectorList.connectors) {
     if (PasswordEnabledRepositoryConnectorConfiguration.class.isInstance(connector.getConfiguration())) {
       PasswordEnabledRepositoryConnectorConfiguration conf=(PasswordEnabledRepositoryConnectorConfiguration)connector.getConfiguration();
@@ -16,5 +16,5 @@
       }
     }
   }
-  connectorList.connectors.add(0,new TagConnectorConfiguration(CycleServiceImpl.getInstance()).createConnector());
+  connectorList.connectors.add(0,new TagConnectorConfiguration().createConnector());
 }
