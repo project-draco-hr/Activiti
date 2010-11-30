@@ -8,4 +8,10 @@
   assertEquals(0,historyService.createHistoricDetailQuery().formProperties().activityId("unexisting").count());
   assertEquals(2,historyService.createHistoricDetailQuery().formProperties().processInstanceId(processInstance.getId()).count());
   assertEquals(0,historyService.createHistoricDetailQuery().formProperties().processInstanceId("unexisting").count());
+  Task task=taskService.createTaskQuery().singleResult();
+  formProperties=new HashMap<String,String>();
+  formProperties.put("taskVar","task form property");
+  formService.submitTaskFormData(task.getId(),formProperties);
+  assertEquals(3,historyService.createHistoricDetailQuery().formProperties().processInstanceId(processInstance.getId()).count());
+  assertEquals(0,historyService.createHistoricDetailQuery().formProperties().processInstanceId("unexisting").count());
 }
