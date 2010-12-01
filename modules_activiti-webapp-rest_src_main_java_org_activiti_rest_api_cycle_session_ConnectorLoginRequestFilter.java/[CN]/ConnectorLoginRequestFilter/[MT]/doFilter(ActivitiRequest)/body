@@ -1,0 +1,11 @@
+{
+  Object connectorIdObject=req.getString("connector-login-request");
+  if (connectorIdObject == null)   return;
+  String connectorId=(String)connectorIdObject;
+  String username=req.getString(connectorId + "_username");
+  String password=req.getString(connectorId + "_password");
+  CycleRepositoryService repositoryService=CycleServiceFactory.getRepositoryService();
+  if (!repositoryService.login(username,password,connectorId)) {
+    throw new RepositoryAuthenticationException("Cannot login to repository.",connectorId);
+  }
+}

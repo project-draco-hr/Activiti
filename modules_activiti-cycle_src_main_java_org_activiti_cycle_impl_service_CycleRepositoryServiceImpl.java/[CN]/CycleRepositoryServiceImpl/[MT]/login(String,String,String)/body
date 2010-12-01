@@ -1,6 +1,11 @@
 {
   RepositoryConnector conn=getRepositoryConnector(connectorId);
   if (conn != null) {
+    if (conn.getConfiguration() instanceof PasswordEnabledRepositoryConnectorConfiguration) {
+      PasswordEnabledRepositoryConnectorConfiguration configuration=(PasswordEnabledRepositoryConnectorConfiguration)conn.getConfiguration();
+      configuration.setUser(username);
+      configuration.setPassword(password);
+    }
     conn.login(username,password);
     return true;
   }

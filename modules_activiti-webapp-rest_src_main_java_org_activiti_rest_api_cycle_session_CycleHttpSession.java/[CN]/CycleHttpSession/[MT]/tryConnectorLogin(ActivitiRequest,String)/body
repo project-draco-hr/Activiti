@@ -1,12 +1,7 @@
 {
   RepositoryConnector connector=null;
   RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
-  for (  RepositoryConnector thisConnector : connectorList.connectors) {
-    if (!thisConnector.getConfiguration().getId().equals(connectorId)) {
-      continue;
-    }
-    connector=thisConnector;
-  }
+  connector=connectorList.getConnectorById(connectorId);
   if (connector == null) {
     throw new RuntimeException("Cannot login to repository with id '" + connectorId + "', no such repository.");
   }
@@ -16,14 +11,6 @@
     PasswordEnabledRepositoryConnectorConfiguration passwordEnabledRepositoryConnectorConfiguration=(PasswordEnabledRepositoryConnectorConfiguration)connector.getConfiguration();
     username=passwordEnabledRepositoryConnectorConfiguration.getUser();
     password=passwordEnabledRepositoryConnectorConfiguration.getPassword();
-  }
-  String req_username=req.getString(connectorId + "_username");
-  String req_password=req.getString(connectorId + "_password");
-  if (req_username != null) {
-    username=req_username;
-  }
-  if (req_password != null) {
-    password=req_password;
   }
   try {
     CycleServiceFactory.getRepositoryService().login(username,password,connectorId);
