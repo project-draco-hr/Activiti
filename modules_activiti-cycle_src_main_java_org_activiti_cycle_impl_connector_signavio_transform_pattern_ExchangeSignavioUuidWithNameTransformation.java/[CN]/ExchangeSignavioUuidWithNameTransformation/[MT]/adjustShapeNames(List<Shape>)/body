@@ -1,0 +1,14 @@
+{
+  for (  Shape shape : shapes) {
+    String id=shape.getResourceId();
+    if (shape.getProperty("name") != null && shape.getProperty("name").length() > 0) {
+      String documentation=shape.getProperty("documentation");
+      documentation=CustomProperty.ORIGINAL_ID.setValueUnlessPropertyExists(documentation,id);
+      shape.getProperties().put("documentation",documentation);
+      id=AdjustShapeNamesForXmlNCName.adjustForXmlNCName(shape.getProperty("name"));
+      id=makeNamesUnique.transformName(id,shape);
+      shape.setResourceId(id);
+    }
+    adjustShapeNames(shape.getChildShapes());
+  }
+}

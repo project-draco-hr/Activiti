@@ -1,8 +1,8 @@
 {
   List<JsonTransformation> transformations=new ArrayList<JsonTransformation>();
   transformations.add(new BpmnPoolExtraction("Process Engine"));
+  transformations.add(new ReplaceEmptyShapeNamesWithTypes());
   transformations.add(new ExchangeSignavioUuidWithNameTransformation());
-  transformations.add(new AdjustShapeNamesTransformation());
   String file="c:/Process Engine Pool.oryx.xml";
   FileInputStream fis=new FileInputStream(file);
   DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();

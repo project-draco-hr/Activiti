@@ -3,7 +3,7 @@
     Map<String,String> properties=shape.getProperties();
     if (properties.containsKey("name")) {
       String oldName=properties.get("name");
-      String newName=transformName(oldName);
+      String newName=transformName(oldName,shape);
       if (!newName.equals(oldName)) {
         setOriginalName(shape,oldName);
         properties.put("name",newName);
