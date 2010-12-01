@@ -1,7 +1,7 @@
 {
   List<Shape> shapes=diagram.getShapes();
   for (  Shape shape : shapes) {
-    if (STENCIL_COLLAPSED_SUBPROCESS.equals(shape.getStencilId())) {
+    if (STENCIL_COLLAPSED_SUBPROCESS.equals(shape.getStencilId()) && !"true".equals(shape.getProperty(PROPERTY_IS_CALL_ACTIVITY))) {
       String subProcessUrl=shape.getProperty(PROPERTY_ENTRY);
       if (subProcessUrl != null && subProcessUrl.length() > 0) {
         String subProcessName=shape.getProperty(PROPERTY_NAME);
