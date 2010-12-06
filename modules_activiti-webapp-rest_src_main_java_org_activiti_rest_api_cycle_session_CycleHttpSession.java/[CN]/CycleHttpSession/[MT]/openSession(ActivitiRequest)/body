@@ -2,19 +2,9 @@
   HttpSession httpSession=req.getHttpServletRequest().getSession(true);
   String cuid=req.getCurrentUserId();
   PluginFinder.registerServletContext(httpSession.getServletContext());
-  CycleSessionContext.setCurrentContext(new HttpSessionContext(httpSession));
-  CycleSessionContext.setInCurrentContext("cuid",cuid);
-  RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
-  if (connectorList == null) {
-    connectorList=new RuntimeConnectorList();
-    CycleSessionContext.setInCurrentContext(RuntimeConnectorList.class,connectorList);
-  }
-  if (connectorList.connectors == null) {
-    ConfigurationContainer container=CycleServiceFactory.getConfigurationService().getConfigurationContainer();
-    List<RepositoryConnector> connectors=container.getConnectorList();
-    connectors.add(0,new TagConnectorConfiguration().createConnector());
-    connectorList.connectors=connectors;
-  }
+  CycleComponentFactory.registerServletContext(httpSession.getServletContext());
+  CycleSessionContext.setContext(new HttpSessionContext(httpSession));
+  CycleSessionContext.set("cuid",cuid);
   for (  CycleRequestFilter requestFilter : requestFilters) {
     requestFilter.doFilter(req);
   }

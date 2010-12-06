@@ -1,3 +1,5 @@
 {
-  return new SignavioConnector(this);
+  RepositoryConnector connector=CycleComponentFactory.getCycleComponentInstance(SignavioConnector.class,RepositoryConnector.class);
+  connector.setConfiguration(this);
+  return connector;
 }

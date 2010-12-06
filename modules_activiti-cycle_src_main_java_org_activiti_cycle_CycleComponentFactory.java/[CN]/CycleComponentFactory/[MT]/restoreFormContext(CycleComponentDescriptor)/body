@@ -1,0 +1,13 @@
+{
+switch (descriptor.contextType) {
+case SESSION:
+    CycleContext sessionContext=CycleSessionContext.getLocalContext();
+  if (sessionContext != null) {
+    sessionContext.get(descriptor.name);
+  }
+break;
+case APPLICATION:
+return CycleApplicationContext.get(descriptor.name);
+}
+return null;
+}

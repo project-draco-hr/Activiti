@@ -15,8 +15,8 @@
     }
     configurationContainer.removeRepositoryConnectorConfiguration(repositoryConnectorConfiguration);
     cycleConfigurationDao.saveConfiguration(configurationContainer);
-    RuntimeConnectorList runtimeConnectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
-    runtimeConnectorList.connectors=null;
+    RuntimeConnectorList runtimeConnectorList=CycleSessionContext.get(RuntimeConnectorList.class);
+    runtimeConnectorList.discardConnectors();
   }
  catch (  Exception e) {
     throw new RepositoryException("Error while deleting config for user " + e.getMessage(),e);

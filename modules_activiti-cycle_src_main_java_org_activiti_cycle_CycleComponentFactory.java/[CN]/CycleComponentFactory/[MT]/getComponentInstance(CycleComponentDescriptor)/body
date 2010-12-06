@@ -1,0 +1,10 @@
+{
+  guaranteeInitialization();
+  if (descriptor == null)   throw new IllegalArgumentException("Descriptor must not be null");
+  Object instance=restoreFormContext(descriptor);
+  if (instance != null)   return instance;
+  instance=createInstance(descriptor.name,descriptor.clazz);
+  instance=decorateInstance(instance,descriptor.clazz);
+  storeInContext(instance,descriptor);
+  return instance;
+}

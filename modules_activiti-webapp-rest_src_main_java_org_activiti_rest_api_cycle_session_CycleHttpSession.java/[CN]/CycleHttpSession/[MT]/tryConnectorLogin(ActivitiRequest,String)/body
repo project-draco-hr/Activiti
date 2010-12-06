@@ -1,6 +1,6 @@
 {
   RepositoryConnector connector=null;
-  RuntimeConnectorList connectorList=CycleSessionContext.getFromCurrentContext(RuntimeConnectorList.class);
+  RuntimeConnectorList connectorList=CycleSessionContext.get(RuntimeConnectorList.class);
   connector=connectorList.getConnectorById(connectorId);
   if (connector == null) {
     throw new RuntimeException("Cannot login to repository with id '" + connectorId + "', no such repository.");

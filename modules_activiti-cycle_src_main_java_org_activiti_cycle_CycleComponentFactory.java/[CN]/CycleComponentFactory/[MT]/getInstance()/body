@@ -1,0 +1,12 @@
+{
+  if (INSTANCE == null) {
+synchronized (CycleComponentFactory.class) {
+      if (INSTANCE == null) {
+        INSTANCE=new CycleComponentFactory(){
+        }
+;
+      }
+    }
+  }
+  return INSTANCE;
+}

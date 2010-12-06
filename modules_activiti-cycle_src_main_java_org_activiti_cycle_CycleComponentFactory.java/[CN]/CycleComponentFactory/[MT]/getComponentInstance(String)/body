@@ -1,0 +1,8 @@
+{
+  guaranteeInitialization();
+  CycleComponentDescriptor descriptor=descriptorRegistry.get(name);
+  if (descriptor == null) {
+    throw new RuntimeException("No component with name '" + name + "' found.");
+  }
+  return getComponentInstance(descriptor);
+}
