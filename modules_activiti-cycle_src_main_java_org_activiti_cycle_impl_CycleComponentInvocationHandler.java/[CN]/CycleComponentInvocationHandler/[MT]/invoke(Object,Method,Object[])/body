@@ -1,0 +1,14 @@
+{
+  for (  Interceptor interceptor : interceptorInstances) {
+    interceptor.interceptMethodCall(method,instance,args);
+  }
+  try {
+    return method.invoke(instance,args);
+  }
+ catch (  Exception e) {
+    if (e instanceof InvocationTargetException) {
+      throw ((InvocationTargetException)e).getTargetException();
+    }
+    throw e;
+  }
+}
