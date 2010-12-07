@@ -2,5 +2,9 @@
   for (  IdentityLinkEntity identityLinkEntities : getIdentityLinks()) {
     identityLinkEntities.delete();
   }
+  ensureVariableInstancesInitialized();
+  for (  VariableInstanceEntity variableInstance : variableInstances.values()) {
+    variableInstance.delete();
+  }
   CommandContext.getCurrent().getDbSqlSession().delete(TaskEntity.class,id);
 }

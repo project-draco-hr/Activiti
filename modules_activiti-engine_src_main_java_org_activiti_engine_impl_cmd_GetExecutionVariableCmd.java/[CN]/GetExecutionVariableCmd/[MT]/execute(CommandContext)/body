@@ -1,0 +1,20 @@
+{
+  if (executionId == null) {
+    throw new ActivitiException("executionId is null");
+  }
+  if (variableName == null) {
+    throw new ActivitiException("variableName is null");
+  }
+  ExecutionEntity execution=commandContext.getRuntimeSession().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution " + executionId + " doesn't exist");
+  }
+  Object value;
+  if (isLocal) {
+    value=execution.getVariableLocal(variableName);
+  }
+ else {
+    value=execution.getVariable(variableName);
+  }
+  return value;
+}

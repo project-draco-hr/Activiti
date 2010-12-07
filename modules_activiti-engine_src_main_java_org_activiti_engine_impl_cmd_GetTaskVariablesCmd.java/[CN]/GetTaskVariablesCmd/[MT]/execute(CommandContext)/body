@@ -1,0 +1,24 @@
+{
+  if (taskId == null) {
+    throw new ActivitiException("taskId is null");
+  }
+  TaskEntity task=commandContext.getTaskSession().findTaskById(taskId);
+  if (task == null) {
+    throw new ActivitiException("task " + taskId + " doesn't exist");
+  }
+  Map<String,Object> taskVariables;
+  if (isLocal) {
+    taskVariables=task.getVariablesLocal();
+  }
+ else {
+    taskVariables=task.getVariables();
+  }
+  if (variableNames == null) {
+    variableNames=taskVariables.keySet();
+  }
+  Map<String,Object> variables=new HashMap<String,Object>();
+  for (  String variableName : variableNames) {
+    variables.put(variableName,task.getVariable(variableName));
+  }
+  return variables;
+}

@@ -1,0 +1,24 @@
+{
+  if (executionId == null) {
+    throw new ActivitiException("executionId is null");
+  }
+  ExecutionEntity execution=commandContext.getRuntimeSession().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution " + executionId + " doesn't exist");
+  }
+  Map<String,Object> executionVariables;
+  if (isLocal) {
+    executionVariables=execution.getVariablesLocal();
+  }
+ else {
+    executionVariables=execution.getVariables();
+  }
+  if (variableNames == null) {
+    variableNames=executionVariables.keySet();
+  }
+  Map<String,Object> variables=new HashMap<String,Object>();
+  for (  String variableName : variableNames) {
+    variables.put(variableName,execution.getVariable(variableName));
+  }
+  return variables;
+}
