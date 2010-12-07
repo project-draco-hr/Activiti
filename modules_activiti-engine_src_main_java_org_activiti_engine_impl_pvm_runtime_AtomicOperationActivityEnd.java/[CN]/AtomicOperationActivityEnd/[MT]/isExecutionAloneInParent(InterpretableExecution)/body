@@ -1,0 +1,9 @@
+{
+  ScopeImpl parentScope=(ScopeImpl)execution.getActivity().getParent();
+  for (  InterpretableExecution other : (List<InterpretableExecution>)execution.getParent().getExecutions()) {
+    if (other != execution && parentScope.contains((ActivityImpl)other.getActivity())) {
+      return false;
+    }
+  }
+  return true;
+}

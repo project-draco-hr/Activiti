@@ -1,0 +1,10 @@
+{
+  if (hasVariableLocal(variableName)) {
+    return true;
+  }
+  VariableScope parentScope=getParentVariableScope();
+  if (parentScope != null) {
+    return parentScope.hasVariable(variableName);
+  }
+  return false;
+}

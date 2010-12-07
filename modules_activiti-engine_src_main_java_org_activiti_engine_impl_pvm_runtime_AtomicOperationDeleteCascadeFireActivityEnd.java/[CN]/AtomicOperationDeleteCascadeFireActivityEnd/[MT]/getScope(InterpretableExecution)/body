@@ -1,0 +1,13 @@
+{
+  ActivityImpl activity=(ActivityImpl)execution.getActivity();
+  if (activity != null) {
+    return activity;
+  }
+ else {
+    InterpretableExecution parent=(InterpretableExecution)execution.getParent();
+    if (parent != null) {
+      return getScope((InterpretableExecution)execution.getParent());
+    }
+    return execution.getProcessDefinition();
+  }
+}

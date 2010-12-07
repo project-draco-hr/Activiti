@@ -1,7 +1,11 @@
 {
-  super.remove();
-  ensureVariablesInitialized();
-  variables.clear();
+  ensureParentInitialized();
+  if (parent != null) {
+    parent.ensureExecutionsInitialized();
+    parent.executions.remove(this);
+  }
+  ensureVariableInstancesInitialized();
+  removeVariablesLocal();
   CommandContext commandContext=CommandContext.getCurrent();
   List<TaskEntity> tasks=(List)new TaskQueryImpl().executionId(id).executeList(commandContext,null);
   for (  TaskEntity task : tasks) {

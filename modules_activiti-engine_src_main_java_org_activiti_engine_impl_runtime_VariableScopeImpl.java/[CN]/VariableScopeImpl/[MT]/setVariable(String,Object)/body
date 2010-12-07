@@ -1,0 +1,12 @@
+{
+  if (hasVariableLocal(variableName)) {
+    setVariableLocal(variableName,value);
+    return;
+  }
+  VariableScope parentVariableScope=getParentVariableScope();
+  if (parentVariableScope != null) {
+    parentVariableScope.setVariable(variableName,value);
+    return;
+  }
+  createVariableLocal(variableName,value);
+}

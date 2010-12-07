@@ -1,0 +1,10 @@
+{
+  ensureActivityInitialized();
+  if (isActive && activity != null) {
+    activeActivityIds.add(activity.getId());
+  }
+  ensureExecutionsInitialized();
+  for (  ExecutionEntity execution : executions) {
+    execution.collectActiveActivityIds(activeActivityIds);
+  }
+}

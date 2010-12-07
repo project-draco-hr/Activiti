@@ -1,0 +1,15 @@
+{
+  TransitionImpl transition=execution.getTransition();
+  ActivityImpl destination=transition.getDestination();
+  ActivityImpl activity=(ActivityImpl)execution.getActivity();
+  if (activity != destination) {
+    ActivityImpl nextScope=AtomicOperationTransitionNotifyListenerTake.findNextScope(activity,destination);
+    execution.setActivity(nextScope);
+    execution.performOperation(TRANSITION_CREATE_SCOPE);
+  }
+ else {
+    execution.setTransition(null);
+    execution.setActivity(destination);
+    execution.performOperation(ACTIVITY_EXECUTE);
+  }
+}

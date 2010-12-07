@@ -1,0 +1,19 @@
+{
+  ActivityImpl activity=(ActivityImpl)execution.getActivity();
+  if ((execution.isScope()) && (activity != null) && (!activity.isScope())) {
+    execution.setActivity(activity.getParentActivity());
+    execution.performOperation(AtomicOperation.DELETE_CASCADE_FIRE_ACTIVITY_END);
+  }
+ else {
+    if (execution.isScope()) {
+      execution.destroy();
+    }
+    execution.remove();
+    if (!execution.isDeleteRoot()) {
+      InterpretableExecution parent=(InterpretableExecution)execution.getParent();
+      if (parent != null) {
+        parent.performOperation(AtomicOperation.DELETE_CASCADE);
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  ActivityImpl activity=(ActivityImpl)execution.getActivity();
+  ActivityImpl parentActivity=activity.getParentActivity();
+  if ((parentActivity != null) && (!parentActivity.isScope())) {
+    execution.setActivity(parentActivity);
+    execution.performOperation(ACTIVITY_END);
+  }
+ else   if (execution.isProcessInstance()) {
+    execution.performOperation(PROCESS_END);
+  }
+ else   if (execution.isScope()) {
+    ActivityBehavior parentActivityBehavior=(parentActivity != null ? parentActivity.getActivityBehavior() : null);
+    if (parentActivityBehavior instanceof CompositeActivityBehavior) {
+      CompositeActivityBehavior compositeActivityBehavior=(CompositeActivityBehavior)parentActivity.getActivityBehavior();
+      execution.setActivity(parentActivity);
+      compositeActivityBehavior.lastExecutionEnded(execution);
+    }
+ else {
+      InterpretableExecution parentScopeExecution=(InterpretableExecution)execution.getParent();
+      execution.destroy();
+      execution.remove();
+      parentScopeExecution.setActivity(parentActivity);
+      parentScopeExecution.performOperation(ACTIVITY_END);
+    }
+  }
+ else {
+    execution.remove();
+    InterpretableExecution concurrentRoot=(InterpretableExecution)execution.getParent();
+    if (concurrentRoot.getExecutions().size() == 1) {
+      InterpretableExecution lastConcurrent=(InterpretableExecution)concurrentRoot.getExecutions().get(0);
+      if (!lastConcurrent.isScope()) {
+        concurrentRoot.setActivity((ActivityImpl)lastConcurrent.getActivity());
+        lastConcurrent.setReplacedBy(concurrentRoot);
+        lastConcurrent.remove();
+      }
+ else {
+        lastConcurrent.setConcurrent(false);
+      }
+    }
+  }
+}

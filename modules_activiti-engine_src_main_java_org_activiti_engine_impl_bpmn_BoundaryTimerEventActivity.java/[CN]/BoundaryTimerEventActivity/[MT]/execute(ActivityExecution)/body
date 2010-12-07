@@ -1,13 +1,13 @@
 {
   List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
-  List<ExecutionImpl> interruptedExecutions=null;
+  List<ExecutionEntity> interruptedExecutions=null;
   if (interrupting) {
-    ExecutionImpl executionImpl=(ExecutionImpl)execution;
+    ExecutionEntity executionImpl=(ExecutionEntity)execution;
     if (executionImpl.getSubProcessInstance() != null) {
       executionImpl.getSubProcessInstance().deleteCascade(executionImpl.getDeleteReason());
     }
-    interruptedExecutions=new ArrayList<ExecutionImpl>(executionImpl.getExecutions());
-    for (    ExecutionImpl interruptedExecution : interruptedExecutions) {
+    interruptedExecutions=new ArrayList<ExecutionEntity>(executionImpl.getExecutions());
+    for (    ExecutionEntity interruptedExecution : interruptedExecutions) {
       interruptedExecution.deleteCascade("interrupting timer event '" + execution.getActivity().getId() + "' fired");
     }
   }

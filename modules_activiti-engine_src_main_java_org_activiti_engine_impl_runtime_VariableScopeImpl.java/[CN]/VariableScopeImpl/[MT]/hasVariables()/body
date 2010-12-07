@@ -1,0 +1,11 @@
+{
+  ensureVariableInstancesInitialized();
+  if (!variableInstances.isEmpty()) {
+    return true;
+  }
+  VariableScope parentScope=getParentVariableScope();
+  if (parentScope != null) {
+    return parentScope.hasVariables();
+  }
+  return false;
+}

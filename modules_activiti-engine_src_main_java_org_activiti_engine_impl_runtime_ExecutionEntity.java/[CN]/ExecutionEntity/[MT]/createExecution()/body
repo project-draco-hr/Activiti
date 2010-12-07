@@ -1,0 +1,10 @@
+{
+  ExecutionEntity createdExecution=newExecution();
+  ensureExecutionsInitialized();
+  executions.add(createdExecution);
+  createdExecution.setParent(this);
+  createdExecution.setProcessDefinition(getProcessDefinition());
+  createdExecution.setProcessInstance(getProcessInstance());
+  createdExecution.setActivity(getActivity());
+  return createdExecution;
+}

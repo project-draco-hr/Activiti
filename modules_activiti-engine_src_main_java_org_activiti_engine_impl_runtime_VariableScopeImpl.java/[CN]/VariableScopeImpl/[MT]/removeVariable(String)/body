@@ -1,0 +1,12 @@
+{
+  ensureVariableInstancesInitialized();
+  VariableInstanceEntity variableInstance=variableInstances.remove(variableName);
+  if (variableInstance != null) {
+    variableInstance.delete();
+    return;
+  }
+  VariableScope parentVariableScope=getParentVariableScope();
+  if (parentVariableScope != null) {
+    parentVariableScope.removeVariable(variableName);
+  }
+}

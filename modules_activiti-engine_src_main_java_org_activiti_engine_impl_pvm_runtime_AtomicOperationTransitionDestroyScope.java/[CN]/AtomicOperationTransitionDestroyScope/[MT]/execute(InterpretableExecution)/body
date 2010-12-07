@@ -1,0 +1,62 @@
+{
+  InterpretableExecution propagatingExecution=null;
+  ActivityImpl activity=(ActivityImpl)execution.getActivity();
+  if (activity.isScope()) {
+    InterpretableExecution parentScopeInstance=null;
+    if (execution.isConcurrent() && !execution.isScope()) {
+      InterpretableExecution concurrentRoot=(InterpretableExecution)execution.getParent();
+      parentScopeInstance=(InterpretableExecution)execution.getParent().getParent();
+      log.fine("moving concurrent " + execution + " one scope up under "+ parentScopeInstance);
+      List<InterpretableExecution> parentScopeInstanceExecutions=(List<InterpretableExecution>)parentScopeInstance.getExecutions();
+      List<InterpretableExecution> concurrentRootExecutions=(List<InterpretableExecution>)concurrentRoot.getExecutions();
+      if (parentScopeInstanceExecutions.size() == 1) {
+        parentScopeInstanceExecutions.get(0).setConcurrent(true);
+      }
+      concurrentRootExecutions.remove(execution);
+      parentScopeInstanceExecutions.add(execution);
+      execution.setParent(parentScopeInstance);
+      execution.setActivity(activity);
+      propagatingExecution=execution;
+      if (concurrentRootExecutions.size() == 1) {
+        InterpretableExecution lastConcurrent=concurrentRootExecutions.get(0);
+        if (lastConcurrent.isScope()) {
+          lastConcurrent.setConcurrent(false);
+        }
+ else {
+          log.fine("merging last concurrent " + lastConcurrent + " into concurrent root "+ concurrentRoot);
+          concurrentRoot.setActivity((ActivityImpl)lastConcurrent.getActivity());
+          concurrentRoot.setActive(lastConcurrent.isActive());
+          lastConcurrent.setReplacedBy(concurrentRoot);
+          lastConcurrent.remove();
+        }
+      }
+    }
+ else     if (execution.isConcurrent() && execution.isScope()) {
+      log.fine("scoped concurrent " + execution + " becomes concurrent and remains under "+ execution.getParent());
+      execution.destroy();
+      propagatingExecution=execution;
+    }
+ else {
+      propagatingExecution=(InterpretableExecution)execution.getParent();
+      propagatingExecution.setActivity((ActivityImpl)execution.getActivity());
+      propagatingExecution.setTransition(execution.getTransition());
+      propagatingExecution.setActive(true);
+      log.fine("destroy scope: scoped " + execution + " continues as parent scope "+ propagatingExecution);
+      execution.destroy();
+      execution.remove();
+    }
+  }
+ else {
+    propagatingExecution=execution;
+  }
+  ScopeImpl nextOuterScopeElement=activity.getParent();
+  TransitionImpl transition=propagatingExecution.getTransition();
+  ActivityImpl destination=transition.getDestination();
+  if (transitionLeavesNextOuterScope(nextOuterScopeElement,destination)) {
+    propagatingExecution.setActivity((ActivityImpl)nextOuterScopeElement);
+    propagatingExecution.performOperation(TRANSITION_NOTIFY_LISTENER_END);
+  }
+ else {
+    propagatingExecution.performOperation(TRANSITION_NOTIFY_LISTENER_TAKE);
+  }
+}

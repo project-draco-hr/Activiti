@@ -1,0 +1,16 @@
+{
+  if (base == null) {
+    String variable=(String)property;
+    if (EXECUTION_KEY.equals(property)) {
+      context.setPropertyResolved(true);
+      return variableScope;
+    }
+ else {
+      if (variableScope.hasVariable(variable)) {
+        context.setPropertyResolved(true);
+        return variableScope.getVariable(variable);
+      }
+    }
+  }
+  return null;
+}

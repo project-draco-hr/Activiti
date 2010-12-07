@@ -1,0 +1,16 @@
+{
+  execution.destroy();
+  execution.remove();
+  InterpretableExecution superExecution=execution.getSuperExecution();
+  if (superExecution != null) {
+    superExecution.setSubProcessInstance(null);
+    ActivityImpl activity=(ActivityImpl)superExecution.getActivity();
+    SubProcessActivityBehavior subProcessActivityBehavior=(SubProcessActivityBehavior)activity.getActivityBehavior();
+    try {
+      subProcessActivityBehavior.completed(superExecution);
+    }
+ catch (    Exception e) {
+      e.printStackTrace();
+    }
+  }
+}

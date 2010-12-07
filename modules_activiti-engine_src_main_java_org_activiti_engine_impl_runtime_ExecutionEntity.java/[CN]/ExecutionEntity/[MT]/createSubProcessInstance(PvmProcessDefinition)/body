@@ -1,5 +1,9 @@
 {
-  PvmProcessInstance subProcessInstance=super.createSubProcessInstance(processDefinition);
+  ExecutionEntity subProcessInstance=newExecution();
+  subProcessInstance.setSuperExecution(this);
+  this.setSubProcessInstance(subProcessInstance);
+  subProcessInstance.setProcessDefinition((ProcessDefinitionImpl)processDefinition);
+  subProcessInstance.setProcessInstance(subProcessInstance);
   CommandContext commandContext=CommandContext.getCurrent();
   int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {

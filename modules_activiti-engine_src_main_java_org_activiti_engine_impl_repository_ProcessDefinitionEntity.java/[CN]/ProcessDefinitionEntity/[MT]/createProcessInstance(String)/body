@@ -2,7 +2,7 @@
   ExecutionEntity processInstance=(ExecutionEntity)super.createProcessInstance();
   CommandContext commandContext=CommandContext.getCurrent();
   commandContext.getDbSqlSession().insert(processInstance);
-  processInstance.setExecutions(new ArrayList<ExecutionImpl>());
+  processInstance.setExecutions(new ArrayList<ExecutionEntity>());
   processInstance.setProcessDefinition(processDefinition);
   if (businessKey != null) {
     processInstance.setBusinessKey(businessKey);
@@ -13,8 +13,6 @@
     String authenticatedUserId=Authentication.getAuthenticatedUserId();
     processInstance.setVariable(initiatorVariableName,authenticatedUserId);
   }
-  VariableMap variableMap=VariableMap.createNewInitialized(processInstance.getId(),processInstance.getId());
-  processInstance.setVariables(variableMap);
   int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
     DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
