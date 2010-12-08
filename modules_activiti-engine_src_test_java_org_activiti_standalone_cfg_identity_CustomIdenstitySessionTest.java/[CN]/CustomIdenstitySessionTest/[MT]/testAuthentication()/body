@@ -1,0 +1,8 @@
+{
+  User user=identityService.newUser("johndoe");
+  user.setPassword("xxx");
+  identityService.saveUser(user);
+  assertTrue(identityService.checkPassword("johndoe","xxx"));
+  assertFalse(identityService.checkPassword("johndoe","invalid pwd"));
+  identityService.deleteUser("johndoe");
+}
