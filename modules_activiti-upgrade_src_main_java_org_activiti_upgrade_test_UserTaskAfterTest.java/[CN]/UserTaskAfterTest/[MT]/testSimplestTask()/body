@@ -1,0 +1,7 @@
+{
+  Task task=taskService.createTaskQuery().taskName("simpleTask").singleResult();
+  assertNotNull(task);
+  String processInstanceId=task.getProcessInstanceId();
+  taskService.complete(task.getId());
+  assertEquals(0,runtimeService.createExecutionQuery().processInstanceId(processInstanceId).list().size());
+}
