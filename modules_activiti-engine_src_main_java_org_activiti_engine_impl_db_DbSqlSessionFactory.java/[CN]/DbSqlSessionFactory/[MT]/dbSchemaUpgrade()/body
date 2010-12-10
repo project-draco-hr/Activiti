@@ -4,7 +4,22 @@
   try {
     String dbVersion=getDbVersion(sqlSession);
     if (!ProcessEngine.VERSION.equals(dbVersion)) {
-      throw new ActivitiWrongDbException(ProcessEngine.VERSION,dbVersion);
+      int minorDbVersionNumber=Integer.parseInt(dbVersion.substring(2));
+      String libraryVersion=ProcessEngine.VERSION;
+      if (ProcessEngine.VERSION.endsWith("-SNAPSHOT")) {
+        libraryVersion=ProcessEngine.VERSION.substring(0,ProcessEngine.VERSION.length() - "-SNAPSHOT".length());
+      }
+      int minorLibraryVersionNumber=Integer.parseInt(libraryVersion.substring(2));
+      while (minorDbVersionNumber < minorLibraryVersionNumber) {
+        try {
+          DbUpgradeStep dbUpgradeStep=(DbUpgradeStep)ReflectUtil.instantiate("org.activiti.engine.impl.db.upgrade.DbUpgradeStep5" + minorDbVersionNumber);
+          dbUpgradeStep.execute(sqlSession,this);
+        }
+ catch (        ActivitiException e) {
+          log.fine("no upgrade step necessary for 5." + minorDbVersionNumber);
+        }
+        minorDbVersionNumber++;
+      }
     }
     success=true;
   }
@@ -30,5 +45,4 @@
     }
     sqlSession.close();
   }
-  log.fine("activiti db schema check successful");
 }

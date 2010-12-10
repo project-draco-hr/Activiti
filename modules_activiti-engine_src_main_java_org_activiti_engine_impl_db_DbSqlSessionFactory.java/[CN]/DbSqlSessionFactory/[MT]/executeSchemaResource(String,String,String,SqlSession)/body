@@ -1,10 +1,8 @@
 {
-  SqlSession sqlSession=sqlSessionFactory.openSession();
-  boolean success=false;
   InputStream inputStream=null;
   try {
     Connection connection=sqlSession.getConnection();
-    String resource="org/activiti/db/" + operation + "/activiti."+ databaseType+ "."+ operation+ ".sql";
+    String resource="org/activiti/db/" + directory + "/activiti."+ databaseType+ "."+ operation+ ".sql";
     inputStream=ReflectUtil.getResourceAsStream(resource);
     if (inputStream == null) {
       throw new ActivitiException("resource '" + resource + "' is not available for creating the schema");
@@ -33,20 +31,8 @@
     if (exception != null) {
       throw exception;
     }
-    success=true;
   }
- catch (  Exception e) {
-    throw new ActivitiException("couldn't create or drop db schema",e);
-  }
- finally {
+  finally {
     IoUtil.closeSilently(inputStream);
-    if (success) {
-      sqlSession.commit(true);
-    }
- else {
-      sqlSession.rollback(true);
-    }
-    sqlSession.close();
   }
-  log.fine("activiti db schema " + operation + " successful");
 }
