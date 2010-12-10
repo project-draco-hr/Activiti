@@ -1,0 +1,16 @@
+{
+  List<ParameterizedAction> actions=getArtifactType().getParameterizedActions();
+  List<ParameterizedAction> filteredActions=new ArrayList<ParameterizedAction>();
+  for (  ParameterizedAction parameterizedAction : actions) {
+    if (parameterizedAction instanceof ArtifactAwareParameterizedAction) {
+      ArtifactAwareParameterizedAction artifactAwareAction=(ArtifactAwareParameterizedAction)parameterizedAction;
+      if (artifactAwareAction.isApplicable(this)) {
+        filteredActions.add(parameterizedAction);
+      }
+    }
+ else {
+      filteredActions.add(parameterizedAction);
+    }
+  }
+  return filteredActions;
+}

@@ -1,5 +1,6 @@
 {
-  String bpmnXml=ActivitiCompliantBpmn20Provider.createBpmnXml(connector,artifact);
-  RepositoryArtifact targetArtifact=createTargetArtifact(targetConnector,targetFolderId,targetName + ".bpmn20.xml",bpmnXml,FileSystemPluginDefinition.ARTIFACT_TYPE_BPMN_20_XML);
-  return targetArtifact;
+  String targetArtifactId=targetName + ".bpmn20.xml";
+  String targetArtifactTypeId=FileSystemPluginDefinition.ARTIFACT_TYPE_BPMN_20_XML;
+  Content content=createContent(sourceConnector,sourceArtifact);
+  return targetConnector.createArtifact(targetFolderId,targetArtifactId,targetArtifactTypeId,content);
 }

@@ -1,0 +1,12 @@
+{
+  CycleRepositoryService cycleRepositoryService=CycleServiceFactory.getRepositoryService();
+  List<RepositoryArtifactLink> links=cycleRepositoryService.getArtifactLinks(forArtifact.getConnectorId(),forArtifact.getNodeId());
+  List<RepositoryArtifactLink> implementationLinks=new ArrayList<RepositoryArtifactLink>();
+  for (  RepositoryArtifactLink repositoryArtifactLink : links) {
+    if (!getLinkType().equals(repositoryArtifactLink.getLinkType())) {
+      continue;
+    }
+    implementationLinks.add(repositoryArtifactLink);
+  }
+  return implementationLinks;
+}
