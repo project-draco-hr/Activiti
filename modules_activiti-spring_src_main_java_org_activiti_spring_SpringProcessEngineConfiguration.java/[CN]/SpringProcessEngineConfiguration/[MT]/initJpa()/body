@@ -1,0 +1,6 @@
+{
+  super.initJpa();
+  if (jpaEntityManagerFactory != null) {
+    sessionFactories.put(EntityManagerSession.class,new SpringEntityManagerSessionFactory(jpaEntityManagerFactory,jpaHandleTransaction,jpaCloseEntityManager));
+  }
+}

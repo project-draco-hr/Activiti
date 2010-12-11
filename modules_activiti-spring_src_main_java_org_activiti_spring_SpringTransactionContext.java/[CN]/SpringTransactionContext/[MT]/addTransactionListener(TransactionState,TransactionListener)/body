@@ -1,0 +1,34 @@
+{
+  if (transactionState.equals(TransactionState.COMMITTING)) {
+    TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+      @Override public void beforeCommit(      boolean readOnly){
+        transactionListener.execute(commandContext);
+      }
+    }
+);
+  }
+ else   if (transactionState.equals(TransactionState.COMMITTED)) {
+    TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+      @Override public void afterCommit(){
+        transactionListener.execute(commandContext);
+      }
+    }
+);
+  }
+ else   if (transactionState.equals(TransactionState.ROLLINGBACK)) {
+    TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+      @Override public void beforeCompletion(){
+        transactionListener.execute(commandContext);
+      }
+    }
+);
+  }
+ else   if (transactionState.equals(TransactionState.ROLLED_BACK)) {
+    TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+      @Override public void afterCompletion(      int status){
+        transactionListener.execute(commandContext);
+      }
+    }
+);
+  }
+}

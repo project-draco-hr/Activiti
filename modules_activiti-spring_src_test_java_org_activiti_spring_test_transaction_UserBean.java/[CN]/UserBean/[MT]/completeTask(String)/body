@@ -1,0 +1,8 @@
+{
+  JdbcTemplate jdbcTemplate=new JdbcTemplate(dataSource);
+  int nrOfRows=jdbcTemplate.update("insert into MY_TABLE values ('test');");
+  if (nrOfRows != 1) {
+    throw new RuntimeException("Insert into MY_TABLE failed");
+  }
+  taskService.complete(taskId);
+}

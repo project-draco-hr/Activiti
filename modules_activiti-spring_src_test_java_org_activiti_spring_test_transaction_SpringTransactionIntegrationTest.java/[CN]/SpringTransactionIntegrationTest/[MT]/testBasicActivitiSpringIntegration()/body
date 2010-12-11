@@ -1,5 +1,4 @@
 {
-  UserBean userBean=(UserBean)applicationContext.getBean("userBean");
   userBean.hello();
   ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
   assertEquals("Hello from Printer!",runtimeService.getVariable(processInstance.getId(),"myVar"));

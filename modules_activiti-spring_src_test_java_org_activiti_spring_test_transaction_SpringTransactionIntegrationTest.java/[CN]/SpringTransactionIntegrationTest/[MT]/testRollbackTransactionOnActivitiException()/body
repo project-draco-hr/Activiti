@@ -1,0 +1,15 @@
+{
+  JdbcTemplate jdbcTemplate=new JdbcTemplate(dataSource);
+  jdbcTemplate.execute("create table MY_TABLE (MY_TEXT varchar);");
+  userBean.hello();
+  assertEquals(0,jdbcTemplate.queryForLong("select count(*) from MY_TABLE"));
+  try {
+    userBean.completeTask(taskService.createTaskQuery().singleResult().getId());
+    fail();
+  }
+ catch (  Exception e) {
+  }
+  assertEquals("My Task",taskService.createTaskQuery().singleResult().getName());
+  assertEquals(0,jdbcTemplate.queryForLong("select count(*) from MY_TABLE"));
+  jdbcTemplate.execute("drop table MY_TABLE if exists;");
+}

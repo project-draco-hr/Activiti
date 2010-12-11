@@ -1,0 +1,7 @@
+{
+  EntityManager entityManager=EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerFactory);
+  if (entityManager == null) {
+    return new EntityManagerSessionImpl(entityManagerFactory,handleTransactions,closeEntityManager);
+  }
+  return new EntityManagerSessionImpl(entityManagerFactory,entityManager,false,false);
+}

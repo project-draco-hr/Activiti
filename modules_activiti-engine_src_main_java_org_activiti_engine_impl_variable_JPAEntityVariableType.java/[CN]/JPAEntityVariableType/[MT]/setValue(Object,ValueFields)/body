@@ -1,4 +1,11 @@
 {
+  EntityManagerSession entityManagerSession=CommandContext.getCurrent().getSession(EntityManagerSession.class);
+  if (entityManagerSession == null) {
+    throw new ActivitiException("Cannot set JPA variable: " + EntityManagerSession.class + " not configured");
+  }
+ else {
+    entityManagerSession.flush();
+  }
   if (value != null) {
     String className=mappings.getJPAClassString(value);
     String idString=mappings.getJPAIdString(value);
