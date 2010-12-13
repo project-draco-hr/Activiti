@@ -1,0 +1,22 @@
+{
+  String processId=bpmnPlaneElement.attribute("bpmnElement");
+  if (processId != null && !"".equals(processId)) {
+    ProcessDefinitionEntity processDefinition=getProcessDefinition(processId);
+    if (processDefinition != null) {
+      List<Element> shapes=bpmnPlaneElement.elementsNS(BpmnParser.BPMN_DI_NS,"BPMNShape");
+      for (      Element shape : shapes) {
+        parseBPMNShape(shape,processDefinition);
+      }
+      List<Element> edges=bpmnPlaneElement.elementsNS(BpmnParser.BPMN_DI_NS,"BPMNEdge");
+      for (      Element edge : edges) {
+        parseBPMNEdge(edge,processDefinition);
+      }
+    }
+ else {
+      addError("Invalid reference in 'bpmnElement' attribute, process " + processId + " not found",bpmnPlaneElement);
+    }
+  }
+ else {
+    addError("'bpmnElement' attribute is required on BPMNPlane ",bpmnPlaneElement);
+  }
+}

@@ -7,6 +7,7 @@
     ActivityImpl destinationActivity=scope.findActivity(destinationRef);
     if (sourceActivity != null && destinationActivity != null) {
       TransitionImpl transition=sourceActivity.createOutgoingTransition(id);
+      sequenceFlows.put(id,transition);
       transition.setProperty("name",sequenceFlowElement.attribute("name"));
       transition.setProperty("documentation",parseDocumentation(sequenceFlowElement));
       transition.setDestination(destinationActivity);

@@ -1,0 +1,26 @@
+{
+  String sequenceFlowId=bpmnEdgeElement.attribute("bpmnElement");
+  if (sequenceFlowId != null && !"".equals(sequenceFlowId)) {
+    TransitionImpl sequenceFlow=sequenceFlows.get(sequenceFlowId);
+    if (sequenceFlow != null) {
+      List<Element> waypointElements=bpmnEdgeElement.elementsNS(BpmnParser.OMG_DI_NS,"waypoint");
+      if (waypointElements.size() >= 2) {
+        List<Integer> waypoints=new ArrayList<Integer>();
+        for (        Element waypointElement : waypointElements) {
+          waypoints.add(parseDoubleAttribute(waypointElement,"x",waypointElement.attribute("x"),true).intValue());
+          waypoints.add(parseDoubleAttribute(waypointElement,"y",waypointElement.attribute("y"),true).intValue());
+        }
+        sequenceFlow.setWaypoints(waypoints);
+      }
+ else {
+        addError("Minimum 2 waypoint elements must be definted for a 'BPMNEdge'",bpmnEdgeElement);
+      }
+    }
+ else {
+      addError("Invalid reference in 'bpmnElement' attribute, sequenceFlow " + sequenceFlowId + "not found",bpmnEdgeElement);
+    }
+  }
+ else {
+    addError("'bpmnElement' attribute is required on BPMNEdge",bpmnEdgeElement);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  if (required && (doubleText == null || "".equals(doubleText))) {
+    addError(attributename + " is required",element);
+  }
+ else {
+    try {
+      return Double.parseDouble(doubleText);
+    }
+ catch (    NumberFormatException e) {
+      addError("Cannot parse " + attributename + ": "+ e.getMessage(),element);
+    }
+  }
+  return -1.0;
+}
