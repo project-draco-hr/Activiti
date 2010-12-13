@@ -1,0 +1,32 @@
+{
+  PropertyEntity dbVersionProperty=selectById(PropertyEntity.class,"schema.version");
+  String dbVersion=dbVersionProperty.getValue();
+  if (!ProcessEngine.VERSION.equals(dbVersion)) {
+    PropertyEntity dbHistoryProperty;
+    if ("5.0".equals(dbVersion)) {
+      dbHistoryProperty=new PropertyEntity("schema.history","create(5.0)");
+      insert(dbHistoryProperty);
+    }
+ else {
+      dbHistoryProperty=selectById(PropertyEntity.class,"schema.history");
+    }
+    String dbHistoryValue=dbHistoryProperty.getValue() + " upgrade(" + dbVersion+ "->"+ ProcessEngine.VERSION+ ")";
+    dbHistoryProperty.setValue(dbHistoryValue);
+    int minorDbVersionNumber=Integer.parseInt(dbVersion.substring(2));
+    String libraryVersion=ProcessEngine.VERSION;
+    if (ProcessEngine.VERSION.endsWith("-SNAPSHOT")) {
+      libraryVersion=ProcessEngine.VERSION.substring(0,ProcessEngine.VERSION.length() - "-SNAPSHOT".length());
+    }
+    int minorLibraryVersionNumber=Integer.parseInt(libraryVersion.substring(2));
+    while (minorDbVersionNumber < minorLibraryVersionNumber) {
+      try {
+        upgradeStepStaticResource(minorDbVersionNumber);
+        upgradeStepJavaClass(minorDbVersionNumber);
+      }
+ catch (      Exception e) {
+        log.fine("no upgrade step necessary for 5." + minorDbVersionNumber);
+      }
+      minorDbVersionNumber++;
+    }
+  }
+}

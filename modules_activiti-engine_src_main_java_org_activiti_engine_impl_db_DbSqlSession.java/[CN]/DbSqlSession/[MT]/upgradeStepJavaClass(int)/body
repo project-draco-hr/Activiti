@@ -1,0 +1,11 @@
+{
+  DbUpgradeStep dbUpgradeStep=null;
+  try {
+    dbUpgradeStep=(DbUpgradeStep)ReflectUtil.instantiate("org.activiti.engine.impl.db.upgrade.DbUpgradeStep5" + minorDbVersionNumber);
+  }
+ catch (  ActivitiException e) {
+  }
+  if (dbUpgradeStep != null) {
+    dbUpgradeStep.execute(this);
+  }
+}

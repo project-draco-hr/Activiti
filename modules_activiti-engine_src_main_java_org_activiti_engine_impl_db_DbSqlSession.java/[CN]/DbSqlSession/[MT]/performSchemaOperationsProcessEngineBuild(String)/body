@@ -1,0 +1,28 @@
+{
+  if (ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(databaseSchemaUpdate)) {
+    try {
+      dbSchemaDrop();
+    }
+ catch (    RuntimeException e) {
+    }
+  }
+  if (org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_CREATE_DROP.equals(databaseSchemaUpdate) || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(databaseSchemaUpdate) || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_CREATE.equals(databaseSchemaUpdate)) {
+    dbSchemaCreate();
+  }
+ else   if (org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE.equals(databaseSchemaUpdate)) {
+    dbSchemaCheckVersion();
+  }
+ else   if (ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE.equals(databaseSchemaUpdate)) {
+    try {
+      dbSchemaCheckVersion();
+    }
+ catch (    Exception e) {
+      if (e.getMessage().indexOf("no activiti tables in db") != -1) {
+        dbSchemaCreate();
+      }
+ else {
+        dbSchemaUpgrade();
+      }
+    }
+  }
+}

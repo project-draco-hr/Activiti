@@ -14,9 +14,15 @@
     outputMessage.insert(0,"DB NOT CLEAN: \n");
     log.severe(EMPTY_LINE);
     log.severe(outputMessage.toString());
-    DbSqlSessionFactory dbSqlSessionFactory=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getDbSqlSessionFactory();
-    dbSqlSessionFactory.dbSchemaDrop();
-    dbSqlSessionFactory.dbSchemaCreate();
+    ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutorTxRequired().execute(new Command<Object>(){
+      public Object execute(      CommandContext commandContext){
+        DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
+        dbSqlSession.dbSchemaDrop();
+        dbSqlSession.dbSchemaCreate();
+        return null;
+      }
+    }
+);
     throw new AssertionError(outputMessage.toString());
   }
 }

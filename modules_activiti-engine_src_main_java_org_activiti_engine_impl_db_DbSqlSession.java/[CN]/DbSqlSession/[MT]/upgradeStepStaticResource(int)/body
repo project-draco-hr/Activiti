@@ -1,0 +1,12 @@
+{
+  String resourceName=getResourceForDbOperation("upgrade","upgradestep5" + minorDbVersionNumber);
+  InputStream inputStream=ReflectUtil.getResourceAsStream(resourceName);
+  if (inputStream != null) {
+    try {
+      executeSchemaResource("upgrade",resourceName,inputStream);
+    }
+  finally {
+      IoUtil.closeSilently(inputStream);
+    }
+  }
+}

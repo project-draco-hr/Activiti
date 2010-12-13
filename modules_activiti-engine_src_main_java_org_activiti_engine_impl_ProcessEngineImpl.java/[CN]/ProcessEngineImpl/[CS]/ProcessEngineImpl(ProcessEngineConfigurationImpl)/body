@@ -16,7 +16,7 @@
   this.transactionContextFactory=processEngineConfiguration.getTransactionContextFactory();
   commandExecutor.execute(new Command<Object>(){
     public Object execute(    CommandContext commandContext){
-      performSchemaOperationsCreate();
+      commandContext.getSession(DbSqlSession.class).performSchemaOperationsProcessEngineBuild(databaseSchemaUpdate);
       return null;
     }
   }

@@ -5,7 +5,7 @@
   }
   commandExecutor.execute(new Command<Object>(){
     public Object execute(    CommandContext commandContext){
-      performSchemaOperationsClose();
+      commandContext.getSession(DbSqlSession.class).performSchemaOperationsProcessEngineClose(databaseSchemaUpdate);
       return null;
     }
   }
