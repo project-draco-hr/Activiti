@@ -1,5 +1,5 @@
 {
   RepositoryArtifact artifact=connector.getRepositoryArtifact("activiti/trunk/pom.xml");
-  Content content=connector.getContent(artifact.getNodeId(),artifact.getArtifactType().getContentRepresentations().get(0).getId());
+  Content content=CycleApplicationContext.get(DefaultXmlContentRepresentation.class).getContent(artifact);
   Assert.assertTrue(content.asByteArray().length > 0);
 }

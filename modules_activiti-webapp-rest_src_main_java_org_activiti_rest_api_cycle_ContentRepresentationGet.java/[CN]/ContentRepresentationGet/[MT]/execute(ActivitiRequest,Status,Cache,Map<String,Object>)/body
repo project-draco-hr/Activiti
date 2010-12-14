@@ -6,7 +6,7 @@
   try {
     model.put("connectorId",connectorId);
     model.put("artifactId",artifactId);
-    ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(representationId);
+    ContentRepresentation contentRepresentation=contentService.getContentRepresentation(artifact,representationId);
 switch (contentRepresentation.getRenderInfo()) {
 case IMAGE:
 case HTML:
@@ -15,16 +15,16 @@ case HTML_REFERENCE:
 case BINARY:
 case CODE:
 case TEXT_PLAIN:
-    String content=repositoryService.getContent(connectorId,artifactId,contentRepresentation.getId()).asString();
+    String content=contentRepresentation.getContent(artifact).asString();
   model.put("content",content);
 }
 model.put("renderInfo",contentRepresentation.getRenderInfo().name());
 model.put("contentRepresentationId",contentRepresentation.getId());
-model.put("contentType",contentRepresentation.getMimeType().getContentType());
+model.put("contentType",contentRepresentation.getRepresentationMimeType().getName());
 }
  catch (TransformationException e) {
 model.put("renderInfo",RenderInfo.HTML);
 model.put("contentRepresentationId",representationId);
-model.put("contentType",CycleDefaultMimeType.HTML.getContentType());
+model.put("contentType",CycleApplicationContext.get(HtmlMimeType.class).getName());
 }
 }

@@ -1,0 +1,19 @@
+{
+  if (extensionsMap == null) {
+synchronized (this) {
+      if (extensionsMap != null) {
+        return;
+      }
+      extensionsMap=new HashMap<String,RepositoryArtifactType>();
+      for (      RepositoryArtifactType type : getAvailableRepositoryArtifactTypes()) {
+        String[] fileExtensions=type.getCommonFileExtensions();
+        if (fileExtensions == null) {
+          continue;
+        }
+        for (        String extension : type.getCommonFileExtensions()) {
+          extensionsMap.put(extension,type);
+        }
+      }
+    }
+  }
+}

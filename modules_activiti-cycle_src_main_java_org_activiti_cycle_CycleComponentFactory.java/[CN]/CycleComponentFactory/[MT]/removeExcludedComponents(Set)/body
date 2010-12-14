@@ -1,0 +1,20 @@
+{
+  Set<Object> excludedComponents=new HashSet<Object>();
+  for (  Object object : components) {
+    ExcludesCycleComponents excludesAnnotation=object.getClass().getAnnotation(ExcludesCycleComponents.class);
+    if (excludesAnnotation == null) {
+      continue;
+    }
+    String[] componentNames=excludesAnnotation.value();
+    if (componentNames == null) {
+      continue;
+    }
+    for (    String componentName : componentNames) {
+      Object excludedComponentInstance=getCycleComponentInstance(componentName);
+      if (excludedComponentInstance != null) {
+        excludedComponents.add(excludedComponentInstance);
+      }
+    }
+  }
+  components.removeAll(excludedComponents);
+}

@@ -1,22 +1,22 @@
 {
-  String artifactTypeID=null;
+  RepositoryArtifactType artifactType=null;
   if (json.has("namespace")) {
     String namespace=json.getString("namespace");
-    if (SignavioPluginDefinition.SIGNAVIO_NAMESPACE_FOR_BPMN_2_0.equals(namespace)) {
-      artifactTypeID=SignavioPluginDefinition.ARTIFACT_TYPE_BPMN_20;
+    if (SignavioBpmn20ArtifactType.SIGNAVIO_NAMESPACE_FOR_BPMN_2_0.equals(namespace)) {
+      artifactType=CycleApplicationContext.get(SignavioBpmn20ArtifactType.class);
     }
- else     if (SignavioPluginDefinition.SIGNAVIO_NAMESPACE_FOR_BPMN_JBPM4.equals(namespace)) {
-      artifactTypeID=SignavioPluginDefinition.ARTIFACT_TYPE_BPMN_FOR_JPDL4;
+ else     if (SignavioJpdl4ArtifactType.SIGNAVIO_NAMESPACE_FOR_BPMN_JBPM4.equals(namespace)) {
+      artifactType=CycleApplicationContext.get(SignavioJpdl4ArtifactType.class);
     }
   }
  else {
     String type=json.getString("type");
-    if (SignavioPluginDefinition.ORYX_TYPE_ATTRIBUTE_FOR_BPMN_20.equals(type)) {
-      artifactTypeID=SignavioPluginDefinition.ARTIFACT_TYPE_BPMN_20;
+    if (SignavioBpmn20ArtifactType.ORYX_TYPE_ATTRIBUTE_FOR_BPMN_20.equals(type)) {
+      artifactType=CycleApplicationContext.get(SignavioBpmn20ArtifactType.class);
     }
  else     if (SignavioPluginDefinition.SIGNAVIO_NAMESPACE_FOR_BPMN_2_0.equals(type)) {
-      artifactTypeID=SignavioPluginDefinition.ARTIFACT_TYPE_BPMN_20;
+      artifactType=CycleApplicationContext.get(SignavioBpmn20ArtifactType.class);
     }
   }
-  return getConfiguration().getArtifactType(artifactTypeID);
+  return artifactType;
 }

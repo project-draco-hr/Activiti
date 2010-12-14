@@ -1,0 +1,16 @@
+{
+  if (!initialized) {
+synchronized (this) {
+      if (initialized) {
+        return;
+      }
+      parameterizedActionsMap=new HashMap<RepositoryArtifactType,Set<ParameterizedAction>>();
+      createUrlActionsMap=new HashMap<RepositoryArtifactType,Set<CreateUrlAction>>();
+      downloadContentActionsMap=new HashMap<RepositoryArtifactType,Set<DownloadContentAction>>();
+      loadMap(parameterizedActionsMap,globalParameterizedActions,ParameterizedAction.class);
+      loadMap(createUrlActionsMap,globalCreateUrlActions,CreateUrlAction.class);
+      loadMap(downloadContentActionsMap,globalDownloadContentActions,DownloadContentAction.class);
+      initialized=true;
+    }
+  }
+}

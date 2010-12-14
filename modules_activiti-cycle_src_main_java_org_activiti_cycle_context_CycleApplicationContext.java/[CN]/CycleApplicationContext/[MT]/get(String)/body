@@ -1,3 +1,10 @@
 {
-  return wrappedContext.get(key);
+  Object obj=wrappedContext.get(key);
+  if (obj == null) {
+    CycleComponentDescriptor descriptor=CycleComponentFactory.getCycleComponentDescriptor(key);
+    if (descriptor != null)     if (descriptor.contextType.equals(CycleContextType.APPLICATION)) {
+      obj=CycleComponentFactory.getCycleComponentInstance(key);
+    }
+  }
+  return obj;
 }

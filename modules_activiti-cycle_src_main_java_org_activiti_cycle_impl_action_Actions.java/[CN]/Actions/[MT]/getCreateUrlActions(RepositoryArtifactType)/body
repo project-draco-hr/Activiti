@@ -1,0 +1,9 @@
+{
+  ensureMapInitialized();
+  Set<CreateUrlAction> resultSet=new HashSet<CreateUrlAction>(globalCreateUrlActions);
+  Set<CreateUrlAction> actionsForThisType=createUrlActionsMap.get(forType);
+  if (actionsForThisType != null) {
+    resultSet.addAll(actionsForThisType);
+  }
+  return resultSet;
+}

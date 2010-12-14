@@ -3,8 +3,8 @@
   String template=loadTemplate(SIGNAVIO_SVG_API_SCRIPT_TEMPLATE);
   if (template == null)   return "";
   template=template.replaceAll("SIGNAVIO_EDITOR_SRC",SVGAPI_URL_LOCAL);
-  template=template.replaceAll("SIGNAVIO_MODEL_URL",connector.getConfiguration().getModelUrl(artifact.getNodeId()));
-  template=template.replaceAll("SIGNAVIO_SERVER_URL",connector.getConfiguration().getSignavioUrl());
+  template=template.replaceAll("SIGNAVIO_MODEL_URL",connectorConfiguration.getModelUrl(artifact.getNodeId()));
+  template=template.replaceAll("SIGNAVIO_SERVER_URL",connectorConfiguration.getSignavioUrl());
   template=template.replaceAll("SIGNAVIO_ZOOM",zoomLevel);
   StringWriter extensionsWriter=new StringWriter();
   modelHighlighter.participateInBuilder(extensionsWriter);

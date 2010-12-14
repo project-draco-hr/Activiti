@@ -1,0 +1,15 @@
+{
+  try {
+    SignavioConnectorInterface signavioConnector=(SignavioConnectorInterface)CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
+    Content content=new Content();
+    Response jpdlResponse=getJsonResponse(signavioConnector,artifact,"/jpdl4");
+    DomRepresentation xmlData=new DomRepresentation(jpdlResponse.getEntity());
+    XmlToTextTransformation transformation=CycleApplicationContext.get(XmlToTextTransformation.class);
+    String jpdl4AsString=transformation.getXmlAsString(xmlData.getDomSource());
+    content.setValue(jpdl4AsString);
+    return content;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  try {
+    SignavioConnectorInterface signavioConnector=(SignavioConnectorInterface)CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
+    Content content=new Content();
+    SignavioConnectorConfiguration configuration=(SignavioConnectorConfiguration)signavioConnector.getConfiguration();
+    String modelAsPngUrl=configuration.getPngUrl(artifact.getNodeId(),signavioConnector.getSecurityToken());
+    InputStream is=new URL(modelAsPngUrl).openStream();
+    content.setValue(is);
+    return content;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Exception while accessing Signavio repository",ex);
+  }
+}

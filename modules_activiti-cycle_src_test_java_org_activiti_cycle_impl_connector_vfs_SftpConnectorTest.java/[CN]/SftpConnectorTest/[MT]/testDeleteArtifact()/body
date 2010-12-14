@@ -1,6 +1,6 @@
 {
   RepositoryArtifact artifact=connector.getRepositoryArtifact("build.xml");
-  Content content=connector.getContent(artifact.getNodeId(),VfsConnectorPluginDefinition.CONTENT_REPRESENTATION_ID_XML);
+  Content content=CycleApplicationContext.get(DefaultXmlContentRepresentation.class).getContent(artifact);
   RepositoryArtifact newArtifact=connector.createArtifact("tmp/",UUID.randomUUID() + ".xml","Text",content);
   connector.deleteArtifact(newArtifact.getNodeId());
 }

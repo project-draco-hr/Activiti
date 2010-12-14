@@ -1,6 +1,6 @@
 {
-  String sourceJson=getBpmn20Json((SignavioConnector)connector,artifact);
+  String sourceJson=getBpmn20Json(artifact);
   String transformedJson=SignavioTransformationHelper.applyJsonTransformations(sourceJson);
-  String bpmnXml=transformToBpmn20((SignavioConnector)connector,transformedJson,artifact.getMetadata().getName());
+  String bpmnXml=transformToBpmn20((SignavioConnectorInterface)connector,transformedJson,artifact.getMetadata().getName());
   return bpmnXml;
 }

@@ -1,0 +1,14 @@
+{
+  try {
+    SignavioConnectorInterface signavioConnector=(SignavioConnectorInterface)CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
+    Content content=new Content();
+    Response jsonResponse=getJsonResponse(signavioConnector,artifact,"/json");
+    JSONObject jsonData=new JSONObject(jsonResponse.getEntity().getText());
+    String result=signavioConnector.transformJsonToBpmn20Xml(jsonData.toString());
+    content.setValue(result);
+    return content;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Error while accessing Signavio repository",ex);
+  }
+}

@@ -1,0 +1,16 @@
+{
+  Content newContent=new Content();
+  InputStream is=content.asInputStream();
+  try {
+    Document doc=buildDocument(is);
+    String xmlString=getXmlAsString(new DOMSource(doc));
+    newContent.setValue(xmlString);
+    return new Content();
+  }
+ catch (  Exception e) {
+    throw new ContentTransformationException("Error during content transformation form Xml to Text.",e);
+  }
+ finally {
+    IoUtil.closeSilently(is);
+  }
+}

@@ -1,0 +1,12 @@
+{
+  try {
+    SignavioConnectorInterface signavioConnector=(SignavioConnectorInterface)CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
+    Content content=new Content();
+    String bpmnXml=createBpmnXml(signavioConnector,artifact);
+    content.setValue(bpmnXml);
+    return content;
+  }
+ catch (  Exception ex) {
+    throw new RepositoryException("Error while accessing Signavio repository",ex);
+  }
+}

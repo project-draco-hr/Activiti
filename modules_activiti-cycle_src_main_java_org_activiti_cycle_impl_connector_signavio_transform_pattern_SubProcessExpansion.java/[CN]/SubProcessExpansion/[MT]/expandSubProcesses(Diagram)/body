@@ -7,8 +7,7 @@
         String subProcessName=shape.getProperty(PROPERTY_NAME);
         try {
           String subProcessId=getModelIdFromSignavioUrl(subProcessUrl);
-          String representationName=SignavioPluginDefinition.CONTENT_REPRESENTATION_ID_JSON;
-          String subProcessJson=connector.getContent(subProcessId,representationName).asString();
+          String subProcessJson=connector.getContent(subProcessId).asString();
           Diagram subProcess=DiagramBuilder.parseJson(subProcessJson);
           expandSubProcesses(subProcess);
           shape.setStencil(new StencilType(STENCIL_SUBPROCESS));

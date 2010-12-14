@@ -3,11 +3,15 @@ switch (descriptor.contextType) {
 case SESSION:
     CycleContext sessionContext=CycleSessionContext.getLocalContext();
   if (sessionContext != null) {
-    sessionContext.get(descriptor.name);
+    return sessionContext.get(descriptor.name);
   }
 break;
 case APPLICATION:
-return CycleApplicationContext.get(descriptor.name);
+CycleContext applicationContext=CycleApplicationContext.getWrappedContext();
+if (applicationContext != null) {
+return applicationContext.get(descriptor.name);
+}
+break;
 }
 return null;
 }

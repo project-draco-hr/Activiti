@@ -1,0 +1,17 @@
+{
+  Set<ContentArtifactTypeTransformation> fromTransformations=getFromArtifactTypeTransformations().get(fromType);
+  if (fromTransformations == null) {
+    throw new ContentTransformationException("Cannot transform content of type '" + fromType + "' to type '"+ toType+ "', no appropriate transformation avaiable.");
+  }
+  ContentArtifactTypeTransformation transformation=null;
+  for (  ContentArtifactTypeTransformation contentArtifactTypeTransformation : fromTransformations) {
+    if (contentArtifactTypeTransformation.getTargetType().equals(toType)) {
+      transformation=contentArtifactTypeTransformation;
+      break;
+    }
+  }
+  if (transformation == null) {
+    throw new ContentTransformationException("Cannot transform content of type '" + fromType + "' to type '"+ toType+ "', no appropriate transformation avaiable.");
+  }
+  return transformation.transformContent(content);
+}

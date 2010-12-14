@@ -1,0 +1,17 @@
+{
+  checkRepository();
+  RepositoryArtifact artifact=getRepositoryArtifact(artifactId);
+  Content content=new Content();
+  String id=artifact.getNodeId();
+  FileObject fileObject=null;
+  try {
+    FileSystemManager manager=getFileSystemManager();
+    fileObject=manager.resolveFile(buildFilename(id));
+    FileContent fileContent=fileObject.getContent();
+    content.setValue(fileContent.getInputStream());
+    return content;
+  }
+ catch (  FileSystemException e) {
+    throw new RepositoryException("Error while getting content of " + id,e);
+  }
+}

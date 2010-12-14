@@ -1,41 +1,42 @@
 {
+  CycleContentService contentService=CycleServiceFactory.getContentService();
   String cnonectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getMandatoryString("artifactId");
   String contentRepresentationId=req.getMandatoryString("contentRepresentationId");
   RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(cnonectorId,artifactId);
-  ContentRepresentation contentRepresentation=artifact.getArtifactType().getContentRepresentation(contentRepresentationId);
-  String contentType=contentRepresentation.getMimeType().getContentType();
-  boolean attach=contentType.startsWith("application/") ? true : false;
+  ContentRepresentation contentRepresentation=contentService.getContentRepresentation(artifact,contentRepresentationId);
+  MimeType contentType=contentRepresentation.getRepresentationMimeType();
+  boolean attach=contentType.getName().startsWith("application/") ? true : false;
   String attachmentFileName=null;
   if (attach) {
     attachmentFileName=artifact.getMetadata().getName();
-    if (contentType.equals(CycleDefaultMimeType.XML) && !attachmentFileName.endsWith(".xml")) {
+    if (contentType.equals(CycleApplicationContext.get(XmlMimeType.class)) && !attachmentFileName.endsWith(".xml")) {
       attachmentFileName+=".xml";
     }
- else     if (contentType.equals(CycleDefaultMimeType.JSON) && !attachmentFileName.endsWith(".json")) {
+ else     if (contentType.equals(CycleApplicationContext.get(JsonMimeType.class)) && !attachmentFileName.endsWith(".json")) {
       attachmentFileName+=".json";
     }
- else     if (contentType.equals(CycleDefaultMimeType.TEXT) && !attachmentFileName.endsWith(".txt")) {
+ else     if (contentType.equals(CycleApplicationContext.get(TextMimeType.class)) && !attachmentFileName.endsWith(".txt")) {
       attachmentFileName+=".txt";
     }
- else     if (contentType.equals(CycleDefaultMimeType.PDF) && !attachmentFileName.endsWith(".pdf")) {
+ else     if (contentType.equals(CycleApplicationContext.get(PdfMimeType.class)) && !attachmentFileName.endsWith(".pdf")) {
       attachmentFileName+=".pdf";
     }
- else     if (contentType.equals(CycleDefaultMimeType.MS_EXCEL) && !attachmentFileName.endsWith(".xls")) {
+ else     if (contentType.equals(CycleApplicationContext.get(MsExcelMimeType.class)) && !attachmentFileName.endsWith(".xls")) {
       attachmentFileName+=".xls";
     }
- else     if (contentType.equals(CycleDefaultMimeType.MS_POWERPOINT) && !attachmentFileName.endsWith(".ppt")) {
+ else     if (contentType.equals(CycleApplicationContext.get(MsPowerpointMimeType.class)) && !attachmentFileName.endsWith(".ppt")) {
       attachmentFileName+=".ppt";
     }
- else     if (contentType.equals(CycleDefaultMimeType.MS_WORD) && !attachmentFileName.endsWith(".doc")) {
+ else     if (contentType.equals(CycleApplicationContext.get(MsWordMimeType.class)) && !attachmentFileName.endsWith(".doc")) {
       attachmentFileName+=".doc";
     }
   }
   InputStream contentInputStream=null;
   try {
-    contentInputStream=repositoryService.getContent(artifact.getConnectorId(),artifact.getNodeId(),contentRepresentation.getId()).asInputStream();
+    contentInputStream=contentRepresentation.getContent(artifact).asInputStream();
     MessageDigest md=MessageDigest.getInstance("MD5");
-    byte[] messageDigest=md.digest(repositoryService.getContent(artifact.getConnectorId(),artifact.getNodeId(),contentRepresentation.getId()).asByteArray());
+    byte[] messageDigest=md.digest(contentRepresentation.getContent(artifact).asByteArray());
     BigInteger number=new BigInteger(1,messageDigest);
     String etag=number.toString(16);
     while (etag.length() < 32) {
@@ -49,11 +50,11 @@
       throw new WebScriptException(HttpServletResponse.SC_NOT_MODIFIED,"");
     }
  else {
-      streamResponse(res,contentInputStream,new Date(0),etag,attach,attachmentFileName,contentType);
+      streamResponse(res,contentInputStream,new Date(0),etag,attach,attachmentFileName,contentType.getName());
     }
   }
  catch (  TransformationException e) {
-    streamResponse(res,new ByteArrayInputStream(e.getRenderContent().getBytes()),new Date(0),"",false,null,CycleDefaultMimeType.HTML.getContentType());
+    streamResponse(res,new ByteArrayInputStream(e.getRenderContent().getBytes()),new Date(0),"",false,null,CycleApplicationContext.get(HtmlMimeType.class).getName());
   }
 catch (  NoSuchAlgorithmException e) {
   }

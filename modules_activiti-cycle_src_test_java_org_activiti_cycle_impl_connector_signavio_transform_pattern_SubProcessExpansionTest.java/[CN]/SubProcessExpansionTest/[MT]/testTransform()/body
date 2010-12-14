@@ -5,7 +5,6 @@
   String expectedFileName=path + "/" + getClass().getSimpleName()+ ".testTransform.expected.json";
   String input=IoUtils.readText(new FileInputStream(inputFileName));
   String expected=IoUtils.readText(new FileInputStream(expectedFileName));
-  PluginFinder.checkPluginInitialization();
   FileSystemConnector repositoryConnector=new SignavioFileSystemConnector(new FileSystemConnectorConfiguration("filesystem",new File(path)));
   JsonTransformer jsonTransformer=new JsonTransformer();
   jsonTransformer.addJsonTransformation(new SubProcessExpansion(repositoryConnector));

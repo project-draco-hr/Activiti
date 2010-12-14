@@ -10,5 +10,15 @@
   }
   CycleComponentDescriptor componentDescriptor=new CycleComponentDescriptor(name,componentAnnotation.context(),cycleComponentClass);
   descriptorRegistry.put(name,componentDescriptor);
+  for (  Class<?> componentType : componentTypes) {
+    if (componentType.isAssignableFrom(cycleComponentClass)) {
+      Set<String> componentNamesForThisTypeList=componentTypeMap.get(componentType);
+      if (componentNamesForThisTypeList == null) {
+        componentNamesForThisTypeList=new HashSet<String>();
+        componentTypeMap.put(componentType,componentNamesForThisTypeList);
+      }
+      componentNamesForThisTypeList.add(name);
+    }
+  }
   return name;
 }

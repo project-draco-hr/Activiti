@@ -1,0 +1,9 @@
+{
+  Set<RepositoryArtifactOpenLinkAction> list=new HashSet<RepositoryArtifactOpenLinkAction>();
+  RepositoryConnector connector=CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
+  for (  CreateUrlAction action : getCreateUrlActions(artifact)) {
+    RepositoryArtifactOpenLinkAction link=new RepositoryArtifactOpenLinkAction("Open " + action.getId(),action.getUrl(connector,artifact));
+    list.add(link);
+  }
+  return list;
+}

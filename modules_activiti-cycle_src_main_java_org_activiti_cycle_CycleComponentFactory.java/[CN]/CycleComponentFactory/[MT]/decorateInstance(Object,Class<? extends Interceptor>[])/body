@@ -2,7 +2,7 @@
   Set<Class<?>> interfaces=new HashSet<Class<?>>();
   Class<?> superClass=instanceToDecorate.getClass();
   while (superClass != null && !superClass.equals(Object.class)) {
-    interfaces.addAll(Arrays.asList(superClass.getInterfaces()));
+    interfaces.addAll((Collection<Class<?>>)Arrays.asList(superClass.getInterfaces()));
     superClass=superClass.getSuperclass();
   }
   if (interfaces.size() == 0) {

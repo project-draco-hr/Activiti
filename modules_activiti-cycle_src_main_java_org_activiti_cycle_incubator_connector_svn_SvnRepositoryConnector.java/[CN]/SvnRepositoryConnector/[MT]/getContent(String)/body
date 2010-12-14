@@ -1,0 +1,22 @@
+{
+  ISVNClientAdapter clientAdapter=getSvnClientAdapter();
+  RepositoryArtifact artifact=getRepositoryArtifact(artifactId);
+  Content content=new Content();
+  SVNUrl url;
+  try {
+    url=buildSVNURL(artifact.getNodeId());
+  }
+ catch (  MalformedURLException e) {
+    throw new RepositoryException("Error while retreiving content of " + artifact.getNodeId() + " malformed URL.",e);
+  }
+  InputStream is;
+  try {
+    is=clientAdapter.getContent(url,SVNRevision.HEAD);
+  }
+ catch (  SVNClientException e) {
+    throw new RepositoryException("Error while retreiving content of " + artifact.getNodeId(),e);
+  }
+  is=new BufferedInputStream(is);
+  content.setValue(is);
+  return content;
+}
