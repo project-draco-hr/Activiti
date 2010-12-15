@@ -1,8 +1,0 @@
-{
-  if (protocol.equals("sftp")) {
-    RepositoryConnector connectorInstance=CycleComponentFactory.getCycleComponentInstance(SftpRepositoryConnector.class,RepositoryConnector.class);
-    connectorInstance.setConfiguration(this);
-    return connectorInstance;
-  }
-  throw new RepositoryException("No connector found for protocol " + protocol);
-}

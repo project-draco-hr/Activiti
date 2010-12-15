@@ -1,8 +1,0 @@
-{
-  String name=child.getName().getBaseName();
-  if (name.equals(".") || name.equals(".."))   return null;
-  RepositoryArtifactType type=ConnectorPathUtils.getRepositoryArtifactType(child.getName().getBaseName());
-  RepositoryArtifact newArtifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,type,this);
-  newArtifact.getMetadata().setName(name);
-  return newArtifact;
-}
