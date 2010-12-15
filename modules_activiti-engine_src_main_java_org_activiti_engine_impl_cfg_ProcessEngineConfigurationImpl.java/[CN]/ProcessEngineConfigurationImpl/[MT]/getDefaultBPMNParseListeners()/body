@@ -1,0 +1,7 @@
+{
+  List<BpmnParseListener> defaultListeners=new ArrayList<BpmnParseListener>();
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    defaultListeners.add(new HistoryParseListener(historyLevel));
+  }
+  return defaultListeners;
+}

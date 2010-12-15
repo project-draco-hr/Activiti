@@ -3,8 +3,12 @@
   BpmnDeployer bpmnDeployer=new BpmnDeployer();
   bpmnDeployer.setExpressionManager(expressionManager);
   BpmnParser bpmnParser=new BpmnParser(expressionManager);
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
-    bpmnParser.getParseListeners().add(new HistoryParseListener(historyLevel));
+  if (preParseListeners != null) {
+    bpmnParser.getParseListeners().addAll(preParseListeners);
+  }
+  bpmnParser.getParseListeners().addAll(getDefaultBPMNParseListeners());
+  if (postParseListeners != null) {
+    bpmnParser.getParseListeners().addAll(postParseListeners);
   }
   bpmnDeployer.setBpmnParser(bpmnParser);
   defaultDeployers.add(bpmnDeployer);
