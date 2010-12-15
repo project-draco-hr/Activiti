@@ -3,6 +3,7 @@
     if ((jdbcDriver == null) || (jdbcUrl == null) || (jdbcUsername == null)) {
       throw new ActivitiException("DataSource or JDBC properties have to be specified in a process engine configuration");
     }
+    log.fine("initializing datasource to db: " + jdbcUrl);
     PooledDataSource pooledDataSource=new PooledDataSource(ReflectUtil.getClassLoader(),jdbcDriver,jdbcUrl,jdbcUsername,jdbcPassword);
     if (jdbcMaxActiveConnections > 0) {
       pooledDataSource.setPoolMaximumActiveConnections(jdbcMaxActiveConnections);

@@ -39,10 +39,6 @@ catch (  Throwable e) {
     throw e;
   }
  finally {
-    if (isAfterTest()) {
-      TestHelper.annotationDeploymentTearDown(processEngine,deploymentId,getClass(),getName());
-      assertAndEnsureCleanDb();
-    }
     ClockUtil.reset();
   }
 }
