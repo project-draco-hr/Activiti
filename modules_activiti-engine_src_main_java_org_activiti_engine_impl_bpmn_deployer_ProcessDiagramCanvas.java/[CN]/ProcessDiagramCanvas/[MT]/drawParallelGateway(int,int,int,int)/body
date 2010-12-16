@@ -1,0 +1,10 @@
+{
+  drawGateway(x,y,width,height);
+  Stroke orginalStroke=g.getStroke();
+  g.setStroke(GATEWAY_TYPE_STROKE);
+  Line2D.Double line=new Line2D.Double(x + 10,y + height / 2,x + width - 10,y + height / 2);
+  g.draw(line);
+  line=new Line2D.Double(x + width / 2,y + height - 10,x + width / 2,y + 10);
+  g.draw(line);
+  g.setStroke(orginalStroke);
+}

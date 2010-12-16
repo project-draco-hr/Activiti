@@ -1,11 +1,6 @@
 {
   for (  Element endEventElement : parentElement.elements("endEvent")) {
-    String id=endEventElement.attribute("id");
-    String name=endEventElement.attribute("name");
-    String documentation=parseDocumentation(endEventElement);
-    ActivityImpl activity=scope.createActivity(id);
-    activity.setProperty("name",name);
-    activity.setProperty("documentation",documentation);
+    ActivityImpl activity=parseAndCreateActivityOnScopeElement(endEventElement,scope);
     activity.setActivityBehavior(new NoneEndEventActivity());
     for (    BpmnParseListener parseListener : parseListeners) {
       parseListener.parseEndEvent(endEventElement,scope,activity);

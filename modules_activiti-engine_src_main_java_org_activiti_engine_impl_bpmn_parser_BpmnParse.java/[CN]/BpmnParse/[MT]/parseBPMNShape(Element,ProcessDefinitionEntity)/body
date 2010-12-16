@@ -13,6 +13,10 @@
  else {
         addError("'Bounds' element is required",bpmnShapeElement);
       }
+      String isExpanded=bpmnShapeElement.attribute("isExpanded");
+      if (isExpanded != null) {
+        activity.setProperty(PROPERTYNAME_ISEXPANDED,parseBooleanAttribute(isExpanded));
+      }
     }
  else {
       addError("Invalid reference in 'bpmnElement' attribute, activity " + activityId + "not found",bpmnShapeElement);

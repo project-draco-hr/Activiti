@@ -1,0 +1,32 @@
+{
+  int minX=Integer.MAX_VALUE;
+  int maxX=0;
+  int minY=Integer.MAX_VALUE;
+  int maxY=0;
+  for (  ActivityImpl activity : processDefinition.getActivities()) {
+    if (activity.getX() + activity.getWidth() > maxX) {
+      maxX=activity.getX() + activity.getWidth();
+    }
+    if (activity.getX() < minX) {
+      minX=activity.getX();
+    }
+    if (activity.getY() + activity.getHeight() > maxY) {
+      maxY=activity.getY() + activity.getHeight();
+    }
+    if (activity.getY() < minY) {
+      minY=activity.getY();
+    }
+    for (    PvmTransition sequenceFlow : activity.getOutgoingTransitions()) {
+      List<Integer> waypoints=((TransitionImpl)sequenceFlow).getWaypoints();
+      for (int i=0; i < waypoints.size(); i+=2) {
+        if (waypoints.get(i) > maxX) {
+          maxX=waypoints.get(i);
+        }
+        if (waypoints.get(i + 1) > maxY) {
+          maxY=waypoints.get(i + 1);
+        }
+      }
+    }
+  }
+  return new ProcessDiagramCanvas(maxX + 10,maxY + 10,minX,minY);
+}

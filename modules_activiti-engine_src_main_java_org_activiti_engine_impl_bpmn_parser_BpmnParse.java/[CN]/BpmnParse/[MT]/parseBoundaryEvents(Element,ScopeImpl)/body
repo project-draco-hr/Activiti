@@ -12,9 +12,7 @@
     if (parentActivity == null) {
       addError("Invalid reference in boundary event. Make sure that the referenced activity is " + "defined in the same scope as the boundary event",boundaryEventElement);
     }
-    ActivityImpl nestedActivity=parentActivity.createActivity(id);
-    nestedActivity.setProperty("name",boundaryEventElement.attribute("name"));
-    nestedActivity.setProperty("documentation",parseDocumentation(boundaryEventElement));
+    ActivityImpl nestedActivity=parseAndCreateActivityOnScopeElement(boundaryEventElement,parentActivity);
     String cancelActivity=boundaryEventElement.attribute("cancelActivity","true");
     boolean interrupting=cancelActivity.equals("true") ? true : false;
     Element timerEventDefinition=boundaryEventElement.element("timerEventDefinition");

@@ -1,0 +1,12 @@
+{
+  String imageLocation="org/activiti/engine/test/bpmn/deployment/DiagramGenerationTest.testGeneratedDiagramMatchesExpected.png";
+  BufferedImage expectedImage=ImageIO.read(ReflectUtil.getResourceAsStream(imageLocation));
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  BufferedImage imageInRepo=ImageIO.read(repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName()));
+  assertNotNull(imageInRepo);
+  for (int x=0; x < expectedImage.getWidth(); x++) {
+    for (int y=0; y < expectedImage.getHeight(); y++) {
+      assertEquals(expectedImage.getRGB(x,y),imageInRepo.getRGB(x,y));
+    }
+  }
+}

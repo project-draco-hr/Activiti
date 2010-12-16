@@ -12,10 +12,20 @@
         bpmnParse.setSchemaResource(null);
       }
       bpmnParse.execute();
-      String diagramResource=getDiagramResource(resourceName,resources);
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setResourceName(resourceName);
-        processDefinition.setDiagramResourceName(diagramResource);
+        String diagramResourceName=getDiagramResourceForProcess(resourceName,processDefinition.getKey(),resources);
+        if (diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
+          try {
+            byte[] diagramBytes=IoUtil.readInputStream(ProcessDiagramGenerator.generatePngDiagram(processDefinition),null);
+            diagramResourceName=getProcessImageResourceName(resourceName,processDefinition.getKey(),"png");
+            createResource(diagramResourceName,diagramBytes,deployment);
+          }
+ catch (          Exception e) {
+            LOG.log(Level.WARNING,"Error while generating process diagram, image will not be stored in repository",e);
+          }
+        }
+        processDefinition.setDiagramResourceName(diagramResourceName);
         processDefinitions.add(processDefinition);
       }
     }

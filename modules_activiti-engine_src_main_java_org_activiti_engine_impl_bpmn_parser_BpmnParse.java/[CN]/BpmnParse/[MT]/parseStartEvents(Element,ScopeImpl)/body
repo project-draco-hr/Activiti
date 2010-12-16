@@ -5,12 +5,7 @@
   }
  else   if (startEventElements.size() > 0) {
     Element startEventElement=startEventElements.get(0);
-    String id=startEventElement.attribute("id");
-    String name=startEventElement.attribute("name");
-    String documentation=parseDocumentation(startEventElement);
-    ActivityImpl startEventActivity=scope.createActivity(id);
-    startEventActivity.setProperty("name",name);
-    startEventActivity.setProperty("documentation",documentation);
+    ActivityImpl startEventActivity=parseAndCreateActivityOnScopeElement(startEventElement,scope);
     if (scope instanceof ProcessDefinitionEntity) {
       ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)scope;
       if (processDefinition.getInitial() != null) {

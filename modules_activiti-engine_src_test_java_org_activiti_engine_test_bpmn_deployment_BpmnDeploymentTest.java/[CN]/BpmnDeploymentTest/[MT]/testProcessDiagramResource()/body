@@ -1,7 +1,6 @@
 {
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   assertEquals("org/activiti/engine/test/bpmn/deployment/BpmnDeploymentTest.testProcessDiagramResource.bpmn20.xml",processDefinition.getResourceName());
-  assertEquals("org/activiti/engine/test/bpmn/deployment/BpmnDeploymentTest.testProcessDiagramResource.jpg",processDefinition.getDiagramResourceName());
   assertTrue(processDefinition.hasStartFormKey());
   String diagramResourceName=processDefinition.getDiagramResourceName();
   assertEquals("org/activiti/engine/test/bpmn/deployment/BpmnDeploymentTest.testProcessDiagramResource.jpg",diagramResourceName);

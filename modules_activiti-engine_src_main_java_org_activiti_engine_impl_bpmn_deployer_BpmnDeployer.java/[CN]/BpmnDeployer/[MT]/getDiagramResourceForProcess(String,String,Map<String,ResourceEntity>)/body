@@ -1,0 +1,13 @@
+{
+  for (  String diagramSuffix : DIAGRAM_SUFFIXES) {
+    String diagramForBpmnFileResource=getBpmnFileImageResourceName(bpmnFileResource,diagramSuffix);
+    String processDiagramResource=getProcessImageResourceName(bpmnFileResource,processKey,diagramSuffix);
+    if (resources.containsKey(processDiagramResource)) {
+      return processDiagramResource;
+    }
+ else     if (resources.containsKey(diagramForBpmnFileResource)) {
+      return diagramForBpmnFileResource;
+    }
+  }
+  return null;
+}
