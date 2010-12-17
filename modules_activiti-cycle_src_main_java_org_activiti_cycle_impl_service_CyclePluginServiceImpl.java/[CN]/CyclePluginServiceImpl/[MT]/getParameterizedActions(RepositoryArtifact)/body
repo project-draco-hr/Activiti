@@ -1,5 +1,6 @@
 {
   Set<ParameterizedAction> actions=getParameterizedActions(artifact.getArtifactType());
+  removeNonApplicableActions(actions,artifact);
   removeExcludedActions(actions);
   sortActions(actions,artifact);
   return actions;
