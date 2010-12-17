@@ -9,6 +9,6 @@
   taskService.claim(task.getId(),null);
   task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   assertNull(task.getAssignee());
-  taskService.deleteTask(task.getId());
+  taskService.deleteTask(task.getId(),true);
   identityService.deleteUser(user.getId());
 }

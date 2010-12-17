@@ -1,8 +1,5 @@
 {
   ExecutionEntity executionEntity=(ExecutionEntity)execution;
   HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(executionEntity);
-  Date endTime=ClockUtil.getCurrentTime();
-  long durationInMillis=endTime.getTime() - historicActivityInstance.getStartTime().getTime();
-  historicActivityInstance.setEndTime(endTime);
-  historicActivityInstance.setDurationInMillis(durationInMillis);
+  historicActivityInstance.markEnded(null);
 }

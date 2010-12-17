@@ -1,0 +1,10 @@
+{
+  CommandContext commandContext=CommandContext.getCurrent();
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  dbSqlSession.insert(this);
+  int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+    HistoricTaskInstanceEntity historicTaskInstance=new HistoricTaskInstanceEntity(this,execution);
+    dbSqlSession.insert(historicTaskInstance);
+  }
+}

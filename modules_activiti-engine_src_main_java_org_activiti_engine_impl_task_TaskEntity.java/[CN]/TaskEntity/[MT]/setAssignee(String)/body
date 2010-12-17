@@ -1,4 +1,18 @@
 {
+  if (assignee == null && this.assignee == null) {
+    return;
+  }
+  if (assignee != null && assignee.equals(this.assignee)) {
+    return;
+  }
   this.assignee=assignee;
-  fireEvent(TaskListener.EVENTNAME_ASSIGNMENT);
+  CommandContext commandContext=CommandContext.getCurrent();
+  if (commandContext != null) {
+    fireEvent(TaskListener.EVENTNAME_ASSIGNMENT);
+    int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+    if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+      HistoricTaskInstanceEntity historicTaskInstance=commandContext.getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
+      historicTaskInstance.setAssignee(assignee);
+    }
+  }
 }

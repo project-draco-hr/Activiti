@@ -6,6 +6,6 @@
   taskService.claim(task.getId(),user.getId());
   task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   taskService.claim(task.getId(),user.getId());
-  taskService.deleteTask(task.getId());
+  taskService.deleteTask(task.getId(),true);
   identityService.deleteUser(user.getId());
 }

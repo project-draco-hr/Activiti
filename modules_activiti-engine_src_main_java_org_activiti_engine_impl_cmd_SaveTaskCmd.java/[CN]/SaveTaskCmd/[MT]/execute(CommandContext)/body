@@ -3,7 +3,7 @@
     throw new ActivitiException("task is null");
   }
   if (task.getRevision() == 0) {
-    commandContext.getDbSqlSession().insert(task);
+    task.insert(null);
   }
  else {
     TaskEntity persistentTask=commandContext.getTaskSession().findTaskById(task.getId());

@@ -3,5 +3,5 @@
   assertEquals(1,processDefinitions.size());
   ProcessDefinition processDefinition=processDefinitions.get(0);
   runtimeService.startProcessInstanceById(processDefinition.getId());
-  repositoryService.deleteDeploymentCascade(processDefinition.getDeploymentId());
+  repositoryService.deleteDeployment(processDefinition.getDeploymentId(),true);
 }

@@ -1,3 +1,11 @@
 {
   this.name=name;
+  CommandContext commandContext=CommandContext.getCurrent();
+  if (commandContext != null) {
+    int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+    if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+      HistoricTaskInstanceEntity historicTaskInstance=commandContext.getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
+      historicTaskInstance.setName(name);
+    }
+  }
 }

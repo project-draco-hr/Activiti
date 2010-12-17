@@ -6,5 +6,5 @@
   tablePage=managementService.createTablePageQuery().tableName("ACT_RU_TASK").orderDesc("NAME_").listPage(6,8);
   expectedTaskNames=new String[]{"I","H","G","F","E","D","C","B"};
   verifyTaskNames(expectedTaskNames,tablePage.getRows());
-  taskService.deleteTasks(taskIds);
+  taskService.deleteTasks(taskIds,true);
 }

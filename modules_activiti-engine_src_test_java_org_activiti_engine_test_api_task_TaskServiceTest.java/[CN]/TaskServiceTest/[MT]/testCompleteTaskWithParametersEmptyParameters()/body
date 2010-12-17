@@ -1,7 +1,9 @@
 {
   Task task=taskService.newTask();
   taskService.saveTask(task);
-  taskService.complete(task.getId(),Collections.EMPTY_MAP);
-  task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+  String taskId=task.getId();
+  taskService.complete(taskId,Collections.EMPTY_MAP);
+  historyService.deleteHistoricTaskInstance(taskId);
+  task=taskService.createTaskQuery().taskId(taskId).singleResult();
   assertNull(task);
 }

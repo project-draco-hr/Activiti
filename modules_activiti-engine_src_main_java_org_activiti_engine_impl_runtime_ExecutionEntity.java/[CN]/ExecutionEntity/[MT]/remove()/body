@@ -13,7 +13,7 @@
       task.setExecution(replacedBy);
     }
  else {
-      task.delete();
+      task.delete(TaskEntity.DELETE_REASON_DELETED);
     }
   }
   List<Job> jobs=new JobQueryImpl().executionId(id).executeList(commandContext,null);

@@ -14,6 +14,6 @@
   taskService.claim(taskId,"kermit");
   assertTrue(taskService.createTaskQuery().taskCandidateUser("kermit").list().isEmpty());
   assertTrue(taskService.createTaskQuery().taskCandidateUser("gonzo").list().isEmpty());
-  taskService.complete(taskId);
+  taskService.deleteTask(taskId,true);
   assertNull(taskService.createTaskQuery().taskId(taskId).singleResult());
 }

@@ -1,0 +1,19 @@
+{
+  runtimeService.startProcessInstanceByKey("HistoricTaskInstanceTest");
+  String taskId=taskService.createTaskQuery().singleResult().getId();
+  HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
+  assertEquals(taskId,historicTaskInstance.getId());
+  assertEquals("Clean up",historicTaskInstance.getName());
+  assertEquals("Schedule an engineering meeting for next week with the new hire.",historicTaskInstance.getDescription());
+  assertEquals("kermit",historicTaskInstance.getAssignee());
+  assertNull(historicTaskInstance.getEndTime());
+  assertNull(historicTaskInstance.getDurationInMillis());
+  taskService.complete(taskId);
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().count());
+  historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
+  assertEquals("completed",historicTaskInstance.getDeleteReason());
+  assertNotNull(historicTaskInstance.getEndTime());
+  assertNotNull(historicTaskInstance.getDurationInMillis());
+  historyService.deleteHistoricTaskInstance(taskId);
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().count());
+}

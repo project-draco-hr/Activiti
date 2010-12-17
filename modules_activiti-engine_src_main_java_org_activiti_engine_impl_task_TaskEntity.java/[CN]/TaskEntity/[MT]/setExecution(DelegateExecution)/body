@@ -4,11 +4,18 @@
     this.executionId=this.execution.getId();
     this.processInstanceId=this.execution.getProcessInstanceId();
     this.processDefinitionId=this.execution.getProcessDefinitionId();
+    CommandContext commandContext=CommandContext.getCurrent();
+    int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+    if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+      HistoricTaskInstanceEntity historicTaskInstance=commandContext.getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
+      historicTaskInstance.setExecutionId(executionId);
+    }
   }
  else {
     this.execution=null;
     this.executionId=null;
     this.processInstanceId=null;
     this.processDefinitionId=null;
+    throw new ActivitiException("huh?");
   }
 }
