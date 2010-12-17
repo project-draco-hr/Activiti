@@ -6,6 +6,7 @@
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   BufferedImage imageInRepo=ImageIO.read(repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName()));
   assertNotNull(imageInRepo);
+  write(repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName()));
   Raster rasterFromRepo=imageInRepo.getData();
   DataBuffer dataBufferFromRepo=rasterFromRepo.getDataBuffer();
   assertEquals(dataBufferFromRepo.getSize(),expectedDataBuffer.getSize());
