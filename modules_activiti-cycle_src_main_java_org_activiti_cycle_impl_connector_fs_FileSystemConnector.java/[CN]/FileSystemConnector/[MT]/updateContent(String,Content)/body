@@ -1,3 +1,28 @@
 {
-  throw new UnsupportedOperationException("FileSystemConnector does not support modifying files!");
+  RepositoryArtifact artifact=getRepositoryArtifact(artifactId);
+  String fileName=getConfiguration().getBasePath() + artifact.getNodeId();
+  File newFile=new File(fileName);
+  BufferedOutputStream bos=null;
+  try {
+    if (newFile.exists()) {
+      bos=new BufferedOutputStream(new FileOutputStream(newFile));
+      bos.write(content.asByteArray());
+    }
+ else {
+      throw new RepositoryException("File '" + fileName + "' does not exist.");
+    }
+  }
+ catch (  IOException ioe) {
+    throw new RepositoryException("Unable to update content of file '" + artifactId + "'",ioe);
+  }
+ finally {
+    if (bos != null) {
+      try {
+        bos.close();
+      }
+ catch (      IOException e) {
+        throw new RepositoryException("Unable to update content of file '" + artifactId + "'",e);
+      }
+    }
+  }
 }
