@@ -1,0 +1,15 @@
+{
+  String imageLocation="org/activiti/engine/test/bpmn/deployment/DiagramGenerationTest.testGeneratedDiagramMatchesExpected.png";
+  BufferedImage expectedImage=ImageIO.read(ReflectUtil.getResourceAsStream(imageLocation));
+  Raster expectedRaster=expectedImage.getData();
+  DataBuffer expectedDataBuffer=expectedRaster.getDataBuffer();
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  BufferedImage imageInRepo=ImageIO.read(repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName()));
+  assertNotNull(imageInRepo);
+  Raster rasterFromRepo=imageInRepo.getData();
+  DataBuffer dataBufferFromRepo=rasterFromRepo.getDataBuffer();
+  assertEquals(dataBufferFromRepo.getSize(),expectedDataBuffer.getSize());
+  for (int i=0; i < expectedDataBuffer.getSize(); i++) {
+    assertEquals(expectedDataBuffer.getElem(i),dataBufferFromRepo.getElem(i));
+  }
+}
