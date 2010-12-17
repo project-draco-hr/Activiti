@@ -1,12 +1,9 @@
 {
-  RepositoryArtifactType artifactType=null;
+  RepositoryArtifactType artifactType=CycleApplicationContext.get(SignavioDefaultArtifactType.class);
   if (json.has("namespace")) {
     String namespace=json.getString("namespace");
     if (SignavioBpmn20ArtifactType.SIGNAVIO_NAMESPACE_FOR_BPMN_2_0.equals(namespace)) {
       artifactType=CycleApplicationContext.get(SignavioBpmn20ArtifactType.class);
-    }
- else     if (SignavioJpdl4ArtifactType.SIGNAVIO_NAMESPACE_FOR_BPMN_JBPM4.equals(namespace)) {
-      artifactType=CycleApplicationContext.get(SignavioJpdl4ArtifactType.class);
     }
   }
  else {
