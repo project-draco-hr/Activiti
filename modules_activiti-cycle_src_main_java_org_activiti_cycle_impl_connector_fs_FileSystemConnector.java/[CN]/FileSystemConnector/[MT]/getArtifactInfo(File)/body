@@ -1,8 +1,6 @@
 {
   String id=getLocalPath(file.getCanonicalPath());
-  RepositoryArtifactType artifactType=ConnectorPathUtils.getRepositoryArtifactType(file.getName());
-  RepositoryArtifactImpl artifact=new RepositoryArtifactImpl(getConfiguration().getId(),id,artifactType,this);
-  artifact.getMetadata().setName(file.getName());
+  RepositoryArtifact artifact=getRepositoryArtifactForFileName(file.getName(),id);
   artifact.getMetadata().setParentFolderId(getLocalPath(file.getParent()));
   artifact.getMetadata().setLastChanged(new Date(file.lastModified()));
   return artifact;

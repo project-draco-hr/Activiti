@@ -1,0 +1,7 @@
+{
+  MimeType mimeType=getMimeType(filename);
+  RepositoryArtifactType artifactType=getRepositoryArtifactType(mimeType,filename);
+  RepositoryArtifactImpl artifact=new RepositoryArtifactImpl(getConfiguration().getId(),nodeId,artifactType,this);
+  artifact.getMetadata().setName(filename);
+  return artifact;
+}
