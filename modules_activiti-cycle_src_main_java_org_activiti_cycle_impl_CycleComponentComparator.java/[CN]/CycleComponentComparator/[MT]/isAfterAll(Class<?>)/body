@@ -1,0 +1,16 @@
+{
+  ListAfterComponents annotation=componentClass.getAnnotation(ListAfterComponents.class);
+  if (annotation != null) {
+    if (annotation.value().length != 0) {
+      return false;
+    }
+    if (annotation.names().length != 0) {
+      return false;
+    }
+    if (annotation.classes().length != 0) {
+      return false;
+    }
+    return true;
+  }
+  return false;
+}

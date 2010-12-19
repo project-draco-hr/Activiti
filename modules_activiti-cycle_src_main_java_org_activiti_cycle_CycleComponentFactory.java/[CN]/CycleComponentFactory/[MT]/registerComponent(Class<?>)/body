@@ -1,13 +1,9 @@
 {
-  CycleComponent componentAnnotation=cycleComponentClass.getAnnotation(CycleComponent.class);
-  String name=componentAnnotation.value();
-  if (name == null)   name=componentAnnotation.name();
-  if (name == null || name.length() == 0) {
-    name=cycleComponentClass.getCanonicalName();
-  }
+  String name=getComponentName(cycleComponentClass);
   if (descriptorRegistry.containsKey(name)) {
     logger.log(Level.SEVERE,"Cannot register component of type '" + cycleComponentClass + "', name '"+ name+ "', copmonent of type '"+ descriptorRegistry.get(name)+ "', has same name.");
   }
+  CycleComponent componentAnnotation=cycleComponentClass.getAnnotation(CycleComponent.class);
   CycleComponentDescriptor componentDescriptor=new CycleComponentDescriptor(name,componentAnnotation.context(),cycleComponentClass);
   descriptorRegistry.put(name,componentDescriptor);
   for (  Class<?> componentType : componentTypes) {

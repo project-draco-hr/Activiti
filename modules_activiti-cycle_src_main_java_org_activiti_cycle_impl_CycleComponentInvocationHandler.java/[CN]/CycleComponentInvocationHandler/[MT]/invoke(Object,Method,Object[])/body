@@ -1,9 +1,10 @@
 {
   for (  Interceptor interceptor : interceptorInstances) {
-    interceptor.interceptMethodCall(method,instance,args);
+    interceptor.beforeInvoke(method,instance,args);
   }
+  Object invocationResult=null;
   try {
-    return method.invoke(instance,args);
+    invocationResult=method.invoke(instance,args);
   }
  catch (  Exception e) {
     if (e instanceof InvocationTargetException) {
@@ -11,4 +12,8 @@
     }
     throw e;
   }
+  for (  Interceptor interceptor : interceptorInstances) {
+    interceptor.afterInvoke(method,instance,invocationResult,args);
+  }
+  return invocationResult;
 }

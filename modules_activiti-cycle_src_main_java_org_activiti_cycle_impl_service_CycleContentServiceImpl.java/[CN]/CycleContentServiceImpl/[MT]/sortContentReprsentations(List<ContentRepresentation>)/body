@@ -1,17 +1,3 @@
 {
-  Collections.sort(sortedList,new Comparator<ContentRepresentation>(){
-    public int compare(    ContentRepresentation o1,    ContentRepresentation o2){
-      if (o1.equals(o2)) {
-        return 0;
-      }
-      if (AbstractPngProvider.class.isAssignableFrom(o1.getClass())) {
-        return -1;
-      }
-      if (AbstractPngProvider.class.isAssignableFrom(o2.getClass())) {
-        return 1;
-      }
-      return o1.getId().compareTo(o2.getId());
-    }
-  }
-);
+  Collections.sort(sortedList,new CycleComponentComparator());
 }

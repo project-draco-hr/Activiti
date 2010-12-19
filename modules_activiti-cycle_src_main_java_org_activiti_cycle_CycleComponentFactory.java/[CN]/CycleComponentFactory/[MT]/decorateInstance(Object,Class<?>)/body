@@ -1,6 +1,8 @@
 {
   Interceptors interceptors=type.getAnnotation(Interceptors.class);
-  if (interceptors == null)   return instanceToDecorate;
+  if (interceptors == null) {
+    return instanceToDecorate;
+  }
   Class<? extends Interceptor>[] interceptorClasses=interceptors.value();
   if (interceptorClasses.length == 0) {
     return instanceToDecorate;

@@ -1,0 +1,13 @@
+{
+  List<String> componentNames=new ArrayList<String>();
+  ListBeforeComponents listAfterComponents=o.getAnnotation(ListBeforeComponents.class);
+  if (listAfterComponents != null) {
+    componentNames.addAll(Arrays.asList(listAfterComponents.value()));
+    componentNames.addAll(Arrays.asList(listAfterComponents.names()));
+    Class[] classes=listAfterComponents.classes();
+    for (    Class clazz : classes) {
+      componentNames.add(clazz.getCanonicalName());
+    }
+  }
+  return componentNames;
+}

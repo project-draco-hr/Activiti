@@ -1,7 +1,7 @@
 {
   RepositoryArtifact artifact=getRepositoryArtifact(artifactId);
   CyclePluginService pluginService=CycleServiceFactory.getCyclePluginService();
-  Set<ParameterizedAction> actions=pluginService.getParameterizedActions(artifact);
+  List<ParameterizedAction> actions=pluginService.getParameterizedActions(artifact);
   for (  ParameterizedAction parameterizedAction : actions) {
     if (!parameterizedAction.getId().equals(actionId)) {
       continue;
