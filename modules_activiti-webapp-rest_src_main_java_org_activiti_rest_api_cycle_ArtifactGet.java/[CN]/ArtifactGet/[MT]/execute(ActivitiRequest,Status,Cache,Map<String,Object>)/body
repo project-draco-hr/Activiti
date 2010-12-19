@@ -4,12 +4,21 @@
   String restProxyUri=req.getString("restProxyUri");
   RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(connectorId,artifactId);
   List<String> contentRepresentations=new ArrayList<String>();
-  for (  ContentRepresentation representation : contentService.getcontentRepresentations(artifact)) {
+  for (  ContentRepresentation representation : contentService.getContentRepresentations(artifact)) {
     contentRepresentations.add(representation.getId());
   }
   model.put("contentRepresentations",contentRepresentations);
   model.put("actions",pluginService.getParameterizedActions(artifact));
   List<DownloadActionView> downloads=new ArrayList<DownloadActionView>();
+  for (  DownloadContentAction action : pluginService.getDownloadContentActions(artifact)) {
+    try {
+      String url=restProxyUri + "content?connectorId=" + URLEncoder.encode(connectorId,"UTF-8")+ "&artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&contentRepresentationId="+ URLEncoder.encode(action.getContentRepresentation().getId(),"UTF-8");
+      downloads.add(new DownloadActionView(action.getId(),url,action.getContentRepresentation().getRepresentationMimeType().getContentType(),action.getContentRepresentation().getId()));
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
   model.put("downloads",downloads);
   model.put("links",pluginService.getArtifactOpenLinkActions(artifact));
   model.put("artifactId",artifact.getNodeId());

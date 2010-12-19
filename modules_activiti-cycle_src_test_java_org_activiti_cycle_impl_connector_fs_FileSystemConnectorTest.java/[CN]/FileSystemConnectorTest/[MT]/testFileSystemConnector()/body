@@ -4,7 +4,7 @@
     System.out.println(repositoryNode);
     if (repositoryNode instanceof RepositoryArtifact) {
       RepositoryArtifact artifact=(RepositoryArtifact)repositoryNode;
-      List<ContentRepresentation> contentRepresentations=contentService.getcontentRepresentations(artifact);
+      List<ContentRepresentation> contentRepresentations=contentService.getContentRepresentations(artifact);
       for (      ContentRepresentation contentRepresentation : contentRepresentations) {
         Content content=conn.getContent(artifact.getNodeId());
         System.out.println(contentRepresentation.getId() + " -> " + content.asString());

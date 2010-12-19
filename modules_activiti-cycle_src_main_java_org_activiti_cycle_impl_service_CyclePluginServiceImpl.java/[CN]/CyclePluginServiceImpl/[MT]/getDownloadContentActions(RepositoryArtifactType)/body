@@ -1,3 +1,10 @@
 {
-  return CycleApplicationContext.get(Actions.class).getDownloadContentActions(type);
+  List<DownloadContentAction> actions=new ArrayList<DownloadContentAction>();
+  List<ContentRepresentation> contentRepresentations=CycleServiceFactory.getContentService().getContentRepresentations(type);
+  for (  ContentRepresentation representation : contentRepresentations) {
+    if (representation.isForDownload()) {
+      actions.add(new DownloadContentActionImpl(representation));
+    }
+  }
+  return actions;
 }
