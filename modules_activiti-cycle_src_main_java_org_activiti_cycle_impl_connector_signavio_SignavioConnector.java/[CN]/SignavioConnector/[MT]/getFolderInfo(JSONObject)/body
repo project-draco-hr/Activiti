@@ -23,5 +23,10 @@
   }
   RepositoryFolderImpl folderInfo=new RepositoryFolderImpl(getConfiguration().getId(),id);
   folderInfo.getMetadata().setName(directoryName);
+  String parent=jsonDirectoryObject.getJSONObject("rep").optString("parent");
+  if (parent != null) {
+    String parentId=getConfiguration().getDirectoryIdFromUrl(parent);
+    folderInfo.getMetadata().setParentFolderId(parentId);
+  }
   return folderInfo;
 }

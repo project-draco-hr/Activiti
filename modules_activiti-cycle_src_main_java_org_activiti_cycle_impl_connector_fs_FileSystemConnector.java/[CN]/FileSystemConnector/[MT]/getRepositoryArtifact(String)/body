@@ -1,8 +1,8 @@
 {
   try {
     File file=getFileFromId(id);
-    if (file.isDirectory()) {
-      throw new RepositoryNodeNotFoundException(id + " is a directory");
+    if (!file.isFile()) {
+      throw new RepositoryNodeNotFoundException(id + " is not a file");
     }
     return getArtifactInfo(file);
   }
