@@ -1,0 +1,12 @@
+{
+  try {
+    File file=getFileFromId(id);
+    if (file.isDirectory()) {
+      return getFolderInfo(file);
+    }
+    return getArtifactInfo(file);
+  }
+ catch (  IOException ex) {
+    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryNode.class,id,ex);
+  }
+}

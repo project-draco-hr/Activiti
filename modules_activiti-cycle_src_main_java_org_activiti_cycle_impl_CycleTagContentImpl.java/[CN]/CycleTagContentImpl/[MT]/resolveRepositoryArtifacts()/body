@@ -1,12 +1,6 @@
 {
   for (  RepositoryNodeTagEntity tag : containedArtifactIds) {
-    RepositoryNode node=null;
-    try {
-      node=CycleServiceFactory.getRepositoryService().getRepositoryFolder(tag.getConnectorId(),tag.getNodeId());
-    }
- catch (    RepositoryNodeNotFoundException ex) {
-      node=CycleServiceFactory.getRepositoryService().getRepositoryArtifact(tag.getConnectorId(),tag.getNodeId());
-    }
+    RepositoryNode node=CycleServiceFactory.getRepositoryService().getRepositoryNode(tag.getConnectorId(),tag.getNodeId());
     if (tag.hasAlias()) {
       node.getMetadata().setName(tag.getAlias());
     }
