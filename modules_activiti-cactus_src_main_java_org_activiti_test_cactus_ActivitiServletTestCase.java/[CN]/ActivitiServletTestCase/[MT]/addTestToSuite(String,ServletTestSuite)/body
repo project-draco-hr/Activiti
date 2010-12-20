@@ -1,0 +1,13 @@
+{
+  Class<?> testClass=forName(classname);
+  if (TestSuite.class.isAssignableFrom(testClass)) {
+    suite.addTestSuite(testClass);
+  }
+ else   if (Test.class.isAssignableFrom(testClass)) {
+    TestSuite testSuite=new TestSuite(testClass);
+    suite.addTest(testSuite);
+  }
+ else {
+    throw new RuntimeException("Class " + classname + " is not a TestCase nor a TestSuite");
+  }
+}

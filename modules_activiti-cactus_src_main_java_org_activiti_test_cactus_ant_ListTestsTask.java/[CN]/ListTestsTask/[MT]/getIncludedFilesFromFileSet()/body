@@ -1,0 +1,14 @@
+{
+  List<File> files=new ArrayList<File>();
+  DirectoryScanner directoryScanner=testfileset.getDirectoryScanner(getProject());
+  File baseDir=directoryScanner.getBasedir();
+  String[] includedFiles=directoryScanner.getIncludedFiles();
+  String[] excludedFiles=directoryScanner.getExcludedFiles();
+  List<String> excludedFilesList=Arrays.asList(excludedFiles);
+  for (  String includedFile : includedFiles) {
+    if (!excludedFilesList.contains(includedFile)) {
+      files.add(new File(baseDir,includedFile));
+    }
+  }
+  return files;
+}

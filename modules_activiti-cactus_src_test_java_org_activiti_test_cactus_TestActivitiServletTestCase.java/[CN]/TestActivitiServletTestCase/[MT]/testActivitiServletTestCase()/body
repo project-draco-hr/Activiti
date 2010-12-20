@@ -1,0 +1,10 @@
+{
+  ServletTestSuite resultingTest=(ServletTestSuite)ActivitiServletTestCase.suite();
+  Assert.assertNotNull(resultingTest);
+  Assert.assertEquals(3,resultingTest.countTestCases());
+  TestResult theResult=new TestResult();
+  resultingTest.run(theResult);
+  Assert.assertEquals(3,theResult.runCount());
+  Assert.assertEquals(0,theResult.failureCount());
+  Assert.assertEquals(0,theResult.errorCount());
+}

@@ -1,0 +1,9 @@
+{
+  ListTestsTask task=new ListTestsTask();
+  List<String> parts=Arrays.asList("root","folder","org","activiti","test","MyTestClass.class");
+  Assert.assertEquals("org.activiti.test.MyTestClass",task.getClassNameFromFileParts(parts));
+  parts=Arrays.asList("org","activiti","test","MyTestClass.class");
+  Assert.assertEquals("org.activiti.test.MyTestClass",task.getClassNameFromFileParts(parts));
+  parts=Arrays.asList("org","bugus","test","MyTestClass.class");
+  Assert.assertNull(task.getClassNameFromFileParts(parts));
+}

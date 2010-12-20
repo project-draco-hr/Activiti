@@ -1,0 +1,21 @@
+{
+  ServletTestSuite suite=new ServletTestSuite();
+  InputStream is=null;
+  try {
+    is=ActivitiServletTestCase.class.getResourceAsStream(TESTS_LIST_FILENAME);
+    if (is == null) {
+      throw new RuntimeException("File " + TESTS_LIST_FILENAME + " is not found on classpath!");
+    }
+    List<String> testsToRun=readLines(is);
+    for (    String testName : testsToRun) {
+      addTestToSuite(testName,suite);
+    }
+  }
+ catch (  IOException ioe) {
+    throw new RuntimeException("Cannot read activiti cactus test configuration",ioe);
+  }
+ finally {
+    closeSilently(is);
+  }
+  return suite;
+}

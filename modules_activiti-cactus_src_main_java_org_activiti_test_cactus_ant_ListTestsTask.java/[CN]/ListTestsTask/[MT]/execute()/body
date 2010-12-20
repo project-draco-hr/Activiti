@@ -1,0 +1,29 @@
+{
+  checkParams();
+  PrintWriter writer=null;
+  try {
+    if (!targetfile.exists()) {
+      targetfile.createNewFile();
+    }
+    writer=new PrintWriter(targetfile);
+    List<File> files=getIncludedFilesFromFileSet();
+    for (    File file : files) {
+      if (file.getName().endsWith("Test.class") && !isTestExcluded(file.getAbsolutePath())) {
+        List<String> parts=getPartsFromFile(file);
+        String className=getClassNameFromFileParts(parts);
+        if (className != null) {
+          writer.println(className);
+        }
+ else {
+          log("Ignoring file, invalid package: " + file.getAbsolutePath());
+        }
+      }
+    }
+  }
+ catch (  IOException ioe) {
+    throw new BuildException("Errow while writing to result-file",ioe);
+  }
+ finally {
+    closeSilently(writer);
+  }
+}

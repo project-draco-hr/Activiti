@@ -1,0 +1,12 @@
+{
+  StringBuffer buffer=new StringBuffer();
+  for (int i=packageRootIndex; i < parts.size(); i++) {
+    if (i == parts.size() - 1) {
+      buffer.append(parts.get(i).replace(".class",""));
+    }
+ else {
+      buffer.append(parts.get(i)).append(".");
+    }
+  }
+  return buffer.toString();
+}
