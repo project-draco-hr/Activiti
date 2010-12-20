@@ -1,5 +1,5 @@
 {
-  runtimeService.startProcessInstanceByKey("HistoricTaskInstanceTest");
+  String processInstanceId=runtimeService.startProcessInstanceByKey("HistoricTaskInstanceTest").getId();
   String taskId=taskService.createTaskQuery().singleResult().getId();
   HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
   assertEquals(taskId,historicTaskInstance.getId());
@@ -8,6 +8,7 @@
   assertEquals("kermit",historicTaskInstance.getAssignee());
   assertNull(historicTaskInstance.getEndTime());
   assertNull(historicTaskInstance.getDurationInMillis());
+  runtimeService.setVariable(processInstanceId,"deadline","yesterday");
   taskService.complete(taskId);
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().count());
   historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
