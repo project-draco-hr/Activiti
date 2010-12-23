@@ -1,9 +1,3 @@
 {
-  DelegateExecution execution=delegateTask.getExecution();
-  if (execution != null) {
-    expression.getValue(execution);
-  }
- else {
-    throw new ActivitiException("Expressions are not usable outside a execution context");
-  }
+  expression.getValue(delegateTask);
 }

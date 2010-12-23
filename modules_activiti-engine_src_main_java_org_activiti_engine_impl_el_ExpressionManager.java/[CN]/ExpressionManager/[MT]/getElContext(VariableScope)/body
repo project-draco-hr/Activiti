@@ -6,6 +6,9 @@
   }
   if (elContext == null) {
     elContext=createElContext(variableScope);
+    if (variableScope instanceof VariableScopeImpl) {
+      ((VariableScopeImpl)variableScope).setCachedElContext(elContext);
+    }
   }
   return elContext;
 }

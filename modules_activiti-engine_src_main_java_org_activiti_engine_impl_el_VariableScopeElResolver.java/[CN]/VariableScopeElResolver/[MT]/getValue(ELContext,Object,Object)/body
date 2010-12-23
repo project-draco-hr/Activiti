@@ -1,9 +1,13 @@
 {
   if (base == null) {
     String variable=(String)property;
-    if (EXECUTION_KEY.equals(property)) {
+    if ((EXECUTION_KEY.equals(property) && variableScope instanceof ExecutionEntity) || (TASK_KEY.equals(property) && variableScope instanceof TaskEntity)) {
       context.setPropertyResolved(true);
       return variableScope;
+    }
+ else     if (EXECUTION_KEY.equals(property) && variableScope instanceof TaskEntity) {
+      context.setPropertyResolved(true);
+      return ((TaskEntity)variableScope).getExecution();
     }
  else {
       if (variableScope.hasVariable(variable)) {
