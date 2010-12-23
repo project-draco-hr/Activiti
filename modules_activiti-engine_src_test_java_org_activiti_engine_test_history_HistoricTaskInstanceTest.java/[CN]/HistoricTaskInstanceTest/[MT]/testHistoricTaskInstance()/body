@@ -12,7 +12,7 @@
   taskService.complete(taskId);
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().count());
   historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
-  assertEquals("completed",historicTaskInstance.getDeleteReason());
+  assertEquals(TaskEntity.DELETE_REASON_COMPLETED,historicTaskInstance.getDeleteReason());
   assertNotNull(historicTaskInstance.getEndTime());
   assertNotNull(historicTaskInstance.getDurationInMillis());
   historyService.deleteHistoricTaskInstance(taskId);

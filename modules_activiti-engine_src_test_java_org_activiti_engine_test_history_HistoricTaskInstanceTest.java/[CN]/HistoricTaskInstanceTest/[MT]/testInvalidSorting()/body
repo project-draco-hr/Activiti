@@ -1,0 +1,20 @@
+{
+  try {
+    historyService.createHistoricTaskInstanceQuery().asc();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    historyService.createHistoricTaskInstanceQuery().desc();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  try {
+    historyService.createHistoricTaskInstanceQuery().orderByProcessInstanceId().list();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}

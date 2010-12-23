@@ -1,0 +1,36 @@
+{
+  ProcessInstance finishedInstance=runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
+  String taskId=taskService.createTaskQuery().processInstanceId(finishedInstance.getId()).singleResult().getId();
+  taskService.complete(taskId);
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskId(taskId).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskId("unexistingtaskid").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskName("Clean up").count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskName("unexistingname").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskNameLike("Clean u%").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskNameLike("%lean up").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskNameLike("%lean u%").count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskNameLike("%unexistingname%").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDescription("Historic task description").count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDescription("unexistingdescription").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDescriptionLike("%task description").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDescriptionLike("Historic task %").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDescriptionLike("%task%").count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDescriptionLike("%unexistingdescripton%").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().executionId(finishedInstance.getId()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().executionId("unexistingexecution").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().processInstanceId(finishedInstance.getId()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().processInstanceId("unexistingid").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().processDefinitionId(finishedInstance.getProcessDefinitionId()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().processDefinitionId("unexistingdefinitionid").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskAssignee("kermit").count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskAssignee("johndoe").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%ermit").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("kermi%").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%ermi%").count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%johndoe%").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDeleteReason(TaskEntity.DELETE_REASON_COMPLETED).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDeleteReason("deleted").count());
+  runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().finished().count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().unfinished().count());
+}
