@@ -1,0 +1,66 @@
+{
+  if (definitions != null) {
+    return definitions;
+  }
+  definitions=new Definitions();
+  definitions.setTargetNamespace("adhoc");
+  String processName=getName().replace(" ","_");
+  org.activiti.kickstart.bpmn20.model.Process process=new org.activiti.kickstart.bpmn20.model.Process();
+  process.setId("adhoc_" + processName);
+  process.setName(getName());
+  Documentation processDocumentation=new Documentation();
+  processDocumentation.setId(process.getId() + "_documentation");
+  processDocumentation.setText(getDescription());
+  process.getDocumentation().add(processDocumentation);
+  definitions.getRootElement().add(process);
+  BPMNDiagram diagram=new BPMNDiagram();
+  diagram.setId(processName + "_diagram");
+  definitions.getDiagram().add(diagram);
+  BPMNPlane plane=new BPMNPlane();
+  plane.setId(processName + "_plane");
+  plane.setBpmnElement(process);
+  diagram.setBPMNPlane(plane);
+  StartEvent startEvent=new StartEvent();
+  startEvent.setId(START_NAME);
+  process.getFlowElement().add(startEvent);
+  List<List<UserTask>> UserTaskBlocks=new ArrayList<List<UserTask>>();
+  int index=1;
+  List<TaskBlock> taskBlocks=getTaskBlocks();
+  for (  TaskBlock taskBlock : taskBlocks) {
+    List<UserTask> UserTaskBlock=new ArrayList<UserTask>();
+    UserTaskBlocks.add(UserTaskBlock);
+    for (    TaskDto task : taskBlock.getTasks()) {
+      UserTask userTask=new UserTask();
+      userTask.setId("task_" + index++);
+      userTask.setName(task.getName());
+      if (task.getForm() != null) {
+        userTask.setFormKey(task.generateDefaultFormName());
+      }
+      HumanPerformer humanPerformer=new HumanPerformer();
+      humanPerformer.setId(userTask.getId() + "_humanPerformer");
+      ResourceAssignmentExpression assignmentExpression=new ResourceAssignmentExpression();
+      assignmentExpression.setId(userTask.getId() + "_assignmentExpression");
+      FormalExpression formalExpression=new FormalExpression(task.getAssignee());
+      formalExpression.setId(userTask.getId() + "_formalExpressions");
+      assignmentExpression.setExpression(formalExpression);
+      humanPerformer.setResourceAssignmentExpression(assignmentExpression);
+      userTask.getActivityResource().add(humanPerformer);
+      Documentation taskDocumentation=new Documentation(ExpressionUtil.replaceWhiteSpaces(task.getDescription()));
+      taskDocumentation.setId(userTask.getId() + "_documentation");
+      userTask.getDocumentation().add(taskDocumentation);
+      UserTaskBlock.add(userTask);
+    }
+  }
+  AtomicInteger flowIndex=new AtomicInteger(1);
+  AtomicInteger gatewayIndex=new AtomicInteger(1);
+  LinkedList<FlowElement> lastFlowElementOfBlockStack=new LinkedList<FlowElement>();
+  lastFlowElementOfBlockStack.add(startEvent);
+  for (int i=0; i < taskBlocks.size(); i++) {
+    convertTaskBlockToBpmn20(process,flowIndex,gatewayIndex,UserTaskBlocks.get(i),lastFlowElementOfBlockStack);
+  }
+  EndEvent endEvent=new EndEvent();
+  endEvent.setId(END_NAME);
+  process.getFlowElement().add(endEvent);
+  createSequenceFlow(process,flowIndex,lastFlowElementOfBlockStack.peekLast(),endEvent);
+  return definitions;
+}

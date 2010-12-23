@@ -1,0 +1,13 @@
+{
+  taskTable=new TaskTable(viewManager);
+  if (existingAdhocWorkflow == null) {
+    taskTable.addDefaultTaskRow();
+  }
+ else {
+    for (    TaskDto task : existingAdhocWorkflow.getTasks()) {
+      taskTable.addTaskRow(task);
+    }
+  }
+  layout.addComponent(new Label("Tasks"));
+  layout.addComponent(taskTable);
+}

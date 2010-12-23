@@ -1,0 +1,8 @@
+{
+  this.processedElements=new ArrayList<FlowElement>();
+  Process process=this.findRelatedProcessRecursivly(this);
+  if (process != null) {
+    this.setProcess(process);
+    process.addChild(this);
+  }
+}

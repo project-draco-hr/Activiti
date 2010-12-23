@@ -1,0 +1,4 @@
+{
+  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().processDefinitionKeyLike("adhoc_%").orderByProcessDefinitionName().asc().orderByProcessDefinitionVersion().desc().list();
+  return convertToDto(processDefinitions);
+}

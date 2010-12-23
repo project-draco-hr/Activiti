@@ -1,0 +1,23 @@
+{
+  TaskDto taskDto=new TaskDto();
+  taskDto.setName(userTask.getName());
+  if (!userTask.getDocumentation().isEmpty()) {
+    taskDto.setDescription(userTask.getDocumentation().get(0).getText());
+  }
+  for (  ActivityResource activityResource : userTask.getActivityResource()) {
+    if (activityResource instanceof HumanPerformer) {
+      HumanPerformer humanPerformer=(HumanPerformer)activityResource;
+      List<String> content=humanPerformer.getResourceAssignmentExpression().getExpression().getContent();
+      if (!content.isEmpty()) {
+        taskDto.setAssignee(content.get(0));
+      }
+    }
+  }
+  if (userTask.getFormKey() != null) {
+    InputStream is=repositoryService.getResourceAsStream(deploymentId,userTask.getFormKey() + ".internal");
+    String serializedForm=new String(IoUtil.readInputStream(is,""));
+    IoUtil.closeSilently(is);
+    taskDto.setForm(FormDto.createFromSerialized(serializedForm));
+  }
+  return taskDto;
+}

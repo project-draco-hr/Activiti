@@ -1,0 +1,13 @@
+{
+  StringBuilder strb=new StringBuilder();
+  strb.append(title + ",");
+  strb.append(description + ",");
+  for (  FormPropertyDto property : formProperties) {
+    strb.append(property.getProperty() + ";");
+    strb.append(property.getType() + ";");
+    strb.append(property.isRequired());
+    strb.append("@");
+  }
+  strb.deleteCharAt(strb.length() - 1);
+  return strb.toString();
+}

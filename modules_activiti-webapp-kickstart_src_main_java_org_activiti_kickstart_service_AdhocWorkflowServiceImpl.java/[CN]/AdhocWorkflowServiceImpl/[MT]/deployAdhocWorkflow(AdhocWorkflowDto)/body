@@ -1,0 +1,16 @@
+{
+  String deploymentName="Process " + adhocWorkflow.getName();
+  String bpmn20XmlResourceName=generateBpmnResourceName(adhocWorkflow.getName());
+  DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().name(deploymentName);
+  ProcessDiagramGenerator converter=new ProcessDiagramGenerator(adhocWorkflow);
+  deploymentBuilder.addInputStream(bpmn20XmlResourceName.replace(".bpmn20.xml",".png"),converter.execute());
+  deploymentBuilder.addString(bpmn20XmlResourceName,createBpmn20Xml(adhocWorkflow));
+  for (  TaskDto task : adhocWorkflow.getTasks()) {
+    FormDto form=task.getForm();
+    if (form != null) {
+      deploymentBuilder.addString(task.generateDefaultFormName(),form.convertToHtml());
+      deploymentBuilder.addString(task.generateDefaultFormName() + ".internal",form.toString());
+    }
+  }
+  deploymentBuilder.deploy();
+}

@@ -1,0 +1,18 @@
+{
+  if (child instanceof Participant) {
+    this.getParticipantRef().add((Participant)child);
+    if (((Participant)child).isInitiating()) {
+      this.setInitiatingParticipantRef((Participant)child);
+    }
+  }
+ else   if (child instanceof Artifact) {
+    this.getArtifact().add((Artifact)child);
+    ((Artifact)child).setSubChoreography(this);
+  }
+ else   if (child instanceof FlowElement) {
+    this.getFlowElement().add((FlowElement)child);
+  }
+  if (child instanceof FlowElement) {
+    ((FlowElement)child).setSubChoreography(this);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (ahodcWorkflowServiceInstance == null) {
+synchronized (ServiceLocator.class) {
+      if (ahodcWorkflowServiceInstance == null) {
+        ahodcWorkflowServiceInstance=new AdhocWorkflowServiceImpl(ProcessEngines.getDefaultProcessEngine());
+      }
+    }
+  }
+  return ahodcWorkflowServiceInstance;
+}

@@ -1,0 +1,12 @@
+{
+  if (this.getDiagram().size() == 0) {
+    BPMNDiagram diagram=new BPMNDiagram();
+    diagram.setId(UUIDGenerator.generate());
+    this.getDiagram().add(diagram);
+  }
+  BPMNDiagram diagram=this.getDiagram().get(0);
+  if (diagram.getBPMNPlane() == null) {
+    diagram.setBPMNPlane(new BPMNPlane());
+  }
+  return diagram.getBPMNPlane();
+}

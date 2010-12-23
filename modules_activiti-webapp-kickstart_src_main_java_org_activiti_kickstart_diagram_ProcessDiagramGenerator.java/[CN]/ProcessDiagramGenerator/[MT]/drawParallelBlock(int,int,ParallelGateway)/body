@@ -1,0 +1,50 @@
+{
+  int originalCurrentWidth=currentWidth;
+  List<SequenceFlow> sequenceFlows=outgoingSequenceFlowMapping.get(parallelGateway.getId());
+  int nrOfTasks=sequenceFlows.size();
+  drawParallelGateway(parallelGateway,x,y,GATEWAY_WIDTH,GATEWAY_HEIGHT);
+  handledElements.add(parallelGateway.getId());
+  int centerOfRhombus=x + GATEWAY_WIDTH / 2;
+  int maxHeight=(nrOfTasks / 2) * (TASK_HEIGHT + TASK_HEIGHT_SPACING);
+  int currentHeight=y - maxHeight;
+  for (int i=0; i < nrOfTasks / 2; i++) {
+    SequenceFlow sequenceFlow1=sequenceFlows.get(i);
+    drawSequenceFlow(sequenceFlow1,centerOfRhombus,y,centerOfRhombus,currentHeight,centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight);
+    FlowElement userTask=sequenceFlow1.getTargetRef();
+    drawUserTask(userTask,centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight - ((TASK_HEIGHT + TASK_HEIGHT_SPACING) / 2),TASK_WIDTH,TASK_HEIGHT);
+    handledElements.add(sequenceFlow1.getTargetRef().getId());
+    int seqFlowX=centerOfRhombus + SEQUENCE_FLOW_WIDTH + TASK_WIDTH;
+    SequenceFlow sequenceFlow2=outgoingSequenceFlowMapping.get(userTask.getId()).get(0);
+    drawSequenceFlow(sequenceFlow2,seqFlowX,currentHeight,seqFlowX + LONG_SEQUENCE_FLOW_WITHOUT_ARROW_WIDTH,currentHeight,seqFlowX + LONG_SEQUENCE_FLOW_WITHOUT_ARROW_WIDTH,y);
+    currentHeight+=TASK_HEIGHT + TASK_HEIGHT_SPACING;
+  }
+  if (nrOfTasks % 2 != 0) {
+    SequenceFlow sequenceFlow1=sequenceFlows.get(nrOfTasks / 2);
+    drawSequenceFlow(sequenceFlow1,centerOfRhombus + GATEWAY_WIDTH / 2,startY + EVENT_WIDTH / 2,centerOfRhombus + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
+    FlowElement userTask=sequenceFlow1.getTargetRef();
+    drawUserTask(sequenceFlow1.getTargetRef(),centerOfRhombus + SEQUENCE_FLOW_WIDTH,startY - ((TASK_HEIGHT - GATEWAY_HEIGHT)),TASK_WIDTH,TASK_HEIGHT);
+    handledElements.add(sequenceFlow1.getTargetRef().getId());
+    int seqflowX=centerOfRhombus + GATEWAY_WIDTH / 2 + (SEQUENCE_FLOW_WIDTH - GATEWAY_WIDTH / 2) + TASK_WIDTH;
+    SequenceFlow sequenceFlow2=outgoingSequenceFlowMapping.get(userTask.getId()).get(0);
+    drawSequenceFlow(sequenceFlow2,seqflowX,startY + EVENT_WIDTH / 2,seqflowX + LONG_SEQUENCE_FLOW_WIDTH - GATEWAY_WIDTH / 2 - ARROW_WIDTH,startY + EVENT_WIDTH / 2);
+  }
+  currentHeight=y + GATEWAY_HEIGHT + TASK_HEIGHT+ TASK_HEIGHT_SPACING;
+  int startIndex=nrOfTasks % 2 == 0 ? nrOfTasks / 2 : (nrOfTasks / 2) + 1;
+  for (int i=startIndex; i < nrOfTasks; i++) {
+    SequenceFlow sequenceFlow1=sequenceFlows.get(i);
+    drawSequenceFlow(sequenceFlow1,centerOfRhombus,y + GATEWAY_HEIGHT,centerOfRhombus,currentHeight,centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight);
+    FlowElement userTask=sequenceFlow1.getTargetRef();
+    drawUserTask(sequenceFlow1.getTargetRef(),centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight - ((TASK_HEIGHT + TASK_HEIGHT_SPACING) / 2),TASK_WIDTH,TASK_HEIGHT);
+    int seqFlowX=centerOfRhombus + SEQUENCE_FLOW_WIDTH + TASK_WIDTH;
+    SequenceFlow sequenceFlow2=outgoingSequenceFlowMapping.get(userTask.getId()).get(0);
+    drawSequenceFlow(sequenceFlow2,seqFlowX,currentHeight,seqFlowX + LONG_SEQUENCE_FLOW_WITHOUT_ARROW_WIDTH,currentHeight,seqFlowX + LONG_SEQUENCE_FLOW_WITHOUT_ARROW_WIDTH,y + GATEWAY_HEIGHT);
+    handledElements.add(sequenceFlow1.getTargetRef().getId());
+    currentHeight+=TASK_HEIGHT + TASK_HEIGHT_SPACING;
+  }
+  String someTaskId=sequenceFlows.get(0).getTargetRef().getId();
+  FlowElement join=outgoingSequenceFlowMapping.get(someTaskId).get(0).getTargetRef();
+  centerOfRhombus=centerOfRhombus + SEQUENCE_FLOW_WIDTH + TASK_WIDTH+ LONG_SEQUENCE_FLOW_WITHOUT_ARROW_WIDTH;
+  drawParallelGateway(join,centerOfRhombus - GATEWAY_WIDTH / 2,y,GATEWAY_WIDTH,GATEWAY_HEIGHT);
+  handledElements.add(join.getId());
+  currentWidth=originalCurrentWidth + TASK_BLOCK_WIDTH;
+}

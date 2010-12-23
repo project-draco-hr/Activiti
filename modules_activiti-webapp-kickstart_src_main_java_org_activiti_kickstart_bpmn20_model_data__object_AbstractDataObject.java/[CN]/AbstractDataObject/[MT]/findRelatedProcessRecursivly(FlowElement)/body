@@ -1,0 +1,26 @@
+{
+  if (flowElement == null)   return null;
+  if (this.processedElements.contains(flowElement))   return null;
+  this.processedElements.add(flowElement);
+  for (  Edge edge : flowElement.getIncoming()) {
+    FlowElement sourceRef=edge.getSourceRef();
+    if (sourceRef == null)     continue;
+    Process process=sourceRef.getProcess();
+    if (process != null)     return process;
+  }
+  for (  Edge edge : flowElement.getOutgoing()) {
+    FlowElement targetRef=edge.getTargetRef();
+    if (targetRef == null)     continue;
+    Process process=targetRef.getProcess();
+    if (process != null)     return process;
+  }
+  for (  Edge edge : flowElement.getIncoming()) {
+    Process process=this.findRelatedProcessRecursivly(edge.getSourceRef());
+    if (process != null)     return process;
+  }
+  for (  Edge edge : flowElement.getOutgoing()) {
+    Process process=this.findRelatedProcessRecursivly(edge.getTargetRef());
+    if (process != null)     return process;
+  }
+  return null;
+}

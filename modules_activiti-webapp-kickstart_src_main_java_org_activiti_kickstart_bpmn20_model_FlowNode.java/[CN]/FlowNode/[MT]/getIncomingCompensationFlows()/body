@@ -1,0 +1,9 @@
+{
+  ArrayList<Association> compensationFlows=new ArrayList<Association>();
+  for (  FlowElement edge : this.getIncoming()) {
+    if (edge instanceof Association && ((Association)edge).getAssociationDirection().equals(AssociationDirection.ONE) && ((Association)edge).getSourceRef() instanceof BoundaryEvent&& (((BoundaryEvent)((Association)edge).getSourceRef()).getEventDefinition().size() == 1 && (((BoundaryEvent)((Association)edge).getSourceRef()).getEventDefinition().get(0) instanceof CompensateEventDefinition))) {
+      compensationFlows.add((Association)edge);
+    }
+  }
+  return compensationFlows;
+}

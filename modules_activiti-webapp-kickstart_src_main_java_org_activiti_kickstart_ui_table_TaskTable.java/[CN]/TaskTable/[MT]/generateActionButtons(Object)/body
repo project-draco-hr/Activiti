@@ -1,0 +1,17 @@
+{
+  HorizontalLayout actionButtons=new HorizontalLayout();
+  FormDto form=taskFormModel.getForm(taskItemId);
+  Button formButton=new Button(form == null ? "Create form" : "Edit form");
+  formButton.addListener(new ShowFormClickListener(viewManager,taskFormModel,taskItemId));
+  formButton.setData(taskItemId);
+  actionButtons.addComponent(formButton);
+  Button deleteTaskButton=new Button("-");
+  deleteTaskButton.setData(taskItemId);
+  deleteTaskButton.addListener(new DeleteTaskClickListener(this));
+  actionButtons.addComponent(deleteTaskButton);
+  Button addTaskButton=new Button("+");
+  addTaskButton.setData(taskItemId);
+  addTaskButton.addListener(new AddTaskClickListener(this));
+  actionButtons.addComponent(addTaskButton);
+  return actionButtons;
+}

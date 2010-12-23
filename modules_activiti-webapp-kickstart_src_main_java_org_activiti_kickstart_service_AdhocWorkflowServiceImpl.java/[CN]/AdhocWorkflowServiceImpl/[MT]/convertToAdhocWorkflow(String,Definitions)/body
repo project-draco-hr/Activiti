@@ -1,0 +1,56 @@
+{
+  AdhocWorkflowDto adhocWorkflow=new AdhocWorkflowDto();
+  for (  BaseElement baseElement : definitions.getRootElement()) {
+    if (baseElement instanceof org.activiti.kickstart.bpmn20.model.Process) {
+      org.activiti.kickstart.bpmn20.model.Process process=(org.activiti.kickstart.bpmn20.model.Process)baseElement;
+      adhocWorkflow.setName(process.getName());
+      if (!process.getDocumentation().isEmpty()) {
+        adhocWorkflow.setDescription(process.getDocumentation().get(0).getText());
+      }
+      Map<String,UserTask> userTasks=new HashMap<String,UserTask>();
+      Map<String,ParallelGateway> gateways=new HashMap<String,ParallelGateway>();
+      Map<String,List<SequenceFlow>> sequenceFlows=new HashMap<String,List<SequenceFlow>>();
+      for (      FlowElement flowElement : process.getFlowElement()) {
+        if (flowElement instanceof UserTask) {
+          userTasks.put(flowElement.getId(),(UserTask)flowElement);
+        }
+        if (flowElement instanceof ParallelGateway) {
+          gateways.put(flowElement.getId(),(ParallelGateway)flowElement);
+        }
+        if (flowElement instanceof SequenceFlow) {
+          SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
+          String sourceRef=sequenceFlow.getSourceRef().getId();
+          if (!sequenceFlows.containsKey(sourceRef)) {
+            sequenceFlows.put(sourceRef,new ArrayList<SequenceFlow>());
+          }
+          sequenceFlows.get(sourceRef).add(sequenceFlow);
+        }
+      }
+      SequenceFlow currentSequenceFlow=sequenceFlows.get(AdhocWorkflowDto.START_NAME).get(0);
+      while (!currentSequenceFlow.getTargetRef().getId().equals(AdhocWorkflowDto.END_NAME)) {
+        String targetRef=currentSequenceFlow.getTargetRef().getId();
+        TaskDto taskDto=null;
+        if (userTasks.containsKey(targetRef)) {
+          taskDto=convertUserTaskToTaskDto(deploymentId,(UserTask)currentSequenceFlow.getTargetRef());
+          currentSequenceFlow=sequenceFlows.get(currentSequenceFlow.getTargetRef().getId()).get(0);
+          adhocWorkflow.addTask(taskDto);
+        }
+ else         if (gateways.containsKey(targetRef)) {
+          UserTask userTask=null;
+          for (int i=0; i < sequenceFlows.get(targetRef).size(); i++) {
+            SequenceFlow seqFlowOutOfGateway=sequenceFlows.get(targetRef).get(i);
+            userTask=(UserTask)seqFlowOutOfGateway.getTargetRef();
+            taskDto=convertUserTaskToTaskDto(deploymentId,userTask);
+            if (i > 0) {
+              taskDto.setStartWithPrevious(true);
+            }
+            adhocWorkflow.addTask(taskDto);
+          }
+          String parallelJoinId=sequenceFlows.get(userTask.getId()).get(0).getTargetRef().getId();
+          currentSequenceFlow=sequenceFlows.get(parallelJoinId).get(0);
+        }
+      }
+    }
+  }
+  return adhocWorkflow;
+}

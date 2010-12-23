@@ -1,0 +1,24 @@
+{
+  SequenceFlow sequenceFlow=createSequenceFlow(process,flowIndex,lastFlowElementOfBlockStack.peekLast(),null);
+  if (taskBlock.size() == 1) {
+    UserTask userTask=taskBlock.get(0);
+    sequenceFlow.setTargetRef(userTask);
+    lastFlowElementOfBlockStack.add(userTask);
+    process.getFlowElement().add(userTask);
+  }
+ else {
+    ParallelGateway fork=new ParallelGateway();
+    fork.setId("parallel_gateway_fork_" + gatewayIndex.getAndIncrement());
+    process.getFlowElement().add(fork);
+    sequenceFlow.setTargetRef(fork);
+    ParallelGateway join=new ParallelGateway();
+    join.setId("parallel_gateway_join" + gatewayIndex.getAndIncrement());
+    for (    UserTask taskInBlock : taskBlock) {
+      createSequenceFlow(process,flowIndex,fork,taskInBlock);
+      createSequenceFlow(process,flowIndex,taskInBlock,join);
+      process.getFlowElement().add(taskInBlock);
+    }
+    process.getFlowElement().add(join);
+    lastFlowElementOfBlockStack.add(join);
+  }
+}

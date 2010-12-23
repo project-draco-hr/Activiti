@@ -1,0 +1,19 @@
+{
+  super(act);
+  if (act.getProperty().size() > 0)   this.getProperty().addAll(act.getProperty());
+  if (act.getDataInputAssociation().size() > 0)   this.getDataInputAssociation().addAll(act.getDataInputAssociation());
+  if (act.getDataOutputAssociation().size() > 0)   this.getDataOutputAssociation().addAll(act.getDataOutputAssociation());
+  if (act.getActivityResource().size() > 0)   this.getActivityResource().addAll(act.getActivityResource());
+  if (act.getBoundaryEventRefs().size() > 0)   this.getBoundaryEventRefs().addAll(act.getBoundaryEventRefs());
+  if (act.getInputSetInfo().size() > 0)   this.getInputSetInfo().addAll(act.getInputSetInfo());
+  if (act.getOutputSetInfo().size() > 0)   this.getOutputSetInfo().addAll(act.getOutputSetInfo());
+  if (act.getAdditionalProperties().size() > 0) {
+    this.getAdditionalProperties().addAll(act.getAdditionalProperties());
+  }
+  this.setIoSpecification(act.getIoSpecification());
+  this.setLoopCharacteristics(act.getLoopCharacteristics());
+  this.setIsForCompensation(act.isForCompensation);
+  this.setStartQuantity(act.getStartQuantity());
+  this.setCompletionQuantity(act.getCompletionQuantity());
+  this.setDefault(act.getDefault());
+}

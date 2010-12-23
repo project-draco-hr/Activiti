@@ -1,0 +1,15 @@
+{
+  VerticalLayout verticalLayout=new VerticalLayout();
+  if (existingAdhocWorkflow == null) {
+    titleLabel=new Label(NEW_ADHOC_WORKFLOW_TITLE);
+  }
+ else {
+    titleLabel=new Label(EXISTING_ADHOC_WORKFLOW_TITLE + " '" + existingAdhocWorkflow.getName()+ "'");
+  }
+  titleLabel.setStyleName(Reindeer.LABEL_H1);
+  verticalLayout.addComponent(titleLabel);
+  Label emptyLabel=new Label("");
+  emptyLabel.setHeight("1.5em");
+  verticalLayout.addComponent(emptyLabel);
+  addComponent(verticalLayout);
+}

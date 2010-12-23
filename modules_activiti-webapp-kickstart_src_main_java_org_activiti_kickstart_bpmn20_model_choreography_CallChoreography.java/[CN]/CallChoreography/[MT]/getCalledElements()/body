@@ -1,0 +1,14 @@
+{
+  List<BaseElement> calledElements=new ArrayList<BaseElement>();
+  if (calledChoreographyRef instanceof GlobalChoreographyTask) {
+    calledElements.add(calledChoreographyRef);
+  }
+ else   if (calledChoreographyRef instanceof Choreography) {
+    for (    FlowElement flowEl : calledChoreographyRef.getFlowElement()) {
+      if (flowEl instanceof CallingElement) {
+        calledElements.addAll(((CallingElement)flowEl).getCalledElements());
+      }
+    }
+  }
+  return calledElements;
+}

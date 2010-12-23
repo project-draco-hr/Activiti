@@ -1,0 +1,36 @@
+{
+  setModal(true);
+  setHeight("80%");
+  setWidth("80%");
+  center();
+  setCaption(TITLE);
+  StreamResource.StreamSource streamSource=null;
+  if (processDefinitionId != null) {
+    streamSource=new StreamSource(){
+      private static final long serialVersionUID=-8875067466181823014L;
+      public InputStream getStream(){
+        return adhocWorkflowService.getProcessImage(processDefinitionId);
+      }
+    }
+;
+  }
+ else   if (adhocWorkflow != null) {
+    final ProcessDiagramGenerator converter=new ProcessDiagramGenerator(adhocWorkflow);
+    streamSource=new StreamSource(){
+      private static final long serialVersionUID=239500411112658830L;
+      public InputStream getStream(){
+        return converter.execute();
+      }
+    }
+;
+  }
+  StreamResource imageresource=new StreamResource(streamSource,UUID.randomUUID() + ".png",viewManager.getApplication());
+  Panel panel=new Panel();
+  panel.setContent(new HorizontalLayout());
+  panel.setStyleName(Reindeer.PANEL_LIGHT);
+  panel.setHeight("95%");
+  Embedded embedded=new Embedded("",imageresource);
+  embedded.setType(Embedded.TYPE_IMAGE);
+  panel.addComponent(embedded);
+  addComponent(panel);
+}

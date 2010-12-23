@@ -1,0 +1,16 @@
+{
+  String[] content=serialized.split(",");
+  FormDto form=new FormDto();
+  form.setTitle(content[0].trim());
+  form.setDescription(content[1].trim());
+  String[] propertiesContent=content[2].split("@");
+  for (  String propertyContent : propertiesContent) {
+    content=propertyContent.split(";");
+    FormPropertyDto property=new FormPropertyDto();
+    property.setProperty(content[0]);
+    property.setType(content[1]);
+    property.setRequired(new Boolean(content[2]));
+    form.addFormProperty(property);
+  }
+  return form;
+}

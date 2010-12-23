@@ -1,0 +1,10 @@
+{
+  ArrayList<DataAssociation> dataAssociations=new ArrayList<DataAssociation>();
+  for (  Edge edge : this.getOutgoing()) {
+    if (edge instanceof DataAssociation && !(edge instanceof DataInputAssociation) && !(edge instanceof DataOutputAssociation))     dataAssociations.add((DataAssociation)edge);
+  }
+  for (  Edge edge : this.getIncoming()) {
+    if (edge instanceof DataAssociation && !(edge instanceof DataInputAssociation) && !(edge instanceof DataOutputAssociation))     dataAssociations.add((DataAssociation)edge);
+  }
+  return dataAssociations;
+}

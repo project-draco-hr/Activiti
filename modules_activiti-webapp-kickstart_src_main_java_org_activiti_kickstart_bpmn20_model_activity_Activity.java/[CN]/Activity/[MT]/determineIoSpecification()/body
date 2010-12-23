@@ -1,0 +1,45 @@
+{
+  InputSet inputSet=new InputSet();
+  inputSet.setName("DefaultInputSet");
+  inputSet.setId(UUIDGenerator.generate());
+  for (  DataInputAssociation dia : this.getDataInputAssociation()) {
+    if (dia.getSourceRef() instanceof DataInput) {
+      DataInput input=(DataInput)dia.getSourceRef();
+      for (      HashMap<String,IoOption> inputSetDesc : this.getInputSetInfo()) {
+        IoOption opt=inputSetDesc.get(input.getName());
+        if (opt != null) {
+          inputSet.getDataInputRefs().add(input);
+          if (opt.isOptional())           inputSet.getOptionalInputRefs().add(input);
+          if (opt.isWhileExecuting())           inputSet.getWhileExecutingInputRefs().add(input);
+        }
+      }
+    }
+  }
+  OutputSet outputSet=new OutputSet();
+  outputSet.setName("DefaultOutputSet");
+  outputSet.setId(UUIDGenerator.generate());
+  for (  DataOutputAssociation dia : this.getDataOutputAssociation()) {
+    if (dia.getTargetRef() instanceof DataOutput) {
+      DataOutput output=(DataOutput)dia.getTargetRef();
+      for (      HashMap<String,IoOption> outputSetDesc : this.getOutputSetInfo()) {
+        IoOption opt=outputSetDesc.get(output.getName());
+        if (opt != null) {
+          outputSet.getDataOutputRefs().add(output);
+          if (opt.isOptional())           outputSet.getOptionalOutputRefs().add(output);
+          if (opt.isWhileExecuting())           outputSet.getWhileExecutingOutputRefs().add(output);
+        }
+      }
+    }
+  }
+  inputSet.getOutputSetRefs().add(outputSet);
+  outputSet.getInputSetRefs().add(inputSet);
+  if (inputSet.getDataInputRefs().size() > 0 && outputSet.getDataOutputRefs().size() > 0) {
+    InputOutputSpecification ioSpec=new InputOutputSpecification();
+    ioSpec.setId(UUIDGenerator.generate());
+    ioSpec.getInputSet().add(inputSet);
+    ioSpec.getOutputSet().add(outputSet);
+    ioSpec.getDataInput();
+    ioSpec.getDataOutput();
+    this.setIoSpecification(ioSpec);
+  }
+}

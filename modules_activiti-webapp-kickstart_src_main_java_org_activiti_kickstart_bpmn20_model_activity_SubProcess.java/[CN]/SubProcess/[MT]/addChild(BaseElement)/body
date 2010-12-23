@@ -1,0 +1,12 @@
+{
+  if (child instanceof FlowElement) {
+    this.setSubProcess(this);
+  }
+  if (child instanceof Artifact) {
+    this.getArtifact().add((Artifact)child);
+    ((Artifact)child).setSubProcess(this);
+  }
+ else   if (child instanceof FlowElement) {
+    this.getFlowElement().add((FlowElement)child);
+  }
+}

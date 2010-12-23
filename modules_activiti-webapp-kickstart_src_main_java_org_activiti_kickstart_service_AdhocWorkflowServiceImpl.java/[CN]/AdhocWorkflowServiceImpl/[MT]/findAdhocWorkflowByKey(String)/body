@@ -1,0 +1,15 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey(key).latestVersion().singleResult();
+  InputStream is=null;
+  Definitions definitions=null;
+  try {
+    is=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),generateBpmnResourceName(processDefinition.getName()));
+    JAXBContext jc=JAXBContext.newInstance(Definitions.class);
+    Unmarshaller um=jc.createUnmarshaller();
+    definitions=(Definitions)um.unmarshal(is);
+  }
+  finally {
+    IoUtil.closeSilently(is);
+  }
+  return convertToAdhocWorkflow(processDefinition.getDeploymentId(),definitions);
+}

@@ -1,0 +1,14 @@
+{
+  taskBlocks=new ArrayList<TaskBlock>();
+  for (int i=0; i < tasks.size(); i++) {
+    TaskDto task=tasks.get(i);
+    if (task.getStartsWithPrevious() && (i != 0)) {
+      taskBlocks.get(taskBlocks.size() - 1).addTask(task);
+    }
+ else {
+      TaskBlock taskBlock=new TaskBlock();
+      taskBlock.addTask(task);
+      taskBlocks.add(taskBlock);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  List<TaskDto> tasks=new ArrayList<TaskDto>();
+  for (  Object itemId : getItemIds()) {
+    Item item=getItem(itemId);
+    TaskDto task=new TaskDto();
+    task.setName((String)item.getItemProperty("name").getValue());
+    task.setAssignee((String)item.getItemProperty("assignee").getValue());
+    task.setDescription((String)((TextField)item.getItemProperty("description").getValue()).getValue());
+    task.setStartWithPrevious((boolean)((CheckBox)item.getItemProperty("startWithPrevious").getValue()).booleanValue());
+    task.setForm(taskFormModel.getForm(itemId));
+    tasks.add(task);
+  }
+  return tasks;
+}

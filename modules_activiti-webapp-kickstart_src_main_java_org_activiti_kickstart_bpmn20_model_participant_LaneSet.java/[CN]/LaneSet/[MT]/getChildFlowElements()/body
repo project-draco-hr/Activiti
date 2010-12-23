@@ -1,0 +1,8 @@
+{
+  ArrayList<FlowElement> deepestFlowElements=new ArrayList<FlowElement>();
+  List<Lane> lanes=this.getDeepestLanes(this.getLanes());
+  for (  Lane lane : lanes) {
+    deepestFlowElements.addAll(lane.getFlowNodeRef());
+  }
+  return deepestFlowElements;
+}

@@ -1,0 +1,25 @@
+{
+  List<DataAssociation> dataAssociations=this.getUndirectedDataAssociations();
+  for (  DataAssociation dataAssociation : dataAssociations) {
+    AbstractDataObject dataObject=null;
+    if (dataAssociation.getSourceRef() instanceof AbstractDataObject) {
+      dataObject=(AbstractDataObject)dataAssociation.getSourceRef();
+    }
+ else     if (dataAssociation.getTargetRef() instanceof AbstractDataObject) {
+      dataObject=(AbstractDataObject)dataAssociation.getTargetRef();
+    }
+ else     continue;
+    DataInputAssociation dataInputAssociation=new DataInputAssociation(dataAssociation);
+    dataInputAssociation.setSourceRef(dataObject);
+    if (this.getTargetRef() != null && this.getTargetRef() instanceof Activity) {
+      dataInputAssociation.setTargetRef(this.getTargetRef());
+      ((Activity)this.getTargetRef()).getDataInputAssociation().add(dataInputAssociation);
+    }
+    DataOutputAssociation dataOutputAssociation=new DataOutputAssociation(dataAssociation);
+    dataOutputAssociation.setTargetRef(dataObject);
+    if (this.getSourceRef() != null && this.getSourceRef() instanceof Activity) {
+      dataOutputAssociation.setSourceRef(this.getSourceRef());
+      ((Activity)this.getSourceRef()).getDataOutputAssociation().add(dataOutputAssociation);
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  this.startX=0;
+  this.startY=calculateMaximumHeight() / 2 + 10;
+  this.currentWidth=0;
+  int width=calculateMaximumWidth() + 50;
+  int height=calculateMaximumHeight() + 50;
+  processDiagramCanvas=new ProcessDiagramCanvas(width,height);
+  Definitions definitions=adhocWorkflow.convertToBpmn20();
+  Process process=getProcess(definitions);
+  this.plane=getPlane(definitions);
+  List<FlowElement> flowElements=process.getFlowElement();
+  generateSequenceflowMappings(flowElements);
+  this.handledElements=new HashSet<String>();
+  for (  FlowElement flowElement : flowElements) {
+    if (!handledElements.contains(flowElement.getId())) {
+      if (flowElement instanceof StartEvent) {
+        drawStartEvent(flowElement,startX,startY,EVENT_WIDTH,EVENT_WIDTH);
+      }
+ else       if (flowElement instanceof EndEvent) {
+        drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
+        drawEndEvent(flowElement,currentWidth,startY,EVENT_WIDTH,EVENT_WIDTH);
+      }
+ else       if (flowElement instanceof ParallelGateway && outgoingSequenceFlowMapping.get(flowElement.getId()).size() > 1) {
+        ParallelGateway parallelGateway=(ParallelGateway)flowElement;
+        drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
+        drawParallelBlock(currentWidth,startY - EVENT_WIDTH / 2,parallelGateway);
+      }
+ else       if (flowElement instanceof UserTask) {
+        drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
+        drawUserTask(flowElement,currentWidth,startY - ((TASK_HEIGHT - EVENT_WIDTH) / 2),TASK_WIDTH,TASK_HEIGHT);
+      }
+    }
+  }
+  return processDiagramCanvas.generateImage("png");
+}

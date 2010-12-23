@@ -1,0 +1,13 @@
+{
+  int width=0;
+  for (  TaskBlock taskBlock : adhocWorkflow.getTaskBlocks()) {
+    if (taskBlock.getNrOfTasks() == 1) {
+      width+=TASK_WIDTH + SEQUENCE_FLOW_WIDTH;
+    }
+ else {
+      width+=TASK_BLOCK_WIDTH + SEQUENCE_FLOW_WIDTH;
+    }
+  }
+  width+=SEQUENCE_FLOW_WIDTH + 2 * EVENT_WIDTH;
+  return width;
+}
