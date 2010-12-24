@@ -5,18 +5,18 @@
     task.setDescription(userTask.getDocumentation().get(0).getText());
   }
   for (  ActivityResource activityResource : userTask.getActivityResource()) {
-    if (activityResource instanceof HumanPerformer) {
-      HumanPerformer humanPerformer=(HumanPerformer)activityResource;
-      List<String> content=humanPerformer.getResourceAssignmentExpression().getExpression().getContent();
-      if (!content.isEmpty()) {
-        task.setAssignee(content.get(0));
-      }
-    }
- else     if (activityResource instanceof PotentialOwner) {
+    if (activityResource instanceof PotentialOwner) {
       PotentialOwner potentialOwner=(PotentialOwner)activityResource;
       List<String> content=potentialOwner.getResourceAssignmentExpression().getExpression().getContent();
       if (!content.isEmpty()) {
         task.setGroups(content.get(0));
+      }
+    }
+ else     if (activityResource instanceof HumanPerformer) {
+      HumanPerformer humanPerformer=(HumanPerformer)activityResource;
+      List<String> content=humanPerformer.getResourceAssignmentExpression().getExpression().getContent();
+      if (!content.isEmpty()) {
+        task.setAssignee(content.get(0));
       }
     }
   }
