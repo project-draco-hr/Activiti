@@ -21,7 +21,6 @@
     actions.setSpacing(true);
     Button editButton=new Button("edit");
     editButton.setStyleName("link");
-    editButton.setIcon(editImage);
     editButton.setData(infoDto.getKey());
     editButton.addListener(new EditExistingAdhocWorkflowClickListener(viewManager,adhocWorkflowService));
     actions.addComponent(editButton);
@@ -33,7 +32,6 @@
     }
 ;
     Link bpmnXmlLink=new Link("get xml",new StreamResource(streamSource,infoDto.getKey() + ".bpmn20.xml",viewManager.getApplication()));
-    bpmnXmlLink.setIcon(xmlImage);
     actions.addComponent(bpmnXmlLink);
     workflowItem.getItemProperty("actions").setValue(actions);
   }
