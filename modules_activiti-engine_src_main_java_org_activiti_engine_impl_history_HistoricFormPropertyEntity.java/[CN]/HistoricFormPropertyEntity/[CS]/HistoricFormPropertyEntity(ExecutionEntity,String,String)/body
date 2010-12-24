@@ -1,11 +1,3 @@
 {
-  this.processInstanceId=execution.getProcessInstanceId();
-  this.executionId=execution.getId();
-  this.propertyId=propertyId;
-  this.propertyValue=propertyValue;
-  this.time=ClockUtil.getCurrentTime();
-  HistoricActivityInstanceEntity historicActivityInstance=CommandContext.getCurrentSession(HistorySession.class).findHistoricActivityInstance(execution.getActivityId(),processInstanceId);
-  if (historicActivityInstance != null) {
-    this.activityInstanceId=historicActivityInstance.getId();
-  }
+  this(execution,propertyId,propertyValue,null);
 }
