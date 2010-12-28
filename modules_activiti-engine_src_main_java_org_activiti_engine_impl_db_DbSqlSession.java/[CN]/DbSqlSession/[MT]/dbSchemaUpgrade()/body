@@ -19,13 +19,8 @@
     }
     int minorLibraryVersionNumber=Integer.parseInt(libraryVersion.substring(2));
     while (minorDbVersionNumber < minorLibraryVersionNumber) {
-      try {
-        upgradeStepStaticResource(minorDbVersionNumber);
-        upgradeStepJavaClass(minorDbVersionNumber);
-      }
- catch (      Exception e) {
-        log.fine("no upgrade step necessary for 5." + minorDbVersionNumber);
-      }
+      upgradeStepStaticResource(minorDbVersionNumber);
+      upgradeStepJavaClass(minorDbVersionNumber);
       minorDbVersionNumber++;
     }
   }

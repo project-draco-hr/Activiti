@@ -1,11 +1,20 @@
 {
+  String upgradestepClassName="org.activiti.engine.impl.db.upgrade.DbUpgradeStep5" + minorDbVersionNumber;
   DbUpgradeStep dbUpgradeStep=null;
   try {
-    dbUpgradeStep=(DbUpgradeStep)ReflectUtil.instantiate("org.activiti.engine.impl.db.upgrade.DbUpgradeStep5" + minorDbVersionNumber);
+    dbUpgradeStep=(DbUpgradeStep)ReflectUtil.instantiate(upgradestepClassName);
   }
  catch (  ActivitiException e) {
   }
   if (dbUpgradeStep != null) {
-    dbUpgradeStep.execute(this);
+    try {
+      dbUpgradeStep.execute(this);
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Error during " + upgradestepClassName + ": "+ e,e);
+    }
+  }
+ else {
+    log.fine("no upgrade class " + upgradestepClassName + " for upgrade step from 5."+ minorDbVersionNumber+ " to 5."+ (minorDbVersionNumber + 1));
   }
 }

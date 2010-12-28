@@ -3,11 +3,5 @@
   if ((jobExecutor != null) && (jobExecutor.isActive())) {
     jobExecutor.shutdown();
   }
-  commandExecutor.execute(new Command<Object>(){
-    public Object execute(    CommandContext commandContext){
-      commandContext.getSession(DbSqlSession.class).performSchemaOperationsProcessEngineClose(databaseSchemaUpdate);
-      return null;
-    }
-  }
-);
+  commandExecutor.execute(new SchemaOperationProcessEngineClose());
 }

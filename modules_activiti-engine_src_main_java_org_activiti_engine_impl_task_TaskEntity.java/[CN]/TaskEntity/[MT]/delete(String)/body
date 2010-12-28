@@ -13,7 +13,9 @@
     int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
     if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
       HistoricTaskInstanceEntity historicTaskInstance=dbSqlSession.selectById(HistoricTaskInstanceEntity.class,id);
-      historicTaskInstance.markEnded(deleteReason);
+      if (historicTaskInstance != null) {
+        historicTaskInstance.markEnded(deleteReason);
+      }
     }
     dbSqlSession.delete(TaskEntity.class,id);
   }

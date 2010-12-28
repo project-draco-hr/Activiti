@@ -12,7 +12,9 @@
     int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
     if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
       HistoricTaskInstanceEntity historicTaskInstance=commandContext.getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
-      historicTaskInstance.setAssignee(assignee);
+      if (historicTaskInstance != null) {
+        historicTaskInstance.setAssignee(assignee);
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 {
+  String ddlStatement=null;
   try {
     Connection connection=sqlSession.getConnection();
     Exception exception=null;
@@ -6,7 +7,7 @@
     String ddlStatements=new String(bytes);
     StringTokenizer tokenizer=new StringTokenizer(ddlStatements,";");
     while (tokenizer.hasMoreTokens()) {
-      String ddlStatement=tokenizer.nextToken().trim();
+      ddlStatement=tokenizer.nextToken().trim();
       if (!ddlStatement.startsWith("#")) {
         Statement jdbcStatement=connection.createStatement();
         try {
@@ -27,6 +28,6 @@
     log.fine("activiti db schema " + operation + " successful");
   }
  catch (  Exception e) {
-    throw new ActivitiException("couldn't " + operation + " db schema",e);
+    throw new ActivitiException("couldn't " + operation + " db schema: "+ ddlStatement,e);
   }
 }
