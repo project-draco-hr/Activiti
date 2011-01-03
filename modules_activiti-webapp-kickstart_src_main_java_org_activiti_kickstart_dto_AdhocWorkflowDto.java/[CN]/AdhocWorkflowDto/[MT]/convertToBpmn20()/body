@@ -71,7 +71,7 @@
   }
   AtomicInteger flowIndex=new AtomicInteger(1);
   AtomicInteger gatewayIndex=new AtomicInteger(1);
-  LinkedList<FlowElement> lastFlowElementOfBlockStack=new LinkedList<FlowElement>();
+  List<FlowElement> lastFlowElementOfBlockStack=new ArrayList<FlowElement>();
   lastFlowElementOfBlockStack.add(startEvent);
   for (int i=0; i < taskBlocks.size(); i++) {
     convertTaskBlockToBpmn20(process,flowIndex,gatewayIndex,UserTaskBlocks.get(i),lastFlowElementOfBlockStack);
@@ -79,6 +79,6 @@
   EndEvent endEvent=new EndEvent();
   endEvent.setId(END_NAME);
   process.getFlowElement().add(endEvent);
-  createSequenceFlow(process,flowIndex,lastFlowElementOfBlockStack.peekLast(),endEvent);
+  createSequenceFlow(process,flowIndex,getLast(lastFlowElementOfBlockStack),endEvent);
   return definitions;
 }

@@ -1,5 +1,5 @@
 {
-  SequenceFlow sequenceFlow=createSequenceFlow(process,flowIndex,lastFlowElementOfBlockStack.peekLast(),null);
+  SequenceFlow sequenceFlow=createSequenceFlow(process,flowIndex,getLast(lastFlowElementOfBlockStack),null);
   if (taskBlock.size() == 1) {
     UserTask userTask=taskBlock.get(0);
     sequenceFlow.setTargetRef(userTask);
