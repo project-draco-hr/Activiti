@@ -1,0 +1,13 @@
+{
+  runtimeService.startProcessInstanceByKey("HistoricTaskInstanceTest").getId();
+  Task task=taskService.createTaskQuery().singleResult();
+  task.setPriority(12345);
+  task.setDescription("Updated description");
+  task.setName("Updated name");
+  taskService.saveTask(task);
+  taskService.complete(task.getId());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().count());
+  HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
+  assertEquals("Updated description",historicTaskInstance.getDescription());
+  assertEquals("Updated name",historicTaskInstance.getDescription());
+}
