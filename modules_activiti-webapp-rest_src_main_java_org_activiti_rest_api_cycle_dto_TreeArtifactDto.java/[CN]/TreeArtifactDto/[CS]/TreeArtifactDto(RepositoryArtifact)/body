@@ -1,0 +1,37 @@
+{
+  super(artifact);
+  this.expanded=String.valueOf(Boolean.TRUE);
+  if (artifact.getArtifactType().getName().equals("image/png") || artifact.getArtifactType().getName().equals("image/gif") || artifact.getArtifactType().getName().equals("image/jpeg")) {
+    this.labelStyle="icon-img";
+  }
+ else   if (artifact.getArtifactType().getName().equals("application/xml")) {
+    this.labelStyle="icon-code-red";
+  }
+ else   if (artifact.getArtifactType().getName().equals("text/html")) {
+    this.labelStyle="icon-www";
+  }
+ else   if (artifact.getArtifactType().getName().equals("text/plain")) {
+    this.labelStyle="icon-txt";
+  }
+ else   if (artifact.getArtifactType().getName().equals("application/pdf")) {
+    this.labelStyle="icon-pdf";
+  }
+ else   if (artifact.getArtifactType().getName().equals("application/json;charset=UTF-8")) {
+    this.labelStyle="icon-code-blue";
+  }
+ else   if (artifact.getArtifactType().getName().equals("application/msword")) {
+    this.labelStyle="icon-doc";
+  }
+ else   if (artifact.getArtifactType().getName().equals("application/powerpoint")) {
+    this.labelStyle="icon-ppt";
+  }
+ else   if (artifact.getArtifactType().getName().equals("application/excel")) {
+    this.labelStyle="icon-xls";
+  }
+ else   if (artifact.getArtifactType().getName().equals("application/javascript")) {
+    this.labelStyle="icon-code-blue";
+  }
+ else {
+    this.labelStyle="icon-blank";
+  }
+}

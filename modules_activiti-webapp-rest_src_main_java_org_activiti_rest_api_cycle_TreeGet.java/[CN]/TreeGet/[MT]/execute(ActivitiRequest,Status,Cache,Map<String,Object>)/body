@@ -1,0 +1,48 @@
+{
+  RepositoryNodeCollection rootNodes=this.repositoryService.getChildren("/","");
+  List<TreeFolderDto> tree=new ArrayList<TreeFolderDto>();
+  for (  RepositoryNode repositoryNode : rootNodes.asList()) {
+    tree.add(new TreeFolderDto((RepositoryFolder)repositoryNode));
+  }
+  String connectorId=req.getString("connectorId");
+  String nodeId=req.getString("nodeId");
+  if (connectorId != null && nodeId != null) {
+    RepositoryNode node=this.repositoryService.getRepositoryNode(connectorId,nodeId);
+    TreeNodeDto nodeDto;
+    if (node instanceof RepositoryArtifact) {
+      nodeDto=new TreeArtifactDto((RepositoryArtifact)node);
+    }
+ else {
+      nodeDto=new TreeFolderDto((RepositoryFolder)node);
+      nodeDto.setExpanded(String.valueOf(Boolean.TRUE));
+    }
+    String parentFolderId=node.getMetadata().getParentFolderId();
+    while (parentFolderId != null && !parentFolderId.equals("/")) {
+      node=this.repositoryService.getRepositoryNode(connectorId,parentFolderId);
+      TreeFolderDto parentNodeDto=new TreeFolderDto((RepositoryFolder)node);
+      parentNodeDto.setExpanded(String.valueOf(Boolean.TRUE));
+      List<TreeNodeDto> dtoChildren=new ArrayList<TreeNodeDto>();
+      for (      RepositoryNode currentNode : this.repositoryService.getChildren(connectorId,node.getNodeId()).asList()) {
+        if (currentNode.getNodeId().equals(nodeDto.getArtifactId())) {
+          dtoChildren.add(nodeDto);
+        }
+ else         if (currentNode instanceof RepositoryArtifact) {
+          dtoChildren.add(new TreeArtifactDto((RepositoryArtifact)currentNode));
+        }
+ else {
+          dtoChildren.add(new TreeFolderDto((RepositoryFolder)currentNode));
+        }
+      }
+      parentNodeDto.setChildren(dtoChildren);
+      parentFolderId=node.getMetadata().getParentFolderId();
+      nodeDto=parentNodeDto;
+    }
+    for (    TreeNodeDto treeNode : tree) {
+      if (treeNode.getConnectorId().equals(connectorId)) {
+        ((TreeFolderDto)treeNode).setChildren(((TreeFolderDto)nodeDto).getChildren());
+        treeNode.setExpanded(String.valueOf(Boolean.TRUE));
+      }
+    }
+  }
+  model.put("tree",tree);
+}
