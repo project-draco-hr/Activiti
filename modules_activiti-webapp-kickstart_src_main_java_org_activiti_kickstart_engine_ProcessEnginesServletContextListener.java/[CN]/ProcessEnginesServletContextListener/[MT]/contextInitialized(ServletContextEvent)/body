@@ -1,3 +1,12 @@
 {
   ProcessEngines.init();
+  ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
+  if (processEngine == null) {
+    LOGGER.warning("Could not construct a process engine for KickStart. " + "Please verify if your activiti.cfg.xml configuration is correct.");
+    if ("true".equals(System.getProperty("KickStartDebugInMem"))) {
+      LOGGER.info("KickStartDebugInMem system property found. Switching to in memory Activiti configuratuon");
+      processEngine=StandaloneInMemProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration().buildProcessEngine();
+      ProcessEngines.registerProcessEngine(processEngine);
+    }
+  }
 }
