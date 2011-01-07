@@ -1,0 +1,10 @@
+{
+  DeploymentQueryImpl deploymentQuery=new DeploymentQueryImpl();
+  deploymentQuery.deploymentName(deploymentName).orderByDeploymenTime().asc();
+  List<Deployment> deployments=deploymentQuery.executeList(CommandContext.getCurrent(),new Page(0,1));
+  if (deployments.isEmpty()) {
+    throw new ActivitiException("no deployments with name " + deploymentName);
+  }
+  String deploymentId=deployments.get(0).getId();
+  return findKnowledgeBaseByDeploymentId(deploymentId);
+}

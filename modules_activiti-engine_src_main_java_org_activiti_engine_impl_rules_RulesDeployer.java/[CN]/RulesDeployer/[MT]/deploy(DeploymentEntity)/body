@@ -1,0 +1,22 @@
+{
+  KnowledgeBuilder knowledgeBuilder=null;
+  Map<String,ResourceEntity> resources=deployment.getResources();
+  for (  String resourceName : resources.keySet()) {
+    log.info("Processing resource " + resourceName);
+    if (resourceName.endsWith(".drl")) {
+      if (knowledgeBuilder == null) {
+        knowledgeBuilder=KnowledgeBuilderFactory.newKnowledgeBuilder();
+      }
+      ResourceEntity resourceEntity=resources.get(resourceName);
+      byte[] resourceBytes=resourceEntity.getBytes();
+      Resource droolsResource=ResourceFactory.newByteArrayResource(resourceBytes);
+      knowledgeBuilder.add(droolsResource,ResourceType.DRL);
+    }
+  }
+  if (knowledgeBuilder != null) {
+    KnowledgeBase knowledgeBase=knowledgeBuilder.newKnowledgeBase();
+    DbRepositorySessionFactory repositorySessionFactory=(DbRepositorySessionFactory)CommandContext.getCurrent().getProcessEngineConfiguration().getSessionFactories().get(RepositorySession.class);
+    Map<String,Object> knowledgeBaseCache=repositorySessionFactory.getKnowledgeBaseCache();
+    knowledgeBaseCache.put(deployment.getId(),knowledgeBase);
+  }
+}

@@ -1,0 +1,19 @@
+{
+  CommandContext commandContext=CommandContext.getCurrent();
+  DbRepositorySessionFactory repositorySessionFactory=(DbRepositorySessionFactory)commandContext.getProcessEngineConfiguration().getSessionFactories().get(RepositorySession.class);
+  Map<String,Object> knowledgeBaseCache=repositorySessionFactory.getKnowledgeBaseCache();
+  KnowledgeBase knowledgeBase=(KnowledgeBase)knowledgeBaseCache.get(deploymentId);
+  if (knowledgeBase == null) {
+    RepositorySession repositorySession=commandContext.getRepositorySession();
+    DeploymentEntity deployment=repositorySession.findDeploymentById(deploymentId);
+    if (deployment == null) {
+      throw new ActivitiException("no deployment with id " + deploymentId);
+    }
+    repositorySession.deploy(deployment);
+    knowledgeBase=(KnowledgeBase)knowledgeBaseCache.get(deploymentId);
+    if (knowledgeBase == null) {
+      throw new ActivitiException("deployment " + deploymentId + " doesn't contain any rules");
+    }
+  }
+  return knowledgeBase;
+}
