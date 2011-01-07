@@ -1,0 +1,12 @@
+{
+  if (deployment.isNew()) {
+    dbSqlSession.insert(deployment);
+    for (    ResourceEntity resource : deployment.getResources().values()) {
+      resource.setDeploymentId(deployment.getId());
+      dbSqlSession.insert(resource);
+    }
+  }
+  for (  Deployer deployer : dbRepositorySessionFactory.getDeployers()) {
+    deployer.deploy(deployment);
+  }
+}

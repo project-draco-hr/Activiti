@@ -4,7 +4,8 @@
   processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get(processDefinitionId);
   if (processDefinition == null) {
     DeploymentEntity deployment=findDeploymentById(deploymentId);
-    deployExisting(deployment);
+    deployment.setNew(false);
+    deploy(deployment);
     processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get(processDefinitionId);
   }
   return processDefinition;
