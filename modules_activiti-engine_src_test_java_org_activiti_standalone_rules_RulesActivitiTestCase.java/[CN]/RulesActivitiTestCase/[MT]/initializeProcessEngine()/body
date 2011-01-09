@@ -1,9 +1,0 @@
-{
-  processEngine=cachedProcessEngines.get(activitiConfigurationResource);
-  if (processEngine == null) {
-    processEngine=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(activitiConfigurationResource).buildProcessEngine();
-    List<Deployer> deployersList=((ProcessEngineConfigurationImpl)((ProcessEngineImpl)processEngine).getProcessEngineConfiguration()).getDeployers();
-    deployersList.add(new RulesDeployer());
-    cachedProcessEngines.put(activitiConfigurationResource,processEngine);
-  }
-}
