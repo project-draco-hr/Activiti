@@ -1,0 +1,14 @@
+{
+  Map<String,Object> variableMap=new HashMap<String,Object>();
+  Order order=new Order();
+  order.setItemCount(2);
+  variableMap.put("order",order);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("rulesDeployment",variableMap);
+  assertNotNull(processInstance);
+  assertEquals("rulesDeployment:1",processInstance.getProcessDefinitionId());
+  Collection<Object> ruleOutputList=(Collection<Object>)runtimeService.getVariable(processInstance.getId(),"rulesOutput");
+  assertNotNull(ruleOutputList);
+  assertEquals(1,ruleOutputList.size());
+  order=(Order)ruleOutputList.iterator().next();
+  assertTrue(order.isValid());
+}
