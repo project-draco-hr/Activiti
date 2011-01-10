@@ -1,7 +1,6 @@
 {
   if (activityHistoryEnabled(activity)) {
-    String activityType=activityElement.getTagName();
-    activity.addExecutionListener(ExecutionListener.EVENTNAME_START,new ActivityInstanceStartHandler(activityType));
-    activity.addExecutionListener(ExecutionListener.EVENTNAME_END,new ActivityInstanceEndHandler());
+    activity.addExecutionListener(ExecutionListener.EVENTNAME_START,ACTIVITY_INSTANCE_START_LISTENER);
+    activity.addExecutionListener(ExecutionListener.EVENTNAME_END,ACTIVITI_INSTANCE_END_LISTENER);
   }
 }
