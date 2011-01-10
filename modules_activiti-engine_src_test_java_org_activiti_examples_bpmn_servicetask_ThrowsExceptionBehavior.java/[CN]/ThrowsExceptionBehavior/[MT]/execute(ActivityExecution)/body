@@ -1,0 +1,12 @@
+{
+  String var=(String)execution.getVariable("var");
+  PvmTransition transition=null;
+  try {
+    executeLogic(var);
+    transition=execution.getActivity().findOutgoingTransition("no-exception");
+  }
+ catch (  Exception e) {
+    transition=execution.getActivity().findOutgoingTransition("exception");
+  }
+  execution.take(transition);
+}
