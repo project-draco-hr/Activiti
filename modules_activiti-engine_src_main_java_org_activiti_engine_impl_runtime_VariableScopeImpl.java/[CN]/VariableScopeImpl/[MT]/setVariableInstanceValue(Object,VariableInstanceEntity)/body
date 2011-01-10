@@ -5,7 +5,6 @@
   if (historyLevel == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
     DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
     HistoricVariableUpdateEntity historicVariableUpdate=new HistoricVariableUpdateEntity(variableInstance,dbSqlSession);
-    initializeActivityInstanceId(historicVariableUpdate);
     dbSqlSession.insert(historicVariableUpdate);
   }
 }

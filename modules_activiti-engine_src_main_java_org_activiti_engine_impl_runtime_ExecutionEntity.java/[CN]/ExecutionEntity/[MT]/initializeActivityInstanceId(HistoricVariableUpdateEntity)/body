@@ -1,9 +1,0 @@
-{
-  int historyLevel=CommandContext.getCurrent().getProcessEngineConfiguration().getHistoryLevel();
-  if (HistoryParseListener.fullHistoryEnabled(getActivity(),historyLevel)) {
-    HistoricActivityInstanceEntity historicActivityInstance=ActivityInstanceEndHandler.findActivityInstance(this);
-    if (historicActivityInstance != null) {
-      historicVariableUpdate.setActivityInstanceId(historicActivityInstance.getId());
-    }
-  }
-}
