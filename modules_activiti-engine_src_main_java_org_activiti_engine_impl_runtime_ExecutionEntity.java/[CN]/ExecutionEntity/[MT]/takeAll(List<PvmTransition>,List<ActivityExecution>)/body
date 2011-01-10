@@ -10,16 +10,29 @@
   }
   ExecutionEntity concurrentRoot=((isConcurrent && !isScope) ? getParent() : this);
   List<ExecutionEntity> concurrentActiveExecutions=new ArrayList<ExecutionEntity>();
+  List<ExecutionEntity> concurrentInActiveExecutions=new ArrayList<ExecutionEntity>();
   for (  ExecutionEntity execution : concurrentRoot.getExecutions()) {
     if (execution.isActive()) {
       concurrentActiveExecutions.add(execution);
+    }
+ else {
+      concurrentInActiveExecutions.add(execution);
     }
   }
   if (log.isLoggable(Level.FINE)) {
     log.fine("transitions to take concurrent: " + transitions);
     log.fine("active concurrent executions: " + concurrentActiveExecutions);
   }
-  if ((transitions.size() == 1) && (concurrentActiveExecutions.isEmpty())) {
+  boolean allInSameActivity=true;
+  if (concurrentInActiveExecutions.size() > 1) {
+    String activityId=concurrentInActiveExecutions.get(0).getActivityId();
+    for (    ExecutionEntity execution : concurrentInActiveExecutions) {
+      if (!execution.isEnded && !execution.getActivityId().equals(activityId)) {
+        allInSameActivity=false;
+      }
+    }
+  }
+  if ((transitions.size() == 1) && (concurrentActiveExecutions.isEmpty()) && allInSameActivity) {
     List<ExecutionEntity> recyclableExecutionImpls=(List)recyclableExecutions;
     for (    ExecutionEntity prunedExecution : recyclableExecutionImpls) {
       if (!prunedExecution.isEnded()) {
@@ -36,7 +49,7 @@
  else {
     List<OutgoingExecution> outgoingExecutions=new ArrayList<OutgoingExecution>();
     recyclableExecutions.remove(concurrentRoot);
-    log.fine("recyclable executions for reused: " + recyclableExecutions);
+    log.fine("recyclable executions for reuse: " + recyclableExecutions);
     while (!transitions.isEmpty()) {
       PvmTransition outgoingTransition=transitions.remove(0);
       ExecutionEntity outgoingExecution=null;
