@@ -1,0 +1,29 @@
+{
+  List<String> result=new ArrayList<String>();
+  if (s != null && !"".equals(s)) {
+    StringCharacterIterator iterator=new StringCharacterIterator(s);
+    char c=iterator.first();
+    StringBuilder strb=new StringBuilder();
+    boolean insideExpression=false;
+    while (c != StringCharacterIterator.DONE) {
+      if (c == '{' || c == '$') {
+        insideExpression=true;
+      }
+ else       if (c == '}') {
+        insideExpression=false;
+      }
+ else       if (c == ',' && !insideExpression) {
+        result.add(strb.toString().trim());
+        strb.delete(0,strb.length());
+      }
+      if (c != ',' || (insideExpression)) {
+        strb.append(c);
+      }
+      c=iterator.next();
+    }
+    if (strb.length() > 0) {
+      result.add(strb.toString().trim());
+    }
+  }
+  return result;
+}

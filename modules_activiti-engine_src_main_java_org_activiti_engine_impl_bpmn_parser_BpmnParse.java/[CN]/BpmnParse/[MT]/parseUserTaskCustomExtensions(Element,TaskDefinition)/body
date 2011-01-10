@@ -10,14 +10,14 @@
   }
   String candidateUsersString=taskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,CANDIDATE_USERS_EXTENSION);
   if (candidateUsersString != null) {
-    String[] candidateUsers=candidateUsersString.split(",");
+    List<String> candidateUsers=parseCommaSeparatedList(candidateUsersString);
     for (    String candidateUser : candidateUsers) {
       taskDefinition.addCandidateUserIdExpression(expressionManager.createExpression(candidateUser.trim()));
     }
   }
   String candidateGroupsString=taskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,CANDIDATE_GROUPS_EXTENSION);
   if (candidateGroupsString != null) {
-    String[] candidateGroups=candidateGroupsString.split(",");
+    List<String> candidateGroups=parseCommaSeparatedList(candidateGroupsString);
     for (    String candidateGroup : candidateGroups) {
       taskDefinition.addCandidateGroupIdExpression(expressionManager.createExpression(candidateGroup.trim()));
     }

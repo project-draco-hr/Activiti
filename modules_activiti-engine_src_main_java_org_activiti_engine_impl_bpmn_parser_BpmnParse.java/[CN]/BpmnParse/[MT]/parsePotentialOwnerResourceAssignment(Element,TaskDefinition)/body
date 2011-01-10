@@ -3,7 +3,7 @@
   if (raeElement != null) {
     Element feElement=raeElement.element(FORMAL_EXPRESSION);
     if (feElement != null) {
-      String[] assignmentExpressions=splitCommaSeparatedExpression(feElement.getText());
+      List<String> assignmentExpressions=parseCommaSeparatedList(feElement.getText());
       for (      String assignmentExpression : assignmentExpressions) {
         assignmentExpression=assignmentExpression.trim();
         if (assignmentExpression.startsWith(USER_PREFIX)) {
