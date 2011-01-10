@@ -1,5 +1,6 @@
 {
-  StartFormData startFormData=formService.getStartFormData("FormPropertyDetails:1");
+  String procDefId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  StartFormData startFormData=formService.getStartFormData(procDefId);
   FormProperty property=startFormData.getFormProperties().get(0);
   assertEquals("speaker",property.getId());
   assertNull(property.getValue());

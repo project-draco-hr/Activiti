@@ -1,5 +1,6 @@
 {
-  Object startForm=formService.getRenderedStartForm("vacationRequest:1");
+  String procDefId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  Object startForm=formService.getRenderedStartForm(procDefId);
   assertNotNull(startForm);
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   String processDefinitionId=processDefinition.getId();
@@ -8,7 +9,7 @@
   formProperties.put("employeeName","kermit");
   formProperties.put("numberOfDays","4");
   formProperties.put("vacationMotivation","I'm tired");
-  formService.submitStartFormData("vacationRequest:1",formProperties);
+  formService.submitStartFormData(procDefId,formProperties);
   Task task=taskService.createTaskQuery().taskCandidateGroup("management").singleResult();
   assertEquals("Vacation request by kermit",task.getDescription());
   Object taskForm=formService.getRenderedTaskForm(task.getId());

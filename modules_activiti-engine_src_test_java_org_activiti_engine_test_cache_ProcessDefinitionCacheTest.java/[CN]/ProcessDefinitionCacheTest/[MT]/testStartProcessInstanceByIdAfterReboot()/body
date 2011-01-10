@@ -4,7 +4,7 @@
   processEngineConfiguration.setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000");
   ProcessEngine schemaProcessEngine=processEngineConfiguration.buildProcessEngine();
   ProcessEngine processEngine=new StandaloneProcessEngineConfiguration().setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
-  processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/engine/test/db/EngineRebootProcessDefinitionCacheTest.bpmn20.xml").deploy();
+  processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/engine/test/cache/originalProcess.bpmn20.xml").deploy();
   List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().createProcessDefinitionQuery().list();
   assertEquals(1,processDefinitions.size());
   ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinitions.get(0).getId());

@@ -44,7 +44,7 @@
       }
       processDefinition.setVersion(processDefinitionVersion);
       processDefinition.setDeploymentId(deployment.getId());
-      String processDefinitionId=processDefinition.getKey() + ":" + processDefinition.getVersion();
+      String processDefinitionId=processDefinition.getKey() + ":" + processDefinition.getVersion()+ ":"+ idGenerator.getNextId();
       if (processDefinitionId.length() > 64) {
         throw new ActivitiException("Invalid process definition id: '" + processDefinitionId + "': id can be maximum 64 characters");
       }

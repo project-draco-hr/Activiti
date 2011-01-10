@@ -3,7 +3,8 @@
   properties.put("room","5b");
   properties.put("speaker","Mike");
   properties.put("duration","45");
-  String processInstanceId=formService.submitStartFormData("FormPropertyHandlingProcess:1",properties).getId();
+  String procDefId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  String processInstanceId=formService.submitStartFormData(procDefId,properties).getId();
   Map<String,Object> expectedVariables=new HashMap<String,Object>();
   expectedVariables.put("room","5b");
   expectedVariables.put("SpeakerName","Mike");

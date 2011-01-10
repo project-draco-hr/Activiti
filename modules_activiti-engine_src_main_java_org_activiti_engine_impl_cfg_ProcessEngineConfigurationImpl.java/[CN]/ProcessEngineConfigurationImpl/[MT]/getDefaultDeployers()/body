@@ -2,6 +2,7 @@
   List<Deployer> defaultDeployers=new ArrayList<Deployer>();
   BpmnDeployer bpmnDeployer=new BpmnDeployer();
   bpmnDeployer.setExpressionManager(expressionManager);
+  bpmnDeployer.setIdGenerator(idGenerator);
   BpmnParser bpmnParser=new BpmnParser(expressionManager);
   if (preParseListeners != null) {
     bpmnParser.getParseListeners().addAll(preParseListeners);
