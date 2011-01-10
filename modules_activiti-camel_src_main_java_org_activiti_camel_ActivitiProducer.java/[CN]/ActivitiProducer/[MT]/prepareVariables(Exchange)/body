@@ -1,0 +1,12 @@
+{
+  Map<String,Object> ret=new HashMap<String,Object>();
+  Map<?,?> m=exchange.getIn().getBody(Map.class);
+  if (m != null) {
+    for (    Map.Entry e : m.entrySet()) {
+      if (e.getKey() instanceof String) {
+        ret.put((String)e.getKey(),e.getValue());
+      }
+    }
+  }
+  return ret;
+}

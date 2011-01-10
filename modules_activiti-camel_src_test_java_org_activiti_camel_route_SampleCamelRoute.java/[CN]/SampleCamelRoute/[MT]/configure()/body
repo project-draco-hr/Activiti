@@ -1,0 +1,5 @@
+{
+  from("activiti:camelProcess:serviceTask").setBody().property("var1").to("mock:service1");
+  from("direct:start").to("activiti:camelProcess");
+  from("direct:receive").to("activiti:camelProcess:receive");
+}

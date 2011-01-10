@@ -1,0 +1,9 @@
+{
+  if (shouldStartProcess()) {
+    ProcessInstance pi=startProcess(exchange);
+    exchange.getOut().setBody(pi.getId());
+  }
+ else {
+    signal(exchange);
+  }
+}

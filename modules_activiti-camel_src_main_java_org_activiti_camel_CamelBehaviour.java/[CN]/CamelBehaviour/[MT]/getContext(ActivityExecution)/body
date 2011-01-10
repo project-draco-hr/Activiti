@@ -1,0 +1,11 @@
+{
+  String processName=getProcessName(execution);
+  String names="";
+  for (  ContextProvider provider : contextProviders) {
+    CamelContext ctx=provider.getContext(processName);
+    if (ctx != null) {
+      return ctx;
+    }
+  }
+  throw new RuntimeException("Could not find camel context for " + processName + " names are "+ names);
+}

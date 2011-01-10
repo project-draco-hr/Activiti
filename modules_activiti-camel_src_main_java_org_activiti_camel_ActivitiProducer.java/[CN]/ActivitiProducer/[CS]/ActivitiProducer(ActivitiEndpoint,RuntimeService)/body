@@ -1,0 +1,9 @@
+{
+  super(endpoint);
+  this.runtimeService=runtimeService;
+  String[] path=endpoint.getEndpointUri().split(":");
+  processKey=path[1].replace("//","");
+  if (path.length > 2) {
+    activity=path[2];
+  }
+}

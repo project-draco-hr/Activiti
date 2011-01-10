@@ -1,0 +1,10 @@
+{
+  CamelContext ctx=applicationContext.getBean(CamelContext.class);
+  ProducerTemplate tpl=ctx.createProducerTemplate();
+  MockEndpoint me=(MockEndpoint)ctx.getEndpoint("mock:service1");
+  me.expectedBodiesReceived("ala");
+  String instanceId=(String)tpl.requestBody("direct:start",Collections.singletonMap("var1","ala"));
+  tpl.sendBodyAndProperty("direct:receive",null,ActivitiProducer.PROCESS_ID_PROPERTY,instanceId);
+  assertProcessEnded(instanceId);
+  me.assertIsSatisfied();
+}

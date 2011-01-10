@@ -1,0 +1,9 @@
+{
+  String processInstanceId=findProcessInstanceId(exchange);
+  Execution execution=runtimeService.createExecutionQuery().processDefinitionKey(processKey).processInstanceId(processInstanceId).activityId(activity).singleResult();
+  if (execution == null) {
+    throw new RuntimeException("Couldn't find activity for processId " + processInstanceId);
+  }
+  runtimeService.setVariables(execution.getId(),prepareVariables(exchange));
+  runtimeService.signal(execution.getId());
+}
