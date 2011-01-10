@@ -1,5 +1,5 @@
 {
-  if (determineHistoryLevel(activity) >= ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
-    activity.addExecutionListener(ExecutionListener.EVENTNAME_END,AUTOMATIC_ACTIVITY_INSTANCE_HANDLER);
+  if (fullHistoryEnabled(scope.getProcessDefinition(),historyLevel)) {
+    activity.addExecutionListener(ExecutionListener.EVENTNAME_END,START_EVENT_END_HANDLER);
   }
 }

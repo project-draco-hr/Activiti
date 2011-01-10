@@ -3,8 +3,8 @@
   variables.put("stringVar","activiti rocks!");
   variables.put("longVar",12345L);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",variables);
-  assertEquals(2,historyService.createHistoricDetailQuery().variableUpdates().activityId(null).count());
-  assertEquals(0,historyService.createHistoricDetailQuery().variableUpdates().activityId("unexisting").count());
+  assertEquals(2,historyService.createHistoricDetailQuery().variableUpdates().activityInstanceId(null).count());
+  assertEquals(0,historyService.createHistoricDetailQuery().variableUpdates().activityInstanceId("unexisting").count());
   assertEquals(2,historyService.createHistoricDetailQuery().variableUpdates().processInstanceId(processInstance.getId()).count());
   assertEquals(0,historyService.createHistoricDetailQuery().variableUpdates().processInstanceId("unexisting").count());
 }

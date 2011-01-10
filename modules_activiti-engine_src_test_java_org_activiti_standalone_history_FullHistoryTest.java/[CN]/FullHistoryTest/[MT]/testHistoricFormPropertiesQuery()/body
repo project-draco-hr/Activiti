@@ -4,8 +4,8 @@
   formProperties.put("longVar","12345");
   ProcessDefinition procDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").singleResult();
   ProcessInstance processInstance=formService.submitStartFormData(procDef.getId(),formProperties);
-  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().activityId(null).count());
-  assertEquals(0,historyService.createHistoricDetailQuery().formProperties().activityId("unexisting").count());
+  assertEquals(2,historyService.createHistoricDetailQuery().formProperties().activityInstanceId(null).count());
+  assertEquals(0,historyService.createHistoricDetailQuery().formProperties().activityInstanceId("unexisting").count());
   assertEquals(2,historyService.createHistoricDetailQuery().formProperties().processInstanceId(processInstance.getId()).count());
   assertEquals(0,historyService.createHistoricDetailQuery().formProperties().processInstanceId("unexisting").count());
   Task task=taskService.createTaskQuery().singleResult();

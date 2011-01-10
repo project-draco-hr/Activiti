@@ -1,0 +1,13 @@
+{
+  String executionId=execution.getId();
+  String activityId=((ExecutionEntity)execution).getActivityId();
+  CommandContext commandContext=CommandContext.getCurrent();
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=dbSqlSession.findInCache(HistoricActivityInstanceEntity.class);
+  for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
+    if (executionId.equals(cachedHistoricActivityInstance.getExecutionId()) && (activityId.equals(cachedHistoricActivityInstance.getActivityId())) && (cachedHistoricActivityInstance.getEndTime() == null)) {
+      cachedHistoricActivityInstance.markEnded(null);
+      return;
+    }
+  }
+}
