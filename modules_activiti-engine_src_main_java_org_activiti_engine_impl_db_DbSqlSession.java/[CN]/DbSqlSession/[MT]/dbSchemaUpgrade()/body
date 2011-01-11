@@ -12,6 +12,9 @@
     }
     String dbHistoryValue=dbHistoryProperty.getValue() + " upgrade(" + dbVersion+ "->"+ ProcessEngine.VERSION+ ")";
     dbHistoryProperty.setValue(dbHistoryValue);
+    if (dbVersion.endsWith("-SNAPSHOT")) {
+      dbVersion=dbVersion.substring(0,dbVersion.length() - "-SNAPSHOT".length());
+    }
     int minorDbVersionNumber=Integer.parseInt(dbVersion.substring(2));
     String libraryVersion=ProcessEngine.VERSION;
     if (ProcessEngine.VERSION.endsWith("-SNAPSHOT")) {
