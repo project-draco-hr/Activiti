@@ -1,0 +1,16 @@
+{
+  for (  Element errorElement : rootElement.elements("error")) {
+    Error error=new Error();
+    String id=errorElement.attribute("id");
+    if (id == null) {
+      addError("'id' is mandatory on error definition",errorElement);
+    }
+    error.setId(id);
+    String errorCode=errorElement.attribute("errorCode");
+    if (errorCode == null) {
+      addError("'errorCode' is mandatory on error definition",errorElement);
+    }
+    error.setErrorCode(errorCode);
+    errors.put(id,error);
+  }
+}

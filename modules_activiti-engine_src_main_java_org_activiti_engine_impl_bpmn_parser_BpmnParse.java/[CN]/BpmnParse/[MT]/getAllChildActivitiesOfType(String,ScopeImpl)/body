@@ -1,0 +1,10 @@
+{
+  List<ActivityImpl> children=new ArrayList<ActivityImpl>();
+  for (  ActivityImpl childActivity : scope.getActivities()) {
+    if (type.equals(childActivity.getProperty("type"))) {
+      children.add(childActivity);
+    }
+    children.addAll(getAllChildActivitiesOfType(type,childActivity));
+  }
+  return children;
+}

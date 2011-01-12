@@ -8,7 +8,7 @@
     }
     interruptedExecutions=new ArrayList<ExecutionEntity>(executionImpl.getExecutions());
     for (    ExecutionEntity interruptedExecution : interruptedExecutions) {
-      interruptedExecution.deleteCascade("interrupting timer event '" + execution.getActivity().getId() + "' fired");
+      interruptedExecution.deleteCascade("interrupting boundary event '" + execution.getActivity().getId() + "' fired");
     }
   }
   execution.takeAll(outgoingTransitions,(List)interruptedExecutions);

@@ -15,9 +15,15 @@
     ActivityImpl nestedActivity=parseAndCreateActivityOnScopeElement(boundaryEventElement,parentActivity);
     String cancelActivity=boundaryEventElement.attribute("cancelActivity","true");
     boolean interrupting=cancelActivity.equals("true") ? true : false;
+    BoundaryEventActivityBehavior behavior=new BoundaryEventActivityBehavior(interrupting);
+    nestedActivity.setActivityBehavior(behavior);
     Element timerEventDefinition=boundaryEventElement.element("timerEventDefinition");
+    Element errorEventDefinition=boundaryEventElement.element("errorEventDefinition");
     if (timerEventDefinition != null) {
       parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,nestedActivity);
+    }
+ else     if (errorEventDefinition != null) {
+      parseBoundaryErrorEventDefinition(errorEventDefinition,interrupting,parentActivity,nestedActivity);
     }
  else {
       addError("Unsupported boundary event type",boundaryEventElement);

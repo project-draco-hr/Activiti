@@ -1,7 +1,5 @@
 {
   timerActivity.setProperty("type","boundaryTimer");
-  BoundaryTimerEventActivity boundaryTimerEventActivity=new BoundaryTimerEventActivity();
-  boundaryTimerEventActivity.setInterrupting(interrupting);
   Element timeDuration=timerEventDefinition.element("timeDuration");
   String timeDurationText=null;
   if (timeDuration != null) {
@@ -13,7 +11,6 @@
   if (timerActivity.getParent() instanceof ActivityImpl) {
     ((ActivityImpl)timerActivity.getParent()).setScope(true);
   }
-  timerActivity.setActivityBehavior(boundaryTimerEventActivity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,timerActivity);
   }

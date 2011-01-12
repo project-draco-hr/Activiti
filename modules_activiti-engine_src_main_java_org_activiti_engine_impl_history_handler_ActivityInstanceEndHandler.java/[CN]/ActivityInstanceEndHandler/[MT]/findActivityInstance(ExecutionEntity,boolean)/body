@@ -5,7 +5,7 @@
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=dbSqlSession.findInCache(HistoricActivityInstanceEntity.class);
   for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
-    if (executionId.equals(cachedHistoricActivityInstance.getExecutionId()) && (activityId.equals(cachedHistoricActivityInstance.getActivityId())) && (cachedHistoricActivityInstance.getEndTime() == null)) {
+    if (executionId.equals(cachedHistoricActivityInstance.getExecutionId()) && activityId != null && (activityId.equals(cachedHistoricActivityInstance.getActivityId())) && (cachedHistoricActivityInstance.getEndTime() == null)) {
       return cachedHistoricActivityInstance;
     }
   }

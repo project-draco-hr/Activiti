@@ -1,7 +1,24 @@
 {
   for (  Element endEventElement : parentElement.elements("endEvent")) {
     ActivityImpl activity=parseAndCreateActivityOnScopeElement(endEventElement,scope);
-    activity.setActivityBehavior(new NoneEndEventActivity());
+    Element errorEventDefinition=endEventElement.element("errorEventDefinition");
+    if (errorEventDefinition != null) {
+      String errorRef=errorEventDefinition.attribute("errorRef");
+      if (errorRef == null || "".equals(errorRef)) {
+        addError("'errorRef' attribute is mandatory on error end event",errorEventDefinition);
+      }
+ else {
+        Error error=errors.get(errorRef);
+        if (error == null) {
+          addError("Invalid 'errorRef' " + errorRef + ": error is not defined",errorEventDefinition);
+        }
+        activity.setProperty("type","errorEndEvent");
+        activity.setActivityBehavior(new ErrorEndEventActivityBehavior(error.getErrorCode()));
+      }
+    }
+ else {
+      activity.setActivityBehavior(new NoneEndEventActivity());
+    }
     for (    BpmnParseListener parseListener : parseListeners) {
       parseListener.parseEndEvent(endEventElement,scope,activity);
     }
