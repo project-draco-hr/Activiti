@@ -2,6 +2,6 @@
   JAXBContext jaxbContext=JAXBContext.newInstance(Definitions.class);
   Marshaller marshaller=jaxbContext.createMarshaller();
   StringWriter writer=new StringWriter();
-  marshaller.marshal(adhocWorkflow.convertToBpmn20(),writer);
+  marshaller.marshal(adhocWorkflow.toBpmn20Xml(),writer);
   return writer.toString();
 }

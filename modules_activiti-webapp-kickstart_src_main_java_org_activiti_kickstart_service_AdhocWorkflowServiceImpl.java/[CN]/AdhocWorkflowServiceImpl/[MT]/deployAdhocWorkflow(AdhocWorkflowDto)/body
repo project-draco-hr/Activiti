@@ -8,7 +8,7 @@
   for (  TaskDto task : adhocWorkflow.getTasks()) {
     FormDto form=task.getForm();
     if (form != null) {
-      deploymentBuilder.addString(task.generateDefaultFormName(),form.convertToHtml());
+      deploymentBuilder.addString(task.generateDefaultFormName(),form.toHtml());
       deploymentBuilder.addString(task.generateDefaultFormName() + ".internal",form.toString());
     }
   }
