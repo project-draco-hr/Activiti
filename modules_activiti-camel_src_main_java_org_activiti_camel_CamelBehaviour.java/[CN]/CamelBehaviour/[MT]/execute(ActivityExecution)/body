@@ -1,5 +1,7 @@
 {
   ActivitiEndpoint ae=createEndpoint(execution);
-  ae.process(createExchange(execution));
+  Exchange ex=createExchange(execution,ae);
+  ae.process(ex);
+  execution.setVariables(ExchangeUtils.prepareVariables(ex,ae));
   performDefaultOutgoingBehavior(execution);
 }

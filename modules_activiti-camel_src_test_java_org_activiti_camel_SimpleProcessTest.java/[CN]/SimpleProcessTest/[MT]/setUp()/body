@@ -1,5 +1,7 @@
 {
   CamelContext ctx=applicationContext.getBean(CamelContext.class);
-  MockEndpoint me=(MockEndpoint)ctx.getEndpoint("mock:service1");
-  me.reset();
+  service1=(MockEndpoint)ctx.getEndpoint("mock:service1");
+  service1.reset();
+  service2=(MockEndpoint)ctx.getEndpoint("mock:service2");
+  service2.reset();
 }

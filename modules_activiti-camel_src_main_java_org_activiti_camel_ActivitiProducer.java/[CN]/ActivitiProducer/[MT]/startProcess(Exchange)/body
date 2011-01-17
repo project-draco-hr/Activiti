@@ -1,9 +1,9 @@
 {
   String key=exchange.getProperty(PROCESS_KEY_PROPERTY,String.class);
   if (key == null) {
-    return runtimeService.startProcessInstanceByKey(processKey,prepareVariables(exchange));
+    return runtimeService.startProcessInstanceByKey(processKey,ExchangeUtils.prepareVariables(exchange,getActivitiEndpoint()));
   }
  else {
-    return runtimeService.startProcessInstanceByKey(processKey,key,prepareVariables(exchange));
+    return runtimeService.startProcessInstanceByKey(processKey,key,ExchangeUtils.prepareVariables(exchange,getActivitiEndpoint()));
   }
 }

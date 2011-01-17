@@ -1,0 +1,13 @@
+{
+  Exchange ex=new DefaultExchange(getContext(activityExecution));
+  Map<String,Object> variables=activityExecution.getVariables();
+  if (endpoint.isCopyVariablesToProperties()) {
+    for (    Map.Entry<String,Object> var : variables.entrySet()) {
+      ex.setProperty(var.getKey(),var.getValue());
+    }
+  }
+  if (endpoint.isCopyVariablesToBody()) {
+    ex.getIn().setBody(new HashMap<String,Object>(variables));
+  }
+  return ex;
+}

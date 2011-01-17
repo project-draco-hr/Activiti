@@ -1,8 +1,4 @@
 {
-  String uri="activiti:" + getProcessName(execution) + ":"+ execution.getActivity().getId();
-  ActivitiEndpoint ae=(ActivitiEndpoint)getContext(execution).getEndpoint(uri);
-  if (ae == null) {
-    throw new RuntimeException("Activiti endpoint not defined for " + uri);
-  }
-  return ae;
+  String uri="activiti://" + getProcessName(execution) + ":"+ execution.getActivity().getId();
+  return getEndpoint(getContext(execution),uri);
 }
