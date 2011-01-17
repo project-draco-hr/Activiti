@@ -2,11 +2,14 @@
   nestedErrorEventActivity.setProperty("type","boundaryError");
   ((ActivityImpl)nestedErrorEventActivity.getParent()).setScope(true);
   String errorRef=errorEventDefinition.attribute("errorRef");
-  Error error=errors.get(errorRef);
+  Error error=null;
+  if (errorRef != null) {
+    error=errors.get(errorRef);
+  }
   List<ActivityImpl> childErrorEndEvents=getAllChildActivitiesOfType("errorEndEvent",activity);
   for (  ActivityImpl errorEndEvent : childErrorEndEvents) {
     ErrorEndEventActivityBehavior behavior=(ErrorEndEventActivityBehavior)errorEndEvent.getActivityBehavior();
-    if (error == null || error.getErrorCode().equals(behavior.getErrorCode())) {
+    if (errorRef == null || errorRef.equals(behavior.getErrorCode()) || (error != null && error.getErrorCode().equals(behavior.getErrorCode()))) {
       ActivityImpl catchingActivity=null;
       if (behavior.getBorderEventActivityId() != null) {
         catchingActivity=activity.getProcessDefinition().findActivity(behavior.getBorderEventActivityId());

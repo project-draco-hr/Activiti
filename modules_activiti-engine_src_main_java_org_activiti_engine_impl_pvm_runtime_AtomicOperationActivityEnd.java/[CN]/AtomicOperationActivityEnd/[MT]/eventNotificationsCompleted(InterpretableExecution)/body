@@ -31,6 +31,15 @@
       if (!lastConcurrent.isScope()) {
         concurrentRoot.setActivity((ActivityImpl)lastConcurrent.getActivity());
         lastConcurrent.setReplacedBy(concurrentRoot);
+        if (lastConcurrent.getExecutions().size() > 0) {
+          concurrentRoot.getExecutions().clear();
+          for (          ActivityExecution childExecution : lastConcurrent.getExecutions()) {
+            InterpretableExecution childInterpretableExecution=(InterpretableExecution)childExecution;
+            ((List)concurrentRoot.getExecutions()).add(childExecution);
+            childInterpretableExecution.setParent(concurrentRoot);
+          }
+          lastConcurrent.getExecutions().clear();
+        }
         lastConcurrent.remove();
       }
  else {

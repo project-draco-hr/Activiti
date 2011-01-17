@@ -1,5 +1,7 @@
 {
-  ProcessInstance pi=runtimeService.startProcessInstanceByKey("nestedSimpleSubProcess");
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("nestedSimpleSubProcess",CollectionUtil.singletonMap("someVar","abc"));
+  runtimeService.deleteProcessInstance(pi.getId(),"deleted");
+  pi=runtimeService.startProcessInstanceByKey("nestedSimpleSubProcess");
   Task subProcessTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
   taskService.complete(subProcessTask.getId());

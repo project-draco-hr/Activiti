@@ -9,11 +9,8 @@
       }
  else {
         Error error=errors.get(errorRef);
-        if (error == null) {
-          addError("Invalid 'errorRef' " + errorRef + ": error is not defined",errorEventDefinition);
-        }
         activity.setProperty("type","errorEndEvent");
-        activity.setActivityBehavior(new ErrorEndEventActivityBehavior(error.getErrorCode()));
+        activity.setActivityBehavior(new ErrorEndEventActivityBehavior(error != null ? error.getErrorCode() : errorRef));
       }
     }
  else {

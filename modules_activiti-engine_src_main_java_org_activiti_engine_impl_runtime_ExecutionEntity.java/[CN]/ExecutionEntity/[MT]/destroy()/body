@@ -1,19 +1,7 @@
 {
   log.fine("destroying " + this);
-  ScopeImpl scope=getScope();
   ensureParentInitialized();
-  List<VariableDeclaration> variableDeclarations=(List<VariableDeclaration>)scope.getProperty(BpmnParse.PROPERTYNAME_VARIABLE_DECLARATIONS);
-  if (variableDeclarations != null) {
-    for (    VariableDeclaration variableDeclaration : variableDeclarations) {
-      variableDeclaration.destroy(this,parent);
-    }
-  }
-  if (variableInstances != null) {
-    removeVariablesLocal();
-  }
-  List<TimerDeclarationImpl> timerDeclarations=(List<TimerDeclarationImpl>)scope.getProperty(BpmnParse.PROPERTYNAME_TIMER_DECLARATION);
-  if (timerDeclarations != null) {
-    CommandContext.getCurrent().getTimerSession().cancelTimers(this);
-  }
+  removeVariablesLocal();
+  removeVariables();
   setScope(false);
 }

@@ -1,0 +1,10 @@
+{
+  String procId=runtimeService.startProcessInstanceByKey("deeplyNestedErrorThrown",CollectionUtil.singletonMap("input",1)).getId();
+  assertProcessEnded(procId);
+  HistoricProcessInstance hip=historyService.createHistoricProcessInstanceQuery().processInstanceId(procId).singleResult();
+  assertEquals("processEnd1",hip.getEndActivityId());
+  procId=runtimeService.startProcessInstanceByKey("deeplyNestedErrorThrown",CollectionUtil.singletonMap("input",1)).getId();
+  assertProcessEnded(procId);
+  hip=historyService.createHistoricProcessInstanceQuery().processInstanceId(procId).singleResult();
+  assertEquals("processEnd1",hip.getEndActivityId());
+}
