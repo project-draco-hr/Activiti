@@ -1,6 +1,5 @@
 {
-  ActivityImpl activity=execution.getActivity();
-  ActivityImpl borderEventActivity=activity.getProcessDefinition().findActivity(configuration);
+  ActivityImpl borderEventActivity=execution.getProcessDefinition().findActivity(configuration);
   if (borderEventActivity == null) {
     throw new ActivitiException("Error while firing timer: border event activity " + configuration + " not found");
   }

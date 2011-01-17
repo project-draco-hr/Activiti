@@ -7,7 +7,7 @@
   while (outgoingSeqFlow == null && transitionIterator.hasNext()) {
     PvmTransition seqFlow=transitionIterator.next();
     Condition condition=(Condition)seqFlow.getProperty(BpmnParse.PROPERTYNAME_CONDITION);
-    if (condition == null || condition.evaluate(execution)) {
+    if ((condition == null && !seqFlow.getId().equals(defaultSequenceFlow)) || (condition != null && condition.evaluate(execution))) {
       if (log.isLoggable(Level.FINE)) {
         log.fine("Sequence flow '" + seqFlow.getId() + " '"+ "selected as outgoing sequence flow.");
       }
@@ -18,6 +18,17 @@
     execution.take(outgoingSeqFlow);
   }
  else {
-    throw new ActivitiException("No outgoing sequence flow of the exclusive gateway '" + execution.getActivity().getId() + "' could be selected for continuing the process");
+    if (defaultSequenceFlow != null) {
+      PvmTransition defaultTransition=execution.getActivity().findOutgoingTransition(defaultSequenceFlow);
+      if (defaultTransition != null) {
+        execution.take(defaultTransition);
+      }
+ else {
+        throw new ActivitiException("Default sequence flow '" + defaultSequenceFlow + "' not found");
+      }
+    }
+ else {
+      throw new ActivitiException("No outgoing sequence flow of the exclusive gateway '" + execution.getActivity().getId() + "' could be selected for continuing the process");
+    }
   }
 }

@@ -1,0 +1,12 @@
+{
+  nextOperations.add(executionOperation);
+  if (nextOperations.size() == 1) {
+    while (!nextOperations.isEmpty()) {
+      AtomicOperation currentOperation=nextOperations.removeFirst();
+      if (log.isLoggable(Level.FINEST)) {
+        log.finest("AtomicOperation: " + currentOperation + " on "+ this);
+      }
+      currentOperation.execute(execution);
+    }
+  }
+}

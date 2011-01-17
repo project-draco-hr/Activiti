@@ -1,14 +1,38 @@
 {
-  if (catchingActivityId == null) {
+  if (borderEventActivityId == null) {
     LOG.info(execution.getActivity().getId() + " throws error event with errorCode '" + errorCode+ "', but no catching boundary event was defined. "+ "Execution will simply be ended (none end event semantics).");
     execution.end();
   }
  else {
     ProcessDefinitionImpl processDefinition=((ExecutionEntity)execution).getProcessDefinition();
-    ActivityImpl catchingActivity=processDefinition.findActivity(catchingActivityId);
-    if (catchingActivity == null) {
-      throw new ActivitiException(catchingActivityId + " not found in process definition");
+    ActivityImpl borderEventActivity=processDefinition.findActivity(borderEventActivityId);
+    if (borderEventActivity == null) {
+      throw new ActivitiException(borderEventActivityId + " not found in process definition");
     }
-    execution.executeActivity(catchingActivity);
+    ActivityImpl catchingScope=borderEventActivity.getParentActivity();
+    if (catchingScope == null) {
+      throw new ActivitiException(borderEventActivityId + " is suppossed to be a nested activity, " + "but no parent activity can be found.");
+    }
+    boolean matchingParentFound=false;
+    ActivityExecution parentExecution=execution;
+    ActivityImpl parentActivity=(ActivityImpl)execution.getActivity().getParent();
+    while (!matchingParentFound && parentExecution != null && parentActivity != null) {
+      if (parentExecution.isScope() && !parentExecution.isConcurrent() && parentActivity.getId().equals(catchingScope.getId())) {
+        matchingParentFound=true;
+      }
+ else       if (parentExecution.isConcurrent()) {
+        parentExecution=parentExecution.getParent();
+      }
+ else       if (parentExecution.isScope()) {
+        parentActivity=parentActivity.getParentActivity();
+        parentExecution=parentExecution.getParent();
+      }
+    }
+    if (matchingParentFound && parentExecution != null) {
+      parentExecution.executeActivity(borderEventActivity);
+    }
+ else {
+      throw new ActivitiException("No matching parent execution for activity " + borderEventActivityId + " found");
+    }
   }
 }

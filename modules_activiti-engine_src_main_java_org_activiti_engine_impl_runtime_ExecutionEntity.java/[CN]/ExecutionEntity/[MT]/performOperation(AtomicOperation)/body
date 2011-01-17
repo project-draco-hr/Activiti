@@ -1,15 +1,3 @@
 {
-  this.nextOperation=executionOperation;
-  if (!isOperating) {
-    isOperating=true;
-    while (nextOperation != null) {
-      AtomicOperation currentOperation=this.nextOperation;
-      this.nextOperation=null;
-      if (log.isLoggable(Level.FINEST)) {
-        log.finest("AtomicOperation: " + currentOperation + " on "+ this);
-      }
-      currentOperation.execute(this);
-    }
-    isOperating=false;
-  }
+  CommandContext.getCurrent().performOperation(executionOperation,this);
 }
