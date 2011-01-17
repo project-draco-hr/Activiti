@@ -1,15 +1,3 @@
 {
-  Ellipse2D outerCircle=new Ellipse2D.Double(x,y,width,height);
-  int innerCircleX=x + 3;
-  int innerCircleY=y + 3;
-  int innerCircleWidth=width - 6;
-  int innerCircleHeight=height - 6;
-  Ellipse2D innerCircle=new Ellipse2D.Double(innerCircleX,innerCircleY,innerCircleWidth,innerCircleHeight);
-  Paint originalPaint=g.getPaint();
-  g.setPaint(BOUNDARY_EVENT_COLOR);
-  g.fill(outerCircle);
-  g.setPaint(originalPaint);
-  g.draw(outerCircle);
-  g.draw(innerCircle);
-  g.drawImage(TIMER_IMAGE,innerCircleX,innerCircleY,innerCircleWidth,innerCircleHeight,null);
+  drawCatchingEvent(x,y,width,height,TIMER_IMAGE);
 }

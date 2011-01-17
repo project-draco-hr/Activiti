@@ -8,7 +8,7 @@
     processInstance.setBusinessKey(businessKey);
   }
   processInstance.setProcessInstance(processInstance);
-  String initiatorVariableName=(String)getProperty("initiatorVariableName");
+  String initiatorVariableName=(String)getProperty(BpmnParse.PROPERTYNAME_INITIATOR_VARIABLE_NAME);
   if (initiatorVariableName != null) {
     String authenticatedUserId=Authentication.getAuthenticatedUserId();
     processInstance.setVariable(initiatorVariableName,authenticatedUserId);
