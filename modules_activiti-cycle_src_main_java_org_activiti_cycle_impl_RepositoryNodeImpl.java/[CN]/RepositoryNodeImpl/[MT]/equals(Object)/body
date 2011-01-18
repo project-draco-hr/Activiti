@@ -1,0 +1,15 @@
+{
+  if (this == obj)   return true;
+  if (obj == null)   return false;
+  if (getClass() != obj.getClass())   return false;
+  RepositoryNodeImpl other=(RepositoryNodeImpl)obj;
+  if (connectorId == null) {
+    if (other.connectorId != null)     return false;
+  }
+ else   if (!connectorId.equals(other.connectorId))   return false;
+  if (nodeId == null) {
+    if (other.nodeId != null)     return false;
+  }
+ else   if (!nodeId.equals(other.nodeId))   return false;
+  return true;
+}

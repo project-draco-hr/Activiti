@@ -1,12 +1,10 @@
 {
   Map<String,String> result=new HashMap<String,String>();
-  try {
-    Class<? extends RepositoryConnectorConfiguration> configuration=(Class<? extends RepositoryConnectorConfiguration>)Class.forName(configurationClazzName);
-    addFields(result,configuration);
+  RepositoryConnector connector=CycleComponentFactory.getCycleComponentInstance(connectorPluginName,RepositoryConnector.class);
+  for (  String key : connector.getConfigurationKeys()) {
+    result.put(key,"");
   }
- catch (  ClassNotFoundException e) {
-    log.log(Level.WARNING,"could not get configuration fields " + e.getMessage(),e);
-    throw new RuntimeException(e);
-  }
+  result.put(KEY_NAME,"");
+  result.put(KEY_ID,"");
   return result;
 }

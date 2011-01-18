@@ -1,10 +1,6 @@
 {
-  if (!getConfiguration().isLoginRequired()) {
+  if (!getConfigValue(CONFIG_KEY_LOGIN_REQUIRED,Boolean.class)) {
     return true;
-  }
-  if (getConfiguration().isCredentialsSaved()) {
-    username=getConfiguration().getUser();
-    password=getConfiguration().getPassword();
   }
   String token=null;
   try {
@@ -20,7 +16,7 @@
     token=representation.getText();
   }
  catch (  Exception ex) {
-    throw new RepositoryException("Error during login to connector '" + getConfiguration().getName() + "'",ex);
+    throw new RepositoryException("Error during login to connector '" + getName() + "'",ex);
   }
   if (token.matches("[a-f0-9]{32}")) {
     setSecurityToken(token);

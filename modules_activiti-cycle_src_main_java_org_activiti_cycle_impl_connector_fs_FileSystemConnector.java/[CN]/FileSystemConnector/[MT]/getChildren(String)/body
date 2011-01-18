@@ -4,7 +4,7 @@
   List<RepositoryNode> childNodes=new ArrayList<RepositoryNode>();
   try {
     if (parentId == null || parentId.length() == 0 || "/".equals(parentId)) {
-      path=getConfiguration().getBasePath() + "/";
+      path=getBasePath() + "/";
       children=new File(path).listFiles();
     }
  else {
@@ -23,7 +23,7 @@
     }
   }
  catch (  Exception ex) {
-    throw new RepositoryNodeNotFoundException(getConfiguration().getName(),RepositoryFolder.class,parentId,ex);
+    throw new RepositoryNodeNotFoundException(getName(),RepositoryFolder.class,parentId,ex);
   }
   return new RepositoryNodeCollectionImpl(childNodes);
 }

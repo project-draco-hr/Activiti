@@ -1,0 +1,15 @@
+{
+  String pluginId=null;
+  for (  List<RepositoryConnectorConfiguration> configurationList : configurationMap.values()) {
+    for (int i=0; i < configurationList.size(); i++) {
+      if (i == 0) {
+        pluginId=configurationList.get(0).getPluginId();
+      }
+ else {
+        if (configurationList.get(i).getPluginId() == null || !configurationList.get(i).getPluginId().equals(pluginId)) {
+          throw new RuntimeException("The pluginId of all connectors with the same 'connectorId' must be the same for a given user.");
+        }
+      }
+    }
+  }
+}

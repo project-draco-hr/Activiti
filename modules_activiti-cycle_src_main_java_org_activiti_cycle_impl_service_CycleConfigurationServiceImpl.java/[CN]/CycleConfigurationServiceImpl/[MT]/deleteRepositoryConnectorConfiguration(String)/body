@@ -1,24 +1,3 @@
 {
-  String currentUserId=getCurrentUserId();
-  if (connectorConfigurationId == null)   throw new IllegalArgumentException("values must not be null");
-  if (currentUserId == null)   throw new IllegalArgumentException("currentUserId must not be null");
-  try {
-    ConfigurationContainer configurationContainer=getConfigurationContainer();
-    RepositoryConnectorConfiguration repositoryConnectorConfiguration=null;
-    for (    RepositoryConnectorConfiguration thisConfiguration : configurationContainer.getConnectorConfigurations()) {
-      if (!connectorConfigurationId.equals(thisConfiguration.getId()))       continue;
-      repositoryConnectorConfiguration=thisConfiguration;
-      break;
-    }
-    if (repositoryConnectorConfiguration == null) {
-      throw new RepositoryException("Could not locate connectorConfiguration with id '" + connectorConfigurationId + "' for user '"+ currentUserId+ "'.");
-    }
-    configurationContainer.removeRepositoryConnectorConfiguration(repositoryConnectorConfiguration);
-    cycleConfigurationDao.saveConfiguration(configurationContainer);
-    RuntimeConnectorList runtimeConnectorList=CycleSessionContext.get(RuntimeConnectorList.class);
-    runtimeConnectorList.discardConnectors();
-  }
- catch (  Exception e) {
-    throw new RepositoryException("Error while deleting config for user " + e.getMessage(),e);
-  }
+  throw new RuntimeException("Deleting Configurations is bot yet implemented");
 }

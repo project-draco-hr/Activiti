@@ -1,0 +1,20 @@
+{
+  try {
+    Map<String,String> result=getConfigurationFields(connectorPluginName);
+    for (    Entry<String,Object> entry : repositoryConnectorConfiguration.getConfigurationValues().entrySet()) {
+      if (entry.getValue() != null) {
+        result.put(entry.getKey(),entry.getValue().toString());
+      }
+ else {
+        result.put(entry.getKey(),"");
+      }
+    }
+    result.put(KEY_NAME,repositoryConnectorConfiguration.getInstanceName());
+    result.put(KEY_ID,repositoryConnectorConfiguration.getConnectorId());
+    return result;
+  }
+ catch (  Exception e) {
+    log.log(Level.WARNING,"could not set fieldvalues " + e.getMessage(),e);
+    throw new RuntimeException(e);
+  }
+}

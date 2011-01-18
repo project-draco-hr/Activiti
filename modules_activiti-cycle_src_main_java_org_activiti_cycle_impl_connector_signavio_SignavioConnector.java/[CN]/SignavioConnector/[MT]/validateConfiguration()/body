@@ -1,0 +1,14 @@
+{
+  String path=(String)getConfigValue(CONFIG_KEY_SIGNAVIO_BASE_URL);
+  if (path != null && !path.endsWith("/")) {
+    path=path + "/";
+  }
+  setConfigValue(CONFIG_KEY_SIGNAVIO_BASE_URL,path);
+  String type=getConfigValue(CONFIG_KEY_TYPE,String.class);
+  if ("oryx".equals(type)) {
+    configuration=new OryxConnectorConfiguration(this);
+  }
+ else {
+    configuration=new SignavioConnectorConfiguration(this);
+  }
+}

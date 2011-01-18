@@ -1,7 +1,12 @@
 {
+  String[] availableConnectorClasses=CycleComponentFactory.getAvailableComponentsForType(RepositoryConnector.class);
   Map<String,String> result=new HashMap<String,String>();
-  for (  String classname : getConfiguredRepositoryConnectors().keySet()) {
-    result.put(classname.substring(classname.lastIndexOf(".") + 1),classname);
+  for (  String componentName : availableConnectorClasses) {
+    String name=componentName;
+    if (componentName.contains(".")) {
+      name=componentName.substring(componentName.lastIndexOf(".") + 1);
+    }
+    result.put(name,componentName);
   }
   return result;
 }

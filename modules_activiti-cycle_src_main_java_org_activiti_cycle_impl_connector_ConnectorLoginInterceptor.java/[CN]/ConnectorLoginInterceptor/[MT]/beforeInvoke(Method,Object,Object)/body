@@ -1,15 +1,9 @@
 {
   RepositoryConnector connector=(RepositoryConnector)object;
-  if ("setConfiguration".equals(m.getName())) {
-    return;
-  }
-  if ("getConfiguration".equals(m.getName())) {
-    return;
-  }
-  if ("login".equals(m.getName())) {
+  if (ignoredMethods.contains(m.getName())) {
     return;
   }
   if (!connector.isLoggedIn()) {
-    throw new RepositoryAuthenticationException("Connector '" + connector.getConfiguration().getName() + "' is not logged in ",connector.getConfiguration().getId());
+    throw new RepositoryAuthenticationException("Connector '" + connector.getName() + "' is not logged in ",connector.getId());
   }
 }

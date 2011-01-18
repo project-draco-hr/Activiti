@@ -1,8 +1,8 @@
 {
   ArrayList<RepositoryNode> nodes=new ArrayList<RepositoryNode>();
   for (  RepositoryConnector connector : getRuntimeRepositoryConnectors()) {
-    RepositoryFolderImpl folder=new RepositoryFolderImpl(connector.getConfiguration().getId(),"/");
-    folder.getMetadata().setName(connector.getConfiguration().getName());
+    RepositoryFolderImpl folder=new RepositoryFolderImpl(connector.getId(),"/");
+    folder.getMetadata().setName(connector.getName());
     folder.getMetadata().setParentFolderId("/");
     nodes.add(folder);
   }

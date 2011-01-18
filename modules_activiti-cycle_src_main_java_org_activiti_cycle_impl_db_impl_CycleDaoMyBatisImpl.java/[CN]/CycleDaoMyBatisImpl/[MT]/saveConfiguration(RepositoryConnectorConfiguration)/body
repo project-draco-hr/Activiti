@@ -1,0 +1,22 @@
+{
+  SqlSession session=openSession();
+  try {
+    CycleRepositoryConnectorConfigurationEntity entity=CycleRepositoryConnectorConfigurationEntity.fromRepositoryConnectorConfiguration((RepositoryConnectorConfigurationImpl)configuration);
+    if (null != entity.getId()) {
+      session.update("updateCycleRepositoryConnectorConfigurationById",entity);
+    }
+ else {
+      entity.setId(UUID.randomUUID().toString());
+      session.insert("insertRepositoryConnectorConfiguration",entity);
+    }
+    session.commit();
+  }
+ catch (  Exception e) {
+    log.log(Level.WARNING,"Could not update " + configuration,e);
+    session.rollback();
+    throw new RuntimeException(e);
+  }
+ finally {
+    session.close();
+  }
+}
