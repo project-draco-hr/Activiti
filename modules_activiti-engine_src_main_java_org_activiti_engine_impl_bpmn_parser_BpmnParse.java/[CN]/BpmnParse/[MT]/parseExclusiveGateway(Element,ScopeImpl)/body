@@ -1,8 +1,6 @@
 {
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(exclusiveGwElement,scope);
-  ExclusiveGatewayActivityBehavior behavior=new ExclusiveGatewayActivityBehavior();
-  behavior.setDefaultSequenceFlow(exclusiveGwElement.attribute("default"));
-  activity.setActivityBehavior(behavior);
+  activity.setActivityBehavior(new ExclusiveGatewayActivityBehavior());
   parseExecutionListenersOnScope(exclusiveGwElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseExclusiveGateway(exclusiveGwElement,scope,activity);

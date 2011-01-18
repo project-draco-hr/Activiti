@@ -3,6 +3,7 @@
     log.fine("Leaving activity '" + execution.getActivity().getId() + "'");
   }
   PvmTransition outgoingSeqFlow=null;
+  String defaultSequenceFlow=(String)execution.getActivity().getProperty("default");
   Iterator<PvmTransition> transitionIterator=execution.getActivity().getOutgoingTransitions().iterator();
   while (outgoingSeqFlow == null && transitionIterator.hasNext()) {
     PvmTransition seqFlow=transitionIterator.next();
