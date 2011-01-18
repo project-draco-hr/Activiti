@@ -4,6 +4,7 @@
   if (calledElement == null) {
     addError("Missing attribute 'calledElement'",callActivityElement);
   }
+  activity.setScope(true);
   activity.setActivityBehavior(new CallActivityBehaviour(calledElement));
   parseExecutionListenersOnScope(callActivityElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {

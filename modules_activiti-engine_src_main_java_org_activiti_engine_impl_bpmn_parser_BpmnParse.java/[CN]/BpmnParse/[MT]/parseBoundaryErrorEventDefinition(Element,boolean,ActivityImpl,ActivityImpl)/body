@@ -5,6 +5,7 @@
   Error error=null;
   if (errorRef != null) {
     error=errors.get(errorRef);
+    nestedErrorEventActivity.setProperty("errorCode",error == null ? errorRef : error.getErrorCode());
   }
   List<ActivityImpl> childErrorEndEvents=getAllChildActivitiesOfType("errorEndEvent",activity);
   for (  ActivityImpl errorEndEvent : childErrorEndEvents) {

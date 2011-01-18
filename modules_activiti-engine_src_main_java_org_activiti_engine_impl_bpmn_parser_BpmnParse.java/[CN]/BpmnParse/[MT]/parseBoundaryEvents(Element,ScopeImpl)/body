@@ -14,7 +14,7 @@
     }
     ActivityImpl nestedActivity=parseAndCreateActivityOnScopeElement(boundaryEventElement,parentActivity);
     String cancelActivity=boundaryEventElement.attribute("cancelActivity","true");
-    boolean interrupting=cancelActivity.equals("true") ? true : false;
+    boolean interrupting=true;
     BoundaryEventActivityBehavior behavior=new BoundaryEventActivityBehavior(interrupting);
     nestedActivity.setActivityBehavior(behavior);
     Element timerEventDefinition=boundaryEventElement.element("timerEventDefinition");
