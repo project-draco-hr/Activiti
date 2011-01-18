@@ -7,10 +7,9 @@
   }
   String username=null;
   String password=null;
-  if (connector.getConfiguration() instanceof PasswordEnabledRepositoryConnectorConfiguration) {
-    PasswordEnabledRepositoryConnectorConfiguration passwordEnabledRepositoryConnectorConfiguration=(PasswordEnabledRepositoryConnectorConfiguration)connector.getConfiguration();
-    username=passwordEnabledRepositoryConnectorConfiguration.getUser();
-    password=passwordEnabledRepositoryConnectorConfiguration.getPassword();
+  if (connector instanceof PasswordEnabledRepositoryConnector) {
+    username=((PasswordEnabledRepositoryConnector)connector).getUsername();
+    password=((PasswordEnabledRepositoryConnector)connector).getPassword();
   }
   try {
     CycleServiceFactory.getRepositoryService().login(username,password,connectorId);
