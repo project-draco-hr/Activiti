@@ -12,5 +12,6 @@
       deploymentBuilder.addString(task.generateDefaultFormName() + ".internal",form.toString());
     }
   }
-  deploymentBuilder.deploy();
+  Deployment deployment=deploymentBuilder.deploy();
+  return deployment.getId();
 }
