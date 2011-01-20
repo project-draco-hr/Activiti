@@ -30,6 +30,8 @@
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%johndoe%").count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDeleteReason(TaskEntity.DELETE_REASON_COMPLETED).count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDeleteReason("deleted").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("task").count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("unexistingkey").count());
   runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().finished().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().unfinished().count());
