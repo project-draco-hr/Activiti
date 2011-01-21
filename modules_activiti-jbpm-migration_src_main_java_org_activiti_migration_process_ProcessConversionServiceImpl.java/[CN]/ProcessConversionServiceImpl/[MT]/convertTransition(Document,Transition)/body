@@ -1,0 +1,9 @@
+{
+  Element sequenceFlowElement=processDefinitionDocument.createElement(SEQUENCE_FLOW_TAG);
+  if (transition.getName() != null) {
+    sequenceFlowElement.setAttribute("id",transition.getName());
+  }
+  sequenceFlowElement.setAttribute("sourceRef",transition.getFrom().getName());
+  sequenceFlowElement.setAttribute("targetRef",transition.getTo().getName());
+  return sequenceFlowElement;
+}

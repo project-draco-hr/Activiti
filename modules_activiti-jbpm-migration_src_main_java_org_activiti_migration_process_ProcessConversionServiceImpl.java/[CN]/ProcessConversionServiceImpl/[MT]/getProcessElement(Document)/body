@@ -1,0 +1,10 @@
+{
+  NodeList nodeList=processDefinitionDocument.getElementsByTagName(PROCESS_TAG);
+  if (nodeList.getLength() == 0) {
+    throw new ActivitiException("No process tag found in DOM document. Something is surely wrong.");
+  }
+  if (nodeList.getLength() > 1) {
+    throw new ActivitiException("Multiple tags " + PROCESS_TAG + " found. Something is surely wrong.");
+  }
+  return (Element)nodeList.item(0);
+}

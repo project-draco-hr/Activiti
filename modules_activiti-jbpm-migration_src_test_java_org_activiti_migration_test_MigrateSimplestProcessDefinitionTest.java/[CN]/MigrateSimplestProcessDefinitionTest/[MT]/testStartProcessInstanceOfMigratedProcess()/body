@@ -1,0 +1,15 @@
+{
+  generateJbpmData();
+  Jbpm3ToActivitiMigrator migrator=createMigrator();
+  migrator.migrate();
+  Map<String,Document> migratedProcessDefinitions=migrator.getMigratedProcessDefinitions();
+  assertEquals(1,migratedProcessDefinitions.size());
+  String migratedBpmn20Xml=XmlUtil.toString(migratedProcessDefinitions.get("simplest"));
+  String deployId=repositoryService.createDeployment().addString("simplest.bpmn20.xml",migratedBpmn20Xml).deploy().getId();
+  String procId=runtimeService.startProcessInstanceByKey("simplest").getId();
+  Execution execution=runtimeService.createExecutionQuery().processInstanceId(procId).singleResult();
+  assertEquals("wait",runtimeService.getActiveActivityIds(execution.getId()).get(0));
+  runtimeService.signal(execution.getId());
+  assertProcessEnded(procId);
+  repositoryService.deleteDeployment(deployId,true);
+}

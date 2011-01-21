@@ -1,0 +1,12 @@
+{
+  Session session=null;
+  try {
+    session=sessionFactory.openSession();
+    return hibernateCallback.execute(session);
+  }
+  finally {
+    if (session != null && session.isOpen()) {
+      session.close();
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  Document processDefinitionXml=createEmptyBpmn20Document(processDefinition.getName());
+  Element processElement=getProcessElement(processDefinitionXml);
+  for (  Node node : jbpm3Dao.getNodes(processDefinition)) {
+    Element element=null;
+    if (node instanceof StartState) {
+      element=convertStartState(processDefinitionXml,(StartState)node);
+    }
+ else     if (node instanceof EndState) {
+      element=convertEndState(processDefinitionXml,(EndState)node);
+    }
+ else     if (node instanceof State) {
+      element=convertState(processDefinitionXml,(State)node);
+    }
+ else {
+      element=convertToPassThroughTask(processDefinitionXml,node);
+    }
+    processElement.appendChild(element);
+    List<Transition> outgoingTransitions=jbpm3Dao.getOutgoingTransitions(node);
+    List<Element> sequenceFlowElements=convertTransitions(processDefinitionXml,outgoingTransitions);
+    for (    Element sequenceFlowElement : sequenceFlowElements) {
+      processElement.appendChild(sequenceFlowElement);
+    }
+  }
+  return processDefinitionXml;
+}

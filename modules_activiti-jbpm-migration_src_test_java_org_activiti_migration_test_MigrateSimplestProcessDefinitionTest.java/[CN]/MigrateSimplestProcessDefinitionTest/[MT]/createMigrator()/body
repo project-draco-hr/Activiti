@@ -1,0 +1,9 @@
+{
+  Properties jbpm3DbProperties=new Properties();
+  jbpm3DbProperties.load(this.getClass().getClassLoader().getResourceAsStream("jbpm3.db.properties"));
+  Properties activitiDbProperties=new Properties();
+  activitiDbProperties.load(this.getClass().getClassLoader().getResourceAsStream("activiti.db.properties"));
+  Jbpm3ToActivitiMigrator migrator=new Jbpm3ToActivitiMigrator();
+  migrator.configureFromProperties(jbpm3DbProperties,activitiDbProperties);
+  return migrator;
+}

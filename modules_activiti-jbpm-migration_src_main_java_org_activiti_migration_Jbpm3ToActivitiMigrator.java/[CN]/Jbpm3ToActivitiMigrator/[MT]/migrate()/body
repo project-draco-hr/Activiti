@@ -1,0 +1,16 @@
+{
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Starting migration");
+  }
+  validateDbParameters();
+  try {
+    processConversionService=createProcessConversionService();
+    migratedProcessDefinitions=processConversionService.convertAllProcessDefinitions();
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.SEVERE,"Exception while creating processConversionService",e);
+  }
+ finally {
+    processConversionService.close();
+  }
+}

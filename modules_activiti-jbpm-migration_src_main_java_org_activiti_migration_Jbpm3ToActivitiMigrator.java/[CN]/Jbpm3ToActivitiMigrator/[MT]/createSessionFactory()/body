@@ -1,0 +1,19 @@
+{
+  String hibernateConfigXml=new String(IoUtil.readInputStream(this.getClass().getClassLoader().getResourceAsStream("hibernate.cfg.xml"),null));
+  hibernateConfigXml=hibernateConfigXml.replace("@jbpm.db.driver.class@",jbpm3DbDriver);
+  hibernateConfigXml=hibernateConfigXml.replace("@jbpm.db.hibernate.dialect@",jbpm3DbHibernateDialect);
+  hibernateConfigXml=hibernateConfigXml.replace("@jbpm.db.url@",jbpm3DbUrl);
+  hibernateConfigXml=hibernateConfigXml.replace("@jbpm.db.username@",jbpm3DbUser);
+  hibernateConfigXml=hibernateConfigXml.replace("@jbpm.db.password@",jbpm3DbPassword);
+  Document document=null;
+  try {
+    DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
+    DocumentBuilder builder=factory.newDocumentBuilder();
+    InputSource is=new InputSource(new StringReader(hibernateConfigXml));
+    document=builder.parse(is);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Could not construct the Hibernate session factory",e);
+  }
+  return new Configuration().configure(document).buildSessionFactory();
+}

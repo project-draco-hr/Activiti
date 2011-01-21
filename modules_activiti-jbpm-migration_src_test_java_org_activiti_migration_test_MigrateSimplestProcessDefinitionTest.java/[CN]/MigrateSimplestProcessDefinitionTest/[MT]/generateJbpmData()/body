@@ -1,0 +1,12 @@
+{
+  JbpmConfiguration config=JbpmConfiguration.getInstance("jbpm.test.cfg.xml");
+  JbpmContext jbpmContext=config.createJbpmContext();
+  try {
+    ProcessDefinition processDefinition=ProcessDefinition.parseXmlResource("org/activiti/migration/test/simplest/processdefinition.xml");
+    jbpmContext.deployProcessDefinition(processDefinition);
+    jbpmContext.newProcessInstance("simplest");
+  }
+  finally {
+    jbpmContext.close();
+  }
+}

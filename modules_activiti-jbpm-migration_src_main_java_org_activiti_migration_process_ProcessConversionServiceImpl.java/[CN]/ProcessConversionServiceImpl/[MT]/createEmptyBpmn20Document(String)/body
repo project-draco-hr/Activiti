@@ -1,0 +1,20 @@
+{
+  try {
+    DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(true);
+    DocumentBuilder documentBuilder=factory.newDocumentBuilder();
+    Document document=documentBuilder.newDocument();
+    Element root=document.createElementNS(BpmnParser.BPMN20_NS,BPMN20_ROOT_TAG);
+    root.setAttributeNS(XMLNS,XMLNS_ACTIVITI,BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS);
+    root.setAttribute(TARGET_NAMESPACE,TARGET_NAMESPACE_VALUE);
+    document.appendChild(root);
+    Element processElement=document.createElement(PROCESS_TAG);
+    processElement.setAttribute("id",processName);
+    processElement.setAttribute("name",processName);
+    root.appendChild(processElement);
+    return document;
+  }
+ catch (  ParserConfigurationException e) {
+    throw new ActivitiException("Could not create empty BPMN 2.0 xml document",e);
+  }
+}
