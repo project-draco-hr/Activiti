@@ -1,0 +1,18 @@
+{
+  Document document;
+  try {
+    document=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(form.getBytes()));
+  }
+ catch (  SAXException e) {
+    throw new RuntimeException("Could not parse form '" + form + "', not vaild XML.",e);
+  }
+catch (  Exception e) {
+    throw new RuntimeException("Could not parse form '" + form + "'",e);
+  }
+  Map<String,String> expressionMap=new HashMap<String,String>();
+  NodeList inputElements=document.getElementsByTagName("input");
+  getExpressions(inputElements,expressionMap);
+  NodeList textAreaElements=document.getElementsByTagName("textarea");
+  getExpressions(textAreaElements,expressionMap);
+  return expressionMap;
+}

@@ -1,0 +1,8 @@
+{
+  HashMap<String,Object> result=new HashMap<String,Object>();
+  for (@SuppressWarnings("unchecked") Enumeration<String> e=session.getAttributeNames(); e.hasMoreElements(); ) {
+    String key=e.nextElement();
+    result.put(key,session.getAttribute(key));
+  }
+  return result;
+}

@@ -1,0 +1,14 @@
+{
+  Map<String,String> expressions=getExpressions(form);
+  Map<String,Object> valueMap=getValues(expressions.values());
+  for (  String expression : valueMap.keySet()) {
+    String expr=expression;
+    if (expr.contains("${")) {
+      expr=expr.substring(2);
+      expr=expr.substring(0,expr.length() - 1);
+      expr="\\$\\{" + expr + "\\}";
+    }
+    form=form.replaceAll(expr,valueMap.get(expression).toString());
+  }
+  return form;
+}

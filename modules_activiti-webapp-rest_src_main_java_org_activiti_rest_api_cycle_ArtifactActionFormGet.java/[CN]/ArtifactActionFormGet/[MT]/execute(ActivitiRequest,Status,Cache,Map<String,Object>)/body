@@ -2,16 +2,12 @@
   String connectorId=req.getMandatoryString("connectorId");
   String artifactId=req.getMandatoryString("artifactId");
   String actionId=req.getMandatoryString("actionName");
-  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(connectorId,artifactId);
-  if (artifact == null) {
-    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "' for connector with id '"+ connectorId+ "'.");
+  String form;
+  try {
+    form=repositoryService.getActionFormTemplate(connectorId,artifactId,actionId);
   }
-  String form=null;
-  for (  ParameterizedAction action : pluginService.getParameterizedActions(artifact)) {
-    if (action.getId().equals(actionId)) {
-      form=action.getFormAsHtml();
-      break;
-    }
+ catch (  RepositoryNodeNotFoundException e) {
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "' for connector with id '"+ connectorId+ "'.");
   }
   if (form != null) {
     model.put("form",form);

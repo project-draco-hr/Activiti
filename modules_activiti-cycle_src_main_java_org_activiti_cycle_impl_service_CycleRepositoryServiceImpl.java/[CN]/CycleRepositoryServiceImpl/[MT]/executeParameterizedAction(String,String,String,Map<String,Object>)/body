@@ -1,4 +1,8 @@
 {
+  ParameterizedAction action=cycleServiceConfiguration.getCyclePluginService().getParameterizedActionById(actionId);
+  String form=action.getFormAsHtml();
+  FormHandler formHandler=CycleComponentFactory.getCycleComponentInstance(FormHandler.class,FormHandler.class);
+  formHandler.setValues(form,parameters);
   RepositoryConnector connector=getRepositoryConnector(connectorId);
   for (  String key : parameters.keySet()) {
     if (key.equals("targetConnectorId")) {

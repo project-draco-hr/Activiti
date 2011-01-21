@@ -1,0 +1,12 @@
+{
+  Object obj=CycleRequestContext.get(variableName);
+  if (obj != null) {
+    return obj;
+  }
+  obj=CycleSessionContext.get(variableName);
+  if (obj != null) {
+    return obj;
+  }
+  obj=CycleApplicationContext.get(variableName);
+  return obj;
+}

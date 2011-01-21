@@ -1,0 +1,8 @@
+{
+  Map<String,String> expressions=getExpressions(form);
+  for (  Entry<String,String> expressionEntry : expressions.entrySet()) {
+    Object value=parameters.get(expressionEntry.getKey());
+    Expression expression=expressionManager.createExpression(expressionEntry.getValue());
+    expression.setValue(value,cycleContextVariableScope);
+  }
+}

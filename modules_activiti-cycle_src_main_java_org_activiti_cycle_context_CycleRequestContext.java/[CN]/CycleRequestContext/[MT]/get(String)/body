@@ -1,0 +1,12 @@
+{
+  CycleContext context=localContext.get();
+  if (context == null)   throw new IllegalStateException("No context available");
+  Object obj=context.get(key);
+  if (obj == null) {
+    CycleComponentDescriptor descriptor=CycleComponentFactory.getCycleComponentDescriptor(key);
+    if (descriptor != null)     if (descriptor.contextType.equals(CycleContextType.REQUEST)) {
+      obj=CycleComponentFactory.getCycleComponentInstance(key);
+    }
+  }
+  return obj;
+}

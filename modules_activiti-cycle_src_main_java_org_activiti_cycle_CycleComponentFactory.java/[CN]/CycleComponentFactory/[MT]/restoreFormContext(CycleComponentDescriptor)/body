@@ -1,10 +1,16 @@
 {
 switch (descriptor.contextType) {
-case SESSION:
-    CycleContext sessionContext=CycleSessionContext.getLocalContext();
-  if (sessionContext != null) {
-    return sessionContext.get(descriptor.name);
+case REQUEST:
+    CycleContext requestContext=CycleRequestContext.getLocalContext();
+  if (requestContext != null) {
+    return requestContext.get(descriptor.name);
   }
+break;
+case SESSION:
+CycleContext sessionContext=CycleSessionContext.getLocalContext();
+if (sessionContext != null) {
+return sessionContext.get(descriptor.name);
+}
 break;
 case APPLICATION:
 CycleContext applicationContext=CycleApplicationContext.getWrappedContext();

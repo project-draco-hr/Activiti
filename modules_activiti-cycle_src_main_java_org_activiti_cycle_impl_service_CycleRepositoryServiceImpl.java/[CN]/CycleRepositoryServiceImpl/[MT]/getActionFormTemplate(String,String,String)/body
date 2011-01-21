@@ -1,0 +1,13 @@
+{
+  RepositoryArtifact artifact=getRepositoryArtifact(connectorId,artifactId);
+  String form=null;
+  for (  ParameterizedAction action : cycleServiceConfiguration.getCyclePluginService().getParameterizedActions(artifact)) {
+    if (action.getId().equals(actionId)) {
+      form=action.getFormAsHtml();
+      break;
+    }
+  }
+  FormHandler formHandler=CycleComponentFactory.getCycleComponentInstance(FormHandler.class,FormHandler.class);
+  form=formHandler.parseForm(form);
+  return form;
+}
