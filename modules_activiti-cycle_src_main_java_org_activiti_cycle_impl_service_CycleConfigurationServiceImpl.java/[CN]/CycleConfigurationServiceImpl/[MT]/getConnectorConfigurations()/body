@@ -3,6 +3,6 @@
   if (currentUserId == null) {
     throw new IllegalArgumentException("currentUserId must not be null. Set 'cuid' in Cycle Session Context.");
   }
-  List<RepositoryConnectorConfiguration> configurations=cycleConfigurationDao.getRepositoryConnectorConfigurationsForUser(currentUserId);
+  List<RepositoryConnectorConfiguration> configurations=cycleRepositoryConnectorConfigurationDao.getRepositoryConnectorConfigurationsForUser(currentUserId);
   return configurations;
 }

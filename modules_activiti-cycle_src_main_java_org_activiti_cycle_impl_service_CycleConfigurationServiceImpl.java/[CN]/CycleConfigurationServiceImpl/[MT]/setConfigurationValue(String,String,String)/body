@@ -1,0 +1,8 @@
+{
+  CycleConfigEntity entity=cycleConfigurationDao.selectCycleConfigByGroupAndKey(groupId,key);
+  if (entity == null) {
+    entity=new CycleConfigEntity();
+  }
+  entity.setValue(value);
+  cycleConfigurationDao.saveCycleConfig(entity);
+}

@@ -1,0 +1,9 @@
+{
+  SqlSession session=openSession();
+  try {
+    return (List<CycleConfigEntity>)session.selectList("selectCycleConfigById",id);
+  }
+  finally {
+    session.close();
+  }
+}
