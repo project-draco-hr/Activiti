@@ -17,7 +17,7 @@
       nodeDto.setExpanded(String.valueOf(Boolean.TRUE));
     }
     String parentFolderId=node.getMetadata().getParentFolderId();
-    while (parentFolderId != null && !parentFolderId.equals("/")) {
+    while (parentFolderId != null && parentFolderId.length() > 0 && !parentFolderId.equals("/")) {
       node=this.repositoryService.getRepositoryNode(connectorId,parentFolderId);
       TreeFolderDto parentNodeDto=new TreeFolderDto((RepositoryFolder)node);
       parentNodeDto.setExpanded(String.valueOf(Boolean.TRUE));
