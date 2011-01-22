@@ -1,0 +1,20 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("superVariable","Hello from the super process.");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("subProcessDataInputOutput",vars);
+  TaskQuery taskQuery=taskService.createTaskQuery();
+  Task taskBeforeSubProcess=taskQuery.singleResult();
+  assertEquals("Task in subprocess",taskBeforeSubProcess.getName());
+  assertEquals("Hello from the super process.",runtimeService.getVariable(taskBeforeSubProcess.getProcessInstanceId(),"subVariable"));
+  assertEquals("Hello from the super process.",taskService.getVariable(taskBeforeSubProcess.getId(),"subVariable"));
+  runtimeService.setVariable(taskBeforeSubProcess.getProcessInstanceId(),"subVariable","Hello from sub process.");
+  assertEquals("Hello from the super process.",runtimeService.getVariable(processInstance.getId(),"superVariable"));
+  taskService.complete(taskBeforeSubProcess.getId());
+  Task taskAfterSubProcess=taskQuery.singleResult();
+  assertEquals("Task in super process",taskAfterSubProcess.getName());
+  assertEquals("Hello from sub process.",runtimeService.getVariable(processInstance.getId(),"superVariable"));
+  assertEquals("Hello from sub process.",taskService.getVariable(taskAfterSubProcess.getId(),"superVariable"));
+  taskService.complete(taskAfterSubProcess.getId());
+  assertProcessEnded(processInstance.getId());
+  assertEquals(0,runtimeService.createExecutionQuery().list().size());
+}

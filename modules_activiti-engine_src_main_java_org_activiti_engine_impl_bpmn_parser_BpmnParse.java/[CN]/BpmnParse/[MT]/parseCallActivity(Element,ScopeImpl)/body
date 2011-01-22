@@ -4,8 +4,17 @@
   if (calledElement == null) {
     addError("Missing attribute 'calledElement'",callActivityElement);
   }
+  CallActivityBehaviour callActivityBehaviour=new CallActivityBehaviour(calledElement);
+  for (  Element dataAssociationElement : callActivityElement.elements("dataInputAssociation")) {
+    AbstractDataAssociation dataAssociation=this.parseDataInputAssociation(dataAssociationElement);
+    callActivityBehaviour.addDataInputAssociation(dataAssociation);
+  }
+  for (  Element dataAssociationElement : callActivityElement.elements("dataOutputAssociation")) {
+    AbstractDataAssociation dataAssociation=this.parseDataOutputAssociation(dataAssociationElement);
+    callActivityBehaviour.addDataOutputAssociation(dataAssociation);
+  }
   activity.setScope(true);
-  activity.setActivityBehavior(new CallActivityBehaviour(calledElement));
+  activity.setActivityBehavior(callActivityBehaviour);
   parseExecutionListenersOnScope(callActivityElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseCallActivity(callActivityElement,scope,activity);
