@@ -20,6 +20,8 @@
     for (    String resource : resources) {
       deploymentBuilder.addClasspathResource(resource);
     }
+    DeploymentBuilderImpl impl=(DeploymentBuilderImpl)deploymentBuilder;
+    impl.getDeployment().setValidatingSchema(deploymentAnnotation.validateSchmea());
     deploymentId=deploymentBuilder.deploy().getId();
   }
   return deploymentId;
