@@ -1,0 +1,50 @@
+{
+  final Button saveButton=new Button("Save");
+  saveButton.setEnabled(nameField.getValue() != null && !"".equals((String)nameField.getValue()));
+  saveButton.setIcon(saveImage);
+  saveButton.addListener(new Button.ClickListener(){
+    private static final long serialVersionUID=3546324122090420533L;
+    public void buttonClick(    ClickEvent event){
+      try {
+        adhocWorkflowService.deployKickstartWorkflow(createAdhocWorkflow());
+        Panel successPanel=new Panel();
+        successPanel.setStyleName(Reindeer.PANEL_LIGHT);
+        Label successLabel=new Label("Process successfully deployed");
+        successPanel.addComponent(successLabel);
+        viewManager.switchWorkArea(ViewManager.PROCESS_SUCESSFULLY_DEPLOYED,successPanel);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+        viewManager.showPopupWindow(new ErrorPopupWindow(e));
+      }
+    }
+  }
+);
+  nameField.addListener(new ValueChangeListener(){
+    private static final long serialVersionUID=-4357300368046546003L;
+    public void valueChange(    ValueChangeEvent event){
+      if (nameField.getValue() != null && !"".equals((String)nameField.getValue())) {
+        saveButton.setEnabled(true);
+      }
+ else {
+        saveButton.setEnabled(false);
+      }
+    }
+  }
+);
+  Button generateImageButton=new Button("View image");
+  generateImageButton.setIcon(generateImageImage);
+  generateImageButton.addListener(new Button.ClickListener(){
+    private static final long serialVersionUID=5671158538486627690L;
+    public void buttonClick(    ClickEvent event){
+      viewManager.showPopupWindow(new ProcessImagePopupWindow(viewManager,createAdhocWorkflow()));
+    }
+  }
+);
+  HorizontalLayout footer=new HorizontalLayout();
+  footer.setSpacing(true);
+  footer.addComponent(saveButton);
+  footer.addComponent(generateImageButton);
+  layout.addComponent(new Label());
+  layout.addComponent(footer);
+}

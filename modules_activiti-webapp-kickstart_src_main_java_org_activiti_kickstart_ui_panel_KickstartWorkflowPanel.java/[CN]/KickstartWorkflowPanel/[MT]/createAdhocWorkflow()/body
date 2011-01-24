@@ -1,0 +1,9 @@
+{
+  KickstartWorkflowDto adhocWorkflow=new KickstartWorkflowDto();
+  adhocWorkflow.setName((String)nameField.getValue());
+  adhocWorkflow.setDescription((String)descriptionField.getValue());
+  for (  TaskDto task : taskTable.getTasks()) {
+    adhocWorkflow.addTask(task);
+  }
+  return adhocWorkflow;
+}

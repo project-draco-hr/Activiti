@@ -1,0 +1,10 @@
+{
+  try {
+    KickstartWorkflowDto adhocWorkflow=adhocWorkflowService.findKickstartWorkflowById((String)event.getButton().getData());
+    viewManager.switchWorkArea(ViewManager.EDIT_ADHOC_WORKFLOW,new KickstartWorkflowPanel(viewManager,adhocWorkflow));
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    viewManager.showPopupWindow(new ErrorPopupWindow(e));
+  }
+}

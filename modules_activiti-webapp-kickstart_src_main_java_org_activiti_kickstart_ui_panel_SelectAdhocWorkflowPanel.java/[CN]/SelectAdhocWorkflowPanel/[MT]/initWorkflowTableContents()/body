@@ -1,6 +1,6 @@
 {
-  List<AdhocWorkflowInfo> processDefinitions=adhocWorkflowService.findAdhocWorkflowInformation();
-  for (  final AdhocWorkflowInfo infoDto : processDefinitions) {
+  List<KickstartWorkflowInfo> processDefinitions=adhocWorkflowService.findKickstartWorkflowInformation();
+  for (  final KickstartWorkflowInfo infoDto : processDefinitions) {
     Item workflowItem=workflowTable.getItem(workflowTable.addItem());
     Button nameButton=new Button(infoDto.getName());
     nameButton.setStyleName("link");
@@ -22,7 +22,7 @@
     Button editButton=new Button("edit");
     editButton.setStyleName("link");
     editButton.setData(infoDto.getId());
-    editButton.addListener(new EditExistingAdhocWorkflowClickListener(viewManager,adhocWorkflowService));
+    editButton.addListener(new EditExistingKickstartWorkflowClickListener(viewManager,adhocWorkflowService));
     actions.addComponent(editButton);
     StreamResource.StreamSource streamSource=new StreamSource(){
       private static final long serialVersionUID=-8875067466181823014L;
