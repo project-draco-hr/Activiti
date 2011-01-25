@@ -1,6 +1,7 @@
 {
   processName=AdjustShapeNamesForXmlNCName.adjustForXmlNCName(processName);
   xml=setAttributeText(xml,"process","id",processName);
+  xml=setAttributeText(xml,"bpmndi:BPMNPlane","bpmnElement",processName);
   if (!existAttribute(xml,"process","name")) {
     xml=addAttribute(xml,"process","name",processName);
   }
