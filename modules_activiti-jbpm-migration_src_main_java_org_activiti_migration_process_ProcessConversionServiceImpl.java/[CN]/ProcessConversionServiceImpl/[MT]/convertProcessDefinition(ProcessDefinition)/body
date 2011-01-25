@@ -12,9 +12,13 @@
  else     if (node instanceof State) {
       element=convertState(processDefinitionXml,(State)node);
     }
+ else     if (node instanceof TaskNode) {
+      element=convertTaskNode(processDefinitionXml,(TaskNode)node);
+    }
  else {
       element=convertToPassThroughTask(processDefinitionXml,node);
     }
+    convertDescription(processDefinitionXml,node,element);
     processElement.appendChild(element);
     List<Transition> outgoingTransitions=jbpm3Dao.getOutgoingTransitions(node);
     List<Element> sequenceFlowElements=convertTransitions(processDefinitionXml,outgoingTransitions);

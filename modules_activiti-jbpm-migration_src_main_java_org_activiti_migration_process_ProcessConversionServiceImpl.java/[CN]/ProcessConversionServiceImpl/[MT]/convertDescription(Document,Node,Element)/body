@@ -1,0 +1,14 @@
+{
+  if (node.getDescription() != null) {
+    Element documentationElement=processDefinitionDocument.createElement(DOCUMENTATION_TAG);
+    CDATASection documentationText=processDefinitionDocument.createCDATASection(node.getDescription());
+    documentationElement.appendChild(documentationText);
+    org.w3c.dom.Node firstChild=element.getFirstChild();
+    if (firstChild != null) {
+      element.insertBefore(documentationElement,firstChild);
+    }
+ else {
+      element.appendChild(documentationElement);
+    }
+  }
+}

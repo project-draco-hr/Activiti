@@ -1,0 +1,15 @@
+{
+  Element userTaskElement=processDefinitionDocument.createElement(USER_TASK_TAG);
+  userTaskElement.setAttribute("id",task.getTaskNode().getName());
+  userTaskElement.setAttribute("name",task.getTaskNode().getName());
+  if (task.getActorIdExpression() != null) {
+    Element humanPerformer=processDefinitionDocument.createElement(HUMAN_PERFORMER_TAG);
+    userTaskElement.appendChild(humanPerformer);
+    Element assignmentExpression=processDefinitionDocument.createElement(RESOURCE_ASSIGNMENT_EXPRESSION_TAG);
+    humanPerformer.appendChild(assignmentExpression);
+    Element formalExpression=processDefinitionDocument.createElement(FORMAL_EXPRESSION_TAG);
+    assignmentExpression.appendChild(formalExpression);
+    formalExpression.setTextContent(task.getActorIdExpression());
+  }
+  return userTaskElement;
+}

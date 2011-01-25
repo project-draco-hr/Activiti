@@ -1,0 +1,16 @@
+{
+  Set<Task> tasks=taskNode.getTasks();
+  if (tasks.size() >= 1) {
+    Element userTaskElement=convertTask(processDefinitionDocument,tasks.iterator().next());
+    if (tasks.size() > 1) {
+      String warningMsg="Warning: currently only one task for a task-node is supported, " + "only converting one task of the " + tasks.size() + " tasks of task-node "+ taskNode.getName();
+      LOGGER.warning(warningMsg);
+      Comment comment=processDefinitionDocument.createComment(warningMsg);
+      userTaskElement.appendChild(comment);
+    }
+    return userTaskElement;
+  }
+ else {
+    return convertToPassThroughTask(processDefinitionDocument,taskNode);
+  }
+}
