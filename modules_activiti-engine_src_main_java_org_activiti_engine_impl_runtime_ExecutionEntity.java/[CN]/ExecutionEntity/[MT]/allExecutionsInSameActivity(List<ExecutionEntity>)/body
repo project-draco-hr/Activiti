@@ -1,0 +1,11 @@
+{
+  if (executions.size() > 1) {
+    String activityId=executions.get(0).getActivityId();
+    for (    ExecutionEntity execution : executions) {
+      if (!execution.isEnded && !execution.getActivityId().equals(activityId)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}

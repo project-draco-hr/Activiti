@@ -23,16 +23,7 @@
     log.fine("transitions to take concurrent: " + transitions);
     log.fine("active concurrent executions: " + concurrentActiveExecutions);
   }
-  boolean allInSameActivity=true;
-  if (concurrentInActiveExecutions.size() > 1) {
-    String activityId=concurrentInActiveExecutions.get(0).getActivityId();
-    for (    ExecutionEntity execution : concurrentInActiveExecutions) {
-      if (!execution.isEnded && !execution.getActivityId().equals(activityId)) {
-        allInSameActivity=false;
-      }
-    }
-  }
-  if ((transitions.size() == 1) && (concurrentActiveExecutions.isEmpty()) && allInSameActivity) {
+  if ((transitions.size() == 1) && (concurrentActiveExecutions.isEmpty()) && allExecutionsInSameActivity(concurrentInActiveExecutions)) {
     List<ExecutionEntity> recyclableExecutionImpls=(List)recyclableExecutions;
     for (    ExecutionEntity prunedExecution : recyclableExecutionImpls) {
       if (!prunedExecution.isEnded()) {
