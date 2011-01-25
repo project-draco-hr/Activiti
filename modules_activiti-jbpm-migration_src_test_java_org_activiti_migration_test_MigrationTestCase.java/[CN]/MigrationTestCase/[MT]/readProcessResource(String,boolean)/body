@@ -1,0 +1,14 @@
+{
+  InputStream is=this.getClass().getClassLoader().getResourceAsStream(path);
+  if (is != null) {
+    byte[] resource=IoUtil.readInputStream(is,path);
+    IoUtil.closeSilently(is);
+    return resource;
+  }
+ else {
+    if (throwErrorOnMissing) {
+      throw new ActivitiException("Can't find " + path);
+    }
+    return null;
+  }
+}

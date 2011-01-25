@@ -1,0 +1,21 @@
+{
+  InputStream is=ProcessConversion.class.getClassLoader().getResourceAsStream(path);
+  if (is == null) {
+    if (required) {
+      throw new ActivitiException("Couldn't find " + path);
+    }
+ else {
+      return null;
+    }
+  }
+ else {
+    try {
+      Properties properties=new Properties();
+      properties.load(is);
+      return properties;
+    }
+  finally {
+      is.close();
+    }
+  }
+}

@@ -1,7 +1,10 @@
 {
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Writing converted process to " + filePath);
+  }
   BufferedOutputStream outputStream=null;
   try {
-    outputStream=new BufferedOutputStream(new FileOutputStream(getFile(filePath)));
+    outputStream=new BufferedOutputStream(new FileOutputStream(new File(filePath)));
     outputStream.write(content.getBytes());
     outputStream.flush();
   }

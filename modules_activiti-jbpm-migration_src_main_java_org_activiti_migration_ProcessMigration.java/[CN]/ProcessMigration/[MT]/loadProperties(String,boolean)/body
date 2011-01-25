@@ -1,0 +1,11 @@
+{
+  FileInputStream is=new FileInputStream(new File(path));
+  try {
+    Properties properties=new Properties();
+    properties.load(is);
+    return properties;
+  }
+  finally {
+    IoUtil.closeSilently(is);
+  }
+}

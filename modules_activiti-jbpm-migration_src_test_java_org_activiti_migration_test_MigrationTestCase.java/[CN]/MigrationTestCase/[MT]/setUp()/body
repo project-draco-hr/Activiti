@@ -1,7 +1,5 @@
 {
   super.setUp();
-  if (jbpmConfiguration == null) {
-    jbpmConfiguration=JbpmConfiguration.getInstance("jbpm.test.cfg.xml");
-  }
+  this.jbpmConfiguration=Jbpm3Util.getJbpmConfiguration("jbpm.in-mem.cfg.xml");
   this.migrator=createMigrator();
 }

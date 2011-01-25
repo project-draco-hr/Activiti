@@ -1,0 +1,7 @@
+{
+  Jbpm3ToActivitiMigrator migrator=new Jbpm3ToActivitiMigrator();
+  Properties jbpmDbProperties=loadProperties(JBPM3_IN_MEM_DB_PROPS,true);
+  Properties activitiDbProperties=loadProperties(ACTIVITI_IN_MEM_DB_PROPS,false);
+  migrator.configureFromProperties(jbpmDbProperties,activitiDbProperties);
+  return migrator;
+}

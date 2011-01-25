@@ -1,0 +1,8 @@
+{
+  File outputDir=new File(workingDir + "/converted-processes-" + DATE_FORMATTER.format(new Date()));
+  outputDir.mkdir();
+  for (  String processName : migratedProcesses.keySet()) {
+    String bpmnFileName=processName.replace(" ","_") + ".bpmn20.xml";
+    writeProcessToFile(XmlUtil.toString(migratedProcesses.get(processName)),outputDir.getAbsolutePath() + "/" + bpmnFileName);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  searchAndDeployProcessesToInMemDatabase(new File(workingDir + "/processes"));
+  Jbpm3ToActivitiMigrator migrator=createMigrator();
+  Map<String,Document> migratedProcesses=migrator.convertProcesses();
+  writeConvertedProcesses(migratedProcesses,workingDir);
+}

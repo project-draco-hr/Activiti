@@ -1,0 +1,17 @@
+{
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Starting process conversion");
+  }
+  validateDbParameters();
+  try {
+    processConversionService=createProcessConversionService();
+    migratedProcessDefinitions=processConversionService.convertAllProcessDefinitions();
+    return migratedProcessDefinitions;
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Could convert the processes",e);
+  }
+ finally {
+    processConversionService.close();
+  }
+}

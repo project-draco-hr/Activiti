@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("nestedForkJoin");
+  runtimeService.startProcessInstanceByKey("nestedForkJoin");
   TaskQuery query=taskService.createTaskQuery().orderByTaskName().asc();
   List<Task> tasks=query.list();
   assertEquals(1,tasks.size());

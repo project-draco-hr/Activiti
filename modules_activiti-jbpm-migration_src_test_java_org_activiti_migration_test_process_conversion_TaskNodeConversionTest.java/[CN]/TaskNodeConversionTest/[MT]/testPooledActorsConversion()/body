@@ -1,0 +1,15 @@
+{
+  String migratedBpmn20Xml=convertProcess("pooledActorsProcess");
+  String deployId=repositoryService.createDeployment().addString("pooledActorsProcess.bpmn20.xml",migratedBpmn20Xml).deploy().getId();
+  String procId=runtimeService.startProcessInstanceByKey("pooledActorsProcess").getId();
+  assertNotNull(taskService.createTaskQuery().processInstanceId(procId).taskCandidateUser("kermit").singleResult());
+  assertNotNull(taskService.createTaskQuery().processInstanceId(procId).taskCandidateUser("gonzo").singleResult());
+  assertNotNull(taskService.createTaskQuery().processInstanceId(procId).taskCandidateUser("fozzie").singleResult());
+  assertNull(taskService.createTaskQuery().processInstanceId(procId).taskCandidateUser("missPiggy").singleResult());
+  Task task=taskService.createTaskQuery().processInstanceId(procId).singleResult();
+  assertEquals("myTask",task.getName());
+  assertNull(task.getAssignee());
+  taskService.complete(task.getId());
+  assertProcessEnded(procId);
+  repositoryService.deleteDeployment(deployId,true);
+}
