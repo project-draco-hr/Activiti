@@ -5,6 +5,7 @@
   StartFormData startFormData=getFormService().getStartFormData(processDefinitionId);
   if (startFormData != null) {
     restProcessDefinition.setStartFormResourceKey(startFormData.getFormKey());
+    restProcessDefinition.setGraphicNotationDefined(isGraphicNotationDefined(processDefinitionId));
   }
   model.put("processDefinition",restProcessDefinition);
 }

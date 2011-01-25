@@ -1,0 +1,12 @@
+{
+  Map<String,Object> model=getModelAsMap(modelObject);
+  JSONObject result=new JSONObject();
+  JSONUtil.putPagingInfo(result,model);
+  List<HistoricProcessInstance> definitions=(List<HistoricProcessInstance>)model.get("processInstances");
+  JSONArray dataArray=JSONUtil.putNewArray(result,"data");
+  for (  HistoricProcessInstance processDefinition : definitions) {
+    JSONObject jsonTask=converter.getJSONObject(processDefinition);
+    dataArray.put(jsonTask);
+  }
+  return result;
+}

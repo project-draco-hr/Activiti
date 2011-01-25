@@ -2,6 +2,9 @@
   DrawInstruction drawInstruction=activityDrawInstructions.get((String)activity.getProperty("type"));
   if (drawInstruction != null) {
     drawInstruction.draw(processDiagramCanvas,activity);
+    if (highLightedActivities.contains(activity.getId())) {
+      drawHighLight(processDiagramCanvas,activity);
+    }
   }
   for (  PvmTransition sequenceFlow : activity.getOutgoingTransitions()) {
     List<Integer> waypoints=((TransitionImpl)sequenceFlow).getWaypoints();
@@ -16,6 +19,6 @@
     }
   }
   for (  ActivityImpl nestedActivity : activity.getActivities()) {
-    drawActivity(processDiagramCanvas,nestedActivity);
+    drawActivity(processDiagramCanvas,nestedActivity,highLightedActivities);
   }
 }
