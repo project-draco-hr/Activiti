@@ -1,0 +1,6 @@
+{
+  migrator.migrate();
+  Map<String,Document> migratedProcessDefinitions=migrator.getMigratedProcessDefinitions();
+  assertEquals(1,migratedProcessDefinitions.size());
+  return XmlUtil.toString(migratedProcessDefinitions.get(processName));
+}

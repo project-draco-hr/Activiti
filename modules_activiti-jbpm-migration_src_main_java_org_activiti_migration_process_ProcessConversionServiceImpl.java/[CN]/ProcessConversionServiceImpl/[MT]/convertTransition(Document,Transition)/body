@@ -1,4 +1,7 @@
 {
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Converting transition '" + transition.getId() + "'");
+  }
   Element sequenceFlowElement=processDefinitionDocument.createElement(SEQUENCE_FLOW_TAG);
   if (transition.getName() != null) {
     sequenceFlowElement.setAttribute("id",transition.getName());

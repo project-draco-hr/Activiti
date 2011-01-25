@@ -1,5 +1,8 @@
 {
-  Set<Task> tasks=taskNode.getTasks();
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Converting task-node '" + taskNode.getName() + "'");
+  }
+  List<Task> tasks=jbpm3Dao.getTasks(taskNode);
   if (tasks.size() >= 1) {
     Element userTaskElement=convertTask(processDefinitionDocument,tasks.iterator().next());
     if (tasks.size() > 1) {

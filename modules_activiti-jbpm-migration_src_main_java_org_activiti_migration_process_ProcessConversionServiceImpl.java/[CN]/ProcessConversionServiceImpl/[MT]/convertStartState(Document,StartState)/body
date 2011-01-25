@@ -1,4 +1,7 @@
 {
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Converting start-state '" + startState.getName() + "'");
+  }
   Element startElement=processDefinitionDocument.createElement(START_EVENT_TAG);
   startElement.setAttribute("id",startState.getName());
   return startElement;

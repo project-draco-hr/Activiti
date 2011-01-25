@@ -1,4 +1,7 @@
 {
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Converting state '" + state.getName() + "'");
+  }
   Element stateElement=processDefinitionDocument.createElement(RECEIVE_TASK_TAG);
   stateElement.setAttribute("id",state.getName());
   return stateElement;

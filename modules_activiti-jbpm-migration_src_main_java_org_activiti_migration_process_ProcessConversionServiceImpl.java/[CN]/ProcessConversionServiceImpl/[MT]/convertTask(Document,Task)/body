@@ -1,7 +1,11 @@
 {
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Converting task of taskNode '" + task.getTaskNode() + "'");
+  }
   Element userTaskElement=processDefinitionDocument.createElement(USER_TASK_TAG);
+  String name=task.getName() == null ? task.getTaskNode().getName() : task.getName();
   userTaskElement.setAttribute("id",task.getTaskNode().getName());
-  userTaskElement.setAttribute("name",task.getTaskNode().getName());
+  userTaskElement.setAttribute("name",name);
   if (task.getActorIdExpression() != null) {
     Element humanPerformer=processDefinitionDocument.createElement(HUMAN_PERFORMER_TAG);
     userTaskElement.appendChild(humanPerformer);

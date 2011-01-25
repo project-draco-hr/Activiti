@@ -1,4 +1,7 @@
 {
+  if (LOGGER.isLoggable(Level.INFO)) {
+    LOGGER.info("Converting end-state '" + endState.getName() + "'");
+  }
   Element endElement=processDefinitionDocument.createElement(END_EVENT_TAG);
   endElement.setAttribute("id",endState.getName());
   return endElement;

@@ -1,0 +1,12 @@
+{
+  super.setUp();
+  JbpmContext jbpmContext=jbpmConfiguration.createJbpmContext();
+  try {
+    ProcessDefinition processDefinition=ProcessDefinition.parseXmlResource("org/activiti/migration/test/process/conversion/tasknode/actor-id/processdefinition.xml");
+    jbpmContext.deployProcessDefinition(processDefinition);
+    jbpmContext.newProcessInstance("actorIdProcess");
+  }
+  finally {
+    jbpmContext.close();
+  }
+}

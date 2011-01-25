@@ -1,0 +1,8 @@
+{
+  return executeInSession(new HibernateCallback<List<Task>>(){
+    public List<Task> execute(    Session session){
+      return session.createQuery(TASK_FOR_TASKNODE_QUERY).setEntity("taskNode",taskNode).list();
+    }
+  }
+);
+}
