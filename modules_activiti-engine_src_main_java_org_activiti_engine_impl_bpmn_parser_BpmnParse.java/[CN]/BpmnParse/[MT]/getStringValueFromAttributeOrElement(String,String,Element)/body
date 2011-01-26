@@ -1,7 +1,7 @@
 {
   String value=null;
-  String attributeValue=element.attributeNS(namespace,attributeName);
-  Element childElement=element.elementNS(namespace,elementName);
+  String attributeValue=element.attribute(attributeName);
+  Element childElement=element.elementNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,elementName);
   String stringElementText=null;
   if (attributeValue != null && childElement != null) {
     addError("Can't use attribute '" + attributeName + "' and element '"+ elementName+ "' together, only use one",element);
