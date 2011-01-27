@@ -1,5 +1,7 @@
 {
   super.setUp();
   this.jbpmConfiguration=Jbpm3Util.getJbpmConfiguration("jbpm.in-mem.cfg.xml");
-  this.migrator=createMigrator();
+  this.serviceFactory=createServiceFactory();
+  this.processConversionService=serviceFactory.getProcessConversionService();
+  this.xmlTransformationService=serviceFactory.getXmlTransformationService();
 }

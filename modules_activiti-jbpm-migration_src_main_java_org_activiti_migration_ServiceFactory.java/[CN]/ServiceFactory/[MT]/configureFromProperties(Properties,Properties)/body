@@ -1,0 +1,15 @@
+{
+  ServiceFactory serviceFactory=new ServiceFactory();
+  serviceFactory.setJbpm3DbDriver(jbpm3DbParameters.getProperty("driver"));
+  serviceFactory.setJbpm3DbUrl(jbpm3DbParameters.getProperty("url"));
+  serviceFactory.setJbpm3DbUser(jbpm3DbParameters.getProperty("username"));
+  serviceFactory.setJbpm3DbPassword(jbpm3DbParameters.getProperty("password"));
+  serviceFactory.setJbpm3DbHibernateDialect(jbpm3DbParameters.getProperty("hibernate.dialect"));
+  serviceFactory.setActivitiDbDriver(activitiDbParameters.getProperty("driver"));
+  serviceFactory.setActivitiDbUrl(activitiDbParameters.getProperty("url"));
+  serviceFactory.setActivitiDbUser(activitiDbParameters.getProperty("username"));
+  serviceFactory.setActivitiDbPassword(activitiDbParameters.getProperty("password"));
+  serviceFactory.setActivitiDbType(activitiDbParameters.getProperty("type"));
+  serviceFactory.validateDbParameters();
+  return serviceFactory;
+}

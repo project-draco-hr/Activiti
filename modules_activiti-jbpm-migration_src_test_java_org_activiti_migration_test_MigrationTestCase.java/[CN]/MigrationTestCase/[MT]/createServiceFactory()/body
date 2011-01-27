@@ -1,0 +1,7 @@
+{
+  Properties jbpm3DbProperties=new Properties();
+  jbpm3DbProperties.load(this.getClass().getClassLoader().getResourceAsStream("jbpm3.db.in-mem.properties"));
+  Properties activitiDbProperties=new Properties();
+  activitiDbProperties.load(this.getClass().getClassLoader().getResourceAsStream("activiti.db.in-mem.properties"));
+  return ServiceFactory.configureFromProperties(jbpm3DbProperties,activitiDbProperties);
+}

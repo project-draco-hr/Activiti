@@ -1,5 +1,4 @@
 {
-  migrator.convertProcesses();
-  Map<String,Document> migratedProcessDefinitions=migrator.getMigratedProcessDefinitions();
-  return XmlUtil.toString(migratedProcessDefinitions.get(processName));
+  Map<String,Document> migratedProcessDefinitions=processConversionService.convertAllProcessDefinitions();
+  return xmlTransformationService.convertToString(migratedProcessDefinitions.get(processName));
 }

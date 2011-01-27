@@ -14,8 +14,11 @@
       properties.load(is);
       return properties;
     }
-  finally {
-      is.close();
+ catch (    IOException e) {
+      throw new ActivitiException("Couldn't read " + path,e);
+    }
+ finally {
+      IoUtil.closeSilently(is);
     }
   }
 }

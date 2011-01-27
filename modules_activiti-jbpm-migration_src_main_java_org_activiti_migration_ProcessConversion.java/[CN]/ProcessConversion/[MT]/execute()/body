@@ -1,6 +1,14 @@
 {
-  searchAndDeployProcessesToInMemDatabase(new File(workingDir + "/processes"));
-  Jbpm3ToActivitiMigrator migrator=createMigrator();
-  Map<String,Document> migratedProcesses=migrator.convertProcesses();
-  writeConvertedProcesses(migratedProcesses,workingDir);
+  int nrOfProcesses=scanAndDeployProcessesToInMemDatabase(new File(workingDir + "/processes"));
+  if (nrOfProcesses > 0) {
+    ServiceFactory serviceFactory=createServiceFactory();
+    ProcessConversionService processConversionService=serviceFactory.getProcessConversionService();
+    Map<String,Document> migratedProcesses=processConversionService.convertAllProcessDefinitions();
+    writeConvertedProcesses(migratedProcesses,workingDir);
+  }
+ else {
+    if (LOGGER.isLoggable(Level.INFO)) {
+      LOGGER.info("No process definitions were found");
+    }
+  }
 }

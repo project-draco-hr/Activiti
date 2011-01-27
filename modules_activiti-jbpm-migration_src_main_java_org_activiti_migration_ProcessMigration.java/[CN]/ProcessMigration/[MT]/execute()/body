@@ -1,9 +1,0 @@
-{
-  if (LOGGER.isLoggable(Level.INFO)) {
-    LOGGER.info("Process migration started. Working directory = '" + workingDir + "'");
-  }
-  Jbpm3ToActivitiMigrator migrator=createMigrator();
-  Map<String,Document> migratedProcesses=migrator.convertProcesses();
-  writeConvertedProcesses(migratedProcesses,workingDir);
-  migrator.deployConvertedProcessesToActiviti();
-}
