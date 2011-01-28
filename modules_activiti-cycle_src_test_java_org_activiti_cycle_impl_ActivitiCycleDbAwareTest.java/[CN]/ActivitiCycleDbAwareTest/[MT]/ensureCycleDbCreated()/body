@@ -1,0 +1,12 @@
+{
+  CommandExecutor commandExecutor=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutorTxRequired();
+  commandExecutor.execute(new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      DbSqlSession session=commandContext.getSession(DbSqlSession.class);
+      session.executeSchemaResourceOperation("cycle/drop","drop");
+      session.executeSchemaResourceOperation("cycle/create","create");
+      return null;
+    }
+  }
+);
+}
