@@ -6,7 +6,7 @@
       LOGGER.info("Converting process definition '" + processDefinition.getName() + "', version "+ processDefinition.getVersion());
     }
     Document processDefinitionDocument=convertProcessDefinition(processDefinition);
-    processDefinitionMap.put(processDefinition.getName(),processDefinitionDocument);
+    processDefinitionMap.put(processDefinition.getName() + "-" + processDefinition.getVersion(),processDefinitionDocument);
   }
   return processDefinitionMap;
 }

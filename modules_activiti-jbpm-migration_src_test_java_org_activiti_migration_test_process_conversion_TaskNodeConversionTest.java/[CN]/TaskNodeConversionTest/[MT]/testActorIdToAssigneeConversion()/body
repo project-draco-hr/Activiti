@@ -1,5 +1,5 @@
 {
-  String migratedBpmn20Xml=convertProcess("actorIdProcess");
+  String migratedBpmn20Xml=getConvertedProcess("actorIdProcess-1");
   String deployId=repositoryService.createDeployment().addString("actorIdProcess.bpmn20.xml",migratedBpmn20Xml).deploy().getId();
   String procId=runtimeService.startProcessInstanceByKey("actorIdProcess").getId();
   Task task=taskService.createTaskQuery().processInstanceId(procId).taskAssignee("kermit").singleResult();
