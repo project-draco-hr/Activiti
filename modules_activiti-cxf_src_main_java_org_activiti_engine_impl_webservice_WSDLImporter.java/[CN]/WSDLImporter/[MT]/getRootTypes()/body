@@ -5,7 +5,7 @@
     Document doc=parser.getDocument();
     Element root=(Element)doc.getFirstChild();
     Element typesElement=(Element)root.getElementsByTagName("wsdl:types").item(0);
-    return (Element)typesElement.getElementsByTagName("xs:schema").item(0);
+    return (Element)typesElement.getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema","schema").item(0);
   }
  catch (  SAXException e) {
     throw new ActivitiException(e.getMessage(),e);
