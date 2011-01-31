@@ -1,6 +1,7 @@
 {
-  if (processEngine == null) {
+  if (cachedProcessEngine == null) {
     processEngineConfiguration=(ProcessEngineConfigurationImpl)ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault();
-    processEngine=processEngineConfiguration.buildProcessEngine();
+    cachedProcessEngine=processEngineConfiguration.buildProcessEngine();
   }
+  processEngine=cachedProcessEngine;
 }
