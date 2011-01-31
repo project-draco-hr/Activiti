@@ -1,0 +1,9 @@
+{
+  SqlSession session=openSession();
+  try {
+    return (List<String>)session.selectList("selectCycleConfigGroups");
+  }
+  finally {
+    session.close();
+  }
+}
