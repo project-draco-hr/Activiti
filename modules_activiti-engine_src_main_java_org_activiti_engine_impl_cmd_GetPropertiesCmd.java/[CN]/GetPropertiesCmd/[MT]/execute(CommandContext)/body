@@ -1,0 +1,8 @@
+{
+  List<PropertyEntity> propertyEntities=commandContext.getDbSqlSession().selectList("org.activiti.persistence.selectProperties");
+  Map<String,String> properties=new HashMap<String,String>();
+  for (  PropertyEntity propertyEntity : propertyEntities) {
+    properties.put(propertyEntity.getName(),propertyEntity.getValue());
+  }
+  return properties;
+}
