@@ -1,6 +1,6 @@
 {
-  int historyLevel=CommandContext.getCurrent().getProcessEngineConfiguration().getHistoryLevel();
-  if (HistoryParseListener.fullHistoryEnabled(getActivity(),historyLevel)) {
+  ProcessEngineConfigurationImpl processEngineConfig=CommandContext.getCurrent().getProcessEngineConfiguration();
+  if (processEngineConfig.getHistoryLevel() >= processEngineConfig.HISTORYLEVEL_FULL) {
     HistoricActivityInstanceEntity historicActivityInstance=ActivityInstanceEndHandler.findActivityInstance(this,true);
     if (historicActivityInstance != null) {
       historicVariableUpdate.setActivityInstanceId(historicActivityInstance.getId());
