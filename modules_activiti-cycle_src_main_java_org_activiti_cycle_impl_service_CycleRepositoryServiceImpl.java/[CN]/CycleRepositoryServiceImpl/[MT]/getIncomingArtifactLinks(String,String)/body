@@ -2,8 +2,12 @@
   List<RepositoryArtifactLink> artifactLinks=new ArrayList<RepositoryArtifactLink>();
   List<RepositoryArtifactLinkEntity> linkResultList=linkDao.getIncomingArtifactLinks(targetConnectorId,targetArtifactId);
   for (  RepositoryArtifactLinkEntity entity : linkResultList) {
-    entity.resolveArtifacts(this);
-    artifactLinks.add(entity);
+    try {
+      entity.resolveArtifacts(this);
+      artifactLinks.add(entity);
+    }
+ catch (    BrokenLinkException e) {
+    }
   }
   return artifactLinks;
 }
