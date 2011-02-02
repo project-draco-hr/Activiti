@@ -1,6 +1,9 @@
 {
   Object oldValue=null;
   if (!UNSTORED_KEYS.contains(name)) {
+    if (fixedBindings != null && fixedBindings.containsKey(name)) {
+      throw new ActivitiException("Cannot set value in script: " + name);
+    }
     oldValue=variableScope.getVariable(name);
     variableScope.setVariable(name,value);
   }

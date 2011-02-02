@@ -1,3 +1,7 @@
 {
-  return EXECUTION_KEY.equals(key) || variableScope.hasVariable((String)key);
+  boolean keyInFixed=false;
+  if (fixedBindings != null) {
+    keyInFixed=fixedBindings.containsKey(key);
+  }
+  return keyInFixed || EXECUTION_KEY.equals(key) || variableScope.hasVariable((String)key);
 }
