@@ -1,8 +1,9 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(exclusiveGwElement,scope);
+  ActivityImpl activity=createActivityOnScope(exclusiveGwElement,scope);
   activity.setActivityBehavior(new ExclusiveGatewayActivityBehavior());
   parseExecutionListenersOnScope(exclusiveGwElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseExclusiveGateway(exclusiveGwElement,scope,activity);
   }
+  return activity;
 }

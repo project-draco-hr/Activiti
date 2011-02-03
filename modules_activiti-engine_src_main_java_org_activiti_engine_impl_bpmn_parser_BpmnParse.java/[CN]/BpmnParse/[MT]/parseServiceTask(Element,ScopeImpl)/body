@@ -1,5 +1,5 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(serviceTaskElement,scope);
+  ActivityImpl activity=createActivityOnScope(serviceTaskElement,scope);
   String type=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"type");
   String className=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"class");
   String expression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"expression");
@@ -60,4 +60,5 @@
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseServiceTask(serviceTaskElement,scope,activity);
   }
+  return activity;
 }

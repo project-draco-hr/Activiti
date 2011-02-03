@@ -1,4 +1,5 @@
 {
+  sequenceFlows=new HashMap<String,TransitionImpl>();
   ProcessDefinitionEntity processDefinition=new ProcessDefinitionEntity();
   processDefinition.setKey(processElement.attribute("id"));
   processDefinition.setName(processElement.attribute("name"));
@@ -6,8 +7,8 @@
   processDefinition.setProperty("documentation",parseDocumentation(processElement));
   processDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
   processDefinition.setDeploymentId(deployment.getId());
-  if (LOG.isLoggable(Level.FINE)) {
-    LOG.fine("Parsing process " + processDefinition.getKey());
+  if (LOGGER.isLoggable(Level.FINE)) {
+    LOGGER.fine("Parsing process " + processDefinition.getKey());
   }
   parseScope(processElement,processDefinition);
   for (  BpmnParseListener parseListener : parseListeners) {

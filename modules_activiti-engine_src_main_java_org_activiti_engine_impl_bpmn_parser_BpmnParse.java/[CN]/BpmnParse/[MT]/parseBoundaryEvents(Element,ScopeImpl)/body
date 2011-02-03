@@ -5,14 +5,14 @@
       addError("AttachedToRef is required when using a timerEventDefinition",boundaryEventElement);
     }
     String id=boundaryEventElement.attribute("id");
-    if (LOG.isLoggable(Level.FINE)) {
-      LOG.fine("Parsing boundary event " + id);
+    if (LOGGER.isLoggable(Level.FINE)) {
+      LOGGER.fine("Parsing boundary event " + id);
     }
     ActivityImpl parentActivity=scopeElement.findActivity(attachedToRef);
     if (parentActivity == null) {
       addError("Invalid reference in boundary event. Make sure that the referenced activity is " + "defined in the same scope as the boundary event",boundaryEventElement);
     }
-    ActivityImpl nestedActivity=parseAndCreateActivityOnScopeElement(boundaryEventElement,parentActivity);
+    ActivityImpl nestedActivity=createActivityOnScope(boundaryEventElement,parentActivity);
     String cancelActivity=boundaryEventElement.attribute("cancelActivity","true");
     boolean interrupting=true;
     BoundaryEventActivityBehavior behavior=new BoundaryEventActivityBehavior(interrupting);

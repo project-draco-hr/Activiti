@@ -1,5 +1,5 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(sendTaskElement,scope);
+  ActivityImpl activity=createActivityOnScope(sendTaskElement,scope);
   String type=sendTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"type");
   String implementation=sendTaskElement.attribute("implementation");
   String operationRef=this.resolveName(sendTaskElement.attribute("operationRef"));
@@ -41,4 +41,5 @@
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseSendTask(sendTaskElement,scope,activity);
   }
+  return activity;
 }

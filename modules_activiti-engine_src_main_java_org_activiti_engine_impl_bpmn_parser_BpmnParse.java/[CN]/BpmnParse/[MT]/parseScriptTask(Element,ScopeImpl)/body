@@ -1,5 +1,5 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(scriptTaskElement,scope);
+  ActivityImpl activity=createActivityOnScope(scriptTaskElement,scope);
   String script=null;
   String language=null;
   String resultVariableName=null;
@@ -19,4 +19,5 @@
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseScriptTask(scriptTaskElement,scope,activity);
   }
+  return activity;
 }

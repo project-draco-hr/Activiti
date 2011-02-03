@@ -1,5 +1,5 @@
 {
-  ActivityImpl activity=parseAndCreateActivityOnScopeElement(userTaskElement,scope);
+  ActivityImpl activity=createActivityOnScope(userTaskElement,scope);
   TaskDefinition taskDefinition=parseTaskDefinition(userTaskElement,activity.getId(),(ProcessDefinitionEntity)scope.getProcessDefinition());
   UserTaskActivityBehavior userTaskActivity=new UserTaskActivityBehavior(expressionManager,taskDefinition);
   activity.setActivityBehavior(userTaskActivity);
@@ -8,4 +8,5 @@
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseUserTask(userTaskElement,scope,activity);
   }
+  return activity;
 }
