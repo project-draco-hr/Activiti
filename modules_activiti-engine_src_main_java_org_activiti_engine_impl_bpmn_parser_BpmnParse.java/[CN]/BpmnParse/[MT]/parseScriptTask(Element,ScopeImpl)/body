@@ -14,7 +14,7 @@
     }
     resultVariableName=scriptTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
   }
-  activity.setActivityBehavior(new ScriptTaskActivity(script,language,resultVariableName));
+  activity.setActivityBehavior(new ScriptTaskActivityBehavior(script,language,resultVariableName));
   parseExecutionListenersOnScope(scriptTaskElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseScriptTask(scriptTaskElement,scope,activity);

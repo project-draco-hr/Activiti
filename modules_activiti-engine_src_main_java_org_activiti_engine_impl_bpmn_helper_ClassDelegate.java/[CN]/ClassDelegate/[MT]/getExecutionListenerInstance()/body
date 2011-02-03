@@ -1,0 +1,12 @@
+{
+  Object delegateInstance=instantiateDelegate(className,fieldDeclarations);
+  if (delegateInstance instanceof ExecutionListener) {
+    return (ExecutionListener)delegateInstance;
+  }
+ else   if (delegateInstance instanceof JavaDelegate) {
+    return new ServiceTaskJavaDelegateActivityBehavior((JavaDelegate)delegateInstance);
+  }
+ else {
+    throw new ActivitiException(delegateInstance.getClass().getName() + " doesn't implement " + ExecutionListener.class+ " nor "+ JavaDelegate.class);
+  }
+}

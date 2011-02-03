@@ -1,0 +1,13 @@
+{
+  HtmlEmail email=new HtmlEmail();
+  try {
+    email.setHtmlMsg(html);
+    if (text != null) {
+      email.setTextMsg(text);
+    }
+    return email;
+  }
+ catch (  EmailException e) {
+    throw new ActivitiException("Could not create HTML email",e);
+  }
+}

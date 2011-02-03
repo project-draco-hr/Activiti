@@ -1,7 +1,7 @@
 {
   ActivityImpl activity=parseAndCreateActivityOnScopeElement(userTaskElement,scope);
   TaskDefinition taskDefinition=parseTaskDefinition(userTaskElement,activity.getId(),(ProcessDefinitionEntity)scope.getProcessDefinition());
-  UserTaskActivity userTaskActivity=new UserTaskActivity(expressionManager,taskDefinition);
+  UserTaskActivityBehavior userTaskActivity=new UserTaskActivityBehavior(expressionManager,taskDefinition);
   activity.setActivityBehavior(userTaskActivity);
   parseProperties(userTaskElement,activity);
   parseExecutionListenersOnScope(userTaskElement,activity);

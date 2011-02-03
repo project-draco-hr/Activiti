@@ -1,0 +1,9 @@
+{
+  Object delegateInstance=instantiateDelegate(className,fieldDeclarations);
+  if (delegateInstance instanceof TaskListener) {
+    return (TaskListener)delegateInstance;
+  }
+ else {
+    throw new ActivitiException(delegateInstance.getClass().getName() + " doesn't implement " + TaskListener.class);
+  }
+}

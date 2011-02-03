@@ -1,0 +1,16 @@
+{
+  String[] tos=splitAndTrim(to);
+  if (tos != null) {
+    for (    String t : tos) {
+      try {
+        email.addTo(t);
+      }
+ catch (      EmailException e) {
+        throw new ActivitiException("Could not add " + t + " as recipient",e);
+      }
+    }
+  }
+ else {
+    throw new ActivitiException("No recipient could be found for sending email");
+  }
+}

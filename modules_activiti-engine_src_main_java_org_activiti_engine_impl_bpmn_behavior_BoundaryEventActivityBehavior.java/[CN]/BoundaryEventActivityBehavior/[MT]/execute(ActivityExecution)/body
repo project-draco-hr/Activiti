@@ -1,0 +1,15 @@
+{
+  List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
+  List<ExecutionEntity> interruptedExecutions=null;
+  if (interrupting) {
+    ExecutionEntity executionImpl=(ExecutionEntity)execution;
+    if (executionImpl.getSubProcessInstance() != null) {
+      executionImpl.getSubProcessInstance().deleteCascade(executionImpl.getDeleteReason());
+    }
+    interruptedExecutions=new ArrayList<ExecutionEntity>(executionImpl.getExecutions());
+    for (    ExecutionEntity interruptedExecution : interruptedExecutions) {
+      interruptedExecution.deleteCascade("interrupting boundary event '" + execution.getActivity().getId() + "' fired");
+    }
+  }
+  execution.takeAll(outgoingTransitions,(List)interruptedExecutions);
+}

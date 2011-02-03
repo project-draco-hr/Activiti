@@ -1,0 +1,22 @@
+{
+  String toStr=getStringFromField(to,execution);
+  String fromStr=getStringFromField(from,execution);
+  String ccStr=getStringFromField(cc,execution);
+  String bccStr=getStringFromField(bcc,execution);
+  String subjectStr=getStringFromField(subject,execution);
+  String textStr=getStringFromField(text,execution);
+  String htmlStr=getStringFromField(html,execution);
+  Email email=createEmail(textStr,htmlStr);
+  addTo(email,toStr);
+  setFrom(email,fromStr);
+  addCc(email,ccStr);
+  addBcc(email,bccStr);
+  setSubject(email,subjectStr);
+  setMailServerProperties(email);
+  try {
+    email.send();
+  }
+ catch (  EmailException e) {
+    throw new ActivitiException("Could not send e-mail",e);
+  }
+}

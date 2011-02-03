@@ -1,0 +1,9 @@
+{
+  ProcessDefinitionImpl processDefinition=CommandContext.getCurrent().getRepositorySession().findDeployedLatestProcessDefinitionByKey(processDefinitonKey);
+  PvmProcessInstance subProcessInstance=execution.createSubProcessInstance(processDefinition);
+  for (  AbstractDataAssociation dataInputAssociation : dataInputAssociations) {
+    Object value=execution.getVariable(dataInputAssociation.getSource());
+    subProcessInstance.setVariable(dataInputAssociation.getTarget(),value);
+  }
+  subProcessInstance.start();
+}

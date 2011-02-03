@@ -1,0 +1,11 @@
+{
+  ExecutionEntity concurrentRoot=null;
+  ExecutionEntity executionEntity=(ExecutionEntity)execution;
+  if (executionEntity.isConcurrent()) {
+    concurrentRoot=(ExecutionEntity)executionEntity.getParent();
+  }
+ else {
+    concurrentRoot=executionEntity;
+  }
+  concurrentRoot.forceUpdate();
+}

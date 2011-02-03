@@ -1,0 +1,13 @@
+{
+  String[] bccs=splitAndTrim(bcc);
+  if (bccs != null) {
+    for (    String b : bccs) {
+      try {
+        email.addBcc(b);
+      }
+ catch (      EmailException e) {
+        throw new ActivitiException("Could not add " + b + " as bcc recipient",e);
+      }
+    }
+  }
+}
