@@ -1,0 +1,29 @@
+{
+  if (!(activity.getActivityBehavior() instanceof AbstractBpmnActivityBehavior)) {
+    return;
+  }
+  Element miLoopCharacteristics=activityElement.element("multiInstanceLoopCharacteristics");
+  if (miLoopCharacteristics != null) {
+    boolean isSequential=parseBooleanAttribute(miLoopCharacteristics.attribute("isSequential"),false);
+    String type=(String)activity.getProperty("type");
+    activity.setProperty("type","multi-instance " + type);
+    activity.setScope(true);
+    ActivityImpl nestedActivity=activity.createActivity("multi-instance " + activityElement.attribute("id"));
+    nestedActivity.setProperty("type",type);
+    nestedActivity.setActivityBehavior(activity.getActivityBehavior());
+    MultiInstanceActivityBehavior miActivityBehavior=new MultiInstanceActivityBehavior(nestedActivity);
+    miActivityBehavior.setSequential(isSequential);
+    activity.setActivityBehavior(miActivityBehavior);
+    Element loopCardinality=miLoopCharacteristics.element("loopCardinality");
+    if (loopCardinality != null) {
+      String loopCardinalityText=loopCardinality.getText();
+      if (loopCardinalityText == null || "".equals(loopCardinalityText)) {
+        addError("loopCardinality must be defined for a multiInstanceLoopCharacteristics definition ",miLoopCharacteristics);
+      }
+      miActivityBehavior.setLoopCardinalityExpression(expressionManager.createExpression(loopCardinalityText));
+    }
+    for (    BpmnParseListener parseListener : parseListeners) {
+      parseListener.parseMultiInstanceLoopCharacteristics(activityElement,miLoopCharacteristics,activity,nestedActivity);
+    }
+  }
+}

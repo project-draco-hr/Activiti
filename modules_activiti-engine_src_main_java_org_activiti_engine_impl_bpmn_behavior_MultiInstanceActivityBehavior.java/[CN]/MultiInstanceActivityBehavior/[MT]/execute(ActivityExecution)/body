@@ -1,2 +1,23 @@
 {
+  int loopCardinalityValue=((Number)loopCardinalityExpression.getValue(execution)).intValue();
+  if (loopCardinalityValue <= 0) {
+    throw new ActivitiException("Invalid loopCardinality: must be positive integer value" + ", but was " + loopCardinalityValue);
+  }
+  setOuterActivityVariable(execution,NUMBER_OF_INSTANCES,loopCardinalityValue);
+  setOuterActivityVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,1);
+  setOuterActivityVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,0);
+  if (isSequential || loopCardinalityValue == 1) {
+    setInnerActivityVariable(execution,LOOP_COUNTER,0);
+    execution.executeActivity(innerActivity);
+  }
+ else {
+    for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
+      ActivityExecution concurrentExecution=execution.createExecution();
+      concurrentExecution.setActive(true);
+      concurrentExecution.setConcurrent(true);
+      concurrentExecution.setScope(false);
+      setInnerActivityVariable(concurrentExecution,LOOP_COUNTER,loopCounter);
+      concurrentExecution.executeActivity(innerActivity);
+    }
+  }
 }

@@ -1,0 +1,35 @@
+{
+  int loopCounter=getInnerActivityVariable(execution,LOOP_COUNTER);
+  if (isSequential) {
+    int numberOfInstances=getOuterActivityVariable(execution,NUMBER_OF_INSTANCES);
+    int numberOfCompletedInstances=getOuterActivityVariable(execution,NUMBER_OF_COMPLETED_INSTANCES);
+    if (loopCounter == numberOfInstances - 1) {
+      ((ExecutionEntity)execution).setActivity(innerActivity.getParentActivity());
+      super.leave(execution);
+    }
+ else {
+      setInnerActivityVariable(execution,LOOP_COUNTER,loopCounter + 1);
+      setOuterActivityVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,numberOfCompletedInstances + 1);
+      try {
+        execution.executeActivity(innerActivity);
+      }
+ catch (      Exception e) {
+        throw new ActivitiException("Could not execute inner activity behavior of multi instance behavior",e);
+      }
+    }
+  }
+ else {
+    int numberOfInstances=getOuterActivityVariable(execution.getParent(),NUMBER_OF_INSTANCES);
+    int numberOfCompletedInstances=getOuterActivityVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES);
+    execution.inactivate();
+    ((ExecutionEntity)execution.getParent()).forceUpdate();
+    List<ActivityExecution> joinedExecutions=execution.findInactiveConcurrentExecutions(execution.getActivity());
+    if (joinedExecutions.size() == numberOfInstances) {
+      ((ExecutionEntity)execution).setActivity(innerActivity.getParentActivity());
+      execution.takeAll(innerActivity.getParentActivity().getOutgoingTransitions(),joinedExecutions);
+    }
+ else {
+      setOuterActivityVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES,numberOfCompletedInstances++);
+    }
+  }
+}
