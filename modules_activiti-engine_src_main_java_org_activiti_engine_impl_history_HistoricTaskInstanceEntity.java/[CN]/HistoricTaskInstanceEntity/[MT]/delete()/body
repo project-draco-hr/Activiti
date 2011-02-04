@@ -1,0 +1,12 @@
+{
+  CommandContext commandContext=CommandContext.getCurrent();
+  int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
+    HistoricDetailQueryImpl variableQuery=(HistoricDetailQueryImpl)new HistoricDetailQueryImpl().taskId(id);
+    List<HistoricDetail> details=variableQuery.executeList(commandContext,null);
+    for (    HistoricDetail detail : details) {
+      ((HistoricDetailEntity)detail).delete();
+    }
+  }
+  commandContext.getDbSqlSession().delete(HistoricTaskInstanceEntity.class,id);
+}

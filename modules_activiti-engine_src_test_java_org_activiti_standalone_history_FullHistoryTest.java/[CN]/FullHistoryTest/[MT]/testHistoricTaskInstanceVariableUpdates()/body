@@ -9,4 +9,6 @@
   List<HistoricDetail> historicTaskVariableUpdates=historyService.createHistoricDetailQuery().taskId(taskId).variableUpdates().orderByVariableName().asc().list();
   assertEquals(2,historicTaskVariableUpdates.size());
   historyService.deleteHistoricTaskInstance(taskId);
+  historicTaskVariableUpdates=historyService.createHistoricDetailQuery().taskId(taskId).variableUpdates().orderByVariableName().asc().list();
+  assertEquals(0,historicTaskVariableUpdates.size());
 }

@@ -1,0 +1,6 @@
+{
+  if (id == null) {
+    throw new ActivitiException("Invalid historic task id : null");
+  }
+  return (HistoricTaskInstanceEntity)dbSqlSession.selectOne("selectHistoricTaskInstance",id);
+}
