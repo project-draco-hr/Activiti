@@ -1,0 +1,26 @@
+{
+  if (isEngineTablePresent()) {
+    dbSchemaUpgrade("engine");
+  }
+ else {
+    executeMandatorySchemaResource("create","engine");
+  }
+  if (isHistoryTablePresent()) {
+    dbSchemaUpgrade("history");
+  }
+ else {
+    executeMandatorySchemaResource("create","history");
+  }
+  if (isIdentityTablePresent()) {
+    dbSchemaUpgrade("identity");
+  }
+ else {
+    executeMandatorySchemaResource("create","identity");
+  }
+  if (isCycleTablePresent()) {
+    dbSchemaUpgrade("cycle");
+  }
+ else {
+    executeMandatorySchemaResource("create","cycle");
+  }
+}

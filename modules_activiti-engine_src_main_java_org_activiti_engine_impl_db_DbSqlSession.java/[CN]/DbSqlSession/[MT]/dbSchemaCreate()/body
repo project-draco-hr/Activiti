@@ -1,3 +1,14 @@
 {
-  executeSchemaResourceOperation("create","create",false);
+  if (dbSqlSessionFactory.isDbEngineUsed() && !isEngineTablePresent()) {
+    executeMandatorySchemaResource("create","engine");
+  }
+  if (dbSqlSessionFactory.isDbHistoryUsed() && !isHistoryTablePresent()) {
+    executeMandatorySchemaResource("create","history");
+  }
+  if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
+    executeMandatorySchemaResource("create","identity");
+  }
+  if (dbSqlSessionFactory.isDbCycleUsed() && !isCycleTablePresent()) {
+    executeMandatorySchemaResource("create","cycle");
+  }
 }

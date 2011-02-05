@@ -1,0 +1,18 @@
+{
+  Connection connection=null;
+  try {
+    connection=sqlSession.getConnection();
+    DatabaseMetaData databaseMetaData=connection.getMetaData();
+    ResultSet tables=null;
+    try {
+      tables=databaseMetaData.getTables(null,null,tableName,TABLE_TYPES);
+      return tables.next();
+    }
+  finally {
+      tables.close();
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't check if tables are already present using metadata: " + e.getMessage(),e);
+  }
+}
