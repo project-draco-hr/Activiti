@@ -1,5 +1,6 @@
 {
   String sqlStatement=null;
+  String exceptionSqlStatement=null;
   try {
     Connection connection=sqlSession.getConnection();
     Exception exception=null;
@@ -17,6 +18,7 @@
  catch (        Exception e) {
           if (exception == null) {
             exception=e;
+            exceptionSqlStatement=sqlStatement;
           }
           log.log(Level.SEVERE,"problem during schema " + operation + ", statement '"+ sqlStatement,e);
         }
@@ -28,6 +30,6 @@
     log.fine("activiti db schema " + operation + " successful");
   }
  catch (  Exception e) {
-    throw new ActivitiException("couldn't " + operation + " db schema: "+ sqlStatement,e);
+    throw new ActivitiException("couldn't " + operation + " db schema: "+ exceptionSqlStatement,e);
   }
 }

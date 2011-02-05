@@ -1,0 +1,14 @@
+{
+  if (dbSqlSessionFactory.isDbEngineUsed()) {
+    executeSchemaResource(operation,getResourceForDbOperation(directory,operation,"engine"),isOptional);
+  }
+  if (dbSqlSessionFactory.isDbIdentityUsed()) {
+    executeSchemaResource(operation,getResourceForDbOperation(directory,operation,"identity"),isOptional);
+  }
+  if (dbSqlSessionFactory.isDbHistoryUsed()) {
+    executeSchemaResource(operation,getResourceForDbOperation(directory,operation,"history"),isOptional);
+  }
+  if (dbSqlSessionFactory.isDbCycleUsed()) {
+    executeSchemaResource(operation,getResourceForDbOperation(directory,operation,"cycle"),isOptional);
+  }
+}

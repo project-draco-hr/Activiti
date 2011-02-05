@@ -3,7 +3,12 @@
   try {
     inputStream=ReflectUtil.getResourceAsStream(resourceName);
     if (inputStream == null) {
-      throw new ActivitiException("resource '" + resourceName + "' is not available");
+      if (isOptional) {
+        log.fine("no schema resource " + resourceName + " for "+ operation);
+      }
+ else {
+        throw new ActivitiException("resource '" + resourceName + "' is not available");
+      }
     }
     executeSchemaResource(operation,resourceName,inputStream);
   }

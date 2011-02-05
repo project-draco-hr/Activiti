@@ -22,7 +22,7 @@
     }
     int minorLibraryVersionNumber=Integer.parseInt(libraryVersion.substring(2));
     while (minorDbVersionNumber < minorLibraryVersionNumber) {
-      upgradeStepStaticResource(minorDbVersionNumber);
+      executeSchemaResourceOperation("upgrade","upgradestep.5" + minorDbVersionNumber + ".to."+ (minorDbVersionNumber + 1),true);
       upgradeStepJavaClass(minorDbVersionNumber);
       minorDbVersionNumber++;
     }
