@@ -2,15 +2,15 @@
   if (dbFactories.get(processEngineName) == null) {
 synchronized (dbFactories) {
       if (dbFactories.get(processEngineName) == null) {
-        ProcessEngineConfigurationImpl processEngineConfiguration=(ProcessEngineConfigurationImpl)getProcessEngineConfiguration();
+        ProcessEngineImpl engineImpl=(ProcessEngineImpl)ProcessEngines.getProcessEngine(processEngineName);
+        ProcessEngineConfigurationImpl processEngineConfiguration=engineImpl.getProcessEngineConfiguration();
         DataSource dataSource=processEngineConfiguration.getDataSource();
         TransactionFactory transactionFactory=processEngineConfiguration.getTransactionFactory();
         SqlSessionFactory sqlSessionFactory=createSessionFactory(dataSource,transactionFactory);
-        CycleDbSqlSessionFactory factory=new CycleDbSqlSessionFactory();
+        DbSqlSessionFactory factory=new DbSqlSessionFactory();
         factory.setDatabaseType(processEngineConfiguration.getDatabaseType());
         factory.setIdGenerator(processEngineConfiguration.getIdGenerator());
         factory.setSqlSessionFactory(sqlSessionFactory);
-        performDbSchemaCreation(factory,processEngineConfiguration);
         dbFactories.put(processEngineName,factory);
       }
     }
