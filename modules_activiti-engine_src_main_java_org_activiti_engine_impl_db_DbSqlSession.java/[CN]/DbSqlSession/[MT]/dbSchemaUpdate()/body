@@ -3,24 +3,24 @@
     dbSchemaUpgrade("engine");
   }
  else {
-    executeMandatorySchemaResource("create","engine");
+    dbSchemaCreateEngine();
   }
   if (isHistoryTablePresent()) {
     dbSchemaUpgrade("history");
   }
- else {
-    executeMandatorySchemaResource("create","history");
+ else   if (dbSqlSessionFactory.isDbHistoryUsed()) {
+    dbSchemaCreateHistory();
   }
   if (isIdentityTablePresent()) {
     dbSchemaUpgrade("identity");
   }
- else {
-    executeMandatorySchemaResource("create","identity");
+ else   if (dbSqlSessionFactory.isDbIdentityUsed()) {
+    dbSchemaCreateIdentity();
   }
   if (isCycleTablePresent()) {
     dbSchemaUpgrade("cycle");
   }
- else {
-    executeMandatorySchemaResource("create","cycle");
+ else   if (dbSqlSessionFactory.isDbCycleUsed()) {
+    dbSchemaCreateCycle();
   }
 }

@@ -1,6 +1,8 @@
 {
   HistoricProcessInstanceEntity historicProcessInstance=CommandContext.getCurrent().getHistorySession().findHistoricProcessInstance(execution.getProcessInstanceId());
-  String deleteReason=((ExecutionEntity)execution).getDeleteReason();
-  historicProcessInstance.markEnded(deleteReason);
-  historicProcessInstance.setEndActivityId(((ExecutionEntity)execution).getActivityId());
+  if (historicProcessInstance != null) {
+    String deleteReason=((ExecutionEntity)execution).getDeleteReason();
+    historicProcessInstance.markEnded(deleteReason);
+    historicProcessInstance.setEndActivityId(((ExecutionEntity)execution).getActivityId());
+  }
 }

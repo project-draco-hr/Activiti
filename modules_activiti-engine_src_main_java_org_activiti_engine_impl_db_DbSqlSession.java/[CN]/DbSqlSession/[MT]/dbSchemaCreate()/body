@@ -1,14 +1,20 @@
 {
-  if (dbSqlSessionFactory.isDbEngineUsed() && !isEngineTablePresent()) {
-    executeMandatorySchemaResource("create","engine");
+  if (isEngineTablePresent()) {
+    String dbVersion=getDbVersion();
+    if (!ProcessEngine.VERSION.equals(dbVersion)) {
+      throw new ActivitiWrongDbException(ProcessEngine.VERSION,dbVersion);
+    }
   }
-  if (dbSqlSessionFactory.isDbHistoryUsed() && !isHistoryTablePresent()) {
-    executeMandatorySchemaResource("create","history");
+ else {
+    dbSchemaCreateEngine();
   }
-  if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
-    executeMandatorySchemaResource("create","identity");
+  if (dbSqlSessionFactory.isDbHistoryUsed()) {
+    dbSchemaCreateHistory();
   }
-  if (dbSqlSessionFactory.isDbCycleUsed() && !isCycleTablePresent()) {
-    executeMandatorySchemaResource("create","cycle");
+  if (dbSqlSessionFactory.isDbIdentityUsed()) {
+    dbSchemaCreateIdentity();
+  }
+  if (dbSqlSessionFactory.isDbCycleUsed()) {
+    dbSchemaCreateCycle();
   }
 }

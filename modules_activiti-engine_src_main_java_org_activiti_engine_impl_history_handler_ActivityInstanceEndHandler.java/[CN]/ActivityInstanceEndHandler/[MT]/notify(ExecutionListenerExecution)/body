@@ -1,5 +1,7 @@
 {
   ExecutionEntity executionEntity=(ExecutionEntity)execution;
   HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(executionEntity);
-  historicActivityInstance.markEnded(null);
+  if (historicActivityInstance != null) {
+    historicActivityInstance.markEnded(null);
+  }
 }
