@@ -1,7 +1,12 @@
 {
   SqlSession session=openSession();
   try {
-    return (List<String>)session.selectList("selectCycleConfigGroups");
+    List<CycleConfigEntity> entities=(List<CycleConfigEntity>)session.selectList("selectCycleConfigGroups");
+    List<String> result=new ArrayList<String>();
+    for (    CycleConfigEntity entity : entities) {
+      result.add(entity.getGroupName());
+    }
+    return result;
   }
   finally {
     session.close();
