@@ -1,23 +1,28 @@
 {
-  int loopCardinalityValue=((Number)loopCardinalityExpression.getValue(execution)).intValue();
+  int loopCardinalityValue=resolveLoopCardinality(execution);
   if (loopCardinalityValue <= 0) {
     throw new ActivitiException("Invalid loopCardinality: must be positive integer value" + ", but was " + loopCardinalityValue);
   }
-  setOuterActivityVariable(execution,NUMBER_OF_INSTANCES,loopCardinalityValue);
-  setOuterActivityVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,1);
-  setOuterActivityVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,0);
+  setLoopVariable(execution,NUMBER_OF_INSTANCES,loopCardinalityValue);
+  setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,1);
+  setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,0);
   if (isSequential || loopCardinalityValue == 1) {
-    setInnerActivityVariable(execution,LOOP_COUNTER,0);
-    execution.executeActivity(innerActivity);
+    setLoopVariable(execution,LOOP_COUNTER,0);
+    activityBehavior.execute(execution);
   }
  else {
+    List<ActivityExecution> concurrentExecutions=new ArrayList<ActivityExecution>();
     for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
       ActivityExecution concurrentExecution=execution.createExecution();
       concurrentExecution.setActive(true);
       concurrentExecution.setConcurrent(true);
       concurrentExecution.setScope(false);
-      setInnerActivityVariable(concurrentExecution,LOOP_COUNTER,loopCounter);
-      concurrentExecution.executeActivity(innerActivity);
+      concurrentExecutions.add(concurrentExecution);
+    }
+    for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
+      ActivityExecution concurrentExecution=concurrentExecutions.get(loopCounter);
+      setLoopVariable(concurrentExecution,LOOP_COUNTER,loopCounter);
+      activityBehavior.execute(concurrentExecution);
     }
   }
 }

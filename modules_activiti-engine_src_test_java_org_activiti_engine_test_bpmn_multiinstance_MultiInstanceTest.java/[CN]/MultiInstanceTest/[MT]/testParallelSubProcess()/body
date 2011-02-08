@@ -1,0 +1,9 @@
+{
+  String procId=runtimeService.startProcessInstanceByKey("miParallelSubprocess").getId();
+  List<Task> tasks=taskService.createTaskQuery().list();
+  assertEquals(10,tasks.size());
+  for (  Task task : tasks) {
+    taskService.complete(task.getId());
+  }
+  assertProcessEnded(procId);
+}

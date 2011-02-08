@@ -46,7 +46,7 @@
       ExecutionEntity outgoingExecution=null;
       if (recyclableExecutions.isEmpty()) {
         outgoingExecution=concurrentRoot.createExecution();
-        log.fine("new " + outgoingExecution + " created to take transition "+ outgoingTransition);
+        log.fine("new " + outgoingExecution + " with parent "+ outgoingExecution.getParent()+ " created to take transition "+ outgoingTransition);
       }
  else {
         outgoingExecution=(ExecutionEntity)recyclableExecutions.remove(0);

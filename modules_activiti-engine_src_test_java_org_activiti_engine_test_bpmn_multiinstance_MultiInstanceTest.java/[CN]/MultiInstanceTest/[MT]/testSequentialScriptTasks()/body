@@ -1,0 +1,9 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("sum",0);
+  vars.put("nrOfLoops",5);
+  runtimeService.startProcessInstanceByKey("miSequentialScriptTask",vars);
+  Execution waitStateExecution=runtimeService.createExecutionQuery().singleResult();
+  int sum=(Integer)runtimeService.getVariable(waitStateExecution.getId(),"sum");
+  assertEquals(10,sum);
+}
