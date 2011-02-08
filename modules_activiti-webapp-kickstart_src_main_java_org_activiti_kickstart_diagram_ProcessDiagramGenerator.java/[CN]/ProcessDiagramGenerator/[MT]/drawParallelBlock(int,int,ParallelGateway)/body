@@ -11,7 +11,7 @@
     SequenceFlow sequenceFlow1=sequenceFlows.get(i);
     drawSequenceFlow(sequenceFlow1,centerOfRhombus,y,centerOfRhombus,currentHeight,centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight);
     FlowElement userTask=sequenceFlow1.getTargetRef();
-    drawUserTask(userTask,centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight - ((TASK_HEIGHT + TASK_HEIGHT_SPACING) / 2),TASK_WIDTH,TASK_HEIGHT);
+    drawTask(userTask,centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight - ((TASK_HEIGHT + TASK_HEIGHT_SPACING) / 2),TASK_WIDTH,TASK_HEIGHT);
     handledElements.add(sequenceFlow1.getTargetRef().getId());
     int seqFlowX=centerOfRhombus + SEQUENCE_FLOW_WIDTH + TASK_WIDTH;
     SequenceFlow sequenceFlow2=outgoingSequenceFlowMapping.get(userTask.getId()).get(0);
@@ -22,7 +22,7 @@
     SequenceFlow sequenceFlow1=sequenceFlows.get(nrOfTasks / 2);
     drawSequenceFlow(sequenceFlow1,centerOfRhombus + GATEWAY_WIDTH / 2,startY + EVENT_WIDTH / 2,centerOfRhombus + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
     FlowElement userTask=sequenceFlow1.getTargetRef();
-    drawUserTask(sequenceFlow1.getTargetRef(),centerOfRhombus + SEQUENCE_FLOW_WIDTH,startY - ((TASK_HEIGHT - GATEWAY_HEIGHT)),TASK_WIDTH,TASK_HEIGHT);
+    drawTask(sequenceFlow1.getTargetRef(),centerOfRhombus + SEQUENCE_FLOW_WIDTH,startY - ((TASK_HEIGHT - GATEWAY_HEIGHT)),TASK_WIDTH,TASK_HEIGHT);
     handledElements.add(sequenceFlow1.getTargetRef().getId());
     int seqflowX=centerOfRhombus + GATEWAY_WIDTH / 2 + (SEQUENCE_FLOW_WIDTH - GATEWAY_WIDTH / 2) + TASK_WIDTH;
     SequenceFlow sequenceFlow2=outgoingSequenceFlowMapping.get(userTask.getId()).get(0);
@@ -34,7 +34,7 @@
     SequenceFlow sequenceFlow1=sequenceFlows.get(i);
     drawSequenceFlow(sequenceFlow1,centerOfRhombus,y + GATEWAY_HEIGHT,centerOfRhombus,currentHeight,centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight);
     FlowElement userTask=sequenceFlow1.getTargetRef();
-    drawUserTask(sequenceFlow1.getTargetRef(),centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight - ((TASK_HEIGHT + TASK_HEIGHT_SPACING) / 2),TASK_WIDTH,TASK_HEIGHT);
+    drawTask(sequenceFlow1.getTargetRef(),centerOfRhombus + SEQUENCE_FLOW_WIDTH,currentHeight - ((TASK_HEIGHT + TASK_HEIGHT_SPACING) / 2),TASK_WIDTH,TASK_HEIGHT);
     int seqFlowX=centerOfRhombus + SEQUENCE_FLOW_WIDTH + TASK_WIDTH;
     SequenceFlow sequenceFlow2=outgoingSequenceFlowMapping.get(userTask.getId()).get(0);
     drawSequenceFlow(sequenceFlow2,seqFlowX,currentHeight,seqFlowX + LONG_SEQUENCE_FLOW_WITHOUT_ARROW_WIDTH,currentHeight,seqFlowX + LONG_SEQUENCE_FLOW_WITHOUT_ARROW_WIDTH,y + GATEWAY_HEIGHT);

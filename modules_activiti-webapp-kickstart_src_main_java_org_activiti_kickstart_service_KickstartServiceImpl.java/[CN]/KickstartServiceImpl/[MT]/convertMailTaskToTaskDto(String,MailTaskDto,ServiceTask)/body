@@ -1,0 +1,35 @@
+{
+  List<AbstractExtensionElement> extensionElements=serviceTask.getExtensionElements().getAny();
+  for (  AbstractExtensionElement abstractExtensionElement : extensionElements) {
+    ActivitFieldExtensionElement field=(ActivitFieldExtensionElement)abstractExtensionElement;
+    String fieldName=field.getName();
+    if (fieldName.equals("to")) {
+      task.getTo().setStringValue(field.getStringValue());
+      task.getTo().setExpression(field.getExpression());
+    }
+ else     if (fieldName.equals("from")) {
+      task.getFrom().setStringValue(field.getStringValue());
+      task.getFrom().setExpression(field.getExpression());
+    }
+ else     if (fieldName.equals("subject")) {
+      task.getSubject().setStringValue(field.getStringValue());
+      task.getSubject().setExpression(field.getExpression());
+    }
+ else     if (fieldName.equals("cc")) {
+      task.getCc().setStringValue(field.getStringValue());
+      task.getCc().setExpression(field.getExpression());
+    }
+ else     if (fieldName.equals("bcc")) {
+      task.getBcc().setStringValue(field.getStringValue());
+      task.getBcc().setExpression(field.getExpression());
+    }
+ else     if (fieldName.equals("html")) {
+      task.getHtml().setStringValue(field.getStringValue());
+      task.getHtml().setExpression(field.getExpression());
+    }
+ else     if (fieldName.equals("text")) {
+      task.getText().setStringValue(field.getStringValue());
+      task.getText().setExpression(field.getExpression());
+    }
+  }
+}

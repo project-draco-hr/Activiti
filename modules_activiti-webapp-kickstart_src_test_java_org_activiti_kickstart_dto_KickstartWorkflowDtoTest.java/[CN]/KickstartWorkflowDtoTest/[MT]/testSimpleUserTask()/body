@@ -1,0 +1,21 @@
+{
+  KickstartWorkflowDto dto=new KickstartWorkflowDto();
+  dto.setName("One User Task Workflow");
+  dto.setDescription("Simple workflow definition containing one user task");
+  BaseTaskDto task=new UserTaskDto();
+  task.setId("myId");
+  task.setName("My First User task");
+  task.setDescription("Desc first User task");
+  dto.addTask(task);
+  Definitions def=dto.toBpmn20Xml();
+  BPMNPlane bpmnPlane=def.getDiagram().get(0).getBPMNPlane();
+  List<FlowElement> flowElements=((Process)bpmnPlane.getBpmnElement()).getFlowElement();
+  assertEquals(5,flowElements.size());
+  int numberOfUserTasks=0;
+  for (  FlowElement flowElement : flowElements) {
+    if (flowElement instanceof UserTask) {
+      numberOfUserTasks++;
+    }
+  }
+  assertEquals("Should contain exactly one user task",1,numberOfUserTasks);
+}

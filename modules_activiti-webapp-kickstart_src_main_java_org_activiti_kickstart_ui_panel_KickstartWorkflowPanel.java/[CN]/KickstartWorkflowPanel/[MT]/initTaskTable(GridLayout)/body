@@ -4,8 +4,10 @@
     taskTable.addDefaultTaskRow();
   }
  else {
-    for (    TaskDto task : existingAdhocWorkflow.getTasks()) {
-      taskTable.addTaskRow(task);
+    for (    BaseTaskDto task : existingAdhocWorkflow.getTasks()) {
+      if (task instanceof UserTaskDto) {
+        taskTable.addTaskRow((UserTaskDto)task);
+      }
     }
   }
   layout.addComponent(new Label("Tasks"));

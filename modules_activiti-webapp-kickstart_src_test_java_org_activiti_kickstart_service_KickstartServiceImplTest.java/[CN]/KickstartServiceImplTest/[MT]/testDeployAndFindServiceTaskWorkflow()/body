@@ -1,0 +1,15 @@
+{
+  KickstartWorkflowDto dto=createSimpleServiceTaskWorkflow();
+  KickstartServiceImpl service=new KickstartServiceImpl(processEngine);
+  String deploymentId=service.deployKickstartWorkflow(dto);
+  String pid=getDeployedProcessDefinitionId(deploymentId);
+  KickstartWorkflowDto deployedDto=service.findKickstartWorkflowById(pid);
+  assertEquals(dto.getName(),deployedDto.getName());
+  assertEquals(dto.getDescription(),deployedDto.getDescription());
+  assertTrue("Task should be a ServiceTask",deployedDto.getTasks().get(0) instanceof ServiceTaskDto);
+  ServiceTaskDto task=(ServiceTaskDto)deployedDto.getTasks().get(0);
+  assertEquals("task_1",task.getId());
+  assertEquals("#{myDelegateExpression}",task.getDelegateExpression());
+  assertEquals("#{my.favorite.expression}",task.getExpression());
+  assertEquals("de.test.MyClass",task.getClassName());
+}

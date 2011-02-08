@@ -1,0 +1,13 @@
+{
+  KickstartWorkflowDto dto=new KickstartWorkflowDto();
+  dto.setName("One Mail Task Workflow");
+  dto.setDescription("Simple workflow definition containing one mail task");
+  MailTaskDto task=new MailTaskDto();
+  task.setId("myId");
+  task.setName("My First Mail task");
+  task.setDescription("Desc first Mail task");
+  task.getTo().setStringValue("test@mycompany.com");
+  task.getText().setStringValue("My text content");
+  dto.addTask(task);
+  return dto;
+}

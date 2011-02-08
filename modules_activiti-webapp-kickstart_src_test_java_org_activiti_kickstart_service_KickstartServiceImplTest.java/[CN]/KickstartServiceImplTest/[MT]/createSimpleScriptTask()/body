@@ -1,0 +1,13 @@
+{
+  KickstartWorkflowDto dto=new KickstartWorkflowDto();
+  dto.setName("One Script Task Workflow");
+  dto.setDescription("Simple workflow definition containing one script task");
+  ScriptTaskDto scriptDto=new ScriptTaskDto();
+  scriptDto.setId("theScriptTask");
+  scriptDto.setName("Execute script");
+  scriptDto.setScriptFormat("juel");
+  scriptDto.setResultVariableName("myVar");
+  scriptDto.setScript("#{echo}");
+  dto.addTask(scriptDto);
+  return dto;
+}

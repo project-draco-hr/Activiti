@@ -1,0 +1,12 @@
+{
+  KickstartWorkflowDto wf=new KickstartWorkflowDto();
+  wf.setName("Test process");
+  wf.setTasks(getTaskList());
+  KickstartService service=new KickstartServiceImpl(processEngine);
+  service.deployKickstartWorkflow(wf);
+  List<ProcessDefinition> definitions=processEngine.getRepositoryService().createProcessDefinitionQuery().list();
+  assertEquals(1,definitions.size());
+  assertEquals("Test process",definitions.get(0).getName());
+  wf=service.findKickstartWorkflowById(definitions.get(0).getId());
+  assertEquals("Test process",wf.getName());
+}

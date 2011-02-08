@@ -1,0 +1,29 @@
+{
+  KickstartWorkflowDto dto=new KickstartWorkflowDto();
+  dto.setName("One Service Task Workflow");
+  dto.setDescription("Simple workflow definition containing one service task");
+  ServiceTaskDto task1=new ServiceTaskDto();
+  task1.setId("myFirstId");
+  task1.setName("My First Service task");
+  task1.setDescription("Desc first Service task");
+  task1.setDelegateExpression("#{myFirstDelegateExpression}");
+  task1.setClassName("de.test.MyFirstClass");
+  task1.setExpression("#{my.favorite.first.expression}");
+  dto.addTask(task1);
+  ServiceTaskDto task2=new ServiceTaskDto();
+  task2.setId("mySecondId");
+  task2.setName("My Second Service task");
+  task2.setDescription("Desc Second Service task");
+  task2.setDelegateExpression("#{mySecondDelegateExpression}");
+  task2.setClassName("de.test.MySecondClass");
+  task2.setExpression("#{my.favorite.second.expression}");
+  task2.setStartWithPrevious(true);
+  dto.addTask(task2);
+  ProcessDiagramGenerator generator=new ProcessDiagramGenerator(dto);
+  InputStream in=generator.execute();
+  assertNotNull(in);
+  String bpmn=new KickstartServiceImpl(processEngine).createBpmn20Xml(dto);
+  assertTrue(bpmn.indexOf("serviceTask ") > -1);
+  assertTrue(bpmn.indexOf(":delegateExpression=\"#{myFirstDelegateExpression}\"") > -1);
+  assertTrue(bpmn.indexOf(":delegateExpression=\"#{mySecondDelegateExpression}\"") > -1);
+}

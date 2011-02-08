@@ -1,0 +1,34 @@
+{
+  UserTask userTask=new UserTask();
+  if (getForm() != null) {
+    userTask.setFormKey(generateDefaultFormName());
+  }
+  if (getAssignee() != null && !"".equals(getAssignee())) {
+    HumanPerformer humanPerformer=new HumanPerformer();
+    humanPerformer.setId(userTask.getId() + "_humanPerformer");
+    ResourceAssignmentExpression assignmentExpression=new ResourceAssignmentExpression();
+    assignmentExpression.setId(userTask.getId() + "_humanPerformer_assignmentExpression");
+    FormalExpression formalExpression=new FormalExpression(getAssignee());
+    formalExpression.setId(userTask.getId() + "_humanPerformer_formalExpressions");
+    assignmentExpression.setExpression(formalExpression);
+    humanPerformer.setResourceAssignmentExpression(assignmentExpression);
+    userTask.getActivityResource().add(humanPerformer);
+  }
+  if (getGroups() != null && !"".equals(getGroups())) {
+    PotentialOwner potentialOwner=new PotentialOwner();
+    potentialOwner.setId(userTask.getId() + "_potentialOwner");
+    ResourceAssignmentExpression assignmentExpression=new ResourceAssignmentExpression();
+    assignmentExpression.setId(userTask.getId() + "_potentialOwner_assignmentExpression");
+    StringBuilder groups=new StringBuilder();
+    for (    String group : getGroups().split(",")) {
+      groups.append(group + ",");
+    }
+    groups.deleteCharAt(groups.length() - 1);
+    FormalExpression formalExpression=new FormalExpression(groups.toString());
+    formalExpression.setId(userTask.getId() + "_potentialOwner_formalExpressions");
+    assignmentExpression.setExpression(formalExpression);
+    potentialOwner.setResourceAssignmentExpression(assignmentExpression);
+    userTask.getActivityResource().add(potentialOwner);
+  }
+  return userTask;
+}

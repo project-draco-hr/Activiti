@@ -1,0 +1,9 @@
+{
+  int size=is.available();
+  byte[] buffer=new byte[size];
+  int bytesRead=is.read(buffer);
+  if (bytesRead != size) {
+    throw new IOException("Only " + bytesRead + " of "+ size+ " could be read.");
+  }
+  return buffer;
+}

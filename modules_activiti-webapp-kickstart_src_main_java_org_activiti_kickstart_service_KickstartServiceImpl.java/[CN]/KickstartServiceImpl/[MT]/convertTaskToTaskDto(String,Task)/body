@@ -1,0 +1,23 @@
+{
+  BaseTaskDto baseTaskDto=null;
+  if (task instanceof UserTask) {
+    baseTaskDto=new UserTaskDto();
+    convertUserTaskToTaskDto(deploymentId,(UserTaskDto)baseTaskDto,(UserTask)task);
+  }
+ else   if (task instanceof ServiceTask) {
+    if (((ServiceTask)task).getType() != null && ((ServiceTask)task).getType().equals("mail")) {
+      baseTaskDto=new MailTaskDto();
+      convertMailTaskToTaskDto(deploymentId,(MailTaskDto)baseTaskDto,(ServiceTask)task);
+    }
+ else {
+      baseTaskDto=new ServiceTaskDto();
+      convertServiceTaskToTaskDto(deploymentId,(ServiceTaskDto)baseTaskDto,(ServiceTask)task);
+    }
+  }
+ else   if (task instanceof ScriptTask) {
+    baseTaskDto=new ScriptTaskDto();
+    convertScriptTaskToTaskDto(deploymentId,(ScriptTaskDto)baseTaskDto,(ScriptTask)task);
+  }
+  handleBaseTaskDtoProperties(baseTaskDto,task);
+  return baseTaskDto;
+}

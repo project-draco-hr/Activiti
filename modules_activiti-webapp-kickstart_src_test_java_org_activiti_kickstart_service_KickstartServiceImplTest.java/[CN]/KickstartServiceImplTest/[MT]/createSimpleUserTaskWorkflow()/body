@@ -1,0 +1,18 @@
+{
+  KickstartWorkflowDto dto=new KickstartWorkflowDto();
+  dto.setName("One User Task Workflow");
+  dto.setDescription("Simple workflow definition containing one user task");
+  UserTaskDto taskDto=new UserTaskDto();
+  taskDto.setName("My First User task");
+  taskDto.setDescription("Desc first User task");
+  FormDto form=new FormDto();
+  form.setTitle("myForm");
+  form.setDescription("My first form");
+  FormPropertyDto property=new FormPropertyDto();
+  property.setProperty("name");
+  property.setType("text");
+  form.addFormProperty(property);
+  taskDto.setForm(form);
+  dto.addTask(taskDto);
+  return dto;
+}
