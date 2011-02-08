@@ -4,7 +4,10 @@
   String className=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"class");
   String expression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"expression");
   String delegateExpression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"delegateExpression");
-  String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
+  String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariable");
+  if (resultVariableName == null) {
+    resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
+  }
   String implementation=serviceTaskElement.attribute("implementation");
   String operationRef=this.resolveName(serviceTaskElement.attribute("operationRef"));
   if (type != null) {

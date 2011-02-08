@@ -4,7 +4,10 @@
   String ruleInputString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"ruleVariablesInput");
   String rulesString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"rules");
   String excludeString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"exclude");
-  String resultVariableNameString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
+  String resultVariableNameString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariable");
+  if (resultVariableNameString == null) {
+    resultVariableNameString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
+  }
   if (ruleInputString != null) {
     String[] ruleInputObjects=ruleInputString.split(",");
     for (    String ruleInputObject : ruleInputObjects) {
@@ -32,14 +35,14 @@
   if (resultVariableNameString != null) {
     resultVariableNameString=resultVariableNameString.trim();
     if (resultVariableNameString.length() > 0 == false) {
-      addError("'resultVariableName' must contain a text value for business rule tasks",businessRuleTaskElement);
+      addError("'resultVariable' must contain a text value for business rule tasks",businessRuleTaskElement);
     }
  else {
-      ruleActivity.setResultVariableName(resultVariableNameString);
+      ruleActivity.setResultVariable(resultVariableNameString);
     }
   }
  else {
-    ruleActivity.setResultVariableName("org.activiti.engine.rules.OUTPUT");
+    ruleActivity.setResultVariable("org.activiti.engine.rules.OUTPUT");
   }
   activity.setActivityBehavior(ruleActivity);
   parseExecutionListenersOnScope(businessRuleTaskElement,activity);

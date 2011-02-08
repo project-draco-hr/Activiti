@@ -12,7 +12,10 @@
     if (language == null) {
       language=ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE;
     }
-    resultVariableName=scriptTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
+    resultVariableName=scriptTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariable");
+    if (resultVariableName == null) {
+      resultVariableName=scriptTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
+    }
   }
   activity.setActivityBehavior(new ScriptTaskActivityBehavior(script,language,resultVariableName));
   parseExecutionListenersOnScope(scriptTaskElement,activity);
