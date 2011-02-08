@@ -1,0 +1,23 @@
+{
+  List<String> tableNames=new ArrayList<String>();
+  Connection connection=null;
+  try {
+    connection=dbSqlSession.getSqlSession().getConnection();
+    DatabaseMetaData databaseMetaData=connection.getMetaData();
+    ResultSet tables=null;
+    try {
+      tables=databaseMetaData.getTables(null,null,"ACT_%",DbSqlSession.JDBC_METADATA_TABLE_TYPES);
+      while (tables.next()) {
+        String tableName=tables.getString("TABLE_NAME");
+        tableNames.add(tableName);
+      }
+    }
+  finally {
+      tables.close();
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't get activiti table names using metadata: " + e.getMessage(),e);
+  }
+  return tableNames;
+}

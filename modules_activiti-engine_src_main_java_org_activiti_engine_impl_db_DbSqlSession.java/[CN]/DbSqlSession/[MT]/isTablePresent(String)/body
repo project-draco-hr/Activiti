@@ -5,7 +5,7 @@
     DatabaseMetaData databaseMetaData=connection.getMetaData();
     ResultSet tables=null;
     try {
-      tables=databaseMetaData.getTables(null,null,tableName,TABLE_TYPES);
+      tables=databaseMetaData.getTables(null,null,tableName,JDBC_METADATA_TABLE_TYPES);
       return tables.next();
     }
   finally {
