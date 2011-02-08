@@ -1,0 +1,9 @@
+{
+  RepositoryNodeCollection childNodes=repositoryService.getChildren(connectorId,dto.getArtifactId());
+  List<TreeNodeDto> children=new ArrayList<TreeNodeDto>();
+  for (  RepositoryNode node : childNodes.asList()) {
+    TreeNodeDto childNode=getTreeNodeDto(node,expandChildren);
+    children.add(childNode);
+  }
+  dto.setChildren(children);
+}

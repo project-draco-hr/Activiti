@@ -1,0 +1,11 @@
+{
+  TreeNodeDto dto=null;
+  if (node instanceof RepositoryArtifact) {
+    dto=new TreeArtifactDto((RepositoryArtifact)node);
+  }
+ else   if (node instanceof RepositoryFolder) {
+    dto=new TreeFolderDto((RepositoryFolder)node);
+    dto.setExpanded(String.valueOf((Boolean)expand));
+  }
+  return dto;
+}
