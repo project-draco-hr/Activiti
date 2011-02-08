@@ -1,14 +1,14 @@
 {
   RepositoryNodeCollection rootNodes=this.repositoryService.getChildren("/","");
-  tree=new ArrayList<TreeFolderDto>();
+  List<TreeFolderDto> tree=new ArrayList<TreeFolderDto>();
   for (  RepositoryNode repositoryNode : rootNodes.asList()) {
     tree.add(new TreeFolderDto((RepositoryFolder)repositoryNode));
   }
-  connectorId=req.getString("connectorId");
-  nodeId=req.getString("nodeId");
+  String connectorId=req.getString("connectorId");
+  String nodeId=req.getString("nodeId");
   if (connectorId != null && nodeId != null) {
     try {
-      expandTree();
+      expandTree(tree,connectorId,nodeId);
     }
  catch (    Exception e) {
       log.log(Level.WARNING,"Could not expand tree " + e.getMessage(),e);
