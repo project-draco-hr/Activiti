@@ -8,13 +8,47 @@
   assertEquals(1,historyService.createHistoricActivityInstanceQuery().activityName("No operation").list().size());
   assertEquals(0,historyService.createHistoricActivityInstanceQuery().taskAssignee("nonExistingAssignee").list().size());
   assertEquals(0,historyService.createHistoricActivityInstanceQuery().executionId("nonExistingExecutionId").list().size());
-  assertEquals(1,historyService.createHistoricActivityInstanceQuery().executionId(processInstance.getId()).list().size());
+  if (processEngineConfiguration.getHistoryLevel() == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
+    assertEquals(2,historyService.createHistoricActivityInstanceQuery().executionId(processInstance.getId()).list().size());
+  }
+ else   if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    assertEquals(1,historyService.createHistoricActivityInstanceQuery().executionId(processInstance.getId()).list().size());
+  }
+ else {
+    assertEquals(0,historyService.createHistoricActivityInstanceQuery().executionId(processInstance.getId()).list().size());
+  }
   assertEquals(0,historyService.createHistoricActivityInstanceQuery().processInstanceId("nonExistingProcessInstanceId").list().size());
-  assertEquals(1,historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstance.getId()).list().size());
+  if (processEngineConfiguration.getHistoryLevel() == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
+    assertEquals(2,historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstance.getId()).list().size());
+  }
+ else   if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    assertEquals(1,historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstance.getId()).list().size());
+  }
+ else {
+    assertEquals(0,historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstance.getId()).list().size());
+  }
   assertEquals(0,historyService.createHistoricActivityInstanceQuery().processDefinitionId("nonExistingProcessDefinitionId").list().size());
-  assertEquals(1,historyService.createHistoricActivityInstanceQuery().processDefinitionId(processInstance.getProcessDefinitionId()).list().size());
+  if (processEngineConfiguration.getHistoryLevel() == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
+    assertEquals(2,historyService.createHistoricActivityInstanceQuery().processDefinitionId(processInstance.getProcessDefinitionId()).list().size());
+  }
+ else   if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    assertEquals(1,historyService.createHistoricActivityInstanceQuery().processDefinitionId(processInstance.getProcessDefinitionId()).list().size());
+  }
+ else {
+    assertEquals(0,historyService.createHistoricActivityInstanceQuery().processDefinitionId(processInstance.getProcessDefinitionId()).list().size());
+  }
   assertEquals(0,historyService.createHistoricActivityInstanceQuery().unfinished().list().size());
-  assertEquals(1,historyService.createHistoricActivityInstanceQuery().finished().list().size());
-  HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().singleResult();
-  assertEquals(1,historyService.createHistoricActivityInstanceQuery().activityInstanceId(historicActivityInstance.getId()).list().size());
+  if (processEngineConfiguration.getHistoryLevel() == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
+    assertEquals(2,historyService.createHistoricActivityInstanceQuery().finished().list().size());
+  }
+ else   if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    assertEquals(1,historyService.createHistoricActivityInstanceQuery().finished().list().size());
+  }
+ else {
+    assertEquals(0,historyService.createHistoricActivityInstanceQuery().finished().list().size());
+  }
+  if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().list().get(0);
+    assertEquals(1,historyService.createHistoricActivityInstanceQuery().activityInstanceId(historicActivityInstance.getId()).list().size());
+  }
 }

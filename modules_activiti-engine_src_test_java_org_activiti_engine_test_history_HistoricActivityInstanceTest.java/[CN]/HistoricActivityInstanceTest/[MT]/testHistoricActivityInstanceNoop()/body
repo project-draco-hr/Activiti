@@ -1,6 +1,6 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("noopProcess");
-  HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().singleResult();
+  HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().activityId("noop").singleResult();
   assertEquals("noop",historicActivityInstance.getActivityId());
   assertEquals("serviceTask",historicActivityInstance.getActivityType());
   assertNotNull(historicActivityInstance.getProcessDefinitionId());

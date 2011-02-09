@@ -1,6 +1,6 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("receiveProcess");
-  HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().singleResult();
+  HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().activityId("receive").singleResult();
   assertEquals("receive",historicActivityInstance.getActivityId());
   assertEquals("receiveTask",historicActivityInstance.getActivityType());
   assertNull(historicActivityInstance.getEndTime());
@@ -10,7 +10,7 @@
   assertEquals(processInstance.getId(),historicActivityInstance.getExecutionId());
   assertNotNull(historicActivityInstance.getStartTime());
   runtimeService.signal(processInstance.getId());
-  historicActivityInstance=historyService.createHistoricActivityInstanceQuery().singleResult();
+  historicActivityInstance=historyService.createHistoricActivityInstanceQuery().activityId("receive").singleResult();
   assertEquals("receive",historicActivityInstance.getActivityId());
   assertEquals("receiveTask",historicActivityInstance.getActivityType());
   assertNotNull(historicActivityInstance.getEndTime());
