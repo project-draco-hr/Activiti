@@ -4,10 +4,10 @@
     throw new ActivitiException("Invalid loopCardinality: must be positive integer value" + ", but was " + loopCardinalityValue);
   }
   setLoopVariable(execution,NUMBER_OF_INSTANCES,loopCardinalityValue);
-  setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,1);
   setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,0);
   if (isSequential || loopCardinalityValue == 1) {
     setLoopVariable(execution,LOOP_COUNTER,0);
+    setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,1);
     activityBehavior.execute(execution);
   }
  else {
@@ -19,6 +19,7 @@
       concurrentExecution.setScope(false);
       concurrentExecutions.add(concurrentExecution);
     }
+    setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,loopCardinalityValue);
     for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
       ActivityExecution concurrentExecution=concurrentExecutions.get(loopCounter);
       setLoopVariable(concurrentExecution,LOOP_COUNTER,loopCounter);

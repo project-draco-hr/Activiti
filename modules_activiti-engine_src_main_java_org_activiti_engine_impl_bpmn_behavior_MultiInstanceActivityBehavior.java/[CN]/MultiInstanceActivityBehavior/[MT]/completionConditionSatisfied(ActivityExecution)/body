@@ -1,0 +1,10 @@
+{
+  if (completionConditionExpression != null) {
+    Object value=completionConditionExpression.getValue(execution);
+    if (!(value instanceof Boolean)) {
+      throw new ActivitiException("completionCondition '" + completionConditionExpression.getExpressionText() + "' does not evaluate to a boolean value");
+    }
+    return (Boolean)value;
+  }
+  return false;
+}

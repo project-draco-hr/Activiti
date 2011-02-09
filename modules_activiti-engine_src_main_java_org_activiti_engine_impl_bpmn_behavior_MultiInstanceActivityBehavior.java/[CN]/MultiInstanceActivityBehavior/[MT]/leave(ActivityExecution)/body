@@ -1,14 +1,15 @@
 {
   int loopCounter=getLoopVariable(execution,LOOP_COUNTER);
+  int nrOfInstances=getLoopVariable(execution,NUMBER_OF_INSTANCES);
+  int nrOfCompletedInstances=getLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES);
+  int nrOfActiveInstances=getLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES);
   if (isSequential) {
-    int numberOfInstances=getLoopVariable(execution,NUMBER_OF_INSTANCES);
-    int numberOfCompletedInstances=getLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES);
-    if (loopCounter == numberOfInstances - 1) {
+    setLoopVariable(execution,LOOP_COUNTER,loopCounter + 1);
+    setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances + 1);
+    if (loopCounter == nrOfInstances - 1 || completionConditionSatisfied(execution)) {
       super.leave(execution);
     }
  else {
-      setLoopVariable(execution,LOOP_COUNTER,loopCounter + 1);
-      setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,numberOfCompletedInstances + 1);
       try {
         activityBehavior.execute(execution);
       }
@@ -18,16 +19,24 @@
     }
   }
  else {
-    int numberOfInstances=getLoopVariable(execution,NUMBER_OF_INSTANCES);
-    int numberOfCompletedInstances=getLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES);
+    setLoopVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances + 1);
+    setLoopVariable(execution.getParent(),NUMBER_OF_ACTIVE_INSTANCES,nrOfActiveInstances - 1);
     execution.inactivate();
     ((ExecutionEntity)execution.getParent()).forceUpdate();
     List<ActivityExecution> joinedExecutions=execution.findInactiveConcurrentExecutions(execution.getActivity());
-    if (joinedExecutions.size() == numberOfInstances) {
+    if (joinedExecutions.size() == nrOfInstances || completionConditionSatisfied(execution)) {
+      List<ExecutionEntity> executionsToRemove=new ArrayList<ExecutionEntity>();
+      for (      ActivityExecution childExecution : execution.getParent().getExecutions()) {
+        if (childExecution.isActive()) {
+          executionsToRemove.add((ExecutionEntity)childExecution);
+        }
+      }
+      for (      ExecutionEntity executionToRemove : executionsToRemove) {
+        executionToRemove.remove();
+      }
       execution.takeAll(execution.getActivity().getOutgoingTransitions(),joinedExecutions);
     }
  else {
-      setLoopVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES,numberOfCompletedInstances++);
     }
   }
 }

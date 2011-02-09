@@ -16,6 +16,11 @@
       }
       miActivityBehavior.setLoopCardinalityExpression(expressionManager.createExpression(loopCardinalityText));
     }
+    Element completionCondition=miLoopCharacteristics.element("completionCondition");
+    if (completionCondition != null) {
+      String completionConditionText=completionCondition.getText();
+      miActivityBehavior.setCompletionConditionExpression(expressionManager.createExpression(completionConditionText));
+    }
     for (    BpmnParseListener parseListener : parseListeners) {
       parseListener.parseMultiInstanceLoopCharacteristics(activityElement,miLoopCharacteristics,activity);
     }
