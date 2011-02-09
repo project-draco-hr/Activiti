@@ -1,24 +1,41 @@
 {
   try {
-    String missingComponents=null;
-    if (!isEngineTablePresent()) {
-      missingComponents=addMissingComponent(missingComponents,"engine");
-    }
-    if (dbSqlSessionFactory.isDbHistoryUsed() && !isHistoryTablePresent()) {
-      missingComponents=addMissingComponent(missingComponents,"history");
-    }
-    if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
-      missingComponents=addMissingComponent(missingComponents,"identity");
-    }
-    if (dbSqlSessionFactory.isDbCycleUsed() && !isCycleTablePresent()) {
-      missingComponents=addMissingComponent(missingComponents,"cycle");
-    }
-    if (missingComponents != null) {
-      throw new ActivitiException("no activiti tables in db. missing components {" + missingComponents + "}. set <property name=\"databaseSchemaUpdate\" to value=\"true\" or value=\"create-drop\" (use create-drop for testing only!) in bean processEngineConfiguration in activiti.cfg.xml for automatic schema creation");
-    }
     String dbVersion=getDbVersion();
     if (!ProcessEngine.VERSION.equals(dbVersion)) {
       throw new ActivitiWrongDbException(ProcessEngine.VERSION,dbVersion);
+    }
+    String errorMessage=null;
+    if (!isEngineTablePresent()) {
+      errorMessage=addMissingComponent(errorMessage,"engine");
+    }
+    if (dbSqlSessionFactory.isDbHistoryUsed() && !isHistoryTablePresent()) {
+      errorMessage=addMissingComponent(errorMessage,"history");
+    }
+    if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
+      errorMessage=addMissingComponent(errorMessage,"identity");
+    }
+    if (dbSqlSessionFactory.isDbCycleUsed() && !isCycleTablePresent()) {
+      errorMessage=addMissingComponent(errorMessage,"cycle");
+    }
+    Integer configuredHistoryLevel=Context.getProcessEngineContext().getHistoryLevel();
+    PropertyEntity historyLevelProperty=selectById(PropertyEntity.class,"historyLevel");
+    if (historyLevelProperty == null) {
+      if (errorMessage == null) {
+        errorMessage="";
+      }
+      errorMessage+="no historyLevel property specified";
+    }
+ else {
+      Integer databaseHistoryLevel=new Integer(historyLevelProperty.getValue());
+      if (!configuredHistoryLevel.equals(databaseHistoryLevel)) {
+        if (errorMessage == null) {
+          errorMessage="";
+        }
+        errorMessage+="historyLevel mismatch: configuration says " + configuredHistoryLevel + " and database says "+ databaseHistoryLevel;
+      }
+    }
+    if (errorMessage != null) {
+      throw new ActivitiException("Activiti database problem: " + errorMessage);
     }
   }
  catch (  Exception e) {

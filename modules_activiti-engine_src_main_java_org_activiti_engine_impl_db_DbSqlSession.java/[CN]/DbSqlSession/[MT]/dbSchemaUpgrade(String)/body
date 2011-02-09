@@ -22,8 +22,7 @@
     }
     int minorLibraryVersionNumber=Integer.parseInt(libraryVersion.substring(2));
     while (minorDbVersionNumber < minorLibraryVersionNumber) {
-      executeSchemaResource("upgrade",getResourceForDbOperation("upgrade","upgradestep.5" + minorDbVersionNumber + ".to."+ (minorDbVersionNumber + 1),component),true);
-      upgradeStepJavaClass(minorDbVersionNumber);
+      executeSchemaResource("upgrade",component,getResourceForDbOperation("upgrade","upgradestep.5" + minorDbVersionNumber + ".to."+ (minorDbVersionNumber + 1),component),true);
       minorDbVersionNumber++;
     }
     dbVersionProperty.setValue(ProcessEngine.VERSION);
