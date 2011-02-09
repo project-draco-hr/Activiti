@@ -2,6 +2,8 @@
   CommandContext context=commandContextFactory.createCommandContext(command);
   try {
     CommandContext.setCurrentCommandContext(context);
+    Context.setCommandContext(context);
+    Context.setProcessEngineContext(processEngineContext);
     return next.execute(command);
   }
  catch (  Exception e) {
@@ -13,6 +15,8 @@
     }
   finally {
       CommandContext.removeCurrentCommandContext();
+      Context.removeCommandContext();
+      Context.removeProcessEngineContext();
     }
   }
   return null;
