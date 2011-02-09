@@ -3,7 +3,9 @@
   taskService.saveTask(task);
   String taskId=task.getId();
   taskService.complete(taskId,Collections.EMPTY_MAP);
-  historyService.deleteHistoricTaskInstance(taskId);
+  if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+    historyService.deleteHistoricTaskInstance(taskId);
+  }
   task=taskService.createTaskQuery().taskId(taskId).singleResult();
   assertNull(task);
 }

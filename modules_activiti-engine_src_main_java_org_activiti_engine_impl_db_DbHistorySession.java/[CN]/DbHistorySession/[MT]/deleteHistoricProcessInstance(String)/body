@@ -1,9 +1,18 @@
 {
-  List<HistoricDetailEntity> historicDetails=(List)new HistoricDetailQueryImpl().processInstanceId(historicProcessInstanceId).executeList(CommandContext.getCurrent(),null);
-  for (  HistoricDetailEntity historicDetail : historicDetails) {
-    historicDetail.delete();
+  int historyLevel=Context.getProcessEngineContext().getHistoryLevel();
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+    List<HistoricDetailEntity> historicDetails=(List)new HistoricDetailQueryImpl().processInstanceId(historicProcessInstanceId).executeList(CommandContext.getCurrent(),null);
+    for (    HistoricDetailEntity historicDetail : historicDetails) {
+      historicDetail.delete();
+    }
   }
-  dbSqlSession.delete("deleteHistoricActivityInstancesByProcessInstanceId",historicProcessInstanceId);
-  dbSqlSession.delete("deleteHistoricTaskInstancesByProcessInstanceId",historicProcessInstanceId);
-  dbSqlSession.delete(HistoricProcessInstanceEntity.class,historicProcessInstanceId);
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    dbSqlSession.delete("deleteHistoricActivityInstancesByProcessInstanceId",historicProcessInstanceId);
+  }
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+    dbSqlSession.delete("deleteHistoricTaskInstancesByProcessInstanceId",historicProcessInstanceId);
+  }
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    dbSqlSession.delete(HistoricProcessInstanceEntity.class,historicProcessInstanceId);
+  }
 }

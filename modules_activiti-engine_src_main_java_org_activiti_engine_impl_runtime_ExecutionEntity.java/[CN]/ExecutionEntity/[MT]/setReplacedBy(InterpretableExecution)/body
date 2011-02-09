@@ -8,8 +8,10 @@
       cachedHistoricActivityInstance.setExecutionId(replacedBy.getId());
     }
   }
-  List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl().executionId(id).unfinished().executeList(commandContext,null);
-  for (  HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
-    historicActivityInstance.setExecutionId(replacedBy.getId());
+  if (Context.getProcessEngineContext().getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl().executionId(id).unfinished().executeList(commandContext,null);
+    for (    HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
+      historicActivityInstance.setExecutionId(replacedBy.getId());
+    }
   }
 }
