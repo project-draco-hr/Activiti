@@ -1,0 +1,15 @@
+{
+  if (variableScope == null) {
+    throw new ActivitiException("variableScope cannot be null");
+  }
+  if (variableScope instanceof ExecutionEntity) {
+    variableScopeKey="execution";
+  }
+ else   if (variableScope instanceof TaskEntity) {
+    variableScopeKey="task";
+  }
+ else {
+    throw new ActivitiException("unsupported variable scope type: " + variableScope.getClass().getName());
+  }
+  this.variableScope=variableScope;
+}

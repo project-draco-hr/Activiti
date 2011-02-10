@@ -1,6 +1,9 @@
 {
   initializeExpressionManager();
   initializeTransactionExternallyManaged();
+  if (processEngineConfiguration.getBeans() == null) {
+    processEngineConfiguration.setBeans(new SpringBeanFactoryProxyMap(applicationContext));
+  }
   processEngine=(ProcessEngineImpl)processEngineConfiguration.buildProcessEngine();
   return processEngine;
 }

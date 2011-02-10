@@ -1,5 +1,10 @@
 {
+  if (resolverFactories == null) {
+    resolverFactories=new ArrayList<ResolverFactory>();
+    resolverFactories.add(new VariableScopeResolverFactory());
+    resolverFactories.add(new BeansResolverFactory());
+  }
   if (scriptingEngines == null) {
-    scriptingEngines=new ScriptingEngines();
+    scriptingEngines=new ScriptingEngines(new ScriptBindingsFactory(resolverFactories));
   }
 }
