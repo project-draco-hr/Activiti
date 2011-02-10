@@ -4,9 +4,12 @@
   int nrOfCompletedInstances=getLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES);
   int nrOfActiveInstances=getLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES);
   if (isSequential) {
-    setLoopVariable(execution,LOOP_COUNTER,loopCounter + 1);
-    setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances + 1);
-    if (loopCounter == nrOfInstances - 1 || completionConditionSatisfied(execution)) {
+    loopCounter++;
+    nrOfCompletedInstances++;
+    setLoopVariable(execution,LOOP_COUNTER,loopCounter);
+    setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances);
+    logLoopDetails(execution,"instance completed",loopCounter,nrOfCompletedInstances,nrOfActiveInstances,nrOfInstances);
+    if (loopCounter == nrOfInstances || completionConditionSatisfied(execution)) {
       super.leave(execution);
     }
  else {
@@ -19,8 +22,11 @@
     }
   }
  else {
-    setLoopVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances + 1);
-    setLoopVariable(execution.getParent(),NUMBER_OF_ACTIVE_INSTANCES,nrOfActiveInstances - 1);
+    nrOfCompletedInstances++;
+    nrOfActiveInstances--;
+    setLoopVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances);
+    setLoopVariable(execution.getParent(),NUMBER_OF_ACTIVE_INSTANCES,nrOfActiveInstances);
+    logLoopDetails(execution,"instance completed",loopCounter,nrOfCompletedInstances,nrOfActiveInstances,nrOfInstances);
     execution.inactivate();
     ((ExecutionEntity)execution.getParent()).forceUpdate();
     List<ActivityExecution> joinedExecutions=execution.findInactiveConcurrentExecutions(execution.getActivity());
@@ -32,6 +38,10 @@
         }
       }
       for (      ExecutionEntity executionToRemove : executionsToRemove) {
+        if (LOGGER.isLoggable(Level.FINE)) {
+          LOGGER.fine("Execution " + executionToRemove + " still active, "+ "but multi-instance is completed. Removing this execution.");
+        }
+        executionToRemove.inactivate();
         executionToRemove.remove();
       }
       execution.takeAll(execution.getActivity().getOutgoingTransitions(),joinedExecutions);

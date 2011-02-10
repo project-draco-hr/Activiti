@@ -8,9 +8,11 @@
   if (isSequential || loopCardinalityValue == 1) {
     setLoopVariable(execution,LOOP_COUNTER,0);
     setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,1);
+    logLoopDetails(execution,"initialized",0,0,1,loopCardinalityValue);
     activityBehavior.execute(execution);
   }
  else {
+    setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,loopCardinalityValue);
     List<ActivityExecution> concurrentExecutions=new ArrayList<ActivityExecution>();
     for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
       ActivityExecution concurrentExecution=execution.createExecution();
@@ -18,12 +20,14 @@
       concurrentExecution.setConcurrent(true);
       concurrentExecution.setScope(false);
       concurrentExecutions.add(concurrentExecution);
+      logLoopDetails(concurrentExecution,"initialized",loopCounter,0,loopCardinalityValue,loopCardinalityValue);
     }
-    setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,loopCardinalityValue);
     for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
       ActivityExecution concurrentExecution=concurrentExecutions.get(loopCounter);
-      setLoopVariable(concurrentExecution,LOOP_COUNTER,loopCounter);
-      activityBehavior.execute(concurrentExecution);
+      if (concurrentExecution.isActive()) {
+        setLoopVariable(concurrentExecution,LOOP_COUNTER,loopCounter);
+        activityBehavior.execute(concurrentExecution);
+      }
     }
   }
 }

@@ -1,0 +1,6 @@
+{
+  runtimeService.startProcessInstanceByKey("miParallelScriptTaskCompletionCondition");
+  Execution waitStateExecution=runtimeService.createExecutionQuery().singleResult();
+  int sum=(Integer)runtimeService.getVariable(waitStateExecution.getId(),"sum");
+  assertEquals(2,sum);
+}

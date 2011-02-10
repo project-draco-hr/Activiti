@@ -1,0 +1,6 @@
+{
+  runtimeService.startProcessInstanceByKey("miSequentialScriptTaskCompletionCondition").getId();
+  Execution waitStateExecution=runtimeService.createExecutionQuery().singleResult();
+  int sum=(Integer)runtimeService.getVariable(waitStateExecution.getId(),"sum");
+  assertEquals(5,sum);
+}
