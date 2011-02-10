@@ -24,6 +24,11 @@
  else {
     nrOfCompletedInstances++;
     nrOfActiveInstances--;
+    if (activityBehavior instanceof org.activiti.engine.impl.bpmn.behavior.SubProcessActivityBehavior) {
+      ExecutionEntity tempExecution=(ExecutionEntity)execution;
+      execution=execution.getParent();
+      tempExecution.remove();
+    }
     setLoopVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances);
     setLoopVariable(execution.getParent(),NUMBER_OF_ACTIVE_INSTANCES,nrOfActiveInstances);
     logLoopDetails(execution,"instance completed",loopCounter,nrOfCompletedInstances,nrOfActiveInstances,nrOfInstances);
@@ -42,7 +47,7 @@
           LOGGER.fine("Execution " + executionToRemove + " still active, "+ "but multi-instance is completed. Removing this execution.");
         }
         executionToRemove.inactivate();
-        executionToRemove.remove();
+        executionToRemove.deleteCascade("multi-instance completed");
       }
       execution.takeAll(execution.getActivity().getOutgoingTransitions(),joinedExecutions);
     }
