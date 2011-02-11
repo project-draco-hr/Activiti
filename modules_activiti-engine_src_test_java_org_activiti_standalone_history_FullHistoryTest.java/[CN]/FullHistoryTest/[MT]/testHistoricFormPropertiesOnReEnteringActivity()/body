@@ -1,0 +1,22 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("comeBack",Boolean.TRUE);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("HistoricFormPropertiesProcess",variables);
+  assertNotNull(processInstance);
+  Map<String,String> data=new HashMap<String,String>();
+  data.put("formProp1","Property value");
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  formService.submitTaskFormData(task.getId(),data);
+  List<HistoricDetail> details=historyService.createHistoricDetailQuery().formProperties().processInstanceId(processInstance.getId()).list();
+  assertNotNull(details);
+  assertEquals(1,details.size());
+  task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  formService.submitTaskFormData(task.getId(),data);
+  details=historyService.createHistoricDetailQuery().formProperties().processInstanceId(processInstance.getId()).list();
+  assertNotNull(details);
+  assertEquals(2,details.size());
+  Assert.assertNotSame(details.get(0).getActivityInstanceId(),details.get(1).getActivityInstanceId());
+  HistoricActivityInstance historicActInst1=historyService.createHistoricActivityInstanceQuery().activityInstanceId(details.get(0).getActivityInstanceId()).singleResult();
+  HistoricActivityInstance historicActInst2=historyService.createHistoricActivityInstanceQuery().activityInstanceId(details.get(1).getActivityInstanceId()).singleResult();
+  assertEquals(historicActInst1.getActivityId(),historicActInst2.getActivityId());
+}
