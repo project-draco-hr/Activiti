@@ -7,7 +7,11 @@
     ResultSet tables=null;
     try {
       log.fine("retrieving activiti tables from jdbc metadata");
-      tables=databaseMetaData.getTables(null,null,"ACT_%",DbSqlSession.JDBC_METADATA_TABLE_TYPES);
+      String tableNameFilter="ACT_%";
+      if ("postgres".equals(dbSqlSession.getDbSqlSessionFactory().getDatabaseType())) {
+        tableNameFilter="act_%";
+      }
+      tables=databaseMetaData.getTables(null,null,tableNameFilter,DbSqlSession.JDBC_METADATA_TABLE_TYPES);
       while (tables.next()) {
         String tableName=tables.getString("TABLE_NAME");
         tableName=tableName.toUpperCase();
