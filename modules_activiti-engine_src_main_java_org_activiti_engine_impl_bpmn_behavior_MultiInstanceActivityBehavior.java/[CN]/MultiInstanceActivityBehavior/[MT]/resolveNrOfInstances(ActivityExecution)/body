@@ -1,0 +1,23 @@
+{
+  int nrOfInstances=-1;
+  if (loopCardinalityExpression != null) {
+    nrOfInstances=resolveLoopCardinality(execution);
+  }
+ else   if (loopDataInputRefExpression != null) {
+    Object obj=loopDataInputRefExpression.getValue(execution);
+    if (!(obj instanceof Collection)) {
+      throw new ActivitiException("loopDataInputRef '" + loopDataInputRefExpression.getExpressionText() + "' didn't resolve to a Collection");
+    }
+    nrOfInstances=((Collection)obj).size();
+  }
+ else   if (loopDataInputRefVariable != null) {
+    Object obj=execution.getVariable(loopDataInputRefVariable);
+    if (!(obj instanceof Collection)) {
+      throw new ActivitiException("loopDataInputRef '" + loopDataInputRefVariable + "' is not a Collection");
+    }
+  }
+ else {
+    throw new ActivitiException("Couldn't resolve loopCardinality nor loopDataInputRef");
+  }
+  return nrOfInstances;
+}

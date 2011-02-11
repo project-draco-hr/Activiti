@@ -1,7 +1,7 @@
 {
-  setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,loopCardinalityValue);
+  setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,nrOfInstances);
   List<ActivityExecution> concurrentExecutions=new ArrayList<ActivityExecution>();
-  for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
+  for (int loopCounter=0; loopCounter < nrOfInstances; loopCounter++) {
     ActivityExecution concurrentExecution=execution.createExecution();
     concurrentExecution.setActive(true);
     concurrentExecution.setConcurrent(true);
@@ -14,9 +14,9 @@
       concurrentExecution=extraScopedExecution;
     }
     concurrentExecutions.add(concurrentExecution);
-    logLoopDetails(concurrentExecution,"initialized",loopCounter,0,loopCardinalityValue,loopCardinalityValue);
+    logLoopDetails(concurrentExecution,"initialized",loopCounter,0,nrOfInstances,nrOfInstances);
   }
-  for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
+  for (int loopCounter=0; loopCounter < nrOfInstances; loopCounter++) {
     ActivityExecution concurrentExecution=concurrentExecutions.get(loopCounter);
     if (concurrentExecution.isActive() && concurrentExecution.getParent().isActive()) {
       setLoopVariable(concurrentExecution,LOOP_COUNTER,loopCounter);

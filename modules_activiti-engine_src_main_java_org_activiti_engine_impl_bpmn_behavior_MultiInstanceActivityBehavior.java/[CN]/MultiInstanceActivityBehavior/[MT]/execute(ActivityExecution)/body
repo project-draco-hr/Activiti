@@ -1,14 +1,14 @@
 {
-  int loopCardinalityValue=resolveLoopCardinality(execution);
-  if (loopCardinalityValue <= 0) {
-    throw new ActivitiException("Invalid loopCardinality: must be positive integer value" + ", but was " + loopCardinalityValue);
+  int nrOfInstances=resolveNrOfInstances(execution);
+  if (nrOfInstances <= 0) {
+    throw new ActivitiException("Invalid number of instances: must be positive integer value" + ", but was " + nrOfInstances);
   }
-  setLoopVariable(execution,NUMBER_OF_INSTANCES,loopCardinalityValue);
+  setLoopVariable(execution,NUMBER_OF_INSTANCES,nrOfInstances);
   setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,0);
-  if (isSequential || loopCardinalityValue == 1) {
-    executeSequentialBehavior(execution,loopCardinalityValue);
+  if (isSequential || nrOfInstances == 1) {
+    executeSequentialBehavior(execution,nrOfInstances);
   }
  else {
-    executeParallelBehavior(execution,loopCardinalityValue);
+    executeParallelBehavior(execution,nrOfInstances);
   }
 }
