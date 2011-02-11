@@ -9,7 +9,7 @@
     }
   }
   if (Context.getProcessEngineContext().getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
-    List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl().executionId(id).unfinished().executeList(commandContext,null);
+    List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl(commandContext).executionId(id).unfinished().list();
     for (    HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
       historicActivityInstance.setExecutionId(replacedBy.getId());
     }

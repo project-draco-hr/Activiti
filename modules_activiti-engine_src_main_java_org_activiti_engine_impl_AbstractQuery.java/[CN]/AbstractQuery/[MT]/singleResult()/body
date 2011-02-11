@@ -1,4 +1,7 @@
 {
   this.resultType=ResultType.SINGLE_RESULT;
+  if (commandContext != null) {
+    return executeSingleResult(commandContext);
+  }
   return (U)commandExecutor.execute(this);
 }

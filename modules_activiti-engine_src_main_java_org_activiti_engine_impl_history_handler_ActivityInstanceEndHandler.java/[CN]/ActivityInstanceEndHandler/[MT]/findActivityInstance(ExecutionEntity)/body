@@ -9,7 +9,7 @@
       return cachedHistoricActivityInstance;
     }
   }
-  List<HistoricActivityInstance> historicActivityInstances=new HistoricActivityInstanceQueryImpl().executionId(executionId).activityId(activityId).unfinished().executeList(commandContext,new Page(0,1));
+  List<HistoricActivityInstance> historicActivityInstances=new HistoricActivityInstanceQueryImpl(commandContext).executionId(executionId).activityId(activityId).unfinished().listPage(0,1);
   if (!historicActivityInstances.isEmpty()) {
     return (HistoricActivityInstanceEntity)historicActivityInstances.get(0);
   }

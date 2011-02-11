@@ -1,24 +1,48 @@
 {
+  String dbVersion=null;
+  boolean isUpgradeNeeded=false;
   if (isEngineTablePresent()) {
-    dbSchemaUpgrade("engine");
+    PropertyEntity dbVersionProperty=selectById(PropertyEntity.class,"schema.version");
+    dbVersion=dbVersionProperty.getValue();
+    isUpgradeNeeded=!ProcessEngine.VERSION.equals(dbVersion);
+    if (isUpgradeNeeded) {
+      dbVersionProperty.setValue(ProcessEngine.VERSION);
+      PropertyEntity dbHistoryProperty;
+      if ("5.0".equals(dbVersion)) {
+        dbHistoryProperty=new PropertyEntity("schema.history","create(5.0)");
+        insert(dbHistoryProperty);
+      }
+ else {
+        dbHistoryProperty=selectById(PropertyEntity.class,"schema.history");
+      }
+      String dbHistoryValue=dbHistoryProperty.getValue() + " upgrade(" + dbVersion+ "->"+ ProcessEngine.VERSION+ ")";
+      dbHistoryProperty.setValue(dbHistoryValue);
+      dbSchemaUpgrade("engine",dbVersion);
+    }
   }
  else {
     dbSchemaCreateEngine();
   }
   if (isHistoryTablePresent()) {
-    dbSchemaUpgrade("history");
+    if (isUpgradeNeeded) {
+      dbSchemaUpgrade("history",dbVersion);
+    }
   }
  else   if (dbSqlSessionFactory.isDbHistoryUsed()) {
     dbSchemaCreateHistory();
   }
   if (isIdentityTablePresent()) {
-    dbSchemaUpgrade("identity");
+    if (isUpgradeNeeded) {
+      dbSchemaUpgrade("identity",dbVersion);
+    }
   }
  else   if (dbSqlSessionFactory.isDbIdentityUsed()) {
     dbSchemaCreateIdentity();
   }
   if (isCycleTablePresent()) {
-    dbSchemaUpgrade("cycle");
+    if (isUpgradeNeeded) {
+      dbSchemaUpgrade("cycle",dbVersion);
+    }
   }
  else   if (dbSqlSessionFactory.isDbCycleUsed()) {
     dbSchemaCreateCycle();

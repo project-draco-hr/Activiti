@@ -10,7 +10,9 @@
         throw new ActivitiException("resource '" + resourceName + "' is not available");
       }
     }
-    executeSchemaResource(operation,component,resourceName,inputStream);
+ else {
+      executeSchemaResource(operation,component,resourceName,inputStream);
+    }
   }
   finally {
     IoUtil.closeSilently(inputStream);

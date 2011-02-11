@@ -2,5 +2,8 @@
   this.firstResult=firstResult;
   this.maxResults=maxResults;
   this.resultType=ResultType.LIST_PAGE;
+  if (commandContext != null) {
+    return executeList(commandContext,new Page(firstResult,maxResults));
+  }
   return (List<U>)commandExecutor.execute(this);
 }

@@ -7,7 +7,7 @@
   ensureVariableInstancesInitialized();
   removeVariablesLocal();
   CommandContext commandContext=CommandContext.getCurrent();
-  List<TaskEntity> tasks=(List)new TaskQueryImpl().executionId(id).executeList(commandContext,null);
+  List<TaskEntity> tasks=(List)new TaskQueryImpl(commandContext).executionId(id).list();
   for (  TaskEntity task : tasks) {
     if (replacedBy != null) {
       task.setExecution(replacedBy);
@@ -16,7 +16,7 @@
       task.delete(TaskEntity.DELETE_REASON_DELETED);
     }
   }
-  List<Job> jobs=new JobQueryImpl().executionId(id).executeList(commandContext,null);
+  List<Job> jobs=new JobQueryImpl(commandContext).executionId(id).list();
   for (  Job job : jobs) {
     if (replacedBy != null) {
       ((JobEntity)job).setExecution((ExecutionEntity)replacedBy);

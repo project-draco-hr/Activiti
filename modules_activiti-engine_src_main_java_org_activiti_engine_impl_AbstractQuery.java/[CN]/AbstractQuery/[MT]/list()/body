@@ -1,4 +1,7 @@
 {
   this.resultType=ResultType.LIST;
+  if (commandContext != null) {
+    return executeList(commandContext,null);
+  }
   return (List<U>)commandExecutor.execute(this);
 }

@@ -1,7 +1,7 @@
 {
   if (cascade) {
     CommandContext commandContext=CommandContext.getCurrent();
-    List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl().deploymentId(deploymentId).executeList(commandContext,null);
+    List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl(commandContext).deploymentId(deploymentId).list();
     int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
     boolean isHistoryEnabled=historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY;
     for (    ProcessDefinition processDefinition : processDefinitions) {

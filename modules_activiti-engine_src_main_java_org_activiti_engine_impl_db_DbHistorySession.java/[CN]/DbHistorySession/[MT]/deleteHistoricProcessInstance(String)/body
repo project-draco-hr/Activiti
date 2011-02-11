@@ -1,7 +1,7 @@
 {
   int historyLevel=Context.getProcessEngineContext().getHistoryLevel();
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-    List<HistoricDetailEntity> historicDetails=(List)new HistoricDetailQueryImpl().processInstanceId(historicProcessInstanceId).executeList(CommandContext.getCurrent(),null);
+    List<HistoricDetailEntity> historicDetails=(List)new HistoricDetailQueryImpl(CommandContext.getCurrent()).processInstanceId(historicProcessInstanceId).list();
     for (    HistoricDetailEntity historicDetail : historicDetails) {
       historicDetail.delete();
     }
