@@ -1,5 +1,5 @@
 {
-  String procId=runtimeService.startProcessInstanceByKey("miSequentialUserTasksWithTimer").getId();
+  String procId=runtimeService.startProcessInstanceByKey("miSequentialUserTasks",CollectionUtil.singletonMap("nrOfLoops",3)).getId();
   taskService.complete(taskService.createTaskQuery().singleResult().getId());
   Job timer=managementService.createJobQuery().singleResult();
   managementService.executeJob(timer.getId());

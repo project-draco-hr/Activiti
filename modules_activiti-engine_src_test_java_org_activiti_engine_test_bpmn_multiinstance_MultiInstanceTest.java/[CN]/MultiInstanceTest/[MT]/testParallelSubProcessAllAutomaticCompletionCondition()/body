@@ -1,0 +1,7 @@
+{
+  String procId=runtimeService.startProcessInstanceByKey("miParallelSubprocessAllAutomatics",CollectionUtil.singletonMap("nrOfLoops",10)).getId();
+  Execution waitState=runtimeService.createExecutionQuery().singleResult();
+  assertEquals(12,runtimeService.getVariable(waitState.getId(),"sum"));
+  runtimeService.signal(waitState.getId());
+  assertProcessEnded(procId);
+}

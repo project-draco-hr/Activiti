@@ -6,38 +6,9 @@
   setLoopVariable(execution,NUMBER_OF_INSTANCES,loopCardinalityValue);
   setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,0);
   if (isSequential || loopCardinalityValue == 1) {
-    setLoopVariable(execution,LOOP_COUNTER,0);
-    setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,1);
-    logLoopDetails(execution,"initialized",0,0,1,loopCardinalityValue);
-    activityBehavior.execute(execution);
+    executeSequentialBehavior(execution,loopCardinalityValue);
   }
  else {
-    setLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES,loopCardinalityValue);
-    List<ActivityExecution> concurrentExecutions=new ArrayList<ActivityExecution>();
-    for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
-      ActivityExecution concurrentExecution=execution.createExecution();
-      concurrentExecution.setActive(true);
-      concurrentExecution.setConcurrent(true);
-      if (activityBehavior instanceof org.activiti.engine.impl.bpmn.behavior.SubProcessActivityBehavior) {
-        concurrentExecution.setScope(false);
-        ActivityExecution concurrentExecution2=concurrentExecution.createExecution();
-        concurrentExecution2.setActive(true);
-        concurrentExecution2.setConcurrent(false);
-        concurrentExecution2.setScope(true);
-        concurrentExecution=concurrentExecution2;
-      }
- else {
-        concurrentExecution.setScope(false);
-      }
-      concurrentExecutions.add(concurrentExecution);
-      logLoopDetails(concurrentExecution,"initialized",loopCounter,0,loopCardinalityValue,loopCardinalityValue);
-    }
-    for (int loopCounter=0; loopCounter < loopCardinalityValue; loopCounter++) {
-      ActivityExecution concurrentExecution=concurrentExecutions.get(loopCounter);
-      if (concurrentExecution.isActive()) {
-        setLoopVariable(concurrentExecution,LOOP_COUNTER,loopCounter);
-        activityBehavior.execute(concurrentExecution);
-      }
-    }
+    executeParallelBehavior(execution,loopCardinalityValue);
   }
 }
