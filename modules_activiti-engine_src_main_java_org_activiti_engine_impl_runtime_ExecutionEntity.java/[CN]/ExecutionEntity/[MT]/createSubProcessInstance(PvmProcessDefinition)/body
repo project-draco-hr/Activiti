@@ -4,8 +4,8 @@
   this.setSubProcessInstance(subProcessInstance);
   subProcessInstance.setProcessDefinition((ProcessDefinitionImpl)processDefinition);
   subProcessInstance.setProcessInstance(subProcessInstance);
-  CommandContext commandContext=CommandContext.getCurrent();
-  int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+  CommandContext commandContext=Context.getCommandContext();
+  int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
     DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
     HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity((ExecutionEntity)subProcessInstance);

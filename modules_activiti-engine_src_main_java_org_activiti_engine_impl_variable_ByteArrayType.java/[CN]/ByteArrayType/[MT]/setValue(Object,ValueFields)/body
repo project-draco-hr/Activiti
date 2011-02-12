@@ -3,7 +3,7 @@
   byte[] bytes=(byte[])value;
   if (byteArray == null) {
     byteArray=new ByteArrayEntity(bytes);
-    CommandContext.getCurrent().getDbSqlSession().insert(byteArray);
+    Context.getCommandContext().getDbSqlSession().insert(byteArray);
     valueFields.setByteArrayValue(byteArray);
   }
  else {

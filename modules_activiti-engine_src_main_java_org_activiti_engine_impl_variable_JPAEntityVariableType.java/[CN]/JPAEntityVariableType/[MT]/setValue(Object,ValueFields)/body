@@ -1,5 +1,5 @@
 {
-  EntityManagerSession entityManagerSession=CommandContext.getCurrent().getSession(EntityManagerSession.class);
+  EntityManagerSession entityManagerSession=Context.getCommandContext().getSession(EntityManagerSession.class);
   if (entityManagerSession == null) {
     throw new ActivitiException("Cannot set JPA variable: " + EntityManagerSession.class + " not configured");
   }

@@ -5,7 +5,7 @@
   List<CommandInterceptor> defaultCommandInterceptorsTxRequired=new ArrayList<CommandInterceptor>();
   defaultCommandInterceptorsTxRequired.add(new LogInterceptor());
   defaultCommandInterceptorsTxRequired.add(new SpringTransactionInterceptor(transactionManager,TransactionTemplate.PROPAGATION_REQUIRED));
-  CommandContextInterceptor commandContextInterceptor=new CommandContextInterceptor(commandContextFactory,processEngineContext);
+  CommandContextInterceptor commandContextInterceptor=new CommandContextInterceptor(commandContextFactory,this);
   defaultCommandInterceptorsTxRequired.add(commandContextInterceptor);
   defaultCommandInterceptorsTxRequired.add(new CommandExecutorImpl());
   return defaultCommandInterceptorsTxRequired;

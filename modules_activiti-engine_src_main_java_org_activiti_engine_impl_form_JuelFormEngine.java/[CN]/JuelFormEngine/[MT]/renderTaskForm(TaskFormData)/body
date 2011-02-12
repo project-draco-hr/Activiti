@@ -2,9 +2,8 @@
   if (taskForm.getFormKey() == null) {
     return null;
   }
-  CommandContext commandContext=CommandContext.getCurrent();
-  String formTemplateString=getFormTemplateString(taskForm,commandContext);
-  ScriptingEngines scriptingEngines=commandContext.getProcessEngineConfiguration().getScriptingEngines();
+  String formTemplateString=getFormTemplateString(taskForm);
+  ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
   TaskEntity task=(TaskEntity)taskForm.getTask();
   return scriptingEngines.evaluate(formTemplateString,ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE,task.getExecution());
 }

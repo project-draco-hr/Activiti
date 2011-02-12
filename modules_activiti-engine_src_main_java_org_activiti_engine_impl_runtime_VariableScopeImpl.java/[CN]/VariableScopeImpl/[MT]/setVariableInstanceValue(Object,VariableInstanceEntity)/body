@@ -1,11 +1,9 @@
 {
   variableInstance.setValue(value);
-  CommandContext commandContext=CommandContext.getCurrent();
-  int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+  int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
   if (historyLevel == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
-    DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
-    HistoricVariableUpdateEntity historicVariableUpdate=new HistoricVariableUpdateEntity(variableInstance,dbSqlSession);
+    HistoricVariableUpdateEntity historicVariableUpdate=new HistoricVariableUpdateEntity(variableInstance);
     initializeActivityInstanceId(historicVariableUpdate);
-    dbSqlSession.insert(historicVariableUpdate);
+    Context.getCommandContext().getDbSqlSession().insert(historicVariableUpdate);
   }
 }

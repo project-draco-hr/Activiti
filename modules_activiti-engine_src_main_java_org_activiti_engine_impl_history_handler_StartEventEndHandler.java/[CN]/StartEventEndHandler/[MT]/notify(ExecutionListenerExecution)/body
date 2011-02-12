@@ -1,7 +1,7 @@
 {
   String executionId=execution.getId();
   String activityId=((ExecutionEntity)execution).getActivityId();
-  CommandContext commandContext=CommandContext.getCurrent();
+  CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=dbSqlSession.findInCache(HistoricActivityInstanceEntity.class);
   for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {

@@ -1,5 +1,5 @@
 {
-  DbSqlSession dbSqlSession=CommandContext.getCurrent().getDbSqlSession();
+  DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
   dbSqlSession.delete(VariableInstanceEntity.class,id);
   if (byteArrayValueId != null) {
     getByteArrayValue();

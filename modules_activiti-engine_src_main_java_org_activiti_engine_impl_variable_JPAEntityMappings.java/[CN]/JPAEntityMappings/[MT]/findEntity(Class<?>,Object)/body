@@ -1,5 +1,5 @@
 {
-  EntityManager em=CommandContext.getCurrent().getSession(EntityManagerSession.class).getEntityManager();
+  EntityManager em=Context.getCommandContext().getSession(EntityManagerSession.class).getEntityManager();
   Object entity=em.find(entityClass,primaryKey);
   if (entity == null) {
     throw new ActivitiException("Entity does not exist: " + entityClass.getName() + " - "+ primaryKey);

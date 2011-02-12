@@ -15,7 +15,7 @@
   }
   if (knowledgeBuilder != null) {
     KnowledgeBase knowledgeBase=knowledgeBuilder.newKnowledgeBase();
-    DbRepositorySessionFactory repositorySessionFactory=(DbRepositorySessionFactory)CommandContext.getCurrent().getProcessEngineConfiguration().getSessionFactories().get(RepositorySession.class);
+    DbRepositorySessionFactory repositorySessionFactory=(DbRepositorySessionFactory)Context.getProcessEngineConfiguration().getSessionFactories().get(RepositorySession.class);
     Map<String,Object> knowledgeBaseCache=repositorySessionFactory.getKnowledgeBaseCache();
     knowledgeBaseCache.put(deployment.getId(),knowledgeBase);
   }

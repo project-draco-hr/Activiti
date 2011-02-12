@@ -1,6 +1,6 @@
 {
   this.replacedBy=(ExecutionEntity)replacedBy;
-  CommandContext commandContext=CommandContext.getCurrent();
+  CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=dbSqlSession.findInCache(HistoricActivityInstanceEntity.class);
   for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
@@ -8,7 +8,7 @@
       cachedHistoricActivityInstance.setExecutionId(replacedBy.getId());
     }
   }
-  if (Context.getProcessEngineContext().getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (Context.getProcessEngineConfiguration().getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
     List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl(commandContext).executionId(id).unfinished().list();
     for (    HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
       historicActivityInstance.setExecutionId(replacedBy.getId());

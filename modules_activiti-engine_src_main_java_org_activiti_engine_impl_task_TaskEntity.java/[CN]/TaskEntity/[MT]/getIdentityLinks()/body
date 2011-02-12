@@ -1,6 +1,6 @@
 {
   if (!isIdentityLinksInitialized) {
-    taskIdentityLinkEntities=CommandContext.getCurrent().getTaskSession().findIdentityLinksByTaskId(id);
+    taskIdentityLinkEntities=Context.getCommandContext().getTaskSession().findIdentityLinksByTaskId(id);
     isIdentityLinksInitialized=true;
   }
   return taskIdentityLinkEntities;

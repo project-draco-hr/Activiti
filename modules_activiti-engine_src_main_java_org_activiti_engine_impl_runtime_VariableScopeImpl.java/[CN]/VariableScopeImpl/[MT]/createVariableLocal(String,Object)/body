@@ -3,8 +3,7 @@
   if (variableInstances.containsKey(variableName)) {
     throw new ActivitiException("variable '" + variableName + "' already exists. Use setVariableLocal if you want to overwrite the value");
   }
-  CommandContext commandContext=CommandContext.getCurrent();
-  VariableTypes variableTypes=commandContext.getProcessEngineConfiguration().getVariableTypes();
+  VariableTypes variableTypes=Context.getProcessEngineConfiguration().getVariableTypes();
   VariableType type=variableTypes.findVariableType(value);
   VariableInstanceEntity variableInstance=VariableInstanceEntity.createAndInsert(variableName,type,value);
   initializeVariableInstanceBackPointer(variableInstance);

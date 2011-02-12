@@ -30,8 +30,9 @@
       }
     }
   }
-  DbRepositorySession dbRepositorySession=(DbRepositorySession)CommandContext.getCurrentSession(RepositorySession.class);
-  DbSqlSession dbSqlSession=CommandContext.getCurrentSession(DbSqlSession.class);
+  CommandContext commandContext=Context.getCommandContext();
+  DbRepositorySession dbRepositorySession=(DbRepositorySession)commandContext.getSession(RepositorySession.class);
+  DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
   for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
     if (deployment.isNew()) {
       int processDefinitionVersion;

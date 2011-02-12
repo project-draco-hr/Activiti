@@ -14,7 +14,7 @@
   ByteArrayEntity byteArray=getExceptionByteArray();
   if (byteArray == null) {
     byteArray=new ByteArrayEntity("job.exceptionByteArray",exceptionBytes);
-    CommandContext.getCurrent().getDbSqlSession().insert(byteArray);
+    Context.getCommandContext().getDbSqlSession().insert(byteArray);
     exceptionByteArrayId=byteArray.getId();
     exceptionByteArray=byteArray;
   }

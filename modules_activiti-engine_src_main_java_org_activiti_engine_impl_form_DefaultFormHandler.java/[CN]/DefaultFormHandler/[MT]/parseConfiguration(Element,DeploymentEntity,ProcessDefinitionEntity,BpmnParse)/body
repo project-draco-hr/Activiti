@@ -3,9 +3,8 @@
   this.formKey=activityElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"formKey");
   Element extensionElement=activityElement.element("extensionElements");
   if (extensionElement != null) {
-    CommandContext commandContext=CommandContext.getCurrent();
-    ExpressionManager expressionManager=commandContext.getProcessEngineConfiguration().getExpressionManager();
-    FormTypes formTypes=commandContext.getProcessEngineConfiguration().getFormTypes();
+    ExpressionManager expressionManager=Context.getProcessEngineConfiguration().getExpressionManager();
+    FormTypes formTypes=Context.getProcessEngineConfiguration().getFormTypes();
     List<Element> formPropertyElements=extensionElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"formProperty");
     for (    Element formPropertyElement : formPropertyElements) {
       FormPropertyHandler formPropertyHandler=new FormPropertyHandler();

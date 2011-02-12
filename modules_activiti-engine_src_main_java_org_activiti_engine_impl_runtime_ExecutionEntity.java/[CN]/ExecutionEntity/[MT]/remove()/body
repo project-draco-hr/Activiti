@@ -6,7 +6,7 @@
   }
   ensureVariableInstancesInitialized();
   removeVariablesLocal();
-  CommandContext commandContext=CommandContext.getCurrent();
+  CommandContext commandContext=Context.getCommandContext();
   List<TaskEntity> tasks=(List)new TaskQueryImpl(commandContext).executionId(id).list();
   for (  TaskEntity task : tasks) {
     if (replacedBy != null) {

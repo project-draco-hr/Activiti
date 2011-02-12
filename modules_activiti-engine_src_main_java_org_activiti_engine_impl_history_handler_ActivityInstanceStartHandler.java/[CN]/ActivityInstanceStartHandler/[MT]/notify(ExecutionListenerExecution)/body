@@ -1,6 +1,5 @@
 {
-  CommandContext commandContext=CommandContext.getCurrent();
-  IdGenerator idGenerator=commandContext.getProcessEngineConfiguration().getIdGenerator();
+  IdGenerator idGenerator=Context.getProcessEngineConfiguration().getIdGenerator();
   ExecutionEntity executionEntity=(ExecutionEntity)execution;
   String processDefinitionId=executionEntity.getProcessDefinitionId();
   String processInstanceId=executionEntity.getProcessInstanceId();
@@ -14,5 +13,5 @@
   historicActivityInstance.setActivityName((String)executionEntity.getActivity().getProperty("name"));
   historicActivityInstance.setActivityType((String)executionEntity.getActivity().getProperty("type"));
   historicActivityInstance.setStartTime(ClockUtil.getCurrentTime());
-  commandContext.getDbSqlSession().insert(historicActivityInstance);
+  Context.getCommandContext().getDbSqlSession().insert(historicActivityInstance);
 }

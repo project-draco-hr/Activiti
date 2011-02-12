@@ -1,10 +1,9 @@
 {
-  CommandContext commandContext=CommandContext.getCurrent();
-  DbRepositorySessionFactory repositorySessionFactory=(DbRepositorySessionFactory)commandContext.getProcessEngineConfiguration().getSessionFactories().get(RepositorySession.class);
+  DbRepositorySessionFactory repositorySessionFactory=(DbRepositorySessionFactory)Context.getProcessEngineConfiguration().getSessionFactories().get(RepositorySession.class);
   Map<String,Object> knowledgeBaseCache=repositorySessionFactory.getKnowledgeBaseCache();
   KnowledgeBase knowledgeBase=(KnowledgeBase)knowledgeBaseCache.get(deploymentId);
   if (knowledgeBase == null) {
-    RepositorySession repositorySession=commandContext.getRepositorySession();
+    RepositorySession repositorySession=Context.getCommandContext().getRepositorySession();
     DeploymentEntity deployment=repositorySession.findDeploymentById(deploymentId);
     if (deployment == null) {
       throw new ActivitiException("no deployment with id " + deploymentId);

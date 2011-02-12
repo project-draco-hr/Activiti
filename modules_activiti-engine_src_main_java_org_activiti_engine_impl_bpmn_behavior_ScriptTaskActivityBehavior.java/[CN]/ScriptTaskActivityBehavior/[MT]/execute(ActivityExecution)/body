@@ -1,5 +1,5 @@
 {
-  ScriptingEngines scriptingEngines=Context.getProcessEngineContext().getScriptingEngines();
+  ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
   Object result=scriptingEngines.evaluate(script,language,execution);
   if (resultVariable != null) {
     execution.setVariable(resultVariable,result);

@@ -1,7 +1,7 @@
 {
-  ProcessEngineContext processEngineContext=Context.getProcessEngineContext();
-  int configuredHistoryLevel=processEngineContext.getHistoryLevel();
-  if ((!processEngineContext.isDbHistoryUsed()) && (configuredHistoryLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE)) {
+  ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
+  int configuredHistoryLevel=processEngineConfiguration.getHistoryLevel();
+  if ((!processEngineConfiguration.isDbHistoryUsed()) && (configuredHistoryLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE)) {
     throw new ActivitiException("historyLevel config is higher then 'none' and dbHistoryUsed is set to false");
   }
   if (isEngineTablePresent()) {
@@ -13,13 +13,13 @@
  else {
     dbSchemaCreateEngine();
   }
-  if (processEngineContext.isDbHistoryUsed()) {
+  if (processEngineConfiguration.isDbHistoryUsed()) {
     dbSchemaCreateHistory();
   }
-  if (processEngineContext.isDbIdentityUsed()) {
+  if (processEngineConfiguration.isDbIdentityUsed()) {
     dbSchemaCreateIdentity();
   }
-  if (processEngineContext.isDbCycleUsed()) {
+  if (processEngineConfiguration.isDbCycleUsed()) {
     dbSchemaCreateCycle();
   }
 }

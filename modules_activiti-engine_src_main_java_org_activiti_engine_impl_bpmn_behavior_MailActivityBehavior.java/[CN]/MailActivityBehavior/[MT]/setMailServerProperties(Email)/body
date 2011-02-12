@@ -1,14 +1,14 @@
 {
-  ProcessEngineContext processEngineContext=Context.getProcessEngineContext();
-  String host=processEngineContext.getMailServerHost();
+  ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
+  String host=processEngineConfiguration.getMailServerHost();
   if (host == null) {
     throw new ActivitiException("Could not send email: no SMTP host is configured");
   }
   email.setHostName(host);
-  int port=processEngineContext.getMailServerPort();
+  int port=processEngineConfiguration.getMailServerPort();
   email.setSmtpPort(port);
-  String user=processEngineContext.getMailServerUsername();
-  String password=processEngineContext.getMailServerPassword();
+  String user=processEngineConfiguration.getMailServerUsername();
+  String password=processEngineConfiguration.getMailServerPassword();
   if (user != null && password != null) {
     email.setAuthentication(user,password);
   }

@@ -8,9 +8,9 @@
     for (    VariableInstanceEntity variableInstance : variableInstances.values()) {
       variableInstance.delete();
     }
-    CommandContext commandContext=CommandContext.getCurrent();
+    CommandContext commandContext=Context.getCommandContext();
     DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
-    int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+    int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
     if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
       HistoricTaskInstanceEntity historicTaskInstance=dbSqlSession.selectById(HistoricTaskInstanceEntity.class,id);
       if (historicTaskInstance != null) {

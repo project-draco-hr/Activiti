@@ -1,6 +1,7 @@
 {
-  if (CommandContext.getCurrent() != null) {
-    final ClassLoader classLoader=CommandContext.getCurrent().getProcessEngineConfiguration().getClassLoader();
+  ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
+  if (processEngineConfiguration != null) {
+    final ClassLoader classLoader=processEngineConfiguration.getClassLoader();
     if (classLoader != null) {
       return classLoader;
     }

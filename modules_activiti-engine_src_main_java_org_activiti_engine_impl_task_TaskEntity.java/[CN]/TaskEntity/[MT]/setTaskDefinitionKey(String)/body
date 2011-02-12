@@ -1,8 +1,8 @@
 {
   this.taskDefinitionKey=taskDefinitionKey;
-  CommandContext commandContext=CommandContext.getCurrent();
+  CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
-    int historyLevel=commandContext.getProcessEngineConfiguration().getHistoryLevel();
+    int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
     if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
       HistoricTaskInstanceEntity historicTaskInstance=commandContext.getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
       if (historicTaskInstance != null) {

@@ -1,5 +1,5 @@
 {
-  ExpressionManager expressionManager=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getExpressionManager();
+  ExpressionManager expressionManager=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration().getExpressionManager();
   String bpmnXml=ActivitiCompliantBpmn20Provider.createBpmnXml((SignavioConnector)connector,artifact);
   BpmnParser bpmnParser=new BpmnParser(expressionManager);
   DeploymentEntity deployment=new DeploymentEntity();

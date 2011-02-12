@@ -3,7 +3,7 @@
   if (execution == null) {
     throw new ActivitiException("No process instance found for id '" + processInstanceId + "'");
   }
-  List<TaskEntity> tasks=(List)new TaskQueryImpl(CommandContext.getCurrent()).processInstanceId(processInstanceId).list();
+  List<TaskEntity> tasks=(List)new TaskQueryImpl(Context.getCommandContext()).processInstanceId(processInstanceId).list();
   for (  TaskEntity task : tasks) {
     task.delete(TaskEntity.DELETE_REASON_DELETED);
   }

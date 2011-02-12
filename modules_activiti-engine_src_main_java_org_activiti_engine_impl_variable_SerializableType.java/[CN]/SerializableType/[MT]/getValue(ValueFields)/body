@@ -11,7 +11,7 @@
     deserializedObject=ois.readObject();
     valueFields.setCachedValue(deserializedObject);
     if (valueFields instanceof VariableInstanceEntity) {
-      CommandContext.getCurrent().getDbSqlSession().addDeserializedObject(deserializedObject,bytes,(VariableInstanceEntity)valueFields);
+      Context.getCommandContext().getDbSqlSession().addDeserializedObject(deserializedObject,bytes,(VariableInstanceEntity)valueFields);
     }
   }
  catch (  Exception e) {

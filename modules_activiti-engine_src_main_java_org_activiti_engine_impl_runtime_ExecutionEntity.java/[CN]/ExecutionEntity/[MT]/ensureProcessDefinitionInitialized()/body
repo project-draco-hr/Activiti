@@ -1,5 +1,6 @@
 {
   if ((processDefinition == null) && (processDefinitionId != null)) {
-    setProcessDefinition(CommandContext.getCurrent().getRepositorySession().findDeployedProcessDefinitionById(processDefinitionId));
+    ProcessDefinitionEntity deployedProcessDefinition=Context.getCommandContext().getRepositorySession().findDeployedProcessDefinitionById(processDefinitionId);
+    setProcessDefinition(deployedProcessDefinition);
   }
 }

@@ -1,0 +1,18 @@
+{
+  this.processInstanceId=variableInstance.getProcessInstanceId();
+  this.executionId=variableInstance.getExecutionId();
+  this.taskId=variableInstance.getTaskId();
+  this.revision=variableInstance.getRevision();
+  this.name=variableInstance.getName();
+  this.variableType=variableInstance.getType();
+  this.time=ClockUtil.getCurrentTime();
+  if (variableInstance.getByteArrayValueId() != null) {
+    this.byteArrayValue=new ByteArrayEntity(name,variableInstance.getByteArrayValue().getBytes());
+    Context.getCommandContext().getDbSqlSession().insert(byteArrayValue);
+    this.byteArrayValueId=byteArrayValue.getId();
+  }
+  this.textValue=variableInstance.getTextValue();
+  this.textValue2=variableInstance.getTextValue2();
+  this.doubleValue=variableInstance.getDoubleValue();
+  this.longValue=variableInstance.getLongValue();
+}

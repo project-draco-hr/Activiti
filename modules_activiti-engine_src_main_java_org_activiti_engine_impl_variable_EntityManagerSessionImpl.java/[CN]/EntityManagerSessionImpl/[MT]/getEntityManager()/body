@@ -2,22 +2,25 @@
   if (entityManager == null) {
     entityManager=getEntityManagerFactory().createEntityManager();
     if (handleTransactions) {
-      CommandContext.getCurrent().getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new TransactionListener(){
+      TransactionListener jpaTransactionCommitListener=new TransactionListener(){
         public void execute(        CommandContext commandContext){
           if (isTransactionActive()) {
             entityManager.getTransaction().commit();
           }
         }
       }
-);
-      CommandContext.getCurrent().getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new TransactionListener(){
+;
+      TransactionListener jpaTransactionRollbackListener=new TransactionListener(){
         public void execute(        CommandContext commandContext){
           if (isTransactionActive()) {
             entityManager.getTransaction().rollback();
           }
         }
       }
-);
+;
+      TransactionContext transactionContext=Context.getCommandContext().getTransactionContext();
+      transactionContext.addTransactionListener(TransactionState.COMMITTED,jpaTransactionCommitListener);
+      transactionContext.addTransactionListener(TransactionState.ROLLED_BACK,jpaTransactionRollbackListener);
       if (!isTransactionActive()) {
         entityManager.getTransaction().begin();
       }

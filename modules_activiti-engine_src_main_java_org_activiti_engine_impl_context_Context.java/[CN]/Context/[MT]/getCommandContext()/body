@@ -1,3 +1,7 @@
 {
-  return getStack(commandContextThreadLocal).peek();
+  Stack<CommandContext> stack=getStack(commandContextThreadLocal);
+  if (stack.isEmpty()) {
+    return null;
+  }
+  return stack.peek();
 }

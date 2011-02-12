@@ -1,5 +1,5 @@
 {
-  DbSqlSession dbSqlSession=CommandContext.getCurrent().getDbSqlSession();
+  DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
   dbSqlSession.delete(JobEntity.class,id);
   if (exceptionByteArrayId != null) {
     dbSqlSession.delete(ByteArrayEntity.class,exceptionByteArrayId);

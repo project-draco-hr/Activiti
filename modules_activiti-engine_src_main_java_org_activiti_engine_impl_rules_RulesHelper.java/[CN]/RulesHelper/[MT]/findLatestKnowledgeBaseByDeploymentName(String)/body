@@ -1,5 +1,5 @@
 {
-  DeploymentQueryImpl deploymentQuery=new DeploymentQueryImpl(CommandContext.getCurrent());
+  DeploymentQueryImpl deploymentQuery=new DeploymentQueryImpl(Context.getCommandContext());
   deploymentQuery.deploymentName(deploymentName).orderByDeploymenTime().asc();
   List<Deployment> deployments=deploymentQuery.listPage(0,1);
   if (deployments.isEmpty()) {

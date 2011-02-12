@@ -2,6 +2,6 @@
   super.delete();
   if (byteArrayValueId != null) {
     getByteArrayValue();
-    CommandContext.getCurrentSession(DbSqlSession.class).delete(ByteArrayEntity.class,byteArrayValueId);
+    Context.getCommandContext().getSession(DbSqlSession.class).delete(ByteArrayEntity.class,byteArrayValueId);
   }
 }
