@@ -13,7 +13,8 @@
     job.execute(commandContext);
   }
  catch (  RuntimeException exception) {
-    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new DecrementJobRetriesListener(jobId,exception));
+    CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutorTxRequiresNew();
+    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new DecrementJobRetriesListener(commandExecutor,jobId,exception));
     throw exception;
   }
   return null;
