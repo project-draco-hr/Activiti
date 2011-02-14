@@ -1,6 +1,9 @@
 {
   ProcessInstance finishedInstance=runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
-  String taskId=taskService.createTaskQuery().processInstanceId(finishedInstance.getId()).singleResult().getId();
+  Task task=taskService.createTaskQuery().processInstanceId(finishedInstance.getId()).singleResult();
+  task.setPriority(1234);
+  taskService.saveTask(task);
+  String taskId=task.getId();
   taskService.complete(taskId);
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskId(taskId).count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskId("unexistingtaskid").count());
@@ -32,6 +35,8 @@
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDeleteReason("deleted").count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("task").count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("unexistingkey").count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskPriority(1234).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskPriority(5678).count());
   runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().finished().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().unfinished().count());
