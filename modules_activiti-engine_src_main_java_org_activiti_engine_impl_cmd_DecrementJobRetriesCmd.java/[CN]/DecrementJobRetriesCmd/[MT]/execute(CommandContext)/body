@@ -8,7 +8,8 @@
     job.setExceptionMessage(exception.getMessage());
     job.setExceptionStacktrace(getExceptionStacktrace());
   }
-  MessageAddedNotification messageAddedNotification=new MessageAddedNotification();
+  JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
+  MessageAddedNotification messageAddedNotification=new MessageAddedNotification(jobExecutor);
   TransactionContext transactionContext=commandContext.getTransactionContext();
   transactionContext.addTransactionListener(TransactionState.COMMITTED,messageAddedNotification);
   return null;

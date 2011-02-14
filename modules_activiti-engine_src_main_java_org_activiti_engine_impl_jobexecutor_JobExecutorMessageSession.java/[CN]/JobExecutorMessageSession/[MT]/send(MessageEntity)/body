@@ -1,5 +1,6 @@
 {
   CommandContext commandContext=Context.getCommandContext();
   commandContext.getDbSqlSession().insert(message);
-  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification());
+  JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
+  commandContext.getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(jobExecutor));
 }
