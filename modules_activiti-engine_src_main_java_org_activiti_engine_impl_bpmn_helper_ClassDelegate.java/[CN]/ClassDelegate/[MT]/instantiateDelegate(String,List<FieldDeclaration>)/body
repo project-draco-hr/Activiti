@@ -2,14 +2,7 @@
   Object object=ReflectUtil.instantiate(className);
   if (fieldDeclarations != null) {
     for (    FieldDeclaration declaration : fieldDeclarations) {
-      Field field=ReflectUtil.getField(declaration.getName(),object);
-      if (field == null) {
-        throw new ActivitiException("Field definition uses unexisting field '" + declaration.getName() + "' on class "+ className);
-      }
-      if (!fieldTypeCompatible(declaration,field)) {
-        throw new ActivitiException("Incompatible type set on field declaration '" + declaration.getName() + "' for class "+ className+ ". Declared value has type "+ declaration.getValue().getClass().getName()+ ", while expecting "+ field.getType().getName());
-      }
-      ReflectUtil.setField(field,object,declaration.getValue());
+      applyFieldDeclaration(declaration,object);
     }
   }
   return object;
