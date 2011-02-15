@@ -1,0 +1,20 @@
+{
+  if (usesCollection() && inputDataItemVariable != null) {
+    Collection collection=null;
+    if (loopDataInputRefExpression != null) {
+      collection=(Collection)loopDataInputRefExpression.getValue(execution);
+    }
+ else     if (loopDataInputRefVariable != null) {
+      collection=(Collection)execution.getVariable(loopDataInputRefVariable);
+    }
+    Object value=null;
+    int index=0;
+    Iterator it=collection.iterator();
+    while (index <= loopCounter) {
+      value=it.next();
+      index++;
+    }
+    setLoopVariable(execution,inputDataItemVariable,value);
+  }
+  originalActivityBehavior.execute(execution);
+}

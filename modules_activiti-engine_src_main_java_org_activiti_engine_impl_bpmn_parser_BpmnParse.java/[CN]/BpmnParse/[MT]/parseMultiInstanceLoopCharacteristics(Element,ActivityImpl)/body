@@ -5,7 +5,13 @@
   Element miLoopCharacteristics=activityElement.element("multiInstanceLoopCharacteristics");
   if (miLoopCharacteristics != null) {
     boolean isSequential=parseBooleanAttribute(miLoopCharacteristics.attribute("isSequential"),false);
-    MultiInstanceActivityBehavior miActivityBehavior=new MultiInstanceActivityBehavior((AbstractBpmnActivityBehavior)activity.getActivityBehavior(),isSequential);
+    MultiInstanceActivityBehavior miActivityBehavior=null;
+    if (isSequential) {
+      miActivityBehavior=new SequentialMultiInstanceBehavior((AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+    }
+ else {
+      miActivityBehavior=new ParallelMultiInstanceBehavior((AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+    }
     activity.setScope(true);
     activity.setActivityBehavior(miActivityBehavior);
     Element loopCardinality=miLoopCharacteristics.element("loopCardinality");
@@ -33,10 +39,10 @@
         }
       }
     }
-    Element inputDataItem=miLoopCharacteristics.element("dataInputItem");
+    Element inputDataItem=miLoopCharacteristics.element("inputDataItem");
     if (inputDataItem != null) {
-      String inputDataItemText=inputDataItem.getText();
-      miActivityBehavior.setInputDataItemVariable(inputDataItemText);
+      String inputDataItemName=inputDataItem.attribute("name");
+      miActivityBehavior.setInputDataItemVariable(inputDataItemName);
     }
     if (miActivityBehavior.getLoopCardinalityExpression() == null && miActivityBehavior.getLoopDataInputRefExpression() == null && miActivityBehavior.getLoopDataInputRefVariable() == null) {
       addError("Either either loopCardinality or loopDataInputRef must been set",miLoopCharacteristics);
