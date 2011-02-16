@@ -1,7 +1,12 @@
 {
   CompositeELResolver compositeElResolver=new CompositeELResolver();
   compositeElResolver.add(new VariableScopeElResolver(variableScope));
-  compositeElResolver.add(new ApplicationContextElResolver(applicationContext));
+  if (beans != null) {
+    compositeElResolver.add(new ReadonlyMapELResolver(beans));
+  }
+ else {
+    compositeElResolver.add(new ApplicationContextElResolver(applicationContext));
+  }
   compositeElResolver.add(new ArrayELResolver());
   compositeElResolver.add(new ListELResolver());
   compositeElResolver.add(new MapELResolver());
