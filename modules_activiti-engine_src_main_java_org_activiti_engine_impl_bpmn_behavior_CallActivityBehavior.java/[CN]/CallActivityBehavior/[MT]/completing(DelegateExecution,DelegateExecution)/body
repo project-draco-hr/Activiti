@@ -1,6 +1,12 @@
 {
   for (  AbstractDataAssociation dataOutputAssociation : dataOutputAssociations) {
-    Object value=subProcessInstance.getVariable(dataOutputAssociation.getSource());
+    Object value=null;
+    if (dataOutputAssociation.getSourceExpression() != null) {
+      value=dataOutputAssociation.getSourceExpression().getValue(subProcessInstance);
+    }
+ else {
+      value=subProcessInstance.getVariable(dataOutputAssociation.getSource());
+    }
     execution.setVariable(dataOutputAssociation.getTarget(),value);
   }
 }

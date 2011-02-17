@@ -14,7 +14,19 @@
   assertEquals("Task in super process",taskAfterSubProcess.getName());
   assertEquals("Hello from sub process.",runtimeService.getVariable(processInstance.getId(),"superVariable"));
   assertEquals("Hello from sub process.",taskService.getVariable(taskAfterSubProcess.getId(),"superVariable"));
-  taskService.complete(taskAfterSubProcess.getId());
+  vars.clear();
+  vars.put("x",new Long(5));
+  taskService.complete(taskAfterSubProcess.getId(),vars);
+  Task taskInSecondSubProcess=taskQuery.singleResult();
+  assertEquals("Task in subprocess",taskInSecondSubProcess.getName());
+  assertEquals(10l,runtimeService.getVariable(taskInSecondSubProcess.getProcessInstanceId(),"y"));
+  assertEquals(10l,taskService.getVariable(taskInSecondSubProcess.getId(),"y"));
+  taskService.complete(taskInSecondSubProcess.getId());
+  Task taskAfterSecondSubProcess=taskQuery.singleResult();
+  assertEquals("Task in super process",taskAfterSecondSubProcess.getName());
+  assertEquals(15l,runtimeService.getVariable(taskAfterSecondSubProcess.getProcessInstanceId(),"z"));
+  assertEquals(15l,taskService.getVariable(taskAfterSecondSubProcess.getId(),"z"));
+  taskService.complete(taskAfterSecondSubProcess.getId());
   assertProcessEnded(processInstance.getId());
   assertEquals(0,runtimeService.createExecutionQuery().list().size());
 }

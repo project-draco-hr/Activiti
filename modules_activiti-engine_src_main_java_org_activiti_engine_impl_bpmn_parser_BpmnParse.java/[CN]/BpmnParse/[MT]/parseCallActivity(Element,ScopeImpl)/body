@@ -8,14 +8,28 @@
   Element extentionsElement=callActivityElement.element("extensionElements");
   if (extentionsElement != null) {
     for (    Element listenerElement : extentionsElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"in")) {
-      String source=listenerElement.attribute("source");
+      String sourceExpression=listenerElement.attribute("sourceExpression");
       String target=listenerElement.attribute("target");
-      callActivityBehaviour.addDataInputAssociation(new SimpleDataInputAssociation(source,target));
+      if (sourceExpression != null) {
+        Expression expression=expressionManager.createExpression(sourceExpression.trim());
+        callActivityBehaviour.addDataInputAssociation(new SimpleDataInputAssociation(expression,target));
+      }
+ else {
+        String source=listenerElement.attribute("source");
+        callActivityBehaviour.addDataInputAssociation(new SimpleDataInputAssociation(source,target));
+      }
     }
     for (    Element listenerElement : extentionsElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"out")) {
-      String source=listenerElement.attribute("source");
+      String sourceExpression=listenerElement.attribute("sourceExpression");
       String target=listenerElement.attribute("target");
-      callActivityBehaviour.addDataOutputAssociation(new MessageImplicitDataOutputAssociation(target,source));
+      if (sourceExpression != null) {
+        Expression expression=expressionManager.createExpression(sourceExpression.trim());
+        callActivityBehaviour.addDataOutputAssociation(new MessageImplicitDataOutputAssociation(target,expression));
+      }
+ else {
+        String source=listenerElement.attribute("source");
+        callActivityBehaviour.addDataOutputAssociation(new MessageImplicitDataOutputAssociation(target,source));
+      }
     }
   }
   activity.setScope(true);
