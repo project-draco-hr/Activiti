@@ -1,11 +1,12 @@
 {
   timerActivity.setProperty("type","boundaryTimer");
   Element timeDuration=timerEventDefinition.element("timeDuration");
-  String timeDurationText=null;
+  Expression timeDurationExpression=null;
   if (timeDuration != null) {
-    timeDurationText=timeDuration.getText();
+    String timeDurationText=timeDuration.getText().trim();
+    timeDurationExpression=expressionManager.createExpression(timeDurationText);
   }
-  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(timeDurationText,TimerExecuteNestedActivityJobHandler.TYPE);
+  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(timeDurationExpression,TimerExecuteNestedActivityJobHandler.TYPE);
   timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
   addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
   if (timerActivity.getParent() instanceof ActivityImpl) {
