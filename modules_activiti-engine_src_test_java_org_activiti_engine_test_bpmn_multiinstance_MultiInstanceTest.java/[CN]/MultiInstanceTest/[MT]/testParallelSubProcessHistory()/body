@@ -1,0 +1,12 @@
+{
+  runtimeService.startProcessInstanceByKey("miParallelSubprocess");
+  for (  Task task : taskService.createTaskQuery().list()) {
+    taskService.complete(task.getId());
+  }
+  List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().activityId("miSubProcess").list();
+  assertEquals(2,historicActivityInstances.size());
+  for (  HistoricActivityInstance hai : historicActivityInstances) {
+    assertNotNull(hai.getStartTime());
+    assertNotNull(hai.getEndTime());
+  }
+}

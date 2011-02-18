@@ -1,0 +1,11 @@
+{
+  List<ExecutionListener> listeners=activity.getExecutionListeners(ExecutionListener.EVENTNAME_END);
+  for (  ExecutionListener executionListener : listeners) {
+    try {
+      executionListener.notify((ExecutionListenerExecution)execution);
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Couldn't execute end listener",e);
+    }
+  }
+}

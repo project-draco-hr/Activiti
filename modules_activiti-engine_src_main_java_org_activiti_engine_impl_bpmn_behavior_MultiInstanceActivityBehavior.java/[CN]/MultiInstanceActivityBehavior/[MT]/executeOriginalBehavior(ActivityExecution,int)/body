@@ -16,5 +16,10 @@
     }
     setLoopVariable(execution,inputDataItemVariable,value);
   }
-  originalActivityBehavior.execute(execution);
+  if (loopCounter == 0) {
+    innerActivityBehavior.execute(execution);
+  }
+ else {
+    execution.executeActivity(activity);
+  }
 }

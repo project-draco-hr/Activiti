@@ -1,0 +1,5 @@
+{
+  runtimeService.startProcessInstanceByKey("miParallelScriptTaskCompletionCondition");
+  List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().list();
+  assertEquals(3,historicActivityInstances.size());
+}
