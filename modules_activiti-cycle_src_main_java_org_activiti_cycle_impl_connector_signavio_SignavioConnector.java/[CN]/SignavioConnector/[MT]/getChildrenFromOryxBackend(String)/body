@@ -25,8 +25,8 @@
         for (int i=modelRefs.length() - 1; (i >= 0 && i > modelRefs.length() - pageSize); i--) {
           String modelRef=modelRefs.getString(i);
           String modelId=connectorConfiguration.getModelIdFromUrl(modelRef);
-          Response infoResponse=getJsonResponse(connectorConfiguration.getModelInfoUrl(modelId));
-          JsonRepresentation jsonRepresentation=new JsonRepresentation(infoResponse.getEntity());
+          String infoResponse=getJsonResponse(connectorConfiguration.getModelInfoUrl(modelId));
+          JsonRepresentation jsonRepresentation=new JsonRepresentation(infoResponse);
           RepositoryArtifact fileInfo=getArtifactInfoFromFile(modelId,jsonRepresentation.getJsonObject());
           nodes.add(fileInfo);
         }
@@ -52,8 +52,8 @@
       for (int i=modelRefs.length() - 1 - pageNumber * pageSize; (i >= 0 && i > modelRefs.length() - (pageNumber + 1) * pageSize); i--) {
         String modelRef=modelRefs.getString(i);
         String modelId=connectorConfiguration.getModelIdFromUrl(modelRef);
-        Response infoResponse=getJsonResponse(connectorConfiguration.getModelInfoUrl(modelId));
-        JsonRepresentation jsonRepresentation=new JsonRepresentation(infoResponse.getEntity());
+        String infoResponse=getJsonResponse(connectorConfiguration.getModelInfoUrl(modelId));
+        JsonRepresentation jsonRepresentation=new JsonRepresentation(infoResponse);
         RepositoryArtifact fileInfo=getArtifactInfoFromFile(modelId,jsonRepresentation.getJsonObject());
         nodes.add(fileInfo);
       }

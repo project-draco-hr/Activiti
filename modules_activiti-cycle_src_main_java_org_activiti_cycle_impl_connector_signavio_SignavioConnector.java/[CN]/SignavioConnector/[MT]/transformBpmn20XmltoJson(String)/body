@@ -5,8 +5,11 @@
     Representation xmlDataRep=dataForm.getWebRepresentation();
     Request request=new Request(Method.POST,new Reference(getConfiguration().getBpmn20XmlImportServletUrl()),xmlDataRep);
     request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
-    Response jsonResponse=sendRequest(request);
-    return new JSONObject(jsonResponse.getEntity().getText()).toString();
+    Response jsonResponse=sendRequestGetResponse(request);
+    String xml=jsonResponse.getEntity().getText();
+    jsonResponse.release();
+    Engine.clearThreadLocalVariables();
+    return new JSONObject(xml).toString();
   }
  catch (  Exception ex) {
     throw new RepositoryException("Error while transforming BPMN2_0_XML to BPMN2_0_JSON",ex);

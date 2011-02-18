@@ -8,11 +8,9 @@
   registrationForm.add("serverSecurityId",SERVER_SECURITY_ID);
   Representation registrationRep=registrationForm.getWebRepresentation();
   Request registrationRequest=new Request(Method.POST,getConfiguration().getRegistrationUrl(),registrationRep);
-  Response registrationResponse=sendRequest(registrationRequest);
-  if (registrationResponse.getStatus().equals(Status.SUCCESS_CREATED)) {
-    return true;
-  }
- else {
-    return false;
-  }
+  Response registrationResponse=sendRequestGetResponse(registrationRequest);
+  boolean success=registrationResponse.getStatus().equals(Status.SUCCESS_CREATED);
+  registrationResponse.release();
+  Engine.clearThreadLocalVariables();
+  return success;
 }

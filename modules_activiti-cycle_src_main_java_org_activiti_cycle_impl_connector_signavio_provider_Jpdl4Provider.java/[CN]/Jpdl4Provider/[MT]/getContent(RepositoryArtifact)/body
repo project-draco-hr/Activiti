@@ -2,8 +2,8 @@
   try {
     SignavioConnectorInterface signavioConnector=(SignavioConnectorInterface)CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
     Content content=new Content();
-    Response jpdlResponse=getJsonResponse(signavioConnector,artifact,"/jpdl4");
-    DomRepresentation xmlData=new DomRepresentation(jpdlResponse.getEntity());
+    String jpdlResponse=getJsonResponse(signavioConnector,artifact,"/jpdl4");
+    DomRepresentation xmlData=new DomRepresentation(new JsonRepresentation(jpdlResponse));
     XmlToTextTransformation transformation=CycleApplicationContext.get(XmlToTextTransformation.class);
     String jpdl4AsString=transformation.getXmlAsString(xmlData.getDomSource());
     content.setValue(jpdl4AsString);

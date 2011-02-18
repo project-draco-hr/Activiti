@@ -1,15 +1,5 @@
 {
-  injectSecurityToken(request);
-  if (log.isLoggable(Level.FINE)) {
-    RestClientLogHelper.logHttpRequest(log,Level.FINE,request);
-  }
-  Client client=initClient();
-  Response response=client.handle(request);
-  if (log.isLoggable(Level.FINE)) {
-    RestClientLogHelper.logHttpResponse(log,Level.FINE,response);
-  }
-  if (response.getStatus().isSuccess()) {
-    return response;
-  }
-  throw new RepositoryException("Encountered error while retrieving response (HttpStatus: " + response.getStatus() + ", Body: "+ response.getEntity().getText()+ ")");
+  Response response=sendRequestGetResponse(request);
+  response.release();
+  Engine.clearThreadLocalVariables();
 }

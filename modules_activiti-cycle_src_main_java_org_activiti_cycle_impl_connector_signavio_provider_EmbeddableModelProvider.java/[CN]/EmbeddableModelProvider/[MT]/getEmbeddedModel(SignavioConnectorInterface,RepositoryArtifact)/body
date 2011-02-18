@@ -14,7 +14,10 @@
   requestHeaders.add("token",connector.getSecurityToken());
   embeddedBORequest.getAttributes().put("org.restlet.http.headers",requestHeaders);
   Response embeddedBOResponse=client.handle(embeddedBORequest);
+  embeddedBORequest.release();
   JsonRepresentation jsonData=new JsonRepresentation(embeddedBOResponse.getEntity());
   JSONArray jsonArray=jsonData.getJsonArray();
+  embeddedBOResponse.release();
+  Engine.clearThreadLocalVariables();
   return jsonArray;
 }

@@ -1,5 +1,9 @@
 {
   Request jsonRequest=new Request(Method.GET,new Reference(url));
   jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
-  return sendRequest(jsonRequest);
+  Response response=sendRequestGetResponse(jsonRequest);
+  String responseString=response.getEntityAsText();
+  response.release();
+  Engine.clearThreadLocalVariables();
+  return responseString;
 }
