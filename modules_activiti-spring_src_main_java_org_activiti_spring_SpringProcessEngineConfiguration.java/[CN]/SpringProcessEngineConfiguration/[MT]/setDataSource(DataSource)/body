@@ -1,0 +1,9 @@
+{
+  if (dataSource instanceof TransactionAwareDataSourceProxy) {
+    return super.setDataSource(dataSource);
+  }
+ else {
+    DataSource proxiedDataSource=new TransactionAwareDataSourceProxy(dataSource);
+    return super.setDataSource(proxiedDataSource);
+  }
+}
