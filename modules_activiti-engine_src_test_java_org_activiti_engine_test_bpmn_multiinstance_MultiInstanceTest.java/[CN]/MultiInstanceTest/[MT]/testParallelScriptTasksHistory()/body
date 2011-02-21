@@ -3,10 +3,12 @@
   vars.put("sum",0);
   vars.put("nrOfLoops",4);
   runtimeService.startProcessInstanceByKey("miParallelScriptTask",vars);
-  List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().activityType("scriptTask").list();
-  assertEquals(4,historicActivityInstances.size());
-  for (  HistoricActivityInstance hai : historicActivityInstances) {
-    assertNotNull(hai.getStartTime());
-    assertNotNull(hai.getStartTime());
+  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().activityType("scriptTask").list();
+    assertEquals(4,historicActivityInstances.size());
+    for (    HistoricActivityInstance hai : historicActivityInstances) {
+      assertNotNull(hai.getStartTime());
+      assertNotNull(hai.getStartTime());
+    }
   }
 }

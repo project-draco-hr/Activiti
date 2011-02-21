@@ -5,12 +5,20 @@
     taskService.complete(tasks.get(0).getId());
     taskService.complete(tasks.get(1).getId());
   }
-  List<HistoricActivityInstance> onlySubProcessInstances=historyService.createHistoricActivityInstanceQuery().activityType("subProcess").list();
-  assertEquals(4,onlySubProcessInstances.size());
-  List<HistoricActivityInstance> allHistoricInstances=historyService.createHistoricActivityInstanceQuery().list();
-  assertEquals(12,allHistoricInstances.size());
-  for (  HistoricActivityInstance hai : allHistoricInstances) {
-    assertNotNull(hai.getStartTime());
-    assertNotNull(hai.getEndTime());
+  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    List<HistoricActivityInstance> onlySubProcessInstances=historyService.createHistoricActivityInstanceQuery().activityType("subProcess").list();
+    assertEquals(4,onlySubProcessInstances.size());
+    List<HistoricActivityInstance> historicInstances=historyService.createHistoricActivityInstanceQuery().activityType("subProcess").list();
+    assertEquals(4,historicInstances.size());
+    for (    HistoricActivityInstance hai : historicInstances) {
+      assertNotNull(hai.getStartTime());
+      assertNotNull(hai.getEndTime());
+    }
+    historicInstances=historyService.createHistoricActivityInstanceQuery().activityType("userTask").list();
+    assertEquals(8,historicInstances.size());
+    for (    HistoricActivityInstance hai : historicInstances) {
+      assertNotNull(hai.getStartTime());
+      assertNotNull(hai.getEndTime());
+    }
   }
 }

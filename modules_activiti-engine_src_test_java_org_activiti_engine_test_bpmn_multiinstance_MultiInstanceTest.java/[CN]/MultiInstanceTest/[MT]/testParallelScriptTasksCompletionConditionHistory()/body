@@ -1,5 +1,7 @@
 {
   runtimeService.startProcessInstanceByKey("miParallelScriptTaskCompletionCondition");
-  List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().list();
-  assertEquals(3,historicActivityInstances.size());
+  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().activityType("scriptTask").list();
+    assertEquals(2,historicActivityInstances.size());
+  }
 }
