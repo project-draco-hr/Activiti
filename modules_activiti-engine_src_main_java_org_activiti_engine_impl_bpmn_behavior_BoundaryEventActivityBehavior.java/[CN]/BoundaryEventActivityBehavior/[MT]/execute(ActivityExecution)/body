@@ -1,24 +1,25 @@
 {
   List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
   List<ExecutionEntity> interruptedExecutions=null;
-  ExecutionEntity executionImpl=(ExecutionEntity)execution;
+  ExecutionEntity executionEntity=(ExecutionEntity)execution;
   if (interrupting) {
-    if (executionImpl.getSubProcessInstance() != null) {
-      executionImpl.getSubProcessInstance().deleteCascade(executionImpl.getDeleteReason());
+    if (executionEntity.getSubProcessInstance() != null) {
+      executionEntity.getSubProcessInstance().deleteCascade(executionEntity.getDeleteReason());
     }
-    interruptedExecutions=new ArrayList<ExecutionEntity>(executionImpl.getExecutions());
+    interruptedExecutions=new ArrayList<ExecutionEntity>(executionEntity.getExecutions());
     for (    ExecutionEntity interruptedExecution : interruptedExecutions) {
       interruptedExecution.deleteCascade("interrupting boundary event '" + execution.getActivity().getId() + "' fired");
     }
     execution.takeAll(outgoingTransitions,(List)interruptedExecutions);
   }
  else {
-    ExecutionEntity outgoingExecution=executionImpl.createExecution();
+    ExecutionEntity concurrentRoot=((execution.isConcurrent() && !execution.isScope()) ? executionEntity.getParent() : executionEntity);
+    ExecutionEntity outgoingExecution=concurrentRoot.createExecution();
     log.fine("new " + outgoingExecution + " created in non interrupting boundary event '"+ execution.getActivity().getId()+ "'");
     outgoingExecution.setActive(true);
     outgoingExecution.setScope(false);
     outgoingExecution.setConcurrent(true);
     outgoingExecution.takeAll(outgoingTransitions,new ArrayList<ActivityExecution>());
-    executionImpl.setActivity(executionImpl.getActivity().getParentActivity());
+    executionEntity.setActivity(executionEntity.getActivity().getParentActivity());
   }
 }
