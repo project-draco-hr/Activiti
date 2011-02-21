@@ -10,10 +10,9 @@
   }
   boolean matchingParentFound=false;
   ActivityExecution leavingExecution=execution;
-  String multiInstance=(String)catchingScope.getProperty("multiInstance");
-  ActivityImpl currentActivity=(multiInstance == null || "sequential".equals(multiInstance)) ? (ActivityImpl)execution.getActivity().getParent() : (ActivityImpl)execution.getActivity();
+  ActivityImpl currentActivity=(ActivityImpl)execution.getActivity().getParent();
   while (!matchingParentFound && leavingExecution != null && currentActivity != null) {
-    if (leavingExecution.isScope() && !leavingExecution.isConcurrent() && currentActivity.getId().equals(catchingScope.getId())) {
+    if (!leavingExecution.isConcurrent() && currentActivity.getId().equals(catchingScope.getId())) {
       matchingParentFound=true;
     }
  else     if (leavingExecution.isConcurrent()) {
@@ -23,6 +22,9 @@
       currentActivity=currentActivity.getParentActivity();
       leavingExecution=leavingExecution.getParent();
     }
+  }
+  while (leavingExecution.getParent() != null && leavingExecution.getParent().getActivity() != null && leavingExecution.getParent().getActivity().getId().equals(catchingScope.getId())) {
+    leavingExecution=leavingExecution.getParent();
   }
   if (matchingParentFound && leavingExecution != null) {
     leavingExecution.executeActivity(borderEventActivity);

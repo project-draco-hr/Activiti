@@ -5,9 +5,9 @@
   int nrOfCompletedInstances=getLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES) + 1;
   int nrOfActiveInstances=getLoopVariable(execution,NUMBER_OF_ACTIVE_INSTANCES) - 1;
   if (isExtraScopeNeeded()) {
-    ExecutionEntity temp=(ExecutionEntity)execution;
+    ExecutionEntity extraScope=(ExecutionEntity)execution;
     execution=execution.getParent();
-    temp.remove();
+    extraScope.remove();
   }
   setLoopVariable(execution.getParent(),NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances);
   setLoopVariable(execution.getParent(),NUMBER_OF_ACTIVE_INSTANCES,nrOfActiveInstances);
