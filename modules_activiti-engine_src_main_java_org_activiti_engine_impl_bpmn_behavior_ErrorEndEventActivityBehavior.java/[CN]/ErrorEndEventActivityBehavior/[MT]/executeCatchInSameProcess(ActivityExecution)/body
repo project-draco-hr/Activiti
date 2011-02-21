@@ -9,22 +9,23 @@
     throw new ActivitiException(borderEventActivityId + " is suppossed to be a nested activity, " + "but no parent activity can be found.");
   }
   boolean matchingParentFound=false;
-  ActivityExecution parentExecution=execution;
-  ActivityImpl parentActivity=(ActivityImpl)execution.getActivity().getParent();
-  while (!matchingParentFound && parentExecution != null && parentActivity != null) {
-    if (parentExecution.isScope() && !parentExecution.isConcurrent() && parentActivity.getId().equals(catchingScope.getId())) {
+  ActivityExecution leavingExecution=execution;
+  String multiInstance=(String)catchingScope.getProperty("multiInstance");
+  ActivityImpl currentActivity=(multiInstance == null || "sequential".equals(multiInstance)) ? (ActivityImpl)execution.getActivity().getParent() : (ActivityImpl)execution.getActivity();
+  while (!matchingParentFound && leavingExecution != null && currentActivity != null) {
+    if (leavingExecution.isScope() && !leavingExecution.isConcurrent() && currentActivity.getId().equals(catchingScope.getId())) {
       matchingParentFound=true;
     }
- else     if (parentExecution.isConcurrent()) {
-      parentExecution=parentExecution.getParent();
+ else     if (leavingExecution.isConcurrent()) {
+      leavingExecution=leavingExecution.getParent();
     }
- else     if (parentExecution.isScope()) {
-      parentActivity=parentActivity.getParentActivity();
-      parentExecution=parentExecution.getParent();
+ else {
+      currentActivity=currentActivity.getParentActivity();
+      leavingExecution=leavingExecution.getParent();
     }
   }
-  if (matchingParentFound && parentExecution != null) {
-    parentExecution.executeActivity(borderEventActivity);
+  if (matchingParentFound && leavingExecution != null) {
+    leavingExecution.executeActivity(borderEventActivity);
   }
  else {
     throw new ActivitiException("No matching parent execution for activity " + borderEventActivityId + " found");

@@ -24,7 +24,7 @@
   }
   for (int loopCounter=0; loopCounter < nrOfInstances; loopCounter++) {
     ActivityExecution concurrentExecution=concurrentExecutions.get(loopCounter);
-    if (concurrentExecution.isActive() && concurrentExecution.getParent().isActive()) {
+    if (concurrentExecution.isActive() && !concurrentExecution.isEnded() && concurrentExecution.getParent().isActive()&& !concurrentExecution.getParent().isEnded()) {
       setLoopVariable(concurrentExecution,LOOP_COUNTER,loopCounter);
       executeOriginalBehavior(concurrentExecution,loopCounter);
     }
