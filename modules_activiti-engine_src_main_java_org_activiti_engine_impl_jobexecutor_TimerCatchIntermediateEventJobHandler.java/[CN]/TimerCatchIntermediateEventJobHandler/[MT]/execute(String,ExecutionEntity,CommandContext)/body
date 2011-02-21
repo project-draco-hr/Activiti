@@ -1,0 +1,17 @@
+{
+  ActivityImpl intermediateEventActivity=execution.getProcessDefinition().findActivity(configuration);
+  if (intermediateEventActivity == null) {
+    throw new ActivitiException("Error while firing timer: intermediate event activity " + configuration + " not found");
+  }
+  try {
+    ((SignallableActivityBehavior)intermediateEventActivity.getActivityBehavior()).signal(execution,null,null);
+  }
+ catch (  RuntimeException e) {
+    log.log(Level.SEVERE,"exception during timer execution",e);
+    throw e;
+  }
+catch (  Exception e) {
+    log.log(Level.SEVERE,"exception during timer execution",e);
+    throw new ActivitiException("exception during timer execution: " + e.getMessage(),e);
+  }
+}

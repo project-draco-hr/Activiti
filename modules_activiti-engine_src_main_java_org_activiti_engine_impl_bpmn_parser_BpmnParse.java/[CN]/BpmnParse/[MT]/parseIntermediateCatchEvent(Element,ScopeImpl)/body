@@ -1,0 +1,12 @@
+{
+  ActivityImpl nestedActivity=createActivityOnScope(intermediateEventElement,scopeElement);
+  nestedActivity.setActivityBehavior(new IntermediateCatchEventActivitiBehaviour());
+  Element timerEventDefinition=intermediateEventElement.element("timerEventDefinition");
+  if (timerEventDefinition != null) {
+    parseIntemediateTimerEventDefinition(timerEventDefinition,nestedActivity);
+  }
+ else {
+    addError("Unsupported intermediate event type",intermediateEventElement);
+  }
+  return nestedActivity;
+}

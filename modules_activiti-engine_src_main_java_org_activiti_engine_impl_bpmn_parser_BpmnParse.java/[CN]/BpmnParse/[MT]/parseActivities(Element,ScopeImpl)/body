@@ -37,6 +37,9 @@
  else     if (activityElement.getTagName().equals("callActivity")) {
       activity=parseCallActivity(activityElement,scopeElement);
     }
+ else     if (activityElement.getTagName().equals("intermediateCatchEvent")) {
+      activity=parseIntermediateCatchEvent(activityElement,scopeElement);
+    }
  else     if (activityElement.getTagName().equals("adHocSubProcess") || activityElement.getTagName().equals("complexGateway") || activityElement.getTagName().equals("eventBasedGateway")|| activityElement.getTagName().equals("transaction")) {
       addWarning("Ignoring unsupported activity type",activityElement);
     }

@@ -1,0 +1,11 @@
+{
+  Element timeDuration=timerEventDefinition.element("timeDuration");
+  Expression timeDurationExpression=null;
+  if (timeDuration != null) {
+    String timeDurationText=timeDuration.getText().trim();
+    timeDurationExpression=expressionManager.createExpression(timeDurationText);
+  }
+  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(timeDurationExpression,jobHandlerType);
+  timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
+  return timerDeclaration;
+}
