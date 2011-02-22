@@ -1,0 +1,10 @@
+{
+  int rectangleWidth=MARKER_WIDTH;
+  int rectangleHeight=MARKER_WIDTH;
+  Rectangle rect=new Rectangle(x + (width - rectangleWidth) / 2,y + height - rectangleHeight - 3,rectangleWidth,rectangleHeight);
+  g.draw(rect);
+  Line2D.Double line=new Line2D.Double(rect.getCenterX(),rect.getY() + 2,rect.getCenterX(),rect.getMaxY() - 2);
+  g.draw(line);
+  line=new Line2D.Double(rect.getMinX() + 2,rect.getCenterY(),rect.getMaxX() - 2,rect.getCenterY());
+  g.draw(line);
+}

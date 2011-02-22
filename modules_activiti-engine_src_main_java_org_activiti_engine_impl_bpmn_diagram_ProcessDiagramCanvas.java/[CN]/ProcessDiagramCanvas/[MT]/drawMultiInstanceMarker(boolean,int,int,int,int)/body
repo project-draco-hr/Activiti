@@ -1,0 +1,19 @@
+{
+  int rectangleWidth=MARKER_WIDTH;
+  int rectangleHeight=MARKER_WIDTH;
+  int lineX=x + (width - rectangleWidth) / 2;
+  int lineY=y + height - rectangleHeight - 3;
+  Stroke orginalStroke=g.getStroke();
+  g.setStroke(MULTI_INSTANCE_STROKE);
+  if (sequential) {
+    g.draw(new Line2D.Double(lineX,lineY,lineX + rectangleWidth,lineY));
+    g.draw(new Line2D.Double(lineX,lineY + rectangleHeight / 2,lineX + rectangleWidth,lineY + rectangleHeight / 2));
+    g.draw(new Line2D.Double(lineX,lineY + rectangleHeight,lineX + rectangleWidth,lineY + rectangleHeight));
+  }
+ else {
+    g.draw(new Line2D.Double(lineX,lineY,lineX,lineY + rectangleHeight));
+    g.draw(new Line2D.Double(lineX + rectangleWidth / 2,lineY,lineX + rectangleWidth / 2,lineY + rectangleHeight));
+    g.draw(new Line2D.Double(lineX + rectangleWidth,lineY,lineX + rectangleWidth,lineY + rectangleHeight));
+  }
+  g.setStroke(orginalStroke);
+}

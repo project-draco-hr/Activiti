@@ -1,7 +1,23 @@
 {
-  DrawInstruction drawInstruction=activityDrawInstructions.get((String)activity.getProperty("type"));
+  String type=(String)activity.getProperty("type");
+  ActivityDrawInstruction drawInstruction=activityDrawInstructions.get(type);
   if (drawInstruction != null) {
     drawInstruction.draw(processDiagramCanvas,activity);
+    boolean multiInstanceSequential=false, multiInstanceParallel=false, collapsed=false;
+    String multiInstance=(String)activity.getProperty("multiInstance");
+    if (multiInstance != null) {
+      if ("sequential".equals(multiInstance)) {
+        multiInstanceSequential=true;
+      }
+ else {
+        multiInstanceParallel=true;
+      }
+    }
+    Boolean expanded=(Boolean)activity.getProperty(BpmnParse.PROPERTYNAME_ISEXPANDED);
+    if (expanded != null) {
+      collapsed=!expanded;
+    }
+    processDiagramCanvas.drawActivityMarkers(activity.getX(),activity.getY(),activity.getWidth(),activity.getHeight(),multiInstanceSequential,multiInstanceParallel,collapsed);
     if (highLightedActivities.contains(activity.getId())) {
       drawHighLight(processDiagramCanvas,activity);
     }
