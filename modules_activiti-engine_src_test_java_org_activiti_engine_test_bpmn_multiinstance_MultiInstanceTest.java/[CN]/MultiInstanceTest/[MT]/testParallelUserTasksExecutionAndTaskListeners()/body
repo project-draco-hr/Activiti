@@ -1,0 +1,10 @@
+{
+  runtimeService.startProcessInstanceByKey("miParallelUserTasks");
+  List<Task> tasks=taskService.createTaskQuery().list();
+  for (  Task task : tasks) {
+    taskService.complete(task.getId());
+  }
+  Execution waitState=runtimeService.createExecutionQuery().singleResult();
+  assertEquals(3,runtimeService.getVariable(waitState.getId(),"taskListenerCounter"));
+  assertEquals(3,runtimeService.getVariable(waitState.getId(),"executionListenerCounter"));
+}

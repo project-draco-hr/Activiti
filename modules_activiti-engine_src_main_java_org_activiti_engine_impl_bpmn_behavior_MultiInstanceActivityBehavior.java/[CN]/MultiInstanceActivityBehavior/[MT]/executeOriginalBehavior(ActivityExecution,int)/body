@@ -1,11 +1,11 @@
 {
-  if (usesCollection() && inputDataItemVariable != null) {
+  if (usesCollection() && collectionElementVariable != null) {
     Collection collection=null;
-    if (loopDataInputRefExpression != null) {
-      collection=(Collection)loopDataInputRefExpression.getValue(execution);
+    if (collectionExpression != null) {
+      collection=(Collection)collectionExpression.getValue(execution);
     }
- else     if (loopDataInputRefVariable != null) {
-      collection=(Collection)execution.getVariable(loopDataInputRefVariable);
+ else     if (collectionVariable != null) {
+      collection=(Collection)execution.getVariable(collectionVariable);
     }
     Object value=null;
     int index=0;
@@ -14,7 +14,7 @@
       value=it.next();
       index++;
     }
-    setLoopVariable(execution,inputDataItemVariable,value);
+    setLoopVariable(execution,collectionElementVariable,value);
   }
   if (loopCounter == 0) {
     innerActivityBehavior.execute(execution);

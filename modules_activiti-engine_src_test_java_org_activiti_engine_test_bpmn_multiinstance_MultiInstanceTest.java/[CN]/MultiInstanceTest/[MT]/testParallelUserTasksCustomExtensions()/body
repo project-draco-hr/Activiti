@@ -1,0 +1,11 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  List<String> assigneeList=Arrays.asList("kermit","gonzo","fozzie");
+  vars.put("assigneeList",assigneeList);
+  runtimeService.startProcessInstanceByKey("miSequentialUserTasks",vars);
+  for (  String assignee : assigneeList) {
+    Task task=taskService.createTaskQuery().singleResult();
+    assertEquals(assignee,task.getAssignee());
+    taskService.complete(task.getId());
+  }
+}
