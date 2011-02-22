@@ -1,9 +1,10 @@
 {
-  AbstractActivitiTestCase.closeCachedProcessEngines();
+  ProcessEngines.destroy();
   ProcessEngineConfigurationImpl processEngineConfiguration=new StandaloneInMemProcessEngineConfiguration();
+  processEngineConfiguration.setProcessEngineName("reboot-test-schema");
   processEngineConfiguration.setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000");
   ProcessEngine schemaProcessEngine=processEngineConfiguration.buildProcessEngine();
-  ProcessEngine processEngine=new StandaloneProcessEngineConfiguration().setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
+  ProcessEngine processEngine=new StandaloneProcessEngineConfiguration().setProcessEngineName("reboot-test").setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/engine/test/cache/originalProcess.bpmn20.xml").deploy();
   List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().createProcessDefinitionQuery().list();
   assertEquals(1,processDefinitions.size());
@@ -12,7 +13,7 @@
   assertNotNull(processInstance);
   processEngine.close();
   assertNotNull(processEngine.getRuntimeService());
-  processEngine=new StandaloneProcessEngineConfiguration().setDatabaseSchemaUpdate(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
+  processEngine=new StandaloneProcessEngineConfiguration().setProcessEngineName("reboot-test").setDatabaseSchemaUpdate(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE).setJdbcUrl("jdbc:h2:mem:activiti-reboot-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   processInstance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
   assertNotNull(processInstance);
   TaskService taskService=processEngine.getTaskService();

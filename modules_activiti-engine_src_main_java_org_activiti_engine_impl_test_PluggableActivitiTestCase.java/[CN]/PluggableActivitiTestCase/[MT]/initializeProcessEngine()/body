@@ -1,6 +1,9 @@
 {
   if (cachedProcessEngine == null) {
     cachedProcessEngine=processEngineInitializer.getProcessEngine();
+    if (cachedProcessEngine == null) {
+      throw new ActivitiException("proces engine initializer '" + processEngineInitializer.getClass().getName() + "' didn't return a process engine");
+    }
   }
   processEngine=cachedProcessEngine;
 }

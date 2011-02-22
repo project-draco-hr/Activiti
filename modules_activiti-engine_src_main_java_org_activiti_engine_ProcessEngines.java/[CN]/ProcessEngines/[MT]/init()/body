@@ -15,6 +15,11 @@
       URL resource=resources.nextElement();
       initProcessEnginFromResource(resource);
     }
+    InputStream activitiContextInputStream=ReflectUtil.getResourceAsStream("activiti-context.xml");
+    if (activitiContextInputStream != null) {
+      ProcessEngineInitializer processEngineInitializer=(ProcessEngineInitializer)ReflectUtil.instantiate("org.activiti.spring.SpringProcessEngineInitializer");
+      processEngineInitializer.getProcessEngine();
+    }
     isInitialized=true;
   }
  else {

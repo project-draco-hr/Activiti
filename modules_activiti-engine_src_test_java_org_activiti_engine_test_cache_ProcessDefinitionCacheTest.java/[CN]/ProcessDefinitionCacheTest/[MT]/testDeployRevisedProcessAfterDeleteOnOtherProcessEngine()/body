@@ -1,7 +1,7 @@
 {
-  ProcessEngine processEngine1=new StandaloneProcessEngineConfiguration().setDatabaseSchemaUpdate(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE).setJdbcUrl("jdbc:h2:mem:activiti-process-cache-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
+  ProcessEngine processEngine1=new StandaloneProcessEngineConfiguration().setProcessEngineName("reboot-test-schema").setDatabaseSchemaUpdate(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE).setJdbcUrl("jdbc:h2:mem:activiti-process-cache-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   RepositoryService repositoryService1=processEngine1.getRepositoryService();
-  ProcessEngine processEngine2=new StandaloneProcessEngineConfiguration().setDatabaseSchemaUpdate(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE).setJdbcUrl("jdbc:h2:mem:activiti-process-cache-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
+  ProcessEngine processEngine2=new StandaloneProcessEngineConfiguration().setProcessEngineName("reboot-test").setDatabaseSchemaUpdate(org.activiti.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE).setJdbcUrl("jdbc:h2:mem:activiti-process-cache-test;DB_CLOSE_DELAY=1000").setJobExecutorActivate(false).buildProcessEngine();
   RepositoryService repositoryService2=processEngine2.getRepositoryService();
   RuntimeService runtimeService2=processEngine2.getRuntimeService();
   TaskService taskService2=processEngine2.getTaskService();
