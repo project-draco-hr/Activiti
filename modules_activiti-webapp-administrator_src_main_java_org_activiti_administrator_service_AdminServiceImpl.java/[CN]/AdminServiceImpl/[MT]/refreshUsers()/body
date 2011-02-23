@@ -1,0 +1,6 @@
+{
+  users=new BeanContainer<String,User>(User.class);
+  for (  User user : getIdentityService().createUserQuery().orderByUserId().asc().list()) {
+    users.addItem(user.getId(),user);
+  }
+}

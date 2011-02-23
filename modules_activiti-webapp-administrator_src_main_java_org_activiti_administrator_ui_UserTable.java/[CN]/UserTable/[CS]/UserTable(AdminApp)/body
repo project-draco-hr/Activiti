@@ -1,0 +1,44 @@
+{
+  this.app=application;
+  setSizeFull();
+  setPageLength(size());
+  setSelectable(true);
+  setImmediate(true);
+  setNullSelectionAllowed(false);
+  setColumnCollapsingAllowed(true);
+  setColumnReorderingAllowed(true);
+  setContainerDataSource(app.getAdminService().getUsers());
+  setColumnHeader("id","Id");
+  setColumnHeader("email","Email");
+  setColumnHeader("firstName","First Name");
+  setColumnHeader("lastName","Last Name");
+  setColumnAlignment("id",ALIGN_LEFT);
+  setColumnAlignment("email",ALIGN_LEFT);
+  setColumnAlignment("firstName",ALIGN_LEFT);
+  setColumnAlignment("lastName",ALIGN_LEFT);
+  setVisibleColumns(columnHeaders);
+  addListener((ItemClickListener)this);
+  ACTION_EDIT=new Action(app.getMessage(Messages.Edit));
+  ACTION_DELETE=new Action(app.getMessage(Messages.Delete));
+  ACTIONS_UNMARKED=new Action[]{ACTION_EDIT,ACTION_DELETE};
+  ACTIONS_MARKED=new Action[]{ACTION_EDIT,ACTION_DELETE};
+  addActionHandler(new Action.Handler(){
+    public Action[] getActions(    Object target,    Object sender){
+      if (markedRows.contains(target)) {
+        return ACTIONS_MARKED;
+      }
+ else {
+        return ACTIONS_UNMARKED;
+      }
+    }
+    public void handleAction(    Action action,    Object sender,    Object target){
+      if (ACTION_EDIT.equals(action)) {
+        editUser(target);
+      }
+ else       if (ACTION_DELETE.equals(action)) {
+        deleteUser(target);
+      }
+    }
+  }
+);
+}

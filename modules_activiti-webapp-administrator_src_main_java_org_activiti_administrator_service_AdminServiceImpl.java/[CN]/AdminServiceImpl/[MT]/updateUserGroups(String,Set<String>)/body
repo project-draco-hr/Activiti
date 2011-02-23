@@ -1,0 +1,10 @@
+{
+  Set<String> userGroups=getUserGroups(userId);
+  for (  String group : userGroups) {
+    if (!groups.contains(group))     getIdentityService().deleteMembership(userId,group);
+  }
+  userGroups=getUserGroups(userId);
+  for (  String group : groups) {
+    if (!userGroups.contains(group))     getIdentityService().createMembership(userId,group);
+  }
+}

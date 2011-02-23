@@ -1,0 +1,20 @@
+{
+  super(caption);
+  setWidth(CONFIRMATION_DIALOG_WIDTH,ConfirmDialog.UNITS_PIXELS);
+  okButton=new Button(okLabel,this);
+  cancelButton=new Button(cancelLabel,this);
+  cancelButton.focus();
+  setModal(true);
+  this.callback=callback;
+  Label label=new Label(question,Label.CONTENT_XHTML);
+  if (question != null) {
+    addComponent(label);
+  }
+  final HorizontalLayout buttonLayout=new HorizontalLayout();
+  buttonLayout.setSpacing(true);
+  buttonLayout.addComponent(okButton);
+  buttonLayout.addComponent(cancelButton);
+  addComponent(buttonLayout);
+  ((VerticalLayout)getContent()).setHeight(ONE_HUNDRED_PERCENT,ConfirmDialog.UNITS_PERCENTAGE);
+  ((VerticalLayout)getContent()).setComponentAlignment(buttonLayout,Alignment.BOTTOM_CENTER);
+}

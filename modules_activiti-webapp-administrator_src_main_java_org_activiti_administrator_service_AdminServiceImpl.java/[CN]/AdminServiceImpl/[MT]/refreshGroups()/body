@@ -1,0 +1,6 @@
+{
+  groups=new BeanContainer<String,Group>(Group.class);
+  for (  Group group : getIdentityService().createGroupQuery().orderByGroupId().asc().list()) {
+    groups.addItem(group.getId(),group);
+  }
+}

@@ -1,0 +1,23 @@
+{
+  Button source=event.getButton();
+  if (source == save) {
+    if (!isValid()) {
+      return;
+    }
+    commit();
+    try {
+      app.getAdminService().saveUser(getItemDataSource(),(Set<String>)groups.getValue());
+      app.getMainWindow().showNotification(app.getMessage(Messages.UserUpdatedMessage) + getItemDataSource().getItemProperty("id").toString());
+      setItemDataSource(null);
+      groups.setValue(null);
+      app.getMainWindow().removeWindow(getWindow());
+    }
+ catch (    InvalidValueException e) {
+    }
+  }
+ else   if (source == close) {
+    setItemDataSource(null);
+    groups.setValue(null);
+    app.getMainWindow().removeWindow(getWindow());
+  }
+}

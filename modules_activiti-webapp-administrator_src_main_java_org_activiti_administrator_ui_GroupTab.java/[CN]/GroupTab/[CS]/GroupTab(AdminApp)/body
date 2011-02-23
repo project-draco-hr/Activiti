@@ -1,0 +1,26 @@
+{
+  this.app=application;
+  setCaption(app.getMessage(Messages.Groups));
+  VerticalLayout layout=new VerticalLayout();
+  layout.setMargin(true);
+  layout.setSpacing(true);
+  layout.setSizeFull();
+  GridLayout toolbar=new GridLayout(2,1);
+  toolbar.setWidth("100%");
+  layout.addComponent(toolbar);
+  create=new Button(app.getMessage(Messages.Create),(ClickListener)this);
+  create.setDescription(app.getMessage(Messages.CreateGroup));
+  create.setIcon(new ThemeResource("../runo/icons/16/ok.png"));
+  toolbar.addComponent(create,0,0);
+  toolbar.setComponentAlignment(create,Alignment.TOP_LEFT);
+  refresh=new Button(app.getMessage(Messages.Refresh),(ClickListener)this);
+  refresh.setDescription(app.getMessage(Messages.RefreshTable));
+  refresh.setIcon(new ThemeResource("../runo/icons/16/reload.png"));
+  toolbar.addComponent(refresh,1,0);
+  toolbar.setComponentAlignment(refresh,Alignment.TOP_RIGHT);
+  table=new GroupTable(app);
+  table.setSizeFull();
+  layout.addComponent(table);
+  layout.setExpandRatio(table,1.0f);
+  setCompositionRoot(layout);
+}

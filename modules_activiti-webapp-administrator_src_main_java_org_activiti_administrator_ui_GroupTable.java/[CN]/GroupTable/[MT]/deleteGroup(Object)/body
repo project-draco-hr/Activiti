@@ -1,0 +1,23 @@
+{
+  final String id=getItem(target).getItemProperty("id").toString();
+  Set<String> unassignedTasks=app.getAdminService().getUnassignedTaskIdsByGroup(id);
+  String message="";
+  if (!unassignedTasks.isEmpty()) {
+    message=app.getMessage(Messages.DeleteGroupAffectsTasks) + "<ul><li>" + app.getMessage(Messages.UnassignedTasks)+ unassignedTasks+ "</li></ul><br/>";
+  }
+ else {
+    message=app.getMessage(Messages.DeleteGroupAffectsNoTasks) + "<br/><br/>";
+  }
+  ConfirmDialog dialog=new ConfirmDialog(app.getMessage(Messages.ConfirmDelete) + id,message,app.getMessage(Messages.OkKey),app.getMessage(Messages.CancelKey),new ConfirmDialog.ConfirmationDialogCallback(){
+    @Override public void response(    boolean ok){
+      if (ok) {
+        app.getAdminService().deleteGroup(id);
+        app.getAdminService().getGroups().removeItem(target);
+        app.getMainWindow().showNotification(app.getMessage(Messages.DeletedGroup) + id);
+      }
+    }
+  }
+);
+  dialog.addStyleName(Consts.POPUP);
+  app.getMainWindow().addWindow(dialog);
+}

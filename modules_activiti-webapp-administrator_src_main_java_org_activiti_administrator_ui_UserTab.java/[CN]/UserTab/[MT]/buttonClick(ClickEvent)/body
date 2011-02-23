@@ -1,0 +1,21 @@
+{
+  Button source=event.getButton();
+  if (source == create) {
+    popupWindow=new Window();
+    popupWindow.center();
+    popupWindow.setModal(true);
+    popupWindow.setWidth("400px");
+    popupWindow.addStyleName(Consts.POPUP);
+    popupWindow.setCaption(app.getMessage(Messages.CreateUser));
+    if (form == null) {
+      form=new UserCreateForm(app);
+    }
+    form.setItemDataSource(app.getAdminService().newUser());
+    popupWindow.addComponent(form);
+    app.getMainWindow().addWindow(popupWindow);
+    popupWindow.addListener(this);
+  }
+ else   if (source == refresh) {
+    table.refresh();
+  }
+}

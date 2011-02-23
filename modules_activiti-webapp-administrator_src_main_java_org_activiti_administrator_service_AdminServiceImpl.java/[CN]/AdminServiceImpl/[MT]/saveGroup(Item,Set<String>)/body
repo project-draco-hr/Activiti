@@ -1,0 +1,17 @@
+{
+  Group group=null;
+  if (hasGroup(item.getItemProperty("id").toString())) {
+    group=getGroup(item.getItemProperty("id").toString());
+  }
+ else {
+    group=new GroupEntity();
+  }
+  group.setId(item.getItemProperty("id").toString());
+  group.setName(item.getItemProperty("name").toString());
+  group.setType(item.getItemProperty("type").toString());
+  getIdentityService().saveGroup(group);
+  group=getGroup(group.getId());
+  getGroups().removeItem(group.getId());
+  getGroups().addItem(group.getId(),group);
+  updateGroupMembers(group.getId(),users);
+}

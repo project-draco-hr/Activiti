@@ -1,0 +1,21 @@
+{
+  this.app=application;
+  setStyleName(Reindeer.LAYOUT_WHITE);
+  setMargin(false);
+  setSpacing(false);
+  setSizeFull();
+  TabSheet tabs=new TabSheet();
+  tabs.setSizeFull();
+  tabs.addStyleName(Reindeer.TABSHEET_BORDERLESS);
+  tabs.addStyleName(Reindeer.LAYOUT_WHITE);
+  tabs.addTab(new UserTab(app));
+  tabs.addTab(new GroupTab(app));
+  addComponent(tabs);
+  setExpandRatio(tabs,1.0F);
+  Label footerText=new Label(app.getMessage(Messages.Footer));
+  footerText.setSizeUndefined();
+  footerText.setStyleName(Reindeer.LABEL_SMALL);
+  footerText.addStyleName("footer");
+  addComponent(footerText);
+  setComponentAlignment(footerText,Alignment.BOTTOM_CENTER);
+}

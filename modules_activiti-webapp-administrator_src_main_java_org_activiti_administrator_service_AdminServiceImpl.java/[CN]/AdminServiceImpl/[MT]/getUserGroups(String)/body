@@ -1,0 +1,7 @@
+{
+  HashSet<String> groups=new HashSet<String>();
+  for (  Group group : getIdentityService().createGroupQuery().groupMember(userId).list()) {
+    groups.add(group.getId());
+  }
+  return groups;
+}

@@ -1,0 +1,48 @@
+{
+  this.app=application;
+  app.getMainWindow().setCaption(app.getMessage(Messages.Title));
+  setStyleName(Reindeer.LAYOUT_WHITE);
+  setSizeFull();
+  VerticalLayout mainLayout=new VerticalLayout();
+  mainLayout.setStyleName(Reindeer.LAYOUT_WHITE);
+  mainLayout.setWidth("100%");
+  mainLayout.setHeight("100%");
+  mainLayout.setMargin(false);
+  mainLayout.setSpacing(false);
+  addComponent(mainLayout);
+  setComponentAlignment(mainLayout,Alignment.TOP_LEFT);
+  VerticalLayout buttonLayout=new VerticalLayout();
+  buttonLayout.setSpacing(true);
+  buttonLayout.setMargin(true);
+  buttonLayout.setWidth("200px");
+  buttonLayout.setStyleName("login-form");
+  username=new TextField(app.getMessage(Messages.Username));
+  username.setWidth("100%");
+  buttonLayout.addComponent(username);
+  password=new PasswordField(app.getMessage(Messages.Password));
+  password.setWidth("100%");
+  buttonLayout.addComponent(password);
+  buttonLayout.addComponent(login);
+  buttonLayout.setComponentAlignment(login,Alignment.BOTTOM_LEFT);
+  mainLayout.addComponent(buttonLayout);
+  Label footerText=new Label(app.getMessage(Messages.Footer));
+  footerText.setSizeUndefined();
+  footerText.setStyleName(Reindeer.LABEL_SMALL);
+  footerText.addStyleName("footer");
+  mainLayout.addComponent(footerText);
+  mainLayout.setComponentAlignment(footerText,Alignment.BOTTOM_CENTER);
+  username.focus();
+  login.setClickShortcut(KeyCode.ENTER);
+  login.addListener(new Button.ClickListener(){
+    public void buttonClick(    Button.ClickEvent event){
+      try {
+        authenticate((String)username.getValue(),(String)password.getValue());
+        app.switchView(MainView.class.getName(),new MainView(app));
+      }
+ catch (      Exception e) {
+        getWindow().showNotification(e.toString());
+      }
+    }
+  }
+);
+}

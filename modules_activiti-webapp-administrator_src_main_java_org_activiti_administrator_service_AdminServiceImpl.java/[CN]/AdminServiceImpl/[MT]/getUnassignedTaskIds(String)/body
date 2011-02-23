@@ -1,0 +1,7 @@
+{
+  Set<String> unassignedTasks=new HashSet<String>();
+  for (  Task task : getTaskService().createTaskQuery().taskCandidateUser(id).orderByTaskCreateTime().desc().list()) {
+    unassignedTasks.add(task.getId());
+  }
+  return unassignedTasks;
+}
