@@ -1,0 +1,14 @@
+{
+  log.fine("==== BUILDING SPRING APPLICATION CONTEXT AND PROCESS ENGINE =========================================");
+  if (ReflectUtil.getResource(contextResourceName) == null) {
+    throw new ActivitiException("no spring context configuration resource found: " + contextResourceName);
+  }
+  ApplicationContext applicationContext=new ClassPathXmlApplicationContext(contextResourceName);
+  Map<String,ProcessEngine> beansOfType=applicationContext.getBeansOfType(ProcessEngine.class);
+  if ((beansOfType == null) || (beansOfType.isEmpty())) {
+    throw new ActivitiException("no " + ProcessEngine.class.getName() + " defined in the application context "+ contextResourceName);
+  }
+  ProcessEngine processEngine=beansOfType.values().iterator().next();
+  log.fine("==== SPRING PROCESS ENGINE CREATED ==================================================================");
+  return processEngine;
+}

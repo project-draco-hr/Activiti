@@ -15,10 +15,17 @@
       URL resource=resources.nextElement();
       initProcessEnginFromResource(resource);
     }
-    InputStream activitiContextInputStream=ReflectUtil.getResourceAsStream("activiti-context.xml");
+    String springConfigurationResource="activiti-context.xml";
+    InputStream activitiContextInputStream=ReflectUtil.getResourceAsStream(springConfigurationResource);
     if (activitiContextInputStream != null) {
-      ProcessEngineInitializer processEngineInitializer=(ProcessEngineInitializer)ReflectUtil.instantiate("org.activiti.spring.SpringProcessEngineInitializer");
-      processEngineInitializer.getProcessEngine();
+      try {
+        Class<?> springConfigurationHelperClass=ReflectUtil.loadClass("org.activiti.spring.SpringConfigurationHelper");
+        Method method=springConfigurationHelperClass.getMethod("buildProcessEngine",new Class<?>[]{String.class});
+        method.invoke(null,new Object[]{springConfigurationResource});
+      }
+ catch (      Exception e) {
+        throw new ActivitiException("couldn't initialize process engine from spring configuration resource " + springConfigurationResource + ": "+ e.getMessage(),e);
+      }
     }
     isInitialized=true;
   }
