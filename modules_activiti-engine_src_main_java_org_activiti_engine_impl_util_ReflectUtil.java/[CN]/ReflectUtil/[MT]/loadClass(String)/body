@@ -1,22 +1,40 @@
 {
   Class<?> clazz=null;
   ClassLoader classLoader=getCustomClassLoader();
+  Throwable throwable=null;
   if (classLoader != null) {
-    LOG.finest("Trying to load class with custom classloader: " + className);
-    clazz=loadClassSilent(className,classLoader);
-  }
-  if (clazz == null) {
-    LOG.finest("Trying to load class with current thread context classloader: " + className);
-    classLoader=Thread.currentThread().getContextClassLoader();
-    clazz=loadClassSilent(className,classLoader);
-    if (clazz == null) {
-      LOG.finest("Trying to load class with local classloader: " + className);
-      classLoader=ReflectUtil.class.getClassLoader();
-      clazz=loadClassSilent(className,classLoader);
+    try {
+      LOG.finest("Trying to load class with custom classloader: " + className);
+      clazz=Class.forName(className,true,classLoader);
+    }
+ catch (    Throwable t) {
+      throwable=t;
     }
   }
   if (clazz == null) {
-    throw new ActivitiException("Couldn't load class " + className);
+    try {
+      LOG.finest("Trying to load class with current thread context classloader: " + className);
+      clazz=Class.forName(className,true,Thread.currentThread().getContextClassLoader());
+    }
+ catch (    Throwable t) {
+      if (throwable == null) {
+        throwable=t;
+      }
+    }
+    if (clazz == null) {
+      try {
+        LOG.finest("Trying to load class with local classloader: " + className);
+        clazz=Class.forName(className,true,ReflectUtil.class.getClassLoader());
+      }
+ catch (      Throwable t) {
+        if (throwable == null) {
+          throwable=t;
+        }
+      }
+    }
+  }
+  if (clazz == null) {
+    throw new ActivitiClassLoadingException(className,throwable);
   }
   return clazz;
 }
