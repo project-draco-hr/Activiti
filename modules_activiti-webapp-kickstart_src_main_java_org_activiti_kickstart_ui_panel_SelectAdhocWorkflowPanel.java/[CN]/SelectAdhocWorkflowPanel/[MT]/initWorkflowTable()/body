@@ -2,6 +2,8 @@
   workflowTable=new Table();
   workflowTable.setSelectable(true);
   workflowTable.setMultiSelect(false);
+  workflowTable.setPageLength(workflowTable.size());
+  workflowTable.setSizeFull();
   workflowTable.addContainerProperty("name",Button.class,null);
   workflowTable.addContainerProperty("key",String.class,null);
   workflowTable.addContainerProperty("version",Integer.class,null);
@@ -18,5 +20,5 @@
   workflowTable.setColumnAlignment("version",Table.ALIGN_CENTER);
   workflowTable.setColumnAlignment("nrOfRunningInstance",Table.ALIGN_CENTER);
   workflowTable.setColumnAlignment("nrOfHistoricInstances",Table.ALIGN_CENTER);
-  addComponent(workflowTable);
+  layout.addComponent(workflowTable);
 }

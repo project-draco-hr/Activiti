@@ -1,9 +1,12 @@
 {
-  mainLayout=new CustomLayout(THEME_NAME);
-  mainLayout.setSizeFull();
   Window mainWindow=new Window(TITLE);
   setMainWindow(mainWindow);
-  mainWindow.setContent(mainLayout);
+  Panel p=new Panel();
+  p.setSizeFull();
+  mainWindow.setContent(p);
+  mainLayout=new CustomLayout(THEME_NAME);
+  mainLayout.setSizeFull();
+  p.setContent(mainLayout);
   initSplitPanel();
   initViewManager();
   initActionsPanel();
