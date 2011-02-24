@@ -1,0 +1,10 @@
+{
+  try {
+    Class<?> springConfigurationHelperClass=ReflectUtil.loadClass("org.activiti.spring.SpringConfigurationHelper");
+    Method method=springConfigurationHelperClass.getMethod("buildProcessEngine",new Class<?>[]{URL.class});
+    method.invoke(null,new Object[]{resource});
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't initialize process engine from spring configuration resource " + resource.toString() + ": "+ e.getMessage(),e);
+  }
+}

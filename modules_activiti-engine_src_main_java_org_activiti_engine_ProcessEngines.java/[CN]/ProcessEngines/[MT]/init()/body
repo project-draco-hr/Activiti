@@ -9,23 +9,21 @@
       resources=classLoader.getResources("activiti.cfg.xml");
     }
  catch (    IOException e) {
-      throw new ActivitiException("can't find activiti.cfg.xml resources on the classpath: " + System.getProperty("java.class.path"),e);
+      throw new ActivitiException("problem retrieving activiti.cfg.xml resources on the classpath: " + System.getProperty("java.class.path"),e);
     }
     while (resources.hasMoreElements()) {
       URL resource=resources.nextElement();
       initProcessEnginFromResource(resource);
     }
-    String springConfigurationResource="activiti-context.xml";
-    InputStream activitiContextInputStream=ReflectUtil.getResourceAsStream(springConfigurationResource);
-    if (activitiContextInputStream != null) {
-      try {
-        Class<?> springConfigurationHelperClass=ReflectUtil.loadClass("org.activiti.spring.SpringConfigurationHelper");
-        Method method=springConfigurationHelperClass.getMethod("buildProcessEngine",new Class<?>[]{String.class});
-        method.invoke(null,new Object[]{springConfigurationResource});
-      }
- catch (      Exception e) {
-        throw new ActivitiException("couldn't initialize process engine from spring configuration resource " + springConfigurationResource + ": "+ e.getMessage(),e);
-      }
+    try {
+      resources=classLoader.getResources("activiti-context.xml");
+    }
+ catch (    IOException e) {
+      throw new ActivitiException("problem retrieving activiti-context.xml resources on the classpath: " + System.getProperty("java.class.path"),e);
+    }
+    while (resources.hasMoreElements()) {
+      URL resource=resources.nextElement();
+      initProcessEngineFromSpringResource(resource);
     }
     isInitialized=true;
   }
