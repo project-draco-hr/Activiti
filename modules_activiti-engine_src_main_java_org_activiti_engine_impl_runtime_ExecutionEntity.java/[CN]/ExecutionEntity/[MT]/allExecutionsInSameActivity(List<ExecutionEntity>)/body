@@ -2,8 +2,11 @@
   if (executions.size() > 1) {
     String activityId=executions.get(0).getActivityId();
     for (    ExecutionEntity execution : executions) {
-      if (!execution.isEnded && !execution.getActivityId().equals(activityId)) {
-        return false;
+      String otherActivityId=execution.getActivityId();
+      if (!execution.isEnded) {
+        if ((activityId == null && otherActivityId != null) || (activityId != null && otherActivityId == null) || (activityId != null && otherActivityId != null && !otherActivityId.equals(activityId))) {
+          return false;
+        }
       }
     }
   }

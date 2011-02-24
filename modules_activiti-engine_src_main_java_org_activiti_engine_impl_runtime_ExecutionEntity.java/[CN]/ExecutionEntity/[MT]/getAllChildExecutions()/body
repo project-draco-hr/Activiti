@@ -1,0 +1,8 @@
+{
+  List<ExecutionEntity> childExecutions=new ArrayList<ExecutionEntity>();
+  for (  ExecutionEntity childExecution : getExecutions()) {
+    childExecutions.add(childExecution);
+    childExecutions.addAll(childExecution.getAllChildExecutions());
+  }
+  return childExecutions;
+}

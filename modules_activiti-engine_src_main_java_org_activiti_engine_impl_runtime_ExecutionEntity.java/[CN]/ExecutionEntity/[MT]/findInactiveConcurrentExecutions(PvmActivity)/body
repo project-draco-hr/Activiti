@@ -2,7 +2,7 @@
   List<ActivityExecution> inactiveConcurrentExecutionsInActivity=new ArrayList<ActivityExecution>();
   List<ActivityExecution> otherConcurrentExecutions=new ArrayList<ActivityExecution>();
   if (isConcurrent()) {
-    List<? extends ActivityExecution> concurrentExecutions=getParent().getExecutions();
+    List<? extends ActivityExecution> concurrentExecutions=getParent().getAllChildExecutions();
     for (    ActivityExecution concurrentExecution : concurrentExecutions) {
       if (concurrentExecution.getActivity() == activity) {
         if (!concurrentExecution.isActive()) {
