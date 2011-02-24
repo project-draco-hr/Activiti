@@ -2,6 +2,36 @@
   this.replacedBy=(ExecutionEntity)replacedBy;
   CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  List<TaskEntity> tasks=(List)new TaskQueryImpl(commandContext).executionId(id).list();
+  for (  TaskEntity task : tasks) {
+    task.setExecutionId(replacedBy.getId());
+  }
+  tasks=dbSqlSession.findInCache(TaskEntity.class);
+  for (  TaskEntity task : tasks) {
+    if (id.equals(task.getExecutionId())) {
+      task.setExecutionId(replacedBy.getId());
+    }
+  }
+  List<JobEntity> jobs=(List)new JobQueryImpl(commandContext).executionId(id).list();
+  for (  JobEntity job : jobs) {
+    job.setExecutionId(replacedBy.getId());
+  }
+  jobs=dbSqlSession.findInCache(JobEntity.class);
+  for (  JobEntity job : jobs) {
+    if (id.equals(job.getExecutionId())) {
+      job.setExecutionId(replacedBy.getId());
+    }
+  }
+  List<VariableInstanceEntity> variables=(List)commandContext.getRuntimeSession().findVariableInstancesByExecutionId(id);
+  for (  VariableInstanceEntity variable : variables) {
+    variable.setExecutionId(replacedBy.getId());
+  }
+  variables=dbSqlSession.findInCache(VariableInstanceEntity.class);
+  for (  VariableInstanceEntity variable : variables) {
+    if (id.equals(variable.getExecutionId())) {
+      variable.setExecutionId(replacedBy.getId());
+    }
+  }
   List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=dbSqlSession.findInCache(HistoricActivityInstanceEntity.class);
   for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
     if ((cachedHistoricActivityInstance.getEndTime() == null) && (id.equals(cachedHistoricActivityInstance.getExecutionId()))) {
