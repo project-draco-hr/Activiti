@@ -1,9 +1,0 @@
-{
-  if (cachedProcessEngine == null) {
-    ProcessEngineConfigurationImpl processEngineConfiguration=(ProcessEngineConfigurationImpl)ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("org/activiti/examples/variables/jpa/activiti.cfg.xml");
-    cachedProcessEngine=processEngineConfiguration.buildProcessEngine();
-    EntityManagerSessionFactory entityManagerSessionFactory=(EntityManagerSessionFactory)processEngineConfiguration.getSessionFactories().get(EntityManagerSession.class);
-    entityManagerFactory=entityManagerSessionFactory.getEntityManagerFactory();
-  }
-  processEngine=cachedProcessEngine;
-}
