@@ -4,7 +4,7 @@
   processDefinition.setKey(processElement.attribute("id"));
   processDefinition.setName(processElement.attribute("name"));
   processDefinition.setCategory(rootElement.attribute("targetNamespace"));
-  processDefinition.setProperty("documentation",parseDocumentation(processElement));
+  processDefinition.setProperty(PROPERTYNAME_DOCUMENTATION,parseDocumentation(processElement));
   processDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
   processDefinition.setDeploymentId(deployment.getId());
   if (LOGGER.isLoggable(Level.FINE)) {

@@ -1,0 +1,5 @@
+{
+  String id=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  ReadOnlyProcessDefinition processDefinition=((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(id);
+  assertEquals("This is really good process documentation!",processDefinition.getDescription());
+}

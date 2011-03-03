@@ -1,0 +1,9 @@
+{
+  try {
+    formService.getRenderedStartForm(repositoryService.createProcessDefinitionQuery().singleResult().getId());
+    fail();
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("Form with formKey 'IDoNotExist' does not exist",e.getMessage());
+  }
+}

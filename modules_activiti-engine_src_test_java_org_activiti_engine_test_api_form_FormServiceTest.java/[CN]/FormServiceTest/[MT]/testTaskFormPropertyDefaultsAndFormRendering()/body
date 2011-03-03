@@ -3,7 +3,7 @@
   StartFormData startForm=formService.getStartFormData(procDefId);
   assertNotNull(startForm);
   assertEquals(deploymentId,startForm.getDeploymentId());
-  assertEquals("org/activiti/engine/test/forms/start.form",startForm.getFormKey());
+  assertEquals("org/activiti/engine/test/api/form/start.form",startForm.getFormKey());
   assertEquals(new ArrayList<FormProperty>(),startForm.getFormProperties());
   assertEquals(procDefId,startForm.getProcessDefinition().getId());
   Object renderedStartForm=formService.getRenderedStartForm(procDefId);
@@ -21,7 +21,7 @@
   String taskId=task.getId();
   TaskFormData taskForm=formService.getTaskFormData(taskId);
   assertEquals(deploymentId,taskForm.getDeploymentId());
-  assertEquals("org/activiti/engine/test/forms/task.form",taskForm.getFormKey());
+  assertEquals("org/activiti/engine/test/api/form/task.form",taskForm.getFormKey());
   assertEquals(new ArrayList<FormProperty>(),taskForm.getFormProperties());
   assertEquals(taskId,taskForm.getTask().getId());
   assertEquals("Mike is speaking in room 5b",formService.getRenderedTaskForm(taskId));
