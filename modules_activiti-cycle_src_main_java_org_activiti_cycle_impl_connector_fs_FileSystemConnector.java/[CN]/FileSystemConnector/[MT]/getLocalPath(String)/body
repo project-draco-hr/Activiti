@@ -1,11 +1,12 @@
 {
-  if ("".equals(getBasePath())) {
+  String basePath=getBasePath();
+  if ("".equals(basePath)) {
     return path;
   }
- else   if (path.startsWith(getBasePath())) {
-    path=path.replace(getBasePath(),"");
+ else   if (path.startsWith(basePath)) {
+    path=path.replace(basePath,"");
     path=path.replace("\\","/");
     return path;
   }
-  throw new RepositoryException("Unable to determine local path! ('" + path + "')");
+  throw new RepositoryException("Unable to determine local path! (path: '" + path + "', base path: '"+ basePath+ "')");
 }
