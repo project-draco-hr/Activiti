@@ -1,0 +1,9 @@
+{
+  Map<String,String> properties=new HashMap<String,String>();
+  properties.put("duration","45");
+  properties.put("speaker","Mike");
+  String procDefId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  ProcessInstance processInstance=formService.submitStartFormData(procDefId,"123",properties);
+  assertEquals("123",processInstance.getBusinessKey());
+  assertEquals(processInstance.getId(),runtimeService.createProcessInstanceQuery().processInstanceBusinessKey("123").singleResult().getId());
+}

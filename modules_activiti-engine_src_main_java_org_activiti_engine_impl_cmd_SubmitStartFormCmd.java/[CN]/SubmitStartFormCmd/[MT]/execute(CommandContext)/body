@@ -5,7 +5,12 @@
     throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
   }
   ExecutionEntity processInstance=null;
-  processInstance=processDefinition.createProcessInstance();
+  if (businessKey != null) {
+    processInstance=processDefinition.createProcessInstance(businessKey);
+  }
+ else {
+    processInstance=processDefinition.createProcessInstance();
+  }
   int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
     DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
