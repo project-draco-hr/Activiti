@@ -1,5 +1,15 @@
 {
   this.label=node.getMetadata().getName();
   this.connectorId=node.getConnectorId();
-  this.artifactId=node.getNodeId();
+  this.nodeId=node.getNodeId();
+  if (node instanceof ProcessSolutionRepositoryNode) {
+    ProcessSolutionRepositoryNode processSolutionRepositoryNode=(ProcessSolutionRepositoryNode)node;
+    VirtualRepositoryFolder vFolder=processSolutionRepositoryNode.getVirtualRepositoryFolder();
+    if (vFolder != null) {
+      type=vFolder.getType();
+      if (processSolutionRepositoryNode.getWrappedNode() != null) {
+        vFolderId=vFolder.getId();
+      }
+    }
+  }
 }

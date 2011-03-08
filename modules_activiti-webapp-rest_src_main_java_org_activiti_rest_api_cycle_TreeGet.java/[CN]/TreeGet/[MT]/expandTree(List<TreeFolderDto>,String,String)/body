@@ -8,14 +8,17 @@
     }
   }
   expandNode(connectorRootNode,false,connectorId);
-  if (!nodeId.equals(connectorRootNode.getArtifactId())) {
+  if (!nodeId.equals(connectorRootNode.getNodeId())) {
     RepositoryNode node=repositoryService.getRepositoryNode(connectorId,nodeId);
     TreeNodeDto treeNodeDtoForTheCurrentNode=getTreeNodeDto(node,false);
     if (treeNodeDtoForTheCurrentNode instanceof TreeFolderDto) {
       expandNode((TreeFolderDto)treeNodeDtoForTheCurrentNode,false,connectorId);
+      if (((TreeFolderDto)treeNodeDtoForTheCurrentNode).getChildren().size() > 0) {
+        treeNodeDtoForTheCurrentNode.setExpanded(String.valueOf(Boolean.TRUE));
+      }
     }
     String parentId=node.getMetadata().getParentFolderId();
-    while (parentId != null && parentId.length() > 0 && parentId != connectorRootNode.getArtifactId()) {
+    while (parentId != null && parentId.length() > 0 && !parentId.equals(connectorRootNode.getNodeId())) {
       RepositoryNode parentNode=repositoryService.getRepositoryNode(connectorId,parentId);
       TreeFolderDto parentTreeNode=(TreeFolderDto)getTreeNodeDto(parentNode,true);
       expandNode(parentTreeNode,false,connectorId);

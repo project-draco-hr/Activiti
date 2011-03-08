@@ -1,0 +1,9 @@
+{
+  List<RepositoryNode> resultList=new ArrayList<RepositoryNode>();
+  for (  RepositoryNode repositoryNode : rootNodes.asList()) {
+    if (repositoryNode.getConnectorId().startsWith("ps")) {
+      resultList.add(repositoryNode);
+    }
+  }
+  return new RepositoryNodeCollectionImpl(resultList);
+}

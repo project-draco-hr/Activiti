@@ -1,11 +1,34 @@
 {
-  RepositoryNodeCollection rootNodes=this.repositoryService.getChildren("/","");
+  String treeRootNodeId=req.getString("treeRootNodeId");
+  String treeRootConnectorId=req.getString("treeRootConnectorId");
+  RepositoryNodeCollection rootNodes=null;
+  if (treeRootNodeId != null && treeRootNodeId.length() > 0 && !treeRootNodeId.equals("undefined") && treeRootConnectorId != null && treeRootConnectorId.length() > 0 && !treeRootConnectorId.equals("undefined")) {
+    List<RepositoryNode> rootNodesList=new ArrayList<RepositoryNode>();
+    rootNodesList.add(repositoryService.getRepositoryNode(treeRootConnectorId,treeRootNodeId));
+    rootNodes=new RepositoryNodeCollectionImpl(rootNodesList);
+  }
+ else {
+    rootNodes=this.repositoryService.getChildren("/","");
+  }
+  String treeId=req.getMandatoryString("treeId");
+  if (treeId.equals("repo")) {
+    rootNodes=filterRepositories(rootNodes);
+  }
+ else {
+    rootNodes=filterProcessSolutions(rootNodes);
+  }
   List<TreeFolderDto> tree=new ArrayList<TreeFolderDto>();
   for (  RepositoryNode repositoryNode : rootNodes.asList()) {
     tree.add(new TreeFolderDto((RepositoryFolder)repositoryNode));
   }
   String connectorId=req.getString("connectorId");
   String nodeId=req.getString("nodeId");
+  String vFolderId=req.getString("vFolderId");
+  if (vFolderId != null && vFolderId.length() > 0) {
+    VirtualRepositoryFolder virtualRepositoryFolder=processSolutionService.getVirtualRepositoryFolderById(vFolderId);
+    connectorId="ps-" + virtualRepositoryFolder.getProcessSolutionId();
+    CycleRequestContext.set("vFolderId",vFolderId);
+  }
   if (connectorId != null && nodeId != null) {
     try {
       expandTree(tree,connectorId,nodeId);

@@ -1,18 +1,40 @@
 {
   String connectorId=req.getMandatoryString("connectorId");
-  String artifactId=req.getString("artifactId");
-  String restProxyUri=req.getString("restProxyUri");
-  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(connectorId,artifactId);
+  String nodeId=req.getString("nodeId");
+  String vFolderId=req.getString("vFolderId");
+  if (vFolderId != null && vFolderId.length() > 0 && !vFolderId.equals("undefined")) {
+    connectorId="ps-" + processSolutionService.getVirtualRepositoryFolderById(vFolderId).getProcessSolutionId();
+    CycleRequestContext.set("vFolderId",vFolderId);
+  }
+  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(connectorId,nodeId);
   List<String> contentRepresentations=new ArrayList<String>();
   for (  ContentRepresentation representation : contentService.getContentRepresentations(artifact)) {
     contentRepresentations.add(representation.getId());
+  }
+  if (artifact instanceof ProcessSolutionArtifact) {
+    ProcessSolutionArtifact psArtifact=(ProcessSolutionArtifact)artifact;
+    if (psArtifact.getVirtualRepositoryFolder() != null && "Processes".equals(psArtifact.getVirtualRepositoryFolder().getType())) {
+      List<VirtualRepositoryFolder> foldersForThisProcessSolution=processSolutionService.getFoldersForProcessSolution(psArtifact.getProcessSolution().getId());
+      VirtualRepositoryFolder requirementsFolder=null;
+      for (      VirtualRepositoryFolder virtualRepositoryFolder : foldersForThisProcessSolution) {
+        if ("Requirements".equals(virtualRepositoryFolder.getType())) {
+          requirementsFolder=virtualRepositoryFolder;
+        }
+      }
+      if (requirementsFolder != null) {
+        AddRequirementActionDto dto=new AddRequirementActionDto();
+        dto.setRequirementsFolderConnectorId("ps-" + psArtifact.getProcessSolution().getId());
+        dto.setRequirementsFolderId(psArtifact.getProcessSolution().getId() + "/" + requirementsFolder.getId());
+        model.put("addRequirementAction",dto);
+      }
+    }
   }
   model.put("contentRepresentations",contentRepresentations);
   model.put("actions",pluginService.getParameterizedActions(artifact));
   List<DownloadActionView> downloads=new ArrayList<DownloadActionView>();
   for (  DownloadContentAction action : pluginService.getDownloadContentActions(artifact)) {
     try {
-      String url=restProxyUri + "content?connectorId=" + URLEncoder.encode(connectorId,"UTF-8")+ "&artifactId="+ URLEncoder.encode(artifactId,"UTF-8")+ "&contentRepresentationId="+ URLEncoder.encode(action.getContentRepresentation().getId(),"UTF-8");
+      String url="/content?connectorId=" + URLEncoder.encode(connectorId,"UTF-8") + "&nodeId="+ URLEncoder.encode(nodeId,"UTF-8")+ (vFolderId != null ? "&vFolderId=" + URLEncoder.encode(vFolderId,"UTF-8") : "")+ "&contentRepresentationId="+ URLEncoder.encode(action.getContentRepresentation().getId(),"UTF-8");
       downloads.add(new DownloadActionView(action.getId(),url,action.getContentRepresentation().getRepresentationMimeType().getContentType(),action.getContentRepresentation().getId()));
     }
  catch (    UnsupportedEncodingException e) {
@@ -21,6 +43,12 @@
   }
   model.put("downloads",downloads);
   model.put("links",pluginService.getArtifactOpenLinkActions(artifact));
-  model.put("artifactId",artifact.getNodeId());
+  model.put("nodeId",artifact.getNodeId());
   model.put("connectorId",artifact.getConnectorId());
+  if (artifact instanceof ProcessSolutionRepositoryNode) {
+    ProcessSolutionRepositoryNode processSolutionRepositoryNode=(ProcessSolutionRepositoryNode)artifact;
+    if (processSolutionRepositoryNode.getVirtualRepositoryFolder() != null) {
+      model.put("vFolderId",processSolutionRepositoryNode.getVirtualRepositoryFolder().getId());
+    }
+  }
 }

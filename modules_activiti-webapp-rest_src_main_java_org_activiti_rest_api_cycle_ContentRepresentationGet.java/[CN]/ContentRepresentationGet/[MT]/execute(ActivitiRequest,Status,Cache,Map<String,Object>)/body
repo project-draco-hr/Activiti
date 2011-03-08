@@ -1,11 +1,9 @@
 {
-  String connectorId=req.getMandatoryString("connectorId");
-  String artifactId=req.getString("artifactId");
   String representationId=req.getString("representationId");
-  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(connectorId,artifactId);
+  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(req.getMandatoryString("connectorId"),req.getString("nodeId"));
   try {
-    model.put("connectorId",connectorId);
-    model.put("artifactId",artifactId);
+    model.put("connectorId",artifact.getConnectorId());
+    model.put("nodeId",artifact.getNodeId());
     ContentRepresentation contentRepresentation=contentService.getContentRepresentation(artifact,representationId);
 switch (contentRepresentation.getRenderInfo()) {
 case IMAGE:

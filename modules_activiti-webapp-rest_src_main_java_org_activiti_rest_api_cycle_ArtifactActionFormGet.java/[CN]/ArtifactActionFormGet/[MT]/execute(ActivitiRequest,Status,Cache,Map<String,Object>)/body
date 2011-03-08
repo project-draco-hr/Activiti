@@ -1,13 +1,18 @@
 {
   String connectorId=req.getMandatoryString("connectorId");
-  String artifactId=req.getMandatoryString("artifactId");
+  String nodeId=req.getMandatoryString("nodeId");
   String actionId=req.getMandatoryString("actionName");
+  String vFolderId=req.getString("vFolderId");
+  if (vFolderId != null && vFolderId.length() > 0) {
+    connectorId="ps-" + processSolutionService.getVirtualRepositoryFolderById(vFolderId).getProcessSolutionId();
+    CycleRequestContext.set("vFolderId",vFolderId);
+  }
   String form;
   try {
-    form=repositoryService.getActionFormTemplate(connectorId,artifactId,actionId);
+    form=repositoryService.getActionFormTemplate(connectorId,nodeId,actionId);
   }
  catch (  RepositoryNodeNotFoundException e) {
-    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + artifactId + "' for connector with id '"+ connectorId+ "'.");
+    throw new WebScriptException(Status.STATUS_NOT_FOUND,"There is no artifact with id '" + nodeId + "' for connector with id '"+ connectorId+ "'.");
   }
   if (form != null) {
     model.put("form",form);

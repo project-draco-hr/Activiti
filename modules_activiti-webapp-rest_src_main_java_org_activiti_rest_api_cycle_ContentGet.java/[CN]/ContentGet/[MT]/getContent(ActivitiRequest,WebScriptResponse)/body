@@ -1,9 +1,14 @@
 {
   CycleContentService contentService=CycleServiceFactory.getContentService();
-  String cnonectorId=req.getMandatoryString("connectorId");
-  String artifactId=req.getMandatoryString("artifactId");
+  String connectorId=req.getMandatoryString("connectorId");
+  String nodeId=req.getMandatoryString("nodeId");
   String contentRepresentationId=req.getMandatoryString("contentRepresentationId");
-  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(cnonectorId,artifactId);
+  String vFolderId=req.getString("vFolderId");
+  if (vFolderId != null && vFolderId.length() > 0 && !vFolderId.equals("undefined")) {
+    connectorId="ps-" + processSolutionService.getVirtualRepositoryFolderById(vFolderId).getProcessSolutionId();
+    CycleRequestContext.set("vFolderId",vFolderId);
+  }
+  RepositoryArtifact artifact=repositoryService.getRepositoryArtifact(connectorId,nodeId);
   ContentRepresentation contentRepresentation=contentService.getContentRepresentation(artifact,contentRepresentationId);
   MimeType contentType=contentRepresentation.getRepresentationMimeType();
   boolean attach=contentType.getName().startsWith("application/") ? true : false;

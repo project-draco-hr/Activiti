@@ -1,0 +1,30 @@
+{
+  ActivitiRequestObject obj=req.getBody();
+  String processSolutionId=req.getMandatoryString(obj,"processSolutionId");
+  String state=req.getMandatoryString(obj,"state");
+synchronized (ProcessSolutionPut.class) {
+    try {
+      ProcessSolution processSolution=processSolutionService.getProcessSolutionById(processSolutionId);
+      if (processSolution == null) {
+        throw new RuntimeException("ProcessSolution with id '" + processSolutionId + "' not found.");
+      }
+      ProcessSolutionState newState=ProcessSolutionState.valueOf(state);
+      if (!newState.equals(processSolution.getState())) {
+switch (newState) {
+case IN_IMPLEMENTATION:
+          eventService.fireEvent(new SpecificationDoneEvent(processSolution));
+        break;
+case IN_TESTING:
+      eventService.fireEvent(new ImplementationDoneEvent(processSolution));
+    break;
+default :
+  eventService.fireEvent(new TestingDoneEvent(processSolution));
+}
+}
+model.put("result","success");
+}
+ catch (Exception e) {
+throw new WebScriptException(Status.STATUS_BAD_REQUEST,"Could not update ProcessSolution. " + e.getMessage(),e);
+}
+}
+}

@@ -1,0 +1,17 @@
+{
+  String processSolutionId=req.getMandatoryString("processSolutionId");
+  try {
+    ProcessSolution processSolution=processSolutionService.getProcessSolutionById(processSolutionId);
+    model.put("processSolution",processSolution);
+  }
+ catch (  Exception e) {
+    throw new WebScriptException(HttpServletResponse.SC_BAD_REQUEST,"Could not load ProcessSolution with id '" + processSolutionId + "': "+ e.getMessage(),e);
+  }
+  try {
+    List<VirtualRepositoryFolder> folders=processSolutionService.getFoldersForProcessSolution(processSolutionId);
+    model.put("folders",folders);
+  }
+ catch (  Exception e) {
+    throw new WebScriptException(HttpServletResponse.SC_BAD_REQUEST,"Could not load the Folders of the ProcessSolution with id '" + processSolutionId + "': "+ e.getMessage(),e);
+  }
+}
