@@ -1,7 +1,7 @@
 {
   JSONArray stencilsets;
-  String stencilsetsResponse=getJsonResponse(getConfiguration().getStencilsetsUrl());
-  JsonRepresentation stencilsetsJsonRepresentation=new JsonRepresentation(stencilsetsResponse);
+  Response stencilsetsResponse=getJsonResponse(getConfiguration().getStencilsetsUrl());
+  JsonRepresentation stencilsetsJsonRepresentation=new JsonRepresentation(stencilsetsResponse.getEntity());
   stencilsets=stencilsetsJsonRepresentation.getJsonArray();
   return stencilsets;
 }

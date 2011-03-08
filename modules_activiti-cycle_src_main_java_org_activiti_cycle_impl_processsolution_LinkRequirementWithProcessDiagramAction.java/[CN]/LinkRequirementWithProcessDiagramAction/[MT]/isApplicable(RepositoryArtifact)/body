@@ -1,0 +1,21 @@
+{
+  if (toArtifact instanceof ProcessSolutionArtifact) {
+    ProcessSolutionArtifact processSolutionArtifact=(ProcessSolutionArtifact)toArtifact;
+    if (processSolutionArtifact.getVirtualRepositoryFolder() == null) {
+      return false;
+    }
+    if ("Requirements".equals(processSolutionArtifact.getVirtualRepositoryFolder().getType())) {
+      CurrentProcessesFolder currentProcessesFolder=CycleComponentFactory.getCycleComponentInstance("currentProcessesFolder",CurrentProcessesFolder.class);
+      CycleProcessSolutionService processService=CycleServiceFactory.getProcessSolutionService();
+      List<VirtualRepositoryFolder> folders=processService.getFoldersForProcessSolution(processSolutionArtifact.getVirtualRepositoryFolder().getProcessSolutionId());
+      for (      VirtualRepositoryFolder virtualRepositoryFolder : folders) {
+        if (virtualRepositoryFolder.getType().equals("Processes")) {
+          currentProcessesFolder.setFolderId(virtualRepositoryFolder.getProcessSolutionId() + "/" + virtualRepositoryFolder.getId());
+          currentProcessesFolder.setConnectorId("ps-" + virtualRepositoryFolder.getProcessSolutionId());
+        }
+      }
+      return true;
+    }
+  }
+  return false;
+}

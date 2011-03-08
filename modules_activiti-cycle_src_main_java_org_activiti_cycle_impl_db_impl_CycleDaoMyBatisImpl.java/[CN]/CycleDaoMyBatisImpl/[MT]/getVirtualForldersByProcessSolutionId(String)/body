@@ -1,0 +1,9 @@
+{
+  SqlSession sqlSession=openSession();
+  try {
+    return (List<VirtualRepositoryFolderEntity>)sqlSession.selectList("selectVirtualRepositoryFolderByProcessSolutionId",id);
+  }
+  finally {
+    sqlSession.close();
+  }
+}

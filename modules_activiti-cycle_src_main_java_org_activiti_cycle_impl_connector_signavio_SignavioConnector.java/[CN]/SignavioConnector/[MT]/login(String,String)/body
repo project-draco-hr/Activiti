@@ -11,15 +11,12 @@
     loginForm.add("tokenonly","true");
     Representation loginRep=loginForm.getWebRepresentation();
     Request loginRequest=new Request(Method.POST,getConfiguration().getLoginUrl(),loginRep);
-    Response loginResponse=sendRequestGetResponse(loginRequest);
-    token=loginResponse.getEntity().getText();
-    loginResponse.release();
+    Response loginResponse=sendRequest(loginRequest);
+    Representation representation=loginResponse.getEntity();
+    token=representation.getText();
   }
  catch (  Exception ex) {
     throw new RepositoryException("Error during login to connector '" + getName() + "'",ex);
-  }
- finally {
-    Engine.clearThreadLocalVariables();
   }
   if (token.matches("[a-f0-9]{32}")) {
     setSecurityToken(token);

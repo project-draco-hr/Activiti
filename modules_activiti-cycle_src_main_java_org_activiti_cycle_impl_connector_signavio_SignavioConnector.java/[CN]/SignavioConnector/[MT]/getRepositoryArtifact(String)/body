@@ -2,8 +2,8 @@
   JsonRepresentation jsonData=null;
   JSONObject jsonObject=null;
   try {
-    String modelResponse=getJsonResponse(getConfiguration().getModelUrl(id) + "/info");
-    jsonData=new JsonRepresentation(modelResponse);
+    Response modelResponse=getJsonResponse(getConfiguration().getModelUrl(id) + "/info");
+    jsonData=new JsonRepresentation(modelResponse.getEntity());
     jsonObject=jsonData.getJsonObject();
     return getArtifactInfoFromFile(id,jsonObject);
   }

@@ -4,24 +4,8 @@
   String comment=(String)getParameter(parameters,PARAM_COMMENT,false,null,String.class);
   RepositoryConnector targetConnector=(RepositoryConnector)getParameter(parameters,PARAM_TARGET_CONNECTOR,true,null,RepositoryConnector.class);
   boolean createLink=(Boolean)getParameter(parameters,CREATE_LINK_NAME,true,Boolean.TRUE,Boolean.class);
-  String bpmnXml=ActivitiCompliantBpmn20Provider.createBpmnXml(connector,artifact);
-  RepositoryArtifact bpmnArtifact=null;
-  TransactionalConnectorUtils.beginTransaction(targetConnector);
-  try {
-    bpmnArtifact=createProject(targetConnector,targetFolderId,targetName,bpmnXml);
-    TransactionalConnectorUtils.commitTransaction(targetConnector,comment);
-  }
- catch (  RepositoryException e) {
-    TransactionalConnectorUtils.rollbackTransaction(targetConnector);
-    throw e;
-  }
-  if (createLink && bpmnArtifact != null) {
-    RepositoryArtifactLink link=new RepositoryArtifactLinkEntity();
-    link.setSourceArtifact(artifact);
-    link.setTargetArtifact(bpmnArtifact);
-    link.setComment(comment);
-    link.setLinkType(getLinkType());
-    CycleRepositoryService repositoryService=CycleServiceFactory.getRepositoryService();
-    repositoryService.addArtifactLink(link);
-  }
+  List<RepositoryArtifact> processes=new ArrayList<RepositoryArtifact>();
+  processes.add(artifact);
+  RepositoryFolder targetFolder=targetConnector.createFolder(targetFolderId,targetName);
+  createMavenProject(targetFolder.getNodeId(),targetName,comment,targetConnector,createLink,processes);
 }

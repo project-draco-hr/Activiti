@@ -1,0 +1,27 @@
+{
+  if (hudsonUrl == null || hudsonUrl.length() == 0 || projectSVNUrl == null || projectSVNUrl.length() == 0) {
+    throw new RepositoryException("HudsonUrl and ProjectSVNUrl must not be null or empty");
+  }
+  String configXml=getTemplate();
+  String emailString=transformEmailAddress(emailAddresses);
+  configXml=replaceVarsInTemplate(configXml,jobDescription,projectSVNUrl,emailString);
+  hudsonUrl=transformUrl(hudsonUrl);
+  Reference reference=new Reference(hudsonUrl + PARAM_HUDSON_CREATE_JOB);
+  if (jobName == null || jobName.length() == 0) {
+    jobName=DEFAULT_JOB_NAME + "-" + projectSVNUrl;
+  }
+  reference.addQueryParameter("name",jobName);
+  ClientResource clientResource=new ClientResource(reference);
+  StringRepresentation configFileRep=new StringRepresentation(configXml,MediaType.APPLICATION_XML);
+  try {
+    Representation postResult=clientResource.post(configFileRep);
+    clientResource.release();
+    return Boolean.TRUE;
+  }
+ catch (  Exception e) {
+    throw new RepositoryException("Encountered an error while creating Hudson CI Job for Project '" + jobName + "'",e);
+  }
+ finally {
+    Engine.clearThreadLocalVariables();
+  }
+}

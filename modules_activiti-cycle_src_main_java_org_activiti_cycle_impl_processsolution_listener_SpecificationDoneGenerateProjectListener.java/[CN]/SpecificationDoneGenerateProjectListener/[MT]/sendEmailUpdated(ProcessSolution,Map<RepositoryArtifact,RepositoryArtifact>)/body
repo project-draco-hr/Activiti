@@ -1,0 +1,19 @@
+{
+  CycleEmailDispatcher cycleEmailDispatcher=CycleComponentFactory.getCycleComponentInstance(CycleEmailDispatcher.class,CycleEmailDispatcher.class);
+  for (  User user : processSolutionService.getProcessSolutionCollaborators(processSolution.getId(),null)) {
+    StringWriter writer=new StringWriter();
+    writer.append("Hi " + user.getFirstName() + " "+ user.getLastName()+ ", <br /><br />");
+    writer.append("Technical implementation models for the process solution " + processSolution.getLabel() + " have been updated/created: <br />");
+    writer.append("<ul>");
+    for (    Entry<RepositoryArtifact,RepositoryArtifact> processMappedToBpmnXml : processesMappedToBpmnXml.entrySet()) {
+      writer.append("<li>");
+      writer.append("The bpmn20.xml file for the process ");
+      writer.append(processMappedToBpmnXml.getKey().getMetadata().getName());
+      writer.append(" is located in ");
+      writer.append(processMappedToBpmnXml.getValue().getNodeId() + ".");
+      writer.append("</li>");
+    }
+    writer.append("</ul>");
+    cycleEmailDispatcher.sendEmail("activiti-cycle@localhost",user.getEmail(),"Technical Models updated/created",writer.toString());
+  }
+}

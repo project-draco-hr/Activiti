@@ -1,7 +1,7 @@
 {
   String type=URLEncoder.encode(stencilsetNamespace,"UTF-8");
-  String filterResponse=getJsonResponse(getConfiguration().getRepositoryBackendUrl() + "filter?type=" + type+ "&sort=rating");
-  JsonRepresentation jsonRepresentation=new JsonRepresentation(filterResponse);
+  Response filterResponse=getJsonResponse(getConfiguration().getRepositoryBackendUrl() + "filter?type=" + type+ "&sort=rating");
+  JsonRepresentation jsonRepresentation=new JsonRepresentation(filterResponse.getEntity());
   JSONArray modelRefs=jsonRepresentation.getJsonArray();
   return modelRefs;
 }

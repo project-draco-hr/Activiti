@@ -1,0 +1,33 @@
+{
+  List<RepositoryNode> resultList=new ArrayList<RepositoryNode>();
+  ProcessSolutionFolder processSolutionFolder=(ProcessSolutionFolder)getRepositoryNode(id);
+  VirtualRepositoryFolder virtualFolder=processSolutionFolder.getVirtualRepositoryFolder();
+  RepositoryFolder wrappedFolder=(RepositoryFolder)processSolutionFolder.getWrappedNode();
+  RepositoryNodeCollection childNodes=null;
+  if (wrappedFolder != null) {
+    childNodes=repositoryService.getChildren(wrappedFolder.getConnectorId(),wrappedFolder.getNodeId());
+  }
+ else   if (virtualFolder != null) {
+    childNodes=repositoryService.getChildren(virtualFolder.getConnectorId(),virtualFolder.getReferencedNodeId());
+  }
+  if (childNodes != null) {
+    for (    RepositoryNode childNode : childNodes.asList()) {
+      String childNodeId=childNode.getNodeId();
+      childNodeId=childNodeId.replace(processSolutionFolder.getVirtualRepositoryFolder().getReferencedNodeId(),"");
+      childNodeId=processSolutionId + "/" + processSolutionFolder.getVirtualRepositoryFolder().getId()+ "/"+ childNodeId;
+      if (childNode instanceof RepositoryArtifact) {
+        resultList.add(new ProcessSolutionArtifact(getId(),childNodeId,processSolutionFolder.getVirtualRepositoryFolder(),processSolutionFolder.getProcessSolution(),(RepositoryArtifact)childNode));
+      }
+ else {
+        resultList.add(new ProcessSolutionFolder(getId(),childNodeId,processSolutionFolder.getVirtualRepositoryFolder(),processSolutionFolder.getProcessSolution(),(RepositoryFolder)childNode));
+      }
+    }
+  }
+ else {
+    for (    VirtualRepositoryFolder virtualChildfolder : processSolutionService.getFoldersForProcessSolution(processSolutionId)) {
+      String childNodeId=processSolutionId + "/" + virtualChildfolder.getId();
+      resultList.add(new ProcessSolutionFolder(getId(),childNodeId,virtualChildfolder,processSolutionFolder.getProcessSolution(),null));
+    }
+  }
+  return new RepositoryNodeCollectionImpl(resultList);
+}

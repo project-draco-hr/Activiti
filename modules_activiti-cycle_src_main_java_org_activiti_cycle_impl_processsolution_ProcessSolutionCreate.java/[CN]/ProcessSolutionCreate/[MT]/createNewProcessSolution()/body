@@ -1,0 +1,29 @@
+{
+  ProcessSolutionTemplate template=processSolutionService.getDefaultProcessSolutionTemplate();
+  ProcessSolutionEntity processSolutionEntity=createProcessSolutionEntity(template);
+  List<VirtualRepositoryFolderEntity> createdVirtualFolders=new ArrayList<VirtualRepositoryFolderEntity>();
+  Set<RepositoryConnector> participatingConnectors=getParticipatingConnectors(template);
+  for (  RepositoryConnector participatingConnector : participatingConnectors) {
+    TransactionalConnectorUtils.beginTransaction(participatingConnector);
+  }
+  try {
+    for (    VirtualRepositoryFolder folderTemplate : template.getVirtualRepositoryFolders()) {
+      createdVirtualFolders.add(createVirtualFolder(folderTemplate,processSolutionEntity));
+    }
+    processSolutionService.getDao().addVirtualFoldersToSolution(processSolutionEntity.getId(),createdVirtualFolders);
+    for (    RepositoryConnector participatingConnector : participatingConnectors) {
+      TransactionalConnectorUtils.commitTransaction(participatingConnector,"created new process solution " + name);
+    }
+    return processSolutionEntity.getId();
+  }
+ catch (  Exception e) {
+    for (    RepositoryConnector participatingConnector : participatingConnectors) {
+      TransactionalConnectorUtils.rollbackTransaction(participatingConnector);
+    }
+    for (    VirtualRepositoryFolder virtualFolder : createdVirtualFolders) {
+      processSolutionService.getDao().deleteVirtualRepositoryFolderById(virtualFolder.getId());
+    }
+    processSolutionService.getDao().deleteProcessSolutionById(processSolutionEntity.getId());
+    throw new RuntimeException("Could not create ProcessSolution " + e.getMessage(),e);
+  }
+}

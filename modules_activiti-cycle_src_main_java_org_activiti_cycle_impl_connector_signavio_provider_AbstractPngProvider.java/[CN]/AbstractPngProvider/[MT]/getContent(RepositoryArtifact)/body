@@ -6,6 +6,23 @@
     String modelAsPngUrl=configuration.getPngUrl(artifact.getNodeId(),signavioConnector.getSecurityToken());
     InputStream is=new URL(modelAsPngUrl).openStream();
     content.setValue(is);
+    if (is.available() <= 201) {
+      try {
+        BpmnParse parse=ValidateActivitiDeployment.createParseObject(signavioConnector,artifact);
+        try {
+          parse.execute();
+        }
+ catch (        ActivitiException ex) {
+        }
+        if (parse.getProcessDefinitions().size() > 0) {
+          is=ProcessDiagramGenerator.generatePngDiagram(parse.getProcessDefinitions().get(0));
+          content.setValue(is);
+        }
+      }
+ catch (      Exception ex) {
+        log.log(Level.SEVERE,"Couldn't create PNG from BPMN 2.0 XML. Ignoring.",ex);
+      }
+    }
     return content;
   }
  catch (  Exception ex) {

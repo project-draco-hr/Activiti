@@ -1,13 +1,15 @@
 {
-  ParameterizedAction action=cycleServiceConfiguration.getCyclePluginService().getParameterizedActionById(actionId);
+  ParameterizedAction action=cycleServiceConfiguration.getPluginService().getParameterizedActionById(actionId);
   String form=action.getFormAsHtml();
   FormHandler formHandler=CycleComponentFactory.getCycleComponentInstance(FormHandler.class,FormHandler.class);
   formHandler.setValues(form,parameters);
   RepositoryConnector connector=getRepositoryConnector(connectorId);
   for (  String key : parameters.keySet()) {
     if (key.equals("targetConnectorId")) {
-      RepositoryConnector targetConnector=getRepositoryConnector((String)parameters.get(key));
-      parameters.put(key,targetConnector);
+      if (parameters.get(key) != null && parameters.get(key) instanceof String) {
+        RepositoryConnector targetConnector=getRepositoryConnector((String)parameters.get(key));
+        parameters.put(key,targetConnector);
+      }
     }
   }
   connector.executeParameterizedAction(artifactId,actionId,parameters);

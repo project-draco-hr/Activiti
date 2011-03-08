@@ -1,0 +1,9 @@
+{
+  SqlSession sqlSession=openSession();
+  try {
+    return (List<ProcessSolutionEntity>)sqlSession.selectList("selectProcessSolutions");
+  }
+  finally {
+    sqlSession.close();
+  }
+}

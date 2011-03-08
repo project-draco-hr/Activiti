@@ -1,0 +1,7 @@
+{
+  ProcessSolutionArtifact artifact=(ProcessSolutionArtifact)getRepositoryNode(artifactId);
+  if (artifactId.endsWith(PS_HOME_NAME)) {
+    return CycleComponentFactory.getCycleComponentInstance(ProcessSolutionHomeContentRepresentation.class,ProcessSolutionHomeContentRepresentation.class).getContent(artifact);
+  }
+  return repositoryService.getContent(artifact.wrappedNode.getConnectorId(),artifact.wrappedNode.getNodeId());
+}

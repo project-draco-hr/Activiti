@@ -1,0 +1,14 @@
+{
+  CycleRepositoryService repositoryService=CycleServiceFactory.getRepositoryService();
+  String comment=(String)parameters.get("comment");
+  String targetArtifactId=(String)parameters.get("targetArtifactId");
+  RepositoryConnector targetConnector=(RepositoryConnector)parameters.get("targetConnectorId");
+  RepositoryArtifact requirementsArtifact=artifact;
+  RepositoryArtifact processModelArtifact=repositoryService.getRepositoryArtifact(targetConnector.getId(),targetArtifactId);
+  RepositoryArtifactLink link=new RepositoryArtifactLinkEntity();
+  link.setComment(comment);
+  link.setSourceArtifact(requirementsArtifact);
+  link.setTargetArtifact(processModelArtifact);
+  link.setLinkType(RepositoryArtifactLinkEntity.TYPE_REQUIREMENT);
+  repositoryService.addArtifactLink(link);
+}

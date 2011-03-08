@@ -16,6 +16,14 @@
         nameAttribute=currentElement.getAttribute("name");
         valueAttribute=currentElement.getAttribute("property");
       }
+ else       if ("hidden".equals(currentElement.getAttribute("type"))) {
+        nameAttribute=currentElement.getAttribute("name");
+        valueAttribute=currentElement.getAttribute("value");
+      }
+    }
+    if ("output".equals(currentElement.getTagName())) {
+      nameAttribute=currentElement.getAttribute("value");
+      valueAttribute=currentElement.getAttribute("value");
     }
     if ("checkbox".equals(currentElement.getTagName())) {
       nameAttribute=currentElement.getAttribute("name");

@@ -1,7 +1,7 @@
 {
   try {
-    String directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
-    JsonRepresentation jsonData=new JsonRepresentation(directoryResponse);
+    Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
+    JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
     JSONArray jsonArray=jsonData.getJsonArray();
     JSONObject jsonDir=null;
     for (int i=0; i < jsonArray.length(); i++) {

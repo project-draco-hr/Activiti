@@ -1,7 +1,7 @@
 {
   RepositoryArtifact artifact=getRepositoryArtifact(connectorId,artifactId);
   String form=null;
-  for (  ParameterizedAction action : cycleServiceConfiguration.getCyclePluginService().getParameterizedActions(artifact)) {
+  for (  ParameterizedAction action : cycleServiceConfiguration.getPluginService().getParameterizedActions(artifact)) {
     if (action.getId().equals(actionId)) {
       form=action.getFormAsHtml();
       break;

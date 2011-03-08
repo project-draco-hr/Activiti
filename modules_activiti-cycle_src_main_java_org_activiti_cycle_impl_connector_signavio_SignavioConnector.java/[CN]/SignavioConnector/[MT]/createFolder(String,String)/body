@@ -8,6 +8,15 @@
     Request jsonRequest=new Request(Method.POST,new Reference(getConfiguration().getDirectoryRootUrl()),createFolderRep);
     jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
     sendRequest(jsonRequest);
+    RepositoryNodeCollection nodes=getChildren(parentFolderId);
+    for (    RepositoryNode node : nodes.asList()) {
+      if (!(node instanceof RepositoryFolder)) {
+        continue;
+      }
+      if (node.getMetadata().getName().equals(name)) {
+        return (RepositoryFolder)node;
+      }
+    }
     return null;
   }
  catch (  Exception ex) {

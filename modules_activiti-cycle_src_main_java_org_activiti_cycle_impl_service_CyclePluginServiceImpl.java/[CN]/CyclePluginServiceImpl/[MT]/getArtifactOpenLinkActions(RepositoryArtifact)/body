@@ -3,6 +3,7 @@
   RepositoryConnector connector=CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
   for (  CreateUrlAction action : getCreateUrlActions(artifact)) {
     RepositoryArtifactOpenLinkAction link=new RepositoryArtifactOpenLinkAction("Open " + action.getId(),action.getUrl(connector,artifact));
+    link.setWarning(action.getWarning(connector,artifact));
     list.add(link);
   }
   return list;

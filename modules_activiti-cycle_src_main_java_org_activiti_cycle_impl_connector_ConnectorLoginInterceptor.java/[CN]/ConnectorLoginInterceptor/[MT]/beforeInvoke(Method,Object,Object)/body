@@ -4,6 +4,23 @@
     return;
   }
   if (!connector.isLoggedIn()) {
-    throw new RepositoryAuthenticationException("Connector '" + connector.getName() + "' is not logged in ",connector.getId());
+    boolean loginSuccessful=false;
+    Exception exception=null;
+    try {
+      PasswordEnabledRepositoryConnector pwEnabledRepositoryConnector=(PasswordEnabledRepositoryConnector)connector;
+      String username=pwEnabledRepositoryConnector.getUsername();
+      String password=pwEnabledRepositoryConnector.getPassword();
+      loginSuccessful=pwEnabledRepositoryConnector.login(username,password);
+    }
+ catch (    Exception e) {
+      log.log(Level.WARNING,"Could not login connector '" + connector.getName() + "' with provided credentials.",e);
+      exception=e;
+    }
+    if (!loginSuccessful) {
+      if (exception != null) {
+        throw new RepositoryAuthenticationException("Connector '" + connector.getName() + "' is not logged in ",connector.getId(),exception);
+      }
+      throw new RepositoryAuthenticationException("Connector '" + connector.getName() + "' is not logged in ",connector.getId());
+    }
   }
 }

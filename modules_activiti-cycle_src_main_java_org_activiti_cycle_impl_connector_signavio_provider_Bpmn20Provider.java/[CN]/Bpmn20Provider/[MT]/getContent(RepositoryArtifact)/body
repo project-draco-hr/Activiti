@@ -2,8 +2,8 @@
   try {
     SignavioConnectorInterface signavioConnector=(SignavioConnectorInterface)CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
     Content content=new Content();
-    String jsonResponse=getJsonResponse(signavioConnector,artifact,"/json");
-    JSONObject jsonData=new JSONObject(jsonResponse);
+    Response jsonResponse=getJsonResponse(signavioConnector,artifact,"/json");
+    JSONObject jsonData=new JSONObject(jsonResponse.getEntity().getText());
     String result=signavioConnector.transformJsonToBpmn20Xml(jsonData.toString());
     content.setValue(result);
     return content;

@@ -1,0 +1,64 @@
+{
+  String processSolutionId=getProcessSolutionId(id);
+  String virtualFolderId=getVirtualFolderId(id);
+  VirtualRepositoryFolder virtualFolder=null;
+  if (virtualFolderId != null) {
+    virtualFolder=processSolutionService.getVirtualRepositoryFolderById(virtualFolderId);
+    if (virtualFolder == null) {
+      virtualFolderId=null;
+    }
+  }
+  if ("".equals(id) || id == null) {
+    throw new RepositoryNodeNotFoundException(id);
+  }
+  if ("/".equals(id)) {
+    processSolutionId=this.processSolutionId;
+  }
+  if (!processSolutionId.equals(this.processSolutionId)) {
+    processSolutionId=null;
+  }
+  ProcessSolution processSolution;
+  RepositoryConnector connector;
+  String vFolderId=CycleRequestContext.get("vFolderId",String.class);
+  if (vFolderId != null && virtualFolderId == null && processSolutionId == null) {
+    virtualFolderId=vFolderId;
+    virtualFolder=processSolutionService.getVirtualRepositoryFolderById(vFolderId);
+    processSolutionId=virtualFolder.getProcessSolutionId();
+    connector=CycleComponentFactory.getCycleComponentInstance(RuntimeConnectorList.class,RuntimeConnectorList.class).getConnectorById(virtualFolder.getConnectorId());
+    processSolution=processSolutionService.getProcessSolutionById(processSolutionId);
+    if (virtualFolder.getReferencedNodeId().equals(id)) {
+      return new ProcessSolutionFolder(getId(),"/" + processSolutionId + "/"+ virtualFolderId,null,processSolution,null);
+    }
+  }
+ else {
+    if (processSolutionId == null) {
+      throw new RepositoryNodeNotFoundException(id);
+    }
+    if (processSolutionId.equals(this.processSolutionId) == false) {
+      throw new RepositoryNodeNotFoundException(id);
+    }
+    processSolution=processSolutionService.getProcessSolutionById(processSolutionId);
+    if (id.endsWith(PS_HOME_NAME)) {
+      return new ProcessSolutionArtifact(getId(),id,null,processSolution,null);
+    }
+    if (virtualFolderId == null) {
+      return new ProcessSolutionFolder(getId(),id,null,processSolution,null);
+    }
+    virtualFolder=processSolutionService.getVirtualRepositoryFolderById(virtualFolderId);
+    String relativePath=id.replace(processSolutionId + "/" + virtualFolderId,"");
+    if (relativePath.length() == 0) {
+      return new ProcessSolutionFolder(getId(),id,virtualFolder,processSolution,null);
+    }
+    relativePath=id.replace(processSolutionId + "/" + virtualFolderId+ "/","");
+    connector=CycleComponentFactory.getCycleComponentInstance(RuntimeConnectorList.class,RuntimeConnectorList.class).getConnectorById(virtualFolder.getConnectorId());
+    id=connector.concatenateNodeId(virtualFolder.getReferencedNodeId(),relativePath);
+  }
+  try {
+    RepositoryFolder folder=connector.getRepositoryFolder(id);
+    return new ProcessSolutionFolder(getId(),id,virtualFolder,processSolution,folder);
+  }
+ catch (  Exception e) {
+    RepositoryArtifact artifact=connector.getRepositoryArtifact(id);
+    return new ProcessSolutionArtifact(getId(),id,virtualFolder,processSolution,artifact);
+  }
+}

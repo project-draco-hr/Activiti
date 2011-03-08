@@ -1,0 +1,11 @@
+{
+  try {
+    for (    User user : getRecipients(event.getProcessSolution())) {
+      cycleEmailDispatcher.sendEmail(fromEmailAddress,user.getEmail(),getSubject(event),getMessage(event));
+    }
+  }
+ catch (  Exception e) {
+    logger.log(Level.SEVERE,"Error while building email.",e);
+    throw new RuntimeException("Error while building email.",e);
+  }
+}

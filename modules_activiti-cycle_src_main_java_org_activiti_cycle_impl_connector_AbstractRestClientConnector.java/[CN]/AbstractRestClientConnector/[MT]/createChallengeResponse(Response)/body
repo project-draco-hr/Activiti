@@ -1,0 +1,19 @@
+{
+  ChallengeResponse cResponse=null;
+  for (  ChallengeRequest challengeRequest : resourceNeedsAuth.getChallengeRequests()) {
+    ChallengeScheme cs=challengeRequest.getScheme();
+    if (ChallengeScheme.HTTP_BASIC.equals(cs)) {
+      if (log.isLoggable(Level.INFO)) {
+        log.info("Received 401 Error -> retrying request with HTTP_BASIC AUTH now!");
+      }
+      cResponse=new ChallengeResponse(ChallengeScheme.HTTP_BASIC,getUsername(),getPassword());
+      break;
+    }
+  }
+  if (cResponse != null) {
+    Request authenticatedRequest=resourceNeedsAuth.getRequest();
+    authenticatedRequest.setChallengeResponse(cResponse);
+    return authenticatedRequest;
+  }
+  throw new IllegalStateException(new AuthenticationException("Unable to determine required authentication scheme!"));
+}

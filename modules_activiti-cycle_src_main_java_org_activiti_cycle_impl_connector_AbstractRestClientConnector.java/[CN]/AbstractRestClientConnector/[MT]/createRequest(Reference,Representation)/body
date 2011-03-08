@@ -1,0 +1,11 @@
+{
+  if (reference != null) {
+    Request request=new Request();
+    request.setResourceRef(reference);
+    if (representation != null) {
+      request.setEntity(representation);
+    }
+    return request;
+  }
+  throw new RepositoryException("Reference object is null!");
+}

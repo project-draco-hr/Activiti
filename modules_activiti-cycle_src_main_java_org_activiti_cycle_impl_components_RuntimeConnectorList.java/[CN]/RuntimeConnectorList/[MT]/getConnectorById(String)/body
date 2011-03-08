@@ -1,4 +1,7 @@
 {
   init();
+  if (id.startsWith("ps-")) {
+    return new ProcessSolutionConnector(id.substring(3));
+  }
   return connectors.get(id);
 }

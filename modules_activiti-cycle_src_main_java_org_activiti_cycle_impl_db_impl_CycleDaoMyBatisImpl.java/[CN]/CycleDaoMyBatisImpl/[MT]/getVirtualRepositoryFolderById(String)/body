@@ -1,0 +1,9 @@
+{
+  SqlSession sqlSession=openSession();
+  try {
+    return (VirtualRepositoryFolderEntity)sqlSession.selectOne("selectVirtualRepositoryFolderById",id);
+  }
+  finally {
+    sqlSession.close();
+  }
+}

@@ -1,0 +1,24 @@
+{
+  Map<RepositoryArtifact,RepositoryArtifact> bpmnArtifacts=null;
+  TransactionalConnectorUtils.beginTransaction(targetConnector);
+  try {
+    bpmnArtifacts=createProject(targetConnector,targetFolderId,targetName,processes);
+    TransactionalConnectorUtils.commitTransaction(targetConnector,comment);
+  }
+ catch (  RepositoryException e) {
+    TransactionalConnectorUtils.rollbackTransaction(targetConnector);
+    throw e;
+  }
+  if (createLink && bpmnArtifacts != null) {
+    for (    Entry<RepositoryArtifact,RepositoryArtifact> processMappedToXml : bpmnArtifacts.entrySet()) {
+      RepositoryArtifactLink link=new RepositoryArtifactLinkEntity();
+      link.setSourceArtifact(processMappedToXml.getKey());
+      link.setTargetArtifact(processMappedToXml.getValue());
+      link.setComment(comment);
+      link.setLinkType(getLinkType());
+      CycleRepositoryService repositoryService=CycleServiceFactory.getRepositoryService();
+      repositoryService.addArtifactLink(link);
+    }
+  }
+  return bpmnArtifacts;
+}

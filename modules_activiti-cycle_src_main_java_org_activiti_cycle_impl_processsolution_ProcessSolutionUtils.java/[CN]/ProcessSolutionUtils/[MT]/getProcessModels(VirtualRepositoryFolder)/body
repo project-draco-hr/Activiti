@@ -1,0 +1,7 @@
+{
+  RepositoryConnector connector=RuntimeConnectorList.getMyConnectorById(processes.getConnectorId());
+  List<RepositoryArtifact> resultList=new ArrayList<RepositoryArtifact>();
+  String currentFolder=processes.getReferencedNodeId();
+  getProcessModelsRec(connector,currentFolder,resultList);
+  return resultList;
+}

@@ -1,0 +1,19 @@
+{
+  SqlSession sqlSession=openSession();
+  try {
+    for (    VirtualRepositoryFolderEntity virtualRepositoryFolderEntity : folders) {
+      virtualRepositoryFolderEntity.setProcessSolutionId(id);
+      virtualRepositoryFolderEntity.setId(UUID.randomUUID().toString());
+      sqlSession.insert("insertVirtualRepositoryFolder",virtualRepositoryFolderEntity);
+    }
+    sqlSession.commit();
+    return folders;
+  }
+ catch (  Exception e) {
+    sqlSession.rollback();
+    throw new RuntimeException(e);
+  }
+ finally {
+    sqlSession.close();
+  }
+}

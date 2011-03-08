@@ -1,0 +1,9 @@
+{
+  List<VirtualRepositoryFolder> virtualFolders=processSolutionService.getFoldersForProcessSolution(processSolution.getId());
+  for (  VirtualRepositoryFolder virtualRepositoryFolder : virtualFolders) {
+    if ("Processes".equals(virtualRepositoryFolder.getType())) {
+      return virtualRepositoryFolder;
+    }
+  }
+  return null;
+}

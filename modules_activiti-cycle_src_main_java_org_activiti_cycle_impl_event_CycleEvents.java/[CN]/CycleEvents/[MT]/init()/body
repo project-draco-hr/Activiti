@@ -1,0 +1,31 @@
+{
+  if (eventListenerMap == null) {
+synchronized (this) {
+      if (eventListenerMap == null) {
+        eventListenerMap=new HashMap<Class<?>,Set<CycleEventListener<?>>>();
+        Set<Class<CycleEventListener>> allImplementations=CycleComponentFactory.getAllImplementations(CycleEventListener.class);
+        for (        Class<CycleEventListener> class1 : allImplementations) {
+          Type[] parameterizedTypes=class1.getGenericInterfaces();
+          for (          Type type : parameterizedTypes) {
+            if (!(type instanceof ParameterizedType)) {
+              continue;
+            }
+            ParameterizedType parameterizedType=(ParameterizedType)type;
+            for (            Type eventType : parameterizedType.getActualTypeArguments()) {
+              if (!(eventType instanceof Class)) {
+                continue;
+              }
+              Class<?> eventClass=(Class<?>)eventType;
+              Set<CycleEventListener<?>> listenersForThisType=eventListenerMap.get(eventClass);
+              if (listenersForThisType == null) {
+                listenersForThisType=new HashSet<CycleEventListener<?>>();
+                eventListenerMap.put(eventClass,listenersForThisType);
+              }
+              listenersForThisType.add(CycleApplicationContext.get(class1));
+            }
+          }
+        }
+      }
+    }
+  }
+}

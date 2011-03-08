@@ -5,8 +5,8 @@
       nodes=getChildrenFromOryxBackend(id);
     }
  else {
-      String directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
-      JsonRepresentation jsonData=new JsonRepresentation(directoryResponse);
+      Response directoryResponse=getJsonResponse(getConfiguration().getDirectoryUrl(id));
+      JsonRepresentation jsonData=new JsonRepresentation(directoryResponse.getEntity());
       JSONArray relJsonArray=jsonData.getJsonArray();
       if (log.isLoggable(Level.FINEST)) {
         RestClientLogHelper.logJSONArray(log,Level.FINEST,relJsonArray);

@@ -1,0 +1,18 @@
+{
+  ProcessSolution processSolution=event.getProcessSolution();
+  VirtualRepositoryFolder implementationFolder=processSolutionUtils.getImplementationFolder(processSolution);
+  if (implementationFolder == null) {
+    return;
+  }
+  RepositoryFolder underlyingFolder=repositoryservice.getRepositoryFolder(implementationFolder.getConnectorId(),implementationFolder.getReferencedNodeId());
+  if (repositoryservice.getChildren(underlyingFolder.getConnectorId(),underlyingFolder.getNodeId()).asList().size() > 0) {
+    Map<RepositoryArtifact,RepositoryArtifact> processesMappedToBpmnXml=updateProject(processSolution,underlyingFolder);
+    sendEmailUpdated(processSolution,processesMappedToBpmnXml);
+    eventService.fireEvent(new TechnicalProjectUpdatedEvent(processSolution,underlyingFolder));
+  }
+ else {
+    Map<RepositoryArtifact,RepositoryArtifact> processesMappedToBpmnXml=createProject(processSolution,underlyingFolder);
+    sendEmailCreated(processSolution,processesMappedToBpmnXml);
+    eventService.fireEvent(new TechnicalProjectCreatedEvent(processSolution,underlyingFolder));
+  }
+}
