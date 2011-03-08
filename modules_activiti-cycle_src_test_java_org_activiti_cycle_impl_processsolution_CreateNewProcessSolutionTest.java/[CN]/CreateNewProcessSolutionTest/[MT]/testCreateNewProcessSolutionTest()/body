@@ -17,10 +17,7 @@
     runtimeConnectorList.registerConnector(connector);
     processSolutionServiceImpl.createNewProcessSolution("test process solution");
   }
- catch (  Exception e) {
-    e.printStackTrace();
-  }
- finally {
+  finally {
     CycleTestUtils.deleteFileRec(tmpDir);
   }
   for (  ProcessSolution solution : processSolutionServiceImpl.getProcessSolutions()) {
