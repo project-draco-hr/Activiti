@@ -1,0 +1,32 @@
+{
+  HorizontalLayout mainMenuBar=new HorizontalLayout();
+  mainMenuBar.setSpacing(true);
+  mainMenuBar.addStyleName("main-menu");
+  Button taskButton=new Button("Tasks");
+  taskButton.addStyleName(Reindeer.BUTTON_LINK);
+  taskButton.addStyleName("main-menu");
+  mainMenuBar.addComponent(taskButton);
+  taskButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      mainLayout.addComponent(new Label("This will be the task page"),"content");
+    }
+  }
+);
+  Button flowButton=new Button("Flows");
+  flowButton.addStyleName(Reindeer.BUTTON_LINK);
+  flowButton.addStyleName("main-menu");
+  mainMenuBar.addComponent(flowButton);
+  Button manageButton=new Button("Manager");
+  manageButton.addStyleName(Reindeer.BUTTON_LINK);
+  manageButton.addStyleName("main-menu");
+  mainMenuBar.addComponent(manageButton);
+  Button reportButton=new Button("Reports");
+  reportButton.addStyleName(Reindeer.BUTTON_LINK);
+  reportButton.addStyleName("main-menu");
+  mainMenuBar.addComponent(reportButton);
+  Label remainingSpace=new Label();
+  remainingSpace.setWidth("100%");
+  mainMenuBar.addComponent(remainingSpace);
+  mainMenuBar.setExpandRatio(remainingSpace,1.0f);
+  mainLayout.addComponent(mainMenuBar,"main-menu");
+}
