@@ -1,0 +1,27 @@
+{
+  User user=identityService.newUser("testuser");
+  identityService.saveUser(user);
+  identityService.setUserAccount("testuser","google","mygoogleusername","mygooglepwd");
+  Account googleAccount=identityService.getUserAccount("testuser","google");
+  assertEquals("google",googleAccount.getName());
+  assertEquals("mygoogleusername",googleAccount.getUsername());
+  assertEquals("mygooglepwd",googleAccount.getPassword());
+  identityService.setUserAccount("testuser","google","mygoogleusername2","mygooglepwd2");
+  googleAccount=identityService.getUserAccount("testuser","google");
+  assertEquals("google",googleAccount.getName());
+  assertEquals("mygoogleusername2",googleAccount.getUsername());
+  assertEquals("mygooglepwd2",googleAccount.getPassword());
+  identityService.setUserAccount("testuser","alfresco","myalfrescousername","myalfrescopwd");
+  identityService.setUserInfo("testuser","myinfo","myvalue");
+  identityService.setUserInfo("testuser","myinfo2","myvalue2");
+  List<String> expectedUserAccountNames=new ArrayList<String>();
+  expectedUserAccountNames.add("google");
+  expectedUserAccountNames.add("alfresco");
+  List<String> userAccountNames=identityService.getUserAccountNames("testuser");
+  assertEquals(expectedUserAccountNames,userAccountNames);
+  identityService.deleteUserAccount("testuser","google");
+  expectedUserAccountNames.remove("google");
+  userAccountNames=identityService.getUserAccountNames("testuser");
+  assertEquals(expectedUserAccountNames,userAccountNames);
+  identityService.deleteUser(user.getId());
+}

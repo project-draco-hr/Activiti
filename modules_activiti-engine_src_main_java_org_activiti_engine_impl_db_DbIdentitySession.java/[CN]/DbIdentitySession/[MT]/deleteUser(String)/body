@@ -4,6 +4,7 @@
     if (user.getPictureByteArrayId() != null) {
       dbSqlSession.delete(ByteArrayEntity.class,user.getPictureByteArrayId());
     }
+    dbSqlSession.delete("deleteIdentityInfosByUserId",userId);
     dbSqlSession.delete("deleteMembershipsByUserId",userId);
     dbSqlSession.delete("deleteUser",userId);
   }

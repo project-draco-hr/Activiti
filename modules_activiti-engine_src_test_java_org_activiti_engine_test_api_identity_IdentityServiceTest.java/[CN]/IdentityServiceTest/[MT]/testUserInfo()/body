@@ -1,0 +1,11 @@
+{
+  User user=identityService.newUser("testuser");
+  identityService.saveUser(user);
+  identityService.setUserInfo("testuser","myinfo","myvalue");
+  assertEquals("myvalue",identityService.getUserInfo("testuser","myinfo"));
+  identityService.setUserInfo("testuser","myinfo","myvalue2");
+  assertEquals("myvalue2",identityService.getUserInfo("testuser","myinfo"));
+  identityService.deleteUserInfo("testuser","myinfo");
+  assertNull(identityService.getUserInfo("testuser","myinfo"));
+  identityService.deleteUser(user.getId());
+}
