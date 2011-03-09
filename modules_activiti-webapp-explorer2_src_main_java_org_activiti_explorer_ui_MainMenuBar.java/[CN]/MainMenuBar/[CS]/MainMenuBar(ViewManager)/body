@@ -1,0 +1,20 @@
+{
+  super(viewManager);
+  Button taskButton=createMenuBarButton("Tasks");
+  taskButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      viewManager.switchView(Constants.VIEW_TASKS,new TaskPage(viewManager));
+    }
+  }
+);
+  Button flowButton=createMenuBarButton("Flows");
+  flowButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      viewManager.switchView(Constants.VIEW_FLOWS,new FlowPage(viewManager));
+    }
+  }
+);
+  createMenuBarButton("Manage");
+  createMenuBarButton("Reports");
+  fillRemainingSpace();
+}

@@ -1,0 +1,18 @@
+{
+  addProfileHeader(infoPanelLayout,"Contact");
+  GridLayout contactLayout=createInfoSectionLayout(2,3);
+  addProfileEntry(contactLayout,"Email: ","kermit@muppets.com");
+  addProfileEntry(contactLayout,"Phone: ","+145893689");
+  GridLayout skypeLayout=new GridLayout(3,1);
+  skypeLayout.setSizeUndefined();
+  Label skypeValueLabel=new Label("kermit.frog");
+  skypeValueLabel.setSizeUndefined();
+  skypeLayout.addComponent(skypeValueLabel);
+  Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
+  emptySpace.setSizeUndefined();
+  skypeLayout.addComponent(emptySpace);
+  Embedded skypeImage=new Embedded(null,viewManager.getClassResource("images/skype.png"));
+  skypeImage.setSizeUndefined();
+  skypeLayout.addComponent(skypeImage);
+  addProfileEntry(contactLayout,"Skype: ",skypeLayout);
+}
