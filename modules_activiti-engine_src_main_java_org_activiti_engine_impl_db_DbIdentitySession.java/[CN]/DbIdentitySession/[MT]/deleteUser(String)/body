@@ -1,4 +1,10 @@
 {
-  dbSqlSession.delete("deleteMembershipsByUserId",userId);
-  dbSqlSession.delete("deleteUser",userId);
+  UserEntity user=findUserById(userId);
+  if (user != null) {
+    if (user.getPictureByteArrayId() != null) {
+      dbSqlSession.delete(ByteArrayEntity.class,user.getPictureByteArrayId());
+    }
+    dbSqlSession.delete("deleteMembershipsByUserId",userId);
+    dbSqlSession.delete("deleteUser",userId);
+  }
 }

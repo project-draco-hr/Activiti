@@ -1,6 +1,6 @@
 {
   if ((exceptionByteArray == null) && (exceptionByteArrayId != null)) {
-    exceptionByteArray=Context.getCommandContext().getRuntimeSession().findByteArrayById(exceptionByteArrayId);
+    exceptionByteArray=Context.getCommandContext().getDbSqlSession().selectById(ByteArrayEntity.class,exceptionByteArrayId);
   }
   return exceptionByteArray;
 }

@@ -1,0 +1,11 @@
+{
+  if (userId == null) {
+    throw new ActivitiException("userId is null");
+  }
+  UserEntity user=(UserEntity)commandContext.getIdentitySession().findUserById(userId);
+  if (user == null) {
+    throw new ActivitiException("user " + userId + " doesn't exist");
+  }
+  user.setPicture(picture);
+  return null;
+}
