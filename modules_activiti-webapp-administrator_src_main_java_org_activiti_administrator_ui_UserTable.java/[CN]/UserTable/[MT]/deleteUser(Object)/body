@@ -17,7 +17,7 @@
     message=app.getMessage(Messages.DeleteUserAffectsNoTasks) + "<br/><br/>";
   }
   ConfirmDialog dialog=new ConfirmDialog(app.getMessage(Messages.ConfirmDelete) + id,message,app.getMessage(Messages.OkKey),app.getMessage(Messages.CancelKey),new ConfirmDialog.ConfirmationDialogCallback(){
-    @Override public void response(    boolean ok){
+    public void response(    boolean ok){
       if (ok) {
         app.getAdminService().deleteUser(id);
         app.getAdminService().getUsers().removeItem(target);
