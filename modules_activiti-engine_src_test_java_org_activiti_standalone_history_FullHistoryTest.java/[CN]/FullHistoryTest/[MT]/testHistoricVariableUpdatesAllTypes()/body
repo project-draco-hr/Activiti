@@ -6,7 +6,7 @@
   Date updatedDate=sdf.parse("01/01/2001 01:23:46 000");
   ClockUtil.setCurrentTime(startedDate);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("HistoricVariableUpdateProcess",variables);
-  List<HistoricDetail> details=historyService.createHistoricDetailQuery().variableUpdates().processInstanceId(processInstance.getId()).orderByVariableName().asc().list();
+  List<HistoricDetail> details=historyService.createHistoricDetailQuery().variableUpdates().processInstanceId(processInstance.getId()).orderByVariableName().asc().orderByTime().asc().list();
   assertEquals(9,details.size());
   HistoricVariableUpdate startVarUpdate=(HistoricVariableUpdate)details.get(0);
   assertEquals("aVariable",startVarUpdate.getVariableName());
