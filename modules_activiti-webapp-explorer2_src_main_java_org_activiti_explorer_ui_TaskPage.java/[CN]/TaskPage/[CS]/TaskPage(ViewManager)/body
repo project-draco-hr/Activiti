@@ -1,5 +1,15 @@
 {
   this.viewManager=viewManager;
+  mainLayout=new VerticalLayout();
+  mainLayout.setSizeFull();
+  setCompositionRoot(mainLayout);
   setSizeFull();
   initTaskMenuBar();
+  mainSplitPanel=new HorizontalSplitPanel();
+  mainSplitPanel.addStyleName(Reindeer.SPLITPANEL_SMALL);
+  mainSplitPanel.setSizeFull();
+  mainSplitPanel.setSplitPosition(20,HorizontalSplitPanel.UNITS_PERCENTAGE);
+  mainLayout.addComponent(mainSplitPanel);
+  mainLayout.setExpandRatio(mainSplitPanel,1.0f);
+  initTaskList();
 }
