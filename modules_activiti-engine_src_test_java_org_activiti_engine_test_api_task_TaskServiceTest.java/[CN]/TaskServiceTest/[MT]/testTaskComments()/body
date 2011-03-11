@@ -1,0 +1,25 @@
+{
+  Task task=taskService.newTask();
+  task.setOwner("johndoe");
+  taskService.saveTask(task);
+  String taskId=task.getId();
+  identityService.setAuthenticatedUserId("johndoe");
+  formService.addComment(taskId,null,"look at this");
+  Comment comment=formService.getTaskComments(taskId).get(0);
+  assertEquals("johndoe",comment.getUserId());
+  assertEquals(taskId,comment.getTaskId());
+  assertNull(comment.getProcessInstanceId());
+  assertEquals("look at this",comment.getMessage());
+  assertNotNull(comment.getTime());
+  formService.addComment(taskId,"pid","one");
+  formService.addComment(taskId,"pid","two");
+  Set<String> expectedComments=new HashSet<String>();
+  expectedComments.add("one");
+  expectedComments.add("two");
+  Set<String> comments=new HashSet<String>();
+  for (  Comment cmt : formService.getProcessInstanceComments("pid")) {
+    comments.add(cmt.getMessage());
+  }
+  assertEquals(expectedComments,comments);
+  taskService.deleteTask(taskId,true);
+}

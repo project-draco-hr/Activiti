@@ -1,0 +1,11 @@
+{
+  String userId=Authentication.getAuthenticatedUserId();
+  CommentEntity comment=new CommentEntity();
+  comment.setUserId(userId);
+  comment.setTime(ClockUtil.getCurrentTime());
+  comment.setTaskId(taskId);
+  comment.setProcessInstanceId(processInstanceId);
+  comment.setMessage(message);
+  commandContext.getDbSqlSession().insert(comment);
+  return null;
+}
