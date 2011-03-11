@@ -1,0 +1,11 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  Calendar dueDateCal=Calendar.getInstance();
+  task.setDueDate(dueDateCal.getTime());
+  taskService.saveTask(task);
+  assertEquals(1,taskService.createTaskQuery().dueDate(dueDateCal.getTime()).count());
+  Calendar otherDate=Calendar.getInstance();
+  otherDate.add(Calendar.YEAR,1);
+  assertEquals(0,taskService.createTaskQuery().dueDate(otherDate.getTime()).count());
+}

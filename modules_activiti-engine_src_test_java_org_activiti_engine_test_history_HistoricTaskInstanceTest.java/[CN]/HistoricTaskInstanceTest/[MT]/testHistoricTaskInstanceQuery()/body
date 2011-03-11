@@ -2,6 +2,8 @@
   ProcessInstance finishedInstance=runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
   Task task=taskService.createTaskQuery().processInstanceId(finishedInstance.getId()).singleResult();
   task.setPriority(1234);
+  Calendar dueDateCal=Calendar.getInstance();
+  task.setDueDate(dueDateCal.getTime());
   taskService.saveTask(task);
   String taskId=task.getId();
   taskService.complete(taskId);
@@ -41,6 +43,19 @@
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("unexistingkey").count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskPriority(1234).count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskPriority(5678).count());
+  Calendar anHourAgo=Calendar.getInstance();
+  anHourAgo.setTime(dueDateCal.getTime());
+  anHourAgo.add(Calendar.HOUR,-1);
+  Calendar anHourLater=Calendar.getInstance();
+  anHourLater.setTime(dueDateCal.getTime());
+  anHourLater.add(Calendar.HOUR,1);
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDueDate(dueDateCal.getTime()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDueDate(anHourAgo.getTime()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDueDate(anHourLater.getTime()).count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDueBefore(anHourLater.getTime()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDueBefore(anHourAgo.getTime()).count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDueAfter(anHourAgo.getTime()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDueAfter(anHourLater.getTime()).count());
   runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().finished().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().unfinished().count());
