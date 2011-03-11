@@ -1,6 +1,6 @@
 {
-  IdentityInfoEntity identityInfoEntity=findIdentityInfoEntityByUserIdAndKey(userId,key);
+  IdentityInfoEntity identityInfoEntity=findUserInfoByUserIdAndKey(userId,key);
   if (identityInfoEntity != null) {
-    dbSqlSession.delete(IdentityInfoEntity.class,identityInfoEntity.getId());
+    deleteIdentityInfo(identityInfoEntity);
   }
 }

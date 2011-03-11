@@ -1,17 +1,17 @@
 {
   User user=identityService.newUser("testuser");
   identityService.saveUser(user);
-  identityService.setUserAccount("testuser","google","mygoogleusername","mygooglepwd");
-  Account googleAccount=identityService.getUserAccount("testuser","google");
+  identityService.setUserAccount("testuser","123","google","mygoogleusername","mygooglepwd",null);
+  Account googleAccount=identityService.getUserAccount("testuser","123","google");
   assertEquals("google",googleAccount.getName());
   assertEquals("mygoogleusername",googleAccount.getUsername());
   assertEquals("mygooglepwd",googleAccount.getPassword());
-  identityService.setUserAccount("testuser","google","mygoogleusername2","mygooglepwd2");
-  googleAccount=identityService.getUserAccount("testuser","google");
+  identityService.setUserAccount("testuser","123","google","mygoogleusername2","mygooglepwd2",null);
+  googleAccount=identityService.getUserAccount("testuser","123","google");
   assertEquals("google",googleAccount.getName());
   assertEquals("mygoogleusername2",googleAccount.getUsername());
   assertEquals("mygooglepwd2",googleAccount.getPassword());
-  identityService.setUserAccount("testuser","alfresco","myalfrescousername","myalfrescopwd");
+  identityService.setUserAccount("testuser","123","alfresco","myalfrescousername","myalfrescopwd",null);
   identityService.setUserInfo("testuser","myinfo","myvalue");
   identityService.setUserInfo("testuser","myinfo2","myvalue2");
   List<String> expectedUserAccountNames=new ArrayList<String>();
