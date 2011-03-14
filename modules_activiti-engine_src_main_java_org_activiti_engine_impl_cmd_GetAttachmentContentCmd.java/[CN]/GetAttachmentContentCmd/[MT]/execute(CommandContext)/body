@@ -1,0 +1,11 @@
+{
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  AttachmentEntity attachment=dbSqlSession.selectById(AttachmentEntity.class,attachmentId);
+  String contentId=attachment.getContentId();
+  if (contentId == null) {
+    return null;
+  }
+  ByteArrayEntity byteArray=dbSqlSession.selectById(ByteArrayEntity.class,contentId);
+  byte[] bytes=byteArray.getBytes();
+  return new ByteArrayInputStream(bytes);
+}

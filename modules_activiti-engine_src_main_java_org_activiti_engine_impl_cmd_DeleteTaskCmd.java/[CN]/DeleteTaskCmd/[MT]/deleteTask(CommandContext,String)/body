@@ -15,6 +15,14 @@
     }
     if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
       dbSqlSession.delete("deleteCommentsByTaskId",taskId);
+      List<AttachmentEntity> attachments=dbSqlSession.selectList("selectAttachmentsByTaskId",taskId);
+      for (      AttachmentEntity attachment : attachments) {
+        String contentId=attachment.getContentId();
+        if (contentId != null) {
+          dbSqlSession.delete(ByteArrayEntity.class,contentId);
+        }
+        dbSqlSession.delete(AttachmentEntity.class,attachment.getId());
+      }
     }
   }
 }

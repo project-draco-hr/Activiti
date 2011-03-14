@@ -1,0 +1,17 @@
+{
+  Task task=taskService.newTask();
+  task.setOwner("johndoe");
+  taskService.saveTask(task);
+  String taskId=task.getId();
+  identityService.setAuthenticatedUserId("johndoe");
+  taskService.createAttachment(Attachment.LINK,taskId,"someprocessinstanceid","weatherforcast","temperatures and more","http://weather.com");
+  Attachment attachment=taskService.getTaskAttachments(taskId).get(0);
+  assertEquals("weatherforcast",attachment.getName());
+  assertEquals("temperatures and more",attachment.getDescription());
+  assertEquals(Attachment.LINK,attachment.getType());
+  assertEquals(taskId,attachment.getTaskId());
+  assertEquals("someprocessinstanceid",attachment.getProcessInstanceId());
+  assertEquals("http://weather.com",attachment.getReference());
+  assertNull(taskService.getAttachmentContent(attachment.getId()));
+  taskService.deleteTask(taskId,true);
+}
