@@ -1,0 +1,12 @@
+{
+  super();
+  setSizeFull();
+  addStyleName(Reindeer.LAYOUT_WHITE);
+  this.viewManager=viewManager;
+  this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+  this.task=taskService.createTaskQuery().taskId(taskId).singleResult();
+  initName();
+  initDescription();
+  initTimeDetails();
+  initPeopleDetails();
+}

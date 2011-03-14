@@ -1,0 +1,19 @@
+{
+  addProfileHeader(infoPanelLayout,"Contact");
+  GridLayout contactLayout=createInfoSectionLayout(2,4);
+  addProfileEntry(contactLayout,"Email: ",user.getEmail());
+  addProfileEntry(contactLayout,"Phone: ",phone);
+  addProfileEntry(contactLayout,"twitter",twitterName);
+  GridLayout skypeLayout=new GridLayout(3,1);
+  skypeLayout.setSizeUndefined();
+  Label skypeIdLabel=new Label(skypeId);
+  skypeIdLabel.setSizeUndefined();
+  skypeLayout.addComponent(skypeIdLabel);
+  Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
+  emptySpace.setSizeUndefined();
+  skypeLayout.addComponent(emptySpace);
+  Embedded skypeImage=new Embedded(null,viewManager.getClassResource("images/skype.png"));
+  skypeImage.setSizeUndefined();
+  skypeLayout.addComponent(skypeImage);
+  addProfileEntry(contactLayout,"Skype: ",skypeLayout);
+}
