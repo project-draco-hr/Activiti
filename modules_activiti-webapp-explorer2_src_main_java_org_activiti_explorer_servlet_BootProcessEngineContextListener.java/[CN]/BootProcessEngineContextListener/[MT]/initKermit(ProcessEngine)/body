@@ -1,0 +1,20 @@
+{
+  IdentityService identityService=processEngine.getIdentityService();
+  User kermit=identityService.newUser("kermit");
+  kermit.setEmail("kermit@muppets.com");
+  kermit.setFirstName("Kermit");
+  kermit.setLastName("The Frog");
+  kermit.setPassword("kermit");
+  identityService.saveUser(kermit);
+  identityService.setUserInfo("kermit","birthDate","01/01/1955");
+  identityService.setUserInfo("kermit","jobTitle","Activiti core mascot");
+  identityService.setUserInfo("kermit","location","Muppetland");
+  identityService.setUserInfo("kermit","phone","+1312323424");
+  identityService.setUserInfo("kermit","twitterName","kermit007");
+  identityService.setUserInfo("kermit","skype","kermit.frog");
+  identityService.setUserAccount("kermit","google","kermit.frog@gmail.com","kermit123");
+  identityService.setUserAccount("kermit","alfresco","kermit_alf","kermit_alf_123");
+  byte[] pictureBytes=IoUtil.readInputStream(this.getClass().getClassLoader().getResourceAsStream("org/activiti/explorer/images/kermit.jpg"),null);
+  Picture picture=new Picture(pictureBytes,"image/jpg");
+  identityService.setUserPicture("kermit",picture);
+}

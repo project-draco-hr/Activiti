@@ -1,3 +1,24 @@
 {
-  mainSplitPanel.setFirstComponent(new Label("Bliep"));
+  this.taskTable=new Table();
+  taskTable.addStyleName(Constants.STYLE_TASK_LIST);
+  taskTable.setEditable(false);
+  taskTable.setImmediate(true);
+  taskTable.setSelectable(true);
+  taskTable.setNullSelectionAllowed(false);
+  taskTable.setSizeFull();
+  taskTable.addContainerProperty("task",TaskListEntry.class,null);
+  taskTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  taskTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=8811553575319455854L;
+    public void valueChange(    ValueChangeEvent event){
+      Integer id=(Integer)event.getProperty().getValue();
+      mainSplitPanel.setSecondComponent(new Label("task " + id));
+    }
+  }
+);
+  List<Task> tasks=taskService.createTaskQuery().taskAssignee("kermit").list();
+  for (  Task task : tasks) {
+    addTaskListEntry(task.getId(),task.getName());
+  }
+  mainSplitPanel.setFirstComponent(taskTable);
 }
