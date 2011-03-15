@@ -6,13 +6,15 @@
     task.setDescription("This is task nr " + i + ", please do it asap!");
     task.setName("Task [" + i + "]");
     task.setPriority(Task.PRIORITY_NORMAL);
-    task.setDueDate(new Date());
+    task.setDueDate(new Date(new Date().getTime() + new Random().nextInt()));
     if (i % 5 == 0) {
       task.setPriority(99);
     }
     if (i % 3 == 0) {
-      task.setOwner("Fozzie");
+      task.setOwner("fozzie");
     }
+    ClockUtil.setCurrentTime(new Date(new Date().getTime() - new Random().nextInt()));
     taskService.saveTask(task);
+    ClockUtil.reset();
   }
 }

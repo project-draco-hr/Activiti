@@ -1,11 +1,11 @@
 {
   Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
   emptySpace.setSizeUndefined();
-  addComponent(emptySpace);
+  leftPanel.addComponent(emptySpace);
   HorizontalLayout layout=new HorizontalLayout();
   layout.setSpacing(true);
   layout.setSizeUndefined();
-  addComponent(layout);
+  leftPanel.addComponent(layout);
   Embedded peopleImage=new Embedded(null,viewManager.getThemeResource(Constants.IMAGE_PEOPLE));
   layout.addComponent(peopleImage);
   GridLayout grid=new GridLayout();
@@ -13,12 +13,13 @@
   grid.setSpacing(true);
   grid.setRows(2);
   layout.addComponent(grid);
+  layout.setComponentAlignment(grid,Alignment.MIDDLE_LEFT);
   if (task.getOwner() != null) {
     Button owner=new Button(task.getOwner() + " (owner)");
     owner.addStyleName(Reindeer.BUTTON_LINK);
     owner.addListener(new ClickListener(){
       public void buttonClick(      ClickEvent event){
-        viewManager.switchView(Constants.VIEW_PROFILE,new ProfilePage(viewManager,task.getOwner()));
+        viewManager.showPopupWindow(new ProfilePopupWindow(viewManager,task.getOwner()));
       }
     }
 );
@@ -29,7 +30,7 @@
     assignee.addStyleName(Reindeer.BUTTON_LINK);
     assignee.addListener(new ClickListener(){
       public void buttonClick(      ClickEvent event){
-        viewManager.switchView(Constants.VIEW_PROFILE,new ProfilePage(viewManager,task.getAssignee()));
+        viewManager.showPopupWindow(new ProfilePopupWindow(viewManager,task.getAssignee()));
       }
     }
 );

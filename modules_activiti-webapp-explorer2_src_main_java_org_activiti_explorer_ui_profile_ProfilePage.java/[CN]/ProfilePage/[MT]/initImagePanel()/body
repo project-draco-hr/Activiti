@@ -1,6 +1,6 @@
 {
   Panel imagePanel=new Panel();
-  imagePanel.setStyleName(Reindeer.PANEL_LIGHT);
+  imagePanel.addStyleName(Reindeer.PANEL_LIGHT);
   StreamResource imageresource=new StreamResource(new StreamSource(){
     private static final long serialVersionUID=-8875067466181823014L;
     public InputStream getStream(){
@@ -10,10 +10,12 @@
 ,user.getId(),viewManager.getApplication());
   Embedded image=new Embedded("",imageresource);
   image.setType(Embedded.TYPE_IMAGE);
+  image.setHeight("200px");
+  image.setWidth("200px");
+  image.addStyleName(Constants.STYLE_PROFILE_PICTURE);
   imagePanel.addComponent(image);
   imagePanel.setHeight("100%");
   imagePanel.getContent().setHeight("100%");
-  imagePanel.getContent().setWidth(image.getWidth(),image.getWidthUnits());
-  imagePanel.setWidth(image.getWidth(),image.getWidthUnits());
+  imagePanel.setWidth(image.getWidth() + 50,image.getWidthUnits());
   profilePanelLayout.addComponent(imagePanel);
 }

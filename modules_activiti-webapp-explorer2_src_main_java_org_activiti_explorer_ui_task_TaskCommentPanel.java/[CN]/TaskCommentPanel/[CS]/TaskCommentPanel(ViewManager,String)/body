@@ -1,0 +1,10 @@
+{
+  super();
+  this.viewManager=viewManager;
+  this.taskId=taskId;
+  this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+  this.comments=taskService.getTaskComments(taskId);
+  setSizeFull();
+  addTaskComments();
+  addTextArea();
+}

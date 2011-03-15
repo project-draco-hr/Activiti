@@ -2,7 +2,7 @@
   HorizontalLayout timeDetailsLayout=new HorizontalLayout();
   timeDetailsLayout.setSpacing(true);
   timeDetailsLayout.setSizeUndefined();
-  addComponent(timeDetailsLayout);
+  leftPanel.addComponent(timeDetailsLayout);
   Embedded clockImage=new Embedded(null,viewManager.getThemeResource(Constants.IMAGE_CLOCK));
   timeDetailsLayout.addComponent(clockImage);
   GridLayout grid=new GridLayout();
@@ -10,22 +10,25 @@
   grid.setSpacing(true);
   grid.setColumns(2);
   timeDetailsLayout.addComponent(grid);
+  timeDetailsLayout.setComponentAlignment(grid,Alignment.MIDDLE_LEFT);
   if (task.getCreateTime() != null) {
-    Label createTime=new Label("Created on: ");
+    Label createTime=new Label("Created " + new PrettyTime().format(task.getCreateTime()));
     createTime.addStyleName(Constants.STYLE_LABEL_BOLD);
     createTime.setSizeUndefined();
     grid.addComponent(createTime);
-    Label createTimeValue=new Label(Constants.DEFAULT_DATE_FORMATTER.format(task.getCreateTime()));
-    createTimeValue.setSizeUndefined();
-    grid.addComponent(createTimeValue);
+    Label realCreateTime=new Label("(" + task.getCreateTime() + ")");
+    realCreateTime.addStyleName(Reindeer.LABEL_SMALL);
+    realCreateTime.setSizeUndefined();
+    grid.addComponent(realCreateTime);
   }
   if (task.getDueDate() != null) {
-    Label dueDate=new Label("Finish before:");
+    Label dueDate=new Label("Has to be finished " + new PrettyTime().format(task.getDueDate()));
     dueDate.addStyleName(Constants.STYLE_LABEL_BOLD);
     dueDate.setSizeUndefined();
     grid.addComponent(dueDate);
-    Label dueDateLabel=new Label(Constants.DEFAULT_DATE_FORMATTER.format(task.getDueDate()));
-    dueDateLabel.setSizeUndefined();
-    grid.addComponent(dueDateLabel);
+    Label realDueDateTime=new Label("(" + task.getDueDate() + ")");
+    realDueDateTime.addStyleName(Reindeer.LABEL_SMALL);
+    realDueDateTime.setSizeUndefined();
+    grid.addComponent(realDueDateTime);
   }
 }

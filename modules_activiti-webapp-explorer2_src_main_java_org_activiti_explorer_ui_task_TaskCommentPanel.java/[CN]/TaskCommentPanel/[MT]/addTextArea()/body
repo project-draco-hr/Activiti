@@ -1,0 +1,21 @@
+{
+  GridLayout grid=new GridLayout(1,2);
+  grid.setWidth("100%");
+  grid.setSpacing(true);
+  addComponent(grid);
+  final TextArea textArea=new TextArea();
+  textArea.setWidth("100%");
+  textArea.addStyleName(Reindeer.TEXTFIELD_SMALL);
+  grid.addComponent(textArea);
+  Button addCommentButtom=new Button("Add comment");
+  addCommentButtom.addStyleName(Reindeer.BUTTON_SMALL);
+  grid.addComponent(addCommentButtom);
+  grid.setComponentAlignment(addCommentButtom,Alignment.BOTTOM_RIGHT);
+  addCommentButtom.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      taskService.addComment(taskId,null,(String)textArea.getValue());
+      refresh();
+    }
+  }
+);
+}

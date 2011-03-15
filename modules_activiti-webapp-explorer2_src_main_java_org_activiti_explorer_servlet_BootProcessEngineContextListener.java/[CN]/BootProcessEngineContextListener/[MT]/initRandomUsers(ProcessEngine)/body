@@ -12,4 +12,7 @@
   fozzie.setLastName("Bear");
   fozzie.setPassword("fozzie");
   identityService.saveUser(fozzie);
+  byte[] pictureBytes=IoUtil.readInputStream(this.getClass().getClassLoader().getResourceAsStream("org/activiti/explorer/images/fozzie.jpg"),null);
+  Picture picture=new Picture(pictureBytes,"image/jpeg");
+  identityService.setUserPicture("fozzie",picture);
 }

@@ -5,8 +5,16 @@
   this.viewManager=viewManager;
   this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
   this.task=taskService.createTaskQuery().taskId(taskId).singleResult();
+  this.leftPanel=new Panel();
+  leftPanel.addStyleName(Reindeer.PANEL_LIGHT);
+  addComponent(leftPanel);
+  setExpandRatio(leftPanel,75.0f);
   initName();
   initDescription();
   initTimeDetails();
   initPeopleDetails();
+  this.rightPanel=new TaskCommentPanel(viewManager,taskId);
+  rightPanel.addStyleName(Reindeer.PANEL_LIGHT);
+  addComponent(rightPanel);
+  setExpandRatio(rightPanel,25.0f);
 }
