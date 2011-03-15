@@ -1,0 +1,9 @@
+{
+  try {
+    DatatypeFactory datatypeFactory=DatatypeFactory.newInstance();
+    return datatypeFactory.newXMLGregorianCalendar(duedate).toGregorianCalendar().getTime();
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("couldn't resolve duedate: " + e.getMessage(),e);
+  }
+}

@@ -7,6 +7,8 @@
   jobHandlers.put(timerExecuteNestedActivityJobHandler.getType(),timerExecuteNestedActivityJobHandler);
   TimerCatchIntermediateEventJobHandler timerCatchIntermediateEvent=new TimerCatchIntermediateEventJobHandler();
   jobHandlers.put(timerCatchIntermediateEvent.getType(),timerCatchIntermediateEvent);
+  TimerStartEventJobHandler timerStartEvent=new TimerStartEventJobHandler();
+  jobHandlers.put(timerStartEvent.getType(),timerStartEvent);
   jobExecutor.setCommandExecutor(commandExecutorTxRequired);
   jobExecutor.setAutoActivate(jobExecutorActivate);
 }

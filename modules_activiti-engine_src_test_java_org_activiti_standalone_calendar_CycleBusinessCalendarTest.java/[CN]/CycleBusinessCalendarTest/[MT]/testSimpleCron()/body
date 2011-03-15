@@ -1,0 +1,9 @@
+{
+  CycleBusinessCalendar businessCalendar=new CycleBusinessCalendar();
+  SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy MM dd - HH:mm");
+  Date now=simpleDateFormat.parse("2011 03 11 - 17:23");
+  ClockUtil.setCurrentTime(now);
+  Date duedate=businessCalendar.resolveDuedate("0 0 0 1 * ?");
+  Date expectedDuedate=simpleDateFormat.parse("2011 04 1 - 00:00");
+  assertEquals(expectedDuedate,duedate);
+}

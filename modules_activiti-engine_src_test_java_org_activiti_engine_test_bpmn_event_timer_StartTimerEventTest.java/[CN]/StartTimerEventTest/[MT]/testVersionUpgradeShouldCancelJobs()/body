@@ -1,0 +1,14 @@
+{
+  ClockUtil.setCurrentTime(new Date());
+  JobQuery jobQuery=managementService.createJobQuery();
+  assertEquals(1,jobQuery.count());
+  String process=new String(IoUtil.readInputStream(getClass().getResourceAsStream("StartTimerEventTest.testVersionUpgradeShouldCancelJobs.bpmn20.xml"),"")).replaceAll("beforeChange","changed");
+  String id=repositoryService.createDeployment().addInputStream("StartTimerEventTest.testVersionUpgradeShouldCancelJobs.bpmn20.xml",new ByteArrayInputStream(process.getBytes())).deploy().getId();
+  assertEquals(1,jobQuery.count());
+  moveByMinutes(5);
+  String pi=runtimeService.createProcessInstanceQuery().processDefinitionKey("startTimerEventExample").singleResult().getProcessInstanceId();
+  assertEquals("changed",runtimeService.getActiveActivityIds(pi).get(0));
+  assertEquals(1,jobQuery.count());
+  cleanDB();
+  repositoryService.deleteDeployment(id,true);
+}

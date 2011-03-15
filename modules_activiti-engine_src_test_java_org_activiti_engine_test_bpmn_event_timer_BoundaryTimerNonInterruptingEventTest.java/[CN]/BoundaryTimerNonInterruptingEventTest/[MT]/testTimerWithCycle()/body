@@ -1,0 +1,13 @@
+{
+  runtimeService.startProcessInstanceByKey("nonInterruptingCycle").getId();
+  TaskQuery tq=taskService.createTaskQuery().taskDefinitionKey("timerFiredTask");
+  assertEquals(0,tq.count());
+  moveByHours(1);
+  assertEquals(1,tq.count());
+  moveByHours(1);
+  assertEquals(2,tq.count());
+  Task task=taskService.createTaskQuery().taskDefinitionKey("task").singleResult();
+  taskService.complete(task.getId());
+  moveByHours(1);
+  assertEquals(2,tq.count());
+}

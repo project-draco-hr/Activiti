@@ -1,0 +1,9 @@
+{
+  List<TimerDeclarationImpl> timerDeclarations=(List<TimerDeclarationImpl>)processDefinition.getProperty(BpmnParse.PROPERTYNAME_START_TIMER);
+  if (timerDeclarations != null) {
+    for (    TimerDeclarationImpl timerDeclaration : timerDeclarations) {
+      TimerEntity timer=timerDeclaration.prepareTimerEntity(null);
+      Context.getCommandContext().getTimerSession().schedule(timer);
+    }
+  }
+}

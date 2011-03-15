@@ -7,6 +7,9 @@
     delete();
   }
  else {
-    throw new UnsupportedOperationException("repeat not yet supported");
+    delete();
+    TimerEntity te=new TimerEntity(this);
+    te.setDuedate(calculateRepeat());
+    Context.getCommandContext().getTimerSession().schedule(te);
   }
 }

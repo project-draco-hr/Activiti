@@ -26,6 +26,10 @@
       if (initiatorVariableName != null) {
         processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,initiatorVariableName);
       }
+      Element timerEventDefinition=startEventElement.element("timerEventDefinition");
+      if (timerEventDefinition != null) {
+        parseTimerStartEventDefinition(timerEventDefinition,startEventActivity,processDefinition);
+      }
     }
  else {
       scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);

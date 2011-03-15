@@ -50,6 +50,8 @@
         throw new ActivitiException("Invalid process definition id: '" + processDefinitionId + "': id can be maximum 64 characters");
       }
       processDefinition.setId(processDefinitionId);
+      removeObsoleteTimers(processDefinition);
+      addTimerDeclarations(processDefinition);
       dbSqlSession.insert(processDefinition);
       dbRepositorySession.addToProcessDefinitionCache(processDefinition);
     }
