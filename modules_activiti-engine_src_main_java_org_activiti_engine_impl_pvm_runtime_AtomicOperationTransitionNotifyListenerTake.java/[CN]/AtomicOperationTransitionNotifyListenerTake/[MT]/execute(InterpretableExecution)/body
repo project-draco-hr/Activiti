@@ -3,7 +3,7 @@
   List<ExecutionListener> executionListeners=transition.getExecutionListeners();
   int executionListenerIndex=execution.getExecutionListenerIndex();
   if (executionListeners.size() > executionListenerIndex) {
-    execution.setEventName(ExecutionListener.EVENTNAME_TAKE);
+    execution.setEventName(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_TAKE);
     execution.setEventSource(transition);
     ExecutionListener listener=executionListeners.get(executionListenerIndex);
     try {

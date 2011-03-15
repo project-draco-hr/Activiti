@@ -1,20 +1,14 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("executionListenersProcess");
   String varSetInExecutionListener=(String)runtimeService.getVariable(processInstance.getId(),"variableSetInExecutionListener");
-  String eventNameReceived=(String)runtimeService.getVariable(processInstance.getId(),"eventNameReceived");
   assertNotNull(varSetInExecutionListener);
   assertEquals("firstValue",varSetInExecutionListener);
-  assertNotNull(eventNameReceived);
-  assertEquals("start",eventNameReceived);
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(task);
   taskService.complete(task.getId());
   varSetInExecutionListener=(String)runtimeService.getVariable(processInstance.getId(),"variableSetInExecutionListener");
-  eventNameReceived=(String)runtimeService.getVariable(processInstance.getId(),"eventNameReceived");
   assertNotNull(varSetInExecutionListener);
   assertEquals("secondValue",varSetInExecutionListener);
-  assertNotNull(eventNameReceived);
-  assertEquals("take",eventNameReceived);
   ExampleExecutionListenerPojo myPojo=new ExampleExecutionListenerPojo();
   runtimeService.setVariable(processInstance.getId(),"myPojo",myPojo);
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
