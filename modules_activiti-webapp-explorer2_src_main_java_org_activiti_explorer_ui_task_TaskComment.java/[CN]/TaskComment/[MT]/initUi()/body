@@ -1,9 +1,14 @@
 {
-  addStyleName(Constants.STYLE_TASK_COMMENT);
   HorizontalLayout layout=new HorizontalLayout();
   setCompositionRoot(layout);
   layout.setSpacing(true);
   layout.setWidth("100%");
+  layout.addListener(new LayoutClickListener(){
+    public void layoutClick(    LayoutClickEvent event){
+      viewManager.showPopupWindow(new TaskCommentPopupWindow(viewManager,comment));
+    }
+  }
+);
   addPicture(layout);
   addCommentText(layout);
 }

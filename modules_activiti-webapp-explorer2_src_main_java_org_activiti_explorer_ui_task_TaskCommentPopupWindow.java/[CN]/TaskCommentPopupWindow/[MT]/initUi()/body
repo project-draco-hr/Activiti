@@ -1,0 +1,37 @@
+{
+  addStyleName(Reindeer.WINDOW_LIGHT);
+  setModal(true);
+  setHeight("50%");
+  setWidth("40%");
+  center();
+  HorizontalLayout layout=new HorizontalLayout();
+  layout.setWidth("100%");
+  layout.setSpacing(true);
+  addComponent(layout);
+  final Picture picture=identityService.getUserPicture(user.getId());
+  if (picture != null) {
+    StreamResource imageresource=new StreamResource(new StreamSource(){
+      private static final long serialVersionUID=-8875067466181823014L;
+      public InputStream getStream(){
+        return picture.getInputStream();
+      }
+    }
+,user.getId(),viewManager.getApplication());
+    Embedded commentAuthor=new Embedded("",imageresource);
+    commentAuthor.setType(Embedded.TYPE_IMAGE);
+    commentAuthor.setHeight("200px");
+    commentAuthor.setWidth("200px");
+    commentAuthor.addStyleName(Constants.STYLE_PROFILE_PICTURE);
+    layout.addComponent(commentAuthor);
+  }
+  VerticalLayout commentLayout=new VerticalLayout();
+  commentLayout.setSpacing(true);
+  commentLayout.setWidth("70%");
+  layout.addComponent(commentLayout);
+  layout.setExpandRatio(commentLayout,1.0f);
+  Label header=new Label(new PrettyTime().format(comment.getTime()) + " " + user.getFirstName()+ " "+ user.getLastName()+ " said");
+  header.addStyleName(Constants.STYLE_TASK_COMMENT_AUTHOR);
+  commentLayout.addComponent(header);
+  Label commentText=new Label(comment.getMessage());
+  commentLayout.addComponent(commentText);
+}

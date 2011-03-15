@@ -1,11 +1,12 @@
 {
+  addComponent(new Label("&nbsp",Label.CONTENT_XHTML));
   GridLayout grid=new GridLayout(1,2);
   grid.setWidth("100%");
   grid.setSpacing(true);
   addComponent(grid);
   final TextArea textArea=new TextArea();
   textArea.setWidth("100%");
-  textArea.addStyleName(Reindeer.TEXTFIELD_SMALL);
+  textArea.addStyleName(Constants.STYLE_TASK_COMMENT_TIME);
   grid.addComponent(textArea);
   Button addCommentButtom=new Button("Add comment");
   addCommentButtom.addStyleName(Reindeer.BUTTON_SMALL);
@@ -14,7 +15,7 @@
   addCommentButtom.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
       taskService.addComment(taskId,null,(String)textArea.getValue());
-      refresh();
+      refreshAllComments();
     }
   }
 );

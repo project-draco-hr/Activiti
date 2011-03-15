@@ -1,5 +1,8 @@
 {
+  this.taskComments=new ArrayList<TaskComment>();
   for (  Comment comment : comments) {
-    addComponent(new TaskComment(viewManager,comment));
+    TaskComment taskComment=new TaskComment(viewManager,comment);
+    taskComments.add(taskComment);
+    addComponent(taskComment);
   }
 }

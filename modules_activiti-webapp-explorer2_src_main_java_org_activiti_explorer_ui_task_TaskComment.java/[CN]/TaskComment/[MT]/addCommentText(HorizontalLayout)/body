@@ -2,8 +2,15 @@
   VerticalLayout commentLayout=new VerticalLayout();
   layout.addComponent(commentLayout);
   layout.setExpandRatio(commentLayout,1.0f);
+  GridLayout headerGrid=new GridLayout(2,1);
+  headerGrid.setSpacing(true);
+  commentLayout.addComponent(headerGrid);
   Label name=new Label(user.getFirstName() + " " + user.getLastName());
-  commentLayout.addComponent(name);
+  name.addStyleName(Constants.STYLE_TASK_COMMENT_AUTHOR);
+  headerGrid.addComponent(name);
+  Label time=new Label(new PrettyTime().format(comment.getTime()));
+  time.addStyleName(Constants.STYLE_TASK_COMMENT_TIME);
+  headerGrid.addComponent(time);
   Label text=new Label(comment.getMessage());
   commentLayout.addComponent(text);
 }
