@@ -6,19 +6,24 @@
   taskTable.setSelectable(true);
   taskTable.setNullSelectionAllowed(false);
   taskTable.setSizeFull();
-  taskTable.addContainerProperty("task",TaskListEntry.class,null);
-  taskTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
   taskTable.addListener(new Property.ValueChangeListener(){
     private static final long serialVersionUID=8811553575319455854L;
     public void valueChange(    ValueChangeEvent event){
-      String id=(String)event.getProperty().getValue();
-      mainSplitPanel.setSecondComponent(new TaskDetailPanel(viewManager,id));
+      Item item=taskTable.getItem(event.getProperty().getValue());
+      TaskListEntry taskListEntry=(TaskListEntry)item.getItemProperty("component").getValue();
+      mainSplitPanel.setSecondComponent(new TaskDetailPanel(viewManager,taskListEntry.getTask().getId()));
     }
   }
 );
-  List<Task> tasks=taskService.createTaskQuery().taskAssignee("kermit").list();
-  for (  Task task : tasks) {
-    addTaskListEntry(task.getId(),task.getName());
-  }
+  BeanQueryFactory<TaskListQuery> queryFactory=new BeanQueryFactory<TaskListQuery>(TaskListQuery.class);
+  Map<String,Object> queryConfiguration=new HashMap<String,Object>();
+  queryConfiguration.put("taskService",taskService);
+  queryConfiguration.put("viewManager",viewManager);
+  queryConfiguration.put("taskTable",taskTable);
+  queryFactory.setQueryConfiguration(queryConfiguration);
+  LazyQueryContainer container=new LazyQueryContainer(queryFactory,false,10);
+  taskTable.setContainerDataSource(container);
+  taskTable.addContainerProperty("component",TaskListEntry.class,null);
+  taskTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
   mainSplitPanel.setFirstComponent(taskTable);
 }

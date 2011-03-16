@@ -1,0 +1,17 @@
+{
+  this.task=task;
+  GridLayout grid=new GridLayout(2,1);
+  setCompositionRoot(grid);
+  Embedded taskImage=new Embedded(null,viewManager.getClassResource(Constants.IMAGE_TASK));
+  taskImage.setType(Embedded.TYPE_IMAGE);
+  grid.addComponent(taskImage);
+  Label taskNameLabel=new Label(task.getName());
+  grid.addComponent(taskNameLabel);
+  grid.addListener(new LayoutEvents.LayoutClickListener(){
+    private static final long serialVersionUID=3178252539054165461L;
+    public void layoutClick(    LayoutClickEvent event){
+      taskTable.select(itemId);
+    }
+  }
+);
+}
