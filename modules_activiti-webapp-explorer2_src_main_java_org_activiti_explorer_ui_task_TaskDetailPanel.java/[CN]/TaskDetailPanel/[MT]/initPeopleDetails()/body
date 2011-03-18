@@ -6,7 +6,7 @@
   layout.setSpacing(true);
   layout.setSizeUndefined();
   leftPanel.addComponent(layout);
-  Embedded peopleImage=new Embedded(null,new ThemeResource(Constants.IMAGE_PEOPLE));
+  Embedded peopleImage=new Embedded(null,Images.PEOPLE);
   layout.addComponent(peopleImage);
   GridLayout grid=new GridLayout();
   grid.addStyleName(Constants.STYLE_TASK_DETAILS);
@@ -19,7 +19,7 @@
     owner.addStyleName(Reindeer.BUTTON_LINK);
     owner.addListener(new ClickListener(){
       public void buttonClick(      ClickEvent event){
-        viewManager.showPopupWindow(new ProfilePopupWindow(viewManager,task.getOwner()));
+        ExplorerApplication.getCurrent().showPopupWindow(new ProfilePopupWindow(task.getOwner()));
       }
     }
 );
@@ -30,7 +30,7 @@
     assignee.addStyleName(Reindeer.BUTTON_LINK);
     assignee.addListener(new ClickListener(){
       public void buttonClick(      ClickEvent event){
-        viewManager.showPopupWindow(new ProfilePopupWindow(viewManager,task.getAssignee()));
+        ExplorerApplication.getCurrent().showPopupWindow(new ProfilePopupWindow(task.getAssignee()));
       }
     }
 );

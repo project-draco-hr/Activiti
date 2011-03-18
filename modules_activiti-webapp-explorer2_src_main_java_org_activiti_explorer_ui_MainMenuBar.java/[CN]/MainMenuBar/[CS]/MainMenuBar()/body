@@ -1,0 +1,26 @@
+{
+  super();
+  Button taskButton=createMenuBarButton("Tasks");
+  taskButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      ExplorerApplication.getCurrent().switchView(new TaskInboxPage());
+    }
+  }
+);
+  Button flowButton=createMenuBarButton("Flows");
+  flowButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      ExplorerApplication.getCurrent().switchView(new FlowPage());
+    }
+  }
+);
+  Button managementButton=createMenuBarButton("Management");
+  managementButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      ExplorerApplication.getCurrent().switchView(new DatabasePage());
+    }
+  }
+);
+  createMenuBarButton("Reports");
+  fillRemainingSpace();
+}

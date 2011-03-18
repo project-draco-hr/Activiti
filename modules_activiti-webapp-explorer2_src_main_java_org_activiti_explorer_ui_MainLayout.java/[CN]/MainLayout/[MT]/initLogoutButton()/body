@@ -2,22 +2,22 @@
   GridLayout logoutGrid=new GridLayout(2,1);
   logoutGrid.setStyleName(Constants.STYLE_LOGOUT_BUTTON);
   Button userButton=new Button("Kermit The Frog");
-  userButton.setIcon(viewManager.getThemeResource(Constants.IMAGE_USER));
+  userButton.setIcon(Images.USER);
   userButton.addStyleName(Constants.STYLE_USER_LABEL);
   userButton.addStyleName(Reindeer.BUTTON_LINK);
   userButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      viewManager.switchView(Constants.VIEW_PROFILE,new ProfilePage(viewManager,"kermit"));
+      ExplorerApplication.getCurrent().switchView(new ProfilePage("kermit"));
     }
   }
 );
   Button logout=new Button("Logout");
   logout.setStyleName(Reindeer.BUTTON_LINK);
   logout.addStyleName(Constants.STYLE_LOGOUT_BUTTON);
-  logout.setIcon(viewManager.getThemeResource(Constants.IMAGE_DIVIDER));
+  logout.setIcon(Images.WHITE_DIVIDER);
   logout.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      viewManager.getApplication().close();
+      ExplorerApplication.getCurrent().close();
     }
   }
 );

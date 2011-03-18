@@ -11,7 +11,7 @@
     public void valueChange(    ValueChangeEvent event){
       Item item=taskTable.getItem(event.getProperty().getValue());
       TaskListEntry taskListEntry=(TaskListEntry)item.getItemProperty("component").getValue();
-      mainSplitPanel.setSecondComponent(new TaskDetailPanel(viewManager,taskListEntry.getTask().getId()));
+      mainSplitPanel.setSecondComponent(new TaskDetailPanel(taskListEntry.getTask().getId()));
     }
   }
 );

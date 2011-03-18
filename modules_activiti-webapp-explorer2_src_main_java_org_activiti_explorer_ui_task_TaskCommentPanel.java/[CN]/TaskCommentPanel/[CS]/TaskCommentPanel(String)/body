@@ -1,0 +1,9 @@
+{
+  super();
+  this.taskId=taskId;
+  this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+  this.identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
+  this.comments=taskService.getTaskComments(taskId);
+  setSizeFull();
+  refreshAllComments();
+}
