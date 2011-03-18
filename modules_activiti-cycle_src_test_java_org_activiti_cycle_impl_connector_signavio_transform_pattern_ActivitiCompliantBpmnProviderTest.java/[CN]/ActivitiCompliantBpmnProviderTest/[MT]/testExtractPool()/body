@@ -1,0 +1,12 @@
+{
+  SignavioConnectorInterface connector=CycleComponentFactory.getCycleComponentInstance(SignavioConnector.class);
+  connector.startConfiguration();
+  connector.addConfigurationEntry(SignavioConnector.CONFIG_KEY_LOGIN_REQUIRED,Boolean.FALSE);
+  connector.configurationFinished();
+  String json=CycleTestUtils.loadResourceAsString("extractPoolTest.json",getClass());
+  String transformedJson=ActivitiCompliantBpmn20Provider.transformJson(json);
+  String bpmnXml=ActivitiCompliantBpmn20Provider.transformToBpmn20(connector,transformedJson,"extractPoolTest");
+  bpmnXml=ActivitiCompliantBpmn20Provider.adjustBpmndi(bpmnXml);
+  Deployment deployment=repositoryService.createDeployment().addString("extractPoolTest.bpmn20.xml",bpmnXml).deploy();
+  repositoryService.deleteDeployment(deployment.getId());
+}

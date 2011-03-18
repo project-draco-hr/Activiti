@@ -3,6 +3,7 @@
     SignavioConnectorInterface signavioConnector=(SignavioConnectorInterface)CycleSessionContext.get(RuntimeConnectorList.class).getConnectorById(artifact.getConnectorId());
     Content content=new Content();
     String bpmnXml=createBpmnXml(signavioConnector,artifact);
+    bpmnXml=adjustBpmndi(bpmnXml);
     content.setValue(bpmnXml);
     return content;
   }
