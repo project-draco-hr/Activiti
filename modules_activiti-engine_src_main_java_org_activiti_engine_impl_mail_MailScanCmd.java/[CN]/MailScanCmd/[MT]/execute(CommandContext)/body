@@ -4,9 +4,9 @@
   Folder toDoInActiviti=null;
   try {
     Session session=Session.getDefaultInstance(new Properties());
-    store=session.getStore(protocol);
-    log.fine("connecting to " + host + " over "+ protocol+ " for user "+ imapUsername);
-    store.connect(host,imapUsername,imapPassword);
+    store=session.getStore(imapProtocol);
+    log.fine("connecting to " + imapHost + " over "+ imapProtocol+ " for user "+ imapUsername);
+    store.connect(imapHost,imapUsername,imapPassword);
     toDoFolder=store.getFolder(toDoFolderName);
     toDoFolder.open(Folder.READ_WRITE);
     toDoInActiviti=store.getFolder(toDoInActivitiFolderName);

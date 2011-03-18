@@ -1,0 +1,27 @@
+{
+  MailScanCmd mailScanCmd=null;
+  Account account=new GetUserAccountCmd(userId,userPassword,"todo-scanner").execute(commandContext);
+  if (account != null) {
+    Map<String,String> details=account.getDetails();
+    String imapUsername=account.getUsername();
+    String imapPassword=account.getPassword();
+    String toDoFolderName=details.get("toDoFolderName");
+    String toDoInActivitiFolderName=details.get("toDoInActivitiFolderName");
+    String imapHost=(String)details.get("imapHost");
+    String imapProtocol=(String)details.get("imapProtocol");
+    if (imapHost == null) {
+      Map<Object,Object> beans=Context.getProcessEngineConfiguration().getBeans();
+      imapHost=(String)beans.get("imapHost");
+      imapProtocol=(String)beans.get("imapProtocol");
+    }
+    mailScanCmd=new MailScanCmd();
+    mailScanCmd.setUserId(userId);
+    mailScanCmd.setImapUsername(imapUsername);
+    mailScanCmd.setImapPassword(imapPassword);
+    mailScanCmd.setImapHost(imapHost);
+    mailScanCmd.setImapProtocol(imapProtocol);
+    mailScanCmd.setToDoFolderName(toDoFolderName);
+    mailScanCmd.setToDoInActivitiFolderName(toDoInActivitiFolderName);
+  }
+  return mailScanCmd;
+}
