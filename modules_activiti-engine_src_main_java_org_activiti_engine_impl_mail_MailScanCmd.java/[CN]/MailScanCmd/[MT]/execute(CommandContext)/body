@@ -1,0 +1,62 @@
+{
+  Store store=null;
+  Folder toDoFolder=null;
+  Folder toDoInActiviti=null;
+  try {
+    Session session=Session.getDefaultInstance(new Properties());
+    store=session.getStore(protocol);
+    log.fine("connecting to " + host + " over "+ protocol+ " for user "+ imapUsername);
+    store.connect(host,imapUsername,imapPassword);
+    toDoFolder=store.getFolder(toDoFolderName);
+    toDoFolder.open(Folder.READ_WRITE);
+    toDoInActiviti=store.getFolder(toDoInActivitiFolderName);
+    toDoInActiviti.open(Folder.READ_WRITE);
+    Message[] messages=toDoFolder.getMessages();
+    log.fine("getting messages from myToDoFolder");
+    DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+    TaskEntity task=new TaskEntity();
+    task.setAssignee(imapUsername);
+    for (    Message message : messages) {
+      log.fine("transforming mail into activiti task: " + message.getSubject());
+      MailTransformer messageTransformer=new MailTransformer(message);
+      List<AttachmentEntity> attachments=messageTransformer.getAttachments();
+      for (      AttachmentEntity attachment : attachments) {
+        ByteArrayEntity content=attachment.getContent();
+        dbSqlSession.insert(content);
+        attachment.setContentId(content.getId());
+        dbSqlSession.insert(attachment);
+      }
+    }
+    toDoInActiviti.close(false);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+ finally {
+    if (toDoInActiviti != null) {
+      try {
+        toDoInActiviti.close(false);
+      }
+ catch (      MessagingException e) {
+        e.printStackTrace();
+      }
+    }
+    if (toDoFolder != null) {
+      try {
+        toDoFolder.close(true);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+      }
+    }
+    if (store != null) {
+      try {
+        store.close();
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+  return null;
+}

@@ -1,0 +1,10 @@
+{
+  String mimeType=part.getContentType();
+  int semicolonIndex=mimeType.indexOf(';');
+  if (semicolonIndex != -1) {
+    mimeType=mimeType.substring(0,semicolonIndex);
+  }
+  mimeType=mimeType.trim();
+  mimeType=mimeType.toLowerCase();
+  return mimeType;
+}

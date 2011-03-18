@@ -1,0 +1,14 @@
+{
+  int endIndex=-1;
+  if (html.startsWith("<" + tagName)) {
+    endIndex=html.indexOf("</" + tagName + ">");
+  }
+ else   if (html.startsWith("<" + tagName.toUpperCase())) {
+    endIndex=html.indexOf("</" + tagName.toUpperCase() + ">");
+  }
+  if (endIndex != -1) {
+    endIndex+=tagName.length() + 3;
+    html=html.substring(endIndex);
+  }
+  return html;
+}

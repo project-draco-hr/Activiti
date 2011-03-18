@@ -1,0 +1,58 @@
+{
+  if (part.getContent() instanceof MimeMultipart) {
+    log(indent,"--- multipart " + getMimeType(part) + " ----------------------------------");
+    MimeMultipart mimeMultipart=(MimeMultipart)part.getContent();
+    for (int i=0; i < mimeMultipart.getCount(); i++) {
+      BodyPart bodyPart=mimeMultipart.getBodyPart(i);
+      processContentPart(indent + 1,bodyPart);
+    }
+  }
+ else {
+    log(indent,"--- part " + getMimeType(part) + " ----------------------------------");
+    if (part.isMimeType("text/plain")) {
+      String contentText=(String)part.getContent();
+      log(indent,"adding plain text: " + contentText);
+      messageText.append(contentText);
+    }
+ else     if (part.isMimeType("text/html")) {
+      String rawHtml=(String)part.getContent();
+      log(indent,"raw html: " + rawHtml);
+      String cleanedUpHtml=htmlExtractBodyContent(rawHtml);
+      log(indent,"adding cleaned up html: " + cleanedUpHtml);
+      containsHtml=true;
+      messageHtml.append(cleanedUpHtml);
+    }
+ else {
+      String fileName=part.getFileName();
+      log(indent,"unknown content part | " + part.getContentType() + " | "+ part.getDisposition()+ " | "+ Arrays.toString(part.getHeader("Content-ID"))+ " | "+ fileName+ " | "+ part.getContent().getClass().getName());
+      if (part.getSize() != -1 && part.getSize() < ATTACHMENT_SIZE_LIMIT && (part.getContent() instanceof InputStream)) {
+        String attachmentName=null;
+        String attachmentType=null;
+        String[] contentIdArray=part.getHeader("Content-ID");
+        if (contentIdArray != null && contentIdArray.length > 0) {
+          attachmentName=contentIdArray[0].trim();
+          if (attachmentName.startsWith("<") && attachmentName.endsWith(">")) {
+            attachmentName=attachmentName.substring(1,attachmentName.length() - 2).trim();
+          }
+          attachmentType="email-inline-image";
+        }
+ else         if (Part.INLINE.equalsIgnoreCase(part.getDisposition())) {
+          attachmentName=fileName;
+          attachmentType="email-inline-image";
+          messageText.append("<img id=\"cid:" + fileName + "\" src=\"cid:"+ fileName+ "\" />");
+          messageHtml.append("<img id=\"cid:" + fileName + "\" src=\"cid:"+ fileName+ "\" />");
+        }
+        if (attachmentName == null) {
+          attachmentName=fileName;
+          attachmentType="email-attachment";
+        }
+        AttachmentEntity attachment=new AttachmentEntity();
+        attachment.setName(attachmentName);
+        attachment.setType(attachmentType);
+        attachments.add(attachment);
+        byte[] bytes=IoUtil.readInputStream((InputStream)part.getContent(),"mail attachment " + attachmentName);
+        attachment.setContent(new ByteArrayEntity(bytes));
+      }
+    }
+  }
+}

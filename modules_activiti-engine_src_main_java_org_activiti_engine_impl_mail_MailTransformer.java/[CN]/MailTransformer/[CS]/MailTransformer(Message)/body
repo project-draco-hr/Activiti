@@ -1,0 +1,24 @@
+{
+  processRecipients(message);
+  processContentPart(0,message);
+  AttachmentEntity attachment=new AttachmentEntity();
+  attachment.setName(message.getSubject());
+  attachment.setType("email");
+  attachments.add(attachment);
+  JSONObject jsonMail=new JSONObject();
+  jsonMail.put("recipients",recipients);
+  jsonMail.put("sentDate",message.getSentDate());
+  jsonMail.put("receivedDate",message.getReceivedDate());
+  jsonMail.put("subject",message.getSubject());
+  String html=(containsHtml ? messageHtml.toString() : messageText.toString());
+  jsonMail.put("htmlContent",html);
+  String jsonMailString=jsonMail.toString(2);
+  byte[] bytes=jsonMailString.getBytes();
+  attachment.setContent(new ByteArrayEntity(bytes));
+  System.out.println("=== json ==========================");
+  System.out.println(jsonMailString);
+  System.out.println("=== attachments ==========================");
+  for (  AttachmentEntity attachmentForLogging : attachments) {
+    System.out.println(attachmentForLogging.getName() + " | " + attachmentForLogging.getType()+ " | "+ attachmentForLogging.getContent().getBytes().length);
+  }
+}
