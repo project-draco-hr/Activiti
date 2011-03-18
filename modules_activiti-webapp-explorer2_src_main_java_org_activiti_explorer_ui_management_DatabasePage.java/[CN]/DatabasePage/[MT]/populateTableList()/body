@@ -1,0 +1,7 @@
+{
+  Map<String,Long> tables=managementService.getTableCount();
+  for (  String tableName : tables.keySet()) {
+    Item item=tableList.addItem(tableName);
+    item.getItemProperty("tableName").setValue(tableName + " (" + tables.get(tableName)+ ")");
+  }
+}

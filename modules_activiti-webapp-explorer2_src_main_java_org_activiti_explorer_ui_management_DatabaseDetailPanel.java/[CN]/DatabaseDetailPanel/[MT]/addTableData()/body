@@ -1,0 +1,18 @@
+{
+  Table data=new Table();
+  data.setSizeFull();
+  data.setEditable(false);
+  data.setSelectable(true);
+  addComponent(data);
+  BeanQueryFactory<TableDataQuery> queryFactory=new BeanQueryFactory<TableDataQuery>(TableDataQuery.class);
+  Map<String,Object> queryConfiguration=new HashMap<String,Object>();
+  queryConfiguration.put("managementService",managementService);
+  queryConfiguration.put("tableName",tableName);
+  queryFactory.setQueryConfiguration(queryConfiguration);
+  LazyQueryContainer container=new LazyQueryContainer(queryFactory,false,25);
+  data.setContainerDataSource(container);
+  TableMetaData metaData=managementService.getTableMetaData(tableName);
+  for (  String columnName : metaData.getColumnNames()) {
+    data.addContainerProperty(columnName,String.class,null);
+  }
+}

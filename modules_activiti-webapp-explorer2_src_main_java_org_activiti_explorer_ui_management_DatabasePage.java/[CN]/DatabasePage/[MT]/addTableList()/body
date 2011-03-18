@@ -1,0 +1,18 @@
+{
+  this.tableList=new Table();
+  mainSplitPanel.setFirstComponent(tableList);
+  tableList.setEditable(false);
+  tableList.setImmediate(true);
+  tableList.setSelectable(true);
+  tableList.setNullSelectionAllowed(false);
+  tableList.setSizeFull();
+  tableList.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=8811553575319455854L;
+    public void valueChange(    ValueChangeEvent event){
+      mainSplitPanel.setSecondComponent(new DatabaseDetailPanel((String)event.getProperty().getValue()));
+    }
+  }
+);
+  tableList.addContainerProperty("tableName",String.class,null);
+  tableList.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+}
