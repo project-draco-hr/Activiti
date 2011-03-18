@@ -1,0 +1,9 @@
+{
+  StartFormData data=formService.getStartFormData(processDefinition.getId());
+  if (data != null && ((data.getFormProperties() != null && data.getFormProperties().size() > 0) || data.getFormKey() != null)) {
+  }
+ else {
+    ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
+  }
+  ExplorerApplication.getCurrent().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' has been started");
+}

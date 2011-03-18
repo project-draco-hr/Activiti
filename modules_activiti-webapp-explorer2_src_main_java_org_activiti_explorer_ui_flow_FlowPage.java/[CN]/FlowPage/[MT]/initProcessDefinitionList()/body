@@ -1,0 +1,30 @@
+{
+  this.processDefinitionTable=new Table();
+  processDefinitionTable.addStyleName(Constants.STYLE_PROCESS_DEFINITION_LIST);
+  processDefinitionTable.setEditable(false);
+  processDefinitionTable.setImmediate(true);
+  processDefinitionTable.setSelectable(true);
+  processDefinitionTable.setNullSelectionAllowed(false);
+  processDefinitionTable.setSizeFull();
+  BeanQueryFactory<ProcessDefinitionListQuery> queryFactory=new BeanQueryFactory<ProcessDefinitionListQuery>(ProcessDefinitionListQuery.class);
+  Map<String,Object> queryConfiguration=new HashMap<String,Object>();
+  queryConfiguration.put("repositoryService",repositoryService);
+  queryConfiguration.put("processDefinitionTable",processDefinitionTable);
+  queryFactory.setQueryConfiguration(queryConfiguration);
+  LazyQueryContainer container=new LazyQueryContainer(queryFactory,false,10);
+  processDefinitionTable.setContainerDataSource(container);
+  processDefinitionTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=8378856103392135871L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=processDefinitionTable.getItem(event.getProperty().getValue());
+      String processDefinitionId=(String)item.getItemProperty("id").getValue();
+      mainSplitPanel.setSecondComponent(new ProcessDefinitionDetailPanel(processDefinitionId));
+    }
+  }
+);
+  processDefinitionTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.PROCESS));
+  processDefinitionTable.setColumnWidth("icon",32);
+  processDefinitionTable.addContainerProperty("name",String.class,null);
+  processDefinitionTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  mainSplitPanel.setFirstComponent(processDefinitionTable);
+}

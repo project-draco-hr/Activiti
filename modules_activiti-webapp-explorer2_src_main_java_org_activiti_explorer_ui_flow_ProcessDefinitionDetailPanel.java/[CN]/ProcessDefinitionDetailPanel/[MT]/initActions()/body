@@ -1,0 +1,11 @@
+{
+  HorizontalLayout actionsContainer=new HorizontalLayout();
+  actionsContainer.addStyleName(Constants.STYLE_ACTION_BAR);
+  actionsContainer.setSizeFull();
+  actionsContainer.setSpacing(true);
+  Button startFlowAction=new Button("Start flow");
+  startFlowAction.addListener(new StartFlowClickListener(processDefinition));
+  actionsContainer.addComponent(startFlowAction);
+  detailPanel.addComponent(actionsContainer);
+  addEmptySpace(detailPanel);
+}

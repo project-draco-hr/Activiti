@@ -1,0 +1,11 @@
+{
+  StreamResource imageResource=null;
+  if (processDefinition.getDiagramResourceName() != null) {
+    final InputStream definitionImageStream=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName());
+    StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
+    String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());
+    String fileName=processDefinition.getId() + "." + imageExtension;
+    imageResource=new StreamResource(streamSource,fileName,ExplorerApplication.getCurrent());
+  }
+  return imageResource;
+}

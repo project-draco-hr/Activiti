@@ -1,0 +1,15 @@
+{
+  Label processTitle=new Label("Flow Image");
+  processTitle.addStyleName(Reindeer.LABEL_H2);
+  detailPanel.addComponent(processTitle);
+  if (processDefinition.getDiagramResourceName() != null) {
+    StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processDefinition,repositoryService);
+    Embedded embedded=new Embedded("",diagram);
+    embedded.setType(Embedded.TYPE_IMAGE);
+    detailPanel.addComponent(embedded);
+  }
+ else {
+    Label noImageAvailable=new Label("No image available for this flow");
+    detailPanel.addComponent(noImageAvailable);
+  }
+}

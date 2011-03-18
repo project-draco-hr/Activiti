@@ -1,0 +1,19 @@
+{
+  super();
+  setSizeFull();
+  addStyleName(Reindeer.LAYOUT_WHITE);
+  this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+  this.processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+  if (processDefinition != null) {
+    deployment=repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
+  }
+  this.detailPanel=new Panel();
+  detailPanel.addStyleName(Reindeer.PANEL_LIGHT);
+  addComponent(detailPanel);
+  setExpandRatio(detailPanel,1.0f);
+  initName();
+  initCategory();
+  initActions();
+  initTimeDetails();
+  initImage();
+}
