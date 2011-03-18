@@ -3,7 +3,7 @@
   Button taskButton=createMenuBarButton("Tasks");
   taskButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      viewManager.switchView(Constants.VIEW_TASKS,new TaskPage(viewManager));
+      viewManager.switchView(Constants.VIEW_TASKS_INBOX,new TaskInboxPage(viewManager));
     }
   }
 );
@@ -14,7 +14,13 @@
     }
   }
 );
-  createMenuBarButton("Manage");
+  Button managementButton=createMenuBarButton("Management");
+  managementButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      viewManager.switchView(Constants.VIEW_DATABASE,new DatabasePage(viewManager));
+    }
+  }
+);
   createMenuBarButton("Reports");
   fillRemainingSpace();
 }

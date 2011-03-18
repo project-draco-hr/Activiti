@@ -25,4 +25,7 @@
   taskTable.addContainerProperty("component",TaskListEntry.class,null);
   taskTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
   mainSplitPanel.setFirstComponent(taskTable);
+  if (taskTable.getContainerDataSource().size() > 0) {
+    taskTable.select(0);
+  }
 }
