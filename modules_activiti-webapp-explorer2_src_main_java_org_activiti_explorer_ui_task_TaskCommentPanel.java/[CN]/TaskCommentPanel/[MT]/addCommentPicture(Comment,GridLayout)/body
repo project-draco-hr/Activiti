@@ -1,0 +1,15 @@
+{
+  StreamResource imageresource=new StreamResource(new StreamSource(){
+    private static final long serialVersionUID=-8875067466181823014L;
+    public InputStream getStream(){
+      return identityService.getUserPicture(comment.getUserId()).getInputStream();
+    }
+  }
+,comment.getUserId(),viewManager.getApplication());
+  Embedded picture=new Embedded("",imageresource);
+  picture.setType(Embedded.TYPE_IMAGE);
+  picture.setHeight("48px");
+  picture.setWidth("48px");
+  picture.addStyleName(Constants.STYLE_TASK_COMMENT_PICTURE);
+  commentGrid.addComponent(picture);
+}

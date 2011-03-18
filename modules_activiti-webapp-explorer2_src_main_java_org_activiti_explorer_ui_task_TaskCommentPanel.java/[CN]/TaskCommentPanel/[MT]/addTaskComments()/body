@@ -1,8 +1,11 @@
 {
-  this.taskComments=new ArrayList<TaskComment>();
-  for (  Comment comment : comments) {
-    TaskComment taskComment=new TaskComment(viewManager,comment);
-    taskComments.add(taskComment);
-    addComponent(taskComment);
+  GridLayout commentGrid=new GridLayout();
+  commentGrid.setColumns(2);
+  commentGrid.setWidth("100%");
+  commentGrid.setColumnExpandRatio(1,1.0f);
+  addComponent(commentGrid);
+  for (  final Comment comment : comments) {
+    addCommentPicture(comment,commentGrid);
+    addCommentText(comment,commentGrid);
   }
 }

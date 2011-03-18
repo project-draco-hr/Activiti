@@ -1,8 +1,8 @@
 {
   super();
+  this.viewManager=viewManager;
   setSizeFull();
   addStyleName(Reindeer.LAYOUT_WHITE);
-  this.viewManager=viewManager;
   this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
   this.task=taskService.createTaskQuery().taskId(taskId).singleResult();
   this.leftPanel=new Panel();
