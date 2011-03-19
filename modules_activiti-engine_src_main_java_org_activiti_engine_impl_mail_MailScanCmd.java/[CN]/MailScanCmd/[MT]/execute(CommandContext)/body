@@ -2,7 +2,7 @@
   log.fine("scanning mail for user " + userId);
   Store store=null;
   Folder toDoFolder=null;
-  Folder toDoInActiviti=null;
+  Folder toDoInActivitiFolder=null;
   try {
     Session session=Session.getDefaultInstance(new Properties());
     store=session.getStore(imapProtocol);
@@ -10,23 +10,44 @@
     store.connect(imapHost,imapUsername,imapPassword);
     toDoFolder=store.getFolder(toDoFolderName);
     toDoFolder.open(Folder.READ_WRITE);
-    toDoInActiviti=store.getFolder(toDoInActivitiFolderName);
-    toDoInActiviti.open(Folder.READ_WRITE);
+    toDoInActivitiFolder=store.getFolder(toDoInActivitiFolderName);
+    toDoInActivitiFolder.open(Folder.READ_WRITE);
     Message[] messages=toDoFolder.getMessages();
     log.fine("getting messages from myToDoFolder");
     DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
-    TaskEntity task=new TaskEntity();
-    task.setAssignee(imapUsername);
     for (    Message message : messages) {
       log.fine("transforming mail into activiti task: " + message.getSubject());
-      MailTransformer messageTransformer=new MailTransformer(message);
-      List<AttachmentEntity> attachments=messageTransformer.getAttachments();
+      MailTransformer mailTransformer=new MailTransformer(message);
+      String taskDescription=mailTransformer.getHtml();
+      taskDescription=taskDescription.replaceAll("\\<.*?\\>","");
+      taskDescription=taskDescription.replaceAll("\\s"," ");
+      taskDescription=taskDescription.trim();
+      if (taskDescription.length() > 120) {
+        taskDescription=taskDescription.substring(0,117) + "...";
+      }
+      TaskEntity task=new TaskEntity();
+      task.setAssignee(userId);
+      task.setName(message.getSubject());
+      task.setDescription(taskDescription);
+      dbSqlSession.insert(task);
+      String taskId=task.getId();
+      for (      String recipientEmailAddress : mailTransformer.getRecipients()) {
+        User recipient=new UserQueryImpl(commandContext).userEmail(recipientEmailAddress).singleResult();
+        if (recipient != null) {
+          new AddIdentityLinkCmd(taskId,recipient.getId(),null,"Recipient").execute(commandContext);
+        }
+      }
+      List<AttachmentEntity> attachments=mailTransformer.getAttachments();
       for (      AttachmentEntity attachment : attachments) {
         ByteArrayEntity content=attachment.getContent();
         dbSqlSession.insert(content);
         attachment.setContentId(content.getId());
+        attachment.setTaskId(taskId);
         dbSqlSession.insert(attachment);
       }
+      Message[] messagesToCopy=new Message[]{message};
+      toDoFolder.copyMessages(messagesToCopy,toDoInActivitiFolder);
+      message.setFlag(Flags.Flag.DELETED,true);
     }
   }
  catch (  RuntimeException e) {
@@ -36,9 +57,9 @@ catch (  Exception e) {
     throw new ActivitiException("couldn't scan mail for user " + userId + ": "+ e.getMessage(),e);
   }
  finally {
-    if (toDoInActiviti != null) {
+    if (toDoInActivitiFolder != null) {
       try {
-        toDoInActiviti.close(false);
+        toDoInActivitiFolder.close(false);
       }
  catch (      MessagingException e) {
         e.printStackTrace();

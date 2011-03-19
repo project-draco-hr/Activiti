@@ -10,8 +10,7 @@
   jsonMail.put("sentDate",message.getSentDate());
   jsonMail.put("receivedDate",message.getReceivedDate());
   jsonMail.put("subject",message.getSubject());
-  String html=(containsHtml ? messageHtml.toString() : messageText.toString());
-  jsonMail.put("htmlContent",html);
+  jsonMail.put("htmlContent",getHtml());
   String jsonMailString=jsonMail.toString(2);
   byte[] bytes=jsonMailString.getBytes();
   attachment.setContent(new ByteArrayEntity(bytes));
