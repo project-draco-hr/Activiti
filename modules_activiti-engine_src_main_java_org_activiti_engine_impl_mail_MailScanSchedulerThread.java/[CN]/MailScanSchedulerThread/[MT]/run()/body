@@ -1,0 +1,16 @@
+{
+  isActive=true;
+  log.fine(getClass().getName() + " is started");
+  while (mailScanner.isActive()) {
+    MailScanCmd mailScanCmd=getNextMailScanCmd();
+    try {
+      commandExecutor.execute(mailScanCmd);
+    }
+ catch (    Exception e) {
+      String userId=mailScanCmd.getUserId();
+      allMailScansCmds.remove(userId);
+      log.log(Level.SEVERE,"couldn't check todo mail for " + userId + ": "+ e.getMessage(),e);
+    }
+  }
+  log.fine(getClass().getName() + " is stopping");
+}

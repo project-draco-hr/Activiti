@@ -1,0 +1,18 @@
+{
+  if (!isActive) {
+    log.info("Ignoring request to shut down non-active MailScanner");
+    return;
+  }
+  log.info("Shutting down the MailScanner");
+  threadPoolExecutor.shutdown();
+  try {
+    threadPoolExecutor.awaitTermination(60L,TimeUnit.SECONDS);
+  }
+ catch (  InterruptedException e) {
+    throw new ActivitiException("Timeout during shutdown of mail scanner. The current running scans could not end withing 60 seconds after shutdown operation.",e);
+  }
+  mailScanSchedulerThread.shutdown();
+  isActive=false;
+  threadPoolExecutor=null;
+  mailScanSchedulerThread=null;
+}

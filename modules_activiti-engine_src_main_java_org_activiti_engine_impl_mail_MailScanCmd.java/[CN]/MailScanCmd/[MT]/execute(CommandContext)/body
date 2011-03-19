@@ -1,4 +1,5 @@
 {
+  log.fine("scanning mail for user " + userId);
   Store store=null;
   Folder toDoFolder=null;
   Folder toDoInActiviti=null;
@@ -27,10 +28,12 @@
         dbSqlSession.insert(attachment);
       }
     }
-    toDoInActiviti.close(false);
   }
- catch (  Exception e) {
-    e.printStackTrace();
+ catch (  RuntimeException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new ActivitiException("couldn't scan mail for user " + userId + ": "+ e.getMessage(),e);
   }
  finally {
     if (toDoInActiviti != null) {

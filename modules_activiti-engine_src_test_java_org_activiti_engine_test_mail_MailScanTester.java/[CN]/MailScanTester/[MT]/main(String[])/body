@@ -1,0 +1,24 @@
+{
+  ProcessEngineImpl processEngine=(ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine();
+  IdentityService identityService=processEngine.getIdentityService();
+  User user=identityService.newUser("johndoe");
+  identityService.saveUser(user);
+  String accountUsername=System.getProperty("user");
+  String accountPassword=System.getProperty("pwd");
+  Map<String,String> accountDetails=new HashMap<String,String>();
+  accountDetails.put("toDoFolderName","MyToDos");
+  accountDetails.put("toDoInActivitiFolderName","MyToDosInActiviti");
+  accountDetails.put("imapHost","imap.gmail.com");
+  accountDetails.put("imapProtocol","imaps");
+  identityService.setUserAccount("johndoe",null,"mailscan",accountUsername,accountPassword,accountDetails);
+  MailScanner mailScanner=processEngine.getProcessEngineConfiguration().getMailScanner();
+  mailScanner.start();
+  mailScanner.addUser("johndoe",null);
+  try {
+    Thread.sleep(1000);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  mailScanner.shutdown();
+}
