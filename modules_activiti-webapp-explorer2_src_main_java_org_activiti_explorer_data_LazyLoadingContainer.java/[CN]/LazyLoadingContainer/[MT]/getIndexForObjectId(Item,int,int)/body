@@ -11,7 +11,10 @@
     result=lazyLoadingQuery.loadItems(middle,1).get(0);
     itemCache.put(middle,result);
   }
-  int comparison=lazyLoadingQuery.compareTo(searched,result);
+  if (!(searched instanceof Comparable) || !(result instanceof Comparable)) {
+    throw new ActivitiException("Cannot use the getIndexForObjectId method for non-Comparables");
+  }
+  int comparison=((Comparable)searched).compareTo((Comparable)result);
   if (comparison < 0) {
     return getIndexForObjectId(searched,low,middle - 1);
   }
