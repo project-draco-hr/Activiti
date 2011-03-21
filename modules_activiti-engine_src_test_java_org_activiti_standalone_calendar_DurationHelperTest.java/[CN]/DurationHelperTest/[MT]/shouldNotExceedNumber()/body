@@ -1,0 +1,8 @@
+{
+  ClockUtil.setCurrentTime(new Date(0));
+  DurationHelper dh=new DurationHelper("R2/PT10S");
+  ClockUtil.setCurrentTime(new Date(15000));
+  assertEquals(20000,dh.getDateAfter().getTime());
+  ClockUtil.setCurrentTime(new Date(30000));
+  assertNull(dh.getDateAfter());
+}

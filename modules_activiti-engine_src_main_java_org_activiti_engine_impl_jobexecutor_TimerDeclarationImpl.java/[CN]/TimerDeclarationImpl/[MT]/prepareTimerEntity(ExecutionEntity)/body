@@ -1,17 +1,15 @@
 {
-  String calendarName=dueDateDescription == null ? (durationDescription == null ? CycleBusinessCalendar.NAME : DurationBusinessCalendar.NAME) : DueDateBusinessCalendar.NAME;
-  Expression expression=dueDateDescription == null ? (durationDescription == null ? cycleDescription : durationDescription) : dueDateDescription;
-  BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(calendarName);
-  String dueDateString=executionEntity == null ? expression.getExpressionText() : (String)expression.getValue(executionEntity);
+  BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(type.caledarName);
+  String dueDateString=executionEntity == null ? description.getExpressionText() : (String)description.getValue(executionEntity);
   Date duedate=businessCalendar.resolveDuedate(dueDateString);
   TimerEntity timer=new TimerEntity(this);
   timer.setDuedate(duedate);
   if (executionEntity != null) {
     timer.setExecution(executionEntity);
   }
-  if (cycleDescription != null) {
-    String cycleString=executionEntity == null ? cycleDescription.getExpressionText() : (String)cycleDescription.getValue(executionEntity);
-    timer.setRepeat(cycleString);
+  if (type == TimerDeclarationType.CYCLE) {
+    String prepared=prepareRepeat(dueDateString);
+    timer.setRepeat(prepared);
   }
   return timer;
 }

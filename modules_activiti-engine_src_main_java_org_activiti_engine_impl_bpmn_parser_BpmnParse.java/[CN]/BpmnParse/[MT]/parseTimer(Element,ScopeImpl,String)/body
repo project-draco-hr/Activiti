@@ -1,23 +1,15 @@
 {
-  Element timeDate=timerEventDefinition.element("timeDate");
-  Expression timeDateExpression=null;
-  if (timeDate != null) {
-    String timeDateText=timeDate.getText().trim();
-    timeDateExpression=expressionManager.createExpression(timeDateText);
+  TimerDeclarationType type=TimerDeclarationType.DATE;
+  Expression expression=parseExpression(timerEventDefinition,"timeDate");
+  if (expression == null) {
+    type=TimerDeclarationType.CYCLE;
+    expression=parseExpression(timerEventDefinition,"timeCycle");
   }
-  Element timeCycle=timerEventDefinition.element("timeCycle");
-  Expression timeCycleExpression=null;
-  if (timeCycle != null) {
-    String timeCycleText=timeCycle.getText().trim();
-    timeCycleExpression=expressionManager.createExpression(timeCycleText);
+  if (expression == null) {
+    type=TimerDeclarationType.DURATION;
+    expression=parseExpression(timerEventDefinition,"timeDuration");
   }
-  Element timeDuration=timerEventDefinition.element("timeDuration");
-  Expression timeDurationExpression=null;
-  if (timeDuration != null) {
-    String timeDurationText=timeDuration.getText().trim();
-    timeDurationExpression=expressionManager.createExpression(timeDurationText);
-  }
-  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(timeDurationExpression,timeDateExpression,timeCycleExpression,jobHandlerType);
+  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(expression,type,jobHandlerType);
   timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
   return timerDeclaration;
 }

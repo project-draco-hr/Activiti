@@ -8,8 +8,11 @@
   }
  else {
     delete();
-    TimerEntity te=new TimerEntity(this);
-    te.setDuedate(calculateRepeat());
-    Context.getCommandContext().getTimerSession().schedule(te);
+    Date newTimer=calculateRepeat();
+    if (newTimer != null) {
+      TimerEntity te=new TimerEntity(this);
+      te.setDuedate(newTimer);
+      Context.getCommandContext().getTimerSession().schedule(te);
+    }
   }
 }
