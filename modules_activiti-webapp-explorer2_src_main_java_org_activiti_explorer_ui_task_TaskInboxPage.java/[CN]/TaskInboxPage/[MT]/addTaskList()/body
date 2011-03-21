@@ -5,6 +5,7 @@
   taskTable.setImmediate(true);
   taskTable.setSelectable(true);
   taskTable.setNullSelectionAllowed(false);
+  taskTable.setSortDisabled(true);
   taskTable.setSizeFull();
   taskTable.addListener(new Property.ValueChangeListener(){
     private static final long serialVersionUID=8811553575319455854L;
@@ -15,13 +16,9 @@
     }
   }
 );
-  BeanQueryFactory<TaskListQuery> queryFactory=new BeanQueryFactory<TaskListQuery>(TaskListQuery.class);
-  Map<String,Object> queryConfiguration=new HashMap<String,Object>();
-  queryConfiguration.put("taskService",taskService);
-  queryConfiguration.put("taskTable",taskTable);
-  queryFactory.setQueryConfiguration(queryConfiguration);
-  LazyQueryContainer container=new LazyQueryContainer(queryFactory,false,10);
-  taskTable.setContainerDataSource(container);
+  LazyLoadingQuery lazyLoadingQuery=new TaskQuery(taskService,taskTable);
+  LazyLoadingContainer lazyLoadingContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
+  taskTable.setContainerDataSource(lazyLoadingContainer);
   taskTable.addContainerProperty("component",TaskListEntry.class,null);
   taskTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
   mainSplitPanel.setFirstComponent(taskTable);

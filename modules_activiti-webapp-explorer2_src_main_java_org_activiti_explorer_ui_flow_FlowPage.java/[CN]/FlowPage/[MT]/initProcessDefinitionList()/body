@@ -5,14 +5,11 @@
   processDefinitionTable.setImmediate(true);
   processDefinitionTable.setSelectable(true);
   processDefinitionTable.setNullSelectionAllowed(false);
+  processDefinitionTable.setSortDisabled(true);
   processDefinitionTable.setSizeFull();
-  BeanQueryFactory<ProcessDefinitionListQuery> queryFactory=new BeanQueryFactory<ProcessDefinitionListQuery>(ProcessDefinitionListQuery.class);
-  Map<String,Object> queryConfiguration=new HashMap<String,Object>();
-  queryConfiguration.put("repositoryService",repositoryService);
-  queryConfiguration.put("processDefinitionTable",processDefinitionTable);
-  queryFactory.setQueryConfiguration(queryConfiguration);
-  LazyQueryContainer container=new LazyQueryContainer(queryFactory,false,10);
-  processDefinitionTable.setContainerDataSource(container);
+  LazyLoadingQuery lazyLoadingQuery=new ProcessDefinitionListQuery(repositoryService);
+  LazyLoadingContainer lazyLoadingContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
+  processDefinitionTable.setContainerDataSource(lazyLoadingContainer);
   processDefinitionTable.addListener(new Property.ValueChangeListener(){
     private static final long serialVersionUID=8378856103392135871L;
     public void valueChange(    ValueChangeEvent event){
