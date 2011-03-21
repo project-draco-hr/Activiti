@@ -1,9 +1,0 @@
-{
-  List<Task> tasks=taskService.createTaskQuery().listPage(start,count);
-  List<TaskListEntry> taskListEntries=new ArrayList<TaskListEntry>();
-  int startIndex=start;
-  for (int i=0; i < tasks.size(); i++) {
-    taskListEntries.add(new TaskListEntry(taskTable,startIndex + i,tasks.get(i)));
-  }
-  return taskListEntries;
-}

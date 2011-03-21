@@ -11,18 +11,17 @@
     private static final long serialVersionUID=8811553575319455854L;
     public void valueChange(    ValueChangeEvent event){
       Item item=taskTable.getItem(event.getProperty().getValue());
-      TaskListEntry taskListEntry=(TaskListEntry)item.getItemProperty("component").getValue();
-      mainSplitPanel.setSecondComponent(new TaskDetailPanel(taskListEntry.getTask().getId()));
+      String taskId=(String)item.getItemProperty("id").getValue();
+      mainSplitPanel.setSecondComponent(new TaskDetailPanel(taskId));
     }
   }
 );
-  LazyLoadingQuery lazyLoadingQuery=new TaskQuery(taskService,taskTable);
+  LazyLoadingQuery lazyLoadingQuery=new TaskListQuery(taskService,taskTable);
   LazyLoadingContainer lazyLoadingContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
   taskTable.setContainerDataSource(lazyLoadingContainer);
-  taskTable.addContainerProperty("component",TaskListEntry.class,null);
+  taskTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.TASK));
+  taskTable.setColumnWidth("icon",32);
+  taskTable.addContainerProperty("name",String.class,null);
   taskTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
   mainSplitPanel.setFirstComponent(taskTable);
-  if (taskTable.getContainerDataSource().size() > 0) {
-    taskTable.select(0);
-  }
 }
