@@ -1,0 +1,12 @@
+{
+  String fragment=source.getUriFragmentUtility().getFragment().replace("#","");
+  if (fragment != null && fragment.length() > 0) {
+    String[] fragments=fragment.split("/");
+    System.out.println("Got fragment: " + fragment);
+    if ("tasks".equals(fragments[0])) {
+      String taskId=fragments[1];
+      System.out.println("Task ID in fragment: " + fragments[1]);
+      ExplorerApplication.getCurrent().switchView(new TaskInboxPage(taskId));
+    }
+  }
+}
