@@ -1,0 +1,20 @@
+{
+  Component component=null;
+  if (formProperty.isWritable()) {
+    ComboBox comboBox=new ComboBox();
+    Map<String,String> values=(Map<String,String>)formProperty.getType().getInformation("values");
+    if (values != null) {
+      for (      Entry<String,String> enumEntry : values.entrySet()) {
+        comboBox.addItem(enumEntry.getKey());
+        if (enumEntry.getValue() != null) {
+          comboBox.setItemCaption(enumEntry.getKey(),enumEntry.getValue());
+        }
+      }
+    }
+    component=comboBox;
+  }
+ else {
+    component=getDefaultReadonlyPropertyComponent(formProperty);
+  }
+  return component;
+}

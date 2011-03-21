@@ -1,9 +1,10 @@
 {
-  StartFormData data=formService.getStartFormData(processDefinition.getId());
-  if (data != null && ((data.getFormProperties() != null && data.getFormProperties().size() > 0) || data.getFormKey() != null)) {
+  StartFormData startFormData=formService.getStartFormData(processDefinition.getId());
+  if (startFormData != null && ((startFormData.getFormProperties() != null && startFormData.getFormProperties().size() > 0) || startFormData.getFormKey() != null)) {
+    parentPage.showStartForm(processDefinition,startFormData);
   }
  else {
     ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
+    ExplorerApplication.getCurrent().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' has been started");
   }
-  ExplorerApplication.getCurrent().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' has been started");
 }

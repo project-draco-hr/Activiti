@@ -2,6 +2,7 @@
   super();
   setSizeFull();
   addStyleName(Reindeer.LAYOUT_WHITE);
+  this.flowPage=flowPage;
   this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
   this.processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
   if (processDefinition != null) {

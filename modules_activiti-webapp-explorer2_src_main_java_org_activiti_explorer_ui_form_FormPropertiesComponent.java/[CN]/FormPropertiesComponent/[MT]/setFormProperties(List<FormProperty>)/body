@@ -1,0 +1,22 @@
+{
+  this.formProperties=formProperties;
+  propertyGrid.removeAllComponents();
+  if (formProperties != null) {
+    for (    FormProperty formProperty : formProperties) {
+      FormPropertyRenderer renderer=null;
+      FormType formPropertyType=formProperty.getType();
+      if (formPropertyType == null) {
+        renderer=FormPropertyMapping.getTypeLessFormPropertyRenderer();
+      }
+ else {
+        renderer=FormPropertyMapping.getPropertyRendererForType(formProperty.getType());
+      }
+      Component editorComponent=renderer.getComponentProperty(formProperty);
+      if (editorComponent != null) {
+        Component propertyLabel=renderer.getPropertyLabel(formProperty);
+        propertyGrid.addComponent(propertyLabel);
+        propertyGrid.addComponent(editorComponent);
+      }
+    }
+  }
+}

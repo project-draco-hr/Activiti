@@ -1,0 +1,14 @@
+{
+  Component component=null;
+  if (formProperty.isWritable()) {
+    TextField textField=new TextField();
+    if (formProperty.getValue() != null) {
+      textField.setValue(formProperty.getValue());
+    }
+    component=textField;
+  }
+ else {
+    component=getDefaultReadonlyPropertyComponent(formProperty);
+  }
+  return component;
+}

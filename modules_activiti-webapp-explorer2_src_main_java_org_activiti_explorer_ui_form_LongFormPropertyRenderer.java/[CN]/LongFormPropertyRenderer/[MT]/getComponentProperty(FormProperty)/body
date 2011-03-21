@@ -1,0 +1,16 @@
+{
+  Component component=null;
+  if (formProperty.isWritable()) {
+    final TextField textField=new TextField();
+    if (formProperty.getValue() != null) {
+      textField.setValue(formProperty.getValue());
+    }
+    textField.addValidator(new LongValidator("Value must be a long"));
+    textField.setImmediate(true);
+    component=textField;
+  }
+ else {
+    component=getDefaultReadonlyPropertyComponent(formProperty);
+  }
+  return component;
+}
