@@ -17,8 +17,8 @@
   }
 );
   LazyLoadingQuery lazyLoadingQuery=new TaskListQuery(taskService,taskTable);
-  LazyLoadingContainer lazyLoadingContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
-  taskTable.setContainerDataSource(lazyLoadingContainer);
+  this.taskListContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
+  taskTable.setContainerDataSource(taskListContainer);
   taskTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.TASK));
   taskTable.setColumnWidth("icon",32);
   taskTable.addContainerProperty("name",String.class,null);

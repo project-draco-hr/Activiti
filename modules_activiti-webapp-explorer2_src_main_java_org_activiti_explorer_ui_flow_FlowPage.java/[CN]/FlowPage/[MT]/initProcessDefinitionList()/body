@@ -8,8 +8,8 @@
   processDefinitionTable.setSortDisabled(true);
   processDefinitionTable.setSizeFull();
   LazyLoadingQuery lazyLoadingQuery=new ProcessDefinitionListQuery(repositoryService);
-  LazyLoadingContainer lazyLoadingContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
-  processDefinitionTable.setContainerDataSource(lazyLoadingContainer);
+  this.processDefinitionContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
+  processDefinitionTable.setContainerDataSource(processDefinitionContainer);
   processDefinitionTable.addListener(new Property.ValueChangeListener(){
     private static final long serialVersionUID=8378856103392135871L;
     public void valueChange(    ValueChangeEvent event){
