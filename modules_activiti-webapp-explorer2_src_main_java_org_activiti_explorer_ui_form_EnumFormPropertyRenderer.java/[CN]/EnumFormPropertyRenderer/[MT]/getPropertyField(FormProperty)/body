@@ -1,0 +1,15 @@
+{
+  ComboBox comboBox=new ComboBox(getPropertyLabel(formProperty));
+  comboBox.setRequired(formProperty.isRequired());
+  comboBox.setEnabled(formProperty.isWritable());
+  Map<String,String> values=(Map<String,String>)formProperty.getType().getInformation("values");
+  if (values != null) {
+    for (    Entry<String,String> enumEntry : values.entrySet()) {
+      comboBox.addItem(enumEntry.getKey());
+      if (enumEntry.getValue() != null) {
+        comboBox.setItemCaption(enumEntry.getKey(),enumEntry.getValue());
+      }
+    }
+  }
+  return comboBox;
+}

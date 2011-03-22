@@ -1,0 +1,17 @@
+{
+  PopupDateField dateField=new PopupDateField(getPropertyLabel(formProperty));
+  String datePattern=(String)formProperty.getType().getInformation("datePattern");
+  dateField.setDateFormat(datePattern);
+  dateField.setRequired(formProperty.isRequired());
+  dateField.setEnabled(formProperty.isWritable());
+  if (formProperty.getValue() != null) {
+    SimpleDateFormat dateFormat=new SimpleDateFormat(datePattern);
+    try {
+      Date date=dateFormat.parse(formProperty.getValue());
+      dateField.setValue(date);
+    }
+ catch (    ParseException e) {
+    }
+  }
+  return dateField;
+}

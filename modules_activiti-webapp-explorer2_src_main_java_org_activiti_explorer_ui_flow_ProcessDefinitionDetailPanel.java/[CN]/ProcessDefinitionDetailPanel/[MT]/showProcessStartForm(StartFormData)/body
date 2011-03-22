@@ -1,0 +1,18 @@
+{
+  if (processDefinitionStartForm == null) {
+    processDefinitionStartForm=new ProcessDefinitionStartForm(processDefinition);
+    processDefinitionStartForm.addListener(new Listener(){
+      private static final long serialVersionUID=-6481055976243304739L;
+      public void componentEvent(      Event event){
+        if (event instanceof FormEvent) {
+          showProcessDefinitionInfo();
+        }
+      }
+    }
+);
+  }
+  processDefinitionStartForm.setFormProperties(startFormData.getFormProperties());
+  startFlowButton.setEnabled(false);
+  detailContainer.removeAllComponents();
+  detailContainer.addComponent(processDefinitionStartForm);
+}

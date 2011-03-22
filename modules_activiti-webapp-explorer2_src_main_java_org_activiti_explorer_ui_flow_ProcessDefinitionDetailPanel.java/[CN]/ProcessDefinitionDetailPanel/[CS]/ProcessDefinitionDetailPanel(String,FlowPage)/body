@@ -4,17 +4,17 @@
   addStyleName(Reindeer.LAYOUT_WHITE);
   this.flowPage=flowPage;
   this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+  this.formService=ProcessEngines.getDefaultProcessEngine().getFormService();
   this.processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
   if (processDefinition != null) {
     deployment=repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
   }
-  this.detailPanel=new Panel();
-  detailPanel.addStyleName(Reindeer.PANEL_LIGHT);
-  addComponent(detailPanel);
-  setExpandRatio(detailPanel,1.0f);
   initName();
   initCategory();
   initActions();
-  initTimeDetails();
-  initImage();
+  detailContainer=new HorizontalLayout();
+  detailContainer.addStyleName(Reindeer.PANEL_LIGHT);
+  addComponent(detailContainer);
+  detailContainer.setSizeFull();
+  showProcessDefinitionInfo();
 }

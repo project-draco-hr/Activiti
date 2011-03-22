@@ -1,0 +1,22 @@
+{
+  submitFormButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=-6091586145870618870L;
+    public void buttonClick(    ClickEvent event){
+      Map<String,String> formProperties=formPropertiesComponent.getFormPropertyValues();
+      for (      Entry<String,String> entry : formProperties.entrySet()) {
+        System.out.println(entry.getKey() + "->" + entry.getValue());
+      }
+      formService.submitStartFormData(processDefinition.getId(),formProperties);
+      ExplorerApplication.getCurrent().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' has been started");
+      fireEvent(new FormEvent(ProcessDefinitionStartForm.this,FormEvent.TYPE_SUBMIT));
+    }
+  }
+);
+  cancelFormButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=-8980500491522472381L;
+    public void buttonClick(    ClickEvent event){
+      fireEvent(new FormEvent(ProcessDefinitionStartForm.this,FormEvent.TYPE_CANCEL));
+    }
+  }
+);
+}

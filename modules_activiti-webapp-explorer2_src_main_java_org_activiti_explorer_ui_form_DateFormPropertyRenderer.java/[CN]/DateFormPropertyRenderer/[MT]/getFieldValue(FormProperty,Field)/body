@@ -1,0 +1,10 @@
+{
+  PopupDateField dateField=(PopupDateField)field;
+  Date selectedDate=(Date)dateField.getValue();
+  if (selectedDate != null) {
+    String datePattern=(String)formProperty.getType().getInformation("datePattern");
+    SimpleDateFormat dateFormat=new SimpleDateFormat(datePattern);
+    return dateFormat.format(selectedDate);
+  }
+  return null;
+}

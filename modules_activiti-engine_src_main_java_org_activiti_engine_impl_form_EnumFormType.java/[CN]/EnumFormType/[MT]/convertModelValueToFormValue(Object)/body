@@ -1,3 +1,9 @@
 {
+  if (modelValue != null) {
+    if (!(modelValue instanceof String)) {
+      throw new ActivitiException("Model value should be a String");
+    }
+    validateValue((String)modelValue);
+  }
   return null;
 }

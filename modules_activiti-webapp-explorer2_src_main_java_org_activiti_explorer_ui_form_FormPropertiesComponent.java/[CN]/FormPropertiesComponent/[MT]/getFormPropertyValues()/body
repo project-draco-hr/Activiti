@@ -1,3 +1,13 @@
 {
-  return null;
+  form.commit();
+  Map<String,String> formPropertyValues=new HashMap<String,String>();
+  for (  FormProperty formProperty : formProperties) {
+    if (formProperty.isWritable()) {
+      Field field=form.getField(formProperty.getId());
+      FormPropertyRenderer renderer=getRenderer(formProperty);
+      String fieldValue=renderer.getFieldValue(formProperty,field);
+      formPropertyValues.put(formProperty.getId(),fieldValue);
+    }
+  }
+  return formPropertyValues;
 }
