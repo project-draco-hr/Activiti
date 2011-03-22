@@ -1,6 +1,10 @@
 {
   List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).list();
   if (processDefinitions.size() > 0) {
+    Label processDefinitionHeader=new Label("Process Definitions");
+    processDefinitionHeader.addStyleName(Constants.STYLE_DEPLOYMENT_DETAILS_HEADER);
+    processDefinitionHeader.setWidth("90%");
+    addComponent(processDefinitionHeader);
     HorizontalLayout processDefinitionLayout=new HorizontalLayout();
     processDefinitionLayout.setSpacing(true);
     addComponent(processDefinitionLayout);
@@ -8,6 +12,7 @@
     processDefinitionLayout.addComponent(processIcon);
     VerticalLayout processDefinitionLinksLayout=new VerticalLayout();
     processDefinitionLayout.addComponent(processDefinitionLinksLayout);
+    processDefinitionLayout.setComponentAlignment(processDefinitionLinksLayout,Alignment.MIDDLE_LEFT);
     for (    ProcessDefinition processDefinition : processDefinitions) {
       Label processDefinitionLabel=new Label(processDefinition.getName());
       processDefinitionLinksLayout.addComponent(processDefinitionLabel);

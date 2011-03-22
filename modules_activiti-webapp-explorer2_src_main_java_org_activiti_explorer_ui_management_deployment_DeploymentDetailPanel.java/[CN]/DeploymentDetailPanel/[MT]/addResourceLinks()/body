@@ -1,12 +1,17 @@
 {
   List<String> resourceNames=repositoryService.getDeploymentResourceNames(deployment.getId());
   if (resourceNames.size() > 0) {
+    Label resourceHeader=new Label("Resources");
+    resourceHeader.setWidth("90%");
+    resourceHeader.addStyleName(Constants.STYLE_DEPLOYMENT_DETAILS_HEADER);
+    addComponent(resourceHeader);
     HorizontalLayout resourceLayout=new HorizontalLayout();
     addComponent(resourceLayout);
     Embedded resourceIcon=new Embedded(null,Images.RESOURCE);
     resourceLayout.addComponent(resourceIcon);
     VerticalLayout resourceLinksLayout=new VerticalLayout();
     resourceLayout.addComponent(resourceLinksLayout);
+    resourceLayout.setComponentAlignment(resourceLinksLayout,Alignment.MIDDLE_LEFT);
     for (    String resourceName : resourceNames) {
       resourceLinksLayout.addComponent(new Label(resourceName));
     }
