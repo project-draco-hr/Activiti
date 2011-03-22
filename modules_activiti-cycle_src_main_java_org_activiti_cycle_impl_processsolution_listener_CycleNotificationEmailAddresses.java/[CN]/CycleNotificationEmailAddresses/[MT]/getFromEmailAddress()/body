@@ -1,0 +1,12 @@
+{
+  if (fromEmailAddress == null) {
+    fromEmailAddress=CycleServiceFactory.getConfigurationService().getConfigurationValue("NotificationEmailAddresses","defaultFromEmailAddress");
+  }
+  if (fromEmailAddress == null) {
+    fromEmailAddress=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration().getMailServerDefaultFrom();
+  }
+  if (fromEmailAddress == null || fromEmailAddress.equals("activiti@localhost")) {
+    fromEmailAddress="activiti@camunda.com";
+  }
+  return fromEmailAddress;
+}
