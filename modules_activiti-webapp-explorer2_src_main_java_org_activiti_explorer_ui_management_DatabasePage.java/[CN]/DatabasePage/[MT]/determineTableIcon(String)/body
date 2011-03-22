@@ -1,0 +1,19 @@
+{
+  Resource image=null;
+  if (tableName.startsWith("ACT_HI")) {
+    image=Images.DATABASE_HISTORY;
+  }
+ else   if (tableName.startsWith("ACT_GE")) {
+    image=Images.DATABASE_GENERAL;
+  }
+ else   if (tableName.startsWith("ACT_RU")) {
+    image=Images.DATABASE_RUNTIME;
+  }
+ else   if (tableName.startsWith("ACT_RE")) {
+    image=Images.DATABASE_REPOSITORY;
+  }
+ else   if (tableName.startsWith("ACT_ID")) {
+    image=Images.DATABASE_IDENTITY;
+  }
+  return new Embedded(null,image);
+}
