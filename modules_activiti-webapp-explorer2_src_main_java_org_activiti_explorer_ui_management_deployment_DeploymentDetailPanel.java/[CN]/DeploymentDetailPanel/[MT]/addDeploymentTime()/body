@@ -1,0 +1,13 @@
+{
+  Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
+  emptySpace.setSizeUndefined();
+  addComponent(emptySpace);
+  HorizontalLayout timeDetails=new HorizontalLayout();
+  timeDetails.setSpacing(true);
+  addComponent(timeDetails);
+  Embedded clockImage=new Embedded(null,Images.CLOCK);
+  timeDetails.addComponent(clockImage);
+  Label timeLabel=new Label("Deployed " + new PrettyTime().format(deployment.getDeploymentTime()));
+  timeDetails.addComponent(timeLabel);
+  timeDetails.setComponentAlignment(timeLabel,Alignment.MIDDLE_CENTER);
+}

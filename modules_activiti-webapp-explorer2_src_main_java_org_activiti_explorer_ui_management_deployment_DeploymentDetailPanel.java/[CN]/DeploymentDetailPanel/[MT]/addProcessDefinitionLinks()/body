@@ -1,0 +1,16 @@
+{
+  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).list();
+  if (processDefinitions.size() > 0) {
+    HorizontalLayout processDefinitionLayout=new HorizontalLayout();
+    processDefinitionLayout.setSpacing(true);
+    addComponent(processDefinitionLayout);
+    Embedded processIcon=new Embedded(null,Images.PROCESS_48);
+    processDefinitionLayout.addComponent(processIcon);
+    VerticalLayout processDefinitionLinksLayout=new VerticalLayout();
+    processDefinitionLayout.addComponent(processDefinitionLinksLayout);
+    for (    ProcessDefinition processDefinition : processDefinitions) {
+      Label processDefinitionLabel=new Label(processDefinition.getName());
+      processDefinitionLinksLayout.addComponent(processDefinitionLabel);
+    }
+  }
+}

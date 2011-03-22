@@ -1,0 +1,8 @@
+{
+  List<Deployment> deployments=repositoryService.createDeploymentQuery().orderByDeploymentName().asc().orderByDeploymentId().asc().list();
+  List<Item> items=new ArrayList<Item>();
+  for (  Deployment deployment : deployments) {
+    items.add(new DeploymentListitem(deployment));
+  }
+  return items;
+}

@@ -1,0 +1,14 @@
+{
+  List<String> resourceNames=repositoryService.getDeploymentResourceNames(deployment.getId());
+  if (resourceNames.size() > 0) {
+    HorizontalLayout resourceLayout=new HorizontalLayout();
+    addComponent(resourceLayout);
+    Embedded resourceIcon=new Embedded(null,Images.RESOURCE);
+    resourceLayout.addComponent(resourceIcon);
+    VerticalLayout resourceLinksLayout=new VerticalLayout();
+    resourceLayout.addComponent(resourceLinksLayout);
+    for (    String resourceName : resourceNames) {
+      resourceLinksLayout.addComponent(new Label(resourceName));
+    }
+  }
+}

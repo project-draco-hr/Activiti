@@ -1,0 +1,23 @@
+{
+  this.deploymentTable=new Table();
+  mainSplitPanel.setFirstComponent(deploymentTable);
+  deploymentTable.setEditable(false);
+  deploymentTable.setImmediate(true);
+  deploymentTable.setSelectable(true);
+  deploymentTable.setNullSelectionAllowed(false);
+  deploymentTable.setSizeFull();
+  LazyLoadingQuery deploymentListQuery=new DeploymentListQuery();
+  LazyLoadingContainer deploymentListContainer=new LazyLoadingContainer(deploymentListQuery,10);
+  deploymentTable.setContainerDataSource(deploymentListContainer);
+  deploymentTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=8811553575319455854L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=deploymentTable.getItem(event.getProperty().getValue());
+      String deploymentId=(String)item.getItemProperty("id").getValue();
+      mainSplitPanel.setSecondComponent(new DeploymentDetailPanel(deploymentId));
+    }
+  }
+);
+  deploymentTable.addContainerProperty("name",String.class,null);
+  deploymentTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+}

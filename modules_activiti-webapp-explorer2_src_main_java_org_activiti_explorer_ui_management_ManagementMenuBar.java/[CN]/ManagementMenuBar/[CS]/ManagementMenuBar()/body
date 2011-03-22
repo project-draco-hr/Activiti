@@ -1,11 +1,19 @@
 {
   super();
   addStyleName(Constants.STYLE_MENUBAR);
-  Button database=createMenuBarButton("Database");
-  database.addListener(new ClickListener(){
+  Button databaseButton=createMenuBarButton("Database");
+  databaseButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
       ExplorerApplication.getCurrent().switchView(new DatabasePage());
     }
   }
 );
+  Button deploymentButton=createMenuBarButton("Deployments");
+  deploymentButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      ExplorerApplication.getCurrent().switchView(new DeploymentPage());
+    }
+  }
+);
+  fillRemainingSpace();
 }
