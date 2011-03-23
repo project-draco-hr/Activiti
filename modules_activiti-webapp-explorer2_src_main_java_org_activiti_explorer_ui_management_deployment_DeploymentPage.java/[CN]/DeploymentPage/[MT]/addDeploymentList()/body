@@ -7,7 +7,7 @@
   deploymentTable.setNullSelectionAllowed(false);
   deploymentTable.setSizeFull();
   LazyLoadingQuery deploymentListQuery=new DeploymentListQuery();
-  LazyLoadingContainer deploymentListContainer=new LazyLoadingContainer(deploymentListQuery,10);
+  deploymentListContainer=new LazyLoadingContainer(deploymentListQuery,10);
   deploymentTable.setContainerDataSource(deploymentListContainer);
   deploymentTable.addListener(new Property.ValueChangeListener(){
     private static final long serialVersionUID=8811553575319455854L;
@@ -15,6 +15,7 @@
       Item item=deploymentTable.getItem(event.getProperty().getValue());
       String deploymentId=(String)item.getItemProperty("id").getValue();
       mainSplitPanel.setSecondComponent(new DeploymentDetailPanel(deploymentId));
+      ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(DeploymentNavigationHandler.DEPLOYMENT_URI_PART,deploymentId));
     }
   }
 );

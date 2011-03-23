@@ -1,0 +1,20 @@
+{
+  StringBuilder result=new StringBuilder();
+  if (parameters != null) {
+    for (    Entry<String,String> param : parameters.entrySet()) {
+      final String encodedName=encode(param.getKey(),null);
+      final String value=param.getValue();
+      final String encodedValue=value != null ? encode(value,null) : "";
+      if (result.length() > 0) {
+        result.append(PARAMETER_SEPARATOR);
+      }
+ else {
+        result.append(QUERY_STRING_SEPARATOR);
+      }
+      result.append(encodedName);
+      result.append(NAME_VALUE_SEPARATOR);
+      result.append(encodedValue);
+    }
+  }
+  return result.toString();
+}

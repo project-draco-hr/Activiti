@@ -1,5 +1,6 @@
 {
   detailPanel=new ProcessDefinitionDetailPanel(processDefinitionId,FlowPage.this);
   mainSplitPanel.setSecondComponent(detailPanel);
-  ExplorerApplication.getCurrent().getUriFragmentUtility().setFragment("flow/" + processDefinitionId,false);
+  UriFragment processDefinitionFragment=new UriFragment(FlowNavigationHandler.FLOW_URI_PART,processDefinitionId);
+  ExplorerApplication.getCurrent().setCurrentUriFragment(processDefinitionFragment);
 }

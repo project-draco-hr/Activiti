@@ -1,0 +1,12 @@
+{
+  String taskId=null;
+  if (uriFragment.getUriParts().size() == 2) {
+    taskId=uriFragment.getUriPart(1);
+  }
+  if (taskId != null) {
+    ExplorerApplication.getCurrent().switchView(new TaskInboxPage(taskId));
+  }
+ else {
+    ExplorerApplication.getCurrent().switchView(new TaskInboxPage());
+  }
+}

@@ -13,7 +13,9 @@
       Item item=taskTable.getItem(event.getProperty().getValue());
       String taskId=(String)item.getItemProperty("id").getValue();
       mainSplitPanel.setSecondComponent(new TaskDetailPanel(taskId));
-      ExplorerApplication.getCurrent().getUriFragmentUtility().setFragment("tasks/" + taskId,false);
+      UriFragment taskFragment=new UriFragment(TaskNavigationHandler.TASK_URI_PART,taskId);
+      taskFragment.addParameter("category",TaskNavigationHandler.CATEGORY_INBOX);
+      ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
     }
   }
 );

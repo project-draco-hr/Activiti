@@ -9,7 +9,9 @@
   tableList.addListener(new Property.ValueChangeListener(){
     private static final long serialVersionUID=8811553575319455854L;
     public void valueChange(    ValueChangeEvent event){
-      mainSplitPanel.setSecondComponent(new DatabaseDetailPanel((String)event.getProperty().getValue()));
+      String tableName=(String)event.getProperty().getValue();
+      mainSplitPanel.setSecondComponent(new DatabaseDetailPanel(tableName));
+      ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(DataBaseNavigationHandler.TABLE_URI_PART,tableName));
     }
   }
 );
