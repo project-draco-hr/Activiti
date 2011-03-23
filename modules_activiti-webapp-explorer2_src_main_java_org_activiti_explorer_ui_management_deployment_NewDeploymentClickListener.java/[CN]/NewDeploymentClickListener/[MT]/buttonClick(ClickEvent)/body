@@ -1,0 +1,6 @@
+{
+  DeploymentUploadReceiver receiver=new DeploymentUploadReceiver();
+  UploadPopupWindow uploadPopupWindow=new UploadPopupWindow("Upload new Deployment","Select a file (.bar, .zip or .bpmn20.xml) or drop a file in the rectangle below",receiver);
+  uploadPopupWindow.addFinishedListener(receiver);
+  ExplorerApplication.getCurrent().showPopupWindow(uploadPopupWindow);
+}

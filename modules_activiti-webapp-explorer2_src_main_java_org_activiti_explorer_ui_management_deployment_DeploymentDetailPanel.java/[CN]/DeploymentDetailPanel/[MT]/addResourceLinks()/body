@@ -1,8 +1,9 @@
 {
   List<String> resourceNames=repositoryService.getDeploymentResourceNames(deployment.getId());
+  Collections.sort(resourceNames);
   if (resourceNames.size() > 0) {
     Label resourceHeader=new Label("Resources");
-    resourceHeader.setWidth("90%");
+    resourceHeader.setWidth("95%");
     resourceHeader.addStyleName(Constants.STYLE_DEPLOYMENT_DETAILS_HEADER);
     addComponent(resourceHeader);
     HorizontalLayout resourceLayout=new HorizontalLayout();
@@ -10,10 +11,18 @@
     Embedded resourceIcon=new Embedded(null,Images.RESOURCE);
     resourceLayout.addComponent(resourceIcon);
     VerticalLayout resourceLinksLayout=new VerticalLayout();
+    resourceLayout.setSpacing(true);
     resourceLayout.addComponent(resourceLinksLayout);
     resourceLayout.setComponentAlignment(resourceLinksLayout,Alignment.MIDDLE_LEFT);
-    for (    String resourceName : resourceNames) {
-      resourceLinksLayout.addComponent(new Label(resourceName));
+    for (    final String resourceName : resourceNames) {
+      StreamResource.StreamSource streamSource=new StreamSource(){
+        public InputStream getStream(){
+          return repositoryService.getResourceAsStream(deployment.getId(),resourceName);
+        }
+      }
+;
+      Link resourceLink=new Link(resourceName,new StreamResource(streamSource,resourceName,ExplorerApplication.getCurrent()));
+      resourceLinksLayout.addComponent(resourceLink);
     }
   }
 }

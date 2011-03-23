@@ -1,21 +1,29 @@
 {
-  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).list();
+  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).orderByProcessDefinitionName().asc().list();
   if (processDefinitions.size() > 0) {
     Label processDefinitionHeader=new Label("Process Definitions");
     processDefinitionHeader.addStyleName(Constants.STYLE_DEPLOYMENT_DETAILS_HEADER);
-    processDefinitionHeader.setWidth("90%");
+    processDefinitionHeader.setWidth("95%");
     addComponent(processDefinitionHeader);
-    HorizontalLayout processDefinitionLayout=new HorizontalLayout();
-    processDefinitionLayout.setSpacing(true);
-    addComponent(processDefinitionLayout);
+    HorizontalLayout layout=new HorizontalLayout();
+    layout.setSpacing(true);
+    addComponent(layout);
     Embedded processIcon=new Embedded(null,Images.PROCESS_48);
-    processDefinitionLayout.addComponent(processIcon);
+    layout.addComponent(processIcon);
     VerticalLayout processDefinitionLinksLayout=new VerticalLayout();
-    processDefinitionLayout.addComponent(processDefinitionLinksLayout);
-    processDefinitionLayout.setComponentAlignment(processDefinitionLinksLayout,Alignment.MIDDLE_LEFT);
-    for (    ProcessDefinition processDefinition : processDefinitions) {
-      Label processDefinitionLabel=new Label(processDefinition.getName());
-      processDefinitionLinksLayout.addComponent(processDefinitionLabel);
+    processDefinitionLinksLayout.setSpacing(true);
+    layout.addComponent(processDefinitionLinksLayout);
+    layout.setComponentAlignment(processDefinitionLinksLayout,Alignment.MIDDLE_LEFT);
+    for (    final ProcessDefinition processDefinition : processDefinitions) {
+      Button processDefinitionButton=new Button(processDefinition.getName());
+      processDefinitionButton.addListener(new ClickListener(){
+        public void buttonClick(        ClickEvent event){
+          ExplorerApplication.getCurrent().switchView(new FlowPage(processDefinition.getId()));
+        }
+      }
+);
+      processDefinitionButton.addStyleName(Reindeer.BUTTON_LINK);
+      processDefinitionLinksLayout.addComponent(processDefinitionButton);
     }
   }
 }
