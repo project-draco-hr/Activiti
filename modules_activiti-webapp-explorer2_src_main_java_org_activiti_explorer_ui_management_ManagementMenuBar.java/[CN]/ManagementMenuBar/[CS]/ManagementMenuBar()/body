@@ -1,19 +1,17 @@
 {
-  super();
-  addStyleName(Constants.STYLE_MENUBAR);
-  Button databaseButton=createMenuBarButton("Database");
-  databaseButton.addListener(new ClickListener(){
-    public void buttonClick(    ClickEvent event){
+  setWidth("100%");
+  MenuItem databaseItem=addItem("Database",new Command(){
+    public void menuSelected(    MenuItem selectedItem){
       ExplorerApplication.getCurrent().switchView(new DatabasePage());
     }
   }
 );
-  Button deploymentButton=createMenuBarButton("Deployments");
-  deploymentButton.addListener(new ClickListener(){
-    public void buttonClick(    ClickEvent event){
+  MenuItem deploymentsItem=addItem("Deployments",null);
+  deploymentsItem.addItem("Show all",new Command(){
+    public void menuSelected(    MenuItem selectedItem){
       ExplorerApplication.getCurrent().switchView(new DeploymentPage());
     }
   }
 );
-  fillRemainingSpace();
+  deploymentsItem.addItem("Upload new",new NewDeploymentListener());
 }
