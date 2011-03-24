@@ -11,11 +11,17 @@
     private static final long serialVersionUID=8811553575319455854L;
     public void valueChange(    ValueChangeEvent event){
       Item item=taskTable.getItem(event.getProperty().getValue());
-      String taskId=(String)item.getItemProperty("id").getValue();
-      mainSplitPanel.setSecondComponent(new TaskDetailPanel(taskId));
-      UriFragment taskFragment=new UriFragment(TaskNavigationHandler.TASK_URI_PART,taskId);
-      taskFragment.addParameter("category",TaskNavigationHandler.CATEGORY_INBOX);
-      ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
+      if (item != null) {
+        String taskId=(String)item.getItemProperty("id").getValue();
+        mainSplitPanel.setSecondComponent(new TaskDetailPanel(taskId,TaskInboxPage.this));
+        UriFragment taskFragment=new UriFragment(TaskNavigationHandler.TASK_URI_PART,taskId);
+        taskFragment.addParameter("category",TaskNavigationHandler.CATEGORY_INBOX);
+        ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
+      }
+ else {
+        mainSplitPanel.removeComponent(mainSplitPanel.getSecondComponent());
+        ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(TaskNavigationHandler.TASK_URI_PART));
+      }
     }
   }
 );

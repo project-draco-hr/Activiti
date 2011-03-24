@@ -1,0 +1,23 @@
+{
+  submitFormButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=-6091586145870618870L;
+    public void buttonClick(    ClickEvent event){
+      try {
+        Map<String,String> formProperties=formPropertiesComponent.getFormPropertyValues();
+        fireEvent(new FormPropertiesEvent(FormPropertiesForm.this,FormPropertiesEvent.TYPE_SUBMIT,formProperties));
+        submitFormButton.setComponentError(null);
+      }
+ catch (      InvalidValueException ive) {
+      }
+    }
+  }
+);
+  cancelFormButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=-8980500491522472381L;
+    public void buttonClick(    ClickEvent event){
+      fireEvent(new FormPropertiesEvent(FormPropertiesForm.this,FormPropertiesEvent.TYPE_CANCEL));
+      submitFormButton.setComponentError(null);
+    }
+  }
+);
+}

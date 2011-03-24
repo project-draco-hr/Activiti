@@ -1,12 +1,17 @@
 {
   if (processDefinitionStartForm == null) {
-    processDefinitionStartForm=new ProcessDefinitionStartForm(processDefinition);
-    processDefinitionStartForm.addListener(new Listener(){
-      private static final long serialVersionUID=-6481055976243304739L;
-      public void componentEvent(      Event event){
-        if (event instanceof FormEvent) {
-          showProcessDefinitionInfo();
-        }
+    processDefinitionStartForm=new FormPropertiesForm();
+    processDefinitionStartForm.setSubmitButtonCaption("Start process");
+    processDefinitionStartForm.setCancelButtonCaption("Cancel");
+    processDefinitionStartForm.addListener(new FormPropertiesEventListener(){
+      private static final long serialVersionUID=-1747717959106153970L;
+      @Override protected void handleFormSubmit(      FormPropertiesEvent event){
+        formService.submitStartFormData(processDefinition.getId(),event.getFormProperties());
+        ExplorerApplication.getCurrent().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' started successfully");
+        showProcessDefinitionInfo();
+      }
+      @Override protected void handleFormCancel(      FormPropertiesEvent event){
+        showProcessDefinitionInfo();
       }
     }
 );

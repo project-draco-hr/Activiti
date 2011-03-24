@@ -4,9 +4,14 @@
   if (task == null) {
     throw new ActivitiException("No task found for taskId '" + taskId + "'");
   }
-  TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
-  if (taskFormHandler == null) {
-    throw new ActivitiException("No taskFormHandler specified for task '" + taskId + "'");
+  if (task.getTaskDefinition() != null) {
+    TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
+    if (taskFormHandler == null) {
+      throw new ActivitiException("No taskFormHandler specified for task '" + taskId + "'");
+    }
+    return taskFormHandler.createTaskForm(task);
   }
-  return taskFormHandler.createTaskForm(task);
+ else {
+    return null;
+  }
 }
