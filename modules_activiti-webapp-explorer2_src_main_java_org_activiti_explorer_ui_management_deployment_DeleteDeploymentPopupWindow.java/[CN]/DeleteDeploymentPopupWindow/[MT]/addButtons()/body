@@ -1,0 +1,24 @@
+{
+  Button cancelButton=new Button("Cancel");
+  cancelButton.addStyleName(Reindeer.BUTTON_SMALL);
+  cancelButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      close();
+    }
+  }
+);
+  Button deleteButton=new Button("Delete deployment");
+  deleteButton.addStyleName(Reindeer.BUTTON_SMALL);
+  deleteButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      repositoryService.deleteDeployment(deployment.getId(),true);
+      close();
+    }
+  }
+);
+  HorizontalLayout buttonLayout=new HorizontalLayout();
+  buttonLayout.addComponent(cancelButton);
+  buttonLayout.addComponent(deleteButton);
+  addComponent(buttonLayout);
+  windowLayout.setComponentAlignment(buttonLayout,Alignment.BOTTOM_RIGHT);
+}

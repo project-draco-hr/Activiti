@@ -1,0 +1,27 @@
+{
+  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).list();
+  int nrOfProcessInstances=0;
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    nrOfProcessInstances+=runtimeService.createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).count();
+  }
+  if (nrOfProcessInstances == 0) {
+    Label noInstancesLabel=new Label("No runtime flows found for this deployment");
+    noInstancesLabel.addStyleName(Reindeer.LABEL_SMALL);
+    addComponent(noInstancesLabel);
+  }
+ else {
+    HorizontalLayout warningLayout=new HorizontalLayout();
+    warningLayout.setWidth("100%");
+    warningLayout.setSpacing(true);
+    addComponent(warningLayout);
+    Embedded warningIcon=new Embedded(null,Images.WARNING);
+    warningIcon.setType(Embedded.TYPE_IMAGE);
+    warningLayout.addComponent(warningIcon);
+    Label warningLabel=new Label("Found <b>" + nrOfProcessInstances + " running flows</b> for this deployment.<br/>Are you sure you want to go ahead?",Label.CONTENT_XHTML);
+    warningLabel.setSizeUndefined();
+    warningLabel.addStyleName(Reindeer.LABEL_SMALL);
+    warningLayout.addComponent(warningLabel);
+  }
+  Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
+  addComponent(emptySpace);
+}

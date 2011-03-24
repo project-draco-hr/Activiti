@@ -1,25 +1,6 @@
 {
-  DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().name(fileName);
-  try {
-    if (fileName.endsWith(".bpmn20.xml")) {
-      deploymentBuilder.addInputStream(fileName,new ByteArrayInputStream(outputStream.toByteArray())).deploy();
-    }
- else     if (fileName.endsWith(".bar") || fileName.endsWith(".zip")) {
-      deploymentBuilder.addZipInputStream(new ZipInputStream(new ByteArrayInputStream(outputStream.toByteArray()))).deploy();
-    }
- else {
-      ExplorerApplication.getCurrent().showErrorNotification("Could not upload file","Only .bar, .zip and .bpmn20.xml files are supported");
-    }
+  deployUploadedFile();
+  if (validFile) {
+    showUploadedDeployment();
   }
-  finally {
-    if (outputStream != null) {
-      try {
-        outputStream.close();
-      }
- catch (      IOException e) {
-        ExplorerApplication.getCurrent().showErrorNotification("Server-side error",e.getMessage());
-      }
-    }
-  }
-  ExplorerApplication.getCurrent().showInformationNotification(fileName + " has been successfully deployed");
 }
