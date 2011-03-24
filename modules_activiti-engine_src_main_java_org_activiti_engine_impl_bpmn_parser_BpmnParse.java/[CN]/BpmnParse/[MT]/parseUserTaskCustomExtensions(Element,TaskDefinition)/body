@@ -23,4 +23,8 @@
     }
   }
   parseTaskListeners(taskElement,taskDefinition);
+  String dueDateExpression=taskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,DUE_DATE_EXTENSION);
+  if (dueDateExpression != null) {
+    taskDefinition.setDueDateExpression(expressionManager.createExpression(dueDateExpression));
+  }
 }
