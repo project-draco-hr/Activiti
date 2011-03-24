@@ -1,3 +1,6 @@
 {
-  ExplorerApplication.getCurrent().showErrorNotification("Upload failed...",event.getReason().getMessage());
+  uploadFailed(event.getReason().getMessage());
+  for (  FailedListener failedListener : failedListeners) {
+    failedListener.uploadFailed(event);
+  }
 }

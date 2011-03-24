@@ -4,4 +4,7 @@
   progressIndicator.setPollingInterval(500);
   layout.addComponent(progressIndicator);
   layout.setComponentAlignment(progressIndicator,Alignment.MIDDLE_CENTER);
+  for (  StartedListener startedListener : startedListeners) {
+    startedListener.uploadStarted(event);
+  }
 }

@@ -1,3 +1,6 @@
 {
   progressIndicator.setValue(new Float(readBytes / (float)contentLength));
+  for (  ProgressListener progressListener : progressListeners) {
+    progressListener.updateProgress(readBytes,contentLength);
+  }
 }
