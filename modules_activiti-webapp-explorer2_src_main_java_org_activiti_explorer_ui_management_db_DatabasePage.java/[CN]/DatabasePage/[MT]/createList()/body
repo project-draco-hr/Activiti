@@ -1,0 +1,17 @@
+{
+  final Table tableList=new Table();
+  tableList.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=8811553575319455854L;
+    public void valueChange(    ValueChangeEvent event){
+      String tableName=(String)event.getProperty().getValue();
+      splitPanel.setSecondComponent(new DatabaseDetailPanel(tableName));
+      ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(DataBaseNavigationHandler.TABLE_URI_PART,tableName));
+    }
+  }
+);
+  tableList.addContainerProperty("icon",Embedded.class,null);
+  tableList.setColumnWidth("icon",32);
+  tableList.addContainerProperty("tableName",String.class,null);
+  tableList.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  return tableList;
+}

@@ -1,7 +1,7 @@
 {
   TreeMap<String,Long> tables=new TreeMap<String,Long>(managementService.getTableCount());
   for (  String tableName : tables.keySet()) {
-    Item item=tableList.addItem(tableName);
+    Item item=table.addItem(tableName);
     item.getItemProperty("icon").setValue(determineTableIcon(tableName));
     item.getItemProperty("tableName").setValue(tableName + " (" + tables.get(tableName)+ ")");
   }
