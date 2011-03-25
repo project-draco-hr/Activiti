@@ -1,0 +1,9 @@
+{
+  String taskId=req.getMandatoryPathParameter("taskId");
+  List<FormProperty> properties=getFormService().getTaskFormData(taskId).getFormProperties();
+  List<FormProperty> restProperties=new ArrayList<FormProperty>();
+  for (  FormProperty property : properties) {
+    restProperties.add(new RestFormProperty(property));
+  }
+  model.put("formproperties",restProperties);
+}

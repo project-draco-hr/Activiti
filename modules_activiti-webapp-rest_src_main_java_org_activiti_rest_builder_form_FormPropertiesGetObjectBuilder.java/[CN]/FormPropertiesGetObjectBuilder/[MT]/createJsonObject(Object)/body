@@ -1,0 +1,12 @@
+{
+  JSONObject result=new JSONObject();
+  Map<String,Object> model=getModelAsMap(modelObject);
+  List<FormProperty> properties=(List<FormProperty>)model.get("formproperties");
+  JSONArray propertyArray=JSONUtil.putNewArray(result,"data");
+  if (properties != null) {
+    for (    FormProperty property : properties) {
+      propertyArray.put(converter.getJSONObject(property));
+    }
+  }
+  return result;
+}
