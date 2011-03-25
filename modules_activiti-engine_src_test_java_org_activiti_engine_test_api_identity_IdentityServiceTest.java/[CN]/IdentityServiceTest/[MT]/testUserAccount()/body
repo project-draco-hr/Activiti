@@ -18,10 +18,10 @@
   expectedUserAccountNames.add("google");
   expectedUserAccountNames.add("alfresco");
   List<String> userAccountNames=identityService.getUserAccountNames("testuser");
-  assertEquals(expectedUserAccountNames,userAccountNames);
+  assertListElementsMatch(expectedUserAccountNames,userAccountNames);
   identityService.deleteUserAccount("testuser","google");
   expectedUserAccountNames.remove("google");
   userAccountNames=identityService.getUserAccountNames("testuser");
-  assertEquals(expectedUserAccountNames,userAccountNames);
+  assertListElementsMatch(expectedUserAccountNames,userAccountNames);
   identityService.deleteUser(user.getId());
 }
