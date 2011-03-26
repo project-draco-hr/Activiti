@@ -1,0 +1,14 @@
+{
+  String userName=event.getLoginParameter("username");
+  String password=event.getLoginParameter("password");
+  boolean success=identityService.checkPassword(userName,password);
+  if (success) {
+    User user=identityService.createUserQuery().userId(userName).singleResult();
+    ExplorerApplication.getCurrent().setUser(user);
+    ExplorerApplication.getCurrent().showDefaultContent();
+  }
+ else {
+    refreshUi();
+    ExplorerApplication.getCurrent().showErrorNotification("Could not log you in","Invalid user id and/or password");
+  }
+}

@@ -1,10 +1,5 @@
 {
-  setUser(ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().userId("kermit").singleResult());
-  ProcessEngines.getDefaultProcessEngine().getIdentityService().setAuthenticatedUserId("kermit");
-  mainWindow=new Window("Explorer - The Next generation");
+  this.mainWindow=new MainWindow();
   setMainWindow(mainWindow);
-  setTheme(Constants.THEME);
-  mainLayout=new MainLayout(this);
-  mainWindow.setContent(mainLayout);
-  initHiddenComponents();
+  mainWindow.showLoginPage();
 }
