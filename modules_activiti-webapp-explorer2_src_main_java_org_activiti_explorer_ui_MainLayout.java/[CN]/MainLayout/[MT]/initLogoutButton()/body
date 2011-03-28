@@ -1,10 +1,10 @@
 {
   GridLayout logoutGrid=new GridLayout(2,1);
-  logoutGrid.setStyleName(Constants.STYLE_LOGOUT_BUTTON);
+  logoutGrid.setStyleName(ExplorerLayout.STYLE_LOGOUT_BUTTON);
   final User user=ExplorerApplication.getCurrent().getLoggedInUser();
   Button userButton=new Button(user.getFirstName() + " " + user.getLastName());
   userButton.setIcon(Images.USER);
-  userButton.addStyleName(Constants.STYLE_USER_LABEL);
+  userButton.addStyleName(ExplorerLayout.STYLE_USER_PROFILE);
   userButton.addStyleName(Reindeer.BUTTON_LINK);
   userButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
@@ -14,7 +14,7 @@
 );
   Button logout=new Button("Logout");
   logout.setStyleName(Reindeer.BUTTON_LINK);
-  logout.addStyleName(Constants.STYLE_LOGOUT_BUTTON);
+  logout.addStyleName(ExplorerLayout.STYLE_LOGOUT_BUTTON);
   logout.setIcon(Images.WHITE_DIVIDER);
   logout.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){

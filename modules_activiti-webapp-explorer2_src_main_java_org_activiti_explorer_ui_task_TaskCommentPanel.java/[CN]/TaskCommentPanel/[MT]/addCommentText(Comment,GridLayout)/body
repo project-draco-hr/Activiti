@@ -1,6 +1,6 @@
 {
   VerticalLayout layout=new VerticalLayout();
-  layout.addStyleName(Constants.STYLE_TASK_COMMENT);
+  layout.addStyleName(ExplorerLayout.STYLE_TASK_COMMENT);
   layout.setWidth("100%");
   commentGrid.addComponent(layout);
   layout.addListener(new LayoutClickListener(){
@@ -15,11 +15,11 @@
   User user=identityService.createUserQuery().userId(comment.getUserId()).singleResult();
   Label name=new Label(user.getFirstName() + " " + user.getLastName());
   name.setSizeUndefined();
-  name.addStyleName(Constants.STYLE_TASK_COMMENT_AUTHOR);
+  name.addStyleName(ExplorerLayout.STYLE_TASK_COMMENT_AUTHOR);
   commentHeader.addComponent(name);
   Label time=new Label(new PrettyTime().format(comment.getTime()));
   time.setSizeUndefined();
-  time.addStyleName(Constants.STYLE_TASK_COMMENT_TIME);
+  time.addStyleName(ExplorerLayout.STYLE_TASK_COMMENT_TIME);
   commentHeader.addComponent(time);
   Label text=null;
   if (comment.getMessage().length() < 140) {
