@@ -1,12 +1,10 @@
 {
-  String taskId=null;
-  if (uriFragment.getUriParts().size() == 2) {
-    taskId=uriFragment.getUriPart(1);
-  }
-  if (taskId != null) {
-    ExplorerApplication.getCurrent().switchView(new TaskInboxPage(taskId));
+  String category=uriFragment.getParameter(PARAMETER_CATEGORY);
+  String taskId=uriFragment.getUriPart(1);
+  if (CATEGORY_QUEUED.equals(category)) {
+    showQueuedTasks(taskId,uriFragment);
   }
  else {
-    ExplorerApplication.getCurrent().switchView(new TaskInboxPage());
+    showInbox(taskId,uriFragment);
   }
 }

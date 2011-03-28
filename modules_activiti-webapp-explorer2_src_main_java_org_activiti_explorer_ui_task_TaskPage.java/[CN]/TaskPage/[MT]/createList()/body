@@ -8,8 +8,7 @@
       if (item != null) {
         String taskId=(String)item.getItemProperty("id").getValue();
         splitPanel.setSecondComponent(new TaskDetailPanel(taskId,TaskPage.this));
-        UriFragment taskFragment=new UriFragment(TaskNavigationHandler.TASK_URI_PART,taskId);
-        taskFragment.addParameter("category",TaskNavigationHandler.CATEGORY_INBOX);
+        UriFragment taskFragment=getUriFragment(taskId);
         ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
       }
  else {
