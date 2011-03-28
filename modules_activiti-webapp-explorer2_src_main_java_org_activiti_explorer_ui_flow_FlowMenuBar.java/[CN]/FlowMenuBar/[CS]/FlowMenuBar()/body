@@ -1,7 +1,14 @@
 {
-  super();
-  addStyleName(ExplorerLayout.STYLE_MENUBAR);
-  createMenuBarButton("My Flows (23)");
-  createMenuBarButton("Launch Flow");
-  fillRemainingSpace();
+  setWidth("100%");
+  MenuItem myFlowsItem=addItem("My Flows (12)",new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+    }
+  }
+);
+  MenuItem flowsItem=addItem("Flows",new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      ExplorerApplication.getCurrent().switchView(new FlowPage());
+    }
+  }
+);
 }
