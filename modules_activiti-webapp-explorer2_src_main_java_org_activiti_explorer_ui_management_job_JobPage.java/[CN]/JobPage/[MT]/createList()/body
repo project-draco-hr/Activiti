@@ -1,0 +1,27 @@
+{
+  final Table jobTable=new Table();
+  LazyLoadingQuery jobListQuery=new JobListQuery();
+  jobListContainer=new LazyLoadingContainer(jobListQuery,10);
+  jobTable.setContainerDataSource(jobListContainer);
+  jobTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=8811553575319455854L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=jobTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String jobId=(String)item.getItemProperty("id").getValue();
+        splitPanel.setSecondComponent(new JobDetailPanel(jobId,JobPage.this));
+        ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART,jobId));
+      }
+ else {
+        splitPanel.removeComponent(splitPanel.getSecondComponent());
+        ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART));
+      }
+    }
+  }
+);
+  jobTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.PROCESS));
+  jobTable.setColumnWidth("icon",32);
+  jobTable.addContainerProperty("name",String.class,null);
+  jobTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  return jobTable;
+}

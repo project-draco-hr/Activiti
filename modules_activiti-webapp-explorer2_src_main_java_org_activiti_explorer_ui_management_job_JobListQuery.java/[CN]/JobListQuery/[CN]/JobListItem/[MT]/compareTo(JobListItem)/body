@@ -1,0 +1,13 @@
+{
+  Date dueDate=(Date)getItemProperty("dueDate").getValue();
+  Date otherDueDate=(Date)other.getItemProperty("dueDate").getValue();
+  int comparison=compareObjects(dueDate,otherDueDate);
+  if (comparison != 0) {
+    return comparison;
+  }
+ else {
+    String id=(String)getItemProperty("id").getValue();
+    String otherId=(String)other.getItemProperty("id").getValue();
+    return id.compareTo(otherId);
+  }
+}

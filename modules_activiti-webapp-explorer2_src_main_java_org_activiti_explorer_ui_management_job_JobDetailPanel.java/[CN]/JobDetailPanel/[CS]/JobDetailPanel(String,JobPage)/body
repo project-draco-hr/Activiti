@@ -1,0 +1,10 @@
+{
+  this.managementService=ProcessEngines.getDefaultProcessEngine().getManagementService();
+  this.job=managementService.createJobQuery().jobId(jobId).singleResult();
+  this.parent=parent;
+  setSizeFull();
+  addStyleName(Reindeer.LAYOUT_WHITE);
+  addJobName();
+  addJobTime();
+  addJobState();
+}

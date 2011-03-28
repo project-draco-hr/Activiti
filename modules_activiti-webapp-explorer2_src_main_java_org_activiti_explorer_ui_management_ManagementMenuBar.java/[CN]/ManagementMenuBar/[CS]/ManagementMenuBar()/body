@@ -14,4 +14,11 @@
   }
 );
   deploymentsItem.addItem("Upload new",new NewDeploymentListener());
+  addItem("Jobs",new Command(){
+    private static final long serialVersionUID=3038274253757975888L;
+    public void menuSelected(    MenuItem selectedItem){
+      ExplorerApplication.getCurrent().switchView(new JobPage());
+    }
+  }
+);
 }

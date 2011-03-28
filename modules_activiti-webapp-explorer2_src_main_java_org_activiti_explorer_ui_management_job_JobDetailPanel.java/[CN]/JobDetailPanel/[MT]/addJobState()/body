@@ -1,0 +1,32 @@
+{
+  Label processDefinitionHeader=new Label("Job Execution");
+  processDefinitionHeader.addStyleName(Constants.STYLE_JOB_DETAILS_HEADER);
+  processDefinitionHeader.setWidth("95%");
+  addComponent(processDefinitionHeader);
+  VerticalLayout layout=new VerticalLayout();
+  layout.setSpacing(true);
+  layout.setSizeFull();
+  addComponent(layout);
+  Label retrieslabel=new Label(getRetriesLabel(job));
+  layout.addComponent(retrieslabel);
+  if (job.getExceptionMessage() != null) {
+    Label exceptionMessageLabel=new Label("Error during last execution: " + job.getExceptionMessage());
+    exceptionMessageLabel.addStyleName(Constants.STYLE_JOB_EXCEPTION_MESSAGE);
+    layout.addComponent(exceptionMessageLabel);
+    String stack=managementService.getJobExceptionStacktrace(job.getId());
+    Label stackTraceLabel=new Label(stack);
+    stackTraceLabel.setContentMode(Label.CONTENT_PREFORMATTED);
+    stackTraceLabel.addStyleName(Constants.STYLE_JOB_EXCEPTION_TRACE);
+    stackTraceLabel.setSizeFull();
+    Panel stackPanel=new Panel();
+    stackPanel.setWidth(100,UNITS_PERCENTAGE);
+    stackPanel.setHeight(300,UNITS_PIXELS);
+    stackPanel.setScrollable(true);
+    stackPanel.addComponent(stackTraceLabel);
+    layout.addComponent(stackPanel);
+  }
+ else {
+    Label noException=new Label("Job hasn't been executed yet");
+    layout.addComponent(noException);
+  }
+}
