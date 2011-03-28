@@ -5,6 +5,6 @@
   }
  else {
     ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
-    ExplorerApplication.getCurrent().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' has been started");
+    ExplorerApplication.getCurrent().getMainWindow().showNotification(MessageFormat.format(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_STARTED_NOTIFICATIOn),processDefinition.getName()));
   }
 }

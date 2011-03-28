@@ -9,10 +9,10 @@
   timeDetails.addComponent(clockImage);
   String dueDateString=null;
   if (job.getDuedate() != null) {
-    dueDateString="Due date " + new PrettyTime().format(job.getDuedate());
+    dueDateString=ExplorerApplication.getCurrent().getMessage(Messages.JOB_DUEDATE) + " " + new PrettyTime().format(job.getDuedate());
   }
  else {
-    dueDateString="No due date";
+    dueDateString=ExplorerApplication.getCurrent().getMessage(Messages.JOB_NO_DUEDATE);
   }
   Label timeLabel=new Label(dueDateString);
   timeDetails.addComponent(timeLabel);

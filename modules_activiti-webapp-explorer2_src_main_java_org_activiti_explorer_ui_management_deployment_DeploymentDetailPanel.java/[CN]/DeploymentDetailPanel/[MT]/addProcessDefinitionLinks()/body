@@ -1,7 +1,7 @@
 {
   List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).orderByProcessDefinitionName().asc().list();
   if (processDefinitions.size() > 0) {
-    Label processDefinitionHeader=new Label("Process Definitions");
+    Label processDefinitionHeader=new Label(ExplorerApplication.getCurrent().getMessage(Messages.DEPLOYMENT_HEADER_DEFINITIONS));
     processDefinitionHeader.addStyleName(ExplorerLayout.STYLE_DEPLOYMENT_DETAILS_HEADER);
     processDefinitionHeader.setWidth("95%");
     addComponent(processDefinitionHeader);

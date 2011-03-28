@@ -12,7 +12,7 @@
   timeDetailsLayout.addComponent(grid);
   timeDetailsLayout.setComponentAlignment(grid,Alignment.MIDDLE_LEFT);
   if (task.getCreateTime() != null) {
-    Label createTime=new Label("Created " + new PrettyTime().format(task.getCreateTime()));
+    Label createTime=new Label(ExplorerApplication.getCurrent().getMessage(Messages.TASK_CREATED) + " " + new PrettyTime().format(task.getCreateTime()));
     createTime.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
     createTime.setSizeUndefined();
     grid.addComponent(createTime);
@@ -22,7 +22,7 @@
     grid.addComponent(realCreateTime);
   }
   if (task.getDueDate() != null) {
-    Label dueDate=new Label("Has to be finished " + new PrettyTime().format(task.getDueDate()));
+    Label dueDate=new Label(ExplorerApplication.getCurrent().getMessage(Messages.TASK_DUEDATE) + " " + new PrettyTime().format(task.getDueDate()));
     dueDate.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
     dueDate.setSizeUndefined();
     grid.addComponent(dueDate);

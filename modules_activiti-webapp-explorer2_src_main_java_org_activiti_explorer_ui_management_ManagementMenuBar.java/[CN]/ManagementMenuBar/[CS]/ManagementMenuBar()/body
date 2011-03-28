@@ -1,20 +1,20 @@
 {
   setWidth("100%");
-  MenuItem databaseItem=addItem("Database",new Command(){
+  MenuItem databaseItem=addItem(ExplorerApplication.getCurrent().getMessage(Messages.MGMT_MENU_DATABASE),new Command(){
     public void menuSelected(    MenuItem selectedItem){
       ExplorerApplication.getCurrent().switchView(new DatabasePage());
     }
   }
 );
-  MenuItem deploymentsItem=addItem("Deployments",null);
-  deploymentsItem.addItem("Show all",new Command(){
+  MenuItem deploymentsItem=addItem(ExplorerApplication.getCurrent().getMessage(Messages.MGMT_MENU_DEPLOYMENTS),null);
+  deploymentsItem.addItem(ExplorerApplication.getCurrent().getMessage(Messages.MGMT_MENU_DEPLOYMENTS_SHOW_ALL),new Command(){
     public void menuSelected(    MenuItem selectedItem){
       ExplorerApplication.getCurrent().switchView(new DeploymentPage());
     }
   }
 );
-  deploymentsItem.addItem("Upload new",new NewDeploymentListener());
-  addItem("Jobs",new Command(){
+  deploymentsItem.addItem(ExplorerApplication.getCurrent().getMessage(Messages.MGMT_MENU_DEPLOYMENTS_UPLOAD),new NewDeploymentListener());
+  addItem(ExplorerApplication.getCurrent().getMessage(Messages.MGMT_MENU_JOBS),new Command(){
     private static final long serialVersionUID=3038274253757975888L;
     public void menuSelected(    MenuItem selectedItem){
       ExplorerApplication.getCurrent().switchView(new JobPage());

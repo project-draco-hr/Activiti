@@ -7,7 +7,7 @@
   addComponent(timeDetails);
   Embedded clockImage=new Embedded(null,Images.CLOCK);
   timeDetails.addComponent(clockImage);
-  Label timeLabel=new Label("Deployed " + new PrettyTime().format(deployment.getDeploymentTime()));
+  Label timeLabel=new Label(ExplorerApplication.getCurrent().getMessage(Messages.DEPLOYMENT_CREATE_TIME) + new PrettyTime().format(deployment.getDeploymentTime()));
   timeDetails.addComponent(timeLabel);
   timeDetails.setComponentAlignment(timeLabel,Alignment.MIDDLE_CENTER);
 }

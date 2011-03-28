@@ -1,14 +1,14 @@
 {
-  addProfileHeader(infoPanelLayout,"Contact");
+  addProfileHeader(infoPanelLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_CONTACT));
   GridLayout contactLayout=createInfoSectionLayout(2,4);
   if (user.getEmail() != null) {
-    addProfileEntry(contactLayout,"Email: ",user.getEmail());
+    addProfileEntry(contactLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_EMAIL),user.getEmail());
   }
   if (phone != null) {
-    addProfileEntry(contactLayout,"Phone: ",phone);
+    addProfileEntry(contactLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_PHONE),phone);
   }
   if (twitterName != null) {
-    addProfileEntry(contactLayout,"twitter",twitterName);
+    addProfileEntry(contactLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_TWITTER),twitterName);
   }
   if (skypeId != null) {
     GridLayout skypeLayout=new GridLayout(3,1);
@@ -22,6 +22,6 @@
     Embedded skypeImage=new Embedded(null,Images.SKYPE);
     skypeImage.setSizeUndefined();
     skypeLayout.addComponent(skypeImage);
-    addProfileEntry(contactLayout,"Skype: ",skypeLayout);
+    addProfileEntry(contactLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_SKYPE),skypeLayout);
   }
 }

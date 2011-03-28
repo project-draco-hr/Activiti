@@ -1,14 +1,14 @@
 {
-  addProfileHeader(infoPanelLayout,"About");
+  addProfileHeader(infoPanelLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_ABOUT));
   GridLayout aboutLayout=createInfoSectionLayout(2,4);
-  addProfileEntry(aboutLayout,"Name: ",user.getFirstName() + " " + user.getLastName());
+  addProfileEntry(aboutLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_NAME),user.getFirstName() + " " + user.getLastName());
   if (jobTitle != null) {
-    addProfileEntry(aboutLayout,"Job title: ",jobTitle);
+    addProfileEntry(aboutLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_JOBTITLE),jobTitle);
   }
   if (birthDate != null) {
-    addProfileEntry(aboutLayout,"Birth date: ",birthDate);
+    addProfileEntry(aboutLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_BIRTHDATE),birthDate);
   }
   if (location != null) {
-    addProfileEntry(aboutLayout,"Location: ",location);
+    addProfileEntry(aboutLayout,ExplorerApplication.getCurrent().getMessage(Messages.PROFILE_LOCATION),location);
   }
 }

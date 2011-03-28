@@ -11,13 +11,13 @@
   grid.setColumns(2);
   timeDetails.addComponent(grid);
   timeDetails.setComponentAlignment(grid,Alignment.MIDDLE_LEFT);
-  Label version=new Label("Version " + processDefinition.getVersion());
+  Label version=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_VERSION) + processDefinition.getVersion());
   version.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
   version.setSizeUndefined();
   grid.addComponent(version);
   grid.space();
   if (deployment.getDeploymentTime() != null) {
-    Label createTime=new Label("Deployed " + new PrettyTime().format(deployment.getDeploymentTime()));
+    Label createTime=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_DEPLOY_TIME) + new PrettyTime().format(deployment.getDeploymentTime()));
     createTime.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
     createTime.setSizeUndefined();
     grid.addComponent(createTime);
