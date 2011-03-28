@@ -1,6 +1,6 @@
 {
   Label processDefinitionHeader=new Label("Job Execution");
-  processDefinitionHeader.addStyleName(Constants.STYLE_JOB_DETAILS_HEADER);
+  processDefinitionHeader.addStyleName(ExplorerLayout.STYLE_JOB_DETAILS_HEADER);
   processDefinitionHeader.setWidth("95%");
   addComponent(processDefinitionHeader);
   VerticalLayout layout=new VerticalLayout();
@@ -12,12 +12,12 @@
   layout.addComponent(retrieslabel);
   if (job.getExceptionMessage() != null) {
     Label exceptionMessageLabel=new Label("Error during last execution: " + job.getExceptionMessage());
-    exceptionMessageLabel.addStyleName(Constants.STYLE_JOB_EXCEPTION_MESSAGE);
+    exceptionMessageLabel.addStyleName(ExplorerLayout.STYLE_JOB_EXCEPTION_MESSAGE);
     layout.addComponent(exceptionMessageLabel);
     String stack=managementService.getJobExceptionStacktrace(job.getId());
     Label stackTraceLabel=new Label(stack);
     stackTraceLabel.setContentMode(Label.CONTENT_PREFORMATTED);
-    stackTraceLabel.addStyleName(Constants.STYLE_JOB_EXCEPTION_TRACE);
+    stackTraceLabel.addStyleName(ExplorerLayout.STYLE_JOB_EXCEPTION_TRACE);
     stackTraceLabel.setSizeFull();
     Panel stackPanel=new Panel();
     stackPanel.setWidth(100,UNITS_PERCENTAGE);
