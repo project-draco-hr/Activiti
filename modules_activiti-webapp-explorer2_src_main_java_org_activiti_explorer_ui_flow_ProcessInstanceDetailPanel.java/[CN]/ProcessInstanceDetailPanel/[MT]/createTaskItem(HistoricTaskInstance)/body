@@ -1,0 +1,19 @@
+{
+  PropertysetItem item=new PropertysetItem();
+  item.addItemProperty("id",new ObjectProperty<String>(task.getId()));
+  item.addItemProperty("name",new ObjectProperty<String>(task.getName()));
+  item.addItemProperty("startDate",new ObjectProperty<Date>(task.getStartTime()));
+  item.addItemProperty("priority",new ObjectProperty<Integer>(task.getPriority()));
+  boolean finished=task.getEndTime() != null;
+  item.addItemProperty("finished",new ObjectProperty<Boolean>(finished));
+  if (finished) {
+    item.addItemProperty("endDate",new ObjectProperty<Date>(task.getEndTime()));
+  }
+  if (task.getDueDate() != null) {
+    item.addItemProperty("dueDate",new ObjectProperty<Date>(task.getDueDate()));
+  }
+  if (task.getAssignee() != null) {
+    item.addItemProperty("assignee",new ObjectProperty<String>(task.getAssignee()));
+  }
+  return item;
+}

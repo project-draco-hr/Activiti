@@ -4,6 +4,7 @@
   addStyleName(Reindeer.LAYOUT_WHITE);
   this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
   this.formService=ProcessEngines.getDefaultProcessEngine().getFormService();
+  this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
   this.task=taskService.createTaskQuery().taskId(taskId).singleResult();
   this.leftPanel=new Panel();
   leftPanel.addStyleName(Reindeer.PANEL_LIGHT);
@@ -11,6 +12,8 @@
   setExpandRatio(leftPanel,75.0f);
   initName();
   initDescription();
+  initProcessLink();
+  initClaimButton();
   initTimeDetails();
   initPeopleDetails();
   initTaskForm();

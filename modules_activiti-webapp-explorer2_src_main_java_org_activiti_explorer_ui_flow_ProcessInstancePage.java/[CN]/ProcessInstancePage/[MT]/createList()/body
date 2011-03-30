@@ -1,0 +1,30 @@
+{
+  final Table processInstanceTable=new Table();
+  processInstanceTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_LIST);
+  processInstanceTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=8811553575319455854L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=processInstanceTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String processInstanceId=(String)item.getItemProperty("id").getValue();
+        splitPanel.setSecondComponent(new ProcessInstanceDetailPanel(processInstanceId,ProcessInstancePage.this));
+        UriFragment taskFragment=getUriFragment(processInstanceId);
+        ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
+      }
+ else {
+        splitPanel.removeComponent(splitPanel.getSecondComponent());
+        UriFragment taskFragment=getUriFragment(null);
+        ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
+      }
+    }
+  }
+);
+  this.lazyLoadingQuery=createLazyLoadingQuery();
+  this.processInstanceListContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
+  processInstanceTable.setContainerDataSource(processInstanceListContainer);
+  processInstanceTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.PROCESS));
+  processInstanceTable.setColumnWidth("icon",32);
+  processInstanceTable.addContainerProperty("name",String.class,null);
+  processInstanceTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  return processInstanceTable;
+}

@@ -1,0 +1,8 @@
+{
+  ProcessInstanceListItem item=new ProcessInstanceListItem();
+  item.addItemProperty("id",new ObjectProperty<String>(processInstance.getId()));
+  ProcessDefinition processDefinition=getProcessDefinition(processInstance.getProcessDefinitionId());
+  String itemName=processDefinition.getName() + " (" + processInstance.getId()+ ")";
+  item.addItemProperty("name",new ObjectProperty<String>(itemName));
+  return item;
+}

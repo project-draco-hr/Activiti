@@ -29,7 +29,7 @@
   commentLayout.setWidth("70%");
   layout.addComponent(commentLayout);
   layout.setExpandRatio(commentLayout,1.0f);
-  Label header=new Label(MessageFormat.format(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMMENT_POPUP_HEADER),new PrettyTime().format(comment.getTime()),user.getFirstName() + " " + user.getLastName()));
+  Label header=new Label(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMMENT_POPUP_HEADER,new PrettyTime().format(comment.getTime()),user.getFirstName() + " " + user.getLastName()));
   header.addStyleName(ExplorerLayout.STYLE_TASK_COMMENT_AUTHOR);
   commentLayout.addComponent(header);
   Label commentText=new Label(comment.getMessage());

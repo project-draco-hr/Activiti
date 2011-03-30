@@ -1,0 +1,16 @@
+{
+  boolean booleanValue=false;
+  Item item=source.getItem(itemId);
+  if (item != null) {
+    Property booleanProp=item.getItemProperty(columnId);
+    if (booleanProp != null) {
+      booleanValue=(Boolean)booleanProp.getValue();
+    }
+  }
+  if (booleanValue) {
+    return new Embedded(null,trueImage);
+  }
+ else {
+    return new Embedded(null,falseImage);
+  }
+}

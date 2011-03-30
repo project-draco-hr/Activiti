@@ -10,7 +10,7 @@
       @Override protected void handleFormSubmit(      FormPropertiesEvent event){
         Map<String,String> properties=event.getFormProperties();
         formService.submitTaskFormData(task.getId(),properties);
-        ExplorerApplication.getCurrent().getMainWindow().showNotification(MessageFormat.format(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETED),task.getName()));
+        ExplorerApplication.getCurrent().getMainWindow().showNotification(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETED,task.getName()));
         parent.refreshList();
       }
       @Override protected void handleFormCancel(      FormPropertiesEvent event){
@@ -18,22 +18,22 @@
       }
     }
 );
+    taskForm.setEnabled(isCurrentUserAssignee());
     leftPanel.addComponent(taskForm);
   }
  else {
-    Button completeButton=new Button(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE));
+    completeButton=new Button(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE));
     completeButton.addListener(new ClickListener(){
       private static final long serialVersionUID=1L;
       public void buttonClick(      ClickEvent event){
         taskService.complete(task.getId());
-        ExplorerApplication.getCurrent().getMainWindow().showNotification(MessageFormat.format(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETED),task.getName()));
+        ExplorerApplication.getCurrent().getMainWindow().showNotification(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETED,task.getName()));
         parent.refreshList();
       }
     }
 );
-    Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
-    emptySpace.setSizeUndefined();
-    leftPanel.addComponent(emptySpace);
+    addEmptySpace(leftPanel);
+    completeButton.setEnabled(isCurrentUserAssignee());
     leftPanel.addComponent(completeButton);
   }
 }

@@ -1,0 +1,22 @@
+{
+  Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
+  emptySpace.setSizeUndefined();
+  addComponent(emptySpace);
+  HorizontalLayout timeDetails=new HorizontalLayout();
+  timeDetails.setSpacing(true);
+  addComponent(timeDetails);
+  Embedded clockImage=new Embedded(null,Images.CLOCK);
+  timeDetails.addComponent(clockImage);
+  String startedOnDate=new PrettyTime().format(historicProcessInstance.getStartTime());
+  String startedOn=ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_STARTED_ON,startedOnDate);
+  Label timeLabel=new Label(startedOn);
+  timeDetails.addComponent(timeLabel);
+  SimpleDateFormat format=(SimpleDateFormat)Constant.DEFAULT_DATE_FORMATTER.clone();
+  String dateString=format.format(historicProcessInstance.getStartTime());
+  Label realCreateTime=new Label("(" + dateString + ")");
+  realCreateTime.addStyleName(Reindeer.LABEL_SMALL);
+  realCreateTime.setSizeUndefined();
+  timeDetails.addComponent(realCreateTime);
+  timeDetails.setComponentAlignment(realCreateTime,Alignment.MIDDLE_CENTER);
+  timeDetails.setComponentAlignment(timeLabel,Alignment.MIDDLE_CENTER);
+}

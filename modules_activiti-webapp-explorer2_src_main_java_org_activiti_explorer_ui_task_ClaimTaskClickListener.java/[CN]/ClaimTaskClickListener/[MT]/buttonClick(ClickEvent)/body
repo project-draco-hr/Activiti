@@ -1,0 +1,11 @@
+{
+  ExplorerApplication app=ExplorerApplication.getCurrent();
+  try {
+    taskService.claim(taskId,ExplorerApplication.getCurrent().getLoggedInUser().getId());
+    app.showInformationNotification(app.getMessage(Messages.TASK_CLAIM_SUCCESS));
+    app.switchView(new TaskInboxPage(taskId));
+  }
+ catch (  ActivitiException ae) {
+    app.showErrorNotification(app.getMessage(Messages.TASK_CLAIM_FAILED),ae.getMessage());
+  }
+}

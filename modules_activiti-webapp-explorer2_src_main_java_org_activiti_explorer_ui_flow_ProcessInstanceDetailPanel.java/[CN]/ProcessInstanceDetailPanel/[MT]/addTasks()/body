@@ -1,0 +1,37 @@
+{
+  Label header=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_HEADER_TASKS));
+  header.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_DETAILS_HEADER);
+  addComponent(header);
+  Table taskTable=new Table();
+  taskTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_TASK_LIST);
+  taskTable.setWidth(100,UNITS_PERCENTAGE);
+  taskTable.setHeight(100,UNITS_PERCENTAGE);
+  List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByHistoricActivityInstanceStartTime().desc().list();
+  if (tasks.size() > 0) {
+    ItemListContainer simpleContainer=new ItemListContainer();
+    for (    HistoricTaskInstance task : tasks) {
+      simpleContainer.addItem(createTaskItem(task));
+    }
+    taskTable.setContainerDataSource(simpleContainer);
+    taskTable.addGeneratedColumn("finished",new ThemedImageBooleanColumnGenerator(Images.TASK_FINISHED,Images.TASK_UNFINISHED));
+    taskTable.setColumnHeader("finished","");
+    taskTable.setColumnWidth("finished",16);
+    taskTable.addContainerProperty("name",String.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_NAME),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("priority",Integer.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_PRIORITY),null,Table.ALIGN_LEFT);
+    taskTable.addGeneratedColumn("assignee",new UserProfilePopupLinkColumnGenerator(identityService,true));
+    taskTable.setColumnHeader("assignee",ExplorerApplication.getCurrent().getMessage(Messages.TASK_ASSIGNEE));
+    taskTable.addGeneratedColumn("dueDate",new PrettyTimeColumnGenerator());
+    taskTable.setColumnHeader("dueDate",ExplorerApplication.getCurrent().getMessage(Messages.TASK_DUEDATE));
+    taskTable.addGeneratedColumn("startDate",new PrettyTimeColumnGenerator());
+    taskTable.setColumnHeader("startDate",ExplorerApplication.getCurrent().getMessage(Messages.TASK_CREATE_TIME));
+    taskTable.addGeneratedColumn("endDate",new PrettyTimeColumnGenerator(ExplorerApplication.getCurrent().getMessage(Messages.TASK_NOT_FINISHED_YET)));
+    taskTable.setColumnHeader("endDate",ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE_TIME));
+    addComponent(taskTable);
+    ((VerticalLayout)getContent()).setExpandRatio(taskTable,1.0f);
+    ((VerticalLayout)getContent()).setSizeFull();
+  }
+ else {
+    Label noTaskLabel=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_NO_TASKS));
+    addComponent(noTaskLabel);
+  }
+}

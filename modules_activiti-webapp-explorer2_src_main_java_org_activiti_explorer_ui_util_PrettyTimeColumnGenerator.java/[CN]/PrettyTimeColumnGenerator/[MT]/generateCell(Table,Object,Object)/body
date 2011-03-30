@@ -1,0 +1,21 @@
+{
+  Item item=source.getItem(itemId);
+  Date value=null;
+  if (item != null) {
+    Property dateProperty=item.getItemProperty(columnId);
+    if (dateProperty != null && Date.class.equals(dateProperty.getType())) {
+      value=(Date)dateProperty.getValue();
+    }
+  }
+  Label prettyTimeLabel=new Label();
+  prettyTimeLabel.setSizeUndefined();
+  if (value != null) {
+    prettyTimeLabel.setValue(new PrettyTime().format(value));
+    prettyTimeLabel.setDescription(dateFormat.format(value));
+  }
+ else {
+    prettyTimeLabel.setValue(noDateCaption);
+    prettyTimeLabel.setDescription(noDateCaption);
+  }
+  return prettyTimeLabel;
+}

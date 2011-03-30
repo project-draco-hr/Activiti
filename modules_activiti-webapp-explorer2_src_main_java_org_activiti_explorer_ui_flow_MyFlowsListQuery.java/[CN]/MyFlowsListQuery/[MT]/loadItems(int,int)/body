@@ -1,0 +1,8 @@
+{
+  List<ProcessInstance> processInstances=runtimeService.createProcessInstanceQuery().list();
+  List<Item> items=new ArrayList<Item>();
+  for (  ProcessInstance processInstance : processInstances) {
+    items.add(createItem(processInstance));
+  }
+  return items;
+}
