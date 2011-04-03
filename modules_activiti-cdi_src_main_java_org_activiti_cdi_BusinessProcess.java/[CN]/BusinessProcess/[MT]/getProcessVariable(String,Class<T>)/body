@@ -1,0 +1,22 @@
+{
+  resumeProcess();
+  Object value=null;
+  if (!isActive() || getBeanStore().holdsValue(variableName)) {
+    value=getBeanStore().getContextualInstance(variableName);
+  }
+ else {
+    try {
+      value=Context.getExecutionContext().getExecution().getVariable(variableName);
+    }
+ catch (    Exception e) {
+      value=processEngine.getRuntimeService().getVariable(associationManager.getProcessInstanceId(),variableName);
+    }
+    getBeanStore().put(variableName,value);
+  }
+  if (value == null) {
+    return null;
+  }
+ else {
+    return (T)value;
+  }
+}

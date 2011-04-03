@@ -1,0 +1,11 @@
+{
+  getBeanInstance(CreditCard.class).setCreditcardNumber("123");
+  String pid=getBeanInstance(BusinessProcess.class).startProcessByKey("testConversationalBeanStoreFlush").getId();
+  endConversationAndBeginNew(pid);
+  assertEquals("123",getBeanInstance(CreditCard.class).getCreditcardNumber());
+  getBeanInstance(CreditCard.class).setCreditcardNumber("321");
+  getBeanInstance(BusinessProcess.class).completeTask();
+  endConversationAndBeginNew(pid);
+  assertEquals("321",getBeanInstance(CreditCard.class).getCreditcardNumber());
+  getBeanInstance(BusinessProcess.class).completeTask();
+}

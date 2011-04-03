@@ -1,0 +1,6 @@
+{
+  String businessKey="Activiti";
+  String pid=runtimeService.startProcessInstanceByKey("keyOfTheProcess",businessKey).getId();
+  getBeanInstance(BusinessProcess.class).resumeProcessById(pid);
+  assertEquals(businessKey,getBeanInstance("businessKey"));
+}

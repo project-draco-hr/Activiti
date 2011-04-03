@@ -1,0 +1,7 @@
+{
+  BeanManager bm=BeanManagerLookup.getBeanManager();
+  Bean<T> bean=(Bean<T>)bm.getBeans(clazz).iterator().next();
+  CreationalContext<T> ctx=bm.createCreationalContext(bean);
+  T dao=(T)bm.getReference(bean,clazz,ctx);
+  return dao;
+}

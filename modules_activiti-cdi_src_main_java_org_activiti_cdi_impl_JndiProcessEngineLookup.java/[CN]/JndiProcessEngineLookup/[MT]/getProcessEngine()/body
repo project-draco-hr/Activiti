@@ -1,0 +1,13 @@
+{
+  try {
+    Object engine=InitialContext.doLookup(getJndiName());
+    logger.info("Looked up ProcessEngine '" + engine + "' in jndi ("+ jndiName+ ")");
+    return (ProcessEngine)engine;
+  }
+ catch (  NamingException e) {
+    throw new ActivitiException("No Process Engine is bound to the jndi name '" + jndiName + "'.",e);
+  }
+catch (  ClassCastException e) {
+    throw new ActivitiException("The object bound to '" + jndiName + "' appears not to be a ProcessEngine: "+ e.getMessage(),e);
+  }
+}

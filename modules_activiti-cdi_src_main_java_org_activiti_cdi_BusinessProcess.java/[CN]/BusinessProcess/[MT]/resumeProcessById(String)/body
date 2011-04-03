@@ -1,0 +1,13 @@
+{
+  associateBusinessProcessInstance(processInstanceId);
+  try {
+    getProcessInstance();
+  }
+ catch (  ActivitiException e) {
+    associationManager.disAssociateProcessInstance();
+    throw new ActivitiException("Cannot resume process: no ProcessInstance with id '" + processInstanceId + "' found.");
+  }
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("Resumig ProcessInstance[" + processInstanceId + "].");
+  }
+}

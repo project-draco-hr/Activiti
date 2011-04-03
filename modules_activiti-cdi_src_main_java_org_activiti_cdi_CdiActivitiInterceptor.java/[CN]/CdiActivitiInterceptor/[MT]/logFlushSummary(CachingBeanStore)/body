@@ -1,0 +1,14 @@
+{
+  if (logger.isLoggable(Level.FINE)) {
+    if (beanStore.getVariableNames().size() == 0) {
+      logger.finest("Cdi context flush summary: nothing to flush");
+    }
+ else {
+      logger.fine("------------------ Cdi context flush summary:");
+      for (      String variable : beanStore.getVariableNames()) {
+        logger.fine("   - " + variable + ": "+ beanStore.getContextualInstance(variable));
+      }
+      logger.fine("-----------------------------------------------");
+    }
+  }
+}

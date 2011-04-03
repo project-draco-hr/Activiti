@@ -1,0 +1,9 @@
+{
+  if (!getBeanInstance(Conversation.class).isTransient()) {
+    getBeanInstance(Conversation.class).end();
+    getConversationContext().getBeanStore().clear();
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("---------------------------------------- Ended the current Conversation -----------------------");
+    }
+  }
+}

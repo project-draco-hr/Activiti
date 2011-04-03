@@ -1,0 +1,22 @@
+{
+  try {
+    Object result=ctx.proceed();
+    StartProcess startProcessAnnotation=ctx.getMethod().getAnnotation(StartProcess.class);
+    String name=startProcessAnnotation.name();
+    String key=startProcessAnnotation.value();
+    Map<String,Object> variables=extractVariables(startProcessAnnotation,ctx);
+    if (name.length() > 0) {
+      businessProcess.startProcessByName(name,variables);
+    }
+ else {
+      businessProcess.startProcessByKey(key,variables);
+    }
+    return result;
+  }
+ catch (  InvocationTargetException e) {
+    throw e.getCause();
+  }
+catch (  Exception e) {
+    throw new ActivitiException("Error while starting process using @StartProcess on method  '" + ctx.getMethod() + "': "+ e.getMessage(),e);
+  }
+}

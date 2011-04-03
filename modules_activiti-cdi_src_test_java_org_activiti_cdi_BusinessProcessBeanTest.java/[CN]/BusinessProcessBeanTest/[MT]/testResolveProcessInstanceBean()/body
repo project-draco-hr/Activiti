@@ -1,0 +1,13 @@
+{
+  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
+  getBeanInstance(Actor.class).setActorId("kermit");
+  try {
+    getBeanInstance(ProcessInstance.class);
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  String pid=businessProcess.startProcessByKey("businessProcessBeanTest").getId();
+  assertEquals(pid,getBeanInstance(ProcessInstance.class).getId());
+  businessProcess.completeTask();
+}

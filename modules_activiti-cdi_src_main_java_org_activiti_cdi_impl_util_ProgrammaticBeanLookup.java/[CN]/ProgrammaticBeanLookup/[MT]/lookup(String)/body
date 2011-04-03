@@ -1,0 +1,6 @@
+{
+  BeanManager bm=BeanManagerLookup.getBeanManager();
+  Bean bean=(Bean)bm.getBeans(name).iterator().next();
+  CreationalContext ctx=bm.createCreationalContext(bean);
+  return bm.getReference(bean,bean.getBeanClass(),ctx);
+}

@@ -1,0 +1,15 @@
+{
+  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
+  getBeanInstance(Actor.class).setActorId("kermit");
+  businessProcess.startProcessByKey("businessProcessBeanTest").getId();
+  assertNotNull(processEngine.getRuntimeService().createProcessInstanceQuery().singleResult());
+  Task task=processEngine.getTaskService().createTaskQuery().singleResult();
+  assertNotNull(task);
+  String value="value";
+  businessProcess.setProcessVariable("key",value);
+  assertEquals(value,businessProcess.getProcessVariable("key"));
+  assertEquals(task.getId(),businessProcess.resumeTaskById(task.getId()).getId());
+  businessProcess.completeTask();
+  assertNull(processEngine.getTaskService().createTaskQuery().singleResult());
+  assertNull(processEngine.getRuntimeService().createProcessInstanceQuery().singleResult());
+}

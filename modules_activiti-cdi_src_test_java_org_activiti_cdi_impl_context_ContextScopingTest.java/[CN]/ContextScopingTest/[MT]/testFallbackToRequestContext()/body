@@ -1,0 +1,12 @@
+{
+  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
+  beginRequest();
+  String pid=businessProcess.startProcessByKey("processkey").getId();
+  assertEquals(pid,businessProcess.getProcessInstanceId());
+  endRequest();
+  beginRequest();
+  assertNull(businessProcess.getProcessInstanceId());
+  businessProcess.resumeProcessById(pid);
+  businessProcess.completeTask();
+  endRequest();
+}

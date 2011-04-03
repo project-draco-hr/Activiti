@@ -1,0 +1,21 @@
+{
+  if (jndiName != null) {
+    try {
+      return (BeanManager)InitialContext.doLookup(jndiName);
+    }
+ catch (    NamingException e) {
+      throw new ActivitiException("Could not lookup beanmanager in jndi using name: '" + jndiName + "'.",e);
+    }
+  }
+  try {
+    return (BeanManager)InitialContext.doLookup("java:comp/BeanManager");
+  }
+ catch (  NamingException e) {
+  }
+  try {
+    return (BeanManager)InitialContext.doLookup("java:comp/env/BeanManager");
+  }
+ catch (  NamingException e) {
+  }
+  throw new ActivitiException("Could not lookup beanmanager in jndi. If no jndi is avalable, set the beanmanger to the 'localInstance' property of this class.");
+}

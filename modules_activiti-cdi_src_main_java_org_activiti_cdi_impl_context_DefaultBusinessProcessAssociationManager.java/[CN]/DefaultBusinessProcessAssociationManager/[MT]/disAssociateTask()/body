@@ -1,0 +1,11 @@
+{
+  ScopedAssociation scopedAssociation=getScopedAssociation();
+  if (scopedAssociation.getTaskId() == null) {
+    throw new ActivitiException("Cannot dissasociate task, no " + scopedAssociation.getClass().getAnnotations()[0].annotationType().getSimpleName() + " task associated. ");
+  }
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("Disassociating the current task");
+  }
+  getScopedAssociation().setTaskId(null);
+  getBeanStore().clear();
+}

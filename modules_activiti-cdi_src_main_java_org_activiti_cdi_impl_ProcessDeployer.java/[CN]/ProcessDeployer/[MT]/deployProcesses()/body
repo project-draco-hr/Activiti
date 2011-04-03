@@ -1,0 +1,15 @@
+{
+  Set<String> resourceNames=getResourceNames();
+  if (resourceNames.size() == 0) {
+    logger.info("Not creating a deployment");
+    return;
+  }
+  logger.fine("Start deploying processes.");
+  DeploymentBuilder deploymentBuilder=processEngine.getRepositoryService().createDeployment();
+  for (  String string : resourceNames) {
+    logger.info("Adding '" + string + "' to deployment.");
+    deploymentBuilder.addClasspathResource(string);
+  }
+  deploymentBuilder.deploy();
+  logger.fine("Done deploying processes.");
+}

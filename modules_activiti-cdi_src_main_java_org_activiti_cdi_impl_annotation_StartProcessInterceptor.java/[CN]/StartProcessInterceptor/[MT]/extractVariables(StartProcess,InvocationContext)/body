@@ -1,0 +1,17 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  for (  Field field : ctx.getTarget().getClass().getDeclaredFields()) {
+    if (!field.isAnnotationPresent(ProcessVariable.class)) {
+      continue;
+    }
+    field.setAccessible(true);
+    ProcessVariable processStartVariable=field.getAnnotation(ProcessVariable.class);
+    String fieldName=processStartVariable.value();
+    if (fieldName == null || fieldName.length() == 0) {
+      fieldName=field.getName();
+    }
+    Object value=field.get(ctx.getTarget());
+    variables.put(fieldName,value);
+  }
+  return variables;
+}

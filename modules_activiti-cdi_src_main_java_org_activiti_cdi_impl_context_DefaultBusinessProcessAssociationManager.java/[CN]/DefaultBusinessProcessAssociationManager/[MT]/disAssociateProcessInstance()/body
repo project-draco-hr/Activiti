@@ -1,0 +1,12 @@
+{
+  ScopedAssociation scopedAssociation=getScopedAssociation();
+  if (scopedAssociation.getProcessInstanceId() == null) {
+    throw new ActivitiException("Cannot dissasociate process instance, no " + scopedAssociation.getClass().getAnnotations()[0].annotationType().getSimpleName() + " processinstance associated. ");
+  }
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("Disassociating the current task");
+  }
+  getScopedAssociation().setProcessInstanceId(null);
+  getScopedAssociation().setTaskId(null);
+  getBeanStore().clear();
+}

@@ -1,0 +1,7 @@
+{
+  String processVariableName=getVariableName(ip);
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("Getting process variable '" + processVariableName + "' from ProcessInstance["+ businessProcess.getProcessInstanceId()+ "].");
+  }
+  return businessProcess.getProcessVariable(processVariableName);
+}

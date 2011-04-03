@@ -1,0 +1,5 @@
+{
+  List<CommandInterceptor> interceptorChain=new ArrayList<CommandInterceptor>(super.getDefaultCommandInterceptorsTxRequiresNew());
+  interceptorChain.add(interceptorChain.size() - 1,new CdiActivitiInterceptor());
+  return interceptorChain;
+}

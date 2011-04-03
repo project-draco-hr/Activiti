@@ -1,0 +1,12 @@
+{
+  try {
+    Object result=getWrappedResolver().getValue(this.context,base,property);
+    context.setPropertyResolved(result != null);
+    return result;
+  }
+ catch (  IllegalStateException e) {
+    Object result=ProgrammaticBeanLookup.lookup(property.toString());
+    context.setPropertyResolved(result != null);
+    return result;
+  }
+}

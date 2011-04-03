@@ -1,0 +1,15 @@
+{
+  Bean<T> bean=(Bean<T>)contextual;
+  String variableName=bean.getName();
+  BusinessProcess businessProcess=getBusinessProcess();
+  Object variable=businessProcess.getProcessVariable(variableName);
+  if (variable != null) {
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("Getting instance of bean '" + variableName + "' in business process context representing ProcessInstance["+ businessProcess.getProcessInstanceId()+ "].");
+    }
+    return (T)variable;
+  }
+ else {
+    return null;
+  }
+}
