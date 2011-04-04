@@ -7,9 +7,6 @@
     addSessionFactory(new DbManagementSessionFactory());
     addSessionFactory(new JobExecutorTimerSessionFactory());
     addSessionFactory(new DbHistorySessionFactory());
-    DbRepositorySessionFactory dbRepositorySessionFactory=new DbRepositorySessionFactory();
-    dbRepositorySessionFactory.setDeployers(deployers);
-    addSessionFactory(dbRepositorySessionFactory);
     JobExecutorMessageSessionFactory jobExecutorMessageSessionFactory=new JobExecutorMessageSessionFactory();
     addSessionFactory(jobExecutorMessageSessionFactory);
     dbSqlSessionFactory=new DbSqlSessionFactory();
@@ -20,6 +17,17 @@
     dbSqlSessionFactory.setDbHistoryUsed(isDbHistoryUsed);
     dbSqlSessionFactory.setDbCycleUsed(isDbCycleUsed);
     addSessionFactory(dbSqlSessionFactory);
+    addSessionFactory(new GenericManagerFactory(DeploymentManager.class));
+    addSessionFactory(new GenericManagerFactory(ResourceManager.class));
+    addSessionFactory(new GenericManagerFactory(ProcessDefinitionManager.class));
+    addSessionFactory(new GenericManagerFactory(ExecutionManager.class));
+    addSessionFactory(new GenericManagerFactory(TaskManager.class));
+    addSessionFactory(new GenericManagerFactory(IdentityLinkManager.class));
+    addSessionFactory(new GenericManagerFactory(VariableInstanceManager.class));
+    addSessionFactory(new GenericManagerFactory(HistoricProcessInstanceManager.class));
+    addSessionFactory(new GenericManagerFactory(HistoricActivityInstanceManager.class));
+    addSessionFactory(new GenericManagerFactory(HistoricTaskInstanceManager.class));
+    addSessionFactory(new GenericManagerFactory(HistoricDetailManager.class));
   }
   if (customSessionFactories != null) {
     for (    SessionFactory sessionFactory : customSessionFactories) {

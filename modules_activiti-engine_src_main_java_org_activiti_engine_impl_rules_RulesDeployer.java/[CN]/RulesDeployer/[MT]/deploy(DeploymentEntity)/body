@@ -1,5 +1,6 @@
 {
   KnowledgeBuilder knowledgeBuilder=null;
+  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
   Map<String,ResourceEntity> resources=deployment.getResources();
   for (  String resourceName : resources.keySet()) {
     log.info("Processing resource " + resourceName);
@@ -15,8 +16,6 @@
   }
   if (knowledgeBuilder != null) {
     KnowledgeBase knowledgeBase=knowledgeBuilder.newKnowledgeBase();
-    DbRepositorySessionFactory repositorySessionFactory=(DbRepositorySessionFactory)Context.getProcessEngineConfiguration().getSessionFactories().get(RepositorySession.class);
-    Map<String,Object> knowledgeBaseCache=repositorySessionFactory.getKnowledgeBaseCache();
-    knowledgeBaseCache.put(deployment.getId(),knowledgeBase);
+    deploymentCache.addKnowledgeBase(deployment.getId(),knowledgeBase);
   }
 }

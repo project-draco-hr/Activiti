@@ -1,0 +1,7 @@
+{
+  List<?> list=getPersistenceSession().selectList("selectDeploymentsByName",deploymentName,new Page(0,1));
+  if (list != null && !list.isEmpty()) {
+    return (DeploymentEntity)list.get(0);
+  }
+  return null;
+}

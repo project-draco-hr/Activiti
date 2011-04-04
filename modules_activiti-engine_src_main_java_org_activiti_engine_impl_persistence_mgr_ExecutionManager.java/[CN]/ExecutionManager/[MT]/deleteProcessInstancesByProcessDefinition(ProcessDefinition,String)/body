@@ -1,0 +1,6 @@
+{
+  List<ProcessInstance> processInstances=getPersistenceSession().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).list();
+  for (  ProcessInstance processInstance : processInstances) {
+    deleteProcessInstance(processInstance.getId(),deleteReason);
+  }
+}

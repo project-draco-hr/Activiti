@@ -1,7 +1,6 @@
 {
   ExecutionEntity processInstance=(ExecutionEntity)super.createProcessInstance();
   CommandContext commandContext=Context.getCommandContext();
-  commandContext.getDbSqlSession().insert(processInstance);
   processInstance.setExecutions(new ArrayList<ExecutionEntity>());
   processInstance.setProcessDefinition(processDefinition);
   if (businessKey != null) {

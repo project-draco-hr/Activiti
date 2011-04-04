@@ -1,7 +1,7 @@
 {
   String deploymentId=formInstance.getDeploymentId();
   String formKey=formInstance.getFormKey();
-  ResourceEntity resourceStream=Context.getCommandContext().getRepositorySession().findResourceByDeploymentIdAndResourceName(deploymentId,formKey);
+  ResourceEntity resourceStream=Context.getCommandContext().getResourceManager().findResourceByDeploymentIdAndResourceName(deploymentId,formKey);
   if (resourceStream == null) {
     throw new ActivitiException("Form with formKey '" + formKey + "' does not exist");
   }

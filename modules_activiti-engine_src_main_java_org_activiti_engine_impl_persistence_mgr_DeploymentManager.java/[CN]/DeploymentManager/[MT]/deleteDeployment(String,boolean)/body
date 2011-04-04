@@ -1,0 +1,13 @@
+{
+  if (cascade) {
+    List<ProcessDefinition> processDefinitions=getPersistenceSession().createProcessDefinitionQuery().deploymentId(deploymentId).list();
+    for (    ProcessDefinition processDefinition : processDefinitions) {
+      getHistoricProcessInstanceManager().deleteHistoricProcessInstancesByProcessDefinition(processDefinition);
+      getProcessInstanceManager().deleteProcessInstancesByProcessDefinition(processDefinition,"deleted deployment");
+      Context.getProcessEngineConfiguration().getDeploymentCache().removeProcessDefinition(processDefinition.getId());
+    }
+  }
+  getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
+  getResourceManager().deleteResourcesByDeploymentId(deploymentId);
+  getPersistenceSession().delete("deleteDeployment",deploymentId);
+}

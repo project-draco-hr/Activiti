@@ -31,12 +31,13 @@
     }
   }
   CommandContext commandContext=Context.getCommandContext();
-  DbRepositorySession dbRepositorySession=(DbRepositorySession)commandContext.getSession(RepositorySession.class);
+  ProcessDefinitionManager processDefinitionManager=commandContext.getProcessDefinitionManager();
+  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
   DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
   for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
     if (deployment.isNew()) {
       int processDefinitionVersion;
-      ProcessDefinitionEntity latestProcessDefinition=dbRepositorySession.findLatestProcessDefinitionByKey(processDefinition.getKey());
+      ProcessDefinitionEntity latestProcessDefinition=processDefinitionManager.findLatestProcessDefinitionByKey(processDefinition.getKey());
       if (latestProcessDefinition != null) {
         processDefinitionVersion=latestProcessDefinition.getVersion() + 1;
       }
@@ -53,15 +54,16 @@
       removeObsoleteTimers(processDefinition);
       addTimerDeclarations(processDefinition);
       dbSqlSession.insert(processDefinition);
-      dbRepositorySession.addToProcessDefinitionCache(processDefinition);
+      deploymentCache.addProcessDefinition(processDefinition);
     }
  else {
       String deploymentId=deployment.getId();
       processDefinition.setDeploymentId(deploymentId);
-      ProcessDefinitionEntity persistedProcessDefinition=dbRepositorySession.findProcessDefinitionByDeploymentAndKey(deploymentId,processDefinition.getKey());
+      ProcessDefinitionEntity persistedProcessDefinition=processDefinitionManager.findProcessDefinitionByDeploymentAndKey(deploymentId,processDefinition.getKey());
       processDefinition.setId(persistedProcessDefinition.getId());
       processDefinition.setVersion(persistedProcessDefinition.getVersion());
-      dbRepositorySession.addToProcessDefinitionCache(processDefinition);
+      deploymentCache.addProcessDefinition(processDefinition);
     }
+    Context.getProcessEngineConfiguration().getDeploymentCache().addProcessDefinition(processDefinition);
   }
 }

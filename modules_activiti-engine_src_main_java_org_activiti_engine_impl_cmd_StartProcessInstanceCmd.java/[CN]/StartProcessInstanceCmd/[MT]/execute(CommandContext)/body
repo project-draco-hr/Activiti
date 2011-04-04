@@ -1,14 +1,14 @@
 {
-  RepositorySession repositorySession=commandContext.getRepositorySession();
+  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
   ProcessDefinitionEntity processDefinition=null;
   if (processDefinitionId != null) {
-    processDefinition=repositorySession.findDeployedProcessDefinitionById(processDefinitionId);
+    processDefinition=deploymentCache.findDeployedProcessDefinitionById(processDefinitionId);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
     }
   }
  else   if (processDefinitionKey != null) {
-    processDefinition=repositorySession.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
+    processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
     if (processDefinition == null) {
       throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
     }

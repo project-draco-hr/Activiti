@@ -1,0 +1,11 @@
+{
+  if (historicDetail instanceof HistoricVariableUpdateEntity) {
+    HistoricVariableUpdateEntity historicVariableUpdate=(HistoricVariableUpdateEntity)historicDetail;
+    String byteArrayValueId=historicVariableUpdate.getByteArrayValueId();
+    if (byteArrayValueId != null) {
+      historicVariableUpdate.getByteArrayValue();
+      Context.getCommandContext().getSession(DbSqlSession.class).delete(ByteArrayEntity.class,byteArrayValueId);
+    }
+  }
+  getPersistenceSession().delete(HistoricDetailEntity.class,historicDetail.getId());
+}

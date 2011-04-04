@@ -1,7 +1,6 @@
 {
   if (taskDefinition == null && taskDefinitionKey != null) {
-    RepositorySession repositorySession=Context.getCommandContext().getSession(RepositorySession.class);
-    ProcessDefinitionEntity processDefinition=repositorySession.findDeployedProcessDefinitionById(processDefinitionId);
+    ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedProcessDefinitionById(processDefinitionId);
     taskDefinition=processDefinition.getTaskDefinitions().get(taskDefinitionKey);
   }
   return taskDefinition;

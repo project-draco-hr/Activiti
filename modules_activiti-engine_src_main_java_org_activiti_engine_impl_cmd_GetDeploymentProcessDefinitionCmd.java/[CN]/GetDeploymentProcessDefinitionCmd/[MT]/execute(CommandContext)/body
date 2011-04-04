@@ -1,4 +1,3 @@
 {
-  RepositorySession repositorySession=commandContext.getRepositorySession();
-  return repositorySession.findDeployedProcessDefinitionById(processDefinitionId);
+  return Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedProcessDefinitionById(processDefinitionId);
 }

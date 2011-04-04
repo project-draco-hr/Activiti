@@ -1,14 +1,13 @@
 {
   DeploymentEntity deployment=deploymentBuilder.getDeployment();
-  RepositorySession repositorySession=commandContext.getRepositorySession();
   deployment.setDeploymentTime(ClockUtil.getCurrentTime());
   if (deploymentBuilder.isDuplicateFilterEnabled()) {
-    DeploymentEntity existingDeployment=repositorySession.findLatestDeploymentByName(deployment.getName());
+    DeploymentEntity existingDeployment=Context.getCommandContext().getDeploymentManager().findLatestDeploymentByName(deployment.getName());
     if ((existingDeployment != null) && !deploymentsDiffer(deployment,existingDeployment)) {
       return existingDeployment;
     }
   }
   deployment.setNew(true);
-  repositorySession.deploy(deployment);
+  Context.getCommandContext().getDeploymentManager().insertDeployment(deployment);
   return deployment;
 }

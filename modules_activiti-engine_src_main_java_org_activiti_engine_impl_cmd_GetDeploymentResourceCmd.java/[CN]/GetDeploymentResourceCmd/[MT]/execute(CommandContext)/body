@@ -5,7 +5,7 @@
   if (resourceName == null) {
     throw new ActivitiException("resourceName is null");
   }
-  ResourceEntity resource=commandContext.getRepositorySession().findResourceByDeploymentIdAndResourceName(deploymentId,resourceName);
+  ResourceEntity resource=commandContext.getResourceManager().findResourceByDeploymentIdAndResourceName(deploymentId,resourceName);
   if (resource == null) {
     throw new ActivitiException("no resource found with name '" + resourceName + "' in deployment '"+ deploymentId+ "'");
   }

@@ -1,9 +1,7 @@
 {
-  String processDefinitionID=execution.getActivity().getProcessDefinition().getId();
-  RepositorySession repositorySession=Context.getCommandContext().getRepositorySession();
-  ProcessDefinitionEntity definitionEntity=repositorySession.findDeployedProcessDefinitionById(processDefinitionID);
-  String deploymentID=definitionEntity.getDeploymentId();
-  DeploymentEntity deploymentEntity=repositorySession.findDeploymentById(deploymentID);
+  PvmProcessDefinition processDefinition=execution.getActivity().getProcessDefinition();
+  String deploymentId=processDefinition.getDeploymentId();
+  DeploymentEntity deploymentEntity=Context.getCommandContext().getDeploymentManager().findDeploymentById(deploymentId);
   KnowledgeBase knowledgeBase=RulesHelper.findLatestKnowledgeBaseByDeploymentName(deploymentEntity.getName());
   StatefulKnowledgeSession ksession=knowledgeBase.newStatefulKnowledgeSession();
   if (variablesInputExpressions != null) {

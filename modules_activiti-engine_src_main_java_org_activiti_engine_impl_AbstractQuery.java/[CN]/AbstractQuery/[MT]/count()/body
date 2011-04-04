@@ -1,7 +1,7 @@
 {
   this.resultType=ResultType.COUNT;
-  if (commandContext != null) {
-    return executeCount(commandContext);
+  if (commandExecutor != null) {
+    return (Long)commandExecutor.execute(this);
   }
-  return (Long)commandExecutor.execute(this);
+  return executeCount(Context.getCommandContext());
 }

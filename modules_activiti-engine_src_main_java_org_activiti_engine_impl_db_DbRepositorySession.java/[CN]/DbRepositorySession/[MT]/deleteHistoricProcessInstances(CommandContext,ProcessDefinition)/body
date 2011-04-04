@@ -1,6 +1,0 @@
-{
-  List<HistoricProcessInstance> historicProcessInstances=new HistoricProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).list();
-  for (  HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
-    commandContext.getHistorySession().deleteHistoricProcessInstance(historicProcessInstance.getId());
-  }
-}

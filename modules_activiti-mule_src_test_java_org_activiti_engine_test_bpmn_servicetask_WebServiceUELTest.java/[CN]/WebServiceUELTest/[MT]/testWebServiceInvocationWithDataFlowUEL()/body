@@ -1,7 +1,10 @@
 {
-  DbRepositorySessionFactory dbRepositorySessionFactory=(DbRepositorySessionFactory)this.processEngineConfiguration.getSessionFactories().get(RepositorySession.class);
-  String processDefinitionId=repositoryService.createProcessDefinitionQuery().processDefinitionKey("webServiceInvocationWithDataFlowUEL").singleResult().getId();
-  ProcessDefinitionEntity processDefinition=dbRepositorySessionFactory.getProcessDefinitionCache().get(processDefinitionId);
+  ProcessDefinitionEntity processDefinition=processEngineConfiguration.getCommandExecutorTxRequiresNew().execute(new Command<ProcessDefinitionEntity>(){
+    public ProcessDefinitionEntity execute(    CommandContext commandContext){
+      return Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedLatestProcessDefinitionByKey("asyncWebServiceInvocationWithDataFlowUEL");
+    }
+  }
+);
   ItemDefinition itemDefinition=processDefinition.getIoSpecification().getDataInputs().get(0).getDefinition();
   ItemInstance itemInstance=itemDefinition.createInstance();
   FieldBaseStructureInstance structureInstance=(FieldBaseStructureInstance)itemInstance.getStructureInstance();

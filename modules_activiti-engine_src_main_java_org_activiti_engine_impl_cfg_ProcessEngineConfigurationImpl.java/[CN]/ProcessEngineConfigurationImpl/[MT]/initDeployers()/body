@@ -1,6 +1,16 @@
 {
-  if (deployers == null) {
-    deployers=new ArrayList<Deployer>();
+  if (this.deployers == null) {
+    this.deployers=new ArrayList<Deployer>();
+    if (customPreDeployers != null) {
+      this.deployers.addAll(customPreDeployers);
+    }
+    this.deployers.addAll(getDefaultDeployers());
+    if (customPostDeployers != null) {
+      this.deployers.addAll(customPostDeployers);
+    }
+  }
+  if (deploymentCache == null) {
+    List<Deployer> deployers=new ArrayList<Deployer>();
     if (customPreDeployers != null) {
       deployers.addAll(customPreDeployers);
     }
@@ -8,5 +18,7 @@
     if (customPostDeployers != null) {
       deployers.addAll(customPostDeployers);
     }
+    deploymentCache=new DeploymentCache();
+    deploymentCache.setDeployers(deployers);
   }
 }
