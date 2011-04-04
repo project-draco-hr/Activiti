@@ -8,27 +8,20 @@
   taskTable.setHeight(100,UNITS_PERCENTAGE);
   List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByHistoricActivityInstanceStartTime().desc().list();
   if (tasks.size() > 0) {
-    ItemListContainer simpleContainer=new ItemListContainer();
-    for (    HistoricTaskInstance task : tasks) {
-      simpleContainer.addItem(createTaskItem(task));
-    }
-    taskTable.setContainerDataSource(simpleContainer);
-    taskTable.addGeneratedColumn("finished",new ThemedImageBooleanColumnGenerator(Images.TASK_FINISHED,Images.TASK_UNFINISHED));
-    taskTable.setColumnHeader("finished","");
+    taskTable.addContainerProperty("finished",Component.class,null,null,null,Table.ALIGN_CENTER);
     taskTable.setColumnWidth("finished",16);
     taskTable.addContainerProperty("name",String.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_NAME),null,Table.ALIGN_LEFT);
     taskTable.addContainerProperty("priority",Integer.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_PRIORITY),null,Table.ALIGN_LEFT);
-    taskTable.addGeneratedColumn("assignee",new UserProfilePopupLinkColumnGenerator(identityService,true));
-    taskTable.setColumnHeader("assignee",ExplorerApplication.getCurrent().getMessage(Messages.TASK_ASSIGNEE));
-    taskTable.addGeneratedColumn("dueDate",new PrettyTimeColumnGenerator());
-    taskTable.setColumnHeader("dueDate",ExplorerApplication.getCurrent().getMessage(Messages.TASK_DUEDATE));
-    taskTable.addGeneratedColumn("startDate",new PrettyTimeColumnGenerator());
-    taskTable.setColumnHeader("startDate",ExplorerApplication.getCurrent().getMessage(Messages.TASK_CREATE_TIME));
-    taskTable.addGeneratedColumn("endDate",new PrettyTimeColumnGenerator(ExplorerApplication.getCurrent().getMessage(Messages.TASK_NOT_FINISHED_YET)));
-    taskTable.setColumnHeader("endDate",ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE_TIME));
+    taskTable.addContainerProperty("assignee",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_ASSIGNEE),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("dueDate",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_DUEDATE),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("startDate",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_CREATE_TIME),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("endDate",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE_TIME),null,Table.ALIGN_LEFT);
     addComponent(taskTable);
     ((VerticalLayout)getContent()).setExpandRatio(taskTable,1.0f);
     ((VerticalLayout)getContent()).setSizeFull();
+    for (    HistoricTaskInstance task : tasks) {
+      addTaskItem(task,taskTable);
+    }
   }
  else {
     Label noTaskLabel=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_NO_TASKS));
