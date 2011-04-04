@@ -1,0 +1,6 @@
+{
+  Map<String,String> params=new HashMap<String,String>();
+  params.put("handlerType",jobHandlerType);
+  params.put("handlerConfiguration",jobHandlerConfiguration);
+  return getPersistenceSession().selectList("org.activiti.persistence.selectJobsByConfiguration",params);
+}

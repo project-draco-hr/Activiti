@@ -1,8 +1,7 @@
 {
-  RuntimeSession runtimeSession=commandContext.getRuntimeSession();
   ExecutionEntity execution=null;
   if (executionId != null) {
-    execution=runtimeSession.findExecutionById(executionId);
+    execution=commandContext.getExecutionManager().findExecutionById(executionId);
   }
   Map<String,JobHandler> jobHandlers=Context.getProcessEngineConfiguration().getJobHandlers();
   JobHandler jobHandler=jobHandlers.get(jobHandlerType);

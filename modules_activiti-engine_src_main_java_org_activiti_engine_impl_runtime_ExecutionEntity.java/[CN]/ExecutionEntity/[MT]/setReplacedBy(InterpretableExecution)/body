@@ -22,7 +22,7 @@
       job.setExecutionId(replacedBy.getId());
     }
   }
-  List<VariableInstanceEntity> variables=(List)commandContext.getRuntimeSession().findVariableInstancesByExecutionId(id);
+  List<VariableInstanceEntity> variables=(List)commandContext.getVariableInstanceManager().findVariableInstancesByExecutionId(id);
   for (  VariableInstanceEntity variable : variables) {
     variable.setExecutionId(replacedBy.getId());
   }

@@ -1,7 +1,6 @@
 {
   if (sessionFactories == null) {
     sessionFactories=new HashMap<Class<?>,SessionFactory>();
-    addSessionFactory(new DbRuntimeSessionFactory());
     addSessionFactory(new DbTaskSessionFactory());
     addSessionFactory(new DbIdentitySessionFactory());
     addSessionFactory(new DbManagementSessionFactory());
@@ -28,6 +27,7 @@
     addSessionFactory(new GenericManagerFactory(HistoricActivityInstanceManager.class));
     addSessionFactory(new GenericManagerFactory(HistoricTaskInstanceManager.class));
     addSessionFactory(new GenericManagerFactory(HistoricDetailManager.class));
+    addSessionFactory(new GenericManagerFactory(JobManager.class));
   }
   if (customSessionFactories != null) {
     for (    SessionFactory sessionFactory : customSessionFactories) {

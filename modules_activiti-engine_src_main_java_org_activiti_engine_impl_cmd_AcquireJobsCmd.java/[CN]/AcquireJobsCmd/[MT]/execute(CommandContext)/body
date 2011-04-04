@@ -3,7 +3,7 @@
   int lockTimeInMillis=jobExecutor.getLockTimeInMillis();
   int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
   AcquiredJobs acquiredJobs=new AcquiredJobs();
-  List<JobEntity> jobs=commandContext.getRuntimeSession().findNextJobsToExecute(new Page(0,maxJobsPerAcquisition));
+  List<JobEntity> jobs=commandContext.getJobManager().findNextJobsToExecute(new Page(0,maxJobsPerAcquisition));
   for (  JobEntity job : jobs) {
     List<String> jobIds=new ArrayList<String>();
     if (job != null) {
