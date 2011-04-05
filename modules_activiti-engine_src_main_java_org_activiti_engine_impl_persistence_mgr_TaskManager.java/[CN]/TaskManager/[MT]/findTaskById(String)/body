@@ -1,0 +1,6 @@
+{
+  if (id == null) {
+    throw new ActivitiException("Invalid task id : null");
+  }
+  return (TaskEntity)getPersistenceSession().selectOne("selectTask",id);
+}

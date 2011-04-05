@@ -6,7 +6,7 @@
     task.insert(null);
   }
  else {
-    TaskEntity persistentTask=commandContext.getTaskSession().findTaskById(task.getId());
+    TaskEntity persistentTask=Context.getCommandContext().getTaskManager().findTaskById(task.getId());
     persistentTask.update(task);
   }
   return null;

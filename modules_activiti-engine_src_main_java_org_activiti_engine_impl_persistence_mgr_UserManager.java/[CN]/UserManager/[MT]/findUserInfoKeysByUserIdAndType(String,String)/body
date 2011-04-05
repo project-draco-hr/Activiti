@@ -1,0 +1,6 @@
+{
+  Map<String,String> parameters=new HashMap<String,String>();
+  parameters.put("userId",userId);
+  parameters.put("type",type);
+  return (List)getPersistenceSession().getSqlSession().selectList("selectIdentityInfoKeysByUserIdAndType",parameters);
+}

@@ -1,4 +1,4 @@
 {
-  IdentityInfoEntity identityInfo=commandContext.getIdentitySession().findUserInfoByUserIdAndKey(userId,key);
+  IdentityInfoEntity identityInfo=commandContext.getIdentityInfoManager().findUserInfoByUserIdAndKey(userId,key);
   return (identityInfo != null ? identityInfo.getValue() : null);
 }

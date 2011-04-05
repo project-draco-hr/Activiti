@@ -1,8 +1,6 @@
 {
   if (sessionFactories == null) {
     sessionFactories=new HashMap<Class<?>,SessionFactory>();
-    addSessionFactory(new DbTaskSessionFactory());
-    addSessionFactory(new DbIdentitySessionFactory());
     addSessionFactory(new DbManagementSessionFactory());
     addSessionFactory(new JobExecutorTimerSessionFactory());
     addSessionFactory(new DbHistorySessionFactory());
@@ -28,6 +26,11 @@
     addSessionFactory(new GenericManagerFactory(HistoricTaskInstanceManager.class));
     addSessionFactory(new GenericManagerFactory(HistoricDetailManager.class));
     addSessionFactory(new GenericManagerFactory(JobManager.class));
+    addSessionFactory(new GenericManagerFactory(UserManager.class));
+    addSessionFactory(new GenericManagerFactory(GroupManager.class));
+    addSessionFactory(new GenericManagerFactory(IdentityInfoManager.class));
+    addSessionFactory(new GenericManagerFactory(MembershipManager.class));
+    addSessionFactory(new GenericManagerFactory(AttachmentManager.class));
   }
   if (customSessionFactories != null) {
     for (    SessionFactory sessionFactory : customSessionFactories) {

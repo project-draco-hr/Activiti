@@ -1,5 +1,5 @@
 {
-  List<IdentityLinkEntity> identityLinks=Context.getCommandContext().getTaskSession().findIdentityLinkByTaskUserGroupAndType(id,userId,groupId,type);
+  List<IdentityLinkEntity> identityLinks=Context.getCommandContext().getIdentityLinkManager().findIdentityLinkByTaskUserGroupAndType(id,userId,groupId,type);
   for (  IdentityLinkEntity identityLink : identityLinks) {
     identityLink.delete();
   }

@@ -2,7 +2,7 @@
   if (taskId == null) {
     throw new ActivitiException("taskId is null");
   }
-  TaskEntity task=commandContext.getTaskSession().findTaskById(taskId);
+  TaskEntity task=Context.getCommandContext().getTaskManager().findTaskById(taskId);
   if (task == null) {
     throw new ActivitiException("task " + taskId + " doesn't exist");
   }

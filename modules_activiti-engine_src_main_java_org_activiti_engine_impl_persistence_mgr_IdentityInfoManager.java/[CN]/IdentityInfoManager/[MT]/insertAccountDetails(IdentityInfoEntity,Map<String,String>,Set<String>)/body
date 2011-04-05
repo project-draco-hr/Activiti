@@ -1,0 +1,9 @@
+{
+  for (  String newKey : keys) {
+    IdentityInfoEntity identityInfoDetail=new IdentityInfoEntity();
+    identityInfoDetail.setParentId(identityInfoEntity.getId());
+    identityInfoDetail.setKey(newKey);
+    identityInfoDetail.setValue(accountDetails.get(newKey));
+    getPersistenceSession().insert(identityInfoDetail);
+  }
+}

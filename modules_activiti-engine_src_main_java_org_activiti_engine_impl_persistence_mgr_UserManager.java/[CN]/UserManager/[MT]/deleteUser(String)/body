@@ -1,0 +1,14 @@
+{
+  UserEntity user=findUserById(userId);
+  if (user != null) {
+    if (user.getPictureByteArrayId() != null) {
+      getPersistenceSession().delete(ByteArrayEntity.class,user.getPictureByteArrayId());
+    }
+    List<IdentityInfoEntity> identityInfos=getPersistenceSession().selectList("selectIdentityInfoByUserId",userId);
+    for (    IdentityInfoEntity identityInfo : identityInfos) {
+      getIdentityInfoManager().deleteIdentityInfo(identityInfo);
+    }
+    getPersistenceSession().delete("deleteMembershipsByUserId",userId);
+    getPersistenceSession().delete("deleteUser",userId);
+  }
+}
