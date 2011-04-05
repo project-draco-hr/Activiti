@@ -1,0 +1,10 @@
+{
+  commit();
+  if (attachment != null) {
+    applyValuesToAttachment();
+  }
+ else {
+    attachment=taskService.createAttachment(UrlAttachmentRenderer.ATTACHMENT_TYPE,taskId,processInstanceId,getAttachmentName(),getAttachmentDescription(),getAttachmentUrl());
+  }
+  return attachment;
+}

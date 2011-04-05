@@ -1,0 +1,35 @@
+{
+  attachmentTypes=new Table();
+  attachmentTypes.setSizeUndefined();
+  attachmentTypes.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  attachmentTypes.setSelectable(true);
+  attachmentTypes.setImmediate(true);
+  attachmentTypes.setNullSelectionAllowed(false);
+  attachmentTypes.setWidth(200,UNITS_PIXELS);
+  attachmentTypes.setHeight(100,UNITS_PERCENTAGE);
+  attachmentTypes.addContainerProperty("type",Embedded.class,null);
+  attachmentTypes.setColumnWidth("type",16);
+  attachmentTypes.addContainerProperty("name",String.class,null);
+  for (  AttachmentRenderer renderer : AttachmentRenderers.getAttachmentRenderers()) {
+    String name=renderer.getName(i18nManager);
+    Embedded image=null;
+    Resource resource=renderer.getImage(null);
+    if (resource != null) {
+      image=new Embedded(null,resource);
+    }
+    Item item=attachmentTypes.addItem(renderer.getType());
+    item.getItemProperty("type").setValue(image);
+    item.getItemProperty("name").setValue(name);
+  }
+  attachmentTypes.addListener(new ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      String type=(String)event.getProperty().getValue();
+      selectType(type);
+    }
+  }
+);
+  layout.addComponent(attachmentTypes,0,0,0,1);
+  layout.setColumnExpandRatio(1,1.0f);
+  layout.setRowExpandRatio(0,1.0f);
+}

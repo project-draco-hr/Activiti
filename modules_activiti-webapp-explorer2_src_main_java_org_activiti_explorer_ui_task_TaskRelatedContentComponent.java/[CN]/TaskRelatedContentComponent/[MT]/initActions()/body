@@ -1,0 +1,33 @@
+{
+  HorizontalLayout actionsContainer=new HorizontalLayout();
+  actionsContainer.setSizeFull();
+  Label processTitle=new Label(ExplorerApp.get().getI18nManager().getMessage(Messages.TASK_RELATED_CONTENT));
+  processTitle.addStyleName(ExplorerLayout.STYLE_RELATED_CONTENT_DETAILS_HEADER);
+  processTitle.setSizeFull();
+  actionsContainer.addComponent(processTitle);
+  actionsContainer.setComponentAlignment(processTitle,Alignment.MIDDLE_LEFT);
+  actionsContainer.setExpandRatio(processTitle,1.0f);
+  Embedded addRelatedContentButton=new Embedded(null,Images.ADD_RELATED_CONTENT);
+  addRelatedContentButton.addStyleName(ExplorerLayout.STYLE_IMAGE_ACTION);
+  addRelatedContentButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void click(    ClickEvent event){
+      CreateAttachmentPopupWindow popup=new CreateAttachmentPopupWindow();
+      popup.setTaskId(task.getId());
+      popup.addListener(new GenericFormEventListener(){
+        private static final long serialVersionUID=1L;
+        @Override protected void formSubmitted(        GenericFormEvent event){
+          refreshTaskAttachments();
+        }
+        @Override protected void formCancelled(        GenericFormEvent event){
+        }
+      }
+);
+      ExplorerApp.get().getViewManager().showPopupWindow(popup);
+    }
+  }
+);
+  actionsContainer.addComponent(addRelatedContentButton);
+  actionsContainer.setComponentAlignment(processTitle,Alignment.MIDDLE_RIGHT);
+  addComponent(actionsContainer);
+}

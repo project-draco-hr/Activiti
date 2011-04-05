@@ -1,0 +1,14 @@
+{
+  this.currentEditor=editor;
+  if (layout.getComponent(0,1) != null) {
+    removeComponent(layout.getComponent(1,0));
+  }
+  if (currentEditor != null) {
+    currentEditor.setSizeFull();
+    layout.addComponent(currentEditor,1,0);
+    okButton.setEnabled(true);
+  }
+ else {
+    okButton.setEnabled(false);
+  }
+}
