@@ -8,7 +8,7 @@
     return;
   }
   if (associationManager.getProcessInstanceId() != null) {
-    ExecutionEntity processInstance=Context.getCommandContext().getRuntimeSession().findExecutionById(associationManager.getProcessInstanceId());
+    ExecutionEntity processInstance=Context.getCommandContext().getExecutionManager().findExecutionById(associationManager.getProcessInstanceId());
     if (processInstance != null && !processInstance.isEnded()) {
       CachingBeanStore beanStore=associationManager.getBeanStore();
       logFlushSummary(beanStore);
