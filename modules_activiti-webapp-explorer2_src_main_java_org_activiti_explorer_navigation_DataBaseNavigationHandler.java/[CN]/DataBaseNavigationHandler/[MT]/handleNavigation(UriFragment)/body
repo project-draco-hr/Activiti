@@ -1,9 +1,9 @@
 {
   String tableName=uriFragment.getUriPart(1);
   if (tableName != null) {
-    ExplorerApplication.getCurrent().switchView(new DatabasePage(tableName));
+    ExplorerApp.get().getViewManager().showDatabasePage(tableName);
   }
  else {
-    ExplorerApplication.getCurrent().switchView(new DatabasePage());
+    ExplorerApp.get().getViewManager().showDatabasePage();
   }
 }

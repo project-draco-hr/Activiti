@@ -1,24 +1,24 @@
 {
   GridLayout logoutGrid=new GridLayout(2,1);
   logoutGrid.setStyleName(ExplorerLayout.STYLE_LOGOUT_BUTTON);
-  final User user=ExplorerApplication.getCurrent().getLoggedInUser();
+  final User user=ExplorerApp.get().getLoggedInUser();
   Button userButton=new Button(user.getFirstName() + " " + user.getLastName());
   userButton.setIcon(Images.USER);
   userButton.addStyleName(ExplorerLayout.STYLE_USER_PROFILE);
   userButton.addStyleName(Reindeer.BUTTON_LINK);
   userButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      ExplorerApplication.getCurrent().switchView(new ProfilePage(user.getId()));
+      viewManager.showProfilePage(user.getId());
     }
   }
 );
-  Button logout=new Button(ExplorerApplication.getCurrent().getMessage(Messages.HEADER_LOGOUT));
+  Button logout=new Button(i18nManager.getMessage(Messages.HEADER_LOGOUT));
   logout.setStyleName(Reindeer.BUTTON_LINK);
   logout.addStyleName(ExplorerLayout.STYLE_LOGOUT_BUTTON);
   logout.setIcon(Images.WHITE_DIVIDER);
   logout.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      ExplorerApplication.getCurrent().close();
+      ExplorerApp.get().close();
     }
   }
 );

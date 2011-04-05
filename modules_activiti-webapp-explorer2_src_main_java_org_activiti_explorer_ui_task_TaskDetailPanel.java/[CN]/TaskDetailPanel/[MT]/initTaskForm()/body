@@ -2,15 +2,15 @@
   TaskFormData formData=formService.getTaskFormData(task.getId());
   if (formData != null && formData.getFormProperties() != null && formData.getFormProperties().size() > 0) {
     taskForm=new FormPropertiesForm();
-    taskForm.setSubmitButtonCaption(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE));
-    taskForm.setCancelButtonCaption(ExplorerApplication.getCurrent().getMessage(Messages.TASK_RESET_FORM));
+    taskForm.setSubmitButtonCaption(i18nManager.getMessage(Messages.TASK_COMPLETE));
+    taskForm.setCancelButtonCaption(i18nManager.getMessage(Messages.TASK_RESET_FORM));
     taskForm.setFormProperties(formData.getFormProperties());
     taskForm.addListener(new FormPropertiesEventListener(){
       private static final long serialVersionUID=-3893467157397686736L;
       @Override protected void handleFormSubmit(      FormPropertiesEvent event){
         Map<String,String> properties=event.getFormProperties();
         formService.submitTaskFormData(task.getId(),properties);
-        ExplorerApplication.getCurrent().getMainWindow().showNotification(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETED,task.getName()));
+        notificationManager.showInformationNotification(Messages.TASK_COMPLETED,task.getName());
         parent.refreshList();
       }
       @Override protected void handleFormCancel(      FormPropertiesEvent event){
@@ -22,12 +22,12 @@
     leftPanel.addComponent(taskForm);
   }
  else {
-    completeButton=new Button(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE));
+    completeButton=new Button(i18nManager.getMessage(Messages.TASK_COMPLETE));
     completeButton.addListener(new ClickListener(){
       private static final long serialVersionUID=1L;
       public void buttonClick(      ClickEvent event){
         taskService.complete(task.getId());
-        ExplorerApplication.getCurrent().getMainWindow().showNotification(ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETED,task.getName()));
+        notificationManager.showInformationNotification(Messages.TASK_COMPLETED,task.getName());
         parent.refreshList();
       }
     }

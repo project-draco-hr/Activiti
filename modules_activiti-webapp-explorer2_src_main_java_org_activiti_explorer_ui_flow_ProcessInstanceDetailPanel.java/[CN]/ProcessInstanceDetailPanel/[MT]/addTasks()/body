@@ -1,5 +1,5 @@
 {
-  Label header=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_HEADER_TASKS));
+  Label header=new Label(i18nManager.getMessage(Messages.FLOW_INSTANCE_HEADER_TASKS));
   header.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_DETAILS_HEADER);
   addComponent(header);
   Table taskTable=new Table();
@@ -10,12 +10,12 @@
   if (tasks.size() > 0) {
     taskTable.addContainerProperty("finished",Component.class,null,null,null,Table.ALIGN_CENTER);
     taskTable.setColumnWidth("finished",16);
-    taskTable.addContainerProperty("name",String.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_NAME),null,Table.ALIGN_LEFT);
-    taskTable.addContainerProperty("priority",Integer.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_PRIORITY),null,Table.ALIGN_LEFT);
-    taskTable.addContainerProperty("assignee",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_ASSIGNEE),null,Table.ALIGN_LEFT);
-    taskTable.addContainerProperty("dueDate",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_DUEDATE),null,Table.ALIGN_LEFT);
-    taskTable.addContainerProperty("startDate",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_CREATE_TIME),null,Table.ALIGN_LEFT);
-    taskTable.addContainerProperty("endDate",Component.class,null,ExplorerApplication.getCurrent().getMessage(Messages.TASK_COMPLETE_TIME),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("name",String.class,null,i18nManager.getMessage(Messages.TASK_NAME),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("priority",Integer.class,null,i18nManager.getMessage(Messages.TASK_PRIORITY),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("assignee",Component.class,null,i18nManager.getMessage(Messages.TASK_ASSIGNEE),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("dueDate",Component.class,null,i18nManager.getMessage(Messages.TASK_DUEDATE),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("startDate",Component.class,null,i18nManager.getMessage(Messages.TASK_CREATE_TIME),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("endDate",Component.class,null,i18nManager.getMessage(Messages.TASK_COMPLETE_TIME),null,Table.ALIGN_LEFT);
     addComponent(taskTable);
     ((VerticalLayout)getContent()).setExpandRatio(taskTable,1.0f);
     ((VerticalLayout)getContent()).setSizeFull();
@@ -24,7 +24,7 @@
     }
   }
  else {
-    Label noTaskLabel=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_NO_TASKS));
+    Label noTaskLabel=new Label(i18nManager.getMessage(Messages.FLOW_INSTANCE_NO_TASKS));
     addComponent(noTaskLabel);
   }
 }

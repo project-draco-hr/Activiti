@@ -1,10 +1,10 @@
 {
   String groupId=uriFragment.getParameter(PARAMETER_GROUP);
   if (groupId != null) {
-    ExplorerApplication.getCurrent().switchView(new TaskQueuedPage(groupId,taskId));
+    ExplorerApp.get().getViewManager().showTaskQueuedPage(groupId,taskId);
   }
  else {
     showInbox(taskId,uriFragment);
-    ExplorerApplication.getCurrent().showErrorNotification("Cannot view queued tasks","No groupId was provided, can't show queued tasks");
+    ExplorerApp.get().getNotificationManager().showErrorNotification("Cannot view queued tasks","No groupId was provided, can't show queued tasks");
   }
 }

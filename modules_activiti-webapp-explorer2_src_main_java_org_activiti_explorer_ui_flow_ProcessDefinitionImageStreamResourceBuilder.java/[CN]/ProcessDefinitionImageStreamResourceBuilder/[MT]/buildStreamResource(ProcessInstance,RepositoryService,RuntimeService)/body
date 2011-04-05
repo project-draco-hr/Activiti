@@ -6,7 +6,7 @@
     StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
     String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());
     String fileName=processInstance.getId() + UUID.randomUUID() + "."+ imageExtension;
-    imageResource=new StreamResource(streamSource,fileName,ExplorerApplication.getCurrent());
+    imageResource=new StreamResource(streamSource,fileName,ExplorerApp.get());
   }
   return imageResource;
 }

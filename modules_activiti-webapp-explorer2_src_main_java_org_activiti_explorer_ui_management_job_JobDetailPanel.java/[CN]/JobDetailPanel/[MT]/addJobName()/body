@@ -5,7 +5,7 @@
   Label nameLabel=new Label(getJobLabel(job));
   nameLabel.addStyleName(Reindeer.LABEL_H1);
   layout.addComponent(nameLabel);
-  Button executeButton=new Button(ExplorerApplication.getCurrent().getMessage(Messages.JOB_EXECUTE));
+  Button executeButton=new Button(i18nManager.getMessage(Messages.JOB_EXECUTE));
   executeButton.setIcon(Images.EXECUTE);
   executeButton.addStyleName(Reindeer.BUTTON_LINK);
   layout.addComponent(executeButton);
@@ -18,7 +18,7 @@
       }
  catch (      ActivitiException ae) {
         String errorMessage=ae.getMessage() + (ae.getCause() != null ? " (" + ae.getCause().getClass().getName() + ")" : "");
-        ExplorerApplication.getCurrent().showErrorNotification("Error while executing job",errorMessage);
+        notificationManager.showErrorNotification(Messages.JOB_ERROR,errorMessage);
         parent.refreshCurrentJobDetails();
       }
     }

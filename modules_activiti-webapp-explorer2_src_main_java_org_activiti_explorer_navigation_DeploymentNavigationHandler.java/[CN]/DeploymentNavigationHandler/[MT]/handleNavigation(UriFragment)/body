@@ -1,9 +1,9 @@
 {
   String deploymentId=uriFragment.getUriPart(1);
   if (deploymentId != null) {
-    ExplorerApplication.getCurrent().switchView(new DeploymentPage(deploymentId));
+    ExplorerApp.get().getViewManager().showDeploymentPage(deploymentId);
   }
  else {
-    ExplorerApplication.getCurrent().switchView(new DeploymentPage());
+    ExplorerApp.get().getViewManager().showDeploymentPage();
   }
 }

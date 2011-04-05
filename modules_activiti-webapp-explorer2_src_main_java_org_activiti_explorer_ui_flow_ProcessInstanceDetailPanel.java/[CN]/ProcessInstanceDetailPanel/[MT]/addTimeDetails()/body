@@ -8,7 +8,7 @@
   Embedded clockImage=new Embedded(null,Images.CLOCK);
   timeDetails.addComponent(clockImage);
   String startedOnDate=new PrettyTime().format(historicProcessInstance.getStartTime());
-  String startedOn=ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_STARTED_ON,startedOnDate);
+  String startedOn=i18nManager.getMessage(Messages.FLOW_INSTANCE_STARTED_ON,startedOnDate);
   Label timeLabel=new Label(startedOn);
   timeDetails.addComponent(timeLabel);
   SimpleDateFormat format=(SimpleDateFormat)Constant.DEFAULT_DATE_FORMATTER.clone();

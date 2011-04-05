@@ -1,11 +1,12 @@
 {
   this.renderPicture=renderPicture;
   this.identityService=identityService;
+  this.viewManager=ExplorerApp.get().getViewManager();
   Button owner=new Button(userName);
   ClickListener buttonClickListener=new ClickListener(){
-    private static final long serialVersionUID=4629275955614367780L;
+    private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
-      ExplorerApplication.getCurrent().showPopupWindow(new ProfilePopupWindow(userName));
+      viewManager.showProfilePopup(userName);
     }
   }
 ;
@@ -14,7 +15,7 @@
   if (renderPicture) {
     Picture picture=identityService.getUserPicture(userName);
     if (picture != null) {
-      Resource imageResource=new StreamResource(new InputStreamStreamSource(picture.getInputStream()),userName + picture.getMimeType(),ExplorerApplication.getCurrent());
+      Resource imageResource=new StreamResource(new InputStreamStreamSource(picture.getInputStream()),userName + picture.getMimeType(),ExplorerApp.get());
       Embedded image=new Embedded("",imageResource);
       image.setType(Embedded.TYPE_IMAGE);
       image.setHeight(30,Embedded.UNITS_PIXELS);
@@ -23,7 +24,7 @@
       image.addListener(new MouseEvents.ClickListener(){
         private static final long serialVersionUID=7341560240277898495L;
         public void click(        com.vaadin.event.MouseEvents.ClickEvent event){
-          ExplorerApplication.getCurrent().showPopupWindow(new ProfilePopupWindow(userName));
+          viewManager.showProfilePopup(userName);
         }
       }
 );

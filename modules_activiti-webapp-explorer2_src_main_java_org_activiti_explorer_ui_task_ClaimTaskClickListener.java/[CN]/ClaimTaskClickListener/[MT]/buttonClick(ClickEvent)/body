@@ -1,11 +1,10 @@
 {
-  ExplorerApplication app=ExplorerApplication.getCurrent();
   try {
-    taskService.claim(taskId,ExplorerApplication.getCurrent().getLoggedInUser().getId());
-    app.showInformationNotification(app.getMessage(Messages.TASK_CLAIM_SUCCESS));
-    app.switchView(new TaskInboxPage(taskId));
+    taskService.claim(taskId,ExplorerApp.get().getLoggedInUser().getId());
+    notificationManager.showInformationNotification(Messages.TASK_CLAIM_SUCCESS);
+    viewManager.showTaskInboxPage(taskId);
   }
  catch (  ActivitiException ae) {
-    app.showErrorNotification(app.getMessage(Messages.TASK_CLAIM_FAILED),ae.getMessage());
+    notificationManager.showErrorNotification(Messages.TASK_CLAIM_FAILED,ae.getMessage());
   }
 }

@@ -10,7 +10,7 @@
       deployment=deploymentBuilder.addZipInputStream(new ZipInputStream(new ByteArrayInputStream(outputStream.toByteArray()))).deploy();
     }
  else {
-      ExplorerApplication.getCurrent().showErrorNotification("Could not upload file","Only .bar, .zip and .bpmn20.xml files are supported");
+      notificationManager.showErrorNotification(Messages.DEPLOYMENT_UPLOAD_INVALID_FILE,i18nManager.getMessage(Messages.DEPLOYMENT_UPLOAD_INVALID_FILE_EXPLANATION));
     }
   }
   finally {
@@ -19,7 +19,7 @@
         outputStream.close();
       }
  catch (      IOException e) {
-        ExplorerApplication.getCurrent().showErrorNotification("Server-side error",e.getMessage());
+        notificationManager.showErrorNotification("Server-side error",e.getMessage());
       }
     }
   }

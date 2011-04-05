@@ -5,14 +5,14 @@
   Label nameLabel=new Label(deployment.getName());
   nameLabel.addStyleName(Reindeer.LABEL_H1);
   layout.addComponent(nameLabel);
-  Button deleteButton=new Button(ExplorerApplication.getCurrent().getMessage(Messages.DEPLOYMENT_DELETE));
+  Button deleteButton=new Button(i18nManager.getMessage(Messages.DEPLOYMENT_DELETE));
   deleteButton.setIcon(Images.DELETE);
   deleteButton.addStyleName(Reindeer.BUTTON_LINK);
   layout.addComponent(deleteButton);
   layout.setComponentAlignment(deleteButton,Alignment.MIDDLE_LEFT);
   deleteButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      ExplorerApplication.getCurrent().showPopupWindow(new DeleteDeploymentPopupWindow(deployment,parent));
+      viewManager.showPopupWindow(new DeleteDeploymentPopupWindow(deployment,parent));
     }
   }
 );

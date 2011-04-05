@@ -1,8 +1,9 @@
 {
   super();
+  this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
   this.processDefinition=processDefinition;
   this.deployment=deployment;
-  repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
   initTimeDetails();
   initImage();
 }

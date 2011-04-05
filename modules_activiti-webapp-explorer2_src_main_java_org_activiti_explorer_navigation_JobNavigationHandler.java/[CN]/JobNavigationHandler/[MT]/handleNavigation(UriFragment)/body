@@ -1,9 +1,9 @@
 {
   String jobId=uriFragment.getUriPart(1);
   if (jobId != null) {
-    ExplorerApplication.getCurrent().switchView(new JobPage(jobId));
+    ExplorerApp.get().getViewManager().showJobPage(jobId);
   }
  else {
-    ExplorerApplication.getCurrent().switchView(new JobPage());
+    ExplorerApp.get().getViewManager().showJobPage();
   }
 }

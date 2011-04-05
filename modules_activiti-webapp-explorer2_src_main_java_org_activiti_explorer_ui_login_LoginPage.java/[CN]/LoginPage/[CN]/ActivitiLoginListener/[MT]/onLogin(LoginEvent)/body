@@ -4,11 +4,11 @@
   boolean success=identityService.checkPassword(userName,password);
   if (success) {
     User user=identityService.createUserQuery().userId(userName).singleResult();
-    ExplorerApplication.getCurrent().setUser(user);
-    ExplorerApplication.getCurrent().showDefaultContent();
+    ExplorerApp.get().setUser(user);
+    viewManager.showDefaultContent();
   }
  else {
     refreshUi();
-    ExplorerApplication.getCurrent().showErrorNotification(ExplorerApplication.getCurrent().getMessage(Messages.LOGIN_FAILED_HEADER),ExplorerApplication.getCurrent().getMessage(Messages.LOGIN_FAILED_INVALID));
+    notificationManager.showErrorNotification(Messages.LOGIN_FAILED_HEADER,i18nManager.getMessage(Messages.LOGIN_FAILED_INVALID));
   }
 }

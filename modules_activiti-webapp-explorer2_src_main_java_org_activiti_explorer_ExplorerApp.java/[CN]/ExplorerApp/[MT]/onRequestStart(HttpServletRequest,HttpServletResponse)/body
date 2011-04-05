@@ -1,0 +1,12 @@
+{
+  current.set(this);
+  User user=(User)getUser();
+  if (user == null) {
+    if (mainWindow != null && !mainWindow.isShowingLoginPage()) {
+      viewManager.showLoginPage();
+    }
+  }
+ else {
+    Authentication.setAuthenticatedUserId(user.getId());
+  }
+}

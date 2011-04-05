@@ -9,12 +9,12 @@
         String processInstanceId=(String)item.getItemProperty("id").getValue();
         splitPanel.setSecondComponent(new ProcessInstanceDetailPanel(processInstanceId,ProcessInstancePage.this));
         UriFragment taskFragment=getUriFragment(processInstanceId);
-        ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
+        ExplorerApp.get().setCurrentUriFragment(taskFragment);
       }
  else {
         splitPanel.removeComponent(splitPanel.getSecondComponent());
         UriFragment taskFragment=getUriFragment(null);
-        ExplorerApplication.getCurrent().setCurrentUriFragment(taskFragment);
+        ExplorerApp.get().setCurrentUriFragment(taskFragment);
       }
     }
   }

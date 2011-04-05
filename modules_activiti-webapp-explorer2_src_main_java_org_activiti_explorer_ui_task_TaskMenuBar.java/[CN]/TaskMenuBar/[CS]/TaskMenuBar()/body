@@ -1,27 +1,7 @@
 {
   this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
   this.identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
-  setWidth("100%");
-  String userId=ExplorerApplication.getCurrent().getLoggedInUser().getId();
-  long inboxCount=taskService.createTaskQuery().taskAssignee(userId).count();
-  addItem(ExplorerApplication.getCurrent().getMessage(Messages.TASK_MENU_INBOX) + "(" + inboxCount+ ")",new Command(){
-    public void menuSelected(    MenuItem selectedItem){
-      ExplorerApplication.getCurrent().switchView(new TaskInboxPage());
-    }
-  }
-);
-  List<Group> groups=identityService.createGroupQuery().groupMember(userId).orderByGroupName().asc().list();
-  MenuItem queuedItem=addItem(ExplorerApplication.getCurrent().getMessage(Messages.TASK_MENU_QUEUED),null);
-  long queuedCount=0;
-  for (  final Group group : groups) {
-    long groupCount=taskService.createTaskQuery().taskCandidateGroup(group.getId()).count();
-    queuedCount+=groupCount;
-    queuedItem.addItem(group.getName() + " (" + groupCount+ ")",new Command(){
-      public void menuSelected(      MenuItem selectedItem){
-        ExplorerApplication.getCurrent().switchView(new TaskQueuedPage(group.getId()));
-      }
-    }
-);
-  }
-  queuedItem.setText(queuedItem.getText() + " (" + queuedCount+ ")");
+  this.viewManager=ExplorerApp.get().getViewManager();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  init();
 }

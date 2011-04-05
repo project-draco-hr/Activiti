@@ -1,10 +1,10 @@
 {
   String retriesString;
   if (theJob.getRetries() <= 0) {
-    retriesString=ExplorerApplication.getCurrent().getMessage(Messages.JOB_NO_RETRIES);
+    retriesString=i18nManager.getMessage(Messages.JOB_NO_RETRIES);
   }
  else {
-    retriesString=ExplorerApplication.getCurrent().getMessage(Messages.JOB_RETRIES) + ": " + theJob.getRetries();
+    retriesString=i18nManager.getMessage(Messages.JOB_RETRIES,theJob.getRetries());
   }
   return retriesString;
 }

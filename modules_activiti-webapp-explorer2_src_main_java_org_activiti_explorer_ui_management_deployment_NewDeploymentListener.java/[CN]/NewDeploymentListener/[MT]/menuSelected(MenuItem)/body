@@ -1,6 +1,6 @@
 {
   DeploymentUploadReceiver receiver=new DeploymentUploadReceiver();
-  UploadPopupWindow uploadPopupWindow=new UploadPopupWindow(ExplorerApplication.getCurrent().getMessage(Messages.DEPLOYMENT_UPLOAD),ExplorerApplication.getCurrent().getMessage(Messages.DEPLOYMENT_UPLOAD_DESCRIPTION),receiver);
+  UploadPopupWindow uploadPopupWindow=new UploadPopupWindow(i18nManager.getMessage(Messages.DEPLOYMENT_UPLOAD),i18nManager.getMessage(Messages.DEPLOYMENT_UPLOAD_DESCRIPTION),receiver);
   uploadPopupWindow.addFinishedListener(receiver);
-  ExplorerApplication.getCurrent().showPopupWindow(uploadPopupWindow);
+  viewManager.showPopupWindow(uploadPopupWindow);
 }

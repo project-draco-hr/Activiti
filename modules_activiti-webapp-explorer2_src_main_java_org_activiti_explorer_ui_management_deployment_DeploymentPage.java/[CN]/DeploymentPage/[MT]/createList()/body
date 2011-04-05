@@ -10,11 +10,11 @@
       if (item != null) {
         String deploymentId=(String)item.getItemProperty("id").getValue();
         splitPanel.setSecondComponent(new DeploymentDetailPanel(deploymentId,DeploymentPage.this));
-        ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(DeploymentNavigationHandler.DEPLOYMENT_URI_PART,deploymentId));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(DeploymentNavigationHandler.DEPLOYMENT_URI_PART,deploymentId));
       }
  else {
         splitPanel.removeComponent(splitPanel.getSecondComponent());
-        ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(DeploymentNavigationHandler.DEPLOYMENT_URI_PART));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(DeploymentNavigationHandler.DEPLOYMENT_URI_PART));
       }
     }
   }

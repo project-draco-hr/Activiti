@@ -1,0 +1,23 @@
+{
+  setWidth("100%");
+  addItem(i18nManager.getMessage(Messages.MGMT_MENU_DATABASE),new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      viewManager.showDatabasePage();
+    }
+  }
+);
+  MenuItem deploymentsItem=addItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS),null);
+  deploymentsItem.addItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS_SHOW_ALL),new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      viewManager.showDeploymentPage();
+    }
+  }
+);
+  deploymentsItem.addItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS_UPLOAD),new NewDeploymentListener());
+  addItem(i18nManager.getMessage(Messages.MGMT_MENU_JOBS),new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      viewManager.showJobPage();
+    }
+  }
+);
+}

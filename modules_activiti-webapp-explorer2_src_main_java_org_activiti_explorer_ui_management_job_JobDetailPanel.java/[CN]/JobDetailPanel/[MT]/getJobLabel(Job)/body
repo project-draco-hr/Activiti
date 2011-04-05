@@ -1,11 +1,11 @@
 {
   if (theJob instanceof TimerEntity) {
-    return ExplorerApplication.getCurrent().getMessage(Messages.JOB_TIMER) + " " + theJob.getId();
+    return i18nManager.getMessage(Messages.JOB_TIMER,theJob.getId());
   }
  else   if (theJob instanceof MessageEntity) {
-    return ExplorerApplication.getCurrent().getMessage(Messages.JOB_MESSAGE) + " " + theJob.getId();
+    return i18nManager.getMessage(Messages.JOB_MESSAGE,theJob.getId());
   }
  else {
-    return ExplorerApplication.getCurrent().getMessage(Messages.JOB_DEFAULT_NAME) + " " + theJob.getId();
+    return i18nManager.getMessage(Messages.JOB_DEFAULT_NAME,theJob.getId());
   }
 }

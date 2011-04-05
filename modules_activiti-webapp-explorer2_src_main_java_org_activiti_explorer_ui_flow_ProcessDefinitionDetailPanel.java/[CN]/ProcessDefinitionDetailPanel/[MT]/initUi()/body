@@ -1,0 +1,15 @@
+{
+  setSizeFull();
+  addStyleName(Reindeer.LAYOUT_WHITE);
+  if (processDefinition != null) {
+    deployment=repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
+  }
+  initName();
+  initCategory();
+  initActions();
+  detailContainer=new HorizontalLayout();
+  detailContainer.addStyleName(Reindeer.PANEL_LIGHT);
+  addComponent(detailContainer);
+  detailContainer.setSizeFull();
+  showProcessDefinitionInfo();
+}

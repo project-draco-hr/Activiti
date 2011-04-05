@@ -2,7 +2,7 @@
   List<String> resourceNames=repositoryService.getDeploymentResourceNames(deployment.getId());
   Collections.sort(resourceNames);
   if (resourceNames.size() > 0) {
-    Label resourceHeader=new Label(ExplorerApplication.getCurrent().getMessage(Messages.DEPLOYMENT_HEADER_RESOURCES));
+    Label resourceHeader=new Label(i18nManager.getMessage(Messages.DEPLOYMENT_HEADER_RESOURCES));
     resourceHeader.setWidth("95%");
     resourceHeader.addStyleName(ExplorerLayout.STYLE_DEPLOYMENT_DETAILS_HEADER);
     addComponent(resourceHeader);
@@ -21,7 +21,7 @@
         }
       }
 ;
-      Link resourceLink=new Link(resourceName,new StreamResource(streamSource,resourceName,ExplorerApplication.getCurrent()));
+      Link resourceLink=new Link(resourceName,new StreamResource(streamSource,resourceName,ExplorerApp.get()));
       resourceLinksLayout.addComponent(resourceLink);
     }
   }

@@ -1,6 +1,6 @@
 {
   VerticalLayout processImageContainer=new VerticalLayout();
-  Label processTitle=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_HEADER_DIAGRAM));
+  Label processTitle=new Label(i18nManager.getMessage(Messages.FLOW_HEADER_DIAGRAM));
   processTitle.addStyleName(ExplorerLayout.STYLE_PROCESS_DEFINITION_DETAILS_HEADER);
   processImageContainer.addComponent(processTitle);
   if (processDefinition.getDiagramResourceName() != null) {
@@ -10,7 +10,7 @@
     processImageContainer.addComponent(embedded);
   }
  else {
-    Label noImageAvailable=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_NO_DIAGRAM));
+    Label noImageAvailable=new Label(i18nManager.getMessage(Messages.FLOW_NO_DIAGRAM));
     noImageAvailable.addStyleName(Reindeer.LABEL_SMALL);
     processImageContainer.addComponent(noImageAvailable);
   }

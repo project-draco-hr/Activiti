@@ -11,7 +11,7 @@
   item.getItemProperty("startDate").setValue(new PrettyTimeLabel(task.getStartTime()));
   item.getItemProperty("endDate").setValue(new PrettyTimeLabel(task.getEndTime()));
   if (task.getDueDate() != null) {
-    Label dueDateLabel=new PrettyTimeLabel(task.getEndTime(),ExplorerApplication.getCurrent().getMessage(Messages.TASK_NOT_FINISHED_YET));
+    Label dueDateLabel=new PrettyTimeLabel(task.getEndTime(),i18nManager.getMessage(Messages.TASK_NOT_FINISHED_YET));
     item.getItemProperty("dueDate").setValue(dueDateLabel);
   }
   if (task.getAssignee() != null) {

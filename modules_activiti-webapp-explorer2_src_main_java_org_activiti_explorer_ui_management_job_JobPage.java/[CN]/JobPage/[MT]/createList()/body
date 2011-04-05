@@ -10,11 +10,11 @@
       if (item != null) {
         String jobId=(String)item.getItemProperty("id").getValue();
         splitPanel.setSecondComponent(new JobDetailPanel(jobId,JobPage.this));
-        ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART,jobId));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART,jobId));
       }
  else {
         splitPanel.removeComponent(splitPanel.getSecondComponent());
-        ExplorerApplication.getCurrent().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART));
       }
     }
   }

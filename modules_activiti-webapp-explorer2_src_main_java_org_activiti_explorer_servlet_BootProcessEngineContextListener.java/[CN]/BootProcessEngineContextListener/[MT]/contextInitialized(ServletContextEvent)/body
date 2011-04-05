@@ -1,8 +1,5 @@
 {
-  ProcessEngines.init();
-  if (ProcessEngines.getDefaultProcessEngine() == null) {
-    throw new ActivitiException("Could not construct a process engine. " + "Please verify that your activiti.cfg.xml configuration is correct.");
-  }
+  this.processEngine=WebApplicationContextUtils.getRequiredWebApplicationContext(servletContextEvent.getServletContext()).getBean(ProcessEngine.class);
   initFormPropertyMapping();
   initUriNavigation();
   initDemoData();

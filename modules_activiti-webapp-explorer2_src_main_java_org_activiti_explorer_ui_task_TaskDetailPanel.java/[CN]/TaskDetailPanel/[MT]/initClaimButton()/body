@@ -1,6 +1,6 @@
 {
   if (!isCurrentUserAssignee() && canUserClaimTask()) {
-    claimButton=new Button(ExplorerApplication.getCurrent().getMessage(Messages.TASK_CLAIM));
+    claimButton=new Button(i18nManager.getMessage(Messages.TASK_CLAIM));
     claimButton.addListener(new ClaimTaskClickListener(task.getId(),taskService));
     leftPanel.addComponent(claimButton);
     addEmptySpace(leftPanel);

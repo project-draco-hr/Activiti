@@ -1,10 +1,8 @@
 {
   this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  this.viewManager=ExplorerApp.get().getViewManager();
   this.deployment=repositoryService.createDeploymentQuery().deploymentId(deploymentId).singleResult();
   this.parent=parent;
-  addStyleName(Reindeer.LAYOUT_WHITE);
-  addDeploymentName();
-  addDeploymentTime();
-  addProcessDefinitionLinks();
-  addResourceLinks();
+  init();
 }

@@ -1,11 +1,8 @@
 {
   this.managementService=ProcessEngines.getDefaultProcessEngine().getManagementService();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  this.notificationManager=ExplorerApp.get().getNotificationManager();
   this.job=managementService.createJobQuery().jobId(jobId).singleResult();
   this.parent=parent;
-  getContent().setSizeFull();
-  setSizeFull();
-  addStyleName(Reindeer.LAYOUT_WHITE);
-  addJobName();
-  addJobTime();
-  addJobState();
+  init();
 }

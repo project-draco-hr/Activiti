@@ -4,11 +4,11 @@
     ClickListener clickListener=new ClickListener(){
       private static final long serialVersionUID=7250731154745638326L;
       public void buttonClick(      ClickEvent event){
-        ExplorerApplication.getCurrent().switchView(new MyFlowsPage(task.getProcessInstanceId()));
+        viewManager.showMyFlowsPage(task.getProcessInstanceId());
       }
     }
 ;
-    Button showProcessInstanceButton=new Button(ExplorerApplication.getCurrent().getMessage(Messages.TASK_PART_OF_PROCESS,processDefinition.getName(),task.getProcessInstanceId()),clickListener);
+    Button showProcessInstanceButton=new Button(i18nManager.getMessage(Messages.TASK_PART_OF_PROCESS,processDefinition.getName(),task.getProcessInstanceId()),clickListener);
     showProcessInstanceButton.setSizeUndefined();
     showProcessInstanceButton.addStyleName(Reindeer.BUTTON_LINK);
     leftPanel.addComponent(showProcessInstanceButton);

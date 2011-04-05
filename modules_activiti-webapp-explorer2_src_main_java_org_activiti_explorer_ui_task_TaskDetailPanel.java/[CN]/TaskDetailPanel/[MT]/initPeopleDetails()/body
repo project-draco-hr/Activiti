@@ -17,7 +17,7 @@
     owner.addStyleName(Reindeer.BUTTON_LINK);
     owner.addListener(new ClickListener(){
       public void buttonClick(      ClickEvent event){
-        ExplorerApplication.getCurrent().showPopupWindow(new ProfilePopupWindow(task.getOwner()));
+        viewManager.showProfilePopup(task.getOwner());
       }
     }
 );
@@ -28,7 +28,7 @@
     assignee.addStyleName(Reindeer.BUTTON_LINK);
     assignee.addListener(new ClickListener(){
       public void buttonClick(      ClickEvent event){
-        ExplorerApplication.getCurrent().showPopupWindow(new ProfilePopupWindow(task.getAssignee()));
+        viewManager.showProfilePopup(task.getAssignee());
       }
     }
 );

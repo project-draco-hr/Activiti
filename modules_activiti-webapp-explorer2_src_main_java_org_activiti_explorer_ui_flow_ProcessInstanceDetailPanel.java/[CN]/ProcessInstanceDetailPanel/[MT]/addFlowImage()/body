@@ -1,7 +1,7 @@
 {
   ProcessDefinitionEntity processDefinitionEntity=(ProcessDefinitionEntity)((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processDefinition.getId());
   if (processDefinitionEntity != null && processDefinitionEntity.isGraphicalNotationDefined()) {
-    Label header=new Label(ExplorerApplication.getCurrent().getMessage(Messages.FLOW_INSTANCE_HEADER_DIAGRAM));
+    Label header=new Label(i18nManager.getMessage(Messages.FLOW_INSTANCE_HEADER_DIAGRAM));
     header.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_DETAILS_HEADER);
     addComponent(header);
     StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processInstance,repositoryService,runtimeService);
