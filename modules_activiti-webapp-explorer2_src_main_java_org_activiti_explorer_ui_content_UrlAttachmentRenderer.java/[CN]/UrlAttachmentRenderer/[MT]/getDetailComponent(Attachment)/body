@@ -1,3 +1,11 @@
 {
-  return new Label(attachment.getUrl());
+  VerticalLayout verticalLayout=new VerticalLayout();
+  verticalLayout.setSpacing(true);
+  verticalLayout.setMargin(true);
+  verticalLayout.addComponent(new Label(attachment.getDescription()));
+  Link link=new Link(attachment.getUrl(),new ExternalResource(attachment.getUrl()));
+  link.setIcon(Images.RELATED_CONTENT_URL);
+  link.setTargetName(ExplorerLayout.LINK_TARGET_BLANK);
+  verticalLayout.addComponent(link);
+  return verticalLayout;
 }

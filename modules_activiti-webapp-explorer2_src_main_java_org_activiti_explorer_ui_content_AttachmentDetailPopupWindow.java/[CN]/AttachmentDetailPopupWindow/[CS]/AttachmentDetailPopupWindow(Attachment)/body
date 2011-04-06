@@ -1,0 +1,14 @@
+{
+  super(attachment.getName());
+  setWidth(50,UNITS_PERCENTAGE);
+  setHeight(50,UNITS_PERCENTAGE);
+  center();
+  AttachmentRenderer renderer=AttachmentRenderers.getRenderer(attachment.getType());
+  Component detail=renderer.getDetailComponent(attachment);
+  if (detail instanceof ComponentContainer) {
+    setContent((ComponentContainer)detail);
+  }
+ else {
+    addComponent(detail);
+  }
+}
