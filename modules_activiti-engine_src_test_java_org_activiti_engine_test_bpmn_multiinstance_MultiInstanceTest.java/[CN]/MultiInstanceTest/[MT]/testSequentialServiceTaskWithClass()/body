@@ -1,0 +1,7 @@
+{
+  ProcessInstance procInst=runtimeService.startProcessInstanceByKey("multiInstanceServiceTask",CollectionUtil.singletonMap("result",5));
+  Integer result=(Integer)runtimeService.getVariable(procInst.getId(),"result");
+  assertEquals(160,result.intValue());
+  runtimeService.signal(procInst.getId());
+  assertProcessEnded(procInst.getId());
+}
