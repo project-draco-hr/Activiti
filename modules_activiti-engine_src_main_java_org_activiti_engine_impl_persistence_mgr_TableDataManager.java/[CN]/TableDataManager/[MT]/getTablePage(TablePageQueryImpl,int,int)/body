@@ -1,0 +1,9 @@
+{
+  TablePage tablePage=new TablePage();
+  List<Map<String,Object>> tableData=(List<Map<String,Object>>)getPersistenceSession().getSqlSession().selectList("selectTableData",tablePageQuery,new RowBounds(firstResult,maxResults));
+  tablePage.setTableName(tablePageQuery.getTableName());
+  tablePage.setTotal(getTableCount(tablePageQuery.getTableName()));
+  tablePage.setRows(tableData);
+  tablePage.setFirstResult(firstResult);
+  return tablePage;
+}

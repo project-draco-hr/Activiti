@@ -2,7 +2,7 @@
   commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       MessageEntity message=createTweetExceptionMessage();
-      commandContext.getMessageSession().send(message);
+      commandContext.getJobManager().send(message);
       return message.getId();
     }
   }

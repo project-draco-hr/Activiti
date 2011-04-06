@@ -1,7 +1,0 @@
-{
-  PropertyEntity property=(PropertyEntity)dbSqlSession.selectById(PropertyEntity.class,"next.dbid");
-  long oldValue=Long.parseLong(property.getValue());
-  long newValue=oldValue + idBlockSize;
-  property.setValue(Long.toString(newValue));
-  return new IdBlock(oldValue,newValue - 1);
-}

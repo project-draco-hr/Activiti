@@ -12,7 +12,7 @@
   if (timerDeclarations != null) {
     for (    TimerDeclarationImpl timerDeclaration : timerDeclarations) {
       TimerEntity timer=timerDeclaration.prepareTimerEntity(this);
-      Context.getCommandContext().getTimerSession().schedule(timer);
+      Context.getCommandContext().getJobManager().schedule(timer);
     }
   }
 }

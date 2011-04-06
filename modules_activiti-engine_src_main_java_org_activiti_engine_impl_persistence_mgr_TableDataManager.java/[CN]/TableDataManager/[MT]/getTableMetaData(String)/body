@@ -1,0 +1,23 @@
+{
+  TableMetaData result=new TableMetaData();
+  try {
+    result.setTableName(tableName);
+    DatabaseMetaData metaData=getPersistenceSession().getSqlSession().getConnection().getMetaData();
+    if ("postgres".equals(getPersistenceSession().getDbSqlSessionFactory().getDatabaseType())) {
+      tableName=tableName.toLowerCase();
+    }
+    ResultSet resultSet=metaData.getColumns(null,null,tableName,null);
+    while (resultSet.next()) {
+      String name=resultSet.getString("COLUMN_NAME").toUpperCase();
+      String type=resultSet.getString("TYPE_NAME").toUpperCase();
+      result.addColumnMetaData(name,type);
+    }
+  }
+ catch (  SQLException e) {
+    throw new ActivitiException("Could not retrieve database metadata: " + e.getMessage());
+  }
+  if (result.getColumnNames().size() == 0) {
+    result=null;
+  }
+  return result;
+}
