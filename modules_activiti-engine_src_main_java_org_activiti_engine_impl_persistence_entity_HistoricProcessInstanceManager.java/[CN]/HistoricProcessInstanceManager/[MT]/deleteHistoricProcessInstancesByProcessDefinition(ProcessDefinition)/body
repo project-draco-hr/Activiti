@@ -1,6 +1,8 @@
 {
-  List<HistoricProcessInstance> historicProcessInstances=getPersistenceSession().createHistoricProcessInstanceQuery().processDefinitionId(processDefinition.getId()).list();
-  for (  HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
-    deleteHistoricProcessInstance(historicProcessInstance.getId());
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    List<HistoricProcessInstance> historicProcessInstances=getPersistenceSession().createHistoricProcessInstanceQuery().processDefinitionId(processDefinition.getId()).list();
+    for (    HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
+      deleteHistoricProcessInstance(historicProcessInstance.getId());
+    }
   }
 }
