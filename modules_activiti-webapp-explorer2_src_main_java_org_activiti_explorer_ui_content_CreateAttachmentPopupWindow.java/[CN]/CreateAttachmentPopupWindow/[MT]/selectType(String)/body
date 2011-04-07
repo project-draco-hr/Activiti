@@ -1,9 +1,8 @@
 {
-  if (typeName == null) {
-    setCurrentEditor(null);
+  if (type != null) {
+    setCurrentEditor(AttachmentRenderers.getEditor(type));
   }
  else {
-    AttachmentRenderer renderer=AttachmentRenderers.getRenderer(typeName);
-    setCurrentEditor(renderer.getEditor(null,taskId,processInstanceId));
+    setCurrentEditor(null);
   }
 }

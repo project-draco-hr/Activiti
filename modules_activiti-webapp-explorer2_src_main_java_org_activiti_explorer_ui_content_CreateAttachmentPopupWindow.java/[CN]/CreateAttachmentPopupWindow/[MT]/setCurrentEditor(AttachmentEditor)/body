@@ -1,11 +1,10 @@
 {
-  this.currentEditor=editor;
-  if (layout.getComponent(0,1) != null) {
-    removeComponent(layout.getComponent(1,0));
-  }
+  AttachmentEditorComponent component=editor.getEditor(null,taskId,processInstanceId);
+  this.currentEditor=component;
+  detailLayout.removeComponent(detailLayout.getComponent(0,0));
   if (currentEditor != null) {
     currentEditor.setSizeFull();
-    layout.addComponent(currentEditor,1,0);
+    detailLayout.addComponent(currentEditor,0,0);
     okButton.setEnabled(true);
   }
  else {

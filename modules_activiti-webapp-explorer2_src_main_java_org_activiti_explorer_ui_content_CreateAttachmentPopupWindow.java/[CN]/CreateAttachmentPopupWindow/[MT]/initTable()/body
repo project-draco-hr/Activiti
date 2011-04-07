@@ -7,17 +7,28 @@
   attachmentTypes.setNullSelectionAllowed(false);
   attachmentTypes.setWidth(200,UNITS_PIXELS);
   attachmentTypes.setHeight(100,UNITS_PERCENTAGE);
+  attachmentTypes.setCellStyleGenerator(new CellStyleGenerator(){
+    private static final long serialVersionUID=1L;
+    public String getStyle(    Object itemId,    Object propertyId){
+      if ("name".equals(propertyId)) {
+        return ExplorerLayout.STYLE_RELATED_CONTENT_CREATE_LIST_LAST_COLUMN;
+      }
+      return null;
+    }
+  }
+);
+  attachmentTypes.addStyleName(ExplorerLayout.STYLE_RELATED_CONTENT_CREATE_LIST);
   attachmentTypes.addContainerProperty("type",Embedded.class,null);
   attachmentTypes.setColumnWidth("type",16);
   attachmentTypes.addContainerProperty("name",String.class,null);
-  for (  AttachmentRenderer renderer : AttachmentRenderers.getAttachmentRenderers()) {
-    String name=renderer.getName(i18nManager);
+  for (  AttachmentEditor editor : AttachmentRenderers.getAttachmentEditors()) {
+    String name=editor.getTitle(i18nManager);
     Embedded image=null;
-    Resource resource=renderer.getImage(null);
+    Resource resource=editor.getImage();
     if (resource != null) {
       image=new Embedded(null,resource);
     }
-    Item item=attachmentTypes.addItem(renderer.getType());
+    Item item=attachmentTypes.addItem(editor.getName());
     item.getItemProperty("type").setValue(image);
     item.getItemProperty("name").setValue(name);
   }
@@ -29,7 +40,5 @@
     }
   }
 );
-  layout.addComponent(attachmentTypes,0,0,0,1);
-  layout.setColumnExpandRatio(1,1.0f);
-  layout.setRowExpandRatio(0,1.0f);
+  layout.addComponent(attachmentTypes);
 }

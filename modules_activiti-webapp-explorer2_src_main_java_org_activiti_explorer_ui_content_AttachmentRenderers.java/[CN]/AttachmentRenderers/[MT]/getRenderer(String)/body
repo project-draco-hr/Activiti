@@ -1,7 +1,8 @@
 {
-  AttachmentRenderer renderer=renderers.get(type);
-  if (renderer == null) {
-    throw new ActivitiException("No renderer found for attachment of type: " + type);
+  for (  AttachmentRenderer renderer : renderers) {
+    if (renderer.canRenderAttachment(type)) {
+      return renderer;
+    }
   }
-  return renderer;
+  throw new ActivitiException("No renderer found for attachment of type: " + type);
 }

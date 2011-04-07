@@ -5,11 +5,20 @@
   setWidth(50,UNITS_PERCENTAGE);
   setHeight(50,UNITS_PERCENTAGE);
   center();
-  layout=new GridLayout(2,2);
-  layout.setSpacing(true);
+  layout=new HorizontalLayout();
+  layout.setSpacing(false);
   layout.setMargin(true);
   layout.setSizeFull();
   setContent(layout);
   initTable();
+  detailLayout=new GridLayout(1,2);
+  detailLayout.setSizeFull();
+  detailLayout.setMargin(true);
+  detailLayout.setSpacing(true);
+  detailLayout.addStyleName(ExplorerLayout.STYLE_RELATED_CONTENT_CREATE_DETAIL);
+  layout.addComponent(detailLayout);
+  layout.setExpandRatio(detailLayout,1.0f);
+  detailLayout.setRowExpandRatio(0,1.0f);
+  detailLayout.setColumnExpandRatio(0,1.0f);
   initActions();
 }
