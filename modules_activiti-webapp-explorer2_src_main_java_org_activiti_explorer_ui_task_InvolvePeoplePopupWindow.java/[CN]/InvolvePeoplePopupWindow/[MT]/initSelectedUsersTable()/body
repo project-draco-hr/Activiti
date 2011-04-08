@@ -1,6 +1,29 @@
 {
-  Panel panel=new Panel();
-  panel.setWidth(300,UNITS_PIXELS);
-  panel.setHeight(200,UNITS_PIXELS);
-  userSelectionLayout.addComponent(panel);
+  selectedUsersTable=new Table();
+  selectedUsersTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  selectedUsersTable.setEditable(false);
+  selectedUsersTable.setSortDisabled(true);
+  selectedUsersTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.USER_ADD));
+  selectedUsersTable.setColumnWidth("icon",16);
+  selectedUsersTable.addContainerProperty("userName",String.class,null);
+  selectedUsersTable.addContainerProperty("role",ComboBox.class,null);
+  selectedUsersTable.addGeneratedColumn("delete",new ThemeImageColumnGenerator(Images.DELETE,new com.vaadin.event.MouseEvents.ClickListener(){
+    public void click(    com.vaadin.event.MouseEvents.ClickEvent event){
+      Object itemId=((Embedded)event.getSource()).getData();
+      String searchFieldValue=(String)searchField.getValue();
+      if (searchFieldValue != null && searchFieldValue.length() >= 2) {
+        String userName=(String)selectedUsersTable.getItem(itemId).getItemProperty("userName").getValue();
+        if (matchesSearchField(userName)) {
+          Item item=matchingUsersTable.addItem(itemId);
+          item.getItemProperty("userName").setValue(userName);
+        }
+      }
+      selectedUsersTable.removeItem(itemId);
+    }
+  }
+));
+  selectedUsersTable.setColumnWidth("icon",16);
+  selectedUsersTable.setWidth(420,UNITS_PIXELS);
+  selectedUsersTable.setHeight(200,UNITS_PIXELS);
+  userSelectionLayout.addComponent(selectedUsersTable);
 }

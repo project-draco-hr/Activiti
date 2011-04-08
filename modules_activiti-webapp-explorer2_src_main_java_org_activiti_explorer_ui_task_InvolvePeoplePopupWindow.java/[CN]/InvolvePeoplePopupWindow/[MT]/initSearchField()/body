@@ -6,14 +6,7 @@
   addComponent(searchField);
   searchField.addListener(new TextChangeListener(){
     public void textChange(    TextChangeEvent event){
-      if (event.getText().length() >= 2) {
-        matchingUsersTable.removeAllItems();
-        List<User> results=userCache.findMatchingUsers(event.getText());
-        for (        User user : results) {
-          Item item=matchingUsersTable.addItem(user.getId());
-          item.getItemProperty("userName").setValue(user.getFirstName() + " " + user.getLastName());
-        }
-      }
+      searchPeople(event.getText());
     }
   }
 );

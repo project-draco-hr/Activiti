@@ -7,8 +7,10 @@
   matchingUsersTable.setMultiSelect(true);
   matchingUsersTable.setNullSelectionAllowed(false);
   matchingUsersTable.setSortDisabled(true);
+  matchingUsersTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.USER));
+  matchingUsersTable.setColumnWidth("icon",16);
+  matchingUsersTable.addContainerProperty("userName",String.class,null);
   matchingUsersTable.setWidth(300,UNITS_PIXELS);
   matchingUsersTable.setHeight(200,UNITS_PIXELS);
   userSelectionLayout.addComponent(matchingUsersTable);
-  matchingUsersTable.addContainerProperty("userName",String.class,null);
 }

@@ -1,6 +1,29 @@
 {
-  Label title=new Label(i18nManager.getMessage(Messages.TASK_PEOPLE));
+  layout.addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
+  HorizontalLayout headerLayout=new HorizontalLayout();
+  headerLayout.setWidth(100,UNITS_PERCENTAGE);
+  layout.addComponent(headerLayout);
+  title=new Label(i18nManager.getMessage(Messages.TASK_PEOPLE));
   title.addStyleName(ExplorerLayout.STYLE_RELATED_CONTENT_DETAILS_HEADER);
-  layout.addComponent(title);
-  initAddButton();
+  title.setWidth(100,UNITS_PERCENTAGE);
+  headerLayout.addComponent(title);
+  headerLayout.setExpandRatio(title,1.0f);
+  addPeopleButton=new Embedded(null,Images.ADD);
+  addPeopleButton.addStyleName(ExplorerLayout.STYLE_IMAGE_ACTION);
+  headerLayout.addComponent(addPeopleButton);
+  addPeopleButton.addListener(new ClickListener(){
+    public void click(    ClickEvent event){
+      InvolvePeoplePopupWindow involvePeoplePopupWindow=new InvolvePeoplePopupWindow(task);
+      involvePeoplePopupWindow.addListener(new SubmitEventListener(){
+        protected void submitted(        SubmitEvent event){
+          refreshPeopleGrid();
+        }
+        protected void cancelled(        SubmitEvent event){
+        }
+      }
+);
+      viewManager.showPopupWindow(involvePeoplePopupWindow);
+    }
+  }
+);
 }

@@ -1,3 +1,9 @@
 {
-  return new Embedded(null,image);
+  Embedded embedded=new Embedded(null,image);
+  if (clickListener != null) {
+    embedded.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+    embedded.setData(itemId);
+    embedded.addListener(clickListener);
+  }
+  return embedded;
 }

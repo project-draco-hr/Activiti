@@ -1,5 +1,15 @@
 {
   selectUserButton=new Button(">");
+  selectUserButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      for (      String selectedItemId : (Set<String>)matchingUsersTable.getValue()) {
+        Item originalItem=matchingUsersTable.getItem(selectedItemId);
+        selectUser(selectedItemId,(String)originalItem.getItemProperty("userName").getValue());
+        matchingUsersTable.removeItem(selectedItemId);
+      }
+    }
+  }
+);
   userSelectionLayout.addComponent(selectUserButton);
   userSelectionLayout.setComponentAlignment(selectUserButton,Alignment.MIDDLE_CENTER);
 }

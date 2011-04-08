@@ -5,8 +5,12 @@
   Label nameLabel=null;
   if (user != null) {
     nameLabel=new Label(user.getFirstName() + " " + user.getLastName());
-    layout.addComponent(nameLabel);
+    nameLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
   }
+ else {
+    nameLabel=new Label("&nbsp;",Label.CONTENT_XHTML);
+  }
+  layout.addComponent(nameLabel);
   Label roleLabel=new Label(role);
   layout.addComponent(roleLabel);
 }
