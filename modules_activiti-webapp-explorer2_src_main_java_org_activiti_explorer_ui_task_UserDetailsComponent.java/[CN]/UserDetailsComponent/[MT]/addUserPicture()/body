@@ -17,4 +17,13 @@
   picture.setHeight("48px");
   picture.setWidth("48px");
   addComponent(picture);
+  if (user != null) {
+    picture.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+    picture.addListener(new com.vaadin.event.MouseEvents.ClickListener(){
+      public void click(      ClickEvent event){
+        viewManager.showProfilePopup(user.getId());
+      }
+    }
+);
+  }
 }

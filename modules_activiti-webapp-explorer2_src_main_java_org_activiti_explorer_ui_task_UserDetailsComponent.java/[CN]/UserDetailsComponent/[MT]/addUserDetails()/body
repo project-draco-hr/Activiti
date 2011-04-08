@@ -1,7 +1,6 @@
 {
-  VerticalLayout layout=new VerticalLayout();
-  addComponent(layout);
-  setExpandRatio(layout,1.0f);
+  VerticalLayout detailsLayout=new VerticalLayout();
+  addComponent(detailsLayout);
   Label nameLabel=null;
   if (user != null) {
     nameLabel=new Label(user.getFirstName() + " " + user.getLastName());
@@ -10,7 +9,14 @@
  else {
     nameLabel=new Label("&nbsp;",Label.CONTENT_XHTML);
   }
-  layout.addComponent(nameLabel);
+  detailsLayout.addComponent(nameLabel);
+  HorizontalLayout actionsLayout=new HorizontalLayout();
+  actionsLayout.setSpacing(true);
+  detailsLayout.addComponent(actionsLayout);
   Label roleLabel=new Label(role);
-  layout.addComponent(roleLabel);
+  actionsLayout.addComponent(roleLabel);
+  Button button=new Button(buttonCaption);
+  button.addStyleName(Reindeer.BUTTON_SMALL);
+  button.addListener(clickListener);
+  actionsLayout.addComponent(button);
 }

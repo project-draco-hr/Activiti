@@ -1,11 +1,16 @@
 {
-  setCaption(i18nManager.getMessage(Messages.PEOPLE_INVOLVE_POPUP_CAPTION));
+  setCaption(title);
   setModal(true);
   addStyleName(Reindeer.WINDOW_LIGHT);
   center();
   windowLayout=(VerticalLayout)getContent();
   windowLayout.setSpacing(true);
-  setWidth(820,UNITS_PIXELS);
+  if (multiSelect) {
+    setWidth(820,UNITS_PIXELS);
+  }
+ else {
+    setWidth(340,UNITS_PIXELS);
+  }
   setHeight(350,UNITS_PIXELS);
   initSearchField();
   initUserSelection();

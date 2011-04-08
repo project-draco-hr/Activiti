@@ -1,5 +1,7 @@
 {
   this.role=role;
+  this.buttonCaption=buttonCaption;
+  this.clickListener=clickListener;
   identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
   viewManager=ExplorerApp.get().getViewManager();
   if (userId != null) {
@@ -7,8 +9,4 @@
   }
   addUserPicture();
   addUserDetails();
-  if (userId != null) {
-    addStyleName(ExplorerLayout.STYLE_CLICKABLE);
-    addListener(this);
-  }
 }

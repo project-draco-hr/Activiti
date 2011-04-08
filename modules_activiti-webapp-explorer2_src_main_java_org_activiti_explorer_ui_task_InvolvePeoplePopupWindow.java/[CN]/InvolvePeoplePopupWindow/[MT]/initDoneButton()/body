@@ -2,15 +2,8 @@
   doneButton=new Button("Done");
   doneButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      Collection<String> selectedUserIds=(Collection<String>)selectedUsersTable.getItemIds();
-      for (      String userId : selectedUserIds) {
-        String role=(String)((ComboBox)selectedUsersTable.getItem(userId).getItemProperty("role").getValue()).getValue();
-        taskService.addUserIdentityLink(task.getId(),userId,role);
-      }
+      fireEvent(new SubmitEvent(doneButton,SubmitEvent.SUBMITTED));
       close();
-      if (selectedUserIds.size() > 0) {
-        fireEvent(new SubmitEvent(doneButton,SubmitEvent.SUBMITTED));
-      }
     }
   }
 );

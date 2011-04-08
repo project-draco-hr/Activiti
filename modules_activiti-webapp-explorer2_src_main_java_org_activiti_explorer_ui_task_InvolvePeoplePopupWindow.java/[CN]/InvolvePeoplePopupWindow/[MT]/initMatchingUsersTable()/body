@@ -4,9 +4,11 @@
   matchingUsersTable.setSelectable(true);
   matchingUsersTable.setEditable(false);
   matchingUsersTable.setImmediate(true);
-  matchingUsersTable.setMultiSelect(true);
   matchingUsersTable.setNullSelectionAllowed(false);
   matchingUsersTable.setSortDisabled(true);
+  if (multiSelect) {
+    matchingUsersTable.setMultiSelect(true);
+  }
   matchingUsersTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.USER));
   matchingUsersTable.setColumnWidth("icon",16);
   matchingUsersTable.addContainerProperty("userName",String.class,null);

@@ -1,15 +1,5 @@
 {
-  String roleMessage=task.getOwner() != null ? Messages.TASK_OWNER : Messages.TASK_NO_OWNER;
-  UserDetailsComponent ownerDetails=new UserDetailsComponent(task.getOwner(),i18nManager.getMessage(roleMessage));
-  peopleGrid.addComponent(ownerDetails);
-  UserDetailsComponent assigneeDetails=new UserDetailsComponent(task.getAssignee(),i18nManager.getMessage(Messages.TASK_ASSIGNEE));
-  peopleGrid.addComponent(assigneeDetails);
-  for (  IdentityLink identityLink : taskService.getIdentityLinksForTask(task.getId())) {
-    if (identityLink.getUserId() != null) {
-      if (!IdentityLinkType.ASSIGNEE.equals(identityLink.getType())) {
-        UserDetailsComponent involvedDetails=new UserDetailsComponent(identityLink.getUserId(),identityLink.getType());
-        peopleGrid.addComponent(involvedDetails);
-      }
-    }
-  }
+  initOwner();
+  initAssignee();
+  initInvolvedPeople();
 }

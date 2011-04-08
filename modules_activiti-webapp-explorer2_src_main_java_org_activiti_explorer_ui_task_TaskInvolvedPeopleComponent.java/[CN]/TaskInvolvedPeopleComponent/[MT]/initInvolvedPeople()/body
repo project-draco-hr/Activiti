@@ -1,0 +1,10 @@
+{
+  for (  final IdentityLink identityLink : taskService.getIdentityLinksForTask(task.getId())) {
+    if (identityLink.getUserId() != null) {
+      if (!IdentityLinkType.ASSIGNEE.equals(identityLink.getType())) {
+        UserDetailsComponent involvedDetails=new UserDetailsComponent(identityLink.getUserId(),identityLink.getType(),i18nManager.getMessage(Messages.TASK_INVOLVED_REMOVE),new RemoveInvolvedPersonListener(identityLink,task,this));
+        peopleGrid.addComponent(involvedDetails);
+      }
+    }
+  }
+}

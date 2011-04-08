@@ -13,9 +13,14 @@
   headerLayout.addComponent(addPeopleButton);
   addPeopleButton.addListener(new ClickListener(){
     public void click(    ClickEvent event){
-      InvolvePeoplePopupWindow involvePeoplePopupWindow=new InvolvePeoplePopupWindow(task);
+      final InvolvePeoplePopupWindow involvePeoplePopupWindow=new InvolvePeoplePopupWindow(i18nManager.getMessage(Messages.PEOPLE_INVOLVE_POPUP_CAPTION),task,true);
       involvePeoplePopupWindow.addListener(new SubmitEventListener(){
         protected void submitted(        SubmitEvent event){
+          Collection<String> selectedUserIds=involvePeoplePopupWindow.getSelectedUserIds();
+          for (          String userId : selectedUserIds) {
+            String role=involvePeoplePopupWindow.getSelectedUserRole(userId);
+            taskService.addUserIdentityLink(task.getId(),userId,role);
+          }
           refreshPeopleGrid();
         }
         protected void cancelled(        SubmitEvent event){
