@@ -1,0 +1,10 @@
+{
+  Visitor<T,Boolean> visitor=new VisitorImpl<T,Boolean>(Boolean.FALSE){
+    public void visit(    String key,    RadixTreeNode<T> parent,    RadixTreeNode<T> node){
+      result=node.isReal();
+    }
+  }
+;
+  visit(key,visitor);
+  return visitor.getResult().booleanValue();
+}

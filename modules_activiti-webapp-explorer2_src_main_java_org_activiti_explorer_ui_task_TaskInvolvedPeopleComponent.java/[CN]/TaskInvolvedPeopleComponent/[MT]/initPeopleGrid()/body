@@ -1,0 +1,11 @@
+{
+  GridLayout grid=new GridLayout();
+  grid.setColumns(2);
+  grid.setSpacing(true);
+  layout.addComponent(grid);
+  String roleMessage=task.getOwner() != null ? Messages.TASK_OWNER : Messages.TASK_NO_OWNER;
+  UserDetailsComponent ownerDetails=new UserDetailsComponent(task.getOwner(),i18nManager.getMessage(roleMessage));
+  grid.addComponent(ownerDetails);
+  UserDetailsComponent assigneeDetails=new UserDetailsComponent(task.getAssignee(),i18nManager.getMessage(Messages.TASK_ASSIGNEE));
+  grid.addComponent(assigneeDetails);
+}

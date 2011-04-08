@@ -1,0 +1,19 @@
+{
+  searchField=new TextField();
+  searchField.setInputPrompt(i18nManager.getMessage(Messages.PEOPLE_SEARCH));
+  searchField.setWidth(250,UNITS_PIXELS);
+  addComponent(searchField);
+  searchField.addListener(new TextChangeListener(){
+    public void textChange(    TextChangeEvent event){
+      if (event.getText().length() >= 2) {
+        matchingUsersTable.removeAllItems();
+        List<UserCache.UserDetails> results=userCache.findMatchingUsers(event.getText());
+        for (        UserCache.UserDetails userDetails : results) {
+          Item item=matchingUsersTable.addItem(userDetails.getUserId());
+          item.getItemProperty("userName").setValue(userDetails.getFullName());
+        }
+      }
+    }
+  }
+);
+}

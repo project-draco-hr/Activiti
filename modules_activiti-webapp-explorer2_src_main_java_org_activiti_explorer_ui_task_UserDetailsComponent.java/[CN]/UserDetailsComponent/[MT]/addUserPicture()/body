@@ -1,0 +1,20 @@
+{
+  Embedded picture=null;
+  if (user != null) {
+    StreamResource imageresource=new StreamResource(new StreamSource(){
+      public InputStream getStream(){
+        return identityService.getUserPicture(user.getId()).getInputStream();
+      }
+    }
+,user.getId(),ExplorerApp.get());
+    picture=new Embedded(null,imageresource);
+  }
+ else {
+    picture=new Embedded(null,Images.USER_48);
+  }
+  picture.setType(Embedded.TYPE_IMAGE);
+  picture.addStyleName(ExplorerLayout.STYLE_TASK_COMMENT_PICTURE);
+  picture.setHeight("48px");
+  picture.setWidth("48px");
+  addComponent(picture);
+}

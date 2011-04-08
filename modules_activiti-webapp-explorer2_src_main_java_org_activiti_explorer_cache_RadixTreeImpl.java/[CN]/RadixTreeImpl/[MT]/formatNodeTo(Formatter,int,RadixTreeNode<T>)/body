@@ -1,0 +1,14 @@
+{
+  for (int i=0; i < level; i++) {
+    f.format(" ");
+  }
+  f.format("|");
+  for (int i=0; i < level; i++) {
+    f.format("-");
+  }
+  if (node.isReal() == true)   f.format("%s[%s]*%n",node.getKey(),node.getValue());
+ else   f.format("%s%n",node.getKey());
+  for (  RadixTreeNode<T> child : node.getChildern()) {
+    formatNodeTo(f,level + 1,child);
+  }
+}

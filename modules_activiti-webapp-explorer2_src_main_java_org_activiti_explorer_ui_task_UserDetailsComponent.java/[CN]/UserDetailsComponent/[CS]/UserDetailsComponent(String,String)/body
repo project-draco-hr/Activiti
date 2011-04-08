@@ -1,0 +1,11 @@
+{
+  this.role=role;
+  identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
+  viewManager=ExplorerApp.get().getViewManager();
+  if (userId != null) {
+    user=identityService.createUserQuery().userId(userId).singleResult();
+  }
+  addUserPicture();
+  addUserDetails();
+  addListener(this);
+}

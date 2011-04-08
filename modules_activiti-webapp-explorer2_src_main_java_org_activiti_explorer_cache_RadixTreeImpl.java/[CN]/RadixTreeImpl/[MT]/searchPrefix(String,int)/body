@@ -1,0 +1,11 @@
+{
+  ArrayList<T> keys=new ArrayList<T>();
+  RadixTreeNode<T> node=searchPefix(key,root);
+  if (node != null) {
+    if (node.isReal()) {
+      keys.add(node.getValue());
+    }
+    getNodes(node,keys,recordLimit);
+  }
+  return keys;
+}

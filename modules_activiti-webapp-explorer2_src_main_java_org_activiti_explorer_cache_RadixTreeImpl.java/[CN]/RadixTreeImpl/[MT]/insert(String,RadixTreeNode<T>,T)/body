@@ -1,0 +1,61 @@
+{
+  int numberOfMatchingCharacters=node.getNumberOfMatchingCharacters(key);
+  if (node.getKey().equals("") == true || numberOfMatchingCharacters == 0 || (numberOfMatchingCharacters < key.length() && numberOfMatchingCharacters >= node.getKey().length())) {
+    boolean flag=false;
+    String newText=key.substring(numberOfMatchingCharacters,key.length());
+    for (    RadixTreeNode<T> child : node.getChildern()) {
+      if (child.getKey().startsWith(newText.charAt(0) + "")) {
+        flag=true;
+        insert(newText,child,value);
+        break;
+      }
+    }
+    if (flag == false) {
+      RadixTreeNode<T> n=new RadixTreeNode<T>();
+      n.setKey(newText);
+      n.setReal(true);
+      n.setValue(value);
+      node.getChildern().add(n);
+    }
+  }
+ else   if (numberOfMatchingCharacters == key.length() && numberOfMatchingCharacters == node.getKey().length()) {
+    if (node.isReal() == true) {
+      throw new DuplicateKeyException("Duplicate key");
+    }
+    node.setReal(true);
+    node.setValue(value);
+  }
+ else   if (numberOfMatchingCharacters > 0 && numberOfMatchingCharacters < node.getKey().length()) {
+    RadixTreeNode<T> n1=new RadixTreeNode<T>();
+    n1.setKey(node.getKey().substring(numberOfMatchingCharacters,node.getKey().length()));
+    n1.setReal(node.isReal());
+    n1.setValue(node.getValue());
+    n1.setChildern(node.getChildern());
+    node.setKey(key.substring(0,numberOfMatchingCharacters));
+    node.setReal(false);
+    node.setChildern(new ArrayList<RadixTreeNode<T>>());
+    node.getChildern().add(n1);
+    if (numberOfMatchingCharacters < key.length()) {
+      RadixTreeNode<T> n2=new RadixTreeNode<T>();
+      n2.setKey(key.substring(numberOfMatchingCharacters,key.length()));
+      n2.setReal(true);
+      n2.setValue(value);
+      node.getChildern().add(n2);
+    }
+ else {
+      node.setValue(value);
+      node.setReal(true);
+    }
+  }
+ else {
+    RadixTreeNode<T> n=new RadixTreeNode<T>();
+    n.setKey(node.getKey().substring(numberOfMatchingCharacters,node.getKey().length()));
+    n.setChildern(node.getChildern());
+    n.setReal(node.isReal());
+    n.setValue(node.getValue());
+    node.setKey(key);
+    node.setReal(true);
+    node.setValue(value);
+    node.getChildern().add(n);
+  }
+}

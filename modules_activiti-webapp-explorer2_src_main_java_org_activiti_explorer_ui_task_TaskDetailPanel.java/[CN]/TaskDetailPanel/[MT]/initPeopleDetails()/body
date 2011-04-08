@@ -1,37 +1,3 @@
 {
-  addEmptySpace(leftPanel);
-  HorizontalLayout layout=new HorizontalLayout();
-  layout.setSpacing(true);
-  layout.setSizeUndefined();
-  leftPanel.addComponent(layout);
-  Embedded peopleImage=new Embedded(null,Images.PEOPLE);
-  layout.addComponent(peopleImage);
-  GridLayout grid=new GridLayout();
-  grid.addStyleName(ExplorerLayout.STYLE_TASK_DETAILS);
-  grid.setSpacing(true);
-  grid.setRows(2);
-  layout.addComponent(grid);
-  layout.setComponentAlignment(grid,Alignment.MIDDLE_LEFT);
-  if (task.getOwner() != null) {
-    Button owner=new Button(task.getOwner() + " (owner)");
-    owner.addStyleName(Reindeer.BUTTON_LINK);
-    owner.addListener(new ClickListener(){
-      public void buttonClick(      ClickEvent event){
-        viewManager.showProfilePopup(task.getOwner());
-      }
-    }
-);
-    grid.addComponent(owner);
-  }
-  if (task.getAssignee() != null) {
-    Button assignee=new Button(task.getAssignee() + " (assignee)");
-    assignee.addStyleName(Reindeer.BUTTON_LINK);
-    assignee.addListener(new ClickListener(){
-      public void buttonClick(      ClickEvent event){
-        viewManager.showProfilePopup(task.getAssignee());
-      }
-    }
-);
-    grid.addComponent(assignee);
-  }
+  centralPanel.addComponent(new TaskInvolvedPeopleComponent(task));
 }

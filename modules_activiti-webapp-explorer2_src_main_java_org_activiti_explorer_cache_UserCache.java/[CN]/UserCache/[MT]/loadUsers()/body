@@ -1,0 +1,17 @@
+{
+  List<User> users=identityService.createUserQuery().list();
+  for (  User user : users) {
+    String firstName=user.getFirstName();
+    String lastName=user.getLastName();
+    if (firstName != null && !"".equals(firstName)) {
+      for (      String firstNameToken : user.getFirstName().split(" ")) {
+        addCacheItem(firstNameToken,user);
+      }
+    }
+    if (lastName != null && !"".equals(lastName)) {
+      for (      String lastNameToken : user.getLastName().split(" ")) {
+        addCacheItem(lastNameToken,user);
+      }
+    }
+  }
+}

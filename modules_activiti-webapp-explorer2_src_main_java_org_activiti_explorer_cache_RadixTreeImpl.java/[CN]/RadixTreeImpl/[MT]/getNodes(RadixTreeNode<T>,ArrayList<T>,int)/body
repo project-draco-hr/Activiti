@@ -1,0 +1,14 @@
+{
+  Queue<RadixTreeNode<T>> queue=new LinkedList<RadixTreeNode<T>>();
+  queue.addAll(parent.getChildern());
+  while (!queue.isEmpty()) {
+    RadixTreeNode<T> node=queue.remove();
+    if (node.isReal() == true) {
+      keys.add(node.getValue());
+    }
+    if (keys.size() == limit) {
+      break;
+    }
+    queue.addAll(node.getChildern());
+  }
+}
