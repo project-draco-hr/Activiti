@@ -1,0 +1,19 @@
+{
+  VerticalLayout verticalLayout=new VerticalLayout();
+  verticalLayout.setSpacing(true);
+  verticalLayout.setMargin(true);
+  verticalLayout.addComponent(new Label(attachment.getDescription()));
+  Link link=null;
+  if (attachment.getUrl() != null) {
+    link=new Link(attachment.getUrl(),new ExternalResource(attachment.getUrl()));
+  }
+ else {
+    TaskService taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+    Resource res=new StreamResource(new InputStreamStreamSource(taskService.getAttachmentContent(attachment.getId())),attachment.getName() + extractExtention(attachment.getType()),ExplorerApp.get());
+    link=new Link(attachment.getName(),res);
+  }
+  link.setIcon(getImage(attachment));
+  link.setTargetName(ExplorerLayout.LINK_TARGET_BLANK);
+  verticalLayout.addComponent(link);
+  return verticalLayout;
+}

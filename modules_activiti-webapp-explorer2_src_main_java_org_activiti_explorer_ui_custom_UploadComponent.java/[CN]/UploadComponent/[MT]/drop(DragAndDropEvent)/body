@@ -1,0 +1,32 @@
+{
+  WrapperTransferable transferable=(WrapperTransferable)event.getTransferable();
+  Html5File[] files=transferable.getFiles();
+  if (files.length > 0) {
+    final Html5File file=files[0];
+    file.setStreamVariable(new StreamVariable(){
+      private static final long serialVersionUID=1L;
+      public void streamingStarted(      StreamingStartEvent event){
+        uploadStarted(null);
+      }
+      public void streamingFinished(      StreamingEndEvent event){
+        uploadFinished(null);
+      }
+      public void streamingFailed(      StreamingErrorEvent event){
+        uploadFailed(event.getException().getMessage());
+      }
+      public void onProgress(      StreamingProgressEvent event){
+        updateProgress(event.getBytesReceived(),event.getContentLength());
+      }
+      public boolean listenProgress(){
+        return true;
+      }
+      public boolean isInterrupted(){
+        return false;
+      }
+      public OutputStream getOutputStream(){
+        return receiver.receiveUpload(file.getFileName(),file.getType());
+      }
+    }
+);
+  }
+}

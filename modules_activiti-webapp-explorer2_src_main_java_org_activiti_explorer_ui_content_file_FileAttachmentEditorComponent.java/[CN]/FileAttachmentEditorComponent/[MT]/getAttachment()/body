@@ -1,0 +1,15 @@
+{
+  form.commit();
+  if (!fileUploaded) {
+    InvalidValueException ive=new InvalidValueException(i18nManager.getMessage(Messages.RELATED_CONTENT_TYPE_FILE_REQUIRED));
+    form.setComponentError(ive);
+    throw ive;
+  }
+  if (attachment != null) {
+    applyValuesToAttachment();
+  }
+ else {
+    attachment=taskService.createAttachment(mimeType,taskId,processInstanceId,getAttachmentName(),getAttachmentDescription(),new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+  }
+  return attachment;
+}

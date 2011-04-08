@@ -1,0 +1,11 @@
+{
+  this.upload=new Upload(null,receiver);
+  upload.setButtonCaption(i18nManager.getMessage(Messages.UPLOAD_SELECT));
+  upload.setImmediate(true);
+  addComponent(upload);
+  setComponentAlignment(upload,Alignment.MIDDLE_CENTER);
+  upload.addListener((StartedListener)this);
+  upload.addListener((FailedListener)this);
+  upload.addListener((FinishedListener)this);
+  upload.addListener((ProgressListener)this);
+}

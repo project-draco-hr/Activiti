@@ -1,0 +1,14 @@
+{
+  if (name != null) {
+    String friendlyName=null;
+    int lastDotIndex=name.lastIndexOf(".");
+    if (lastDotIndex > 0) {
+      friendlyName=name.substring(0,name.length() - (name.length() - lastDotIndex));
+    }
+ else {
+      friendlyName=name;
+    }
+    return friendlyName.replace("_"," ").replace("-"," ");
+  }
+  return name;
+}
