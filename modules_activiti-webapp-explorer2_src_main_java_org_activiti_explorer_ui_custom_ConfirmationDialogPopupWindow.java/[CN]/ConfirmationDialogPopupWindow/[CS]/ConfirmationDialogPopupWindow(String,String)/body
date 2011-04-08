@@ -1,0 +1,20 @@
+{
+  setWidth(400,UNITS_PIXELS);
+  setModal(true);
+  setResizable(false);
+  addStyleName(Reindeer.PANEL_LIGHT);
+  layout=new GridLayout(2,2);
+  layout.setMargin(true);
+  layout.setSpacing(true);
+  layout.setSizeFull();
+  setContent(layout);
+  I18nManager i18nManager=ExplorerApp.get().getI18nManager();
+  if (title != null) {
+    setCaption(title);
+  }
+ else {
+    setCaption(i18nManager.getMessage(Messages.CONFIRMATION_DIALOG_DEFAULT_TITLE));
+  }
+  initLabel(description);
+  initButtons(i18nManager);
+}
