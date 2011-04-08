@@ -14,12 +14,12 @@
     public void click(    ClickEvent event){
       CreateAttachmentPopupWindow popup=new CreateAttachmentPopupWindow();
       popup.setTaskId(task.getId());
-      popup.addListener(new GenericFormEventListener(){
+      popup.addListener(new SubmitEventListener(){
         private static final long serialVersionUID=1L;
-        @Override protected void formSubmitted(        GenericFormEvent event){
+        @Override protected void submitted(        SubmitEvent event){
           refreshTaskAttachments();
         }
-        @Override protected void formCancelled(        GenericFormEvent event){
+        @Override protected void cancelled(        SubmitEvent event){
         }
       }
 );
