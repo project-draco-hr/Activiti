@@ -1,3 +1,13 @@
 {
+  if (owner == null && this.owner == null) {
+    return;
+  }
+  if (owner != null && owner.equals(this.owner)) {
+    return;
+  }
   this.owner=owner;
+  CommandContext commandContext=Context.getCommandContext();
+  if (commandContext != null) {
+    commandContext.getHistoricTaskInstanceManager().setTaskOwner(id,owner);
+  }
 }
