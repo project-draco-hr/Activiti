@@ -21,13 +21,7 @@
   time.setSizeUndefined();
   time.addStyleName(ExplorerLayout.STYLE_TASK_COMMENT_TIME);
   commentHeader.addComponent(time);
-  Label text=null;
-  if (comment.getMessage().length() < 140) {
-    text=new Label(comment.getMessage());
-  }
- else {
-    text=new Label(comment.getMessage().substring(0,140) + "...");
-  }
+  Label text=new Label(comment.getMessage());
   text.setWidth("100%");
   layout.addComponent(text);
 }

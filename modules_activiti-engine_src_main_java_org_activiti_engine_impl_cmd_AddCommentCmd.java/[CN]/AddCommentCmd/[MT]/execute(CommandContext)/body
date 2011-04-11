@@ -2,10 +2,11 @@
   String userId=Authentication.getAuthenticatedUserId();
   CommentEntity comment=new CommentEntity();
   comment.setUserId(userId);
-  comment.setType(Comment.TYPE_COMMENT);
+  comment.setType(CommentEntity.TYPE_COMMENT);
   comment.setTime(ClockUtil.getCurrentTime());
   comment.setTaskId(taskId);
   comment.setProcessInstanceId(processInstanceId);
+  comment.setAction(Event.ACTION_ADD_COMMENT);
   String eventMessage=message.replaceAll("\\s+"," ");
   if (eventMessage.length() > 163) {
     eventMessage=eventMessage.substring(0,160) + "...";
