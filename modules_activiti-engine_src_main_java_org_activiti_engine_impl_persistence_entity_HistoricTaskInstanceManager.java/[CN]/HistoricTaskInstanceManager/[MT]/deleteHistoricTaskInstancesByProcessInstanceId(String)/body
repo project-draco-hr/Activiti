@@ -1,5 +1,8 @@
 {
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-    getPersistenceSession().delete("deleteHistoricTaskInstancesByProcessInstanceId",historicProcessInstanceId);
+    List<String> taskInstanceIds=(List<String>)getPersistenceSession().selectList("selectHistoricTaskInstanceIdsByProcessInstanceId",processInstanceId);
+    for (    String taskInstanceId : taskInstanceIds) {
+      deleteHistoricTaskInstanceById(taskInstanceId);
+    }
   }
 }

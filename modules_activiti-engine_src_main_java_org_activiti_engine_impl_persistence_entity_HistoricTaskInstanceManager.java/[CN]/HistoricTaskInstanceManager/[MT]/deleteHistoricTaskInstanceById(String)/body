@@ -1,0 +1,10 @@
+{
+  HistoricTaskInstanceEntity historicTaskInstance=findHistoricTaskInstanceById(taskId);
+  if (historicTaskInstance == null) {
+    throw new ActivitiException("No historic task instance found for id '" + taskId + "'");
+  }
+  CommandContext commandContext=Context.getCommandContext();
+  commandContext.getHistoricDetailManager().deleteHistoricDetailsByTaskId(taskId);
+  commandContext.getCommentManager().deleteCommentsByTaskId(taskId);
+  getPersistenceSession().delete(HistoricTaskInstanceEntity.class,taskId);
+}

@@ -1,0 +1,17 @@
+{
+  if (message == null) {
+    return null;
+  }
+  List<String> messageParts=new ArrayList<String>();
+  StringTokenizer tokenizer=new StringTokenizer(message,MESSAGE_PARTS_MARKER);
+  while (tokenizer.hasMoreTokens()) {
+    String nextToken=tokenizer.nextToken();
+    if ("null".equals(nextToken)) {
+      messageParts.add(null);
+    }
+ else {
+      messageParts.add(nextToken);
+    }
+  }
+  return messageParts;
+}

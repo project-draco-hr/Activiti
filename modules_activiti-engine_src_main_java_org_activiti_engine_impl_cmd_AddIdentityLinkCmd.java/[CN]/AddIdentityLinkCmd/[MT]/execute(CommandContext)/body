@@ -9,5 +9,13 @@
  else {
     task.addIdentityLink(userId,groupId,type);
   }
+  String authenticatedUserId=Authentication.getAuthenticatedUserId();
+  CommentEntity comment=new CommentEntity();
+  comment.setUserId(authenticatedUserId);
+  comment.setType(Comment.TYPE_EVENT);
+  comment.setTime(ClockUtil.getCurrentTime());
+  comment.setTaskId(taskId);
+  comment.setMessage(new String[]{CommentEntity.ACTION_ADD_IDENTITY_LINK,userId,type});
+  commandContext.getCommentManager().insert(comment);
   return null;
 }

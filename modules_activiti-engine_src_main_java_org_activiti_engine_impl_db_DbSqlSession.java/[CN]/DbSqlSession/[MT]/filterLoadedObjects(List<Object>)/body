@@ -1,0 +1,14 @@
+{
+  if (loadedObjects.isEmpty()) {
+    return loadedObjects;
+  }
+  if (!(PersistentObject.class.isAssignableFrom(loadedObjects.get(0).getClass()))) {
+    return loadedObjects;
+  }
+  List<PersistentObject> filteredObjects=new ArrayList<PersistentObject>(loadedObjects.size());
+  for (  Object loadedObject : loadedObjects) {
+    PersistentObject cachedPersistentObject=cacheFilter((PersistentObject)loadedObject);
+    filteredObjects.add(cachedPersistentObject);
+  }
+  return filteredObjects;
+}

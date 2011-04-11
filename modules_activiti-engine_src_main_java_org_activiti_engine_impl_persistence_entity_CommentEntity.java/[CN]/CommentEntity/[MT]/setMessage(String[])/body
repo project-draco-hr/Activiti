@@ -1,0 +1,15 @@
+{
+  StringBuilder stringBuilder=new StringBuilder();
+  for (  String part : messageParts) {
+    if (part != null) {
+      stringBuilder.append(part.replace(MESSAGE_PARTS_MARKER," | "));
+      stringBuilder.append(MESSAGE_PARTS_MARKER);
+    }
+ else {
+      stringBuilder.append("null");
+      stringBuilder.append(MESSAGE_PARTS_MARKER);
+    }
+  }
+  stringBuilder.deleteCharAt(stringBuilder.length() - MESSAGE_PARTS_MARKER.length());
+  message=stringBuilder.toString();
+}

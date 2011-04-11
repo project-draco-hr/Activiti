@@ -1,12 +1,3 @@
 {
-  ExecutionEntity execution=findExecutionById(processInstanceId);
-  if (execution == null) {
-    throw new ActivitiException("No process instance found for id '" + processInstanceId + "'");
-  }
-  List<TaskEntity> tasks=(List)getPersistenceSession().createTaskQuery().processInstanceId(processInstanceId).list();
-  TaskManager taskManager=Context.getCommandContext().getTaskManager();
-  for (  TaskEntity task : tasks) {
-    taskManager.deleteTask(task,TaskEntity.DELETE_REASON_DELETED);
-  }
-  execution.deleteCascade(deleteReason);
+  deleteProcessInstance(processInstanceId,deleteReason,false);
 }
