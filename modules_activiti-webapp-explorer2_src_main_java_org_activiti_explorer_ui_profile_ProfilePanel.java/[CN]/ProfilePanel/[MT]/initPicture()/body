@@ -1,0 +1,22 @@
+{
+  StreamResource imageresource=new StreamResource(new StreamSource(){
+    private static final long serialVersionUID=-8875067466181823014L;
+    public InputStream getStream(){
+      return picture.getInputStream();
+    }
+  }
+,user.getId(),ExplorerApp.get());
+  imageresource.setCacheTime(0);
+  Embedded picture=new Embedded("",imageresource);
+  picture.setType(Embedded.TYPE_IMAGE);
+  picture.setHeight("200px");
+  picture.setWidth("200px");
+  picture.addStyleName(ExplorerLayout.STYLE_PROFILE_PICTURE);
+  imageLayout.addComponent(picture);
+  imageLayout.setWidth(picture.getWidth() + 5,picture.getWidthUnits());
+  if (userId.equals(ExplorerApp.get().getLoggedInUser().getId())) {
+    Upload changePictureButton=initChangePictureButton();
+    imageLayout.addComponent(changePictureButton);
+    imageLayout.setComponentAlignment(changePictureButton,Alignment.MIDDLE_CENTER);
+  }
+}

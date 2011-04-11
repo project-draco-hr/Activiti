@@ -1,0 +1,44 @@
+{
+  Label header=createProfileHeader(infoPanelLayout,i18nManager.getMessage(Messages.PROFILE_CONTACT));
+  infoPanelLayout.addComponent(header);
+  GridLayout contactLayout=createInfoSectionLayout(2,4);
+  if (!editable && isDefined(user.getEmail())) {
+    addProfileEntry(contactLayout,i18nManager.getMessage(Messages.PROFILE_EMAIL),user.getEmail());
+  }
+ else   if (editable) {
+    emailField=new TextField();
+    addProfileInputField(contactLayout,i18nManager.getMessage(Messages.PROFILE_EMAIL),emailField,user.getEmail());
+  }
+  if (!editable && isDefined(phone)) {
+    addProfileEntry(contactLayout,i18nManager.getMessage(Messages.PROFILE_PHONE),phone);
+  }
+ else   if (editable) {
+    phoneField=new TextField();
+    addProfileInputField(contactLayout,i18nManager.getMessage(Messages.PROFILE_PHONE),phoneField,phone);
+  }
+  if (!editable && isDefined(twitterName)) {
+    addProfileEntry(contactLayout,i18nManager.getMessage(Messages.PROFILE_TWITTER),twitterName);
+  }
+ else   if (editable) {
+    twitterField=new TextField();
+    addProfileInputField(contactLayout,i18nManager.getMessage(Messages.PROFILE_TWITTER),twitterField,twitterName);
+  }
+  if (!editable && isDefined(skypeId)) {
+    GridLayout skypeLayout=new GridLayout(3,1);
+    skypeLayout.setSizeUndefined();
+    Label skypeIdLabel=new Label(skypeId);
+    skypeIdLabel.setSizeUndefined();
+    skypeLayout.addComponent(skypeIdLabel);
+    Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
+    emptySpace.setSizeUndefined();
+    skypeLayout.addComponent(emptySpace);
+    Embedded skypeImage=new Embedded(null,Images.SKYPE);
+    skypeImage.setSizeUndefined();
+    skypeLayout.addComponent(skypeImage);
+    addProfileEntry(contactLayout,i18nManager.getMessage(Messages.PROFILE_SKYPE),skypeLayout);
+  }
+ else   if (editable) {
+    skypeField=new TextField();
+    addProfileInputField(contactLayout,i18nManager.getMessage(Messages.PROFILE_SKYPE),skypeField,skypeId);
+  }
+}

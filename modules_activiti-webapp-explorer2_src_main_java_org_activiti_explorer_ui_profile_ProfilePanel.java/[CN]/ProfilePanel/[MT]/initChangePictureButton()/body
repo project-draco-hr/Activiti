@@ -1,0 +1,21 @@
+{
+  final Upload changePictureUpload=new Upload();
+  changePictureUpload.setImmediate(true);
+  changePictureUpload.setButtonCaption(i18nManager.getMessage(Messages.PROFILE_CHANGE_PICTURE));
+  final InMemoryUploadReceiver receiver=initPictureReceiver(changePictureUpload);
+  changePictureUpload.addListener(new FinishedListener(){
+    public void uploadFinished(    FinishedEvent event){
+      if (!receiver.isInterruped()) {
+        picture=new Picture(receiver.getBytes(),receiver.getMimeType());
+        identityService.setUserPicture(userId,picture);
+        imageLayout.removeAllComponents();
+        initPicture();
+      }
+ else {
+        receiver.reset();
+      }
+    }
+  }
+);
+  return changePictureUpload;
+}

@@ -1,0 +1,24 @@
+{
+  Button saveProfileButton=new Button(i18nManager.getMessage(Messages.PROFILE_SAVE));
+  saveProfileButton.setIcon(Images.SAVE);
+  saveProfileButton.addStyleName(Reindeer.BUTTON_SMALL);
+  saveProfileButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      user.setFirstName((String)firstNameField.getValue());
+      user.setLastName((String)lastNameField.getValue());
+      user.setEmail((String)emailField.getValue());
+      identityService.saveUser(user);
+      identityService.setUserInfo(user.getId(),KEY_JOB_TITLE,(String)jobTitleField.getValue());
+      identityService.setUserInfo(user.getId(),KEY_BIRTH_DATE,(String)birthDateField.getValue());
+      identityService.setUserInfo(user.getId(),KEY_LOCATION,(String)locationField.getValue());
+      identityService.setUserInfo(user.getId(),KEY_PHONE,(String)phoneField.getValue());
+      identityService.setUserInfo(user.getId(),KEY_TWITTER,(String)twitterField.getValue());
+      identityService.setUserInfo(user.getId(),KEY_SKYPE,(String)skypeField.getValue());
+      editable=false;
+      loadProfileData();
+      initUi();
+    }
+  }
+);
+  return saveProfileButton;
+}

@@ -1,0 +1,50 @@
+{
+  HorizontalLayout header=new HorizontalLayout();
+  header.setWidth(100,UNITS_PERCENTAGE);
+  infoPanelLayout.addComponent(header);
+  Label aboutLabel=createProfileHeader(infoPanelLayout,i18nManager.getMessage(Messages.PROFILE_ABOUT));
+  header.addComponent(aboutLabel);
+  header.setExpandRatio(aboutLabel,1.0f);
+  if (userId.equals(ExplorerApp.get().getLoggedInUser().getId())) {
+    Button actionButton=null;
+    if (!editable) {
+      actionButton=initEditProfileButton();
+    }
+ else {
+      actionButton=initSaveProfileButton();
+    }
+    header.addComponent(actionButton);
+    header.setComponentAlignment(actionButton,Alignment.MIDDLE_RIGHT);
+  }
+  GridLayout aboutLayout=createInfoSectionLayout(2,4);
+  if (!editable && (isDefined(user.getFirstName()) || isDefined(user.getLastName()))) {
+    addProfileEntry(aboutLayout,i18nManager.getMessage(Messages.PROFILE_NAME),user.getFirstName() + " " + user.getLastName());
+  }
+ else   if (editable) {
+    firstNameField=new TextField();
+    addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_FIRST_NAME),firstNameField,user.getFirstName());
+    lastNameField=new TextField();
+    addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_LAST_NAME),lastNameField,user.getLastName());
+  }
+  if (!editable && isDefined(jobTitle)) {
+    addProfileEntry(aboutLayout,i18nManager.getMessage(Messages.PROFILE_JOBTITLE),jobTitle);
+  }
+ else   if (editable) {
+    jobTitleField=new TextField();
+    addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_JOBTITLE),jobTitleField,jobTitle);
+  }
+  if (!editable && isDefined(birthDate)) {
+    addProfileEntry(aboutLayout,i18nManager.getMessage(Messages.PROFILE_BIRTHDATE),birthDate);
+  }
+ else   if (editable) {
+    birthDateField=new TextField();
+    addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_BIRTHDATE),birthDateField,birthDate);
+  }
+  if (!editable && isDefined(location)) {
+    addProfileEntry(aboutLayout,i18nManager.getMessage(Messages.PROFILE_LOCATION),location);
+  }
+ else   if (editable) {
+    locationField=new TextField();
+    addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_LOCATION),locationField,location);
+  }
+}
