@@ -1,14 +1,14 @@
 {
   setWidth("100%");
-  String userId=ExplorerApp.get().getLoggedInUser().getId();
-  long inboxCount=taskService.createTaskQuery().taskAssignee(userId).count();
+  LoggedInUser user=ExplorerApp.get().getLoggedInUser();
+  long inboxCount=taskService.createTaskQuery().taskAssignee(user.getId()).count();
   addItem(i18nManager.getMessage(Messages.TASK_MENU_INBOX) + "(" + inboxCount+ ")",new Command(){
     public void menuSelected(    MenuItem selectedItem){
       viewManager.showTaskInboxPage();
     }
   }
 );
-  List<Group> groups=identityService.createGroupQuery().groupMember(userId).orderByGroupName().asc().list();
+  List<Group> groups=user.getGroups();
   MenuItem queuedItem=addItem(i18nManager.getMessage(Messages.TASK_MENU_QUEUED),null);
   long queuedCount=0;
   for (  final Group group : groups) {

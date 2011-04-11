@@ -4,7 +4,23 @@
   boolean success=identityService.checkPassword(userName,password);
   if (success) {
     User user=identityService.createUserQuery().userId(userName).singleResult();
-    ExplorerApp.get().setUser(user);
+    LoggedInUser loggedInUser=new LoggedInUser(user);
+    List<Group> groups=identityService.createGroupQuery().groupMember(user.getId()).list();
+    for (    Group group : groups) {
+      if (Constants.SECURITY_ROLE.equals(group.getType())) {
+        loggedInUser.addSecurityRoleGroup(group);
+        if (Constants.SECURITY_ROLE_USER.equals(group.getId())) {
+          loggedInUser.setUser(true);
+        }
+        if (Constants.SECURITY_ROLE_ADMIN.equals(group.getId())) {
+          loggedInUser.setAdmin(true);
+        }
+      }
+ else {
+        loggedInUser.addGroup(group);
+      }
+    }
+    ExplorerApp.get().setUser(loggedInUser);
     viewManager.showDefaultContent();
   }
  else {
