@@ -1,3 +1,7 @@
 {
-  return new JobListItem(repositoryService.createJobQuery().jobId(id).singleResult());
+  Job job=repositoryService.createJobQuery().jobId(id).singleResult();
+  if (job != null) {
+    return new JobListItem(job);
+  }
+  return null;
 }

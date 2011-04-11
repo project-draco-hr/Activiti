@@ -1,3 +1,7 @@
 {
-  return createItem(repositoryService.createProcessDefinitionQuery().processDefinitionId(id).singleResult());
+  ProcessDefinition definition=repositoryService.createProcessDefinitionQuery().processDefinitionId(id).singleResult();
+  if (definition != null) {
+    return createItem(definition);
+  }
+  return null;
 }

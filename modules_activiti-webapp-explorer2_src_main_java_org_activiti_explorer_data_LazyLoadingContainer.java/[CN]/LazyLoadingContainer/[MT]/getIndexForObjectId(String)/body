@@ -1,4 +1,7 @@
 {
   Item searched=lazyLoadingQuery.loadSingleResult((String)id);
+  if (searched == null) {
+    return -1;
+  }
   return getIndexForObjectId(searched,0,size() - 1);
 }

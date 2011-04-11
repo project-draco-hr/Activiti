@@ -1,3 +1,7 @@
 {
-  return createItem(runtimeService.createProcessInstanceQuery().processInstanceId(id).singleResult());
+  ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(id).singleResult();
+  if (processInstance != null) {
+    return createItem(processInstance);
+  }
+  return null;
 }
