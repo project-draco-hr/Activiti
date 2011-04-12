@@ -1,0 +1,27 @@
+{
+  VerticalLayout layout=new VerticalLayout();
+  layout.addStyleName(ExplorerLayout.STYLE_TASK_EVENT);
+  layout.setWidth("100%");
+  eventGrid.addComponent(layout);
+  layout.addListener(new LayoutClickListener(){
+    public void layoutClick(    LayoutClickEvent event){
+      viewManager.showTaskEventPopup(taskEvent);
+    }
+  }
+);
+  HorizontalLayout header=new HorizontalLayout();
+  header.setSpacing(true);
+  layout.addComponent(header);
+  User user=identityService.createUserQuery().userId(taskEvent.getUserId()).singleResult();
+  Label name=new Label(user.getFirstName() + " " + user.getLastName());
+  name.setSizeUndefined();
+  name.addStyleName(ExplorerLayout.STYLE_TASK_EVENT_AUTHOR);
+  header.addComponent(name);
+  Label time=new Label(new PrettyTime().format(taskEvent.getTime()));
+  time.setSizeUndefined();
+  time.addStyleName(ExplorerLayout.STYLE_TASK_EVENT_TIME);
+  header.addComponent(time);
+  Label text=new Label(taskEvent.getMessage());
+  text.setWidth("100%");
+  layout.addComponent(text);
+}

@@ -1,0 +1,8 @@
+{
+  super();
+  this.taskEvent=taskEvent;
+  this.identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  this.user=identityService.createUserQuery().userId(taskEvent.getUserId()).singleResult();
+  initUi();
+}

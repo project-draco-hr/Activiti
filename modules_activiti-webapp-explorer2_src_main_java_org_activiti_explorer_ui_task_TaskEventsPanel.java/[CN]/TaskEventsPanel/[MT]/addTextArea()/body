@@ -1,0 +1,23 @@
+{
+  addComponent(new Label("&nbsp",Label.CONTENT_XHTML));
+  GridLayout grid=new GridLayout(1,2);
+  grid.setWidth("100%");
+  grid.setSpacing(true);
+  addComponent(grid);
+  final TextArea textArea=new TextArea();
+  textArea.setRows(2);
+  textArea.setWidth("100%");
+  textArea.addStyleName(ExplorerLayout.STYLE_TASK_EVENT_TIME);
+  grid.addComponent(textArea);
+  Button addCommentButton=new Button(i18nManager.getMessage(Messages.TASK_ADD_COMMENT));
+  addCommentButton.addStyleName(Reindeer.BUTTON_SMALL);
+  grid.addComponent(addCommentButton);
+  grid.setComponentAlignment(addCommentButton,Alignment.BOTTOM_RIGHT);
+  addCommentButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      taskService.addComment(taskId,null,(String)textArea.getValue());
+      refreshTaskEvents();
+    }
+  }
+);
+}

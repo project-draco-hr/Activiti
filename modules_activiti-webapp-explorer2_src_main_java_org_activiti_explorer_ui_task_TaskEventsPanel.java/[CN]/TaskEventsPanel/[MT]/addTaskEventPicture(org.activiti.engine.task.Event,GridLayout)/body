@@ -1,0 +1,22 @@
+{
+  final Picture userPicture=identityService.getUserPicture(taskEvent.getUserId());
+  Embedded authorPicture=null;
+  if (userPicture != null) {
+    StreamResource imageresource=new StreamResource(new StreamSource(){
+      private static final long serialVersionUID=1L;
+      public InputStream getStream(){
+        return userPicture.getInputStream();
+      }
+    }
+,taskEvent.getUserId(),ExplorerApp.get());
+    authorPicture=new Embedded(null,imageresource);
+  }
+ else {
+    authorPicture=new Embedded(null,Images.USER_48);
+  }
+  authorPicture.setType(Embedded.TYPE_IMAGE);
+  authorPicture.setHeight("48px");
+  authorPicture.setWidth("48px");
+  authorPicture.addStyleName(ExplorerLayout.STYLE_TASK_EVENT_PICTURE);
+  eventGrid.addComponent(authorPicture);
+}
