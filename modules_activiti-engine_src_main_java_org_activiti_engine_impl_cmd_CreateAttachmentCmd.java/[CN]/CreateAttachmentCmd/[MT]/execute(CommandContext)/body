@@ -14,15 +14,18 @@
     dbSqlSession.insert(byteArray);
     attachment.setContentId(byteArray.getId());
   }
-  String userId=Authentication.getAuthenticatedUserId();
-  CommentEntity comment=new CommentEntity();
-  comment.setUserId(userId);
-  comment.setType(CommentEntity.TYPE_EVENT);
-  comment.setTime(ClockUtil.getCurrentTime());
-  comment.setTaskId(taskId);
-  comment.setProcessInstanceId(processInstanceId);
-  comment.setAction(Event.ACTION_ADD_ATTACHMENT);
-  comment.setMessage(attachmentName);
-  commandContext.getCommentManager().insert(comment);
+  CommentManager commentManager=commandContext.getCommentManager();
+  if (commentManager.isHistoryEnabled()) {
+    String userId=Authentication.getAuthenticatedUserId();
+    CommentEntity comment=new CommentEntity();
+    comment.setUserId(userId);
+    comment.setType(CommentEntity.TYPE_EVENT);
+    comment.setTime(ClockUtil.getCurrentTime());
+    comment.setTaskId(taskId);
+    comment.setProcessInstanceId(processInstanceId);
+    comment.setAction(Event.ACTION_ADD_ATTACHMENT);
+    comment.setMessage(attachmentName);
+    commentManager.insert(comment);
+  }
   return attachment;
 }
