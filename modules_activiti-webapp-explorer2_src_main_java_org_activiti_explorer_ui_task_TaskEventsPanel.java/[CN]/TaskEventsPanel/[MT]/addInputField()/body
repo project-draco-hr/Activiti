@@ -1,0 +1,33 @@
+{
+  addComponent(new Label("&nbsp",Label.CONTENT_XHTML));
+  HorizontalLayout layout=new HorizontalLayout();
+  layout.setSpacing(true);
+  addComponent(layout);
+  Panel textFieldPanel=new Panel();
+  textFieldPanel.addStyleName(Reindeer.PANEL_LIGHT);
+  textFieldPanel.setContent(new VerticalLayout());
+  layout.addComponent(textFieldPanel);
+  final TextField textField=new TextField();
+  textField.setWidth(200,UNITS_PIXELS);
+  textFieldPanel.addComponent(textField);
+  textFieldPanel.addActionHandler(new Handler(){
+    public void handleAction(    Action action,    Object sender,    Object target){
+      addNewComment(textField.getValue().toString());
+      textField.focus();
+    }
+    public Action[] getActions(    Object target,    Object sender){
+      return new Action[]{new ShortcutAction("enter",ShortcutAction.KeyCode.ENTER,null)};
+    }
+  }
+);
+  Button addCommentButton=new Button(i18nManager.getMessage(Messages.TASK_ADD_COMMENT));
+  addCommentButton.addStyleName(Reindeer.BUTTON_SMALL);
+  layout.addComponent(addCommentButton);
+  layout.setComponentAlignment(addCommentButton,Alignment.MIDDLE_LEFT);
+  addCommentButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      addNewComment(textField.getValue().toString());
+    }
+  }
+);
+}
