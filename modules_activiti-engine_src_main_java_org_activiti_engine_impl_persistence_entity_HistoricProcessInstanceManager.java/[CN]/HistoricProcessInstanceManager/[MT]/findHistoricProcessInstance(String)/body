@@ -1,3 +1,6 @@
 {
-  return (HistoricProcessInstanceEntity)getPersistenceSession().selectById(HistoricProcessInstanceEntity.class,processInstanceId);
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    return (HistoricProcessInstanceEntity)getPersistenceSession().selectById(HistoricProcessInstanceEntity.class,processInstanceId);
+  }
+  return null;
 }

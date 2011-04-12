@@ -1,6 +1,8 @@
 {
-  List<String> historicProcessInstanceIds=getPersistenceSession().selectList("selectHistoricProcessInstanceIdsByProcessDefinitionId",processDefinitionId);
-  for (  String historicProcessInstanceId : historicProcessInstanceIds) {
-    deleteHistoricProcessInstanceById(historicProcessInstanceId);
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    List<String> historicProcessInstanceIds=getPersistenceSession().selectList("selectHistoricProcessInstanceIdsByProcessDefinitionId",processDefinitionId);
+    for (    String historicProcessInstanceId : historicProcessInstanceIds) {
+      deleteHistoricProcessInstanceById(historicProcessInstanceId);
+    }
   }
 }

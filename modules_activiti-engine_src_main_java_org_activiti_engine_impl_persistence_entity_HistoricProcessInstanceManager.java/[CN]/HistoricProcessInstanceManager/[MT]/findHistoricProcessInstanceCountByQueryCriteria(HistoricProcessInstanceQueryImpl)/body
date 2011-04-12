@@ -1,3 +1,6 @@
 {
-  return (Long)getPersistenceSession().selectOne("selectHistoricProcessInstanceCountByQueryCriteria",historicProcessInstanceQuery);
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    return (Long)getPersistenceSession().selectOne("selectHistoricProcessInstanceCountByQueryCriteria",historicProcessInstanceQuery);
+  }
+  return 0;
 }
