@@ -1,0 +1,9 @@
+{
+  TaskEntity task=Context.getCommandContext().getTaskManager().findTaskById(taskId);
+  if (task != null) {
+    deleteTask(task,TaskEntity.DELETE_REASON_DELETED,cascade);
+  }
+ else   if (cascade) {
+    Context.getCommandContext().getHistoricTaskInstanceManager().deleteHistoricTaskInstanceById(taskId);
+  }
+}

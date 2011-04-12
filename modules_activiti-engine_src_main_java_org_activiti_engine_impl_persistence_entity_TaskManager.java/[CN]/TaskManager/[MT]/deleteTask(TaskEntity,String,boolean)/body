@@ -3,9 +3,19 @@
     task.setDeleted(true);
     CommandContext commandContext=Context.getCommandContext();
     String taskId=task.getId();
+    List<Task> subTasks=findTasksByParentTaskId(taskId);
+    for (    Task subTask : subTasks) {
+      deleteTask((TaskEntity)subTask,deleteReason,cascade);
+    }
     commandContext.getIdentityLinkManager().deleteIdentityLinksByTaskId(taskId);
     commandContext.getVariableInstanceManager().deleteVariableInstanceByTaskId(taskId);
-    commandContext.getHistoricTaskInstanceManager().markTaskInstanceEnded(taskId,deleteReason);
+    commandContext.getAttachmentManager().deleteAttachmentsByTaskId(taskId);
+    if (cascade) {
+      commandContext.getHistoricTaskInstanceManager().deleteHistoricTaskInstanceById(taskId);
+    }
+ else {
+      commandContext.getHistoricTaskInstanceManager().markTaskInstanceEnded(taskId,deleteReason);
+    }
     getPersistenceSession().delete(TaskEntity.class,task.getId());
   }
 }

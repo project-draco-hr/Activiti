@@ -13,7 +13,7 @@
       task.setExecution(replacedBy);
     }
  else {
-      task.delete(TaskEntity.DELETE_REASON_DELETED);
+      commandContext.getTaskManager().deleteTask(task,TaskEntity.DELETE_REASON_DELETED,false);
     }
   }
   List<Job> jobs=new JobQueryImpl(commandContext).executionId(id).list();
