@@ -8,12 +8,12 @@
       user.setLastName((String)lastNameField.getValue());
       user.setEmail((String)emailField.getValue());
       identityService.saveUser(user);
-      identityService.setUserInfo(user.getId(),KEY_JOB_TITLE,(String)jobTitleField.getValue());
-      identityService.setUserInfo(user.getId(),KEY_BIRTH_DATE,(String)birthDateField.getValue());
-      identityService.setUserInfo(user.getId(),KEY_LOCATION,(String)locationField.getValue());
-      identityService.setUserInfo(user.getId(),KEY_PHONE,(String)phoneField.getValue());
-      identityService.setUserInfo(user.getId(),KEY_TWITTER,(String)twitterField.getValue());
-      identityService.setUserInfo(user.getId(),KEY_SKYPE,(String)skypeField.getValue());
+      identityService.setUserInfo(user.getId(),KEY_JOB_TITLE,jobTitleField.getValue().toString());
+      identityService.setUserInfo(user.getId(),KEY_BIRTH_DATE,Constants.DEFAULT_DATE_FORMATTER.format(birthDateField.getValue()));
+      identityService.setUserInfo(user.getId(),KEY_LOCATION,locationField.getValue().toString());
+      identityService.setUserInfo(user.getId(),KEY_PHONE,phoneField.getValue().toString());
+      identityService.setUserInfo(user.getId(),KEY_TWITTER,twitterField.getValue().toString());
+      identityService.setUserInfo(user.getId(),KEY_SKYPE,skypeField.getValue().toString());
       editable=false;
       loadProfileData();
       initUi();

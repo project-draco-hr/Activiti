@@ -1,0 +1,14 @@
+{
+  ConfirmationDialogPopupWindow popup=new ConfirmationDialogPopupWindow(i18nManager.getMessage(Messages.PROFILE_DELETE_ACCOUNT_TITLE,accountName),i18nManager.getMessage(Messages.PROFILE_DELETE_ACCOUNT_DESCRIPTION,accountName));
+  popup.addListener(new ConfirmationEventListener(){
+    private static final long serialVersionUID=1L;
+    protected void rejected(    ConfirmationEvent event){
+    }
+    protected void confirmed(    ConfirmationEvent event){
+      identityService.deleteUserAccount(userId,accountName);
+      profilePanel.refreshAccounts();
+    }
+  }
+);
+  viewManager.showPopupWindow(popup);
+}

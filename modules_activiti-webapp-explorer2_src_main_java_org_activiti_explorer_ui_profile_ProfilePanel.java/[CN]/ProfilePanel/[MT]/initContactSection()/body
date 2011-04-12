@@ -17,22 +17,21 @@
     addProfileInputField(contactLayout,i18nManager.getMessage(Messages.PROFILE_PHONE),phoneField,phone);
   }
   if (!editable && isDefined(twitterName)) {
-    addProfileEntry(contactLayout,i18nManager.getMessage(Messages.PROFILE_TWITTER),twitterName);
+    Link twitterLink=new Link(twitterName,new ExternalResource("http://www.twitter.com/" + twitterName));
+    addProfileEntry(contactLayout,i18nManager.getMessage(Messages.PROFILE_TWITTER),twitterLink);
   }
  else   if (editable) {
     twitterField=new TextField();
     addProfileInputField(contactLayout,i18nManager.getMessage(Messages.PROFILE_TWITTER),twitterField,twitterName);
   }
   if (!editable && isDefined(skypeId)) {
-    GridLayout skypeLayout=new GridLayout(3,1);
+    GridLayout skypeLayout=new GridLayout(2,1);
+    skypeLayout.setSpacing(true);
     skypeLayout.setSizeUndefined();
     Label skypeIdLabel=new Label(skypeId);
     skypeIdLabel.setSizeUndefined();
     skypeLayout.addComponent(skypeIdLabel);
-    Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
-    emptySpace.setSizeUndefined();
-    skypeLayout.addComponent(emptySpace);
-    Embedded skypeImage=new Embedded(null,Images.SKYPE);
+    Label skypeImage=new Label("<script type='text/javascript' " + "src='http://download.skype.com/share/skypebuttons/js/skypeCheck.js'></script>" + "<a href='skype:" + skypeId + "?call'>"+ "<img src='VAADIN/themes/activiti/img/skype.png' style='border: none;' /></a>",Label.CONTENT_XHTML);
     skypeImage.setSizeUndefined();
     skypeLayout.addComponent(skypeImage);
     addProfileEntry(contactLayout,i18nManager.getMessage(Messages.PROFILE_SKYPE),skypeLayout);

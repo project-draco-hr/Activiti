@@ -5,7 +5,7 @@
   Label aboutLabel=createProfileHeader(infoPanelLayout,i18nManager.getMessage(Messages.PROFILE_ABOUT));
   header.addComponent(aboutLabel);
   header.setExpandRatio(aboutLabel,1.0f);
-  if (userId.equals(ExplorerApp.get().getLoggedInUser().getId())) {
+  if (isCurrentLoggedInUser) {
     Button actionButton=null;
     if (!editable) {
       actionButton=initEditProfileButton();
@@ -22,6 +22,7 @@
   }
  else   if (editable) {
     firstNameField=new TextField();
+    firstNameField.focus();
     addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_FIRST_NAME),firstNameField,user.getFirstName());
     lastNameField=new TextField();
     addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_LAST_NAME),lastNameField,user.getLastName());
@@ -37,8 +38,15 @@
     addProfileEntry(aboutLayout,i18nManager.getMessage(Messages.PROFILE_BIRTHDATE),birthDate);
   }
  else   if (editable) {
-    birthDateField=new TextField();
-    addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_BIRTHDATE),birthDateField,birthDate);
+    birthDateField=new DateField();
+    birthDateField.setDateFormat(Constants.DEFAULT_DATE_FORMAT);
+    birthDateField.setResolution(DateField.RESOLUTION_DAY);
+    try {
+      birthDateField.setValue(Constants.DEFAULT_DATE_FORMATTER.parse(birthDate));
+    }
+ catch (    Exception e) {
+    }
+    addProfileInputField(aboutLayout,i18nManager.getMessage(Messages.PROFILE_BIRTHDATE),birthDateField,null);
   }
   if (!editable && isDefined(location)) {
     addProfileEntry(aboutLayout,i18nManager.getMessage(Messages.PROFILE_LOCATION),location);

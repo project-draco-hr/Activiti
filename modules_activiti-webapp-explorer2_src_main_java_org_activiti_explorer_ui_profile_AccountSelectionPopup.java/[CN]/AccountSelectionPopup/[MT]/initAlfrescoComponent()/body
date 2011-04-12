@@ -1,0 +1,17 @@
+{
+  alfrescoForm=new Form();
+  alfrescoForm.setDescription(i18nManager.getMessage(Messages.ALFRESCO_DESCRIPTION));
+  final TextField alfrescoServer=new TextField(i18nManager.getMessage(Messages.ALFRESCO_SERVER));
+  alfrescoForm.getLayout().addComponent(alfrescoServer);
+  final TextField alfrescoUserName=new TextField(i18nManager.getMessage(Messages.ALFRESCO_USERNAME));
+  alfrescoForm.getLayout().addComponent(alfrescoUserName);
+  final PasswordField alfrescoPassword=new PasswordField(i18nManager.getMessage(Messages.ALFRESCO_PASSWORD));
+  alfrescoForm.getLayout().addComponent(alfrescoPassword);
+  alfrescoClickListener=new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      Map<String,Object> accountDetails=createAccountDetails("alfresco",alfrescoUserName.getValue().toString(),alfrescoPassword.getValue().toString(),"server",alfrescoServer.getValue().toString());
+      fireEvent(new SubmitEvent(AccountSelectionPopup.this,SubmitEvent.SUBMITTED,accountDetails));
+    }
+  }
+;
+}

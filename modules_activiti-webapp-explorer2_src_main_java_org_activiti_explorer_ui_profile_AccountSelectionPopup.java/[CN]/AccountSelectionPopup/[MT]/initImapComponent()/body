@@ -1,0 +1,31 @@
+{
+  imapForm=new Form();
+  imapForm.setDescription(i18nManager.getMessage(Messages.IMAP_DESCRIPTION));
+  final TextField imapServer=new TextField(i18nManager.getMessage(Messages.IMAP_SERVER));
+  imapForm.getLayout().addComponent(imapServer);
+  final TextField imapPort=new TextField(i18nManager.getMessage(Messages.IMAP_PORT));
+  imapPort.setWidth(30,UNITS_PIXELS);
+  imapPort.setValue(143);
+  imapForm.getLayout().addComponent(imapPort);
+  final CheckBox useSSL=new CheckBox(i18nManager.getMessage(Messages.IMAP_SSL));
+  useSSL.setValue(false);
+  useSSL.setImmediate(true);
+  imapForm.getLayout().addComponent(useSSL);
+  useSSL.addListener(new ValueChangeListener(){
+    public void valueChange(    ValueChangeEvent event){
+      imapPort.setValue(((Boolean)useSSL.getValue()) ? 993 : 143);
+    }
+  }
+);
+  final TextField imapUserName=new TextField(i18nManager.getMessage(Messages.IMAP_USERNAME));
+  imapForm.getLayout().addComponent(imapUserName);
+  final PasswordField imapPassword=new PasswordField(i18nManager.getMessage(Messages.IMAP_PASSWORD));
+  imapForm.getLayout().addComponent(imapPassword);
+  imapClickListener=new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      Map<String,Object> accountDetails=createAccountDetails("imap",imapUserName.getValue().toString(),imapPassword.getValue().toString(),"server",imapServer.getValue().toString(),"port",imapPort.getValue().toString(),"ssl",imapPort.getValue().toString());
+      fireEvent(new SubmitEvent(AccountSelectionPopup.this,SubmitEvent.SUBMITTED,accountDetails));
+    }
+  }
+;
+}

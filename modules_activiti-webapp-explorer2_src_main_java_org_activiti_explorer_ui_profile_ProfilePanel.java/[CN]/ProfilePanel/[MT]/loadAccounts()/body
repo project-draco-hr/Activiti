@@ -1,0 +1,8 @@
+{
+  List<String> accountNames=identityService.getUserAccountNames(userId);
+  List<Account> accounts=new ArrayList<Account>(accountNames.size());
+  for (  String accountName : accountNames) {
+    accounts.add(identityService.getUserAccount(userId,ExplorerApp.get().getLoggedInUser().getPassword(),accountName));
+  }
+  return accounts;
+}

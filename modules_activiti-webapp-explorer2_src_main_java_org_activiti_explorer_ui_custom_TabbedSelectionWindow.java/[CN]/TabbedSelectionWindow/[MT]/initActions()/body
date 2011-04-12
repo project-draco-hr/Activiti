@@ -1,0 +1,14 @@
+{
+  okButton=new Button(i18nManager.getMessage(Messages.BUTTON_OK));
+  selectedComponentLayout.addComponent(okButton,0,1);
+  okButton.setEnabled(false);
+  okButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      listeners.get(currentSelection).buttonClick(event);
+      close();
+    }
+  }
+);
+  selectedComponentLayout.setComponentAlignment(okButton,Alignment.BOTTOM_RIGHT);
+}

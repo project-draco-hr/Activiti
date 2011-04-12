@@ -4,6 +4,7 @@
   changePictureUpload.setButtonCaption(i18nManager.getMessage(Messages.PROFILE_CHANGE_PICTURE));
   final InMemoryUploadReceiver receiver=initPictureReceiver(changePictureUpload);
   changePictureUpload.addListener(new FinishedListener(){
+    private static final long serialVersionUID=1L;
     public void uploadFinished(    FinishedEvent event){
       if (!receiver.isInterruped()) {
         picture=new Picture(receiver.getBytes(),receiver.getMimeType());

@@ -1,0 +1,45 @@
+{
+  selectionTable=new Table();
+  selectionTable.setSizeUndefined();
+  selectionTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  selectionTable.setSelectable(true);
+  selectionTable.setImmediate(true);
+  selectionTable.setNullSelectionAllowed(false);
+  selectionTable.setWidth(150,UNITS_PIXELS);
+  selectionTable.setHeight(100,UNITS_PERCENTAGE);
+  selectionTable.setCellStyleGenerator(new CellStyleGenerator(){
+    private static final long serialVersionUID=1L;
+    public String getStyle(    Object itemId,    Object propertyId){
+      if ("name".equals(propertyId)) {
+        return ExplorerLayout.STYLE_RELATED_CONTENT_CREATE_LIST_LAST_COLUMN;
+      }
+      return null;
+    }
+  }
+);
+  selectionTable.addStyleName(ExplorerLayout.STYLE_RELATED_CONTENT_CREATE_LIST);
+  selectionTable.addContainerProperty("type",Embedded.class,null);
+  selectionTable.setColumnWidth("type",22);
+  selectionTable.addContainerProperty("name",String.class,null);
+  selectionTable.addListener(new ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      String name=(String)event.getProperty().getValue();
+      if (name != null) {
+        currentSelection=name;
+        currentComponent=components.get(name);
+        selectedComponentLayout.removeComponent(selectedComponentLayout.getComponent(0,0));
+        if (currentComponent != null) {
+          currentComponent.setSizeFull();
+          selectedComponentLayout.addComponent(currentComponent,0,0);
+          okButton.setEnabled(true);
+        }
+ else {
+          okButton.setEnabled(false);
+        }
+      }
+    }
+  }
+);
+  windowLayout.addComponent(selectionTable);
+}

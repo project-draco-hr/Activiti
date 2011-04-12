@@ -1,6 +1,6 @@
 {
   StreamResource imageresource=new StreamResource(new StreamSource(){
-    private static final long serialVersionUID=-8875067466181823014L;
+    private static final long serialVersionUID=1L;
     public InputStream getStream(){
       return picture.getInputStream();
     }
@@ -14,7 +14,7 @@
   picture.addStyleName(ExplorerLayout.STYLE_PROFILE_PICTURE);
   imageLayout.addComponent(picture);
   imageLayout.setWidth(picture.getWidth() + 5,picture.getWidthUnits());
-  if (userId.equals(ExplorerApp.get().getLoggedInUser().getId())) {
+  if (isCurrentLoggedInUser) {
     Upload changePictureButton=initChangePictureButton();
     imageLayout.addComponent(changePictureButton);
     imageLayout.setComponentAlignment(changePictureButton,Alignment.MIDDLE_CENTER);

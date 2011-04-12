@@ -1,0 +1,12 @@
+{
+  super(title);
+  setWidth(600,UNITS_PIXELS);
+  setHeight(400,UNITS_PIXELS);
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  initImapComponent();
+  String imap=i18nManager.getMessage(Messages.PROFILE_ACCOUNT_IMAP);
+  addSelectionItem(new Embedded(null,Images.IMAP),imap,imapForm,imapClickListener);
+  initAlfrescoComponent();
+  addSelectionItem(new Embedded(null,Images.ALFRESCO),i18nManager.getMessage(Messages.PROFILE_ACCOUNT_ALFRESCO),alfrescoForm,alfrescoClickListener);
+  selectionTable.select(imap);
+}

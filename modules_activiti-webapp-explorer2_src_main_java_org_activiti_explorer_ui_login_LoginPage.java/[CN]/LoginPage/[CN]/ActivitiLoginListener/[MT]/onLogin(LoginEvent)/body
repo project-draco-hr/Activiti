@@ -1,10 +1,9 @@
 {
   String userName=event.getLoginParameter("username");
   String password=event.getLoginParameter("password");
-  boolean success=identityService.checkPassword(userName,password);
-  if (success) {
+  if (identityService.checkPassword(userName,password)) {
     User user=identityService.createUserQuery().userId(userName).singleResult();
-    LoggedInUser loggedInUser=new LoggedInUser(user);
+    LoggedInUser loggedInUser=new LoggedInUser(user,password);
     List<Group> groups=identityService.createGroupQuery().groupMember(user.getId()).list();
     for (    Group group : groups) {
       if (Constants.SECURITY_ROLE.equals(group.getType())) {
