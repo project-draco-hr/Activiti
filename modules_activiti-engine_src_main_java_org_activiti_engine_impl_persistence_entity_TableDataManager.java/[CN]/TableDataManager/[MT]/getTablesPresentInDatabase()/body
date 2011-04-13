@@ -2,16 +2,16 @@
   List<String> tableNames=new ArrayList<String>();
   Connection connection=null;
   try {
-    connection=getPersistenceSession().getSqlSession().getConnection();
+    connection=getDbSqlSession().getSqlSession().getConnection();
     DatabaseMetaData databaseMetaData=connection.getMetaData();
     ResultSet tables=null;
     try {
       log.fine("retrieving activiti tables from jdbc metadata");
       String tableNameFilter="ACT_%";
-      if ("postgres".equals(getPersistenceSession().getDbSqlSessionFactory().getDatabaseType())) {
+      if ("postgres".equals(getDbSqlSession().getDbSqlSessionFactory().getDatabaseType())) {
         tableNameFilter="act_%";
       }
-      tables=databaseMetaData.getTables(null,null,tableNameFilter,getPersistenceSession().JDBC_METADATA_TABLE_TYPES);
+      tables=databaseMetaData.getTables(null,null,tableNameFilter,getDbSqlSession().JDBC_METADATA_TABLE_TYPES);
       while (tables.next()) {
         String tableName=tables.getString("TABLE_NAME");
         tableName=tableName.toUpperCase();

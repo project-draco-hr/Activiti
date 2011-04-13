@@ -1,11 +1,11 @@
 {
   checkHistoryEnabled();
-  List<AttachmentEntity> attachments=getPersistenceSession().selectList("selectAttachmentsByTaskId",taskId);
+  List<AttachmentEntity> attachments=getDbSqlSession().selectList("selectAttachmentsByTaskId",taskId);
   for (  AttachmentEntity attachment : attachments) {
     String contentId=attachment.getContentId();
     if (contentId != null) {
-      getPersistenceSession().delete(ByteArrayEntity.class,contentId);
+      getDbSqlSession().delete(ByteArrayEntity.class,contentId);
     }
-    getPersistenceSession().delete(AttachmentEntity.class,attachment.getId());
+    getDbSqlSession().delete(AttachmentEntity.class,attachment.getId());
   }
 }

@@ -1,6 +1,6 @@
 {
   if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
-    return (Long)getPersistenceSession().selectOne("selectHistoricProcessInstanceCountByQueryCriteria",historicProcessInstanceQuery);
+    return (Long)getDbSqlSession().selectOne("selectHistoricProcessInstanceCountByQueryCriteria",historicProcessInstanceQuery);
   }
   return 0;
 }

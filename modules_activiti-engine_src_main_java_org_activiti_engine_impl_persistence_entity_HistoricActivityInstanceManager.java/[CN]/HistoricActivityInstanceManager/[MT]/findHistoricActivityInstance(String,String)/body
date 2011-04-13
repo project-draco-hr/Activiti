@@ -2,5 +2,5 @@
   Map<String,String> parameters=new HashMap<String,String>();
   parameters.put("activityId",activityId);
   parameters.put("processInstanceId",processInstanceId);
-  return (HistoricActivityInstanceEntity)getPersistenceSession().selectOne("selectHistoricActivityInstance",parameters);
+  return (HistoricActivityInstanceEntity)getDbSqlSession().selectOne("selectHistoricActivityInstance",parameters);
 }

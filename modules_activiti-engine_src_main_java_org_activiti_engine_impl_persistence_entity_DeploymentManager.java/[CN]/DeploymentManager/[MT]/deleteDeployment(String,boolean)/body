@@ -1,6 +1,6 @@
 {
   if (cascade) {
-    List<ProcessDefinition> processDefinitions=getPersistenceSession().createProcessDefinitionQuery().deploymentId(deploymentId).list();
+    List<ProcessDefinition> processDefinitions=getDbSqlSession().createProcessDefinitionQuery().deploymentId(deploymentId).list();
     for (    ProcessDefinition processDefinition : processDefinitions) {
       String processDefinitionId=processDefinition.getId();
       getProcessInstanceManager().deleteProcessInstancesByProcessDefinition(processDefinitionId,"deleted deployment",cascade);
@@ -9,5 +9,5 @@
   }
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
   getResourceManager().deleteResourcesByDeploymentId(deploymentId);
-  getPersistenceSession().delete("deleteDeployment",deploymentId);
+  getDbSqlSession().delete("deleteDeployment",deploymentId);
 }

@@ -32,7 +32,7 @@
     identityInfoEntity.setKey(key);
     identityInfoEntity.setValue(value);
     identityInfoEntity.setPasswordBytes(storedPassword);
-    getPersistenceSession().insert(identityInfoEntity);
+    getDbSqlSession().insert(identityInfoEntity);
     if (accountDetails != null) {
       insertAccountDetails(identityInfoEntity,accountDetails,accountDetails.keySet());
     }

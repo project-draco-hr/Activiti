@@ -2,5 +2,5 @@
   Map<String,String> parameters=new HashMap<String,String>();
   parameters.put("userId",userId);
   parameters.put("key",key);
-  return (IdentityInfoEntity)getPersistenceSession().selectOne("selectIdentityInfoByUserIdAndKey",parameters);
+  return (IdentityInfoEntity)getDbSqlSession().selectOne("selectIdentityInfoByUserIdAndKey",parameters);
 }

@@ -1,6 +1,6 @@
 {
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-    HistoricTaskInstanceEntity historicTaskInstance=getPersistenceSession().selectById(HistoricTaskInstanceEntity.class,id);
+    HistoricTaskInstanceEntity historicTaskInstance=getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
     if (historicTaskInstance != null) {
       historicTaskInstance.setName(taskName);
     }

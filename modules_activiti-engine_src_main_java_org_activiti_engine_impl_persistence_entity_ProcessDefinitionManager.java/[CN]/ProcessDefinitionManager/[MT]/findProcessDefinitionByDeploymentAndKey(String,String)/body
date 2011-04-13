@@ -2,5 +2,5 @@
   Map<String,Object> parameters=new HashMap<String,Object>();
   parameters.put("deploymentId",deploymentId);
   parameters.put("processDefinitionKey",processDefinitionKey);
-  return (ProcessDefinitionEntity)getPersistenceSession().selectOne("selectProcessDefinitionByDeploymentAndKey",parameters);
+  return (ProcessDefinitionEntity)getDbSqlSession().selectOne("selectProcessDefinitionByDeploymentAndKey",parameters);
 }

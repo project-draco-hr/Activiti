@@ -1,5 +1,5 @@
 {
-  List<String> processInstanceIds=getPersistenceSession().selectList("selectProcessInstanceIdsByProcessDefinitionId",processDefinitionId);
+  List<String> processInstanceIds=getDbSqlSession().selectList("selectProcessInstanceIdsByProcessDefinitionId",processDefinitionId);
   for (  String processInstanceId : processInstanceIds) {
     deleteProcessInstance(processInstanceId,deleteReason,cascade);
   }

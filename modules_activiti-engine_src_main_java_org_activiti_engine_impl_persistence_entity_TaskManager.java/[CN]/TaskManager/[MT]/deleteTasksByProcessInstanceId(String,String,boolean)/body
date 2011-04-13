@@ -1,5 +1,5 @@
 {
-  List<TaskEntity> tasks=(List)getPersistenceSession().createTaskQuery().processInstanceId(processInstanceId).list();
+  List<TaskEntity> tasks=(List)getDbSqlSession().createTaskQuery().processInstanceId(processInstanceId).list();
   for (  TaskEntity task : tasks) {
     deleteTask(task,TaskEntity.DELETE_REASON_DELETED,cascade);
   }

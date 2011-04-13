@@ -1,8 +1,8 @@
 {
-  getPersistenceSession().delete(VariableInstanceEntity.class,variableInstance.getId());
+  getDbSqlSession().delete(VariableInstanceEntity.class,variableInstance.getId());
   String byteArrayValueId=variableInstance.getByteArrayValueId();
   if (byteArrayValueId != null) {
     variableInstance.getByteArrayValue();
-    getPersistenceSession().delete(ByteArrayEntity.class,byteArrayValueId);
+    getDbSqlSession().delete(ByteArrayEntity.class,byteArrayValueId);
   }
 }

@@ -2,8 +2,8 @@
   TableMetaData result=new TableMetaData();
   try {
     result.setTableName(tableName);
-    DatabaseMetaData metaData=getPersistenceSession().getSqlSession().getConnection().getMetaData();
-    if ("postgres".equals(getPersistenceSession().getDbSqlSessionFactory().getDatabaseType())) {
+    DatabaseMetaData metaData=getDbSqlSession().getSqlSession().getConnection().getMetaData();
+    if ("postgres".equals(getDbSqlSession().getDbSqlSessionFactory().getDatabaseType())) {
       tableName=tableName.toLowerCase();
     }
     ResultSet resultSet=metaData.getColumns(null,null,tableName,null);
