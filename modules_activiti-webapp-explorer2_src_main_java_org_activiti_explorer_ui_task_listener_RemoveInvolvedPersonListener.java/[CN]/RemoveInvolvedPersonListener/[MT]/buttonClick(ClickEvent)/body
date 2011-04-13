@@ -1,0 +1,16 @@
+{
+  User user=identityService.createUserQuery().userId(identityLink.getUserId()).singleResult();
+  String name=user.getFirstName() + " " + user.getLastName();
+  ConfirmationDialogPopupWindow confirmationPopup=new ConfirmationDialogPopupWindow(i18nManager.getMessage(Messages.TASK_INVOLVED_REMOVE_CONFIRMATION_TITLE,name),i18nManager.getMessage(Messages.TASK_INVOLVED_REMOVE_CONFIRMATION_DESCRIPTION,name,task.getName()));
+  confirmationPopup.addListener(new ConfirmationEventListener(){
+    private static final long serialVersionUID=1L;
+    protected void rejected(    ConfirmationEvent event){
+    }
+    protected void confirmed(    ConfirmationEvent event){
+      taskService.deleteUserIdentityLink(identityLink.getTaskId(),identityLink.getUserId(),identityLink.getType());
+      taskDetailPanel.notifyPeopleInvolvedChanged();
+    }
+  }
+);
+  viewManager.showPopupWindow(confirmationPopup);
+}

@@ -1,0 +1,12 @@
+{
+  this.task=task;
+  this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+  this.identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  this.viewManager=ExplorerApp.get().getViewManager();
+  this.taskEventTextResolver=new TaskEventTextResolver();
+  ((VerticalLayout)getContent()).setSpacing(true);
+  setHeight(100,UNITS_PERCENTAGE);
+  addInputField();
+  addTaskEvents();
+}

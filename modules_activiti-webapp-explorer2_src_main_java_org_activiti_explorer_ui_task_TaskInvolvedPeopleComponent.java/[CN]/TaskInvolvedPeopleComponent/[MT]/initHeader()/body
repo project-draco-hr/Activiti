@@ -21,7 +21,7 @@
             String role=involvePeoplePopupWindow.getSelectedUserRole(userId);
             taskService.addUserIdentityLink(task.getId(),userId,role);
           }
-          refreshPeopleGrid();
+          taskDetailPanel.notifyPeopleInvolvedChanged();
         }
         protected void cancelled(        SubmitEvent event){
         }

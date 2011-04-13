@@ -1,17 +1,28 @@
 {
-  List<User> users=identityService.createUserQuery().list();
-  for (  User user : users) {
-    String firstName=user.getFirstName();
-    String lastName=user.getLastName();
-    if (firstName != null && !"".equals(firstName)) {
-      for (      String firstNameToken : user.getFirstName().split(" ")) {
-        addCacheItem(firstNameToken,user);
-      }
+  long nrOfUsers=identityService.createUserQuery().count();
+  long usersAdded=0;
+  userTrie=new RadixTreeImpl<List<User>>();
+  userCache=new HashMap<String,User>();
+  while (usersAdded < nrOfUsers) {
+    if (LOGGER.isLoggable(Level.INFO)) {
+      LOGGER.info("Caching users " + usersAdded + " to "+ (usersAdded + 25));
     }
-    if (lastName != null && !"".equals(lastName)) {
-      for (      String lastNameToken : user.getLastName().split(" ")) {
-        addCacheItem(lastNameToken,user);
+    List<User> users=identityService.createUserQuery().listPage((int)usersAdded,25);
+    for (    User user : users) {
+      String firstName=user.getFirstName();
+      String lastName=user.getLastName();
+      if (firstName != null && !"".equals(firstName)) {
+        for (        String firstNameToken : user.getFirstName().split(" ")) {
+          addTrieCacheItem(firstNameToken,user);
+        }
       }
+      if (lastName != null && !"".equals(lastName)) {
+        for (        String lastNameToken : user.getLastName().split(" ")) {
+          addTrieCacheItem(lastNameToken,user);
+        }
+      }
+      addUserCacheItem(user);
+      usersAdded++;
     }
   }
 }

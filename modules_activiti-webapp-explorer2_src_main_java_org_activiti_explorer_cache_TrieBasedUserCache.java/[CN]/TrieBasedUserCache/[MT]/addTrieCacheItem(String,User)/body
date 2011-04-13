@@ -1,0 +1,13 @@
+{
+  key=key.toLowerCase();
+  List<User> value=null;
+  if (!userTrie.contains(key)) {
+    value=new ArrayList<User>();
+  }
+ else {
+    value=userTrie.find(key);
+  }
+  value.add(user);
+  userTrie.delete(key);
+  userTrie.insert(key,value);
+}

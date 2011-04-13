@@ -1,9 +1,9 @@
 {
-  if (radixTree.getSize() == 0) {
+  if (userTrie.getSize() == 0) {
     refresh();
   }
   List<User> returnValue=new ArrayList<User>();
-  List<List<User>> results=radixTree.searchPrefix(prefix.toLowerCase(),100);
+  List<List<User>> results=userTrie.searchPrefix(prefix.toLowerCase(),100);
   for (  List<User> result : results) {
     for (    User userDetail : result) {
       returnValue.add(userDetail);

@@ -7,13 +7,14 @@
   textFieldPanel.addStyleName(Reindeer.PANEL_LIGHT);
   textFieldPanel.setContent(new VerticalLayout());
   layout.addComponent(textFieldPanel);
-  final TextField textField=new TextField();
-  textField.setWidth(200,UNITS_PIXELS);
-  textFieldPanel.addComponent(textField);
+  commentInputField=new TextField();
+  commentInputField.setWidth(180,UNITS_PIXELS);
+  textFieldPanel.addComponent(commentInputField);
   textFieldPanel.addActionHandler(new Handler(){
     public void handleAction(    Action action,    Object sender,    Object target){
-      addNewComment(textField.getValue().toString());
-      textField.focus();
+      addNewComment(commentInputField.getValue().toString());
+      commentInputField.setValue("");
+      commentInputField.focus();
     }
     public Action[] getActions(    Object target,    Object sender){
       return new Action[]{new ShortcutAction("enter",ShortcutAction.KeyCode.ENTER,null)};
@@ -26,7 +27,7 @@
   layout.setComponentAlignment(addCommentButton,Alignment.MIDDLE_LEFT);
   addCommentButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
-      addNewComment(textField.getValue().toString());
+      addNewComment(commentInputField.getValue().toString());
     }
   }
 );

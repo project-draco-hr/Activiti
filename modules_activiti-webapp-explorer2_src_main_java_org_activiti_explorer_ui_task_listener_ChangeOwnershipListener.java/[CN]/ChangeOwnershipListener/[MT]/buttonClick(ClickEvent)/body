@@ -1,0 +1,15 @@
+{
+  final InvolvePeoplePopupWindow involvePeoplePopupWindow=new InvolvePeoplePopupWindow(i18nManager.getMessage(Messages.TASK_OWNER_TRANSFER),task,false);
+  involvePeoplePopupWindow.addListener(new SubmitEventListener(){
+    protected void submitted(    SubmitEvent event){
+      String selectedUser=involvePeoplePopupWindow.getSelectedUserId();
+      task.setOwner(selectedUser);
+      ProcessEngines.getDefaultProcessEngine().getTaskService().saveTask(task);
+      taskDetailPanel.notifyOwnerChanged();
+    }
+    protected void cancelled(    SubmitEvent event){
+    }
+  }
+);
+  ExplorerApp.get().getViewManager().showPopupWindow(involvePeoplePopupWindow);
+}
