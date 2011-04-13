@@ -1,0 +1,29 @@
+{
+  final LoggedInUser user=ExplorerApp.get().getLoggedInUser();
+  MenuBar profileMenu=new MenuBar();
+  profileMenu.addStyleName(ExplorerLayout.STYLE_HEADER_PROFILE_BOX);
+  MenuItem rootItem=profileMenu.addItem(user.getFirstName() + " " + user.getLastName(),null);
+  rootItem.setStyleName(ExplorerLayout.STYLE_HEADER_PROFILE_MENU);
+  rootItem.addItem(i18nManager.getMessage(Messages.PROFILE_SHOW),new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      ExplorerApp.get().getViewManager().showProfilePopup(user.getId());
+    }
+  }
+);
+  rootItem.addItem(i18nManager.getMessage(Messages.PROFILE_EDIT),new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      ExplorerApp.get().getViewManager().showProfilePopup(user.getId());
+    }
+  }
+);
+  rootItem.addSeparator();
+  rootItem.addItem(i18nManager.getMessage(Messages.HEADER_LOGOUT),new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      ExplorerApp.get().close();
+    }
+  }
+);
+  addComponent(profileMenu);
+  setComponentAlignment(profileMenu,Alignment.TOP_RIGHT);
+  setExpandRatio(profileMenu,1.0f);
+}

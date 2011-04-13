@@ -2,24 +2,25 @@
   setWidth("100%");
   LoggedInUser user=ExplorerApp.get().getLoggedInUser();
   long inboxCount=taskService.createTaskQuery().taskAssignee(user.getId()).count();
-  addItem(i18nManager.getMessage(Messages.TASK_MENU_INBOX) + "(" + inboxCount+ ")",new Command(){
-    public void menuSelected(    MenuItem selectedItem){
+  ToolbarEntry inboxEntry=addToolbarEntry(ENTRY_INBOX,i18nManager.getMessage(Messages.TASK_MENU_INBOX),new ToolbarCommand(){
+    public void toolBarItemSelected(){
       viewManager.showTaskInboxPage();
     }
   }
 );
+  inboxEntry.setCount(inboxCount);
   List<Group> groups=user.getGroups();
-  MenuItem queuedItem=addItem(i18nManager.getMessage(Messages.TASK_MENU_QUEUED),null);
+  ToolbarPopupEntry queuedItem=addPopupEntry(ENTRY_QUEUED,(i18nManager.getMessage(Messages.TASK_MENU_QUEUED)));
   long queuedCount=0;
   for (  final Group group : groups) {
     long groupCount=taskService.createTaskQuery().taskCandidateGroup(group.getId()).count();
-    queuedCount+=groupCount;
-    queuedItem.addItem(group.getName() + " (" + groupCount+ ")",new Command(){
-      public void menuSelected(      MenuItem selectedItem){
+    queuedItem.addMenuItem(group.getName() + " (" + groupCount+ ")",new ToolbarCommand(){
+      public void toolBarItemSelected(){
         viewManager.showTaskQueuedPage(group.getId());
       }
     }
 );
+    queuedCount+=groupCount;
   }
-  queuedItem.setText(queuedItem.getText() + " (" + queuedCount+ ")");
+  queuedItem.setCount(queuedCount);
 }

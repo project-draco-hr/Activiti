@@ -1,0 +1,12 @@
+{
+  if (entryMap.containsKey(key)) {
+    throw new IllegalArgumentException("Toolbar already contains entry for key: " + key);
+  }
+  ToolbarEntry entry=new ToolbarEntry(key,title);
+  if (command != null) {
+    entry.setCommand(command);
+  }
+  entryMap.put(key,entry);
+  addEntryComponent(entry);
+  return entry;
+}

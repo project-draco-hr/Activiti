@@ -1,0 +1,9 @@
+{
+  if (entryMap.containsKey(key)) {
+    throw new IllegalArgumentException("Toolbar already contains entry for key: " + key);
+  }
+  ToolbarPopupEntry entry=new ToolbarPopupEntry(key,title);
+  entryMap.put(key,entry);
+  addEntryComponent(entry);
+  return entry;
+}

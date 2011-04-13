@@ -1,21 +1,21 @@
 {
   setWidth("100%");
-  addItem(i18nManager.getMessage(Messages.MGMT_MENU_DATABASE),new Command(){
-    public void menuSelected(    MenuItem selectedItem){
+  addToolbarEntry(ENTRY_DATABASE,i18nManager.getMessage(Messages.MGMT_MENU_DATABASE),new ToolbarCommand(){
+    public void toolBarItemSelected(){
       viewManager.showDatabasePage();
     }
   }
 );
-  MenuItem deploymentsItem=addItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS),null);
-  deploymentsItem.addItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS_SHOW_ALL),new Command(){
-    public void menuSelected(    MenuItem selectedItem){
+  ToolbarPopupEntry deploymentEntry=addPopupEntry(ENTRY_DEPLOYMENTS,i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS));
+  deploymentEntry.addMenuItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS_SHOW_ALL),new ToolbarCommand(){
+    public void toolBarItemSelected(){
       viewManager.showDeploymentPage();
     }
   }
 );
-  deploymentsItem.addItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS_UPLOAD),new NewDeploymentListener());
-  addItem(i18nManager.getMessage(Messages.MGMT_MENU_JOBS),new Command(){
-    public void menuSelected(    MenuItem selectedItem){
+  deploymentEntry.addMenuItem(i18nManager.getMessage(Messages.MGMT_MENU_DEPLOYMENTS_UPLOAD),new NewDeploymentListener());
+  addToolbarEntry(ENTRY_JOBS,i18nManager.getMessage(Messages.MGMT_MENU_JOBS),new ToolbarCommand(){
+    public void toolBarItemSelected(){
       viewManager.showJobPage();
     }
   }

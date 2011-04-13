@@ -1,15 +1,13 @@
 {
   setWidth("100%");
-  addItem(i18nManager.getMessage(Messages.FLOW_MENU_MY_FLOWS),new Command(){
-    private static final long serialVersionUID=1801881272806784326L;
-    public void menuSelected(    MenuItem selectedItem){
+  addToolbarEntry(ENTRY_MY_FLOWS,i18nManager.getMessage(Messages.FLOW_MENU_MY_FLOWS),new ToolbarCommand(){
+    public void toolBarItemSelected(){
       viewManager.showMyFlowsPage();
     }
   }
 );
-  addItem(i18nManager.getMessage(Messages.FLOW_MENU_LAUNCH_FLOW),new Command(){
-    private static final long serialVersionUID=-3389463332173619289L;
-    public void menuSelected(    MenuItem selectedItem){
+  addToolbarEntry(ENTRY_LAUNCH_FLOWS,i18nManager.getMessage(Messages.FLOW_MENU_LAUNCH_FLOW),new ToolbarCommand(){
+    public void toolBarItemSelected(){
       viewManager.showFlowPage();
     }
   }
