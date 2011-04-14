@@ -1,0 +1,15 @@
+{
+  Task taskOne=taskService.newTask();
+  taskOne.setName("helloworld");
+  taskOne.setAssignee("kermit");
+  taskService.saveTask(taskOne);
+  Task taskTwo=taskService.newTask();
+  taskTwo.setName("hiuniverse");
+  taskTwo.setAssignee("kermit");
+  taskService.saveTask(taskTwo);
+  System.out.println(get("/tasks?first=0&max=10"));
+  setUser("fozzie","fozzie",true);
+  System.out.println(get("/tasks?first=0&max=10"));
+  taskService.deleteTask(taskOne.getId(),true);
+  taskService.deleteTask(taskTwo.getId(),true);
+}

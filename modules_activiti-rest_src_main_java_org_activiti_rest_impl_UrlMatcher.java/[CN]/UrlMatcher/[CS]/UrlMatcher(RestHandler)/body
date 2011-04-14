@@ -1,0 +1,9 @@
+{
+  this.restHandler=restHandler;
+  this.urlPartMatchers=new ArrayList<UrlPartMatcher>();
+  StringTokenizer tokenizer=new StringTokenizer(restHandler.getUrlPattern(),"/");
+  while (tokenizer.hasMoreTokens()) {
+    String urlPart=tokenizer.nextToken();
+    urlPartMatchers.add(UrlPartMatcher.createUrlPartMatcher(urlPart));
+  }
+}

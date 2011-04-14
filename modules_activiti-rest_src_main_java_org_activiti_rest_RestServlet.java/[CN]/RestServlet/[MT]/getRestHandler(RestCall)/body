@@ -1,0 +1,20 @@
+{
+  String pathInfo=restCall.getPathInfo();
+  RestHandler staticHandler=staticHandlers.get(pathInfo);
+  if (staticHandler == null) {
+    Iterator<UrlMatcher> iter=dynamicHandlers.iterator();
+    RestHandler restHandler=null;
+    while (restHandler == null && iter.hasNext()) {
+      UrlMatcher urlMatcher=iter.next();
+      Map<String,String> urlVariables=urlMatcher.matches(restCall);
+      if (urlVariables != null) {
+        restCall.setUrlVariables(urlVariables);
+        restHandler=urlMatcher.getRestHandler();
+      }
+    }
+    if (restHandler == null) {
+      throw new BadRequestException("invalid url " + pathInfo);
+    }
+  }
+  return staticHandler;
+}

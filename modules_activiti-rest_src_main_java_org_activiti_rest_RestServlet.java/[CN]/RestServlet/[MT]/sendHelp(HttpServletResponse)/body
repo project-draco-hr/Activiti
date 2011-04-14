@@ -1,0 +1,46 @@
+{
+  response.setContentType("text/plain");
+  try {
+    Map<String,RestHandler> restHandlers=new HashMap<String,RestHandler>();
+    restHandlers.putAll(staticHandlers);
+    for (    UrlMatcher urlMatcher : dynamicHandlers) {
+      RestHandler restHandler=urlMatcher.getRestHandler();
+      restHandlers.put(restHandler.getUrlPattern(),restHandler);
+    }
+    SortedSet<String> urlPatterns=new TreeSet<String>(restHandlers.keySet());
+    ServletOutputStream out=response.getOutputStream();
+    for (    String urlPattern : urlPatterns) {
+      RestHandler restHandler=restHandlers.get(urlPattern);
+      String parametersTemplate="";
+      List<String> parameterDescriptions=new ArrayList<String>();
+      for (      Field handlerField : restHandler.getClass().getDeclaredFields()) {
+        if (Parameter.class.isAssignableFrom(handlerField.getType())) {
+          handlerField.setAccessible(true);
+          Parameter<?> parameter=(Parameter<?>)handlerField.get(restHandler);
+          String parameterName=parameter.getName();
+          if (parametersTemplate.length() == 0) {
+            parametersTemplate+="?";
+          }
+ else {
+            parametersTemplate+="&";
+          }
+          if (parameter.isRequired()) {
+            parametersTemplate+=parameterName + "={" + parameterName+ "}";
+          }
+ else {
+            parametersTemplate+="[" + parameterName + "={"+ parameterName+ "}]";
+          }
+          parameterDescriptions.add("  * " + parameterName + (parameter.isRequired() ? " [required] " : " [optional] ")+ parameter.getTypeDescription()+ "\n"+ "    "+ parameter.getDescription());
+        }
+      }
+      out.println(restHandler.getMethod().toString() + " " + urlPattern+ parametersTemplate);
+      for (      String parameterDescription : parameterDescriptions) {
+        out.println(parameterDescription);
+      }
+      out.println();
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

@@ -1,0 +1,10 @@
+{
+  super.setUp();
+  if (server == null) {
+    server=new Server(serverPort);
+    ServletContextHandler servletContextHandler=new ServletContextHandler(server,"/",true,false);
+    servletContextHandler.addServlet(RestServlet.class,"/activiti/*");
+    server.start();
+    createUser(username,password);
+  }
+}

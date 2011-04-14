@@ -1,0 +1,10 @@
+{
+  String urlPattern=handler.getUrlPattern();
+  if (urlPattern.indexOf('{') == -1) {
+    staticHandlers.put(urlPattern,handler);
+  }
+ else {
+    dynamicHandlers.add(new UrlMatcher(handler));
+  }
+  handler.setRestServlet(this);
+}

@@ -1,0 +1,17 @@
+{
+  String headerText=request.getHeader("Auth");
+  if (headerText != null && headerText.startsWith("Basic ")) {
+    String encodedHeader=headerText.substring(6);
+    String decodedHeader=new String(Base64.decodeBase64(encodedHeader));
+    int colonIndex=decodedHeader.indexOf(':');
+    if (colonIndex != -1) {
+      String username=decodedHeader.substring(0,colonIndex);
+      String password=decodedHeader.substring(colonIndex + 1);
+      boolean authenticationOk=getProcessEngine().getIdentityService().checkPassword(username,password);
+      if (authenticationOk) {
+        return username;
+      }
+    }
+  }
+  throw new RestException(HttpServletResponse.SC_UNAUTHORIZED,"basic authentication required");
+}

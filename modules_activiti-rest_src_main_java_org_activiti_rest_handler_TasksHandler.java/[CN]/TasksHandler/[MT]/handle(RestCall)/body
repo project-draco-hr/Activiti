@@ -1,0 +1,9 @@
+{
+  List<Task> tasks=getTaskService().createTaskQuery().taskAssignee(call.getAuthenticatedUserId()).listPage(firstResult.get(call),maxResults.get(call));
+  JSONArray tasksJson=new JSONArray();
+  for (  Task task : tasks) {
+    JSONObject taskJson=convertTaskToJson(task);
+    tasksJson.put(taskJson);
+  }
+  call.sendResponse(tasksJson);
+}
