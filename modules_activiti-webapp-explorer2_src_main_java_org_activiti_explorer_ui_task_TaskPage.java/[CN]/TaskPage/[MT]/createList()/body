@@ -1,18 +1,19 @@
 {
   final Table taskTable=new Table();
   taskTable.addStyleName(ExplorerLayout.STYLE_TASK_LIST);
+  taskTable.addStyleName(ExplorerLayout.STYLE_SCROLLABLE);
   taskTable.addListener(new Property.ValueChangeListener(){
     private static final long serialVersionUID=8811553575319455854L;
     public void valueChange(    ValueChangeEvent event){
       Item item=taskTable.getItem(event.getProperty().getValue());
       if (item != null) {
         String taskId=(String)item.getItemProperty("id").getValue();
-        splitPanel.setSecondComponent(new TaskDetailPanel(taskId,TaskPage.this));
+        setDetailComponent(new TaskDetailPanel(taskId,TaskPage.this));
         UriFragment taskFragment=getUriFragment(taskId);
         ExplorerApp.get().setCurrentUriFragment(taskFragment);
       }
  else {
-        splitPanel.removeComponent(splitPanel.getSecondComponent());
+        setDetailComponent(null);
         ExplorerApp.get().setCurrentUriFragment(getUriFragment(null));
       }
     }
@@ -22,7 +23,7 @@
   this.taskListContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
   taskTable.setContainerDataSource(taskListContainer);
   taskTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.TASK));
-  taskTable.setColumnWidth("icon",32);
+  taskTable.setColumnWidth("icon",22);
   taskTable.addContainerProperty("name",String.class,null);
   taskTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
   return taskTable;

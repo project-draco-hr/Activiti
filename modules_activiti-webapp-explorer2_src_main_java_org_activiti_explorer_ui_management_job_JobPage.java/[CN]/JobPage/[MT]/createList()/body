@@ -9,11 +9,11 @@
       Item item=jobTable.getItem(event.getProperty().getValue());
       if (item != null) {
         String jobId=(String)item.getItemProperty("id").getValue();
-        splitPanel.setSecondComponent(new JobDetailPanel(jobId,JobPage.this));
+        setDetailComponent(new JobDetailPanel(jobId,JobPage.this));
         ExplorerApp.get().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART,jobId));
       }
  else {
-        splitPanel.removeComponent(splitPanel.getSecondComponent());
+        setDetailComponent(null);
         ExplorerApp.get().setCurrentUriFragment(new UriFragment(JobNavigationHandler.JOB_URL_PART));
       }
     }

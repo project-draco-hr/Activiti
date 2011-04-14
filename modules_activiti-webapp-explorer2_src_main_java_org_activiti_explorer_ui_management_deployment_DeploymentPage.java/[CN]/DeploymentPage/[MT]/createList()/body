@@ -9,11 +9,11 @@
       Item item=deploymentTable.getItem(event.getProperty().getValue());
       if (item != null) {
         String deploymentId=(String)item.getItemProperty("id").getValue();
-        splitPanel.setSecondComponent(new DeploymentDetailPanel(deploymentId,DeploymentPage.this));
+        setDetailComponent(new DeploymentDetailPanel(deploymentId,DeploymentPage.this));
         ExplorerApp.get().setCurrentUriFragment(new UriFragment(DeploymentNavigationHandler.DEPLOYMENT_URI_PART,deploymentId));
       }
  else {
-        splitPanel.removeComponent(splitPanel.getSecondComponent());
+        setDetailComponent(null);
         ExplorerApp.get().setCurrentUriFragment(new UriFragment(DeploymentNavigationHandler.DEPLOYMENT_URI_PART));
       }
     }

@@ -4,7 +4,7 @@
     private static final long serialVersionUID=8811553575319455854L;
     public void valueChange(    ValueChangeEvent event){
       String tableName=(String)event.getProperty().getValue();
-      splitPanel.setSecondComponent(new DatabaseDetailPanel(tableName));
+      setDetailComponent(new DatabaseDetailPanel(tableName));
       ExplorerApp.get().setCurrentUriFragment(new UriFragment(DataBaseNavigationHandler.TABLE_URI_PART,tableName));
     }
   }
