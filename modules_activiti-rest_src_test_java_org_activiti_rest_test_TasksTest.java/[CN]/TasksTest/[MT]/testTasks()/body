@@ -1,15 +1,18 @@
 {
-  Task taskOne=taskService.newTask();
-  taskOne.setName("helloworld");
-  taskOne.setAssignee("kermit");
-  taskService.saveTask(taskOne);
-  Task taskTwo=taskService.newTask();
-  taskTwo.setName("hiuniverse");
-  taskTwo.setAssignee("kermit");
-  taskService.saveTask(taskTwo);
-  System.out.println(get("/tasks?first=0&max=10"));
+  Task taskOne=new Task().setTitle("helloworld").setAssignee("kermit");
+  createTask(taskOne);
+  Task taskTwo=new Task().setTitle("hiuniverse").setAssignee("kermit");
+  createTask(taskTwo);
+  Task taskThree=new Task().setTitle("yowwhatsup").setAssignee("fozzie");
+  createTask(taskThree);
+  log.info("tasks of default user kermit:");
+  log.info(get("/tasks?first=0&max=10"));
   setUser("fozzie","fozzie",true);
-  System.out.println(get("/tasks?first=0&max=10"));
-  taskService.deleteTask(taskOne.getId(),true);
-  taskService.deleteTask(taskTwo.getId(),true);
+  log.info("tasks of default user fozzie:");
+  log.info(get("/tasks?first=0&max=10"));
+  setUser("misspiggy","misspiggy",true);
+  log.info("tasks of default user misspiggy:");
+  log.info(get("/tasks?first=0&max=10"));
+  log.info("task two");
+  log.info(get("/task/" + taskTwo.getId()));
 }

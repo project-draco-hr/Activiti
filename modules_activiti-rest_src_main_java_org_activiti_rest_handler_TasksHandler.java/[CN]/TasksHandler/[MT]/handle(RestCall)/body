@@ -1,9 +1,4 @@
 {
-  List<Task> tasks=getTaskService().createTaskQuery().taskAssignee(call.getAuthenticatedUserId()).listPage(firstResult.get(call),maxResults.get(call));
-  JSONArray tasksJson=new JSONArray();
-  for (  Task task : tasks) {
-    JSONObject taskJson=convertTaskToJson(task);
-    tasksJson.put(taskJson);
-  }
+  List<DBObject> tasksJson=Persistence.getTasks().findTasksJson(call.getAuthenticatedUserId(),firstResult.get(call),maxResults.get(call));
   call.sendResponse(tasksJson);
 }

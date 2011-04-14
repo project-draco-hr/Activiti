@@ -1,5 +1,11 @@
 {
-  String textValue=call.getHttpServletRequest().getParameter(name);
+  String textValue=null;
+  if (isParameter) {
+    textValue=call.getHttpServletRequest().getParameter(name);
+  }
+ else {
+    textValue=call.getUrlVariables().get(name);
+  }
   if (textValue == null) {
     if (defaultValue != null) {
       return defaultValue;

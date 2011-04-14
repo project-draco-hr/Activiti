@@ -1,0 +1,10 @@
+{
+  DBObject taskJson=new BasicDBObject();
+  if (id != null) {
+    taskJson.put("_id",new ObjectId(id));
+  }
+  taskJson.put("title",title);
+  if (description != null)   taskJson.put("description",description);
+  if (assignee != null)   taskJson.put("assignee",assignee);
+  return taskJson;
+}

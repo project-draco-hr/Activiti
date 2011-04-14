@@ -4,9 +4,10 @@
     return;
   }
   try {
-    String authenticatedUserId=authenticate(request);
+    RestCall call=new RestCall(method,request,response);
+    String authenticatedUserId=authenticate(call);
     Authentication.setAuthenticatedUserId(authenticatedUserId);
-    handle(new RestCall(method,request,response));
+    handle(call);
   }
  catch (  RestException e) {
     log.log(Level.SEVERE,"exception while processing " + request.getPathInfo() + " : "+ e.getMessage(),e);

@@ -5,6 +5,7 @@
     ServletContextHandler servletContextHandler=new ServletContextHandler(server,"/",true,false);
     servletContextHandler.addServlet(RestServlet.class,"/activiti/*");
     server.start();
-    createUser(username,password);
+    User defaultUser=new User().setUserId(username).setPassword(password);
+    createUser(defaultUser);
   }
 }

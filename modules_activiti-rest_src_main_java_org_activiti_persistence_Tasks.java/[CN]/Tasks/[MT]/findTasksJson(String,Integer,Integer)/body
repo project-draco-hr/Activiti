@@ -1,0 +1,10 @@
+{
+  DBObject query=new BasicDBObject();
+  query.put("assignee",assignee);
+  DBCursor dbCursor=tasks.find(query,null,firstResult,maxResults);
+  List<DBObject> list=new ArrayList<DBObject>();
+  while (dbCursor.hasNext()) {
+    list.add(dbCursor.next());
+  }
+  return list;
+}
