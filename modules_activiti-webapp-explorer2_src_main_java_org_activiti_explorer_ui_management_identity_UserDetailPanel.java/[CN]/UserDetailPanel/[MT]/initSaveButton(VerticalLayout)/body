@@ -9,6 +9,9 @@
       user.setFirstName(firstNameField.getValue().toString());
       user.setLastName(lastNameField.getValue().toString());
       user.setEmail(emailField.getValue().toString());
+      if (passwordField.getValue() != null && !"".equals(passwordField.getValue().toString())) {
+        user.setPassword(passwordField.getValue().toString());
+      }
       identityService.saveUser(user);
       editingDetails=false;
       userDetailsLayout.removeAllComponents();

@@ -13,9 +13,19 @@
  else {
     firstNameField=new TextField(null,user.getFirstName() != null ? user.getFirstName() : "");
     addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_FIRSTNAME),firstNameField);
+    firstNameField.focus();
     lastNameField=new TextField(null,user.getLastName() != null ? user.getLastName() : "");
     addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_LASTNAME),lastNameField);
     emailField=new TextField(null,user.getEmail() != null ? user.getEmail() : "");
     addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_EMAIL),emailField);
+    passwordField=new PasswordField();
+    Label cautionLabel=new Label(i18nManager.getMessage(Messages.USER_RESET_PASSWORD));
+    cautionLabel.addStyleName(Reindeer.LABEL_SMALL);
+    HorizontalLayout passwordLayout=new HorizontalLayout();
+    passwordLayout.setSpacing(true);
+    passwordLayout.addComponent(passwordField);
+    passwordLayout.addComponent(cautionLabel);
+    passwordLayout.setComponentAlignment(cautionLabel,Alignment.MIDDLE_LEFT);
+    addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_PASSWORD),passwordLayout);
   }
 }

@@ -2,6 +2,7 @@
   groupsForUserQuery=new GroupsForUserQuery(identityService,this,user.getId());
   if (groupsForUserQuery.size() > 0) {
     groupTable=new Table();
+    groupTable.setSortDisabled(true);
     groupTable.setHeight(150,UNITS_PIXELS);
     groupLayout.addComponent(groupTable);
     groupContainer=new LazyLoadingContainer(groupsForUserQuery,10);
