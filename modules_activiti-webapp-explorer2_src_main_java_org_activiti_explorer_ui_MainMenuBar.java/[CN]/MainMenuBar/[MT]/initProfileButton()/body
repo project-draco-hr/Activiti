@@ -16,6 +16,12 @@
     }
   }
 );
+  rootItem.addItem(i18nManager.getMessage(Messages.PROFILE_CHANGE_PASSWORD),new Command(){
+    public void menuSelected(    MenuItem selectedItem){
+      ExplorerApp.get().getViewManager().showPopupWindow(new ChangePasswordPopupWindow());
+    }
+  }
+);
   rootItem.addSeparator();
   rootItem.addItem(i18nManager.getMessage(Messages.HEADER_LOGOUT),new Command(){
     public void menuSelected(    MenuItem selectedItem){
