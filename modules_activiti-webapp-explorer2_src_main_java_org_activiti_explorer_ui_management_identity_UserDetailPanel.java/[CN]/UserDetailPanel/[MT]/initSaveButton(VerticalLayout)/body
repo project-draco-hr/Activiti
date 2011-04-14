@@ -1,0 +1,22 @@
+{
+  Button saveButton=new Button(i18nManager.getMessage(Messages.USER_SAVE));
+  saveButton.addStyleName(Reindeer.BUTTON_SMALL);
+  actionLayout.addComponent(saveButton);
+  saveButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      String originalFirstName=user.getFirstName();
+      String originalLastName=user.getLastName();
+      user.setFirstName(firstNameField.getValue().toString());
+      user.setLastName(lastNameField.getValue().toString());
+      user.setEmail(emailField.getValue().toString());
+      identityService.saveUser(user);
+      editingDetails=false;
+      userDetailsLayout.removeAllComponents();
+      populateUserDetails();
+      if (nameChanged(originalFirstName,originalLastName)) {
+        userPage.notifyUserChanged(user.getId());
+      }
+    }
+  }
+);
+}

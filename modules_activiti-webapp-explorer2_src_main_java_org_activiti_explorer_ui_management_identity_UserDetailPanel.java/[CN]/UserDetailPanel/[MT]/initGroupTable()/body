@@ -1,0 +1,23 @@
+{
+  groupsForUserQuery=new GroupsForUserQuery(identityService,this,user.getId());
+  if (groupsForUserQuery.size() > 0) {
+    groupTable=new Table();
+    groupTable.setHeight(150,UNITS_PIXELS);
+    groupLayout.addComponent(groupTable);
+    groupContainer=new LazyLoadingContainer(groupsForUserQuery,10);
+    groupTable.setContainerDataSource(groupContainer);
+    groupTable.addContainerProperty("id",String.class,null);
+    groupTable.setColumnWidth("id",100);
+    groupTable.addContainerProperty("name",String.class,null);
+    groupTable.setColumnWidth("name",175);
+    groupTable.addContainerProperty("type",String.class,null);
+    groupTable.setColumnWidth("type",100);
+    groupTable.addContainerProperty("actions",Component.class,null);
+    groupTable.setColumnWidth("actions",50);
+    groupTable.setColumnAlignment("actions",Table.ALIGN_CENTER);
+  }
+ else {
+    noGroupsLabel=new Label(i18nManager.getMessage(Messages.USER_NO_GROUPS));
+    groupLayout.addComponent(noGroupsLabel);
+  }
+}

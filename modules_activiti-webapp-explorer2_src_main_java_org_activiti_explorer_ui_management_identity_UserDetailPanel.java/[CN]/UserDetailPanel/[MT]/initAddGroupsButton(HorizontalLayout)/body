@@ -1,0 +1,27 @@
+{
+  Embedded addButton=new Embedded(null,Images.ADD);
+  addButton.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+  groupHeader.addComponent(addButton);
+  groupHeader.setComponentAlignment(addButton,Alignment.MIDDLE_LEFT);
+  addButton.addListener(new com.vaadin.event.MouseEvents.ClickListener(){
+    public void click(    com.vaadin.event.MouseEvents.ClickEvent event){
+      final GroupSelectionPopupWindow selectionPopup=new GroupSelectionPopupWindow(identityService,user.getId());
+      selectionPopup.addListener(new SubmitEventListener(){
+        protected void submitted(        SubmitEvent event){
+          Set<String> selectedGroups=selectionPopup.getSelectedGroupIds();
+          if (selectedGroups.size() > 0) {
+            for (            String groupId : selectedGroups) {
+              identityService.createMembership(user.getId(),groupId);
+            }
+            notifyGroupsForUserChanged();
+          }
+        }
+        protected void cancelled(        SubmitEvent event){
+        }
+      }
+);
+      ExplorerApp.get().getViewManager().showPopupWindow(selectionPopup);
+    }
+  }
+);
+}

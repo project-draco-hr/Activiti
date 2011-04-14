@@ -1,0 +1,12 @@
+{
+  final Button selectButton=new Button(i18nManager.getMessage(Messages.USER_SELECT_GROUPS));
+  addComponent(selectButton);
+  ((VerticalLayout)getContent()).setComponentAlignment(selectButton,Alignment.BOTTOM_RIGHT);
+  selectButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      fireEvent(new SubmitEvent(selectButton,SubmitEvent.SUBMITTED));
+      close();
+    }
+  }
+);
+}

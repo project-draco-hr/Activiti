@@ -1,0 +1,25 @@
+{
+  userTable=new Table();
+  userListQuery=new UserListQuery();
+  userListContainer=new LazyLoadingContainer(userListQuery,20);
+  userTable.setContainerDataSource(userListContainer);
+  userTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.USER_32));
+  userTable.setColumnWidth("icon",32);
+  userTable.addContainerProperty("name",String.class,null);
+  userTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  userTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=userTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String userId=(String)item.getItemProperty("id").getValue();
+        setDetailComponent(new UserDetailPanel(UserPage.this,userId));
+      }
+ else {
+        setDetailComponent(null);
+      }
+    }
+  }
+);
+  return userTable;
+}

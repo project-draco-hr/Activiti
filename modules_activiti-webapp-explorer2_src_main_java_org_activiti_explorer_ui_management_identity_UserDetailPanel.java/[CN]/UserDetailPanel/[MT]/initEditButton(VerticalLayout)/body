@@ -1,0 +1,13 @@
+{
+  Button editButton=new Button(i18nManager.getMessage(Messages.USER_EDIT));
+  editButton.addStyleName(Reindeer.BUTTON_SMALL);
+  actionLayout.addComponent(editButton);
+  editButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      editingDetails=true;
+      userDetailsLayout.removeAllComponents();
+      populateUserDetails();
+    }
+  }
+);
+}

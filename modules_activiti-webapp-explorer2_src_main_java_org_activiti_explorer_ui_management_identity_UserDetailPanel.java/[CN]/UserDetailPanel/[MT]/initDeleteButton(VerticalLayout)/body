@@ -1,0 +1,21 @@
+{
+  Button deleteButton=new Button(i18nManager.getMessage(Messages.USER_DELETE));
+  deleteButton.addStyleName(Reindeer.BUTTON_SMALL);
+  actionLayout.addComponent(deleteButton);
+  deleteButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      ConfirmationDialogPopupWindow confirmPopup=new ConfirmationDialogPopupWindow(i18nManager.getMessage(Messages.USER_CONFIRM_DELETE,user.getId()));
+      confirmPopup.addListener(new ConfirmationEventListener(){
+        protected void rejected(        ConfirmationEvent event){
+        }
+        protected void confirmed(        ConfirmationEvent event){
+          identityService.deleteUser(user.getId());
+          userPage.refreshListSelectNext();
+        }
+      }
+);
+      ExplorerApp.get().getViewManager().showPopupWindow(confirmPopup);
+    }
+  }
+);
+}

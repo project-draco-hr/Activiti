@@ -1,0 +1,16 @@
+{
+  groupTable=new Table();
+  groupTable.setNullSelectionAllowed(false);
+  groupTable.setSelectable(true);
+  groupTable.setMultiSelect(true);
+  groupTable.setSortDisabled(true);
+  groupTable.setWidth(460,UNITS_PIXELS);
+  groupTable.setHeight(275,UNITS_PIXELS);
+  addComponent(groupTable);
+  GroupSelectionQuery query=new GroupSelectionQuery(identityService,userId);
+  LazyLoadingContainer container=new LazyLoadingContainer(query,10);
+  groupTable.setContainerDataSource(container);
+  groupTable.addContainerProperty("id",String.class,null);
+  groupTable.addContainerProperty("name",String.class,null);
+  groupTable.addContainerProperty("type",String.class,null);
+}

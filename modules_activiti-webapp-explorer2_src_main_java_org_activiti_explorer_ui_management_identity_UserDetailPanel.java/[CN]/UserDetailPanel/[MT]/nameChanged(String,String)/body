@@ -1,0 +1,18 @@
+{
+  boolean nameChanged=false;
+  if (originalFirstName != null) {
+    nameChanged=!originalFirstName.equals(user.getFirstName());
+  }
+ else {
+    nameChanged=user.getFirstName() != null;
+  }
+  if (!nameChanged) {
+    if (originalLastName != null) {
+      nameChanged=!originalLastName.equals(user.getLastName());
+    }
+ else {
+      nameChanged=user.getLastName() != null;
+    }
+  }
+  return nameChanged;
+}

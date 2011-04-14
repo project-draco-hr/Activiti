@@ -1,0 +1,15 @@
+{
+  I18nManager i18nManager=ExplorerApp.get().getI18nManager();
+  ViewManager viewManager=ExplorerApp.get().getViewManager();
+  ConfirmationDialogPopupWindow confirmationPopup=new ConfirmationDialogPopupWindow(i18nManager.getMessage(Messages.USER_CONFIRM_DELETE_GROUP,userId,groupId));
+  confirmationPopup.addListener(new ConfirmationEventListener(){
+    protected void rejected(    ConfirmationEvent event){
+    }
+    protected void confirmed(    ConfirmationEvent event){
+      identityService.deleteMembership(userId,groupId);
+      userDetailPanel.notifyGroupsForUserChanged();
+    }
+  }
+);
+  viewManager.showPopupWindow(confirmationPopup);
+}

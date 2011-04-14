@@ -1,0 +1,21 @@
+{
+  GridLayout detailGrid=new GridLayout();
+  detailGrid.setColumns(2);
+  detailGrid.setSpacing(true);
+  detailGrid.setMargin(true,true,false,true);
+  userDetailsLayout.addComponent(detailGrid);
+  addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_ID),new Label(user.getId()));
+  if (!editingDetails) {
+    addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_FIRSTNAME),new Label(user.getFirstName()));
+    addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_LASTNAME),new Label(user.getLastName()));
+    addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_EMAIL),new Label(user.getEmail()));
+  }
+ else {
+    firstNameField=new TextField(null,user.getFirstName() != null ? user.getFirstName() : "");
+    addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_FIRSTNAME),firstNameField);
+    lastNameField=new TextField(null,user.getLastName() != null ? user.getLastName() : "");
+    addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_LASTNAME),lastNameField);
+    emailField=new TextField(null,user.getEmail() != null ? user.getEmail() : "");
+    addUserDetail(detailGrid,i18nManager.getMessage(Messages.USER_EMAIL),emailField);
+  }
+}

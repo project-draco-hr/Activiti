@@ -1,0 +1,8 @@
+{
+  List<User> users=identityService.createUserQuery().orderByUserFirstName().asc().orderByUserLastName().asc().orderByUserId().asc().listPage(start,count);
+  List<Item> userListItems=new ArrayList<Item>();
+  for (  User user : users) {
+    userListItems.add(new UserListItem(user));
+  }
+  return userListItems;
+}

@@ -1,0 +1,8 @@
+{
+  List<Group> groups=identityService.createGroupQuery().groupMember(userId).orderByGroupType().asc().orderByGroupId().asc().orderByGroupName().asc().list();
+  List<Item> groupItems=new ArrayList<Item>();
+  for (  Group group : groups) {
+    groupItems.add(new GroupItem(group));
+  }
+  return groupItems;
+}
