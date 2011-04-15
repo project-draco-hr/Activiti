@@ -1,0 +1,15 @@
+{
+  HorizontalLayout buttonLayout=new HorizontalLayout();
+  buttonLayout.setWidth(100,UNITS_PERCENTAGE);
+  form.getFooter().setWidth(100,UNITS_PERCENTAGE);
+  form.getFooter().addComponent(buttonLayout);
+  Button createButton=new Button(i18nManager.getMessage(Messages.USER_CREATE));
+  buttonLayout.addComponent(createButton);
+  buttonLayout.setComponentAlignment(createButton,Alignment.BOTTOM_RIGHT);
+  createButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      handleFormSubmit();
+    }
+  }
+);
+}

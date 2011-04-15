@@ -1,0 +1,15 @@
+{
+  User user=identityService.newUser(form.getField("id").getValue().toString());
+  user.setPassword(form.getField("password").getValue().toString());
+  if (form.getField("firstName").getValue() != null) {
+    user.setFirstName(form.getField("firstName").getValue().toString());
+  }
+  if (form.getField("lastName").getValue() != null) {
+    user.setLastName(form.getField("lastName").getValue().toString());
+  }
+  if (form.getField("email").getValue() != null) {
+    user.setEmail(form.getField("email").getValue().toString());
+  }
+  identityService.saveUser(user);
+  return user;
+}
