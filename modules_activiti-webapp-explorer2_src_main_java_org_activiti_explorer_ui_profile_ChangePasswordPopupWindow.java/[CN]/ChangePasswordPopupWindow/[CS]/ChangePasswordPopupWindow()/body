@@ -1,8 +1,8 @@
 {
   this.identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
-  this.userId=ExplorerApp.get().getLoggedInUser().getId();
+  this.currentUser=ExplorerApp.get().getLoggedInUser();
   this.i18nManager=ExplorerApp.get().getI18nManager();
-  setCaption(i18nManager.getMessage(Messages.PROFILE_CHANGE_PASSWORD));
+  setCaption(i18nManager.getMessage(Messages.PASSWORD_CHANGE));
   setModal(true);
   center();
   addStyleName(Reindeer.WINDOW_LIGHT);
@@ -11,4 +11,5 @@
   initLayout();
   initPasswordFields();
   initChangePasswordButton();
+  initEnterKeyListener();
 }

@@ -1,0 +1,17 @@
+{
+  if (passwordField1.getValue() == null || "".equals(passwordField1.getValue().toString()) || passwordField2.getValue() == null || "".equals(passwordField2.getValue().toString())) {
+    errorLabel.setValue(i18nManager.getMessage(Messages.PASSWORD_CHANGE_INPUT_REQUIRED));
+  }
+ else   if (!passwordField1.getValue().equals(passwordField2.getValue())) {
+    errorLabel.setValue(i18nManager.getMessage(Messages.PASSWORD_CHANGE_INPUT_MATCH));
+  }
+ else {
+    String password=passwordField1.getValue().toString();
+    User user=identityService.createUserQuery().userId(currentUser.getId()).singleResult();
+    user.setPassword(password);
+    identityService.saveUser(user);
+    currentUser.setPassword(password);
+    close();
+    ExplorerApp.get().getNotificationManager().showInformationNotification(Messages.PASSWORD_CHANGED_NOTIFICATION);
+  }
+}
