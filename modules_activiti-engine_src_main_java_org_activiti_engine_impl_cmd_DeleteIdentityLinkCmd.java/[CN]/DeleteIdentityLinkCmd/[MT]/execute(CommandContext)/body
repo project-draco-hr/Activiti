@@ -9,5 +9,23 @@
  else {
     task.deleteIdentityLink(userId,groupId,type);
   }
+  CommentManager commentManager=commandContext.getCommentManager();
+  if (commentManager.isHistoryEnabled()) {
+    String authenticatedUserId=Authentication.getAuthenticatedUserId();
+    CommentEntity comment=new CommentEntity();
+    comment.setUserId(authenticatedUserId);
+    comment.setType(CommentEntity.TYPE_EVENT);
+    comment.setTime(ClockUtil.getCurrentTime());
+    comment.setTaskId(taskId);
+    if (userId != null) {
+      comment.setAction(Event.ACTION_DELETE_USER_LINK);
+      comment.setMessage(new String[]{userId,type});
+    }
+ else {
+      comment.setAction(Event.ACTION_DELETE_GROUP_LINK);
+      comment.setMessage(new String[]{groupId,type});
+    }
+    commentManager.insert(comment);
+  }
   return null;
 }
