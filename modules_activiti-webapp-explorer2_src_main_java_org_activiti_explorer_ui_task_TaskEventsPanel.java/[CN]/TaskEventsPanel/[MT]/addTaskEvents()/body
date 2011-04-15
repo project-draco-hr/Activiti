@@ -1,13 +1,9 @@
 {
-  taskEvents=taskService.getTaskEvents(task.getId());
-  eventGrid=new GridLayout();
-  eventGrid.setColumns(2);
-  eventGrid.setSpacing(true);
-  eventGrid.setWidth("100%");
-  eventGrid.setColumnExpandRatio(1,1.0f);
-  addComponent(eventGrid);
-  for (  final org.activiti.engine.task.Event event : taskEvents) {
-    addTaskEventPicture(event,eventGrid);
-    addTaskEventText(event,eventGrid);
+  if (task != null) {
+    taskEvents=taskService.getTaskEvents(task.getId());
+    for (    final org.activiti.engine.task.Event event : taskEvents) {
+      addTaskEventPicture(event,eventGrid);
+      addTaskEventText(event,eventGrid);
+    }
   }
 }

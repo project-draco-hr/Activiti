@@ -5,10 +5,6 @@
   centralPanel.addStyleName(Reindeer.PANEL_LIGHT);
   addComponent(centralPanel);
   setExpandRatio(centralPanel,75.0f);
-  this.eventPanel=new TaskEventsPanel(task);
-  eventPanel.addStyleName(Reindeer.PANEL_LIGHT);
-  addComponent(eventPanel);
-  setExpandRatio(eventPanel,25.0f);
   initName();
   initDescription();
   initProcessLink();
@@ -17,4 +13,5 @@
   initPeopleDetails();
   initRelatedContent();
   initTaskForm();
+  parent.getTaskEventPanel().setTask(task);
 }
