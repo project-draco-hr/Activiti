@@ -14,9 +14,11 @@
       if (item != null) {
         String userId=(String)item.getItemProperty("id").getValue();
         setDetailComponent(new UserDetailPanel(UserPage.this,userId));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(UserNavigationHandler.USER_URI_PART,userId));
       }
  else {
         setDetailComponent(null);
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(UserNavigationHandler.USER_URI_PART));
       }
     }
   }
