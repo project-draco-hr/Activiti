@@ -1,12 +1,12 @@
 {
   String fragment=source.getUriFragmentUtility().getFragment();
   UriFragment uriFragment=new UriFragment(fragment);
-  NavigationHandler navigationHandler=null;
+  Navigator navigationHandler=null;
   if (uriFragment.getUriParts() != null && uriFragment.getUriParts().size() > 0) {
-    navigationHandler=NavigationHandlers.getHandler(uriFragment.getUriParts().get(0));
+    navigationHandler=navigatorManager.getHandler(uriFragment.getUriParts().get(0));
   }
   if (navigationHandler == null) {
-    navigationHandler=NavigationHandlers.getDefaultHandler();
+    navigationHandler=navigatorManager.getDefaultHandler();
   }
   navigationHandler.handleNavigation(uriFragment);
 }

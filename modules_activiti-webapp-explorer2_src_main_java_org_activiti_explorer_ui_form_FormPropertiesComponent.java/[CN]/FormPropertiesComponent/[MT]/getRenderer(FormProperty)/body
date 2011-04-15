@@ -1,9 +1,9 @@
 {
   FormType formPropertyType=formProperty.getType();
   if (formPropertyType == null) {
-    return FormPropertyMapping.getTypeLessFormPropertyRenderer();
+    return formPropertyRendererManager.getTypeLessFormPropertyRenderer();
   }
  else {
-    return FormPropertyMapping.getPropertyRendererForType(formProperty.getType());
+    return formPropertyRendererManager.getPropertyRendererForType(formProperty.getType());
   }
 }

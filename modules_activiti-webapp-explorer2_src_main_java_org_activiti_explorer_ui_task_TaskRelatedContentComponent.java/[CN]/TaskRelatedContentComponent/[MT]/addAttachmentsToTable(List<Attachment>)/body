@@ -1,6 +1,6 @@
 {
   for (  Attachment attachment : attachments) {
-    AttachmentRenderer renderer=AttachmentRenderers.getRenderer(attachment);
+    AttachmentRenderer renderer=attachmentRendererManager.getRenderer(attachment);
     Item attachmentItem=table.addItem(attachment.getId());
     attachmentItem.getItemProperty("name").setValue(renderer.getOverviewComponent(attachment,this));
     attachmentItem.getItemProperty("type").setValue(new Embedded(null,renderer.getImage(attachment)));

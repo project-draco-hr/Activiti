@@ -21,7 +21,7 @@
   attachmentTypes.addContainerProperty("type",Embedded.class,null);
   attachmentTypes.setColumnWidth("type",16);
   attachmentTypes.addContainerProperty("name",String.class,null);
-  for (  AttachmentEditor editor : AttachmentRenderers.getAttachmentEditors()) {
+  for (  AttachmentEditor editor : attachmentRendererManager.getAttachmentEditors()) {
     String name=editor.getTitle(i18nManager);
     Embedded image=null;
     Resource resource=editor.getImage();
