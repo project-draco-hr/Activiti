@@ -10,4 +10,8 @@
   value.add(user);
   userTrie.delete(key);
   userTrie.insert(key,value);
+  if (!keyCache.containsKey(user.getId())) {
+    keyCache.put(user.getId(),new ArrayList<String>());
+  }
+  keyCache.get(user.getId()).add(key);
 }

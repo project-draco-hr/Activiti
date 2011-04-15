@@ -11,6 +11,7 @@
         protected void confirmed(        ConfirmationEvent event){
           identityService.deleteUser(user.getId());
           userPage.refreshListSelectNext();
+          ExplorerApp.get().getUserCache().notifyUserDataChanged(user.getId());
         }
       }
 );
