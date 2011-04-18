@@ -1,0 +1,8 @@
+{
+  try {
+    ProcessEngines.getProcessEngine(getProcessEngineName()).close();
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Unable to close the local ProcessEngine",e);
+  }
+}
