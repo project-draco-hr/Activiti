@@ -2,16 +2,16 @@
   HorizontalLayout actionsContainer=new HorizontalLayout();
   actionsContainer.setSizeFull();
   Label processTitle=new Label(ExplorerApp.get().getI18nManager().getMessage(Messages.TASK_RELATED_CONTENT));
-  processTitle.addStyleName(ExplorerLayout.STYLE_RELATED_CONTENT_DETAILS_HEADER);
+  processTitle.addStyleName(ExplorerLayout.STYLE_H3);
   processTitle.setSizeFull();
   actionsContainer.addComponent(processTitle);
   actionsContainer.setComponentAlignment(processTitle,Alignment.MIDDLE_LEFT);
   actionsContainer.setExpandRatio(processTitle,1.0f);
-  Embedded addRelatedContentButton=new Embedded(null,Images.ADD);
-  addRelatedContentButton.addStyleName(ExplorerLayout.STYLE_IMAGE_ACTION);
-  addRelatedContentButton.addListener(new ClickListener(){
+  Button addRelatedContentButton=new Button();
+  addRelatedContentButton.addStyleName(ExplorerLayout.STYLE_ADD);
+  addRelatedContentButton.addListener(new com.vaadin.ui.Button.ClickListener(){
     private static final long serialVersionUID=1L;
-    public void click(    ClickEvent event){
+    public void buttonClick(    com.vaadin.ui.Button.ClickEvent event){
       CreateAttachmentPopupWindow popup=new CreateAttachmentPopupWindow();
       popup.setTaskId(task.getId());
       popup.addListener(new SubmitEventListener(){

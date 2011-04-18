@@ -19,9 +19,13 @@
     }
 );
     taskForm.setEnabled(isCurrentUserAssignee());
-    centralPanel.addComponent(taskForm);
+    centralLayout.addComponent(taskForm);
   }
  else {
+    CssLayout buttonLayout=new CssLayout();
+    buttonLayout.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+    buttonLayout.setWidth(100,UNITS_PERCENTAGE);
+    centralLayout.addComponent(buttonLayout);
     completeButton=new Button(i18nManager.getMessage(Messages.TASK_COMPLETE));
     completeButton.addListener(new ClickListener(){
       private static final long serialVersionUID=1L;
@@ -32,8 +36,7 @@
       }
     }
 );
-    addEmptySpace(centralPanel);
     completeButton.setEnabled(isCurrentUserAssignee());
-    centralPanel.addComponent(completeButton);
+    buttonLayout.addComponent(completeButton);
   }
 }

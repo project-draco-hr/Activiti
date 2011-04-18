@@ -1,15 +1,12 @@
 {
   setSizeFull();
   addStyleName(Reindeer.LAYOUT_WHITE);
-  this.centralPanel=new Panel();
-  centralPanel.addStyleName(Reindeer.PANEL_LIGHT);
-  addComponent(centralPanel);
-  setExpandRatio(centralPanel,75.0f);
-  initName();
-  initDescription();
+  this.centralLayout=new VerticalLayout();
+  centralLayout.setMargin(true);
+  setDetailContent(centralLayout);
+  initHeader();
+  initDescriptionAndClaimButton();
   initProcessLink();
-  initClaimButton();
-  initTimeDetails();
   initPeopleDetails();
   initRelatedContent();
   initTaskForm();
