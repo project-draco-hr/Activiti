@@ -4,7 +4,7 @@
     protected void submitted(    SubmitEvent event){
       String selectedUser=involvePeoplePopupWindow.getSelectedUserId();
       task.setOwner(selectedUser);
-      ProcessEngines.getDefaultProcessEngine().getTaskService().saveTask(task);
+      ProcessEngines.getDefaultProcessEngine().getTaskService().setOwner(task.getId(),selectedUser);
       taskDetailPanel.notifyOwnerChanged();
     }
     protected void cancelled(    SubmitEvent event){
