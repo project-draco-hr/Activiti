@@ -6,7 +6,9 @@
   selectedUsersTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.USER_ADD));
   selectedUsersTable.setColumnWidth("icon",16);
   selectedUsersTable.addContainerProperty("userName",String.class,null);
-  selectedUsersTable.addContainerProperty("role",ComboBox.class,null);
+  if (showRoles) {
+    selectedUsersTable.addContainerProperty("role",ComboBox.class,null);
+  }
   selectedUsersTable.addGeneratedColumn("delete",new ThemeImageColumnGenerator(Images.DELETE,new com.vaadin.event.MouseEvents.ClickListener(){
     public void click(    com.vaadin.event.MouseEvents.ClickEvent event){
       Object itemId=((Embedded)event.getSource()).getData();
@@ -23,7 +25,12 @@
   }
 ));
   selectedUsersTable.setColumnWidth("icon",16);
-  selectedUsersTable.setWidth(420,UNITS_PIXELS);
+  if (showRoles) {
+    selectedUsersTable.setWidth(420,UNITS_PIXELS);
+  }
+ else {
+    selectedUsersTable.setWidth(300,UNITS_PIXELS);
+  }
   selectedUsersTable.setHeight(200,UNITS_PIXELS);
   userSelectionLayout.addComponent(selectedUsersTable);
 }

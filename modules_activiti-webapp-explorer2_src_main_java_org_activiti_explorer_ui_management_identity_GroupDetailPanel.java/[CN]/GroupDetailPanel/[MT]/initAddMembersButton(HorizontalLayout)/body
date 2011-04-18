@@ -5,7 +5,7 @@
   membersHeader.setComponentAlignment(addButton,Alignment.MIDDLE_LEFT);
   addButton.addListener(new com.vaadin.event.MouseEvents.ClickListener(){
     public void click(    com.vaadin.event.MouseEvents.ClickEvent event){
-      final SelectUsersPopupWindow selectUsersPopup=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.GROUP_SELECT_MEMBERS,group.getId()),true,getCurrentMembers());
+      final SelectUsersPopupWindow selectUsersPopup=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.GROUP_SELECT_MEMBERS,group.getId()),true,false,getCurrentMembers());
       ExplorerApp.get().getViewManager().showPopupWindow(selectUsersPopup);
       selectUsersPopup.addListener(new SubmitEventListener(){
         protected void submitted(        SubmitEvent event){
