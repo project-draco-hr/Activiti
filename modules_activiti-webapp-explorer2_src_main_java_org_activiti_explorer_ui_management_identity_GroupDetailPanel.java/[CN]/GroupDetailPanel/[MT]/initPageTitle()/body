@@ -1,0 +1,26 @@
+{
+  HorizontalLayout layout=new HorizontalLayout();
+  layout.setWidth(100,UNITS_PERCENTAGE);
+  layout.setSpacing(true);
+  addComponent(layout);
+  Embedded groupImage=new Embedded(null,Images.USER_32);
+  groupImage.setWidth(48,UNITS_PIXELS);
+  groupImage.setHeight(48,UNITS_PIXELS);
+  layout.addComponent(groupImage);
+  Label groupName=new Label(group.getName());
+  groupName.setSizeUndefined();
+  groupName.addStyleName(Reindeer.LABEL_H1);
+  layout.addComponent(groupName);
+  layout.setComponentAlignment(groupName,Alignment.MIDDLE_LEFT);
+  Button createUserButton=new Button(i18nManager.getMessage(Messages.GROUP_CREATE));
+  layout.addComponent(createUserButton);
+  layout.setComponentAlignment(createUserButton,Alignment.MIDDLE_RIGHT);
+  layout.setExpandRatio(createUserButton,1.0f);
+  createUserButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      NewGroupPopupWindow popup=new NewGroupPopupWindow();
+      ExplorerApp.get().getViewManager().showPopupWindow(popup);
+    }
+  }
+);
+}

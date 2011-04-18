@@ -1,0 +1,27 @@
+{
+  UserQuery query=identityService.createUserQuery().memberOfGroup(groupId);
+  if (sortby == null || "id".equals(sortby)) {
+    query.orderByUserId();
+  }
+ else   if ("firstName".equals(sortby)) {
+    query.orderByUserFirstName();
+  }
+ else   if ("lastName".equals(sortby)) {
+    query.orderByUserLastName();
+  }
+ else   if ("email".equals(sortby)) {
+    query.orderByUserEmail();
+  }
+  if (sortby == null || ascending) {
+    query.asc();
+  }
+ else {
+    query.desc();
+  }
+  List<User> users=query.listPage(start,count);
+  List<Item> items=new ArrayList<Item>();
+  for (  User user : users) {
+    items.add(new GroupMemberItem(user));
+  }
+  return items;
+}

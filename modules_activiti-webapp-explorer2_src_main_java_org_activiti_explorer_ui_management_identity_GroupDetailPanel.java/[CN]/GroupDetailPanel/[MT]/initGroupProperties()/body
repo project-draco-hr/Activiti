@@ -1,0 +1,34 @@
+{
+  detailsGrid=new GridLayout(2,3);
+  detailsGrid.setSpacing(true);
+  detailLayout.setMargin(false,true,false,false);
+  detailLayout.addComponent(detailsGrid);
+  Label idLabel=new Label(i18nManager.getMessage(Messages.GROUP_ID) + ": ");
+  idLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+  detailsGrid.addComponent(idLabel);
+  Label idValueLabel=new Label(group.getId());
+  detailsGrid.addComponent(idValueLabel);
+  Label nameLabel=new Label(i18nManager.getMessage(Messages.GROUP_NAME) + ": ");
+  nameLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+  detailsGrid.addComponent(nameLabel);
+  if (!editingDetails) {
+    Label nameValueLabel=new Label(group.getName());
+    detailsGrid.addComponent(nameValueLabel);
+  }
+ else {
+    nameTextField=new TextField(null,group.getName());
+    detailsGrid.addComponent(nameTextField);
+  }
+  Label typeLabel=new Label(i18nManager.getMessage(Messages.GROUP_TYPE) + ": ");
+  typeLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+  detailsGrid.addComponent(typeLabel);
+  if (!editingDetails) {
+    Label typeValueLabel=new Label(group.getType());
+    detailsGrid.addComponent(typeValueLabel);
+  }
+ else {
+    typeCombobox=new ComboBox(null,Arrays.asList("assignment","security-role"));
+    typeCombobox.select(group.getType());
+    detailsGrid.addComponent(typeCombobox);
+  }
+}

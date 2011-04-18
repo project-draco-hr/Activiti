@@ -1,5 +1,13 @@
 {
-  addItemProperty("id",new ObjectProperty<String>(group.getId()));
+  Button idButton=new Button(group.getId());
+  idButton.addStyleName(Reindeer.BUTTON_LINK);
+  idButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      ExplorerApp.get().getViewManager().showGroupPage(group.getId());
+    }
+  }
+);
+  addItemProperty("id",new ObjectProperty<Button>(idButton));
   if (group.getName() != null) {
     addItemProperty("name",new ObjectProperty<String>(group.getName()));
   }

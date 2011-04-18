@@ -13,7 +13,7 @@
   headerLayout.addComponent(addPeopleButton);
   addPeopleButton.addListener(new ClickListener(){
     public void click(    ClickEvent event){
-      final InvolvePeoplePopupWindow involvePeoplePopupWindow=new InvolvePeoplePopupWindow(i18nManager.getMessage(Messages.PEOPLE_INVOLVE_POPUP_CAPTION),task,true);
+      final SelectUsersPopupWindow involvePeoplePopupWindow=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.PEOPLE_INVOLVE_POPUP_CAPTION),true);
       involvePeoplePopupWindow.addListener(new SubmitEventListener(){
         protected void submitted(        SubmitEvent event){
           Collection<String> selectedUserIds=involvePeoplePopupWindow.getSelectedUserIds();

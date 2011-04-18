@@ -1,0 +1,20 @@
+{
+  Button saveButton=new Button(i18nManager.getMessage(Messages.USER_SAVE));
+  saveButton.addStyleName(Reindeer.BUTTON_SMALL);
+  actionsLayout.addComponent(saveButton);
+  saveButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      String originalName=group.getName();
+      group.setName(nameTextField.getValue().toString());
+      group.setType(typeCombobox.getValue().toString());
+      identityService.saveGroup(group);
+      editingDetails=false;
+      detailLayout.removeAllComponents();
+      populateGroupDetails();
+      if ((originalName != null && !originalName.equals(group.getName())) || (originalName == null && group.getName() != null)) {
+        groupPage.notifyGroupChanged(group.getId());
+      }
+    }
+  }
+);
+}

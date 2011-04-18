@@ -1,0 +1,33 @@
+{
+  groupTable=new Table();
+  groupTable.setEditable(false);
+  groupTable.setImmediate(true);
+  groupTable.setSelectable(true);
+  groupTable.setNullSelectionAllowed(false);
+  groupTable.setSortDisabled(true);
+  groupTable.setSizeFull();
+  groupListQuery=new GroupListQuery();
+  groupListContainer=new LazyLoadingContainer(groupListQuery,20);
+  groupTable.setContainerDataSource(groupListContainer);
+  groupTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.USER_32));
+  groupTable.setColumnWidth("icon",32);
+  groupTable.addContainerProperty("name",String.class,null);
+  groupTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  groupTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=groupTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String groupId=(String)item.getItemProperty("id").getValue();
+        setDetailComponent(new GroupDetailPanel(GroupPage.this,groupId));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(GroupNavigator.GROUP_URI_PART,groupId));
+      }
+ else {
+        setDetailComponent(null);
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(GroupNavigator.GROUP_URI_PART,groupId));
+      }
+    }
+  }
+);
+  return groupTable;
+}

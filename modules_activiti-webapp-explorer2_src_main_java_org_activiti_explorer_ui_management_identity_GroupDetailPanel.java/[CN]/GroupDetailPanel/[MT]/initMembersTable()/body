@@ -1,0 +1,23 @@
+{
+  LazyLoadingQuery query=new GroupMembersQuery(group.getId(),this);
+  if (query.size() > 0) {
+    membersTable=new Table();
+    membersTable.setWidth(500,UNITS_PIXELS);
+    membersTable.setHeight(400,UNITS_PIXELS);
+    membersTable.setEditable(false);
+    membersTable.setSelectable(false);
+    membersTable.setSortDisabled(false);
+    LazyLoadingContainer container=new LazyLoadingContainer(query,10);
+    membersTable.setContainerDataSource(container);
+    membersTable.addContainerProperty("id",Button.class,null);
+    membersTable.addContainerProperty("firstName",String.class,null);
+    membersTable.addContainerProperty("lastName",String.class,null);
+    membersTable.addContainerProperty("email",String.class,null);
+    membersTable.addContainerProperty("actions",Component.class,null);
+    membersLayout.addComponent(membersTable);
+  }
+ else {
+    noMembersTable=new Label(i18nManager.getMessage(Messages.GROUP_NO_MEMBERS));
+    membersLayout.addComponent(noMembersTable);
+  }
+}

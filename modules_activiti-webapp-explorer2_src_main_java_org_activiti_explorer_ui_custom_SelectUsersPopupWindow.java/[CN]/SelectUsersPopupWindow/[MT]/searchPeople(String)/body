@@ -1,0 +1,14 @@
+{
+  if (searchText.length() >= 2) {
+    matchingUsersTable.removeAllItems();
+    List<User> results=userCache.findMatchingUsers(searchText);
+    for (    User user : results) {
+      if (ignoredUserIds != null && !ignoredUserIds.contains(user.getId())) {
+        if (!multiSelect || !selectedUsersTable.containsId(user.getId())) {
+          Item item=matchingUsersTable.addItem(user.getId());
+          item.getItemProperty("userName").setValue(user.getFirstName() + " " + user.getLastName());
+        }
+      }
+    }
+  }
+}

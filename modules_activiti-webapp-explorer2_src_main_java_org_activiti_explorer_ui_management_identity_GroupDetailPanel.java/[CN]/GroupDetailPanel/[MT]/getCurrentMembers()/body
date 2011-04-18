@@ -1,0 +1,8 @@
+{
+  List<User> users=identityService.createUserQuery().memberOfGroup(group.getId()).list();
+  List<String> userIds=new ArrayList<String>();
+  for (  User user : users) {
+    userIds.add(user.getId());
+  }
+  return userIds;
+}

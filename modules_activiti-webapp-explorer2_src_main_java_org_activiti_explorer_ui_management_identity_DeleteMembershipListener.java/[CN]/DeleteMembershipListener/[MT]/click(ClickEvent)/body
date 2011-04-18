@@ -7,7 +7,7 @@
     }
     protected void confirmed(    ConfirmationEvent event){
       identityService.deleteMembership(userId,groupId);
-      userDetailPanel.notifyGroupsForUserChanged();
+      membershipChangeListener.notifyMembershipChanged();
     }
   }
 );
