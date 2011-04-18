@@ -1,0 +1,17 @@
+{
+  addSubTaskButton=new Button();
+  addSubTaskButton.addStyleName(ExplorerLayout.STYLE_ADD);
+  addSubTaskPanel.addComponent(addSubTaskButton);
+  addSubTaskButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      addSubTaskPanel.removeAllComponents();
+      Label createSubTaskLabel=new Label("Create new subtask:");
+      createSubTaskLabel.addStyleName(Reindeer.LABEL_SMALL);
+      addSubTaskPanel.addComponent(createSubTaskLabel);
+      newTaskTextField=new TextField();
+      newTaskTextField.focus();
+      addSubTaskPanel.addComponent(newTaskTextField);
+    }
+  }
+);
+}
