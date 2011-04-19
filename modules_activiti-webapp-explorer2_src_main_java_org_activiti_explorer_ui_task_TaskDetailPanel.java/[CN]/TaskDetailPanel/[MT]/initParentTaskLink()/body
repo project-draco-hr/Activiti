@@ -1,0 +1,15 @@
+{
+  if (task.getParentTaskId() != null) {
+    final Task parentTask=taskService.createTaskQuery().taskId(task.getParentTaskId()).singleResult();
+    Button showParentTaskButton=new Button(i18nManager.getMessage(Messages.TASK_SUBTASK_OF_PARENT_TASK,parentTask.getName()));
+    showParentTaskButton.addStyleName(Reindeer.BUTTON_LINK);
+    showParentTaskButton.addListener(new ClickListener(){
+      public void buttonClick(      ClickEvent event){
+        viewManager.showTaskInboxPage(parentTask.getId());
+      }
+    }
+);
+    centralLayout.addComponent(showParentTaskButton);
+    addEmptySpace(centralLayout);
+  }
+}

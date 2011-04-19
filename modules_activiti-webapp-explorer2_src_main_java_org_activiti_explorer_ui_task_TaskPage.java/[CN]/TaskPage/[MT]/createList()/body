@@ -8,7 +8,9 @@
       Item item=taskTable.getItem(event.getProperty().getValue());
       if (item != null) {
         String taskId=(String)item.getItemProperty("id").getValue();
-        setDetailComponent(new TaskDetailPanel(taskId,TaskPage.this));
+        Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
+        setDetailComponent(new TaskDetailPanel(task,TaskPage.this));
+        taskEventPanel.setTask(task);
         UriFragment taskFragment=getUriFragment(taskId);
         ExplorerApp.get().setCurrentUriFragment(taskFragment);
       }

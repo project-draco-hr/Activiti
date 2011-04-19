@@ -15,5 +15,10 @@
 );
     subTaskLayout.addComponent(subTaskLink);
     subTaskLayout.setComponentAlignment(subTaskLink,Alignment.MIDDLE_LEFT);
+    Embedded deleteIcon=new Embedded(null,Images.DELETE);
+    deleteIcon.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+    deleteIcon.addListener(new DeleteSubTaskClickListener(subTask,this));
+    subTaskLayout.addComponent(deleteIcon);
+    subTaskLayout.setComponentAlignment(deleteIcon,Alignment.MIDDLE_RIGHT);
   }
 }

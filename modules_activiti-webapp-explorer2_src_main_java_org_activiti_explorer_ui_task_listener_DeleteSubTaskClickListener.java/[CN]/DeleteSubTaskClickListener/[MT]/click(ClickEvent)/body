@@ -1,0 +1,16 @@
+{
+  I18nManager i18nManager=ExplorerApp.get().getI18nManager();
+  ViewManager viewManager=ExplorerApp.get().getViewManager();
+  final TaskService taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+  ConfirmationDialogPopupWindow popup=new ConfirmationDialogPopupWindow(i18nManager.getMessage(Messages.TASK_CONFIRM_DELETE_SUBTASK,subTask.getName()));
+  popup.addListener(new ConfirmationEventListener(){
+    protected void rejected(    ConfirmationEvent event){
+    }
+    protected void confirmed(    ConfirmationEvent event){
+      taskService.deleteTask(subTask.getId());
+      subTaskComponent.refreshSubTasks();
+    }
+  }
+);
+  viewManager.showPopupWindow(popup);
+}
