@@ -6,9 +6,9 @@
     if (!isMemberOfGroup) {
       String description=ExplorerApp.get().getI18nManager().getMessage(Messages.TASK_AUTHORISATION_MEMBERSHIP_ERROR,groupId);
       ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.TASK_AUTHORISATION_ERROR_TITLE,description);
-      ExplorerApp.get().getViewManager().showTaskInboxPage();
+      ExplorerApp.get().getViewManager().showInboxPage();
     }
-    ExplorerApp.get().getViewManager().showTaskQueuedPage(groupId,taskId);
+    ExplorerApp.get().getViewManager().showQueuedPage(groupId,taskId);
   }
  else {
     showInbox(taskId,uriFragment);

@@ -1,10 +1,18 @@
 {
   setWidth("100%");
   LoggedInUser user=ExplorerApp.get().getLoggedInUser();
+  long casesCount=taskService.createTaskQuery().taskOwner(user.getId()).count();
+  ToolbarEntry casesEntry=addToolbarEntry(ENTRY_CASES,i18nManager.getMessage(Messages.TASK_MENU_CASES),new ToolbarCommand(){
+    public void toolBarItemSelected(){
+      viewManager.showCasesPage();
+    }
+  }
+);
+  casesEntry.setCount(casesCount);
   long inboxCount=taskService.createTaskQuery().taskAssignee(user.getId()).count();
   ToolbarEntry inboxEntry=addToolbarEntry(ENTRY_INBOX,i18nManager.getMessage(Messages.TASK_MENU_INBOX),new ToolbarCommand(){
     public void toolBarItemSelected(){
-      viewManager.showTaskInboxPage();
+      viewManager.showInboxPage();
     }
   }
 );
@@ -17,7 +25,7 @@
       long groupCount=taskService.createTaskQuery().taskCandidateGroup(group.getId()).count();
       queuedItem.addMenuItem(group.getName() + " (" + groupCount+ ")",new ToolbarCommand(){
         public void toolBarItemSelected(){
-          viewManager.showTaskQueuedPage(group.getId());
+          viewManager.showQueuedPage(group.getId());
         }
       }
 );
@@ -25,4 +33,12 @@
     }
   }
   queuedItem.setCount(queuedCount);
+  long involvedCount=taskService.createTaskQuery().taskInvolvedUser(user.getId()).count();
+  ToolbarEntry involvedEntry=addToolbarEntry(ENTRY_INVOLVED,i18nManager.getMessage(Messages.TASK_MENU_INVOLVED),new ToolbarCommand(){
+    public void toolBarItemSelected(){
+      viewManager.showInvolvedPage();
+    }
+  }
+);
+  involvedEntry.setCount(involvedCount);
 }
