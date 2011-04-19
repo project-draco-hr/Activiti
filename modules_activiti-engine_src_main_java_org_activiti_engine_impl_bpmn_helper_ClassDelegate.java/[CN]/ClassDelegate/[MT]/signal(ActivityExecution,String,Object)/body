@@ -1,0 +1,11 @@
+{
+  if (activityBehaviorInstance == null) {
+    activityBehaviorInstance=getActivityBehaviorInstance(execution);
+  }
+  if (activityBehaviorInstance instanceof SignallableActivityBehavior) {
+    ((SignallableActivityBehavior)activityBehaviorInstance).signal(execution,signalName,signalData);
+  }
+ else {
+    throw new ActivitiException("signal() can only be called on a " + SignallableActivityBehavior.class.getName() + " instance");
+  }
+}
