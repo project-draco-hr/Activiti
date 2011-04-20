@@ -1,4 +1,9 @@
 {
-  involvedPeople.refreshAssignee();
-  taskPage.getTaskEventPanel().refreshTaskEvents();
+  if (ExplorerApp.get().getLoggedInUser().getId().equals(task.getAssignee())) {
+    viewManager.showInboxPage(task.getId());
+  }
+ else {
+    involvedPeople.refreshAssignee();
+    taskPage.getTaskEventPanel().refreshTaskEvents();
+  }
 }

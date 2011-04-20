@@ -1,13 +1,17 @@
 {
+  HorizontalLayout searchLayout=new HorizontalLayout();
+  searchLayout.setSpacing(true);
+  addComponent(searchLayout);
   searchField=new TextField();
   searchField.setInputPrompt(i18nManager.getMessage(Messages.PEOPLE_SEARCH));
-  searchField.setWidth(250,UNITS_PIXELS);
+  searchField.setWidth(180,UNITS_PIXELS);
   searchField.focus();
-  addComponent(searchField);
+  searchLayout.addComponent(searchField);
   searchField.addListener(new TextChangeListener(){
     public void textChange(    TextChangeEvent event){
       searchPeople(event.getText());
     }
   }
 );
+  initSelectMyselfButton(searchLayout);
 }

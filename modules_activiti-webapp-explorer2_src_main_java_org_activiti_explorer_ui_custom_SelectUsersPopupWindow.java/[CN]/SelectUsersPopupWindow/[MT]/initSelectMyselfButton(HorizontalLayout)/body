@@ -1,0 +1,28 @@
+{
+  final LoggedInUser loggedInUser=ExplorerApp.get().getLoggedInUser();
+  if (ignoredUserIds == null || !ignoredUserIds.contains(loggedInUser.getId())) {
+    Button meButton=new Button(i18nManager.getMessage(Messages.PEOPLE_SELECT_MYSELF));
+    meButton.setIcon(Images.USER);
+    searchLayout.addComponent(meButton);
+    searchLayout.setComponentAlignment(meButton,Alignment.MIDDLE_LEFT);
+    if (multiSelect) {
+      meButton.addListener(new ClickListener(){
+        public void buttonClick(        ClickEvent event){
+          selectUser(loggedInUser.getId(),loggedInUser.getFullName());
+        }
+      }
+);
+    }
+ else {
+      meButton.addListener(new ClickListener(){
+        public void buttonClick(        ClickEvent event){
+          addMatchingUser(loggedInUser.getId(),loggedInUser.getFullName());
+          matchingUsersTable.select(loggedInUser.getId());
+          fireEvent(new SubmitEvent(doneButton,SubmitEvent.SUBMITTED));
+          close();
+        }
+      }
+);
+    }
+  }
+}

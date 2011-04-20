@@ -1,8 +1,13 @@
 {
-  final SelectUsersPopupWindow involvePeoplePopupWindow=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.TASK_ASSIGNEE_REASSIGN),false);
+  List<String> ignoredIds=null;
+  if (task.getAssignee() != null) {
+    ignoredIds=Arrays.asList(task.getAssignee());
+  }
+  final SelectUsersPopupWindow involvePeoplePopupWindow=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.TASK_ASSIGNEE_REASSIGN),false,ignoredIds);
   involvePeoplePopupWindow.addListener(new SubmitEventListener(){
     protected void submitted(    SubmitEvent event){
       String selectedUser=involvePeoplePopupWindow.getSelectedUserId();
+      task.setAssignee(selectedUser);
       ProcessEngines.getDefaultProcessEngine().getTaskService().setAssignee(task.getId(),selectedUser);
       taskDetailPanel.notifyAssigneeChanged();
     }

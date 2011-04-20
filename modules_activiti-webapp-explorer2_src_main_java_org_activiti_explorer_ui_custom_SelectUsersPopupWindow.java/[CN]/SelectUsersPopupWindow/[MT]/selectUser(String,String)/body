@@ -1,10 +1,12 @@
 {
-  Item item=selectedUsersTable.addItem(userId);
-  item.getItemProperty("userName").setValue(userName);
-  if (showRoles) {
-    ComboBox comboBox=new ComboBox(null,Arrays.asList(i18nManager.getMessage(Messages.TASK_ROLE_CONTRIBUTOR),i18nManager.getMessage(Messages.TASK_ROLE_IMPLEMENTER),i18nManager.getMessage(Messages.TASK_ROLE_MANAGER),i18nManager.getMessage(Messages.TASK_ROLE_SPONSOR)));
-    comboBox.select(i18nManager.getMessage(Messages.TASK_ROLE_CONTRIBUTOR));
-    comboBox.setNewItemsAllowed(true);
-    item.getItemProperty("role").setValue(comboBox);
+  if (!selectedUsersTable.containsId(userId)) {
+    Item item=selectedUsersTable.addItem(userId);
+    item.getItemProperty("userName").setValue(userName);
+    if (showRoles) {
+      ComboBox comboBox=new ComboBox(null,Arrays.asList(i18nManager.getMessage(Messages.TASK_ROLE_CONTRIBUTOR),i18nManager.getMessage(Messages.TASK_ROLE_IMPLEMENTER),i18nManager.getMessage(Messages.TASK_ROLE_MANAGER),i18nManager.getMessage(Messages.TASK_ROLE_SPONSOR)));
+      comboBox.select(i18nManager.getMessage(Messages.TASK_ROLE_CONTRIBUTOR));
+      comboBox.setNewItemsAllowed(true);
+      item.getItemProperty("role").setValue(comboBox);
+    }
   }
 }

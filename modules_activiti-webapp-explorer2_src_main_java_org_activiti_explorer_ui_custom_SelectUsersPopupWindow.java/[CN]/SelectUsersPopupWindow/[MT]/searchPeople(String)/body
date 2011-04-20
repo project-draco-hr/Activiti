@@ -5,8 +5,7 @@
     for (    User user : results) {
       if (!multiSelect || !selectedUsersTable.containsId(user.getId())) {
         if (ignoredUserIds == null || !ignoredUserIds.contains(user.getId())) {
-          Item item=matchingUsersTable.addItem(user.getId());
-          item.getItemProperty("userName").setValue(user.getFirstName() + " " + user.getLastName());
+          addMatchingUser(user.getId(),user.getFirstName() + " " + user.getLastName());
         }
       }
     }

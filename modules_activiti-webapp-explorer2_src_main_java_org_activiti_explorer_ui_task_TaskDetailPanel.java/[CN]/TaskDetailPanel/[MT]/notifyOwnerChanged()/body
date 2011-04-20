@@ -1,4 +1,9 @@
 {
-  involvedPeople.refreshOwner();
-  taskPage.getTaskEventPanel().refreshTaskEvents();
+  if (ExplorerApp.get().getLoggedInUser().getId().equals(task.getOwner())) {
+    viewManager.showCasesPage(task.getId());
+  }
+ else {
+    involvedPeople.refreshOwner();
+    taskPage.getTaskEventPanel().refreshTaskEvents();
+  }
 }

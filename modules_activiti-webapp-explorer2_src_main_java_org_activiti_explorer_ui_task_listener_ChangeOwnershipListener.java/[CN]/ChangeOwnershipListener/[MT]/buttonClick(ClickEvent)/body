@@ -1,5 +1,9 @@
 {
-  final SelectUsersPopupWindow involvePeoplePopupWindow=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.TASK_OWNER_TRANSFER),false);
+  List<String> ignoredIds=null;
+  if (task.getOwner() != null) {
+    ignoredIds=Arrays.asList(task.getOwner());
+  }
+  final SelectUsersPopupWindow involvePeoplePopupWindow=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.TASK_OWNER_TRANSFER),false,ignoredIds);
   involvePeoplePopupWindow.addListener(new SubmitEventListener(){
     protected void submitted(    SubmitEvent event){
       String selectedUser=involvePeoplePopupWindow.getSelectedUserId();
