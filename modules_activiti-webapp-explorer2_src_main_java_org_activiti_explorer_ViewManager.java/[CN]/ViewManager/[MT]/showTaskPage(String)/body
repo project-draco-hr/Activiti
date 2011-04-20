@@ -1,0 +1,16 @@
+{
+  Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
+  String loggedInUserId=ExplorerApp.get().getLoggedInUser().getId();
+  if (loggedInUserId.equals(task.getOwner())) {
+    showCasesPage(taskId);
+  }
+ else   if (loggedInUserId.equals(task.getAssignee())) {
+    showInboxPage(taskId);
+  }
+ else   if (taskService.createTaskQuery().taskInvolvedUser(loggedInUserId).count() == 1) {
+    showInvolvedPage(taskId);
+  }
+ else {
+    ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.NAVIGATION_ERROR_NOT_INVOLVED_TITLE,ExplorerApp.get().getI18nManager().getMessage(Messages.NAVIGATION_ERROR_NOT_INVOLVED,taskId));
+  }
+}
