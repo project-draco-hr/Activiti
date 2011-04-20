@@ -1,0 +1,18 @@
+{
+  ViewManager viewManager=ExplorerApp.get().getViewManager();
+  if (CATEGORY_CASES.equals(category)) {
+    viewManager.showCasesPage();
+  }
+ else   if (CATEGORY_INBOX.equals(category)) {
+    viewManager.showInboxPage();
+  }
+ else   if (CATEGORY_QUEUED.equals(category)) {
+    viewManager.showQueuedPage(uriFragment.getParameter(PARAMETER_GROUP));
+  }
+ else   if (CATEGORY_INVOLVED.equals(category)) {
+    viewManager.showInvolvedPage();
+  }
+ else {
+    throw new ActivitiException("Couldn't find a matching category");
+  }
+}

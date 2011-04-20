@@ -1,0 +1,32 @@
+{
+  if (loggedInUserId.equals(task.getOwner())) {
+    viewManager.showCasesPage(task.getId());
+  }
+ else   if (loggedInUserId.equals(task.getAssignee())) {
+    viewManager.showInboxPage(task.getId());
+  }
+ else {
+    boolean pageFound=false;
+    boolean userInvolved=taskService.createTaskQuery().taskInvolvedUser(loggedInUserId).count() == 1;
+    if (userInvolved) {
+      viewManager.showInvolvedPage(task.getId());
+      pageFound=true;
+    }
+ else {
+      List<String> groupIds=getGroupIds(loggedInUserId);
+      List<IdentityLink> identityLinks=taskService.getIdentityLinksForTask(task.getId());
+      Iterator<IdentityLink> identityLinkIterator=identityLinks.iterator();
+      while (!pageFound && identityLinkIterator.hasNext()) {
+        IdentityLink identityLink=identityLinkIterator.next();
+        if (identityLink.getGroupId() != null && groupIds.contains(identityLink.getGroupId())) {
+          viewManager.showQueuedPage(identityLink.getGroupId(),task.getId());
+          pageFound=true;
+        }
+      }
+    }
+    if (!pageFound) {
+      String description=ExplorerApp.get().getI18nManager().getMessage(Messages.NAVIGATION_ERROR_NOT_INVOLVED,task.getId());
+      ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.NAVIGATION_ERROR_NOT_INVOLVED_TITLE,description);
+    }
+  }
+}

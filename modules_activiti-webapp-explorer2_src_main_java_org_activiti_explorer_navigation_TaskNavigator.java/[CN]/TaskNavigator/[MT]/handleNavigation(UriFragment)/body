@@ -1,10 +1,11 @@
 {
   String category=uriFragment.getParameter(PARAMETER_CATEGORY);
   String taskId=uriFragment.getUriPart(1);
-  if (CATEGORY_QUEUED.equals(category)) {
-    showQueuedTasks(taskId,uriFragment);
+  if (taskId == null) {
+    directToCategoryPage(category,uriFragment);
   }
  else {
-    showInbox(taskId,uriFragment);
+    Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    directToSpecificTaskPage(category,task,uriFragment);
   }
 }
