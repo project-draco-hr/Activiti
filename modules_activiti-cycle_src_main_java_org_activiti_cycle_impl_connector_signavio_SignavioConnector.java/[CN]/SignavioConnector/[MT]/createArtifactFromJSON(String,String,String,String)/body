@@ -29,7 +29,7 @@
     Request jsonRequest=new Request(Method.POST,new Reference(getConfiguration().getModelRootUrl()),modelRep);
     jsonRequest.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.APPLICATION_JSON));
     sendRequest(jsonRequest);
-    return getRepositoryArtifact(id);
+    return getRepositoryArtifact("/" + id);
   }
  catch (  Exception je) {
     throw new RepositoryException("Unable to create model '" + artifactName + "' in parent folder '"+ parentFolderId+ "'",je);
