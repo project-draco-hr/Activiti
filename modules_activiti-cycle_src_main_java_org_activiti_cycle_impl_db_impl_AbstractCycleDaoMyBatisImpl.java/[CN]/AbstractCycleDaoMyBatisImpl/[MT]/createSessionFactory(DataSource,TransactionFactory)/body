@@ -1,14 +1,11 @@
 {
   InputStream inputStream=null;
   try {
-    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
-    inputStream=classLoader.getResourceAsStream("org/activiti/db/cycle/ibatis/activiti.ibatis.mem.conf.xml");
+    inputStream=ReflectUtil.getResourceAsStream("org/activiti/db/cycle/ibatis/activiti.ibatis.mem.conf.xml");
     Environment environment=new Environment("default",transactionFactory,dataSource);
-    Reader reader=new InputStreamReader(inputStream);
-    XMLConfigBuilder parser=new XMLConfigBuilder(reader);
+    XMLConfigBuilder parser=new XMLConfigBuilder(inputStream);
     Configuration configuration=parser.getConfiguration();
     configuration.setEnvironment(environment);
-    configuration.getTypeHandlerRegistry().register(VariableType.class,JdbcType.VARCHAR,new IbatisVariableTypeHandler());
     configuration=parser.parse();
     return new DefaultSqlSessionFactory(configuration);
   }
