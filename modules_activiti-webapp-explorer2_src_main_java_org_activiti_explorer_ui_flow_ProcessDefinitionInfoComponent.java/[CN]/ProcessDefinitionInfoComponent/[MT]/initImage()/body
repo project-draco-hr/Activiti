@@ -1,7 +1,7 @@
 {
   VerticalLayout processImageContainer=new VerticalLayout();
   Label processTitle=new Label(i18nManager.getMessage(Messages.FLOW_HEADER_DIAGRAM));
-  processTitle.addStyleName(ExplorerLayout.STYLE_PROCESS_DEFINITION_DETAILS_HEADER);
+  processTitle.addStyleName(ExplorerLayout.STYLE_H3);
   processImageContainer.addComponent(processTitle);
   if (processDefinition.getDiagramResourceName() != null) {
     StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processDefinition,repositoryService);
@@ -11,7 +11,6 @@
   }
  else {
     Label noImageAvailable=new Label(i18nManager.getMessage(Messages.FLOW_NO_DIAGRAM));
-    noImageAvailable.addStyleName(Reindeer.LABEL_SMALL);
     processImageContainer.addComponent(noImageAvailable);
   }
   addComponent(processImageContainer);

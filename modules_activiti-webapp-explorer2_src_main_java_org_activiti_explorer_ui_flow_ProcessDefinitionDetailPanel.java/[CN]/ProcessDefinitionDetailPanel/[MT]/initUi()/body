@@ -1,15 +1,15 @@
 {
   setSizeFull();
   addStyleName(Reindeer.LAYOUT_WHITE);
-  if (processDefinition != null) {
-    deployment=repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
-  }
-  initName();
-  initCategory();
-  initActions();
+  verticalLayout=new VerticalLayout();
+  verticalLayout.setWidth(100,UNITS_PERCENTAGE);
+  verticalLayout.setMargin(true);
+  setDetailContent(verticalLayout);
+  initHeader();
   detailContainer=new HorizontalLayout();
   detailContainer.addStyleName(Reindeer.PANEL_LIGHT);
-  addComponent(detailContainer);
+  verticalLayout.addComponent(detailContainer);
   detailContainer.setSizeFull();
+  initActions();
   showProcessDefinitionInfo();
 }
