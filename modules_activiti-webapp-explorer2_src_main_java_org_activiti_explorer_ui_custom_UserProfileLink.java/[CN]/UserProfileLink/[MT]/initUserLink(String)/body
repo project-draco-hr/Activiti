@@ -1,0 +1,14 @@
+{
+  User user=userCache.findUser(userId);
+  Button userButton=new Button(user.getFirstName() + " " + user.getLastName());
+  ClickListener buttonClickListener=new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      viewManager.showProfilePopup(userId);
+    }
+  }
+;
+  userButton.addStyleName(Reindeer.BUTTON_LINK);
+  userButton.addListener(buttonClickListener);
+  addComponent(userButton);
+  setComponentAlignment(userButton,Alignment.MIDDLE_LEFT);
+}

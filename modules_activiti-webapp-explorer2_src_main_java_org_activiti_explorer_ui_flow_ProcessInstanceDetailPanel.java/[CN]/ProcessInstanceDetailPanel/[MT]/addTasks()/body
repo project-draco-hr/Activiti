@@ -13,7 +13,7 @@
   List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByHistoricActivityInstanceStartTime().desc().list();
   if (tasks.size() > 0) {
     taskTable.addContainerProperty("finished",Component.class,null,"",null,Table.ALIGN_CENTER);
-    taskTable.setColumnWidth("finished",16);
+    taskTable.setColumnWidth("finished",22);
     taskTable.addContainerProperty("name",String.class,null,i18nManager.getMessage(Messages.TASK_NAME),null,Table.ALIGN_LEFT);
     taskTable.addContainerProperty("priority",Integer.class,null,i18nManager.getMessage(Messages.TASK_PRIORITY),null,Table.ALIGN_LEFT);
     taskTable.addContainerProperty("assignee",Component.class,null,i18nManager.getMessage(Messages.TASK_ASSIGNEE),null,Table.ALIGN_LEFT);
