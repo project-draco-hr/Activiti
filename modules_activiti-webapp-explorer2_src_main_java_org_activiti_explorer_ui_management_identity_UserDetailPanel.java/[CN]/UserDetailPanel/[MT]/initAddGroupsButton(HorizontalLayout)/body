@@ -1,12 +1,14 @@
 {
-  Embedded addButton=new Embedded(null,Images.ADD);
-  addButton.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
-  groupHeader.addComponent(addButton);
-  groupHeader.setComponentAlignment(addButton,Alignment.MIDDLE_LEFT);
-  addButton.addListener(new com.vaadin.event.MouseEvents.ClickListener(){
-    public void click(    com.vaadin.event.MouseEvents.ClickEvent event){
+  Button addRelatedContentButton=new Button();
+  addRelatedContentButton.addStyleName(ExplorerLayout.STYLE_ADD);
+  groupHeader.addComponent(addRelatedContentButton);
+  groupHeader.setComponentAlignment(addRelatedContentButton,Alignment.MIDDLE_RIGHT);
+  addRelatedContentButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
       final GroupSelectionPopupWindow selectionPopup=new GroupSelectionPopupWindow(identityService,user.getId());
       selectionPopup.addListener(new SubmitEventListener(){
+        private static final long serialVersionUID=1L;
         protected void submitted(        SubmitEvent event){
           Set<String> selectedGroups=selectionPopup.getSelectedGroupIds();
           if (selectedGroups.size() > 0) {

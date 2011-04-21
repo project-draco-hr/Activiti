@@ -4,17 +4,18 @@
     groupTable=new Table();
     groupTable.setSortDisabled(true);
     groupTable.setHeight(150,UNITS_PIXELS);
+    groupTable.setWidth(100,UNITS_PERCENTAGE);
     groupLayout.addComponent(groupTable);
     groupContainer=new LazyLoadingContainer(groupsForUserQuery,10);
     groupTable.setContainerDataSource(groupContainer);
     groupTable.addContainerProperty("id",Button.class,null);
-    groupTable.setColumnWidth("id",100);
+    groupTable.setColumnExpandRatio("id",22);
     groupTable.addContainerProperty("name",String.class,null);
-    groupTable.setColumnWidth("name",175);
+    groupTable.setColumnExpandRatio("name",45);
     groupTable.addContainerProperty("type",String.class,null);
-    groupTable.setColumnWidth("type",100);
+    groupTable.setColumnExpandRatio("type",22);
     groupTable.addContainerProperty("actions",Component.class,null);
-    groupTable.setColumnWidth("actions",50);
+    groupTable.setColumnExpandRatio("actions",11);
     groupTable.setColumnAlignment("actions",Table.ALIGN_CENTER);
   }
  else {

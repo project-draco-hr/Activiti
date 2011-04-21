@@ -1,10 +1,10 @@
 {
-  Embedded addButton=new Embedded(null,Images.ADD);
-  addButton.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+  Button addButton=new Button();
+  addButton.addStyleName(ExplorerLayout.STYLE_ADD);
   membersHeader.addComponent(addButton);
-  membersHeader.setComponentAlignment(addButton,Alignment.MIDDLE_LEFT);
-  addButton.addListener(new com.vaadin.event.MouseEvents.ClickListener(){
-    public void click(    com.vaadin.event.MouseEvents.ClickEvent event){
+  membersHeader.setComponentAlignment(addButton,Alignment.MIDDLE_RIGHT);
+  addButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
       final SelectUsersPopupWindow selectUsersPopup=new SelectUsersPopupWindow(i18nManager.getMessage(Messages.GROUP_SELECT_MEMBERS,group.getId()),true,false,getCurrentMembers());
       ExplorerApp.get().getViewManager().showPopupWindow(selectUsersPopup);
       selectUsersPopup.addListener(new SubmitEventListener(){

@@ -1,0 +1,14 @@
+{
+  Button createUserButton=new Button(i18nManager.getMessage(Messages.USER_CREATE));
+  createUserButton.setIcon(Images.USER_16);
+  createUserButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      NewUserPopupWindow newUserPopupWindow=new NewUserPopupWindow();
+      ExplorerApp.get().getViewManager().showPopupWindow(newUserPopupWindow);
+    }
+  }
+);
+  userPage.getToolBar().removeAllButtons();
+  userPage.getToolBar().addButton(createUserButton);
+}

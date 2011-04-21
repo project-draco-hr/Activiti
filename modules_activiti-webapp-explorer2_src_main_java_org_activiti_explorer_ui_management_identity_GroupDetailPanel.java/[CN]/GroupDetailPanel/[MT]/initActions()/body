@@ -1,0 +1,13 @@
+{
+  Button createGroupButton=new Button(i18nManager.getMessage(Messages.GROUP_CREATE));
+  createGroupButton.setIcon(Images.GROUP_16);
+  createGroupButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      NewGroupPopupWindow popup=new NewGroupPopupWindow();
+      ExplorerApp.get().getViewManager().showPopupWindow(popup);
+    }
+  }
+);
+  groupPage.getToolBar().removeAllButtons();
+  groupPage.getToolBar().addButton(createGroupButton);
+}
