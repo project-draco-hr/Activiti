@@ -1,0 +1,31 @@
+{
+  if (subTasks.size() > 0) {
+    for (    final Task subTask : subTasks) {
+      Embedded icon=new Embedded(null,Images.TASK);
+      icon.setWidth(22,UNITS_PIXELS);
+      icon.setWidth(22,UNITS_PIXELS);
+      subTaskLayout.addComponent(icon);
+      Button subTaskLink=new Button(subTask.getName());
+      subTaskLink.addStyleName(Reindeer.BUTTON_LINK);
+      subTaskLink.addListener(new ClickListener(){
+        public void buttonClick(        ClickEvent event){
+          ExplorerApp.get().getViewManager().showTaskPage(subTask.getId());
+        }
+      }
+);
+      subTaskLayout.addComponent(subTaskLink);
+      subTaskLayout.setComponentAlignment(subTaskLink,Alignment.MIDDLE_LEFT);
+      Embedded deleteIcon=new Embedded(null,Images.DELETE);
+      deleteIcon.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+      deleteIcon.addListener(new DeleteSubTaskClickListener(subTask,this));
+      subTaskLayout.addComponent(deleteIcon);
+      subTaskLayout.setComponentAlignment(deleteIcon,Alignment.MIDDLE_RIGHT);
+    }
+  }
+ else {
+    Label noSubTasksLabel=new Label(i18nManager.getMessage(Messages.TASK_NO_SUBTASKS));
+    noSubTasksLabel.setSizeUndefined();
+    noSubTasksLabel.addStyleName(Reindeer.LABEL_SMALL);
+    subTaskLayout.addComponent(noSubTasksLabel);
+  }
+}

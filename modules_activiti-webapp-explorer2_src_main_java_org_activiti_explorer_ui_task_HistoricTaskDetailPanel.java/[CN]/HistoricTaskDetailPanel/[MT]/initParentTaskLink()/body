@@ -1,0 +1,14 @@
+{
+  if (historicTask.getParentTaskId() != null) {
+    final HistoricTaskInstance parentTask=historyService.createHistoricTaskInstanceQuery().taskParentTaskId(historicTask.getParentTaskId()).singleResult();
+    Button showParentTaskButton=new Button(i18nManager.getMessage(Messages.TASK_SUBTASK_OF_PARENT_TASK,parentTask.getName()));
+    showParentTaskButton.addStyleName(Reindeer.BUTTON_LINK);
+    showParentTaskButton.addListener(new ClickListener(){
+      public void buttonClick(      ClickEvent event){
+        viewManager.showTaskPage(parentTask.getId());
+      }
+    }
+);
+    centralLayout.addComponent(showParentTaskButton);
+  }
+}

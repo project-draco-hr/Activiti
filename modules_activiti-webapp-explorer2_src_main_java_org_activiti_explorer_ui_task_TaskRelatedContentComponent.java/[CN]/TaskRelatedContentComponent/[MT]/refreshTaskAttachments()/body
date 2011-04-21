@@ -1,7 +1,16 @@
 {
-  if (table.size() > 0) {
-    table.removeAllItems();
+  table.removeAllItems();
+  if (noContentLabel != null) {
+    contentLayout.removeComponent(noContentLabel);
   }
   List<Attachment> attachments=taskService.getTaskAttachments(task.getId());
-  addAttachmentsToTable(attachments);
+  if (attachments.size() > 0) {
+    addAttachmentsToTable(attachments);
+  }
+ else {
+    table.setVisible(false);
+    noContentLabel=new Label(i18nManager.getMessage(Messages.TASK_NO_RELATED_CONTENT));
+    noContentLabel.addStyleName(Reindeer.LABEL_SMALL);
+    contentLayout.addComponent(noContentLabel);
+  }
 }

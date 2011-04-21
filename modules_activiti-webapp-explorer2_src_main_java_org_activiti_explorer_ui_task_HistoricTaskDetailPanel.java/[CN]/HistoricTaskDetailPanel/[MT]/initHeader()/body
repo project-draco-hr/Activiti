@@ -1,0 +1,45 @@
+{
+  GridLayout taskDetails=new GridLayout(5,2);
+  taskDetails.setWidth(100,UNITS_PERCENTAGE);
+  taskDetails.addStyleName(ExplorerLayout.STYLE_TITLE_BLOCK);
+  taskDetails.setSpacing(true);
+  taskDetails.setMargin(false,false,true,false);
+  Embedded image=new Embedded(null,Images.TASK_50);
+  taskDetails.addComponent(image,0,0,0,1);
+  Label nameLabel=new Label(historicTask.getName());
+  nameLabel.addStyleName(Reindeer.LABEL_H2);
+  taskDetails.addComponent(nameLabel,1,0,4,0);
+  PrettyTimeLabel dueDateLabel=new PrettyTimeLabel(i18nManager.getMessage(Messages.TASK_DUEDATE_SHORT),historicTask.getDueDate(),i18nManager.getMessage(Messages.TASK_DUEDATE_UNKNOWN));
+  dueDateLabel.addStyleName(ExplorerLayout.STYLE_TASK_HEADER_DUEDATE);
+  taskDetails.addComponent(dueDateLabel,1,1);
+  Integer lowMedHighPriority=convertPriority(historicTask.getPriority());
+  Label priorityLabel=new Label();
+switch (lowMedHighPriority) {
+case 1:
+    priorityLabel.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_LOW));
+  priorityLabel.addStyleName(ExplorerLayout.STYLE_TASK_HEADER_PRIORITY_LOW);
+break;
+case 2:
+priorityLabel.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_MEDIUM));
+priorityLabel.addStyleName(ExplorerLayout.STYLE_TASK_HEADER_PRIORITY_MEDIUM);
+break;
+case 3:
+default :
+priorityLabel.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_HIGH));
+priorityLabel.addStyleName(ExplorerLayout.STYLE_TASK_HEADER_PRIORITY_HIGH);
+}
+taskDetails.addComponent(priorityLabel,2,1);
+PrettyTimeLabel createLabel=new PrettyTimeLabel(i18nManager.getMessage(Messages.TASK_CREATED_SHORT),historicTask.getStartTime(),"");
+createLabel.addStyleName(ExplorerLayout.STYLE_TASK_HEADER_CREATE_TIME);
+taskDetails.addComponent(createLabel,3,1);
+Label spacer=new Label();
+spacer.setContentMode(Label.CONTENT_XHTML);
+spacer.setValue("&nbsp;");
+spacer.setSizeUndefined();
+taskDetails.addComponent(spacer);
+taskDetails.setColumnExpandRatio(1,1.0f);
+taskDetails.setColumnExpandRatio(2,1.0f);
+taskDetails.setColumnExpandRatio(3,1.0f);
+taskDetails.setColumnExpandRatio(4,1.0f);
+centralLayout.addComponent(taskDetails);
+}

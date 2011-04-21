@@ -1,0 +1,18 @@
+{
+  for (  final HistoricTaskInstance subTask : subTasks) {
+    Embedded icon=new Embedded(null,Images.TASK);
+    icon.setWidth(22,UNITS_PIXELS);
+    icon.setWidth(22,UNITS_PIXELS);
+    subTaskGrid.addComponent(icon);
+    Button subTaskLink=new Button(subTask.getName());
+    subTaskLink.addStyleName(Reindeer.BUTTON_LINK);
+    subTaskLink.addListener(new ClickListener(){
+      public void buttonClick(      ClickEvent event){
+        ExplorerApp.get().getViewManager().showTaskPage(subTask.getId());
+      }
+    }
+);
+    subTaskGrid.addComponent(subTaskLink);
+    subTaskGrid.setComponentAlignment(subTaskLink,Alignment.MIDDLE_LEFT);
+  }
+}

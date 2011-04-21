@@ -1,0 +1,5 @@
+{
+  HistoryService historyService=ProcessEngines.getDefaultProcessEngine().getHistoryService();
+  HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().taskId(id).singleResult();
+  return new HistoricTaskDetailPanel(historicTaskInstance,this);
+}

@@ -7,6 +7,12 @@
     data.setEditable(false);
     data.setSelectable(true);
     data.setColumnReorderingAllowed(true);
+    if (lazyLoadingQuery.size() < 10) {
+      data.setPageLength(0);
+    }
+ else {
+      data.setPageLength(10);
+    }
     addDetailComponent(data);
     data.setWidth(100,UNITS_PERCENTAGE);
     data.setHeight(100,UNITS_PERCENTAGE);

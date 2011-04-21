@@ -1,0 +1,11 @@
+{
+  subTasksLayout=new VerticalLayout();
+  subTasksLayout.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  addComponent(subTasksLayout);
+  initSubTaskTitle();
+  List<HistoricTaskInstance> subTasks=historyService.createHistoricTaskInstanceQuery().taskParentTaskId(historicTask.getId()).list();
+  if (subTasks.size() > 0) {
+    initSubTaskGrid();
+    populateSubTasks(subTasks);
+  }
+}

@@ -15,8 +15,10 @@
   detailsLayout.addComponent(actionsLayout);
   Label roleLabel=new Label(role);
   actionsLayout.addComponent(roleLabel);
-  Button button=new Button(buttonCaption);
-  button.addStyleName(Reindeer.BUTTON_SMALL);
-  button.addListener(clickListener);
-  actionsLayout.addComponent(button);
+  if (clickListener != null) {
+    Button button=new Button(buttonCaption);
+    button.addStyleName(Reindeer.BUTTON_SMALL);
+    button.addListener(clickListener);
+    actionsLayout.addComponent(button);
+  }
 }

@@ -1,7 +1,7 @@
 {
   setWidth("100%");
   LoggedInUser user=ExplorerApp.get().getLoggedInUser();
-  long casesCount=taskService.createTaskQuery().taskOwner(user.getId()).count();
+  long casesCount=new CasesListQuery().size();
   ToolbarEntry casesEntry=addToolbarEntry(ENTRY_CASES,i18nManager.getMessage(Messages.TASK_MENU_CASES),new ToolbarCommand(){
     public void toolBarItemSelected(){
       viewManager.showCasesPage();
@@ -9,7 +9,7 @@
   }
 );
   casesEntry.setCount(casesCount);
-  long inboxCount=taskService.createTaskQuery().taskAssignee(user.getId()).count();
+  long inboxCount=new InboxListQuery().size();
   ToolbarEntry inboxEntry=addToolbarEntry(ENTRY_INBOX,i18nManager.getMessage(Messages.TASK_MENU_INBOX),new ToolbarCommand(){
     public void toolBarItemSelected(){
       viewManager.showInboxPage();
@@ -22,7 +22,7 @@
   long queuedCount=0;
   for (  final Group group : groups) {
     if (group.getType().equals("assignment")) {
-      long groupCount=taskService.createTaskQuery().taskCandidateGroup(group.getId()).count();
+      long groupCount=new QueuedListQuery(group.getId()).size();
       queuedItem.addMenuItem(group.getName() + " (" + groupCount+ ")",new ToolbarCommand(){
         public void toolBarItemSelected(){
           viewManager.showQueuedPage(group.getId());
@@ -33,7 +33,7 @@
     }
   }
   queuedItem.setCount(queuedCount);
-  long involvedCount=taskService.createTaskQuery().taskInvolvedUser(user.getId()).count();
+  long involvedCount=new InvolvedListQuery().size();
   ToolbarEntry involvedEntry=addToolbarEntry(ENTRY_INVOLVED,i18nManager.getMessage(Messages.TASK_MENU_INVOLVED),new ToolbarCommand(){
     public void toolBarItemSelected(){
       viewManager.showInvolvedPage();
@@ -41,4 +41,12 @@
   }
 );
   involvedEntry.setCount(involvedCount);
+  long archivedCount=new ArchivedListQuery().size();
+  ToolbarEntry archivedEntry=addToolbarEntry(ENTRY_ARCHIVED,i18nManager.getMessage(Messages.TASK_MENU_ARCHIVED),new ToolbarCommand(){
+    public void toolBarItemSelected(){
+      viewManager.showArchivedPage();
+    }
+  }
+);
+  archivedEntry.setCount(archivedCount);
 }

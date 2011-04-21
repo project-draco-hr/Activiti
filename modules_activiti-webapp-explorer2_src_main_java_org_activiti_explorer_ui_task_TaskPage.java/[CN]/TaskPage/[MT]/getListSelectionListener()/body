@@ -1,0 +1,19 @@
+{
+  return new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=taskTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String id=(String)item.getItemProperty("id").getValue();
+        setDetailComponent(createDetailComponent(id));
+        UriFragment taskFragment=getUriFragment(id);
+        ExplorerApp.get().setCurrentUriFragment(taskFragment);
+      }
+ else {
+        setDetailComponent(null);
+        ExplorerApp.get().setCurrentUriFragment(getUriFragment(null));
+      }
+    }
+  }
+;
+}

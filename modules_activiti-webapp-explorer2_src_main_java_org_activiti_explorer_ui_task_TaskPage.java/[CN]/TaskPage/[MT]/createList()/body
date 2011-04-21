@@ -1,26 +1,8 @@
 {
-  final Table taskTable=new Table();
+  taskTable=new Table();
   taskTable.addStyleName(ExplorerLayout.STYLE_TASK_LIST);
   taskTable.addStyleName(ExplorerLayout.STYLE_SCROLLABLE);
-  taskTable.addListener(new Property.ValueChangeListener(){
-    private static final long serialVersionUID=8811553575319455854L;
-    public void valueChange(    ValueChangeEvent event){
-      Item item=taskTable.getItem(event.getProperty().getValue());
-      if (item != null) {
-        String taskId=(String)item.getItemProperty("id").getValue();
-        Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
-        setDetailComponent(new TaskDetailPanel(task,TaskPage.this));
-        taskEventPanel.setTask(task);
-        UriFragment taskFragment=getUriFragment(taskId);
-        ExplorerApp.get().setCurrentUriFragment(taskFragment);
-      }
- else {
-        setDetailComponent(null);
-        ExplorerApp.get().setCurrentUriFragment(getUriFragment(null));
-      }
-    }
-  }
-);
+  taskTable.addListener(getListSelectionListener());
   this.lazyLoadingQuery=createLazyLoadingQuery();
   this.taskListContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
   taskTable.setContainerDataSource(taskListContainer);

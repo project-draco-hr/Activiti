@@ -1,0 +1,16 @@
+{
+  for (  Attachment attachment : attachments) {
+    AttachmentRenderer renderer=attachmentRendererManager.getRenderer(attachment);
+    Item attachmentItem=table.addItem(attachment.getId());
+    RelatedContentComponent relatedContentComponent=new RelatedContentComponent(){
+      public void showAttachmentDetail(      Attachment attachment){
+        AttachmentDetailPopupWindow popup=new AttachmentDetailPopupWindow(attachment);
+        ExplorerApp.get().getViewManager().showPopupWindow(popup);
+      }
+    }
+;
+    attachmentItem.getItemProperty("name").setValue(renderer.getOverviewComponent(attachment,relatedContentComponent));
+    attachmentItem.getItemProperty("type").setValue(new Embedded(null,renderer.getImage(attachment)));
+  }
+  table.setPageLength(table.size());
+}

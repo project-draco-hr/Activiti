@@ -1,13 +1,5 @@
 {
-  this.role=role;
+  this(userId,role);
   this.buttonCaption=buttonCaption;
   this.clickListener=clickListener;
-  identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
-  viewManager=ExplorerApp.get().getViewManager();
-  if (userId != null) {
-    user=identityService.createUserQuery().userId(userId).singleResult();
-  }
-  setSpacing(true);
-  addUserPicture();
-  addUserDetails();
 }

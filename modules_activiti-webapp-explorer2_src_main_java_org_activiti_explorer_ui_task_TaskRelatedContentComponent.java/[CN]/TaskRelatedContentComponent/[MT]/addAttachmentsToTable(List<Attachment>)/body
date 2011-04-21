@@ -5,6 +5,7 @@
     attachmentItem.getItemProperty("name").setValue(renderer.getOverviewComponent(attachment,this));
     attachmentItem.getItemProperty("type").setValue(new Embedded(null,renderer.getImage(attachment)));
     Embedded deleteButton=new Embedded(null,Images.DELETE);
+    deleteButton.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
     deleteButton.addListener((ClickListener)new DeleteClickedListener(attachment));
     attachmentItem.getItemProperty("delete").setValue(deleteButton);
   }
