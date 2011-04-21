@@ -20,6 +20,19 @@
     showInvolvedPage(taskId);
   }
  else {
-    showNavigationError(taskId);
+    List<String> groupIds=getGroupIds(loggedInUserId);
+    List<IdentityLink> identityLinks=taskService.getIdentityLinksForTask(task.getId());
+    Iterator<IdentityLink> identityLinkIterator=identityLinks.iterator();
+    boolean pageFound=false;
+    while (!pageFound && identityLinkIterator.hasNext()) {
+      IdentityLink identityLink=identityLinkIterator.next();
+      if (identityLink.getGroupId() != null && groupIds.contains(identityLink.getGroupId())) {
+        showQueuedPage(identityLink.getGroupId(),task.getId());
+        pageFound=true;
+      }
+    }
+    if (!pageFound) {
+      showNavigationError(taskId);
+    }
   }
 }
