@@ -1,17 +1,8 @@
 {
-  HorizontalLayout layout=new HorizontalLayout();
-  layout.setSpacing(true);
-  addComponent(layout);
-  Label nameLabel=new Label(getJobLabel(job));
-  nameLabel.addStyleName(Reindeer.LABEL_H1);
-  layout.addComponent(nameLabel);
   Button executeButton=new Button(i18nManager.getMessage(Messages.JOB_EXECUTE));
   executeButton.setIcon(Images.EXECUTE);
-  executeButton.addStyleName(Reindeer.BUTTON_LINK);
-  layout.addComponent(executeButton);
-  layout.setComponentAlignment(executeButton,Alignment.MIDDLE_LEFT);
   executeButton.addListener(new ClickListener(){
-    private static final long serialVersionUID=2916889209278497696L;
+    private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
       try {
         managementService.executeJob(job.getId());
@@ -24,4 +15,6 @@
     }
   }
 );
+  parent.getToolBar().removeAllButtons();
+  parent.getToolBar().addButton(executeButton);
 }
