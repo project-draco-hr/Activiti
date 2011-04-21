@@ -1,4 +1,5 @@
 {
+  Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
   ViewManager viewManager=ExplorerApp.get().getViewManager();
   String loggedInUserId=ExplorerApp.get().getLoggedInUser().getId();
   boolean pageFound=false;
@@ -30,10 +31,19 @@
       pageFound=true;
     }
   }
+ else   if (CATEGORY_ARCHIVED.equals(category)) {
+    if (task == null) {
+      boolean isOwner=historyService.createHistoricTaskInstanceQuery().taskId(taskId).taskOwner(loggedInUserId).finished().count() == 1;
+      if (isOwner) {
+        viewManager.showArchivedPage(taskId);
+        pageFound=true;
+      }
+    }
+  }
  else {
     throw new ActivitiException("Couldn't find a matching category");
   }
   if (!pageFound) {
-    directToPageBasedOnTaskData(viewManager,task,loggedInUserId);
+    directToPageBasedOnTaskData(viewManager,taskId,task,loggedInUserId);
   }
 }

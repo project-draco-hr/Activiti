@@ -1,5 +1,14 @@
 {
-  if (loggedInUserId.equals(task.getOwner())) {
+  if (task == null) {
+    boolean isOwner=historyService.createHistoricTaskInstanceQuery().taskId(taskId).taskOwner(loggedInUserId).finished().count() == 1;
+    if (isOwner) {
+      viewManager.showArchivedPage(taskId);
+    }
+ else {
+      showNavigationError(taskId);
+    }
+  }
+ else   if (loggedInUserId.equals(task.getOwner())) {
     viewManager.showCasesPage(task.getId());
   }
  else   if (loggedInUserId.equals(task.getAssignee())) {
@@ -25,8 +34,7 @@
       }
     }
     if (!pageFound) {
-      String description=ExplorerApp.get().getI18nManager().getMessage(Messages.NAVIGATION_ERROR_NOT_INVOLVED,task.getId());
-      ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.NAVIGATION_ERROR_NOT_INVOLVED_TITLE,description);
+      showNavigationError(taskId);
     }
   }
 }
