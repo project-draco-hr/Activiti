@@ -7,12 +7,14 @@
       user.setLastName((String)lastNameField.getValue());
       user.setEmail((String)emailField.getValue());
       identityService.saveUser(user);
-      identityService.setUserInfo(user.getId(),KEY_JOB_TITLE,jobTitleField.getValue().toString());
-      identityService.setUserInfo(user.getId(),KEY_BIRTH_DATE,Constants.DEFAULT_DATE_FORMATTER.format(birthDateField.getValue()));
-      identityService.setUserInfo(user.getId(),KEY_LOCATION,locationField.getValue().toString());
-      identityService.setUserInfo(user.getId(),KEY_PHONE,phoneField.getValue().toString());
-      identityService.setUserInfo(user.getId(),KEY_TWITTER,twitterField.getValue().toString());
-      identityService.setUserInfo(user.getId(),KEY_SKYPE,skypeField.getValue().toString());
+      identityService.setUserInfo(user.getId(),Constants.USER_INFO_JOB_TITLE,jobTitleField.getValue().toString());
+      if (birthDateField.getValue() != null && !"".equals(birthDateField.getValue().toString())) {
+        identityService.setUserInfo(user.getId(),Constants.USER_INFO_BIRTH_DATE,Constants.DEFAULT_DATE_FORMATTER.format(birthDateField.getValue()));
+      }
+      identityService.setUserInfo(user.getId(),Constants.USER_INFO_LOCATION,locationField.getValue().toString());
+      identityService.setUserInfo(user.getId(),Constants.USER_INFO_PHONE,phoneField.getValue().toString());
+      identityService.setUserInfo(user.getId(),Constants.USER_INFO_TWITTER,twitterField.getValue().toString());
+      identityService.setUserInfo(user.getId(),Constants.USER_INFO_SKYPE,skypeField.getValue().toString());
       editable=false;
       loadProfileData();
       initUi();
