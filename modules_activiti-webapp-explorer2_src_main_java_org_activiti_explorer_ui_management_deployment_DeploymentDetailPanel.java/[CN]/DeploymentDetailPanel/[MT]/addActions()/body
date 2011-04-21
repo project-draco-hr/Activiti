@@ -1,0 +1,12 @@
+{
+  Button deleteButton=new Button(i18nManager.getMessage(Messages.DEPLOYMENT_DELETE));
+  deleteButton.setIcon(Images.DELETE);
+  deleteButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      viewManager.showPopupWindow(new DeleteDeploymentPopupWindow(deployment,parent));
+    }
+  }
+);
+  parent.getToolBar().removeAllButtons();
+  parent.getToolBar().addButton(deleteButton);
+}

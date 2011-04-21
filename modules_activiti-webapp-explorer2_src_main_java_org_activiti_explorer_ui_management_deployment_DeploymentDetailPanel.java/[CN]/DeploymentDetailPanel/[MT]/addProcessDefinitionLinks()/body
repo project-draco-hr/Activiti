@@ -2,18 +2,14 @@
   List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).orderByProcessDefinitionName().asc().list();
   if (processDefinitions.size() > 0) {
     Label processDefinitionHeader=new Label(i18nManager.getMessage(Messages.DEPLOYMENT_HEADER_DEFINITIONS));
-    processDefinitionHeader.addStyleName(ExplorerLayout.STYLE_DEPLOYMENT_DETAILS_HEADER);
-    processDefinitionHeader.setWidth("95%");
-    addComponent(processDefinitionHeader);
-    HorizontalLayout layout=new HorizontalLayout();
-    layout.setSpacing(true);
-    addComponent(layout);
-    Embedded processIcon=new Embedded(null,Images.PROCESS_48PX);
-    layout.addComponent(processIcon);
+    processDefinitionHeader.addStyleName(ExplorerLayout.STYLE_H3);
+    processDefinitionHeader.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+    processDefinitionHeader.setWidth(100,UNITS_PERCENTAGE);
+    addDetailComponent(processDefinitionHeader);
     VerticalLayout processDefinitionLinksLayout=new VerticalLayout();
     processDefinitionLinksLayout.setSpacing(true);
-    layout.addComponent(processDefinitionLinksLayout);
-    layout.setComponentAlignment(processDefinitionLinksLayout,Alignment.MIDDLE_LEFT);
+    processDefinitionLinksLayout.setMargin(true,false,true,false);
+    addDetailComponent(processDefinitionLinksLayout);
     for (    final ProcessDefinition processDefinition : processDefinitions) {
       Button processDefinitionButton=new Button(processDefinition.getName());
       processDefinitionButton.addListener(new ClickListener(){

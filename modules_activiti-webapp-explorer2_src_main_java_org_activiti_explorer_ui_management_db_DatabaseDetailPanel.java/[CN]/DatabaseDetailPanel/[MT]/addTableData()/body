@@ -7,13 +7,12 @@
     data.setEditable(false);
     data.setSelectable(true);
     data.setColumnReorderingAllowed(true);
-    addComponent(data);
-    data.setWidth("95%");
-    data.setHeight("80%");
+    addDetailComponent(data);
+    data.setWidth(100,UNITS_PERCENTAGE);
+    data.setHeight(100,UNITS_PERCENTAGE);
     data.addStyleName(ExplorerLayout.STYLE_DATABASE_TABLE_ROW);
-    data.addStyleName(Reindeer.TABLE_STRONG);
     data.addStyleName(ExplorerLayout.STYLE_DATABASE_DETAILS);
-    setExpandRatio(data,1.0f);
+    setDetailExpandRatio(data,1.0f);
     TableMetaData metaData=managementService.getTableMetaData(tableName);
     for (    String columnName : metaData.getColumnNames()) {
       data.addContainerProperty(columnName,String.class,null);
@@ -23,7 +22,7 @@
     Label noDataLabel=new Label(i18nManager.getMessage(Messages.DATABASE_NO_ROWS));
     noDataLabel.addStyleName(ExplorerLayout.STYLE_DATABASE_DETAILS);
     noDataLabel.addStyleName(Reindeer.LABEL_SMALL);
-    addComponent(noDataLabel);
-    setExpandRatio(noDataLabel,1.0f);
+    addDetailComponent(noDataLabel);
+    setDetailExpandRatio(noDataLabel,1.0f);
   }
 }

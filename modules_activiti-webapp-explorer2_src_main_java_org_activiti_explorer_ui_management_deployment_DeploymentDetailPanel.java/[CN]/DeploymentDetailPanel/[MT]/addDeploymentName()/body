@@ -1,19 +1,18 @@
 {
-  HorizontalLayout layout=new HorizontalLayout();
-  layout.setSpacing(true);
-  addComponent(layout);
+  GridLayout taskDetails=new GridLayout(3,2);
+  taskDetails.setWidth(100,UNITS_PERCENTAGE);
+  taskDetails.addStyleName(ExplorerLayout.STYLE_TITLE_BLOCK);
+  taskDetails.setSpacing(true);
+  taskDetails.setMargin(false,false,true,false);
+  Embedded image=new Embedded(null,Images.DEPLOYMENT_50);
+  taskDetails.addComponent(image,0,0,0,1);
   Label nameLabel=new Label(deployment.getName());
-  nameLabel.addStyleName(Reindeer.LABEL_H1);
-  layout.addComponent(nameLabel);
-  Button deleteButton=new Button(i18nManager.getMessage(Messages.DEPLOYMENT_DELETE));
-  deleteButton.setIcon(Images.DELETE);
-  deleteButton.addStyleName(Reindeer.BUTTON_LINK);
-  layout.addComponent(deleteButton);
-  layout.setComponentAlignment(deleteButton,Alignment.MIDDLE_LEFT);
-  deleteButton.addListener(new ClickListener(){
-    public void buttonClick(    ClickEvent event){
-      viewManager.showPopupWindow(new DeleteDeploymentPopupWindow(deployment,parent));
-    }
-  }
-);
+  nameLabel.addStyleName(Reindeer.LABEL_H2);
+  taskDetails.addComponent(nameLabel,1,0,2,0);
+  PrettyTimeLabel deployTimeLabel=new PrettyTimeLabel(i18nManager.getMessage(Messages.DEPLOYMENT_DEPLOY_TIME),deployment.getDeploymentTime(),null);
+  deployTimeLabel.addStyleName(ExplorerLayout.STYLE_DEPLOYMENT_HEADER_DEPLOY_TIME);
+  taskDetails.addComponent(deployTimeLabel,1,1);
+  taskDetails.setColumnExpandRatio(1,1.0f);
+  taskDetails.setColumnExpandRatio(2,1.0f);
+  addDetailComponent(taskDetails);
 }

@@ -4,16 +4,13 @@
   if (resourceNames.size() > 0) {
     Label resourceHeader=new Label(i18nManager.getMessage(Messages.DEPLOYMENT_HEADER_RESOURCES));
     resourceHeader.setWidth("95%");
-    resourceHeader.addStyleName(ExplorerLayout.STYLE_DEPLOYMENT_DETAILS_HEADER);
-    addComponent(resourceHeader);
-    HorizontalLayout resourceLayout=new HorizontalLayout();
-    addComponent(resourceLayout);
-    Embedded resourceIcon=new Embedded(null,Images.RESOURCE);
-    resourceLayout.addComponent(resourceIcon);
+    resourceHeader.addStyleName(ExplorerLayout.STYLE_H3);
+    resourceHeader.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+    addDetailComponent(resourceHeader);
     VerticalLayout resourceLinksLayout=new VerticalLayout();
-    resourceLayout.setSpacing(true);
-    resourceLayout.addComponent(resourceLinksLayout);
-    resourceLayout.setComponentAlignment(resourceLinksLayout,Alignment.MIDDLE_LEFT);
+    resourceLinksLayout.setSpacing(true);
+    resourceLinksLayout.setMargin(true,false,false,false);
+    addDetailComponent(resourceLinksLayout);
     for (    final String resourceName : resourceNames) {
       StreamResource.StreamSource streamSource=new StreamSource(){
         public InputStream getStream(){
