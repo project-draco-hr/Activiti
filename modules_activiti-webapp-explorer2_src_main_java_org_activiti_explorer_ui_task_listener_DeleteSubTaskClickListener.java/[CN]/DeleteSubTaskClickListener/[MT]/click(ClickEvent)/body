@@ -4,6 +4,7 @@
   final TaskService taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
   ConfirmationDialogPopupWindow popup=new ConfirmationDialogPopupWindow(i18nManager.getMessage(Messages.TASK_CONFIRM_DELETE_SUBTASK,subTask.getName()));
   popup.addListener(new ConfirmationEventListener(){
+    private static final long serialVersionUID=1L;
     protected void rejected(    ConfirmationEvent event){
     }
     protected void confirmed(    ConfirmationEvent event){

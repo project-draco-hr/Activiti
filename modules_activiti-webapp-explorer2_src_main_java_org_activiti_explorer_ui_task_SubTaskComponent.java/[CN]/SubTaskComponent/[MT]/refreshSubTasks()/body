@@ -1,5 +1,5 @@
 {
   subTaskLayout.removeAllComponents();
-  List<Task> subTasks=taskService.getSubTasks(parentTask.getId());
+  List<HistoricTaskInstance> subTasks=historyService.createHistoricTaskInstanceQuery().taskParentTaskId(parentTask.getId()).list();
   populateSubTasks(subTasks);
 }
