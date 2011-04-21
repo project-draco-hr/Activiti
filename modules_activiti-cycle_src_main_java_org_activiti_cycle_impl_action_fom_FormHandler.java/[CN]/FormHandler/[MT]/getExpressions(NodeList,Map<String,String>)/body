@@ -29,6 +29,10 @@
       nameAttribute=currentElement.getAttribute("name");
       valueAttribute=currentElement.getAttribute("property");
     }
+    if ("textarea".equals(currentElement.getTagName())) {
+      nameAttribute=currentElement.getAttribute("name");
+      valueAttribute=currentElement.getTextContent();
+    }
     if (nameAttribute == null || nameAttribute.length() == 0 || valueAttribute == null) {
       continue;
     }
