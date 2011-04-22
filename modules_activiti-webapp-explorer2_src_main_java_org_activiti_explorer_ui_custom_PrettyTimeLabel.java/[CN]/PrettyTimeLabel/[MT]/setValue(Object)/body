@@ -1,0 +1,13 @@
+{
+  if (newValue instanceof Date) {
+    date=(Date)newValue;
+    init();
+  }
+ else   if (newValue instanceof String) {
+    date=null;
+    init();
+  }
+ else {
+    throw new IllegalArgumentException("Can only set " + Date.class + " as new value for prettyTimeLabel");
+  }
+}

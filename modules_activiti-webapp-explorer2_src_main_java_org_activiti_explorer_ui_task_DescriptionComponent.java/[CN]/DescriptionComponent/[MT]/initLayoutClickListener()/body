@@ -1,0 +1,26 @@
+{
+  addListener(new LayoutClickListener(){
+    public void layoutClick(    LayoutClickEvent event){
+      if (event.getClickedComponent() != null && event.getClickedComponent().equals(descriptionLabel)) {
+        final TextArea descriptionTextArea=new TextArea();
+        descriptionTextArea.setWidth(100,UNITS_PERCENTAGE);
+        descriptionTextArea.setValue(task.getDescription());
+        editLayout.addComponent(descriptionTextArea);
+        Button okButton=new Button(i18nManager.getMessage(Messages.BUTTON_OK));
+        editLayout.addComponent(okButton);
+        editLayout.setComponentAlignment(okButton,Alignment.BOTTOM_RIGHT);
+        replaceComponent(descriptionLabel,editLayout);
+        okButton.addListener(new ClickListener(){
+          public void buttonClick(          ClickEvent event){
+            task.setDescription(descriptionTextArea.getValue().toString());
+            taskService.saveTask(task);
+            descriptionLabel.setValue(task.getDescription());
+            replaceComponent(editLayout,descriptionLabel);
+          }
+        }
+);
+      }
+    }
+  }
+);
+}

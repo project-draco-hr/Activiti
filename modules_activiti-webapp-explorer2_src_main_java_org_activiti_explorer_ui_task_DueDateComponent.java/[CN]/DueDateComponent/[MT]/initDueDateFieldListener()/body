@@ -1,0 +1,13 @@
+{
+  dueDateField.addListener(new ValueChangeListener(){
+    public void valueChange(    ValueChangeEvent event){
+      if (dueDateField.getValue() != null) {
+        task.setDueDate((Date)dueDateField.getValue());
+        taskService.saveTask(task);
+        dueDateLabel.setValue(task.getDueDate());
+        replaceComponent(dueDateField,dueDateLabel);
+      }
+    }
+  }
+);
+}

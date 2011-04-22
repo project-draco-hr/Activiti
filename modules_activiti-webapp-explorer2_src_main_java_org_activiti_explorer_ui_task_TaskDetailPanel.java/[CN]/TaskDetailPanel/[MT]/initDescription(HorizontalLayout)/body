@@ -1,0 +1,43 @@
+{
+  final CssLayout descriptionLayout=new CssLayout();
+  descriptionLayout.setWidth(100,UNITS_PERCENTAGE);
+  layout.addComponent(descriptionLayout);
+  layout.setExpandRatio(descriptionLayout,1.0f);
+  layout.setComponentAlignment(descriptionLayout,Alignment.MIDDLE_LEFT);
+  String descriptionText=null;
+  if (task.getDescription() != null && !"".equals(task.getDescription())) {
+    descriptionText=task.getDescription();
+  }
+ else {
+    descriptionText=i18nManager.getMessage(Messages.TASK_NO_DESCRIPTION);
+  }
+  final Label descriptionLabel=new Label(descriptionText);
+  descriptionLabel.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+  descriptionLayout.addComponent(descriptionLabel);
+  descriptionLayout.addListener(new LayoutClickListener(){
+    public void layoutClick(    LayoutClickEvent event){
+      if (event.getClickedComponent() != null && event.getClickedComponent().equals(descriptionLabel)) {
+        final VerticalLayout editLayout=new VerticalLayout();
+        editLayout.setSpacing(true);
+        final TextArea descriptionTextArea=new TextArea();
+        descriptionTextArea.setWidth(100,UNITS_PERCENTAGE);
+        descriptionTextArea.setValue(task.getDescription());
+        editLayout.addComponent(descriptionTextArea);
+        Button okButton=new Button(i18nManager.getMessage(Messages.BUTTON_OK));
+        editLayout.addComponent(okButton);
+        editLayout.setComponentAlignment(okButton,Alignment.BOTTOM_RIGHT);
+        descriptionLayout.replaceComponent(descriptionLabel,editLayout);
+        okButton.addListener(new ClickListener(){
+          public void buttonClick(          ClickEvent event){
+            task.setDescription(descriptionTextArea.getValue().toString());
+            taskService.saveTask(task);
+            descriptionLabel.setValue(task.getDescription());
+            descriptionLayout.replaceComponent(editLayout,descriptionLabel);
+          }
+        }
+);
+      }
+    }
+  }
+);
+}

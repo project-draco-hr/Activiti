@@ -1,0 +1,11 @@
+{
+  priorityComboBox.addListener(new ValueChangeListener(){
+    public void valueChange(    ValueChangeEvent event){
+      task.setPriority(priorityComboBox.getPriority());
+      taskService.saveTask(task);
+      priorityLabel.setValue(task.getPriority());
+      replaceComponent(priorityComboBox,priorityLabel);
+    }
+  }
+);
+}

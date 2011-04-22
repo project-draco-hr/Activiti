@@ -1,0 +1,12 @@
+{
+  String descriptionText=null;
+  if (task.getDescription() != null && !"".equals(task.getDescription())) {
+    descriptionText=task.getDescription();
+  }
+ else {
+    descriptionText=i18nManager.getMessage(Messages.TASK_NO_DESCRIPTION);
+  }
+  descriptionLabel=new Label(descriptionText);
+  descriptionLabel.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
+  addComponent(descriptionLabel);
+}

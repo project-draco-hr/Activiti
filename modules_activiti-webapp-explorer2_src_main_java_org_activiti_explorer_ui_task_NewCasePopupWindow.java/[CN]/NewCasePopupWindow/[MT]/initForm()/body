@@ -14,9 +14,6 @@
   dueDateField=new DateField(i18nManager.getMessage(Messages.TASK_DUEDATE));
   dueDateField.setResolution(DateField.RESOLUTION_DAY);
   form.addField("duedate",dueDateField);
-  priorityComboBox=new ComboBox(i18nManager.getMessage(Messages.TASK_PRIORITY),Arrays.asList(i18nManager.getMessage(Messages.TASK_PRIORITY_LOW),i18nManager.getMessage(Messages.TASK_PRIORITY_MEDIUM),i18nManager.getMessage(Messages.TASK_PRIORITY_HIGH)));
-  priorityComboBox.setInvalidAllowed(false);
-  priorityComboBox.setNullSelectionAllowed(false);
-  priorityComboBox.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_LOW));
+  priorityComboBox=new PriorityComboBox(i18nManager);
   form.addField("priority",priorityComboBox);
 }

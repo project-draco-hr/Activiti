@@ -1,0 +1,16 @@
+{
+  if (date != null) {
+    DateFormat dateFormat=(DateFormat)Constants.DEFAULT_DATE_FORMATTER.clone();
+    if (labelTemplate != null) {
+      super.setValue(MessageFormat.format(labelTemplate,new PrettyTime().format(date)));
+    }
+ else {
+      super.setValue(new PrettyTime().format(date));
+    }
+    setDescription(dateFormat.format(date));
+  }
+ else {
+    super.setValue(noDateCaption);
+    setDescription(noDateCaption);
+  }
+}

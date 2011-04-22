@@ -1,19 +1,9 @@
 {
-  HorizontalLayout descriptionLayout=new HorizontalLayout();
-  descriptionLayout.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
-  descriptionLayout.setWidth(100,UNITS_PERCENTAGE);
-  descriptionLayout.setSpacing(true);
-  if (!isCurrentUserAssignee() && canUserClaimTask()) {
-    claimButton=new Button(i18nManager.getMessage(Messages.TASK_CLAIM));
-    claimButton.addListener(new ClaimTaskClickListener(task.getId(),taskService));
-    descriptionLayout.addComponent(claimButton);
-    descriptionLayout.setComponentAlignment(claimButton,Alignment.MIDDLE_LEFT);
-  }
-  if (task.getDescription() != null) {
-    Label descriptionLabel=new Label(task.getDescription());
-    descriptionLayout.addComponent(descriptionLabel);
-    descriptionLayout.setExpandRatio(descriptionLabel,1.0f);
-    descriptionLayout.setComponentAlignment(descriptionLabel,Alignment.MIDDLE_LEFT);
-  }
-  centralLayout.addComponent(descriptionLayout);
+  HorizontalLayout layout=new HorizontalLayout();
+  layout.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  layout.setWidth(100,UNITS_PERCENTAGE);
+  layout.setSpacing(true);
+  centralLayout.addComponent(layout);
+  initClaimButton(layout);
+  initDescription(layout);
 }

@@ -1,16 +1,6 @@
 {
-  if (date != null) {
-    DateFormat dateFormat=(DateFormat)Constants.DEFAULT_DATE_FORMATTER.clone();
-    if (labelTemplate != null) {
-      setValue(MessageFormat.format(labelTemplate,new PrettyTime().format(date)));
-    }
- else {
-      setValue(new PrettyTime().format(date));
-    }
-    setDescription(dateFormat.format(date));
-  }
- else {
-    setValue(noDateCaption);
-    setDescription(noDateCaption);
-  }
+  this.labelTemplate=labelTemplate;
+  this.date=date;
+  this.noDateCaption=noDateCaption;
+  init();
 }

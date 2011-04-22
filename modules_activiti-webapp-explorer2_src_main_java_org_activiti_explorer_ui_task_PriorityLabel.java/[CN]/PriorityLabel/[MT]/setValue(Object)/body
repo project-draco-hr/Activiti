@@ -1,0 +1,20 @@
+{
+  if (newValue instanceof Integer) {
+    priority=(Integer)newValue;
+    if (priority < Task.PRIORITY_NORMAL) {
+      super.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_LOW));
+      addStyleName(ExplorerLayout.STYLE_TASK_HEADER_PRIORITY_LOW);
+    }
+ else     if (priority == Task.PRIORITY_NORMAL) {
+      super.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_MEDIUM));
+      addStyleName(ExplorerLayout.STYLE_TASK_HEADER_PRIORITY_MEDIUM);
+    }
+ else     if (priority > Task.PRIORITY_NORMAL) {
+      super.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_HIGH));
+      addStyleName(ExplorerLayout.STYLE_TASK_HEADER_PRIORITY_HIGH);
+    }
+  }
+ else {
+    throw new IllegalArgumentException("Can only set integer as new value for PriorityLabel");
+  }
+}
