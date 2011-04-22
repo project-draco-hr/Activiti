@@ -1,0 +1,17 @@
+{
+  addActionHandler(new Handler(){
+    public void handleAction(    Action action,    Object sender,    Object target){
+      if (inputField.getValue() != null && !"".equals(inputField.getValue().toString())) {
+        Task task=taskService.newTask();
+        task.setName(inputField.getValue().toString());
+        task.setOwner(ExplorerApp.get().getLoggedInUser().getId());
+        taskService.saveTask(task);
+        ExplorerApp.get().getViewManager().showCasesPage(task.getId());
+      }
+    }
+    public Action[] getActions(    Object target,    Object sender){
+      return new Action[]{new ShortcutAction("enter",ShortcutAction.KeyCode.ENTER,null)};
+    }
+  }
+);
+}

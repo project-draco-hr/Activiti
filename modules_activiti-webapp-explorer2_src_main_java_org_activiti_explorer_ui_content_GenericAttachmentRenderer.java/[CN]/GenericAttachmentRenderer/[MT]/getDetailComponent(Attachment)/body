@@ -1,8 +1,15 @@
 {
   VerticalLayout verticalLayout=new VerticalLayout();
+  verticalLayout.setSizeUndefined();
   verticalLayout.setSpacing(true);
   verticalLayout.setMargin(true);
-  verticalLayout.addComponent(new Label(attachment.getDescription()));
+  Label description=new Label(attachment.getDescription());
+  description.setSizeUndefined();
+  verticalLayout.addComponent(description);
+  HorizontalLayout linkLayout=new HorizontalLayout();
+  linkLayout.setSpacing(true);
+  verticalLayout.addComponent(linkLayout);
+  linkLayout.addComponent(new Embedded(null,getImage(attachment)));
   Link link=null;
   if (attachment.getUrl() != null) {
     link=new Link(attachment.getUrl(),new ExternalResource(attachment.getUrl()));
@@ -12,8 +19,7 @@
     Resource res=new StreamResource(new InputStreamStreamSource(taskService.getAttachmentContent(attachment.getId())),attachment.getName() + extractExtention(attachment.getType()),ExplorerApp.get());
     link=new Link(attachment.getName(),res);
   }
-  link.setIcon(getImage(attachment));
   link.setTargetName(ExplorerLayout.LINK_TARGET_BLANK);
-  verticalLayout.addComponent(link);
+  linkLayout.addComponent(link);
   return verticalLayout;
 }

@@ -1,0 +1,17 @@
+{
+  try {
+    form.commit();
+    Task task=taskService.newTask();
+    task.setName(nameField.getValue().toString());
+    task.setDescription(descriptionArea.getValue().toString());
+    task.setDueDate((Date)dueDateField.getValue());
+    task.setPriority(getPriority());
+    task.setOwner(ExplorerApp.get().getLoggedInUser().getId());
+    taskService.saveTask(task);
+    close();
+    ExplorerApp.get().getViewManager().showCasesPage(task.getId());
+  }
+ catch (  InvalidValueException e) {
+    setHeight(350,UNITS_PIXELS);
+  }
+}

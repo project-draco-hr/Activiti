@@ -1,6 +1,13 @@
 {
-  Button newTaskButton=new Button();
-  newTaskButton.setCaption(i18nManager.getMessage(Messages.TASK_NEW));
-  newTaskButton.setIcon(Images.TASK_16);
-  addButton(newTaskButton);
+  Button newCaseButton=new Button();
+  newCaseButton.setCaption(i18nManager.getMessage(Messages.CASE_NEW));
+  newCaseButton.setIcon(Images.TASK_16);
+  addButton(newCaseButton);
+  newCaseButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      NewCasePopupWindow newTaskPopupWindow=new NewCasePopupWindow();
+      viewManager.showPopupWindow(newTaskPopupWindow);
+    }
+  }
+);
 }

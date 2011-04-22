@@ -1,0 +1,22 @@
+{
+  form=new Form();
+  form.setValidationVisibleOnCommit(true);
+  form.setImmediate(true);
+  addComponent(form);
+  nameField=new TextField(i18nManager.getMessage(Messages.TASK_NAME));
+  nameField.focus();
+  nameField.setRequired(true);
+  nameField.setRequiredError(i18nManager.getMessage(Messages.CASE_NAME_REQUIRED));
+  form.addField("name",nameField);
+  descriptionArea=new TextArea(i18nManager.getMessage(Messages.TASK_DESCRIPTION));
+  descriptionArea.setColumns(25);
+  form.addField("description",descriptionArea);
+  dueDateField=new DateField(i18nManager.getMessage(Messages.TASK_DUEDATE));
+  dueDateField.setResolution(DateField.RESOLUTION_DAY);
+  form.addField("duedate",dueDateField);
+  priorityComboBox=new ComboBox(i18nManager.getMessage(Messages.TASK_PRIORITY),Arrays.asList(i18nManager.getMessage(Messages.TASK_PRIORITY_LOW),i18nManager.getMessage(Messages.TASK_PRIORITY_MEDIUM),i18nManager.getMessage(Messages.TASK_PRIORITY_HIGH)));
+  priorityComboBox.setInvalidAllowed(false);
+  priorityComboBox.setNullSelectionAllowed(false);
+  priorityComboBox.setValue(i18nManager.getMessage(Messages.TASK_PRIORITY_LOW));
+  form.addField("priority",priorityComboBox);
+}

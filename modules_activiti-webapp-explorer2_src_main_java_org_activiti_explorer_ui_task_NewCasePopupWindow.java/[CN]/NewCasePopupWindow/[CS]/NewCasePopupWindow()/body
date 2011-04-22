@@ -1,0 +1,13 @@
+{
+  this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  setModal(true);
+  center();
+  setCaption(i18nManager.getMessage(Messages.CASE_NEW));
+  addStyleName(Reindeer.WINDOW_LIGHT);
+  setWidth(430,UNITS_PIXELS);
+  setHeight(320,UNITS_PIXELS);
+  initForm();
+  initCreateTaskButton();
+  initEnterKeyListener();
+}
