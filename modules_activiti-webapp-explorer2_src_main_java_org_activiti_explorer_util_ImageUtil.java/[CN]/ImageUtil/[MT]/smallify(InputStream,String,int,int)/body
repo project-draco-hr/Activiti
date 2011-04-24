@@ -1,0 +1,21 @@
+{
+  try {
+    BufferedImage image=ImageIO.read(imageInputStream);
+    int width=Math.min(image.getWidth(),maxWidth);
+    int height=Math.min(image.getHeight(),maxHeight);
+    Mode mode=Mode.AUTOMATIC;
+    if (image.getHeight() > maxHeight) {
+      mode=Mode.FIT_TO_HEIGHT;
+    }
+    if (width != image.getWidth() || height != image.getHeight()) {
+      image=Scalr.resize(image,mode,width,height);
+    }
+    ByteArrayOutputStream bos=new ByteArrayOutputStream();
+    ImageIO.write(image,Constants.MIMETYPE_EXTENSION_MAPPING.get(mimeType),bos);
+    return new ByteArrayInputStream(bos.toByteArray());
+  }
+ catch (  IOException e) {
+    LOGGER.log(Level.SEVERE,"Exception while resizing image",e);
+    return null;
+  }
+}
