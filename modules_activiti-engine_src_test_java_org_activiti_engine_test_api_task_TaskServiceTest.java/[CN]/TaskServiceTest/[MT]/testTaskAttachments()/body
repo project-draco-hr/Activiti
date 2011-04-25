@@ -15,7 +15,8 @@
     assertEquals("someprocessinstanceid",attachment.getProcessInstanceId());
     assertEquals("http://weather.com",attachment.getUrl());
     assertNull(taskService.getAttachmentContent(attachment.getId()));
+    taskService.deleteTask(taskId);
+    assertEquals(0,taskService.getTaskComments(taskId).size());
     taskService.deleteTask(taskId,true);
-    taskService.deleteAttachment(attachment.getId());
   }
 }
