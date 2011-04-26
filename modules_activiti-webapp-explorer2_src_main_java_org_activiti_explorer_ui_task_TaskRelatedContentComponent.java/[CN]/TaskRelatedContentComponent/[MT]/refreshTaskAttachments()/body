@@ -3,7 +3,13 @@
   if (noContentLabel != null) {
     contentLayout.removeComponent(noContentLabel);
   }
-  List<Attachment> attachments=taskService.getTaskAttachments(task.getId());
+  List<Attachment> attachments=null;
+  if (task.getProcessInstanceId() != null) {
+    attachments=(taskService.getProcessInstanceAttachments(task.getProcessInstanceId()));
+  }
+ else {
+    attachments=taskService.getTaskAttachments(task.getId());
+  }
   if (attachments.size() > 0) {
     addAttachmentsToTable(attachments);
   }

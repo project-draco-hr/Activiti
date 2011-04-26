@@ -13,7 +13,12 @@
     private static final long serialVersionUID=1L;
     public void buttonClick(    com.vaadin.ui.Button.ClickEvent event){
       CreateAttachmentPopupWindow popup=new CreateAttachmentPopupWindow();
-      popup.setTaskId(task.getId());
+      if (task.getProcessInstanceId() != null) {
+        popup.setProcessInstanceId(task.getProcessInstanceId());
+      }
+ else {
+        popup.setTaskId(task.getId());
+      }
       popup.addListener(new SubmitEventListener(){
         private static final long serialVersionUID=1L;
         @Override protected void submitted(        SubmitEvent event){
