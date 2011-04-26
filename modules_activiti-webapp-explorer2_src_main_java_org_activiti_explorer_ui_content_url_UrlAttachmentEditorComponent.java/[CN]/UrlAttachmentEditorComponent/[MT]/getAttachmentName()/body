@@ -1,3 +1,7 @@
 {
-  return (String)getField("name").getValue();
+  String name=(String)getFieldValue("name");
+  if (name == null) {
+    name=getAttachmentUrl();
+  }
+  return name;
 }

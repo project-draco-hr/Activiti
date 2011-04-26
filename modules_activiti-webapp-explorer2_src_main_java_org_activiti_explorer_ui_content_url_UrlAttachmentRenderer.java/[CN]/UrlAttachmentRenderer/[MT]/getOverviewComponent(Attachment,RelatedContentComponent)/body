@@ -1,12 +1,17 @@
 {
-  Button attachmentLink=new Button(attachment.getName());
-  attachmentLink.addStyleName(Reindeer.BUTTON_LINK);
-  attachmentLink.addListener(new ClickListener(){
-    private static final long serialVersionUID=1L;
-    public void buttonClick(    ClickEvent event){
-      parent.showAttachmentDetail(attachment);
+  if (attachment.getDescription() != null && !"".equals(attachment.getDescription())) {
+    Button attachmentLink=new Button(attachment.getName());
+    attachmentLink.addStyleName(Reindeer.BUTTON_LINK);
+    attachmentLink.addListener(new ClickListener(){
+      private static final long serialVersionUID=1L;
+      public void buttonClick(      ClickEvent event){
+        parent.showAttachmentDetail(attachment);
+      }
     }
-  }
 );
-  return attachmentLink;
+    return attachmentLink;
+  }
+ else {
+    return new Link(attachment.getName(),new ExternalResource(attachment.getUrl()));
+  }
 }
