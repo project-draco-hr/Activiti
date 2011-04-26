@@ -1,0 +1,9 @@
+{
+  SelectUserField selectUserField=new SelectUserField(getPropertyLabel(formProperty));
+  selectUserField.setRequired(formProperty.isRequired());
+  selectUserField.setEnabled(formProperty.isWritable());
+  if (formProperty.getValue() != null) {
+    selectUserField.setValue(formProperty.getValue());
+  }
+  return selectUserField;
+}

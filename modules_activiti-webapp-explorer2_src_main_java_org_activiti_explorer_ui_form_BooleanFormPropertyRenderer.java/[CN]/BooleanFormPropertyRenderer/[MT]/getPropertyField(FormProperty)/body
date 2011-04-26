@@ -1,0 +1,9 @@
+{
+  Button button=new Button(getPropertyLabel(formProperty));
+  button.setRequired(formProperty.isRequired());
+  button.setEnabled(formProperty.isWritable());
+  if (formProperty.getValue() != null) {
+    button.setValue(formProperty.getValue());
+  }
+  return button;
+}

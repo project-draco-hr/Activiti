@@ -1,0 +1,17 @@
+{
+  wrappedField.setValue(newValue);
+  if (newValue != null) {
+    if (selectedUser == null || !selectedUser.getId().equals(newValue)) {
+      selectedUser=ExplorerApp.get().getUserCache().findUser((String)newValue);
+    }
+    selectedUserLabel.setValue(getSelectedUserLabel());
+    selectedUserLabel.addStyleName(ExplorerLayout.STYLE_FORM_USER_SELECTED);
+    selectedUserLabel.removeStyleName(ExplorerLayout.STYLE_FORM_NO_USER_SELECTED);
+  }
+ else {
+    selectedUser=null;
+    selectedUserLabel.setValue(i18nManager.getMessage(Messages.FORM_USER_NO_USER_SELECTED));
+    selectedUserLabel.addStyleName(ExplorerLayout.STYLE_FORM_NO_USER_SELECTED);
+    selectedUserLabel.removeStyleName(ExplorerLayout.STYLE_FORM_USER_SELECTED);
+  }
+}
