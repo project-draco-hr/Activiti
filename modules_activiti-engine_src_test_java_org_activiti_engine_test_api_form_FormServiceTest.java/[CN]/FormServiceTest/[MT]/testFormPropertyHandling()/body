@@ -3,12 +3,14 @@
   properties.put("room","5b");
   properties.put("speaker","Mike");
   properties.put("duration","45");
+  properties.put("free","true");
   String procDefId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
   String processInstanceId=formService.submitStartFormData(procDefId,properties).getId();
   Map<String,Object> expectedVariables=new HashMap<String,Object>();
   expectedVariables.put("room","5b");
   expectedVariables.put("SpeakerName","Mike");
   expectedVariables.put("duration",new Long(45));
+  expectedVariables.put("free",Boolean.TRUE);
   Map<String,Object> variables=runtimeService.getVariables(processInstanceId);
   assertEquals(expectedVariables,variables);
   Address address=new Address();
@@ -29,7 +31,10 @@
   FormProperty propertyStreet=formProperties.get(3);
   assertEquals("street",propertyStreet.getId());
   assertEquals("broadway",propertyStreet.getValue());
-  assertEquals(4,formProperties.size());
+  FormProperty propertyFree=formProperties.get(4);
+  assertEquals("free",propertyFree.getId());
+  assertEquals("true",propertyFree.getValue());
+  assertEquals(5,formProperties.size());
   try {
     formService.submitTaskFormData(taskId,new HashMap<String,String>());
     fail("expected exception about required form property 'street'");
@@ -51,6 +56,7 @@
   expectedVariables.put("room","5b");
   expectedVariables.put("SpeakerName","Mike");
   expectedVariables.put("duration",new Long(45));
+  expectedVariables.put("free",Boolean.TRUE);
   variables=runtimeService.getVariables(processInstanceId);
   address=(Address)variables.remove("address");
   assertEquals("rubensstraat",address.getStreet());
