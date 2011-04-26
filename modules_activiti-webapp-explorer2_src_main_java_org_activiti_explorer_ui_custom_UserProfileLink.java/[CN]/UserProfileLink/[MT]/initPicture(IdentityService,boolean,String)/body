@@ -4,6 +4,7 @@
     if (picture != null) {
       Resource imageResource=new StreamResource(new InputStreamStreamSource(picture.getInputStream()),userName + picture.getMimeType(),ExplorerApp.get());
       Embedded image=new Embedded(null,imageResource);
+      image.addStyleName(ExplorerLayout.STYLE_CLICKABLE);
       image.setType(Embedded.TYPE_IMAGE);
       image.setHeight(30,Embedded.UNITS_PIXELS);
       image.setWidth(30,Embedded.UNITS_PIXELS);
