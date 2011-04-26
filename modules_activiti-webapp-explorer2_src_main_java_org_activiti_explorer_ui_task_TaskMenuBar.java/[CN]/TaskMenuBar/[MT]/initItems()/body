@@ -1,5 +1,13 @@
 {
   setWidth("100%");
+  long inboxCount=new InboxListQuery().size();
+  ToolbarEntry inboxEntry=addToolbarEntry(ENTRY_INBOX,i18nManager.getMessage(Messages.TASK_MENU_INBOX),new ToolbarCommand(){
+    public void toolBarItemSelected(){
+      viewManager.showInboxPage();
+    }
+  }
+);
+  inboxEntry.setCount(inboxCount);
   LoggedInUser user=ExplorerApp.get().getLoggedInUser();
   long casesCount=new CasesListQuery().size();
   ToolbarEntry casesEntry=addToolbarEntry(ENTRY_CASES,i18nManager.getMessage(Messages.TASK_MENU_CASES),new ToolbarCommand(){
@@ -9,14 +17,6 @@
   }
 );
   casesEntry.setCount(casesCount);
-  long inboxCount=new InboxListQuery().size();
-  ToolbarEntry inboxEntry=addToolbarEntry(ENTRY_INBOX,i18nManager.getMessage(Messages.TASK_MENU_INBOX),new ToolbarCommand(){
-    public void toolBarItemSelected(){
-      viewManager.showInboxPage();
-    }
-  }
-);
-  inboxEntry.setCount(inboxCount);
   List<Group> groups=identityService.createGroupQuery().groupMember(user.getId()).list();
   ToolbarPopupEntry queuedItem=addPopupEntry(ENTRY_QUEUED,(i18nManager.getMessage(Messages.TASK_MENU_QUEUED)));
   long queuedCount=0;

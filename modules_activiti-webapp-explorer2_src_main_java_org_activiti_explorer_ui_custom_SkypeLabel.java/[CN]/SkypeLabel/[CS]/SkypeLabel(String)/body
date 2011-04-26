@@ -1,5 +1,11 @@
 {
-  super("<script type='text/javascript' " + "src='http://download.skype.com/share/skypebuttons/js/skypeCheck.js'></script>" + "<a href='skype:" + skypeId + "?call'>"+ "<img src='VAADIN/themes/activiti/img/skype.png' style='border: none;' /></a>",Label.CONTENT_XHTML);
+  CssLayout layout=new CssLayout();
+  setCompositionRoot(layout);
+  Label label=new Label("<script type='text/javascript' src='http://download.skype.com/share/skypebuttons/js/skypeCheck.js'></script>",Label.CONTENT_XHTML);
+  layout.addComponent(label);
+  Link link=new Link(null,new ExternalResource("skype:" + skypeId + "?call"));
+  link.setIcon(Images.SKYPE);
+  layout.addComponent(link);
   setWidth(16,UNITS_PIXELS);
   setHeight(16,UNITS_PIXELS);
 }
