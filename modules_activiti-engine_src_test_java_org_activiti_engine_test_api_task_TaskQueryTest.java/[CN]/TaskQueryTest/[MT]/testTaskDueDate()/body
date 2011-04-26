@@ -8,4 +8,9 @@
   Calendar otherDate=Calendar.getInstance();
   otherDate.add(Calendar.YEAR,1);
   assertEquals(0,taskService.createTaskQuery().dueDate(otherDate.getTime()).count());
+  Calendar priorDate=Calendar.getInstance();
+  priorDate.setTime(dueDate);
+  priorDate.roll(Calendar.YEAR,-1);
+  assertEquals(1,taskService.createTaskQuery().dueAfter(priorDate.getTime()).count());
+  assertEquals(1,taskService.createTaskQuery().dueBefore(otherDate.getTime()).count());
 }
