@@ -1,0 +1,10 @@
+{
+  Map<String,Object> docProps=new HashMap<String,Object>();
+  docProps.put(PropertyIds.NAME,fileName);
+  docProps.put(PropertyIds.OBJECT_TYPE_ID,DocumentType.DOCUMENT_BASETYPE_ID);
+  ByteArrayInputStream in=new ByteArrayInputStream(content);
+  ContentStream contentStream=session.getObjectFactory().createContentStream(fileName,content.length,mimeType,in);
+  ObjectId documentId=session.createDocument(docProps,session.createObjectId((String)folder.getPropertyValue(PropertyIds.OBJECT_ID)),contentStream,null,null,null,null);
+  Document document=(Document)session.getObject(documentId);
+  return document;
+}

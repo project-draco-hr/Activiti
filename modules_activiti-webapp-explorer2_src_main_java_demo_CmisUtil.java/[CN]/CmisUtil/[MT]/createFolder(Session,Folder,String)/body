@@ -1,0 +1,7 @@
+{
+  Map<String,Object> folderProps=new HashMap<String,Object>();
+  folderProps.put(PropertyIds.NAME,folderName);
+  folderProps.put(PropertyIds.OBJECT_TYPE_ID,FolderType.FOLDER_BASETYPE_ID);
+  ObjectId folderObjectId=session.createFolder(folderProps,parentFolder,null,null,null);
+  return (Folder)session.getObject(folderObjectId);
+}

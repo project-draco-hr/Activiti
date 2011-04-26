@@ -1,0 +1,11 @@
+{
+  ObjectType type=session.getTypeDefinition("cmis:folder");
+  PropertyDefinition<?> objectIdPropDef=type.getPropertyDefinitions().get(PropertyIds.OBJECT_ID);
+  String objectIdQueryName=objectIdPropDef.getQueryName();
+  ItemIterable<QueryResult> results=session.query("SELECT * FROM cmis:folder WHERE cmis:name='" + folderName + "'",false);
+  for (  QueryResult qResult : results) {
+    String objectId=qResult.getPropertyValueByQueryName(objectIdQueryName);
+    return (Folder)session.getObject(session.createObjectId(objectId));
+  }
+  return null;
+}
