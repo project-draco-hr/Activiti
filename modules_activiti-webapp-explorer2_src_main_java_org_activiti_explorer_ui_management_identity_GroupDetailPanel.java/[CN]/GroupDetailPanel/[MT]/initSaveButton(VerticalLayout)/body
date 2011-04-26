@@ -5,8 +5,10 @@
   saveButton.addListener(new ClickListener(){
     public void buttonClick(    ClickEvent event){
       String originalName=group.getName();
-      group.setName(nameTextField.getValue().toString());
-      group.setType(typeCombobox.getValue().toString());
+      if (nameTextField.getValue() != null) {
+        group.setName(nameTextField.getValue().toString());
+        group.setType(typeCombobox.getValue().toString());
+      }
       identityService.saveGroup(group);
       editingDetails=false;
       detailLayout.removeAllComponents();
