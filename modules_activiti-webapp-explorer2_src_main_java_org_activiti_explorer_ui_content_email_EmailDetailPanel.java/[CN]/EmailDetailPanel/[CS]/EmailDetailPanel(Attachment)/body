@@ -1,0 +1,24 @@
+{
+  setSizeFull();
+  ((AbstractLayout)getContent()).setMargin(true);
+  ((SpacingHandler)getContent()).setSpacing(true);
+  addStyleName(Reindeer.PANEL_LIGHT);
+  this.attachment=attachment;
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  this.taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
+  gridLayout=new GridLayout(2,4);
+  gridLayout.setSpacing(true);
+  addComponent(gridLayout);
+  InputStream contentStream=taskService.getAttachmentContent(attachment.getId());
+  JSONObject emailJson=new JSONObject(new JSONTokener(new InputStreamReader(contentStream)));
+  String html=emailJson.getString(Constants.EMAIL_HTML_CONTENT);
+  String subject=emailJson.getString(Constants.EMAIL_SUBJECT);
+  String recipients=emailJson.getString(Constants.EMAIL_RECIPIENT);
+  String sentDate=emailJson.getString(Constants.EMAIL_SENT_DATE);
+  String receivedDate=emailJson.getString(Constants.EMAIL_RECEIVED_DATE);
+  addSimpleRow(Messages.EMAIL_SUBJECT,subject);
+  addSimpleRow(Messages.EMAIL_RECIPIENTS,recipients);
+  addSimpleRow(Messages.EMAIL_SENT_DATE,sentDate);
+  addSimpleRow(Messages.EMAIL_RECEIVED_DATE,receivedDate);
+  addHtmlContent(html);
+}
