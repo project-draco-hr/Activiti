@@ -19,7 +19,7 @@
   assertEquals(2,taskEventMessageParts.size());
   taskService.deleteCandidateGroup(taskId,"muppets");
   taskEvents=taskService.getTaskEvents(taskId);
-  taskEvent=taskEvents.get(0);
+  taskEvent=findTaskEvent(taskEvents,Event.ACTION_DELETE_GROUP_LINK);
   assertEquals(Event.ACTION_DELETE_GROUP_LINK,taskEvent.getAction());
   taskEventMessageParts=taskEvent.getMessageParts();
   assertEquals("muppets",taskEventMessageParts.get(0));
