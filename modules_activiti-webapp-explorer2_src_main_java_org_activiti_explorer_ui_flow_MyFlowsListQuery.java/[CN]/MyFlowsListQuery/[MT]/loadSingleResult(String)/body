@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(id).singleResult();
+  HistoricProcessInstance processInstance=historyService.createHistoricProcessInstanceQuery().startedBy(ExplorerApp.get().getLoggedInUser().getId()).unfinished().processInstanceId(id).singleResult();
   if (processInstance != null) {
     return createItem(processInstance);
   }

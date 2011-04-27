@@ -1,6 +1,7 @@
 {
   ComboBox comboBox=new ComboBox(getPropertyLabel(formProperty));
   comboBox.setRequired(formProperty.isRequired());
+  comboBox.setRequiredError(getMessage(Messages.FORM_FIELD_REQUIRED,getPropertyLabel(formProperty)));
   comboBox.setEnabled(formProperty.isWritable());
   Map<String,String> values=(Map<String,String>)formProperty.getType().getInformation("values");
   if (values != null) {

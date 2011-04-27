@@ -1,3 +1,3 @@
 {
-  return (int)runtimeService.createProcessInstanceQuery().count();
+  return (int)historyService.createHistoricProcessInstanceQuery().startedBy(ExplorerApp.get().getLoggedInUser().getId()).unfinished().count();
 }

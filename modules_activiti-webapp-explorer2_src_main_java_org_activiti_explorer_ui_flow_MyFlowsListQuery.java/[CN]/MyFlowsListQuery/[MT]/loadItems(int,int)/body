@@ -1,7 +1,7 @@
 {
-  List<ProcessInstance> processInstances=runtimeService.createProcessInstanceQuery().list();
+  List<HistoricProcessInstance> processInstances=historyService.createHistoricProcessInstanceQuery().startedBy(ExplorerApp.get().getLoggedInUser().getId()).unfinished().list();
   List<Item> items=new ArrayList<Item>();
-  for (  ProcessInstance processInstance : processInstances) {
+  for (  HistoricProcessInstance processInstance : processInstances) {
     items.add(createItem(processInstance));
   }
   return items;
