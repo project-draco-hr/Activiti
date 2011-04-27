@@ -31,7 +31,7 @@ catch (  Exception e) {
     throw new ActivitiException("couldn't scan mail for user " + userId + ": "+ e.getMessage(),e);
   }
  finally {
-    if (toDoInActivitiFolder != null) {
+    if (toDoInActivitiFolder != null && toDoInActivitiFolder.isOpen()) {
       try {
         toDoInActivitiFolder.close(false);
       }
@@ -39,7 +39,7 @@ catch (  Exception e) {
         e.printStackTrace();
       }
     }
-    if (toDoFolder != null) {
+    if (toDoFolder != null && toDoFolder.isOpen()) {
       try {
         toDoFolder.close(true);
       }
