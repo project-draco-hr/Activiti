@@ -18,4 +18,15 @@
   identityService.setUserInfo("joram","phone","+32485869655");
   identityService.setUserInfo("joram","twitterName","jbarrez");
   identityService.setUserInfo("joram","skype","joram.barrez");
+  String accountUsername=System.getProperty("user");
+  String accountPassword=System.getProperty("pwd");
+  if (accountUsername == null || accountPassword == null) {
+    throw new RuntimeException("'user' and 'pwd' system property must be set");
+  }
+  Map<String,String> accountDetails=new HashMap<String,String>();
+  accountDetails.put("toDoFolderName","Cases");
+  accountDetails.put("toDoInActivitiFolderName","CasesInActiviti");
+  accountDetails.put("imapHost","imap.gmail.com");
+  accountDetails.put("imapProtocol","imaps");
+  identityService.setUserAccount("tom",null,"mailscan",accountUsername,accountPassword,accountDetails);
 }
