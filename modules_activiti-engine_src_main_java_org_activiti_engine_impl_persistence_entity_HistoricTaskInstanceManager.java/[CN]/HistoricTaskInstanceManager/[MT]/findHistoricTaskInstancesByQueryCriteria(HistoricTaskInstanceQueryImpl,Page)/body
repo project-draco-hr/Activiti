@@ -1,3 +1,6 @@
 {
-  return getDbSqlSession().selectList("selectHistoricTaskInstancesByQueryCriteria",historicTaskInstanceQuery,page);
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    return getDbSqlSession().selectList("selectHistoricTaskInstancesByQueryCriteria",historicTaskInstanceQuery,page);
+  }
+  return Collections.EMPTY_LIST;
 }

@@ -2,5 +2,8 @@
   if (taskId == null) {
     throw new ActivitiException("Invalid historic task id : null");
   }
-  return (HistoricTaskInstanceEntity)getDbSqlSession().selectOne("selectHistoricTaskInstance",taskId);
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    return (HistoricTaskInstanceEntity)getDbSqlSession().selectOne("selectHistoricTaskInstance",taskId);
+  }
+  return null;
 }

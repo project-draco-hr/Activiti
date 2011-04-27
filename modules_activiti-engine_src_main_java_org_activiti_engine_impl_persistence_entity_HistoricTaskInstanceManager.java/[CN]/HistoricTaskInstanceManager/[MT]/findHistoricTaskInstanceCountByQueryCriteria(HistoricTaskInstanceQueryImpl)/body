@@ -1,3 +1,6 @@
 {
-  return (Long)getDbSqlSession().selectOne("selectHistoricTaskInstanceCountByQueryCriteria",historicTaskInstanceQuery);
+  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+    return (Long)getDbSqlSession().selectOne("selectHistoricTaskInstanceCountByQueryCriteria",historicTaskInstanceQuery);
+  }
+  return 0;
 }
