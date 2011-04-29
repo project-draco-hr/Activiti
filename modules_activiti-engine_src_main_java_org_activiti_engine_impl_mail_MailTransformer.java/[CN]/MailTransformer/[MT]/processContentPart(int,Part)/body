@@ -34,11 +34,11 @@
           if (attachmentName.startsWith("<") && attachmentName.endsWith(">")) {
             attachmentName=attachmentName.substring(1,attachmentName.length() - 2).trim();
           }
-          attachmentType="email-inline-image";
+          attachmentType=getImageMimeType(attachmentName);
         }
  else         if (Part.INLINE.equalsIgnoreCase(part.getDisposition())) {
           attachmentName=fileName;
-          attachmentType="email-inline-image";
+          attachmentType=getImageMimeType(attachmentName);
           messageText.append("<img id=\"cid:" + fileName + "\" src=\"cid:"+ fileName+ "\" />");
           messageHtml.append("<img id=\"cid:" + fileName + "\" src=\"cid:"+ fileName+ "\" />");
         }
