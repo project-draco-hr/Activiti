@@ -1,0 +1,9 @@
+{
+  ProcessEngine processEngine=muleContext.getRegistry().get("processEngine");
+  String deploymentId=TestHelper.annotationDeploymentSetUp(processEngine,getClass(),getName());
+  RuntimeService runtimeService=muleContext.getRegistry().get("runtimeService");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("muleProcess");
+  assertFalse(processInstance.isEnded());
+  Object result=runtimeService.getVariable(processInstance.getProcessInstanceId(),"theVariable");
+  assertEquals(10,result);
+}

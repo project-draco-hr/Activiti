@@ -1,0 +1,25 @@
+{
+  String endpointUrlValue=this.getStringFromField(this.endpointUrl,execution);
+  String languageValue=this.getStringFromField(this.language,execution);
+  String payloadExpressionValue=this.getStringFromField(this.payloadExpression,execution);
+  String resultVariableValue=this.getStringFromField(this.resultVariable,execution);
+  LocalMuleClient client=this.getMuleContext().getClient();
+  ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
+  Object payload=scriptingEngines.evaluate(payloadExpressionValue,languageValue,execution);
+  MuleMessage message=new DefaultMuleMessage(payload,this.getMuleContext());
+switch (mep) {
+case REQUEST_RESPONSE:
+    MuleMessage resultMessage=client.send(endpointUrlValue,message);
+  Object result=resultMessage.getPayload();
+if (resultVariableValue != null) {
+  execution.setVariable(resultVariableValue,result);
+}
+break;
+case ONE_WAY:
+client.dispatch(endpointUrlValue,message);
+break;
+default :
+break;
+}
+this.leave(execution);
+}

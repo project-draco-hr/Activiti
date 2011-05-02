@@ -1,0 +1,7 @@
+{
+  if (this.muleContext == null) {
+    Map<Object,Object> beans=Context.getProcessEngineConfiguration().getBeans();
+    this.muleContext=(MuleContext)beans.get("muleContext");
+  }
+  return this.muleContext;
+}
