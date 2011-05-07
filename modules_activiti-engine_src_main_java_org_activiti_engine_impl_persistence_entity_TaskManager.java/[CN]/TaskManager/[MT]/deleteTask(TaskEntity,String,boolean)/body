@@ -8,7 +8,7 @@
       deleteTask((TaskEntity)subTask,deleteReason,cascade);
     }
     commandContext.getIdentityLinkManager().deleteIdentityLinksByTaskId(taskId);
-    commandContext.getVariableInstanceManager().deleteVariableInstanceByTaskId(taskId);
+    commandContext.getVariableInstanceManager().deleteVariableInstanceByTask(task);
     if (cascade) {
       commandContext.getHistoricTaskInstanceManager().deleteHistoricTaskInstanceById(taskId);
     }
