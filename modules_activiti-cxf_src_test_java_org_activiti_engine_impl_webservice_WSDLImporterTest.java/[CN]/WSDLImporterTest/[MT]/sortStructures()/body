@@ -1,0 +1,10 @@
+{
+  List<StructureDefinition> structures=new ArrayList<StructureDefinition>(importer.getStructures());
+  Collections.sort(structures,new Comparator<StructureDefinition>(){
+    public int compare(    StructureDefinition o1,    StructureDefinition o2){
+      return o1.getId().compareTo(o2.getId());
+    }
+  }
+);
+  return structures;
+}

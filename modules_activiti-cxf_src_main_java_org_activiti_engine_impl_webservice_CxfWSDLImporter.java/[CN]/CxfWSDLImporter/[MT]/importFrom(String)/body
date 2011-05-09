@@ -1,0 +1,21 @@
+{
+  this.wsServices.clear();
+  this.wsOperations.clear();
+  this.structures.clear();
+  this.wsdlLocation=url;
+  try {
+    Bus bus=BusFactory.getDefaultBus();
+    WSDLManager wsdlManager=bus.getExtension(WSDLManager.class);
+    Definition def=wsdlManager.getDefinition(url);
+    WSDLServiceBuilder builder=new WSDLServiceBuilder(bus);
+    List<ServiceInfo> services=builder.buildServices(def);
+    for (    ServiceInfo service : services) {
+      WSService wsService=this.importService(service);
+      this.wsServices.put(this.namespace + wsService.getName(),wsService);
+    }
+    this.importTypes(def.getTypes());
+  }
+ catch (  WSDLException e) {
+    e.printStackTrace();
+  }
+}

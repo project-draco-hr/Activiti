@@ -1,0 +1,14 @@
+{
+  String name=service.getName().getLocalPart();
+  String location="";
+  for (  EndpointInfo endpoint : service.getEndpoints()) {
+    location=endpoint.getAddress();
+  }
+  WSService wsService=new WSService(this.namespace + name,location,this.wsdlLocation);
+  for (  OperationInfo operation : service.getInterface().getOperations()) {
+    WSOperation wsOperation=this.importOperation(operation,wsService);
+    wsService.addOperation(wsOperation);
+    this.wsOperations.put(this.namespace + operation.getName().getLocalPart(),wsOperation);
+  }
+  return wsService;
+}
