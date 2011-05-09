@@ -12,7 +12,7 @@
         Map<String,String> properties=event.getFormProperties();
         formService.submitTaskFormData(task.getId(),properties);
         notificationManager.showInformationNotification(Messages.TASK_COMPLETED,task.getName());
-        taskPage.refreshListSelectNext();
+        taskPage.refreshSelectNext();
       }
       @Override protected void handleFormCancel(      FormPropertiesEvent event){
         taskForm.clear();
@@ -37,7 +37,7 @@
         }
         taskService.complete(task.getId());
         notificationManager.showInformationNotification(Messages.TASK_COMPLETED,task.getName());
-        taskPage.refreshListSelectNext();
+        taskPage.refreshSelectNext();
       }
     }
 );
