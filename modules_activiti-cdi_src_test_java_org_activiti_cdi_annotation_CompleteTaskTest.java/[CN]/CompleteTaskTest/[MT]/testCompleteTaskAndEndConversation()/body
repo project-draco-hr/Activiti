@@ -1,9 +1,0 @@
-{
-  beginConversation();
-  getBeanInstance(Actor.class).setActorId("kermit");
-  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
-  businessProcess.startProcessByKey("keyOfTheProcess");
-  assertFalse(getBeanInstance(Conversation.class).isTransient());
-  getBeanInstance(DeclarativeProcessController.class).completeTaskEndConversation();
-  assertTrue(getBeanInstance(Conversation.class).isTransient());
-}

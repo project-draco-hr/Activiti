@@ -1,0 +1,6 @@
+{
+  TestEventListener listenerBean=getBeanInstance(TestEventListener.class);
+  assertEquals(0,listenerBean.getEventsReceived().size());
+  runtimeService.startProcessInstanceByKey("process1");
+  assertEquals(11,listenerBean.getEventsReceived().size());
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    ProgrammaticBeanLookup.lookup(ProcessEngine.class);
+  }
+ catch (  Exception e) {
+    return;
+  }
+  BusinessProcessEvent event=createEvent(execution);
+  Annotation[] qualifiers=getQualifiers(event);
+  getBeanManager().fireEvent(event,qualifiers);
+}

@@ -1,0 +1,13 @@
+{
+  BoundSessionContext sessionContext=getSessionContext();
+  try {
+    sessionContext.invalidate();
+    sessionContext.deactivate();
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("     ----------------------------- Ended the current Session -----------------------");
+    }
+  }
+  finally {
+    sessionContext.dissociate(sessionDataMap);
+  }
+}

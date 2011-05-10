@@ -1,13 +1,4 @@
 {
-  logger.info("Initializing activiti-cdi extension.");
-  try {
-    BeanManagerLookup.localInstance=manager;
-    initializeProcessEngine();
-    event.addContext(new BusinessProcessContext());
-    deployProcesses();
-  }
- catch (  Exception e) {
-    event.addDefinitionError(e);
-    return;
-  }
+  BeanManagerLookup.localInstance=manager;
+  event.addContext(new BusinessProcessContext());
 }

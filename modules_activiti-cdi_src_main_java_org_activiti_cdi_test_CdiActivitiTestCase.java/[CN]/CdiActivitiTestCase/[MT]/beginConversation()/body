@@ -1,8 +1,10 @@
 {
-  if (getBeanInstance(Conversation.class).isTransient()) {
-    getBeanInstance(Conversation.class).begin();
-    if (logger.isLoggable(Level.FINE)) {
-      logger.fine("---------------------------------------- Started a new Conversation -----------------------");
-    }
+  if (currentRequestMap == null) {
+    throw new ActivitiException("Cannot start conversation: no request active.");
   }
+  if (currentSessionMap == null) {
+    throw new ActivitiException("Cannot start conversation: no session active.");
+  }
+  currentSessionMap=new HashMap<String,Object>();
+  startTransientConversation(currentRequestMap,currentSessionMap);
 }

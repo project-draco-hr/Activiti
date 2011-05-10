@@ -1,6 +1,6 @@
 {
   Map<String,Object> variables=new HashMap<String,Object>();
-  for (  Field field : ctx.getTarget().getClass().getDeclaredFields()) {
+  for (  Field field : ctx.getMethod().getDeclaringClass().getDeclaredFields()) {
     if (!field.isAnnotationPresent(ProcessVariable.class)) {
       continue;
     }

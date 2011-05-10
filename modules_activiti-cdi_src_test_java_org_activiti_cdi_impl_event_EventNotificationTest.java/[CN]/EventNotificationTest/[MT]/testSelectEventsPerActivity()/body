@@ -1,0 +1,10 @@
+{
+  TestEventListener listenerBean=getBeanInstance(TestEventListener.class);
+  assertEquals(0,listenerBean.getEndActivityService1());
+  assertEquals(0,listenerBean.getStartActivityService1());
+  assertEquals(0,listenerBean.getTakeTransitiont1());
+  runtimeService.startProcessInstanceByKey("process1");
+  assertEquals(1,listenerBean.getEndActivityService1());
+  assertEquals(1,listenerBean.getStartActivityService1());
+  assertEquals(1,listenerBean.getTakeTransitiont1());
+}

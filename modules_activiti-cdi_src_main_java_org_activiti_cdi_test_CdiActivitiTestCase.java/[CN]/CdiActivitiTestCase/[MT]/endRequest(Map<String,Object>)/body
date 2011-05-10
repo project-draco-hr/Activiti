@@ -1,0 +1,13 @@
+{
+  BoundRequestContext requestContext=getRequestContext();
+  try {
+    requestContext.invalidate();
+    requestContext.deactivate();
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("     ----------------------------- Ended the current Request -----------------------");
+    }
+  }
+  finally {
+    requestContext.dissociate(requestDataStore);
+  }
+}

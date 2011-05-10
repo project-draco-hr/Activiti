@@ -1,4 +1,13 @@
 {
   assertProcessIdSet();
-  return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(associationManager.getProcessInstanceId()).singleResult();
+  ProcessInstance instance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(associationManager.getProcessInstanceId()).singleResult();
+  if (instance != null) {
+    return instance;
+  }
+  try {
+    return Context.getExecutionContext().getProcessInstance();
+  }
+ catch (  Exception e) {
+    return null;
+  }
 }

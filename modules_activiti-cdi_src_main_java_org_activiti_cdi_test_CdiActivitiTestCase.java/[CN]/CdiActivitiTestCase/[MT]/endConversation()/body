@@ -1,9 +1,9 @@
 {
-  if (!getBeanInstance(Conversation.class).isTransient()) {
-    getBeanInstance(Conversation.class).end();
-    getConversationContext().getBeanStore().clear();
-    if (logger.isLoggable(Level.FINE)) {
-      logger.fine("---------------------------------------- Ended the current Conversation -----------------------");
-    }
+  if (currentRequestMap == null) {
+    throw new ActivitiException("Cannot end conversation: no request active.");
   }
+  if (currentSessionMap == null) {
+    throw new ActivitiException("Cannot end conversation: no session active.");
+  }
+  endOrPassivateConversation(currentRequestMap,currentSessionMap);
 }
