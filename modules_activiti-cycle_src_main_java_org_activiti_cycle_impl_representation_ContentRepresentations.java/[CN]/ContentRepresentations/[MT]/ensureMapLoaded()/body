@@ -7,16 +7,22 @@ synchronized (this) {
       return;
     }
     contentRepMap=new HashMap<RepositoryArtifactType,Set<ContentRepresentation>>();
+    globalRepresentations=new HashSet<ContentRepresentation>();
     Set<Class<ContentRepresentation>> contentRepresentationClasses=CycleComponentFactory.getAllImplementations(ContentRepresentation.class);
     for (    Class<ContentRepresentation> clazz : contentRepresentationClasses) {
       ContentRepresentation representation=CycleApplicationContext.get(clazz);
       RepositoryArtifactType type=representation.getRepositoryArtifactType();
-      Set<ContentRepresentation> representationsForThisType=contentRepMap.get(type);
-      if (representationsForThisType == null) {
-        representationsForThisType=new HashSet<ContentRepresentation>();
-        contentRepMap.put(type,representationsForThisType);
+      if (type == null) {
+        globalRepresentations.add(representation);
       }
-      representationsForThisType.add(representation);
+ else {
+        Set<ContentRepresentation> representationsForThisType=contentRepMap.get(type);
+        if (representationsForThisType == null) {
+          representationsForThisType=new HashSet<ContentRepresentation>();
+          contentRepMap.put(type,representationsForThisType);
+        }
+        representationsForThisType.add(representation);
+      }
     }
   }
 }
