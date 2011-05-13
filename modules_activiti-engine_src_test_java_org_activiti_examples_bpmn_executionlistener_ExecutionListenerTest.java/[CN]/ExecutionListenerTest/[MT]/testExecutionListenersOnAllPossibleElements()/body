@@ -1,8 +1,11 @@
 {
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("executionListenersProcess");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("executionListenersProcess","businessKey123");
   String varSetInExecutionListener=(String)runtimeService.getVariable(processInstance.getId(),"variableSetInExecutionListener");
   assertNotNull(varSetInExecutionListener);
   assertEquals("firstValue",varSetInExecutionListener);
+  String businessKey=(String)runtimeService.getVariable(processInstance.getId(),"businessKeyInExecution");
+  assertNotNull(businessKey);
+  assertEquals("businessKey123",businessKey);
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(task);
   taskService.complete(task.getId());
