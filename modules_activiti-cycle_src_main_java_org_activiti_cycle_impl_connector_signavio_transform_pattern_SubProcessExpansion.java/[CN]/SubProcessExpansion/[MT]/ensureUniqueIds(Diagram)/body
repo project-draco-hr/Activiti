@@ -1,0 +1,13 @@
+{
+  for (  Shape shape : diagram.getShapes()) {
+    String id=shape.getResourceId();
+    Integer numberOfDuplicates=0;
+    while (shapeIds.contains(id)) {
+      id=shape.getResourceId() + "-copy-" + (++numberOfDuplicates);
+    }
+    shapeIds.add(id);
+    if (id != shape.getResourceId()) {
+      changeShapeID(shape,id);
+    }
+  }
+}

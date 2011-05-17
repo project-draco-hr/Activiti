@@ -9,6 +9,7 @@
           String subProcessId=getModelIdFromSignavioUrl(subProcessUrl);
           String subProcessJson=connector.getContent(subProcessId).asString();
           Diagram subProcess=DiagramBuilder.parseJson(subProcessJson);
+          ensureUniqueIds(subProcess);
           expandSubProcesses(subProcess);
           shape.setStencil(new StencilType(STENCIL_SUBPROCESS));
           ArrayList<Shape> childShapes=shape.getChildShapes();
