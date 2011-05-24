@@ -26,6 +26,11 @@
       if (jdbcMaxWaitTime > 0) {
         pooledDataSource.setPoolTimeToWait(jdbcMaxWaitTime);
       }
+      if (jdbcPingEnabled == true) {
+        pooledDataSource.setPoolPingEnabled(true);
+        if (jdbcPingQuery != null)         pooledDataSource.setPoolPingQuery(jdbcPingQuery);
+        pooledDataSource.setPoolPingConnectionsNotUsedFor(jdbcPingConnectionNotUsedFor);
+      }
       dataSource=pooledDataSource;
     }
     if (dataSource instanceof PooledDataSource) {
