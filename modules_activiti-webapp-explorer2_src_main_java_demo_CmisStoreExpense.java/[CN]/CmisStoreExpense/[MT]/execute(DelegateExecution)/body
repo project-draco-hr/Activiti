@@ -1,9 +1,0 @@
-{
-  Session session=CmisUtil.createCmisSession("admin","admin","http://cmis.alfresco.com:80/service/cmis");
-  Folder folder=CmisUtil.getFolder(session,FOLDER);
-  if (folder == null) {
-    folder=CmisUtil.createFolder(session,session.getRootFolder(),FOLDER);
-  }
-  byte[] pdfDoc=createPdfDocument(execution);
-  CmisUtil.createDocument(session,folder,"expense_" + DATE_FORMATTER.format(new Date()) + ".pdf",pdfDoc,"application/pdf");
-}

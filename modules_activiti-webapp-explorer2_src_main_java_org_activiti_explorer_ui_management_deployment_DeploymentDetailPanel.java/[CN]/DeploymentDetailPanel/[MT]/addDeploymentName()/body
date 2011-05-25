@@ -6,7 +6,13 @@
   taskDetails.setMargin(false,false,true,false);
   Embedded image=new Embedded(null,Images.DEPLOYMENT_50);
   taskDetails.addComponent(image,0,0,0,1);
-  Label nameLabel=new Label(deployment.getName());
+  Label nameLabel=new Label();
+  if (deployment.getName() != null) {
+    nameLabel.setValue(deployment.getName());
+  }
+ else {
+    nameLabel.setValue(i18nManager.getMessage(Messages.DEPLOYMENT_NO_NAME));
+  }
   nameLabel.addStyleName(Reindeer.LABEL_H2);
   taskDetails.addComponent(nameLabel,1,0,2,0);
   PrettyTimeLabel deployTimeLabel=new PrettyTimeLabel(i18nManager.getMessage(Messages.DEPLOYMENT_DEPLOY_TIME),deployment.getDeploymentTime(),null);
