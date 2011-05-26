@@ -6,7 +6,7 @@
   Label text=taskEventTextResolver.resolveText(taskEvent);
   text.setWidth("100%");
   layout.addComponent(text);
-  Label time=new Label(new PrettyTime().format(taskEvent.getTime()));
+  Label time=new Label(new HumanTime(i18nManager).format(taskEvent.getTime()));
   time.setSizeUndefined();
   time.addStyleName(ExplorerLayout.STYLE_TASK_EVENT_TIME);
   layout.addComponent(time);

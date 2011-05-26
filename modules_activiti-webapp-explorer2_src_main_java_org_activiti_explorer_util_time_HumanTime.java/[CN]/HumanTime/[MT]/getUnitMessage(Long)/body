@@ -1,0 +1,19 @@
+{
+  String unitMessage=null;
+  TimeUnit unitToUse=null;
+  TimeUnit currentUnit=null;
+  for (int i=0; i < timeUnits.size() && unitToUse == null; i++) {
+    currentUnit=timeUnits.get(i);
+    if (currentUnit.getNumberOfMillis() <= difference) {
+      unitToUse=currentUnit;
+    }
+  }
+  if (unitToUse == null) {
+    unitMessage=i18nManager.getMessage(Messages.TIME_UNIT_MOMENTS);
+  }
+ else {
+    Long numberOfUnits=(difference - (difference % unitToUse.getNumberOfMillis())) / unitToUse.getNumberOfMillis();
+    unitMessage=i18nManager.getMessage(unitToUse.getMessageKey(numberOfUnits),numberOfUnits);
+  }
+  return unitMessage;
+}

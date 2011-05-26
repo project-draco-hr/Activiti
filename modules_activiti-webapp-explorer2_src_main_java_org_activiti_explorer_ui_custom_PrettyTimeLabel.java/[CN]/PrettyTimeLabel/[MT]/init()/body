@@ -1,11 +1,12 @@
 {
+  final I18nManager i18nManager=ExplorerApp.get().getI18nManager();
   if (date != null) {
     DateFormat dateFormat=(DateFormat)Constants.DEFAULT_DATE_FORMATTER.clone();
     if (labelTemplate != null) {
-      super.setValue(MessageFormat.format(labelTemplate,new PrettyTime().format(date)));
+      super.setValue(MessageFormat.format(labelTemplate,new HumanTime(i18nManager).format(date)));
     }
  else {
-      super.setValue(new PrettyTime().format(date));
+      super.setValue(new HumanTime(i18nManager).format(date));
     }
     setDescription(dateFormat.format(date));
   }

@@ -1,0 +1,20 @@
+{
+  boolean future=true;
+  Long difference=date.getTime() - baseDate;
+  if (difference < 0) {
+    future=false;
+    difference=-difference;
+  }
+ else   if (difference == 0) {
+    return i18nManager.getMessage(Messages.TIME_UNIT_JUST_NOW);
+  }
+  String unitMessage=getUnitMessage(difference);
+  String messageKey=null;
+  if (future) {
+    messageKey=Messages.TIME_UNIT_FUTURE;
+  }
+ else {
+    messageKey=Messages.TIME_UNIT_PAST;
+  }
+  return i18nManager.getMessage(messageKey,unitMessage);
+}
