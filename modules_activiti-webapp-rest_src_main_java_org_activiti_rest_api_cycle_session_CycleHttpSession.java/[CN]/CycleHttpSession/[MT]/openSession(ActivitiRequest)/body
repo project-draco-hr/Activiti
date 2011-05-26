@@ -1,5 +1,9 @@
 {
   HttpSession httpSession=req.getHttpServletRequest().getSession(true);
+  int sessionTimeout=httpSession.getMaxInactiveInterval();
+  if (sessionTimeout < 7200) {
+    httpSession.setMaxInactiveInterval(7200);
+  }
   String cuid=req.getCurrentUserId();
   CycleComponentFactory.registerServletContext(httpSession.getServletContext());
   CycleSessionContext.setContext(new HttpSessionContext(httpSession));
