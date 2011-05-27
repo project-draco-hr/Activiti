@@ -1,0 +1,17 @@
+{
+  VerticalLayout processImageContainer=new VerticalLayout();
+  Label processTitle=new Label(i18nManager.getMessage(Messages.PROCESS_HEADER_DIAGRAM));
+  processTitle.addStyleName(ExplorerLayout.STYLE_H3);
+  processImageContainer.addComponent(processTitle);
+  if (processDefinition.getDiagramResourceName() != null) {
+    StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processDefinition,repositoryService);
+    Embedded embedded=new Embedded("",diagram);
+    embedded.setType(Embedded.TYPE_IMAGE);
+    processImageContainer.addComponent(embedded);
+  }
+ else {
+    Label noImageAvailable=new Label(i18nManager.getMessage(Messages.PROCESS_NO_DIAGRAM));
+    processImageContainer.addComponent(noImageAvailable);
+  }
+  addComponent(processImageContainer);
+}

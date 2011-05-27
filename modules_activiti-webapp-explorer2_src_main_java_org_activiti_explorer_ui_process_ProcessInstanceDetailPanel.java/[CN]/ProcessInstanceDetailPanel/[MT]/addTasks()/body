@@ -1,0 +1,34 @@
+{
+  Label header=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCE_HEADER_TASKS));
+  header.addStyleName(ExplorerLayout.STYLE_H3);
+  header.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  verticalLayout.addComponent(header);
+  Label spacer=new Label();
+  spacer.setValue("&nbsp");
+  spacer.setContentMode(Label.CONTENT_XHTML);
+  verticalLayout.addComponent(spacer);
+  Table taskTable=new Table();
+  taskTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_TASK_LIST);
+  taskTable.setWidth(100,UNITS_PERCENTAGE);
+  List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByHistoricActivityInstanceStartTime().desc().list();
+  if (tasks.size() > 0) {
+    taskTable.addContainerProperty("finished",Component.class,null,"",null,Table.ALIGN_CENTER);
+    taskTable.setColumnWidth("finished",22);
+    taskTable.addContainerProperty("name",String.class,null,i18nManager.getMessage(Messages.TASK_NAME),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("priority",Integer.class,null,i18nManager.getMessage(Messages.TASK_PRIORITY),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("assignee",Component.class,null,i18nManager.getMessage(Messages.TASK_ASSIGNEE),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("dueDate",Component.class,null,i18nManager.getMessage(Messages.TASK_DUEDATE),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("startDate",Component.class,null,i18nManager.getMessage(Messages.TASK_CREATE_TIME),null,Table.ALIGN_LEFT);
+    taskTable.addContainerProperty("endDate",Component.class,null,i18nManager.getMessage(Messages.TASK_COMPLETE_TIME),null,Table.ALIGN_LEFT);
+    verticalLayout.addComponent(taskTable);
+    verticalLayout.setExpandRatio(taskTable,1.0f);
+    for (    HistoricTaskInstance task : tasks) {
+      addTaskItem(task,taskTable);
+    }
+    taskTable.setPageLength(taskTable.size());
+  }
+ else {
+    Label noTaskLabel=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCE_NO_TASKS));
+    verticalLayout.addComponent(noTaskLabel);
+  }
+}

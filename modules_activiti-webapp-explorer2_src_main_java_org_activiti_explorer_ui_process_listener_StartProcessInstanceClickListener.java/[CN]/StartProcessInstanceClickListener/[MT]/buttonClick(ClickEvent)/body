@@ -1,0 +1,14 @@
+{
+  StartFormData startFormData=formService.getStartFormData(processDefinition.getId());
+  if (startFormData != null && ((startFormData.getFormProperties() != null && startFormData.getFormProperties().size() > 0) || startFormData.getFormKey() != null)) {
+    parentPage.showStartForm(processDefinition,startFormData);
+  }
+ else {
+    ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
+    notificationManager.showInformationNotification(Messages.PROCESS_STARTED_NOTIFICATION,processDefinition.getName());
+    List<Task> loggedInUsersTasks=taskService.createTaskQuery().taskAssignee(ExplorerApp.get().getLoggedInUser().getId()).processInstanceId(processInstance.getId()).list();
+    if (loggedInUsersTasks.size() > 0) {
+      ExplorerApp.get().getViewManager().showInboxPage(loggedInUsersTasks.get(0).getId());
+    }
+  }
+}
