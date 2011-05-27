@@ -1,4 +1,9 @@
 {
   addItemProperty("id",new ObjectProperty<String>(deployment.getId()));
-  addItemProperty("name",new ObjectProperty<String>(deployment.getName()));
+  if (deployment.getName() != null) {
+    addItemProperty("name",new ObjectProperty<String>(deployment.getName()));
+  }
+ else {
+    addItemProperty("name",new ObjectProperty<String>(ExplorerApp.get().getI18nManager().getMessage(Messages.DEPLOYMENT_NO_NAME)));
+  }
 }
