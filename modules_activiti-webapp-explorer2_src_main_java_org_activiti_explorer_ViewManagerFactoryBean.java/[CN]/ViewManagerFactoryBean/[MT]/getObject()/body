@@ -1,0 +1,12 @@
+{
+  System.out.println("Creating new ViewManager impl");
+  DefaultViewManager viewManagerImpl;
+  if (environment.equals(Environments.ALFRESCO)) {
+    viewManagerImpl=new AlfrescoViewManager();
+  }
+ else {
+    viewManagerImpl=new DefaultViewManager();
+  }
+  viewManagerImpl.setMainWindow(mainWindow);
+  return viewManagerImpl;
+}
