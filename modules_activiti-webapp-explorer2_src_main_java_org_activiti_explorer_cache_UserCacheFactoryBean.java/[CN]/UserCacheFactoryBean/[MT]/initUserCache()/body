@@ -1,0 +1,9 @@
+{
+  if (environment.equals(Environments.ALFRESCO)) {
+    userCache=new DummyUserCache();
+  }
+ else {
+    userCache=new TrieBasedUserCache();
+    ((TrieBasedUserCache)userCache).setIdentityService(applicationContext.getBean(IdentityService.class));
+  }
+}
