@@ -1,6 +1,5 @@
 {
-  detailPanel=new ProcessDefinitionDetailPanel(processDefinitionId,ProcessDefinitionPage.this);
+  detailPanel=new ProcessDefinitionDetailPanel(processDefinitionId,this);
   setDetailComponent(detailPanel);
-  UriFragment processDefinitionFragment=new UriFragment(ProcessNavigator.process_URI_PART,processDefinitionId);
-  ExplorerApp.get().setCurrentUriFragment(processDefinitionFragment);
+  changeUrl(processDefinitionId);
 }

@@ -2,7 +2,9 @@
   if (definitionInfoComponent == null) {
     definitionInfoComponent=new ProcessDefinitionInfoComponent(processDefinition,deployment);
   }
-  startProcessInstanceButton.setEnabled(true);
+  if (startProcessInstanceButton != null) {
+    startProcessInstanceButton.setEnabled(true);
+  }
   detailContainer.removeAllComponents();
   detailContainer.addComponent(definitionInfoComponent);
 }
