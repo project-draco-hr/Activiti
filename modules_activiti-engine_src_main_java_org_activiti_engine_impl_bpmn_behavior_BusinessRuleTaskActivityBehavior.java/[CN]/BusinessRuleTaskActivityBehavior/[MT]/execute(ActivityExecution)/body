@@ -1,8 +1,7 @@
 {
   PvmProcessDefinition processDefinition=execution.getActivity().getProcessDefinition();
   String deploymentId=processDefinition.getDeploymentId();
-  DeploymentEntity deploymentEntity=Context.getCommandContext().getDeploymentManager().findDeploymentById(deploymentId);
-  KnowledgeBase knowledgeBase=RulesHelper.findLatestKnowledgeBaseByDeploymentName(deploymentEntity.getName());
+  KnowledgeBase knowledgeBase=RulesHelper.findKnowledgeBaseByDeploymentId(deploymentId);
   StatefulKnowledgeSession ksession=knowledgeBase.newStatefulKnowledgeSession();
   if (variablesInputExpressions != null) {
     Iterator<Expression> itVariable=variablesInputExpressions.iterator();
