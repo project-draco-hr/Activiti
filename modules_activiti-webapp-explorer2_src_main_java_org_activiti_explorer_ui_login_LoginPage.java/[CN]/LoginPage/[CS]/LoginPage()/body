@@ -1,5 +1,17 @@
 {
-  super(ExplorerLayout.CUSTOM_LAYOUT_LOGIN);
+  super();
+  InputStream loginHtmlStream=getClass().getResourceAsStream("/VAADIN/themes/" + ExplorerLayout.THEME + "/layouts/"+ ExplorerLayout.CUSTOM_LAYOUT_LOGIN+ ".html");
+  if (loginHtmlStream != null) {
+    try {
+      initTemplateContentsFromInputStream(loginHtmlStream);
+    }
+ catch (    IOException e) {
+      throw new RuntimeException("Error while loading login page template from classpath resource",e);
+    }
+  }
+ else {
+    setTemplateName(ExplorerLayout.CUSTOM_LAYOUT_LOGIN);
+  }
   this.i18nManager=ExplorerApp.get().getI18nManager();
   this.viewManager=ExplorerApp.get().getViewManager();
   this.notificationManager=ExplorerApp.get().getNotificationManager();
