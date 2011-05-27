@@ -2,7 +2,7 @@
   this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
   this.formService=ProcessEngines.getDefaultProcessEngine().getFormService();
   this.i18nManager=ExplorerApp.get().getI18nManager();
-  this.flowPage=flowPage;
+  this.processDefinitionPage=processDefinitionPage;
   this.processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
   if (processDefinition != null) {
     deployment=repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
