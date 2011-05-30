@@ -1,0 +1,7 @@
+{
+  ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().orderByProcessInstanceId().asc();
+  if (processDefinitionId != null) {
+    query.processDefinitionId(processDefinitionId);
+  }
+  return query;
+}

@@ -1,0 +1,8 @@
+{
+  List<ProcessInstance> processInstances=constructQuery().listPage(start,count);
+  List<Item> items=new ArrayList<Item>(processInstances.size());
+  for (  ProcessInstance processInstance : processInstances) {
+    items.add(new AlfrescoProcessInstanceTableItem(processInstance));
+  }
+  return items;
+}

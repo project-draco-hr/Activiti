@@ -1,0 +1,26 @@
+{
+  final Table table=new Table();
+  LazyLoadingQuery query=new ProcessInstanceListQuery();
+  processInstanceContainer=new LazyLoadingContainer(query);
+  table.setContainerDataSource(processInstanceContainer);
+  table.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=table.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String processInstanceId=(String)item.getItemProperty("id").getValue();
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ProcessInstanceNavigator.PROCESS_INSTANCE_URL_PART,processInstanceId));
+      }
+ else {
+        setDetailComponent(null);
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ProcessInstanceNavigator.PROCESS_INSTANCE_URL_PART));
+      }
+    }
+  }
+);
+  table.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.PROCESS_22));
+  table.setColumnWidth("icon",22);
+  table.addContainerProperty("name",String.class,null);
+  table.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  return table;
+}

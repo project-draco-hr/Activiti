@@ -1,0 +1,18 @@
+{
+  addItemProperty(PROPERTY_ID,new ObjectProperty<String>(processInstance.getId()));
+  if (processInstance.getBusinessKey() != null) {
+    addItemProperty(PROPERTY_BUSINESSKEY,new ObjectProperty<String>(processInstance.getBusinessKey()));
+  }
+  Button viewProcessInstanceButton=new Button(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_ACTION_VIEW));
+  viewProcessInstanceButton.addStyleName(Reindeer.BUTTON_LINK);
+  viewProcessInstanceButton.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      ExplorerApp.get().getViewManager().showProcessInstancePage(processInstance.getId());
+    }
+  }
+);
+  HorizontalLayout actionLayout=new HorizontalLayout();
+  actionLayout.addComponent(new Embedded(null,Images.MAGNIFIER_16));
+  actionLayout.addComponent(viewProcessInstanceButton);
+  addItemProperty(PROPERTY_ACTIONS,new ObjectProperty<Component>(actionLayout));
+}
