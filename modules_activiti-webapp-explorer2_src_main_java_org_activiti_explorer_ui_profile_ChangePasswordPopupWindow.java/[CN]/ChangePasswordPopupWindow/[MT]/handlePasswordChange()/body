@@ -10,7 +10,7 @@
     User user=identityService.createUserQuery().userId(currentUser.getId()).singleResult();
     user.setPassword(password);
     identityService.saveUser(user);
-    currentUser.setPassword(password);
+    ExplorerApp.get().setUser(ExplorerApp.get().getLoginHandler().authenticate(user.getId(),user.getPassword()));
     close();
     ExplorerApp.get().getNotificationManager().showInformationNotification(Messages.PASSWORD_CHANGED_NOTIFICATION);
   }

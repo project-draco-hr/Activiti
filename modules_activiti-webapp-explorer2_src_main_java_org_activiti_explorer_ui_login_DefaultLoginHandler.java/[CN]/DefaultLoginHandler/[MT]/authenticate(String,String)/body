@@ -1,8 +1,8 @@
 {
-  LoggedInUser loggedInUser=null;
+  LoggedInUserImpl loggedInUser=null;
   if (identityService.checkPassword(userName,password)) {
     User user=identityService.createUserQuery().userId(userName).singleResult();
-    loggedInUser=new LoggedInUser(user,password);
+    loggedInUser=new LoggedInUserImpl(user,password);
     List<Group> groups=identityService.createGroupQuery().groupMember(user.getId()).list();
     for (    Group group : groups) {
       if (Constants.SECURITY_ROLE.equals(group.getType())) {
