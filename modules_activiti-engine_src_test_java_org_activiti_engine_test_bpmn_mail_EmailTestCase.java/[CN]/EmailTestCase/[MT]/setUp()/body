@@ -1,6 +1,17 @@
 {
   super.setUp();
-  wiser=new Wiser();
-  wiser.setPort(5025);
-  wiser.start();
+  boolean serverUpAndRunning=false;
+  while (!serverUpAndRunning) {
+    wiser=new Wiser();
+    wiser.setPort(5025);
+    try {
+      wiser.start();
+      serverUpAndRunning=true;
+    }
+ catch (    RuntimeException e) {
+      if (e.getMessage().toLowerCase().contains("BindException")) {
+        Thread.sleep(250L);
+      }
+    }
+  }
 }
