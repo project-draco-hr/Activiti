@@ -1,0 +1,20 @@
+{
+  Item item=taskTable.addItem(task.getId());
+  if (task.getEndTime() != null) {
+    item.getItemProperty("finished").setValue(new Embedded(null,Images.TASK_FINISHED_22));
+  }
+ else {
+    item.getItemProperty("finished").setValue(new Embedded(null,Images.TASK_22));
+  }
+  item.getItemProperty("name").setValue(task.getName());
+  item.getItemProperty("priority").setValue(task.getPriority());
+  item.getItemProperty("startDate").setValue(new PrettyTimeLabel(task.getStartTime()));
+  item.getItemProperty("endDate").setValue(new PrettyTimeLabel(task.getEndTime()));
+  if (task.getDueDate() != null) {
+    Label dueDateLabel=new PrettyTimeLabel(task.getEndTime(),i18nManager.getMessage(Messages.TASK_NOT_FINISHED_YET));
+    item.getItemProperty("dueDate").setValue(dueDateLabel);
+  }
+  if (task.getAssignee() != null) {
+    item.getItemProperty("assignee").setValue(new Label(task.getAssignee()));
+  }
+}

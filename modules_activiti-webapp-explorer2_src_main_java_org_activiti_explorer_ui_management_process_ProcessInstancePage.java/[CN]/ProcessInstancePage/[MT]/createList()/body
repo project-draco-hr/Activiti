@@ -9,6 +9,7 @@
       Item item=table.getItem(event.getProperty().getValue());
       if (item != null) {
         String processInstanceId=(String)item.getItemProperty("id").getValue();
+        setDetailComponent(new ProcessInstanceDetailPanel(processInstanceId,ProcessInstancePage.this));
         ExplorerApp.get().setCurrentUriFragment(new UriFragment(ProcessInstanceNavigator.PROCESS_INSTANCE_URL_PART,processInstanceId));
       }
  else {

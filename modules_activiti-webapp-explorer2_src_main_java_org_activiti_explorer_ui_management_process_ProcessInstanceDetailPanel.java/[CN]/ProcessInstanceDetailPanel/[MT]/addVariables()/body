@@ -1,0 +1,27 @@
+{
+  Label header=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCE_HEADER_VARIABLES));
+  header.addStyleName(ExplorerLayout.STYLE_H3);
+  header.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  header.addStyleName(ExplorerLayout.STYLE_NO_LINE);
+  panelLayout.addComponent(header);
+  panelLayout.addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
+  Map<String,Object> variables=new TreeMap<String,Object>(runtimeService.getVariables(processInstance.getId()));
+  if (variables.size() > 0) {
+    Table variablesTable=new Table();
+    variablesTable.setWidth(60,UNITS_PERCENTAGE);
+    variablesTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_TASK_LIST);
+    variablesTable.addContainerProperty("name",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_VARIABLE_NAME),null,Table.ALIGN_LEFT);
+    variablesTable.addContainerProperty("value",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_VARIABLE_VALUE),null,Table.ALIGN_LEFT);
+    for (    String variable : variables.keySet()) {
+      Item variableItem=variablesTable.addItem(variable);
+      variableItem.getItemProperty("name").setValue(variable);
+      variableItem.getItemProperty("value").setValue(variables.get(variable));
+    }
+    variablesTable.setPageLength(variables.size());
+    panelLayout.addComponent(variablesTable);
+  }
+ else {
+    Label noVariablesLabel=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCE_NO_VARIABLES));
+    panelLayout.addComponent(noVariablesLabel);
+  }
+}

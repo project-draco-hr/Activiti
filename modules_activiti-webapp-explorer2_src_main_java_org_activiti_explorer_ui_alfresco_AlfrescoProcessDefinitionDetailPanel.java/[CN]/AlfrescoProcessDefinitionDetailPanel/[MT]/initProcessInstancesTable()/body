@@ -1,16 +1,22 @@
 {
-  ProcessInstanceTableLazyQuery lazyQuery=new ProcessInstanceTableLazyQuery(processDefinition.getId());
-  Label instancesTitle=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCES) + " (" + lazyQuery.size()+ ")");
+  ProcessInstanceTableLazyQuery query=new ProcessInstanceTableLazyQuery(processDefinition.getId());
+  Label instancesTitle=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCES) + " (" + query.size()+ ")");
   instancesTitle.addStyleName(ExplorerLayout.STYLE_H3);
   instancesTitle.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  instancesTitle.addStyleName(ExplorerLayout.STYLE_NO_LINE);
   detailPanelLayout.addComponent(instancesTitle);
-  if (lazyQuery.size() > 0) {
+  if (query.size() > 0) {
     Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
     detailPanelLayout.addComponent(emptySpace);
     Table instancesTable=new Table();
-    instancesTable.setHeight(250,UNITS_PIXELS);
     instancesTable.setWidth(400,UNITS_PIXELS);
-    LazyLoadingContainer container=new LazyLoadingContainer(lazyQuery);
+    if (query.size() > 6) {
+      instancesTable.setPageLength(6);
+    }
+ else {
+      instancesTable.setPageLength(query.size());
+    }
+    LazyLoadingContainer container=new LazyLoadingContainer(query);
     instancesTable.setContainerDataSource(container);
     instancesTable.addContainerProperty(AlfrescoProcessInstanceTableItem.PROPERTY_ID,String.class,null);
     instancesTable.addContainerProperty(AlfrescoProcessInstanceTableItem.PROPERTY_BUSINESSKEY,String.class,null);

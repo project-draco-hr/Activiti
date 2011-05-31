@@ -4,12 +4,14 @@
   table.removeAllItems();
   table.getContainerDataSource().removeAllItems();
   Integer max=table.getContainerDataSource().size();
-  if (pageIndex > max) {
-    pageIndex=max - 1;
+  if (max != 0) {
+    if (pageIndex > max) {
+      pageIndex=max - 1;
+    }
+    if (selectedIndex > max) {
+      selectedIndex=max - 1;
+    }
+    table.setCurrentPageFirstItemIndex(pageIndex);
+    selectElement(selectedIndex);
   }
-  if (selectedIndex > max) {
-    selectedIndex=max - 1;
-  }
-  table.setCurrentPageFirstItemIndex(pageIndex);
-  selectElement(selectedIndex);
 }
