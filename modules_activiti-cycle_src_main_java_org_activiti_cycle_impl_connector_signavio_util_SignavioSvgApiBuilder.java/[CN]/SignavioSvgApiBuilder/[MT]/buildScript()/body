@@ -2,7 +2,8 @@
   if (script != null)   return script;
   String template=loadTemplate(SIGNAVIO_SVG_API_SCRIPT_TEMPLATE);
   if (template == null)   return "";
-  template=template.replaceAll("SIGNAVIO_EDITOR_SRC",SVGAPI_URL_LOCAL);
+  String svgApiUrl=CycleServiceFactory.getConfigurationService().getConfigurationValue("SignavioSvgApiBuilder","svgApiUrl",SVGAPI_URL_LOCAL);
+  template=template.replaceAll("SIGNAVIO_EDITOR_SRC",svgApiUrl);
   template=template.replaceAll("SIGNAVIO_MODEL_URL",connectorConfiguration.getModelUrl(artifact.getNodeId()));
   template=template.replaceAll("SIGNAVIO_SERVER_URL",connectorConfiguration.getSignavioUrl());
   template=template.replaceAll("SIGNAVIO_ZOOM",zoomLevel);
