@@ -6,6 +6,7 @@
   String subjectStr=getStringFromField(subject,execution);
   String textStr=getStringFromField(text,execution);
   String htmlStr=getStringFromField(html,execution);
+  String charSetStr=getStringFromField(charset,execution);
   Email email=createEmail(textStr,htmlStr);
   addTo(email,toStr);
   setFrom(email,fromStr);
@@ -13,7 +14,7 @@
   addBcc(email,bccStr);
   setSubject(email,subjectStr);
   setMailServerProperties(email);
-  setCharset(email);
+  setCharset(email,charSetStr);
   try {
     email.send();
   }
