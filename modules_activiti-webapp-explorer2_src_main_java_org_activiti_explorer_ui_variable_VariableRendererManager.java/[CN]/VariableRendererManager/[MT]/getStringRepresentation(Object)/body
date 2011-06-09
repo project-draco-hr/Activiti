@@ -1,0 +1,12 @@
+{
+  if (variableValue != null) {
+    final VariableRenderer renderer=getVariableRenderer(variableValue.getClass());
+    if (renderer != null) {
+      return renderer.getStringRepresentation(variableValue);
+    }
+ else {
+      return variableValue.toString();
+    }
+  }
+  return null;
+}

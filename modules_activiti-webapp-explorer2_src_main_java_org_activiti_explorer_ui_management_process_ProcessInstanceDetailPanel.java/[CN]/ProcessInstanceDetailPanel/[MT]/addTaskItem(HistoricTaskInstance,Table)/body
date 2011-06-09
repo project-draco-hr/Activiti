@@ -15,6 +15,9 @@
     item.getItemProperty("dueDate").setValue(dueDateLabel);
   }
   if (task.getAssignee() != null) {
-    item.getItemProperty("assignee").setValue(new Label(task.getAssignee()));
+    Component taskAssigneeComponent=getTaskAssigneeComponent(task.getAssignee());
+    if (taskAssigneeComponent != null) {
+      item.getItemProperty("assignee").setValue(taskAssigneeComponent);
+    }
   }
 }
