@@ -2,4 +2,10 @@
   current.remove();
   Authentication.setAuthenticatedUserId(null);
   loginHandler.onRequestEnd(request,response);
+  if (!isRunning() && !invalidatedSession) {
+    if (request.getSession(false) != null) {
+      request.getSession().invalidate();
+      invalidatedSession=true;
+    }
+  }
 }
