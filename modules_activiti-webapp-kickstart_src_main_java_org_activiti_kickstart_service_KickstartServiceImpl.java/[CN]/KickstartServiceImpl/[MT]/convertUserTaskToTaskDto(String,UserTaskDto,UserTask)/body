@@ -15,10 +15,28 @@
       }
     }
   }
-  if (userTask.getFormKey() != null) {
-    InputStream is=repositoryService.getResourceAsStream(deploymentId,userTask.getFormKey() + ".internal");
-    String serializedForm=new String(IoUtil.readInputStream(is,""));
-    IoUtil.closeSilently(is);
-    task.setForm(FormDto.createFromSerialized(serializedForm));
+  List<FormPropertyDto> formPropertyDtos=new ArrayList<FormPropertyDto>();
+  if (userTask.getExtensionElements() != null) {
+    for (    AbstractExtensionElement extensionElement : userTask.getExtensionElements().getAllElementOfType(ActivitiFormProperty.class)) {
+      ActivitiFormProperty formProperty=(ActivitiFormProperty)extensionElement;
+      FormPropertyDto formPropertyDto=new FormPropertyDto();
+      formPropertyDto.setProperty(formProperty.getName());
+      String formType=formProperty.getType();
+      String type="text";
+      if ("date".equals(formType)) {
+        type="date";
+      }
+ else       if ("long".equals(formType)) {
+        type="number";
+      }
+      formPropertyDto.setType(type);
+      formPropertyDto.setRequired("true".equals(formProperty.getRequired()));
+      formPropertyDtos.add(formPropertyDto);
+    }
+  }
+  if (formPropertyDtos.size() > 0) {
+    FormDto formDto=new FormDto();
+    formDto.setFormProperties(formPropertyDtos);
+    task.setForm(formDto);
   }
 }

@@ -5,16 +5,6 @@
   ProcessDiagramGenerator converter=new ProcessDiagramGenerator(adhocWorkflow);
   deploymentBuilder.addInputStream(bpmn20XmlResourceName.replace(".bpmn20.xml",".png"),converter.execute());
   deploymentBuilder.addString(bpmn20XmlResourceName,createBpmn20Xml(adhocWorkflow));
-  for (  BaseTaskDto task : adhocWorkflow.getTasks()) {
-    if (task instanceof UserTaskDto) {
-      UserTaskDto userTask=(UserTaskDto)task;
-      FormDto form=userTask.getForm();
-      if (form != null) {
-        deploymentBuilder.addString(userTask.generateDefaultFormName(),form.toHtml());
-        deploymentBuilder.addString(userTask.generateDefaultFormName() + ".internal",form.toString());
-      }
-    }
-  }
   Deployment deployment=deploymentBuilder.deploy();
   return deployment.getId();
 }

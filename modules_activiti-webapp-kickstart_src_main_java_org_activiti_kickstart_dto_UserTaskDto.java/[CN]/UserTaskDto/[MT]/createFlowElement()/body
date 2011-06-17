@@ -1,8 +1,5 @@
 {
   UserTask userTask=new UserTask();
-  if (getForm() != null) {
-    userTask.setFormKey(generateDefaultFormName());
-  }
   if (getAssignee() != null && !"".equals(getAssignee())) {
     HumanPerformer humanPerformer=new HumanPerformer();
     humanPerformer.setId(userTask.getId() + "_humanPerformer");
@@ -29,6 +26,31 @@
     assignmentExpression.setExpression(formalExpression);
     potentialOwner.setResourceAssignmentExpression(assignmentExpression);
     userTask.getActivityResource().add(potentialOwner);
+  }
+  if (getForm() != null) {
+    List<ActivitiFormProperty> formProperties=new ArrayList<ActivitiFormProperty>();
+    for (    FormPropertyDto formPropertyDto : getForm().getFormProperties()) {
+      ActivitiFormProperty formProperty=new ActivitiFormProperty();
+      formProperty.setId(formPropertyDto.getProperty());
+      formProperty.setName(formPropertyDto.getProperty());
+      formProperty.setRequired(formPropertyDto.isRequired() ? "true" : "false");
+      String dtoType=formPropertyDto.getType();
+      String type="string";
+      if ("number".equals(dtoType)) {
+        type="long";
+      }
+ else       if ("date".equals(dtoType)) {
+        type="date";
+      }
+      formProperty.setType(type);
+      formProperties.add(formProperty);
+    }
+    if (formProperties.size() > 0) {
+      userTask.setExtensionElements(new ExtensionElements());
+      for (      ActivitiFormProperty formProperty : formProperties) {
+        userTask.getExtensionElements().add(formProperty);
+      }
+    }
   }
   return userTask;
 }
