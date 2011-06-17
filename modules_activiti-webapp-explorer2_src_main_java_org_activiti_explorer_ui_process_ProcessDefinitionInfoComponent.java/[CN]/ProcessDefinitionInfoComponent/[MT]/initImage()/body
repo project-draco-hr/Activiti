@@ -1,13 +1,22 @@
 {
-  VerticalLayout processImageContainer=new VerticalLayout();
+  processImageContainer=new VerticalLayout();
   Label processTitle=new Label(i18nManager.getMessage(Messages.PROCESS_HEADER_DIAGRAM));
   processTitle.addStyleName(ExplorerLayout.STYLE_H3);
   processImageContainer.addComponent(processTitle);
   if (processDefinition.getDiagramResourceName() != null) {
     StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processDefinition,repositoryService);
-    Embedded embedded=new Embedded("",diagram);
+    Embedded embedded=new Embedded(null,diagram);
     embedded.setType(Embedded.TYPE_IMAGE);
-    processImageContainer.addComponent(embedded);
+    embedded.setSizeUndefined();
+    Panel imagePanel=new Panel();
+    imagePanel.addStyleName(Reindeer.PANEL_LIGHT);
+    imagePanel.setWidth(100,UNITS_PERCENTAGE);
+    imagePanel.setHeight(400,UNITS_PIXELS);
+    HorizontalLayout panelLayout=new HorizontalLayout();
+    panelLayout.setSizeUndefined();
+    imagePanel.setContent(panelLayout);
+    imagePanel.addComponent(embedded);
+    processImageContainer.addComponent(imagePanel);
   }
  else {
     Label noImageAvailable=new Label(i18nManager.getMessage(Messages.PROCESS_NO_DIAGRAM));

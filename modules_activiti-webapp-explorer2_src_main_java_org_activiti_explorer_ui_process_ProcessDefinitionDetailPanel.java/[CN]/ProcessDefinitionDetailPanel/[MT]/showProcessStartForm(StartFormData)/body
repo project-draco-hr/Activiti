@@ -4,14 +4,14 @@
     processDefinitionStartForm.setSubmitButtonCaption("Start process");
     processDefinitionStartForm.setCancelButtonCaption("Cancel");
     processDefinitionStartForm.addListener(new FormPropertiesEventListener(){
-      private static final long serialVersionUID=-1747717959106153970L;
-      @Override protected void handleFormSubmit(      FormPropertiesEvent event){
+      private static final long serialVersionUID=1L;
+      protected void handleFormSubmit(      FormPropertiesEvent event){
         formService.submitStartFormData(processDefinition.getId(),event.getFormProperties());
         ExplorerApp.get().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' started successfully");
-        showProcessDefinitionInfo();
+        initProcessDefinitionInfo();
       }
-      @Override protected void handleFormCancel(      FormPropertiesEvent event){
-        showProcessDefinitionInfo();
+      protected void handleFormCancel(      FormPropertiesEvent event){
+        initProcessDefinitionInfo();
       }
     }
 );
