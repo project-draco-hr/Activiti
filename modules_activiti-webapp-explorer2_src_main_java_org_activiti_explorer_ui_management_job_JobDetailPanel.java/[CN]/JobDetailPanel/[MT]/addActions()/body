@@ -6,15 +6,16 @@
     public void buttonClick(    ClickEvent event){
       try {
         managementService.executeJob(job.getId());
+        jobPage.refreshSelectNext();
       }
  catch (      ActivitiException ae) {
         String errorMessage=ae.getMessage() + (ae.getCause() != null ? " (" + ae.getCause().getClass().getName() + ")" : "");
         notificationManager.showErrorNotification(Messages.JOB_ERROR,errorMessage);
-        parent.refreshCurrentJobDetails();
+        jobPage.refreshCurrentJobDetails();
       }
     }
   }
 );
-  parent.getToolBar().removeAllButtons();
-  parent.getToolBar().addButton(executeButton);
+  jobPage.getToolBar().removeAllButtons();
+  jobPage.getToolBar().addButton(executeButton);
 }

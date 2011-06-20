@@ -14,4 +14,7 @@
   assertEquals("Vacation request by kermit",task.getDescription());
   Object taskForm=formService.getRenderedTaskForm(task.getId());
   assertNotNull(taskForm);
+  taskService.complete(task.getId(),CollectionUtil.singletonMap("vacationApproved","false"));
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("Adjust vacation request",task.getName());
 }
