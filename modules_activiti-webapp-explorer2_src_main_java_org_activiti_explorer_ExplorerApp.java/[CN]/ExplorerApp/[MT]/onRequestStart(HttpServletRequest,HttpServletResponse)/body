@@ -2,7 +2,7 @@
   current.set(this);
   LoggedInUser user=(LoggedInUser)getUser();
   if (user == null) {
-    user=loginHandler.authenticate();
+    user=loginHandler.authenticate(request,response);
     if (user == null) {
       if (mainWindow != null && !mainWindow.isShowingLoginPage()) {
         viewManager.showLoginPage();
