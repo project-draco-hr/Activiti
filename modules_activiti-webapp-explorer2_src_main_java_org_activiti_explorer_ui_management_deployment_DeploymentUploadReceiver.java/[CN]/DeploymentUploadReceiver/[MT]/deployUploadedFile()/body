@@ -1,16 +1,22 @@
 {
   DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().name(fileName);
   try {
-    if (fileName.endsWith(".bpmn20.xml")) {
-      validFile=true;
-      deployment=deploymentBuilder.addInputStream(fileName,new ByteArrayInputStream(outputStream.toByteArray())).deploy();
-    }
- else     if (fileName.endsWith(".bar") || fileName.endsWith(".zip")) {
-      validFile=true;
-      deployment=deploymentBuilder.addZipInputStream(new ZipInputStream(new ByteArrayInputStream(outputStream.toByteArray()))).deploy();
-    }
+    try {
+      if (fileName.endsWith(".bpmn20.xml")) {
+        validFile=true;
+        deployment=deploymentBuilder.addInputStream(fileName,new ByteArrayInputStream(outputStream.toByteArray())).deploy();
+      }
+ else       if (fileName.endsWith(".bar") || fileName.endsWith(".zip")) {
+        validFile=true;
+        deployment=deploymentBuilder.addZipInputStream(new ZipInputStream(new ByteArrayInputStream(outputStream.toByteArray()))).deploy();
+      }
  else {
-      notificationManager.showErrorNotification(Messages.DEPLOYMENT_UPLOAD_INVALID_FILE,i18nManager.getMessage(Messages.DEPLOYMENT_UPLOAD_INVALID_FILE_EXPLANATION));
+        notificationManager.showErrorNotification(Messages.DEPLOYMENT_UPLOAD_INVALID_FILE,i18nManager.getMessage(Messages.DEPLOYMENT_UPLOAD_INVALID_FILE_EXPLANATION));
+      }
+    }
+ catch (    ActivitiException e) {
+      String errorMsg=e.getMessage().replace(System.getProperty("line.separator"),"<br/>");
+      notificationManager.showErrorNotification(Messages.DEPLOYMENT_UPLOAD_FAILED,errorMsg);
     }
   }
   finally {
