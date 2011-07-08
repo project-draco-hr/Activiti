@@ -1,4 +1,5 @@
 {
+  String feedback=null;
   String dbVersion=null;
   boolean isUpgradeNeeded=false;
   if (isEngineTablePresent()) {
@@ -18,6 +19,7 @@
       String dbHistoryValue=dbHistoryProperty.getValue() + " upgrade(" + dbVersion+ "->"+ ProcessEngine.VERSION+ ")";
       dbHistoryProperty.setValue(dbHistoryValue);
       dbSchemaUpgrade("engine",dbVersion);
+      feedback="upgraded Activiti from " + dbVersion + " to "+ ProcessEngine.VERSION;
     }
   }
  else {
@@ -47,4 +49,5 @@
  else   if (dbSqlSessionFactory.isDbCycleUsed()) {
     dbSchemaCreateCycle();
   }
+  return feedback;
 }

@@ -8,7 +8,7 @@
       tableName=tableName.toLowerCase();
     }
     try {
-      tables=databaseMetaData.getTables(null,null,tableName,JDBC_METADATA_TABLE_TYPES);
+      tables=databaseMetaData.getTables(this.connectionMetadataDefaultCatalog,this.connectionMetadataDefaultSchema,tableName,JDBC_METADATA_TABLE_TYPES);
       return tables.next();
     }
   finally {
