@@ -1,4 +1,6 @@
 {
-  TaskListener taskListenerInstance=getTaskListenerInstance();
+  if (taskListenerInstance == null) {
+    taskListenerInstance=getTaskListenerInstance();
+  }
   taskListenerInstance.notify(delegateTask);
 }

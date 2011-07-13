@@ -1,4 +1,6 @@
 {
-  ExecutionListener executionListenerInstance=getExecutionListenerInstance();
+  if (executionListenerInstance == null) {
+    executionListenerInstance=getExecutionListenerInstance();
+  }
   executionListenerInstance.notify(execution);
 }
