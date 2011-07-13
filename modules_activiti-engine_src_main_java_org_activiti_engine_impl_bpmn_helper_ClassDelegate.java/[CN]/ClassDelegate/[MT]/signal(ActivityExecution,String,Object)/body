@@ -1,7 +1,5 @@
 {
-  if (activityBehaviorInstance == null) {
-    activityBehaviorInstance=getActivityBehaviorInstance(execution);
-  }
+  ActivityBehavior activityBehaviorInstance=getActivityBehaviorInstance(execution);
   if (activityBehaviorInstance instanceof SignallableActivityBehavior) {
     ((SignallableActivityBehavior)activityBehaviorInstance).signal(execution,signalName,signalData);
   }
