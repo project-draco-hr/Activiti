@@ -13,12 +13,5 @@
  else {
     executionVariables=execution.getVariables();
   }
-  if (variableNames == null) {
-    variableNames=executionVariables.keySet();
-  }
-  Map<String,Object> variables=new HashMap<String,Object>();
-  for (  String variableName : variableNames) {
-    variables.put(variableName,execution.getVariable(variableName));
-  }
-  return variables;
+  return executionVariables;
 }
