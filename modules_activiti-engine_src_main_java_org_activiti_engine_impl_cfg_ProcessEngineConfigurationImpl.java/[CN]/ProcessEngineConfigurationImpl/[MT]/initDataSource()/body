@@ -28,7 +28,9 @@
       }
       if (jdbcPingEnabled == true) {
         pooledDataSource.setPoolPingEnabled(true);
-        if (jdbcPingQuery != null)         pooledDataSource.setPoolPingQuery(jdbcPingQuery);
+        if (jdbcPingQuery != null) {
+          pooledDataSource.setPoolPingQuery(jdbcPingQuery);
+        }
         pooledDataSource.setPoolPingConnectionsNotUsedFor(jdbcPingConnectionNotUsedFor);
       }
       dataSource=pooledDataSource;
