@@ -8,7 +8,12 @@
         if (execution != null) {
           setEventName(taskEventName);
         }
-        taskListener.notify(this);
+        try {
+          Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new TaskListenerInvocation(taskListener,(DelegateTask)this));
+        }
+ catch (        Exception e) {
+          throw new ActivitiException("Exception while invoking TaskListener: " + e.getMessage(),e);
+        }
       }
     }
   }

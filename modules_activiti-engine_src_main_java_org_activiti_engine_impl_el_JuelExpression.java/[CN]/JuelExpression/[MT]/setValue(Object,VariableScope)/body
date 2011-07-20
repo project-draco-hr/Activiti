@@ -1,4 +1,10 @@
 {
   ELContext elContext=expressionManager.getElContext(variableScope);
-  valueExpression.setValue(elContext,value);
+  try {
+    ExpressionSetInvocation invocation=new ExpressionSetInvocation(valueExpression,elContext,value);
+    Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(invocation);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error while evalutaing expression",e);
+  }
 }

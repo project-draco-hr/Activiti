@@ -1,7 +1,12 @@
 {
   Object delegate=expression.getValue(delegateTask.getExecution());
   if (delegate instanceof TaskListener) {
-    ((TaskListener)delegate).notify(delegateTask);
+    try {
+      Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new TaskListenerInvocation((TaskListener)delegate,delegateTask));
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Exception while invoking TaskListener: " + e.getMessage(),e);
+    }
   }
  else {
     throw new ActivitiException("Delegate expression " + expression + " did not resolve to an implementation of "+ TaskListener.class);

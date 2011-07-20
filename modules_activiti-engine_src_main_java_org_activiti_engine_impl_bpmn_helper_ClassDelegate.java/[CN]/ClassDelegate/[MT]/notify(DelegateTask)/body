@@ -2,5 +2,10 @@
   if (taskListenerInstance == null) {
     taskListenerInstance=getTaskListenerInstance();
   }
-  taskListenerInstance.notify(delegateTask);
+  try {
+    Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new TaskListenerInvocation(taskListenerInstance,delegateTask));
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Exception while invoking TaskListener: " + e.getMessage(),e);
+  }
 }

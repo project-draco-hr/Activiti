@@ -1,7 +1,9 @@
 {
   ELContext elContext=expressionManager.getElContext(variableScope);
   try {
-    return valueExpression.getValue(elContext);
+    ExpressionGetInvocation invocation=new ExpressionGetInvocation(valueExpression,elContext);
+    Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(invocation);
+    return invocation.getInvocationResult();
   }
  catch (  PropertyNotFoundException pnfe) {
     throw new ActivitiException("Unknown property used in expression",pnfe);
@@ -11,5 +13,8 @@ catch (  MethodNotFoundException mnfe) {
   }
 catch (  ELException ele) {
     throw new ActivitiException("Error while evalutaing expression",ele);
+  }
+catch (  Exception e) {
+    throw new ActivitiException("Error while evalutaing expression",e);
   }
 }

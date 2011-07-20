@@ -2,5 +2,5 @@
   if (executionListenerInstance == null) {
     executionListenerInstance=getExecutionListenerInstance();
   }
-  executionListenerInstance.notify(execution);
+  Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation(executionListenerInstance,execution));
 }
