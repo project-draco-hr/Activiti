@@ -1,9 +1,0 @@
-{
-  super.setItemDataSource(item);
-  if ((item != null) && (getItemDataSource().getItemProperty("id") != null) && !getItemDataSource().getItemProperty("id").toString().isEmpty()) {
-    groups.setValue(app.getAdminService().getUserGroups(getItemDataSource().getItemProperty("id").toString()));
-    setVisibleItemProperties(visibleItems);
-    attachField("groups",groups);
-    close.focus();
-  }
-}

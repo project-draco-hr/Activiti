@@ -1,9 +1,0 @@
-{
-  super.init(servletConfig);
-  applicationBean=servletConfig.getInitParameter("applicationBean");
-  if (applicationBean == null) {
-    throw new ServletException("ApplicationBean not specified in servlet parameters");
-  }
-  applicationContext=WebApplicationContextUtils.getWebApplicationContext(servletConfig.getServletContext());
-  applicationClass=(Class<? extends Application>)applicationContext.getType(applicationBean);
-}
