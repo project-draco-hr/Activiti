@@ -1,7 +1,0 @@
-{
-  ActivitiRequestObject obj=req.getBody();
-  String processSolutionName=req.getMandatoryString(obj,"processSolutionName");
-  String psId=processSolutionService.createNewProcessSolution(processSolutionName);
-  ProcessSolutionConnector psConnector=new ProcessSolutionConnector(psId);
-  model.put("folder",new TreeFolderDto(psConnector.getRepositoryFolder("/")));
-}

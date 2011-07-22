@@ -1,8 +1,0 @@
-{
-  KickstartWorkflowDto dto=createSimpleServiceTaskWorkflow();
-  String bpmn=new KickstartServiceImpl(processEngine).createBpmn20Xml(dto);
-  assertTrue(bpmn.indexOf("serviceTask ") > -1);
-  assertTrue(bpmn.indexOf(":expression=\"#{my.favorite.expression}\"") > -1);
-  assertTrue(bpmn.indexOf(":class=\"de.test.MyClass\"") > -1);
-  assertTrue(bpmn.indexOf(":delegateExpression=\"#{myDelegateExpression}\"") > -1);
-}

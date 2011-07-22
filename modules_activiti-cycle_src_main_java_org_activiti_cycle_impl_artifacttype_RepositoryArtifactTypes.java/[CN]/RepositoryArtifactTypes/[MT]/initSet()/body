@@ -1,8 +1,0 @@
-{
-  Set<RepositoryArtifactType> set=new HashSet<RepositoryArtifactType>();
-  Set<Class<RepositoryArtifactType>> implClasses=CycleComponentFactory.getAllImplementations(RepositoryArtifactType.class);
-  for (  Class<RepositoryArtifactType> class1 : implClasses) {
-    set.add(CycleComponentFactory.getCycleComponentInstance(class1,RepositoryArtifactType.class));
-  }
-  cachedSet=Collections.unmodifiableSet(set);
-}

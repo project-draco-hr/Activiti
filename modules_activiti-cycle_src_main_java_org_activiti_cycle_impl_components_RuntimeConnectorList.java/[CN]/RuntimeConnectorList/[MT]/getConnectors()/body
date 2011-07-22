@@ -1,9 +1,0 @@
-{
-  init();
-  List<RepositoryConnector> resultList=new ArrayList<RepositoryConnector>(connectorList);
-  for (  ProcessSolution processSolution : CycleServiceFactory.getProcessSolutionService().getProcessSolutions()) {
-    ProcessSolutionConnector psConnector=new ProcessSolutionConnector(processSolution.getId());
-    resultList.add(psConnector);
-  }
-  return resultList;
-}

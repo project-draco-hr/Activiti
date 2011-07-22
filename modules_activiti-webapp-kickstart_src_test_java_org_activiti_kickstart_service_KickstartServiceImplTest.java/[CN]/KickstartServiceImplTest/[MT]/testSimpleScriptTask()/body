@@ -1,7 +1,0 @@
-{
-  KickstartWorkflowDto dto=createSimpleScriptTask();
-  String bpmn=new KickstartServiceImpl(processEngine).createBpmn20Xml(dto);
-  assertTrue(bpmn.indexOf("scriptTask ") > -1);
-  assertTrue(bpmn.indexOf("scriptFormat=\"juel\"") > -1);
-  assertTrue(bpmn.indexOf(":resultVariableName=\"myVar\"") > -1);
-}

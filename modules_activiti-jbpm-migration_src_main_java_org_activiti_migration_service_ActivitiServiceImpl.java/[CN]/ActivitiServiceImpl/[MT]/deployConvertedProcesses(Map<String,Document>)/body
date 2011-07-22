@@ -1,6 +1,0 @@
-{
-  for (  String processName : migratedProcesses.keySet()) {
-    processEngine.getRepositoryService().createDeployment().addString(processName.replace(" ","_") + ".bpmn20.xml",xmlTransformationService.convertToString(migratedProcesses.get(processName))).deploy();
-  }
-  processEngine.close();
-}

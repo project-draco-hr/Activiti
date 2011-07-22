@@ -1,8 +1,0 @@
-{
-  Set<MimeType> set=new HashSet<MimeType>();
-  Set<Class<MimeType>> implClasses=CycleComponentFactory.getAllImplementations(MimeType.class);
-  for (  Class<MimeType> class1 : implClasses) {
-    set.add(CycleComponentFactory.getCycleComponentInstance(class1,MimeType.class));
-  }
-  cachedSet=Collections.unmodifiableSet(set);
-}

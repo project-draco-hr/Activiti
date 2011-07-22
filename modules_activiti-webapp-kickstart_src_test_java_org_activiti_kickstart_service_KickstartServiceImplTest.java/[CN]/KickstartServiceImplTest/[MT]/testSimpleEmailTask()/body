@@ -1,8 +1,0 @@
-{
-  KickstartWorkflowDto dto=createSimpleEmailTaskWorkflow();
-  String bpmn=new KickstartServiceImpl(processEngine).createBpmn20Xml(dto);
-  assertTrue(bpmn.indexOf("serviceTask ") > -1);
-  assertTrue(bpmn.indexOf(":type=\"mail\"") > -1);
-  assertTrue(bpmn.indexOf("name=\"to\"") > -1);
-  assertTrue(bpmn.indexOf(":string>test@mycompany.com</") > -1);
-}

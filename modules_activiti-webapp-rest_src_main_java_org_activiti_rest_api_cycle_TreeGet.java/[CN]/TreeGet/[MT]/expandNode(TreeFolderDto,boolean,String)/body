@@ -1,9 +1,0 @@
-{
-  RepositoryNodeCollection childNodes=repositoryService.getChildren(connectorId,dto.getNodeId());
-  List<TreeNodeDto> children=new ArrayList<TreeNodeDto>();
-  for (  RepositoryNode node : childNodes.asList()) {
-    TreeNodeDto childNode=getTreeNodeDto(node,expandChildren);
-    children.add(childNode);
-  }
-  dto.setChildren(children);
-}
