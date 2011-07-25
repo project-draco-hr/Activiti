@@ -1,0 +1,5 @@
+{
+  if (authenticate() == false)   return null;
+  DataResponse response=new ProcessDefinitionsPaginateList().paginateList(getQuery(),ActivitiUtil.getRepositoryService().createProcessDefinitionQuery(),"id",properties);
+  return response;
+}

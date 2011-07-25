@@ -1,0 +1,20 @@
+{
+  if (authenticate() == false)   return null;
+  String taskId=(String)getRequest().getAttributes().get("taskId");
+  List<FormProperty> properties=ActivitiUtil.getFormService().getTaskFormData(taskId).getFormProperties();
+  ObjectNode responseJSON=new ObjectMapper().createObjectNode();
+  ArrayNode propertiesJSON=new ObjectMapper().createArrayNode();
+  for (  FormProperty property : properties) {
+    ObjectNode propertyJSON=new ObjectMapper().createObjectNode();
+    propertyJSON.put("id",property.getId());
+    propertyJSON.put("name",property.getName());
+    propertyJSON.put("value",property.getValue());
+    propertyJSON.put("type",property.getType().getName());
+    propertyJSON.put("required",property.isRequired());
+    propertyJSON.put("readable",property.isReadable());
+    propertyJSON.put("writable",property.isWritable());
+    propertiesJSON.add(propertyJSON);
+  }
+  responseJSON.put("data",propertiesJSON);
+  return responseJSON;
+}

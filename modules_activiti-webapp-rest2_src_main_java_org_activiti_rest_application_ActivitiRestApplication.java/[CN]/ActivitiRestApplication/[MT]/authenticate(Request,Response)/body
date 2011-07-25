@@ -1,0 +1,7 @@
+{
+  if (!request.getClientInfo().isAuthenticated()) {
+    authenticator.challenge(response,false);
+    return null;
+  }
+  return request.getClientInfo().getUser().getIdentifier();
+}

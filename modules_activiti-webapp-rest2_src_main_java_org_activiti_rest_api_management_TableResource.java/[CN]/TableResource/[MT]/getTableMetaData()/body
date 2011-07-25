@@ -1,0 +1,8 @@
+{
+  if (authenticate(SecuredResource.ADMIN) == false)   return null;
+  String tableName=(String)getRequest().getAttributes().get("tableName");
+  if (tableName == null) {
+    throw new ActivitiException("table name is required");
+  }
+  return ActivitiUtil.getManagementService().getTableMetaData(tableName);
+}

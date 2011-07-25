@@ -1,0 +1,11 @@
+{
+  if (authenticate() == false)   return null;
+  String taskId=(String)getRequest().getAttributes().get("taskId");
+  Task task=ActivitiUtil.getTaskService().createTaskQuery().taskId(taskId).singleResult();
+  TaskResponse response=new TaskResponse(task);
+  TaskFormData taskFormData=ActivitiUtil.getFormService().getTaskFormData(taskId);
+  if (taskFormData != null) {
+    response.setFormResourceKey(taskFormData.getFormKey());
+  }
+  return response;
+}

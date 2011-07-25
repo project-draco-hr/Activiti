@@ -1,0 +1,13 @@
+{
+  List<ProcessDefinitionResponse> responseProcessDefinitions=new ArrayList<ProcessDefinitionResponse>();
+  for (  Object definition : list) {
+    ProcessDefinitionResponse processDefinition=new ProcessDefinitionResponse((ProcessDefinitionEntity)definition);
+    StartFormData startFormData=ActivitiUtil.getFormService().getStartFormData(((ProcessDefinitionEntity)definition).getId());
+    if (startFormData != null) {
+      processDefinition.setStartFormResourceKey(startFormData.getFormKey());
+    }
+    processDefinition.setGraphicNotationDefined(isGraphicNotationDefined(((ProcessDefinitionEntity)definition).getId()));
+    responseProcessDefinitions.add(processDefinition);
+  }
+  return responseProcessDefinitions;
+}
