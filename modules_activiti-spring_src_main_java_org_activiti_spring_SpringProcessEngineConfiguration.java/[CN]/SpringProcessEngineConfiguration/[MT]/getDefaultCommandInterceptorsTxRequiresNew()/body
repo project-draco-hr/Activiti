@@ -4,6 +4,5 @@
   defaultCommandInterceptorsTxRequiresNew.add(new SpringTransactionInterceptor(transactionManager,TransactionTemplate.PROPAGATION_REQUIRES_NEW));
   CommandContextInterceptor commandContextInterceptor=new CommandContextInterceptor(commandContextFactory,this);
   defaultCommandInterceptorsTxRequiresNew.add(commandContextInterceptor);
-  defaultCommandInterceptorsTxRequiresNew.add(new CommandExecutorImpl());
   return defaultCommandInterceptorsTxRequiresNew;
 }

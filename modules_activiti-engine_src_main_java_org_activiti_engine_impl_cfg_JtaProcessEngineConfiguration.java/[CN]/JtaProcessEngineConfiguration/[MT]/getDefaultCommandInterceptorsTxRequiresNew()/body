@@ -3,6 +3,5 @@
   defaultCommandInterceptorsTxRequiresNew.add(new LogInterceptor());
   defaultCommandInterceptorsTxRequiresNew.add(new JtaTransactionInterceptor(transactionManager,true));
   defaultCommandInterceptorsTxRequiresNew.add(new CommandContextInterceptor(commandContextFactory,this));
-  defaultCommandInterceptorsTxRequiresNew.add(new CommandExecutorImpl());
   return defaultCommandInterceptorsTxRequiresNew;
 }
