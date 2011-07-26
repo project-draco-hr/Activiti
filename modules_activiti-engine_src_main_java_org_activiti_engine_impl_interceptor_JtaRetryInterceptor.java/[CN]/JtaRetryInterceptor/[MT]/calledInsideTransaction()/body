@@ -1,0 +1,8 @@
+{
+  try {
+    return transactionManager.getStatus() != Status.STATUS_NO_TRANSACTION;
+  }
+ catch (  SystemException e) {
+    throw new ActivitiException("Could not determine the current status of the transaction manager: " + e.getMessage(),e);
+  }
+}

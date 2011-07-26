@@ -1,0 +1,11 @@
+{
+  RetryInterceptor retryInterceptor=new RetryInterceptor();
+  retryInterceptor.setNext(new CommandExecutorImpl());
+  try {
+    retryInterceptor.execute(new CommandThrowingOptimisticLockingException());
+    fail("ActivitiException expected.");
+  }
+ catch (  ActivitiException e) {
+    assertTrue(e.getMessage().contains(retryInterceptor.getNumOfRetries() + " retries failed"));
+  }
+}
