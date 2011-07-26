@@ -1,10 +1,10 @@
 {
   try {
     if (isNew) {
-      transactionManager.setRollbackOnly();
+      transactionManager.rollback();
     }
  else {
-      transactionManager.rollback();
+      transactionManager.setRollbackOnly();
     }
   }
  catch (  SystemException e) {
