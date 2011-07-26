@@ -1,9 +1,0 @@
-{
-  String userId=req.getMandatoryPathParameter("userId");
-  String groupType=req.getString("type",null);
-  GroupQuery query=getIdentityService().createGroupQuery().groupMember(userId);
-  if (groupType != null) {
-    query.groupType(groupType);
-  }
-  paginateList(req,query,"groups",model,"id");
-}

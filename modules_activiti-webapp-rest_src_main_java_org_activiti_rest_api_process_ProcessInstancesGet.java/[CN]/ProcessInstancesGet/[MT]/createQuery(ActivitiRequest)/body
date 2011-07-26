@@ -1,9 +1,0 @@
-{
-  HistoricProcessInstanceQuery query=getHistoryService().createHistoricProcessInstanceQuery();
-  query=query.unfinished();
-  String processDefinitionId=req.getString("processDefinitionId",null);
-  String processInstanceKey=req.getString("businessKey",null);
-  query=processDefinitionId == null ? query : query.processDefinitionId(processDefinitionId);
-  query=processInstanceKey == null ? query : query.processInstanceBusinessKey(processInstanceKey);
-  return query;
-}
