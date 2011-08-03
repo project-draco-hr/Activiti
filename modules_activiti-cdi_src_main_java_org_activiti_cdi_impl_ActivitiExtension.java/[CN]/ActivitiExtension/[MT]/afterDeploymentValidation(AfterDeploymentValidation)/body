@@ -1,11 +1,13 @@
 {
   try {
+    if (skipProcessEngineSetup) {
+      return;
+    }
     logger.info("Initializing activiti-cdi.");
     initializeProcessEngine();
     deployProcesses();
   }
  catch (  Exception e) {
     event.addDeploymentProblem(e);
-    return;
   }
 }
