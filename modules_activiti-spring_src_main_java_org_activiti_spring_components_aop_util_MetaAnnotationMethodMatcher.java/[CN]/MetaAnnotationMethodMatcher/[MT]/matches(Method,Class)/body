@@ -1,0 +1,7 @@
+{
+  if (AnnotationUtils.getAnnotation(method,this.annotationType) != null) {
+    return true;
+  }
+  Method specificMethod=AopUtils.getMostSpecificMethod(method,targetClass);
+  return (specificMethod != method && (AnnotationUtils.getAnnotation(specificMethod,this.annotationType) != null));
+}

@@ -1,0 +1,5 @@
+{
+  BeanDefinitionHolder proxyHolder=ScopedProxyUtils.createScopedProxy(new BeanDefinitionHolder(definition,beanName),registry,proxyTargetClass);
+  registry.registerBeanDefinition(beanName,proxyHolder.getBeanDefinition());
+  return proxyHolder;
+}
