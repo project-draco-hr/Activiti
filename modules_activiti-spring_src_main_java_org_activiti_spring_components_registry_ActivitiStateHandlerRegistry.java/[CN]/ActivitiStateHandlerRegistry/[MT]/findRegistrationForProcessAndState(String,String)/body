@@ -1,0 +1,23 @@
+{
+  ActivitiStateHandlerRegistration r=null;
+  String key=registrationKey(processName,stateName);
+  Collection<ActivitiStateHandlerRegistration> rs=this.findRegistrationsForProcessAndState(processName,stateName);
+  for (  ActivitiStateHandlerRegistration sr : rs) {
+    String kName=registrationKey(sr.getProcessName(),sr.getStateName());
+    if (key.equalsIgnoreCase(kName)) {
+      r=sr;
+      break;
+    }
+  }
+  for (  ActivitiStateHandlerRegistration sr : rs) {
+    String kName=registrationKey(null,sr.getStateName());
+    if (key.equalsIgnoreCase(kName)) {
+      r=sr;
+      break;
+    }
+  }
+  if ((r == null) && (rs.size() > 0)) {
+    r=rs.iterator().next();
+  }
+  return r;
+}

@@ -1,0 +1,9 @@
+{
+  Class clz=ProcessStartAnnotationBeanPostProcessor.class;
+  BeanDefinitionBuilder beanDefinitionBuilder=BeanDefinitionBuilder.genericBeanDefinition(clz);
+  AbstractBeanDefinition beanDefinition=beanDefinitionBuilder.getBeanDefinition();
+  beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+  configureProcessEngine(beanDefinition,element);
+  String beanName=baseBeanName(clz);
+  parserContext.getRegistry().registerBeanDefinition(beanName,beanDefinition);
+}

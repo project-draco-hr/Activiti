@@ -1,0 +1,6 @@
+{
+  for (  Deployment deployment : repositoryService.createDeploymentQuery().list()) {
+    repositoryService.deleteDeployment(deployment.getId(),true);
+  }
+  processEngine.close();
+}

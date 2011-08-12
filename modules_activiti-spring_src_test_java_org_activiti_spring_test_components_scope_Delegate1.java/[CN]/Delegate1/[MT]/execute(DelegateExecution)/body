@@ -1,0 +1,9 @@
+{
+  String pid=this.processInstance.getId();
+  log.info("the processInstance#id is " + pid);
+  Assert.assertNotNull("the 'scopedCustomer' reference can't be null",statefulObject);
+  String uuid=UUID.randomUUID().toString();
+  statefulObject.setName(uuid);
+  log.info("the 'uuid' value given to the ScopedCustomer#name property is '" + uuid + "' in "+ getClass().getName());
+  this.statefulObject.increment();
+}

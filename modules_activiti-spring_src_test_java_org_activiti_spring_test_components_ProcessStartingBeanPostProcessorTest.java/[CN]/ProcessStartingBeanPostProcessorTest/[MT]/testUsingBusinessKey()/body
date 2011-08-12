@@ -1,0 +1,6 @@
+{
+  long id=5;
+  String businessKey="usersKey" + System.currentTimeMillis();
+  ProcessInstance pi=processInitiatingPojo.enrollCustomer(businessKey,id);
+  assertEquals("the business key of the resultant ProcessInstance should match " + "the one specified through the AOP-intercepted method",businessKey,pi.getBusinessKey());
+}

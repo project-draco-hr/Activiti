@@ -1,0 +1,9 @@
+{
+  if (beanFactory instanceof BeanDefinitionRegistry) {
+    BeanDefinitionRegistry registry=(BeanDefinitionRegistry)beanFactory;
+    configureDefaultActivitiRegistry(ActivitiContextUtils.ACTIVITI_REGISTRY_BEAN_NAME,registry);
+  }
+ else {
+    log.info("BeanFactory is not a BeanDefinitionRegistry. The default '" + ActivitiContextUtils.ACTIVITI_REGISTRY_BEAN_NAME + "' cannot be configured.");
+  }
+}

@@ -1,0 +1,11 @@
+{
+  if (!beanAlreadyConfigured(registry,registryBeanName,ActivitiStateHandlerRegistry.class)) {
+    String registryName=ActivitiStateHandlerRegistry.class.getName();
+    log.info("registering a " + registryName + " instance under bean name "+ ActivitiContextUtils.ACTIVITI_REGISTRY_BEAN_NAME+ ".");
+    RootBeanDefinition rootBeanDefinition=new RootBeanDefinition();
+    rootBeanDefinition.setBeanClassName(registryName);
+    rootBeanDefinition.getPropertyValues().addPropertyValue("processEngine",this.processEngine);
+    BeanDefinitionHolder holder=new BeanDefinitionHolder(rootBeanDefinition,registryBeanName);
+    BeanDefinitionReaderUtils.registerBeanDefinition(holder,registry);
+  }
+}

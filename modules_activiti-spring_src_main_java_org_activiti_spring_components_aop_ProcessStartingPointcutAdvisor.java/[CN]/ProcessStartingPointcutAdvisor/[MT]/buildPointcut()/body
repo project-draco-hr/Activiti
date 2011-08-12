@@ -1,0 +1,13 @@
+{
+  ComposablePointcut result=null;
+  for (  Class<? extends Annotation> publisherAnnotationType : this.annotations) {
+    Pointcut mpc=new MetaAnnotationMatchingPointcut(null,publisherAnnotationType);
+    if (result == null) {
+      result=new ComposablePointcut(mpc);
+    }
+ else {
+      result.union(mpc);
+    }
+  }
+  return result;
+}

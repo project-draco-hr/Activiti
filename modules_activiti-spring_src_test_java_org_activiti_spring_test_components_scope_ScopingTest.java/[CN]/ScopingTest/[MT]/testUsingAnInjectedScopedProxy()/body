@@ -1,0 +1,7 @@
+{
+  logger.info("Running 'component-waiter' process instance with scoped beans.");
+  StatefulObject one=run();
+  StatefulObject two=run();
+  Assert.assertNotSame(one.getName(),two.getName());
+  Assert.assertEquals(one.getVisitedCount(),two.getVisitedCount());
+}
