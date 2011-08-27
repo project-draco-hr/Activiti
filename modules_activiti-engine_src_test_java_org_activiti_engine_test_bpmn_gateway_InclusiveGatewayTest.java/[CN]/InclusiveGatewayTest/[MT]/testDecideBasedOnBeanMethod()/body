@@ -6,9 +6,9 @@
   pi=runtimeService.startProcessInstanceByKey("inclusiveDecisionBasedOnBeanMethod",CollectionUtil.singletonMap("order",new InclusiveGatewayTestOrder(125)));
   List<Task> tasks=taskService.createTaskQuery().processInstanceId(pi.getId()).list();
   assertEquals(2,tasks.size());
-  Map<String,String> expectedNames=new HashMap<String,String>();
-  expectedNames.put(BEAN_TASK2_NAME,BEAN_TASK2_NAME);
-  expectedNames.put(BEAN_TASK3_NAME,BEAN_TASK3_NAME);
+  List<String> expectedNames=new ArrayList<String>();
+  expectedNames.add(BEAN_TASK2_NAME);
+  expectedNames.add(BEAN_TASK3_NAME);
   for (  Task t : tasks) {
     expectedNames.remove(t.getName());
   }

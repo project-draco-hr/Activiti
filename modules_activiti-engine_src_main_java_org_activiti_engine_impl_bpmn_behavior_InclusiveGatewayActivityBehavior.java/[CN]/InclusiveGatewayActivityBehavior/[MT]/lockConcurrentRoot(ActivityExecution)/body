@@ -1,0 +1,10 @@
+{
+  ActivityExecution concurrentRoot=null;
+  if (execution.isConcurrent()) {
+    concurrentRoot=execution.getParent();
+  }
+ else {
+    concurrentRoot=execution;
+  }
+  ((ExecutionEntity)concurrentRoot).forceUpdate();
+}
