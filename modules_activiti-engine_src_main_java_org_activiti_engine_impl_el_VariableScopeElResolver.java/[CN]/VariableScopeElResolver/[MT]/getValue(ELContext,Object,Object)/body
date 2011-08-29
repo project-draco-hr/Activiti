@@ -9,6 +9,10 @@
       context.setPropertyResolved(true);
       return ((TaskEntity)variableScope).getExecution();
     }
+ else     if (LOGGED_IN_USER_KEY.equals(property)) {
+      context.setPropertyResolved(true);
+      return Authentication.getAuthenticatedUserId();
+    }
  else {
       if (variableScope.hasVariable(variable)) {
         context.setPropertyResolved(true);
