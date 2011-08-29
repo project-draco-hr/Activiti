@@ -4,10 +4,21 @@
     List<? extends ActivityExecution> concurrentExecutions=getParent().getExecutions();
     for (    ActivityExecution concurrentExecution : concurrentExecutions) {
       if (concurrentExecution.getActivity() != activity) {
-        if (log.isLoggable(Level.FINE)) {
-          log.fine("an active concurrent execution found: '" + concurrentExecution.getActivity());
+        PvmTransition pvmTransition=((ExecutionEntity)concurrentExecution).getTransitionBeingTaken();
+        boolean reachable=false;
+        if (pvmTransition.getDestination() == activity) {
+          reachable=true;
         }
-        active=true;
+ else {
+          reachable=isReachable(pvmTransition.getDestination(),activity);
+        }
+        if (reachable == true) {
+          if (log.isLoggable(Level.FINE)) {
+            log.fine("an active concurrent execution found: '" + concurrentExecution.getActivity());
+          }
+          active=true;
+          break;
+        }
       }
     }
   }

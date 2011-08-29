@@ -1,0 +1,18 @@
+{
+  List<PvmTransition> transitionList=activity.getOutgoingTransitions();
+  if (transitionList != null && transitionList.size() > 0) {
+    for (    PvmTransition pvmTransition : transitionList) {
+      if (pvmTransition.getDestination() == reachableActivity) {
+        return true;
+      }
+      PvmActivity destinationActivity=pvmTransition.getDestination();
+      if (destinationActivity != null) {
+        boolean reachable=isReachable(destinationActivity,reachableActivity);
+        if (reachable) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
