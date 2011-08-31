@@ -18,9 +18,12 @@
   }
  else   if (transitionsToTake.size() >= 1) {
     execution.inactivate();
-    List<ActivityExecution> joinedExecutions=new ArrayList<ActivityExecution>();
-    joinedExecutions.add(execution);
-    execution.takeAll(transitionsToTake,joinedExecutions);
+    if (reusableExecutions == null || reusableExecutions.isEmpty()) {
+      execution.takeAll(transitionsToTake,Arrays.asList(execution));
+    }
+ else {
+      execution.takeAll(transitionsToTake,reusableExecutions);
+    }
   }
  else {
     if (defaultSequenceFlow != null) {
@@ -37,6 +40,9 @@
         log.fine("No outgoing sequence flow found for " + execution.getActivity().getId() + ". Ending execution.");
       }
       execution.end();
+      if (throwExceptionIfExecutionStuck) {
+        throw new ActivitiException("No outgoing sequence flow of the inclusive gateway '" + execution.getActivity().getId() + "' could be selected for continuing the process");
+      }
     }
   }
 }

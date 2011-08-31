@@ -25,6 +25,7 @@
   }
   if ((transitions.size() == 1) && (concurrentActiveExecutions.isEmpty()) && allExecutionsInSameActivity(concurrentInActiveExecutions)) {
     List<ExecutionEntity> recyclableExecutionImpls=(List)recyclableExecutions;
+    recyclableExecutions.remove(concurrentRoot);
     for (    ExecutionEntity prunedExecution : recyclableExecutionImpls) {
       if (!prunedExecution.isEnded()) {
         log.fine("pruning execution " + prunedExecution);

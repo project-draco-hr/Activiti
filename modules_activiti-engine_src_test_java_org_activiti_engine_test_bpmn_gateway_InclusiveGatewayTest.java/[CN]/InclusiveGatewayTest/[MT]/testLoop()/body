@@ -1,0 +1,12 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("inclusiveTestLoop",CollectionUtil.singletonMap("counter",1));
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("task C",task.getName());
+  taskService.complete(task.getId());
+  assertEquals(0,taskService.createTaskQuery().count());
+  for (  Execution execution : runtimeService.createExecutionQuery().list()) {
+    System.out.println(((ExecutionEntity)execution).getActivityId());
+  }
+  assertEquals("Found executions: " + runtimeService.createExecutionQuery().list(),0,runtimeService.createExecutionQuery().count());
+  assertProcessEnded(pi.getId());
+}

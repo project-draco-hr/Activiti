@@ -1,17 +1,15 @@
 {
-  PvmActivity activity=execution.getActivity();
-  List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
   execution.inactivate();
   lockConcurrentRoot(execution);
-  boolean activeExecutionFound=execution.activeConcurrentExecutions(activity);
-  if (activeExecutionFound == false) {
+  PvmActivity activity=execution.getActivity();
+  if (!activeConcurrentExecutionsExist(execution)) {
     if (log.isLoggable(Level.FINE)) {
       log.fine("inclusive gateway '" + activity.getId() + "' activates");
     }
     List<ActivityExecution> joinedExecutions=execution.findInactiveConcurrentExecutions(activity);
     String defaultSequenceFlow=(String)execution.getActivity().getProperty("default");
     List<PvmTransition> transitionsToTake=new ArrayList<PvmTransition>();
-    for (    PvmTransition outgoingTransition : outgoingTransitions) {
+    for (    PvmTransition outgoingTransition : execution.getActivity().getOutgoingTransitions()) {
       if (defaultSequenceFlow == null || !outgoingTransition.getId().equals(defaultSequenceFlow)) {
         Condition condition=(Condition)outgoingTransition.getProperty(BpmnParse.PROPERTYNAME_CONDITION);
         if (condition == null || condition.evaluate(execution)) {
@@ -19,11 +17,7 @@
         }
       }
     }
-    if (transitionsToTake.size() == 1) {
-      execution.take(transitionsToTake.get(0));
-    }
- else     if (transitionsToTake.size() >= 1) {
-      execution.inactivate();
+    if (transitionsToTake.size() > 0) {
       execution.takeAll(transitionsToTake,joinedExecutions);
     }
  else {
@@ -43,7 +37,7 @@
   }
  else {
     if (log.isLoggable(Level.FINE)) {
-      log.fine("inclusive gateway '" + activity.getId() + "' does not activate");
+      log.fine("Inclusive gateway '" + activity.getId() + "' does not activate");
     }
   }
 }

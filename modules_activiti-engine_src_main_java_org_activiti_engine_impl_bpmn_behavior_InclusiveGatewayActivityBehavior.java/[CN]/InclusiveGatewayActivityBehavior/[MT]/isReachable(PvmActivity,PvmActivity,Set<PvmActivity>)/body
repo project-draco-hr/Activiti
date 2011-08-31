@@ -1,0 +1,19 @@
+{
+  if (srcActivity.equals(targetActivity)) {
+    return true;
+  }
+  visitedActivities.add(srcActivity);
+  List<PvmTransition> transitionList=srcActivity.getOutgoingTransitions();
+  if (transitionList != null && transitionList.size() > 0) {
+    for (    PvmTransition pvmTransition : transitionList) {
+      PvmActivity destinationActivity=pvmTransition.getDestination();
+      if (destinationActivity != null && !visitedActivities.contains(destinationActivity)) {
+        boolean reachable=isReachable(destinationActivity,targetActivity,visitedActivities);
+        if (reachable) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
