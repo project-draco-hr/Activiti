@@ -9,6 +9,8 @@
   jobHandlers.put(timerCatchIntermediateEvent.getType(),timerCatchIntermediateEvent);
   TimerStartEventJobHandler timerStartEvent=new TimerStartEventJobHandler();
   jobHandlers.put(timerStartEvent.getType(),timerStartEvent);
+  AsyncContinuationJobHandler asyncContinuationJobHandler=new AsyncContinuationJobHandler();
+  jobHandlers.put(asyncContinuationJobHandler.getType(),asyncContinuationJobHandler);
   if (getCustomJobHandlers() != null) {
     for (    JobHandler customJobHandler : getCustomJobHandlers()) {
       jobHandlers.put(customJobHandler.getType(),customJobHandler);

@@ -1,0 +1,6 @@
+{
+  MessageEntity message=new MessageEntity();
+  message.setExecution(this);
+  message.setJobHandlerType(AsyncContinuationJobHandler.TYPE);
+  Context.getCommandContext().getJobManager().send(message);
+}

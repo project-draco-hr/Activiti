@@ -1,0 +1,10 @@
+{
+  runtimeService.startProcessInstanceByKey("asyncScript").getProcessInstanceId();
+  assertEquals(1,managementService.createJobQuery().count());
+  String eid=runtimeService.createExecutionQuery().singleResult().getId();
+  assertNull(runtimeService.getVariable(eid,"invoked"));
+  waitForJobExecutorToProcessAllJobs(5000L,25L);
+  assertEquals(0,managementService.createJobQuery().count());
+  assertEquals("true",runtimeService.getVariable(eid,"invoked"));
+  runtimeService.signal(eid);
+}

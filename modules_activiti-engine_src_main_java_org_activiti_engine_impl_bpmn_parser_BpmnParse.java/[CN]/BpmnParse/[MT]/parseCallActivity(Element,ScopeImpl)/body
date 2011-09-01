@@ -1,5 +1,7 @@
 {
   ActivityImpl activity=createActivityOnScope(callActivityElement,scope);
+  String async=callActivityElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"async");
+  activity.setAsync("true".equals(async));
   String calledElement=callActivityElement.attribute("calledElement");
   if (calledElement == null) {
     addError("Missing attribute 'calledElement'",callActivityElement);

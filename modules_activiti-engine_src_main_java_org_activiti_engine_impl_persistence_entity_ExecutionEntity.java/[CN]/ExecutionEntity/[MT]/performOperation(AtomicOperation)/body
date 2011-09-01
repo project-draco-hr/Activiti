@@ -1,3 +1,8 @@
 {
-  Context.getCommandContext().performOperation(executionOperation,this);
+  if (executionOperation.isAsync(this)) {
+    scheduleAtomicOperationAsync(executionOperation);
+  }
+ else {
+    performOperationSync(executionOperation);
+  }
 }
