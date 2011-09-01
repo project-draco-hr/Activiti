@@ -1,16 +1,17 @@
 {
-  addItemProperty(PROPERTY_ID,new ObjectProperty<String>(processInstance.getId()));
+  addItemProperty(PROPERTY_ID,new ObjectProperty<String>(processInstance.getId(),String.class));
   if (processInstance.getBusinessKey() != null) {
-    addItemProperty(PROPERTY_BUSINESSKEY,new ObjectProperty<String>(processInstance.getBusinessKey()));
+    addItemProperty(PROPERTY_BUSINESSKEY,new ObjectProperty<String>(processInstance.getBusinessKey(),String.class));
   }
   Button viewProcessInstanceButton=new Button(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_ACTION_VIEW));
   viewProcessInstanceButton.addStyleName(Reindeer.BUTTON_LINK);
   viewProcessInstanceButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
       ExplorerApp.get().getViewManager().showProcessInstancePage(processInstance.getId());
     }
   }
 );
   viewProcessInstanceButton.setIcon(Images.MAGNIFIER_16);
-  addItemProperty(PROPERTY_ACTIONS,new ObjectProperty<Component>(viewProcessInstanceButton));
+  addItemProperty(PROPERTY_ACTIONS,new ObjectProperty<Component>(viewProcessInstanceButton,Component.class));
 }

@@ -5,7 +5,7 @@
   }
  else {
     ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
-    notificationManager.showInformationNotification(Messages.PROCESS_STARTED_NOTIFICATION,processDefinition.getName());
+    notificationManager.showInformationNotification(Messages.PROCESS_STARTED_NOTIFICATION,getProcessDisplayName(processDefinition));
     List<Task> loggedInUsersTasks=taskService.createTaskQuery().taskAssignee(ExplorerApp.get().getLoggedInUser().getId()).processInstanceId(processInstance.getId()).list();
     if (loggedInUsersTasks.size() > 0) {
       ExplorerApp.get().getViewManager().showInboxPage(loggedInUsersTasks.get(0).getId());

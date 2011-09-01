@@ -11,7 +11,7 @@
     processDefinitionLinksLayout.setMargin(true,false,true,false);
     addDetailComponent(processDefinitionLinksLayout);
     for (    final ProcessDefinition processDefinition : processDefinitions) {
-      Button processDefinitionButton=new Button(processDefinition.getName());
+      Button processDefinitionButton=new Button(getProcessDisplayName(processDefinition));
       processDefinitionButton.addListener(new ClickListener(){
         public void buttonClick(        ClickEvent event){
           viewManager.showProcessDefinitionPage(processDefinition.getId());

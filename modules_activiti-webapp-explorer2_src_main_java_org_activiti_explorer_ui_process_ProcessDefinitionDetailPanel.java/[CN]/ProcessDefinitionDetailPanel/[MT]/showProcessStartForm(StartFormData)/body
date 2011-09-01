@@ -7,7 +7,7 @@
       private static final long serialVersionUID=1L;
       protected void handleFormSubmit(      FormPropertiesEvent event){
         formService.submitStartFormData(processDefinition.getId(),event.getFormProperties());
-        ExplorerApp.get().getMainWindow().showNotification("Process '" + processDefinition.getName() + "' started successfully");
+        ExplorerApp.get().getMainWindow().showNotification("Process '" + getProcessDisplayName(processDefinition) + "' started successfully");
         initProcessDefinitionInfo();
       }
       protected void handleFormCancel(      FormPropertiesEvent event){

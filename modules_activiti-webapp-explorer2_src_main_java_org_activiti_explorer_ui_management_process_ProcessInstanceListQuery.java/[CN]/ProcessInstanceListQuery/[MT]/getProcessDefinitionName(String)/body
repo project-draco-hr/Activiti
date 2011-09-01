@@ -1,6 +1,10 @@
 {
   if (!cachedProcessDefinitionNames.containsKey(processDefinitionId)) {
-    String name=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult().getName();
+    ProcessDefinition definition=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+    String name=definition.getName();
+    if (name != null) {
+      name=definition.getKey();
+    }
     cachedProcessDefinitionNames.put(processDefinitionId,name);
   }
   return cachedProcessDefinitionNames.get(processDefinitionId);

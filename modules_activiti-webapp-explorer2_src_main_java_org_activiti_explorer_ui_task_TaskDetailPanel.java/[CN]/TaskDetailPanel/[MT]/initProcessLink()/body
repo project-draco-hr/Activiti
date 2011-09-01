@@ -1,7 +1,7 @@
 {
   if (task.getProcessInstanceId() != null) {
     ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionId(task.getProcessDefinitionId()).singleResult();
-    Button showProcessInstanceButton=new Button(i18nManager.getMessage(Messages.TASK_PART_OF_PROCESS,processDefinition.getName()));
+    Button showProcessInstanceButton=new Button(i18nManager.getMessage(Messages.TASK_PART_OF_PROCESS,getProcessDisplayName(processDefinition)));
     showProcessInstanceButton.addStyleName(Reindeer.BUTTON_LINK);
     showProcessInstanceButton.addListener(new ClickListener(){
       public void buttonClick(      ClickEvent event){
