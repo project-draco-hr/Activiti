@@ -1,0 +1,12 @@
+{
+  boolean flush=getAssociationManager().isFlushBeanStore();
+  if (flush) {
+    flushBeanStore();
+  }
+  T result=next.execute(command);
+  if (flush) {
+    flushBeanStore();
+    getAssociationManager().setFlushBeanStore(false);
+  }
+  return result;
+}

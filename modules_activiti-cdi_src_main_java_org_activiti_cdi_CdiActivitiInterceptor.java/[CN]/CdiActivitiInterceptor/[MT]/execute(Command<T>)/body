@@ -1,6 +1,8 @@
 {
-  flushBeanStore();
-  T result=next.execute(command);
-  flushBeanStore();
-  return result;
+  if (isCdiActive()) {
+    return executeInCdiEnv(command);
+  }
+ else {
+    return next.execute(command);
+  }
 }

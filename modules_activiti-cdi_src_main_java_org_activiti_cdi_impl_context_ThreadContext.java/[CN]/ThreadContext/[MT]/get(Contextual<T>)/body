@@ -1,0 +1,11 @@
+{
+  Bean<T> bean=(Bean<T>)contextual;
+  String variableName=bean.getName();
+  Object variable=getBeanStore().getContextualInstance(variableName);
+  if (variable != null) {
+    return (T)variable;
+  }
+ else {
+    return null;
+  }
+}

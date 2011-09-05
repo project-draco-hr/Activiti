@@ -1,13 +1,11 @@
 {
+  if (Context.getCommandContext() != null) {
+    ExecutionEntity processInstance=Context.getExecutionContext().getProcessInstance();
+    if (processInstance != null) {
+      return processInstance;
+    }
+  }
   assertProcessIdSet();
   ProcessInstance instance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(associationManager.getProcessInstanceId()).singleResult();
-  if (instance != null) {
-    return instance;
-  }
-  try {
-    return Context.getExecutionContext().getProcessInstance();
-  }
- catch (  Exception e) {
-    return null;
-  }
+  return instance;
 }

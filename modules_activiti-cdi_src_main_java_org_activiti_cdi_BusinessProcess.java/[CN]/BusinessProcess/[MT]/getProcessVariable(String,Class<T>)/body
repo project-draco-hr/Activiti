@@ -5,10 +5,10 @@
     value=getBeanStore().getContextualInstance(variableName);
   }
  else {
-    try {
+    if (Context.getCommandContext() != null) {
       value=Context.getExecutionContext().getExecution().getVariable(variableName);
     }
- catch (    Exception e) {
+ else {
       value=processEngine.getRuntimeService().getVariable(associationManager.getProcessInstanceId(),variableName);
     }
     getBeanStore().put(variableName,value);

@@ -1,0 +1,6 @@
+{
+  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
+  businessProcess.startProcessByKey("processkey").getId();
+  waitForJobExecutorToProcessAllJobs(5000l,25l);
+  assertNull(managementService.createJobQuery().singleResult());
+}
