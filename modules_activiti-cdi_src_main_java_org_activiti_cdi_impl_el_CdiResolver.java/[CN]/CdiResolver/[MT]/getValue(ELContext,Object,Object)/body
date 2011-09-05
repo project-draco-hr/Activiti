@@ -5,7 +5,8 @@
     return result;
   }
  catch (  IllegalStateException e) {
-    Object result=ProgrammaticBeanLookup.lookup(property.toString());
+    e.printStackTrace();
+    Object result=ProgrammaticBeanLookup.lookup(property.toString(),getBeanManager());
     context.setPropertyResolved(result != null);
     return result;
   }
