@@ -1,11 +1,4 @@
 {
   BeanManager bm=BeanManagerLookup.getBeanManager();
-  Iterator<Bean<?>> iter=bm.getBeans(clazz).iterator();
-  if (!iter.hasNext()) {
-    throw new IllegalStateException("CDI BeanManager cannot find an instance of requested type " + clazz.getName());
-  }
-  Bean<T> bean=(Bean<T>)iter.next();
-  CreationalContext<T> ctx=bm.createCreationalContext(bean);
-  T dao=(T)bm.getReference(bean,clazz,ctx);
-  return dao;
+  return lookup(clazz,bm);
 }
