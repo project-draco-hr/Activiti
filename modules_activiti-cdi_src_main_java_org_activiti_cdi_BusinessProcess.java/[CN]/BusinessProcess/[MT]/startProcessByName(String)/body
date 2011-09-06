@@ -7,5 +7,6 @@
   }
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceById(definition.getId(),getBeanStore().getAll());
   associate(instance.getProcessInstanceId());
+  associationManager.setFlushBeanStore(false);
   return instance;
 }

@@ -3,15 +3,10 @@
     Object result=ctx.proceed();
     CompleteTask completeTaskAnnotation=ctx.getMethod().getAnnotation(CompleteTask.class);
     boolean endConversation=completeTaskAnnotation.endConversation();
-    businessProcess.completeTask();
-    if (endConversation) {
-      if (!conversation.isUnsatisfied()) {
-        conversation.get().end();
-      }
-    }
+    businessProcess.completeTask(endConversation);
     return result;
   }
  catch (  InvocationTargetException e) {
-    throw e.getCause();
+    throw new ActivitiCdiException("Error while completing task: " + e.getCause().getMessage(),e.getCause());
   }
 }

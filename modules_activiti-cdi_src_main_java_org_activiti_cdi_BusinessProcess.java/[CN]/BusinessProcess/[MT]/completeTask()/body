@@ -2,5 +2,6 @@
   assertTaskAssociated();
   associationManager.setFlushBeanStore(true);
   processEngine.getTaskService().complete(getTask().getId());
+  associationManager.setFlushBeanStore(false);
   associationManager.disAssociate();
 }
