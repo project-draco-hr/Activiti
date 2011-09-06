@@ -1,6 +1,6 @@
 {
-  assertProcessIdSet();
+  assertAssociated();
   associationManager.setFlushBeanStore(true);
-  processEngine.getRuntimeService().signal(associationManager.getProcessInstanceId());
-  associationManager.disAssociateProcessInstance();
+  processEngine.getRuntimeService().signal(associationManager.getExecutionId());
+  associationManager.disAssociate();
 }

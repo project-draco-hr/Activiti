@@ -1,8 +1,0 @@
-{
-  getBeanInstance(Actor.class).setActorId("kermit");
-  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
-  businessProcess.startProcessByKey("keyOfTheProcess");
-  assertNotNull(taskService.createTaskQuery().singleResult());
-  getBeanInstance(DeclarativeProcessController.class).completeTaskByName();
-  assertNull(taskService.createTaskQuery().singleResult());
-}

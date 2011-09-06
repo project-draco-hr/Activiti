@@ -5,6 +5,5 @@
   endRequest();
   beginRequest();
   assertNull(businessProcess.getProcessInstanceId());
-  businessProcess.resumeProcessById(pid);
-  businessProcess.completeTask();
+  runtimeService.deleteProcessInstance(pid,null);
 }

@@ -1,0 +1,12 @@
+{
+  if (Context.getCommandContext() != null) {
+    ExecutionEntity execution=Context.getExecutionContext().getExecution();
+    if (execution != null) {
+      return execution;
+    }
+  }
+  if (isAssociated()) {
+    return processEngine.getRuntimeService().createExecutionQuery().executionId(associationManager.getExecutionId()).singleResult();
+  }
+  return null;
+}

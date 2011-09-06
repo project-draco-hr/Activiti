@@ -8,7 +8,7 @@
   String value="value";
   businessProcess.setProcessVariable("key",value);
   assertEquals(value,businessProcess.getProcessVariable("key"));
-  assertEquals(task.getId(),businessProcess.resumeTaskById(task.getId()).getId());
+  assertEquals(task.getId(),businessProcess.startTask(task.getId()).getId());
   businessProcess.completeTask();
   assertNull(processEngine.getTaskService().createTaskQuery().singleResult());
   assertNull(processEngine.getRuntimeService().createProcessInstanceQuery().singleResult());

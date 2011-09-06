@@ -1,14 +1,14 @@
 {
   BusinessProcessAssociationManager associationManager=getAssociationManager();
-  String executionId=associationManager.getProcessInstanceId();
+  String executionId=associationManager.getExecutionId();
   if (executionId != null) {
-    ExecutionEntity processInstance=Context.getCommandContext().getExecutionManager().findExecutionById(executionId);
-    if (processInstance != null && !processInstance.isEnded()) {
+    ExecutionEntity execution=Context.getCommandContext().getExecutionManager().findExecutionById(executionId);
+    if (execution != null && !execution.isEnded()) {
       CachingBeanStore beanStore=associationManager.getBeanStore();
       if (log.isLoggable(Level.FINE)) {
         logFlushSummary(beanStore);
       }
-      processInstance.setVariables(beanStore.getAll());
+      execution.setVariables(beanStore.getAll());
       beanStore.clear();
     }
   }

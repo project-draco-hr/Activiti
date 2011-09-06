@@ -1,9 +1,9 @@
 {
   BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
-  getBeanInstance(Actor.class).setActorId("kermit");
   Map<String,Object> processVariables=new HashMap<String,Object>();
   businessProcess.setProcessVariable("testKeyString","testValue");
   businessProcess.startProcessByKey("businessProcessBeanTest",processVariables);
+  businessProcess.startTask(taskService.createTaskQuery().singleResult().getId());
   InjectProcessVariable injectProcessVariables=getBeanInstance(InjectProcessVariable.class);
   assertEquals("testValue",injectProcessVariables.testKeyString);
   businessProcess.completeTask();

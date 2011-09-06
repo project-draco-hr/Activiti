@@ -2,6 +2,6 @@
   associationManager.setFlushBeanStore(true);
   getBeanStore().putAll(variables);
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey(key,getBeanStore().getAll());
-  associateBusinessProcessInstance(instance.getProcessInstanceId());
+  associate(instance.getProcessInstanceId());
   return instance;
 }

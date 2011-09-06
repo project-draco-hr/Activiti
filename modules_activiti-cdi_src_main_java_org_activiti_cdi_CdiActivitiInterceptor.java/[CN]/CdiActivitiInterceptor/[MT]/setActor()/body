@@ -1,0 +1,9 @@
+{
+  ActorReference actorReference=getBeanInstance(ActorReference.class);
+  if (actorReference.isAvailable()) {
+    Actor actor=actorReference.getActor();
+    if (actor.getActorId() != null) {
+      Authentication.setAuthenticatedUserId(actor.getActorId());
+    }
+  }
+}

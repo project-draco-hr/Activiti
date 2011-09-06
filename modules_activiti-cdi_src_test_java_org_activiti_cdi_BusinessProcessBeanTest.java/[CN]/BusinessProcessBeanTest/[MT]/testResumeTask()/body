@@ -1,8 +1,0 @@
-{
-  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
-  getBeanInstance(Actor.class).setActorId("kermit");
-  String pid=runtimeService.startProcessInstanceByKey("businessProcessBeanTest").getId();
-  businessProcess.resumeProcessById(pid);
-  businessProcess.completeTask();
-  assertNull(processEngine.getRuntimeService().createProcessInstanceQuery().singleResult());
-}

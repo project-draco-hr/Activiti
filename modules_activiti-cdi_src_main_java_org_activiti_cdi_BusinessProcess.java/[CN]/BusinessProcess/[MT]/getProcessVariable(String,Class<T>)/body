@@ -1,7 +1,7 @@
 {
-  resumeProcess();
+  resumeExecutionFromContext();
   Object value=null;
-  if (!isActive() || getBeanStore().holdsValue(variableName)) {
+  if (!isAssociated() || getBeanStore().holdsValue(variableName)) {
     value=getBeanStore().getContextualInstance(variableName);
   }
  else {
@@ -9,7 +9,7 @@
       value=Context.getExecutionContext().getExecution().getVariable(variableName);
     }
  else {
-      value=processEngine.getRuntimeService().getVariable(associationManager.getProcessInstanceId(),variableName);
+      value=processEngine.getRuntimeService().getVariable(associationManager.getExecutionId(),variableName);
     }
     getBeanStore().put(variableName,value);
   }

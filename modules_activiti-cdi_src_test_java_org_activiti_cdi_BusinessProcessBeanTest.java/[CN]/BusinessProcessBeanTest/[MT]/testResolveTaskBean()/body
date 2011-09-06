@@ -1,14 +1,11 @@
 {
   BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
-  getBeanInstance(Actor.class).setActorId("kermit");
-  try {
-    getBeanInstance(ProcessInstance.class);
-    fail();
-  }
- catch (  ActivitiException e) {
-  }
+  assertNull(getBeanInstance(Task.class));
+  assertNull(getBeanInstance("taskId"));
   businessProcess.startProcessByKey("businessProcessBeanTest");
   String taskId=taskService.createTaskQuery().singleResult().getId();
+  businessProcess.startTask(taskId);
   assertEquals(taskId,getBeanInstance(Task.class).getId());
-  businessProcess.completeTask();
+  assertEquals(taskId,getBeanInstance("taskId"));
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
 }

@@ -1,4 +1,7 @@
 {
-  getBeanInstance(BusinessProcess.class).startProcessByKey("keyOfTheProcess");
+  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
+  businessProcess.startProcessByKey("keyOfTheProcess");
+  businessProcess.startTask(taskService.createTaskQuery().singleResult().getId());
   assertNotNull(getBeanInstance("taskId"));
+  businessProcess.completeTask();
 }

@@ -4,5 +4,6 @@
   BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
   assertNotNull(runtimeService.createProcessInstanceQuery().singleResult());
   assertEquals("Activiti",businessProcess.getProcessVariable("name"));
+  businessProcess.startTask(taskService.createTaskQuery().singleResult().getId());
   businessProcess.completeTask();
 }

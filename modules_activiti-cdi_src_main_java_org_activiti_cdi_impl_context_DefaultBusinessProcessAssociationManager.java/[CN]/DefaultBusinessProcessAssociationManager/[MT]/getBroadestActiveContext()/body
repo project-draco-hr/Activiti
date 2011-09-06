@@ -1,5 +1,4 @@
 {
-  BeanManager beanManager=BeanManagerLookup.getBeanManager();
   for (  Class<? extends ScopedAssociation> scopeType : getAvailableScopedAssociationClasses()) {
     Annotation scopeAnnotation=scopeType.getAnnotations().length > 0 ? scopeType.getAnnotations()[0] : null;
     if (scopeAnnotation == null || !beanManager.isScope(scopeAnnotation.annotationType())) {

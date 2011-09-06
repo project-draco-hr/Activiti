@@ -7,6 +7,6 @@
   }
   getBeanStore().putAll(variables);
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceById(definition.getId(),getBeanStore().getAll());
-  associateBusinessProcessInstance(instance.getProcessInstanceId());
+  associate(instance.getProcessInstanceId());
   return instance;
 }

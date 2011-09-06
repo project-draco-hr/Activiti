@@ -1,4 +1,7 @@
 {
-  resumeProcess();
-  return associationManager.getProcessInstanceId();
+  ProcessInstance processInstance=getProcessInstance();
+  if (processInstance != null) {
+    return processInstance.getId();
+  }
+  return null;
 }

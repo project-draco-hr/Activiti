@@ -5,7 +5,9 @@
       return processInstance;
     }
   }
-  assertProcessIdSet();
-  ProcessInstance instance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(associationManager.getProcessInstanceId()).singleResult();
-  return instance;
+  Execution execution=getExecution();
+  if (execution != null) {
+    return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(execution.getProcessInstanceId()).singleResult();
+  }
+  return null;
 }

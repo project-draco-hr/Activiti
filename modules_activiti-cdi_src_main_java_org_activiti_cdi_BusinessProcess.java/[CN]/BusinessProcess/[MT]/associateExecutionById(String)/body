@@ -1,0 +1,13 @@
+{
+  associate(executionId);
+  try {
+    getExecution();
+  }
+ catch (  ActivitiException e) {
+    associationManager.disAssociate();
+    throw new ActivitiException("Cannot resume process: no execution with id '" + executionId + "' found.");
+  }
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("Resumig Execution[" + executionId + "].");
+  }
+}
