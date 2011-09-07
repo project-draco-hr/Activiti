@@ -1,0 +1,6 @@
+{
+  ProcessEngineLookup processEngineProvisionStrategy=ProgrammaticBeanLookup.lookup(ProcessEngineLookup.class,beanManager);
+  processEngine=processEngineProvisionStrategy.getProcessEngine();
+  ActivitiServices activitiServices=ProgrammaticBeanLookup.lookup(ActivitiServices.class,beanManager);
+  activitiServices.setProcessEngine(processEngine);
+}
