@@ -2,6 +2,5 @@
   invocation.proceed();
   CachingBeanStore beanStore=getAssociationManager().getBeanStore();
   ExecutionEntity execution=Context.getExecutionContext().getExecution();
-  execution.setVariables(beanStore.getAll());
-  beanStore.clear();
+  execution.setVariables(beanStore.getAllAndClear());
 }
