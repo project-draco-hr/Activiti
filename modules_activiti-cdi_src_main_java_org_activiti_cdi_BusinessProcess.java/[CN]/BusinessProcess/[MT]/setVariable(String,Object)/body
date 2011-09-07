@@ -1,0 +1,10 @@
+{
+  resumeExecutionFromContext();
+  if (Context.getCommandContext() != null) {
+    ExecutionEntity execution=Context.getExecutionContext().getExecution();
+    if (execution != null) {
+      execution.setVariable(variableName,value);
+    }
+  }
+  getBeanStore().put(variableName,value);
+}

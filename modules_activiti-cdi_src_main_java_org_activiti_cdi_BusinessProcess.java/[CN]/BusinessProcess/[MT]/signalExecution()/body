@@ -1,7 +1,6 @@
 {
   assertAssociated();
-  associationManager.setFlushBeanStore(true);
+  processEngine.getRuntimeService().setVariables(associationManager.getExecutionId(),associationManager.getBeanStore().getAll());
   processEngine.getRuntimeService().signal(associationManager.getExecutionId());
-  associationManager.setFlushBeanStore(false);
   associationManager.disAssociate();
 }
