@@ -1,2 +1,13 @@
 {
+  Date startTime=ClockUtil.getCurrentTime();
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("multiInstanceSubProcess");
+  List<Task> tasks=taskService.createTaskQuery().processInstanceId(pi.getId()).orderByTaskName().asc().list();
+  ClockUtil.setCurrentTime(new Date(startTime.getTime() + 61000L));
+  List<Job> timers=managementService.createJobQuery().list();
+  assertEquals(5,timers.size());
+  for (  Job timer : timers) {
+    managementService.executeJob(timer.getId());
+  }
+  tasks=taskService.createTaskQuery().processInstanceId(pi.getId()).orderByTaskName().asc().list();
+  assertEquals(0,tasks.size());
 }
