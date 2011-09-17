@@ -1,0 +1,17 @@
+{
+  log.info("No script engine found for " + language + " using standard javax.script auto-registration. Checking OSGi registry...");
+  try {
+    Class<?> c=Class.forName("org.activiti.osgi.Extender");
+    Method mth=c.getDeclaredMethod("getBundleContext");
+    Object ctx=mth.invoke(null);
+    log.info("Found OSGi BundleContext " + ctx);
+    if (ctx != null) {
+      Method resolveScriptEngine=c.getDeclaredMethod("resolveScriptEngine",String.class);
+      return (ScriptEngine)resolveScriptEngine.invoke(null,language);
+    }
+  }
+ catch (  Throwable t) {
+    log.log(Level.INFO,"Unable to load OSGi, script engine cannot be found",t);
+  }
+  return null;
+}

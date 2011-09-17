@@ -2,6 +2,9 @@
   Bindings bindings=createBindings(variableScope);
   ScriptEngine scriptEngine=scriptEngineManager.getEngineByName(language);
   if (scriptEngine == null) {
+    scriptEngine=checkForOSGiEngine(language);
+  }
+  if (scriptEngine == null) {
     throw new ActivitiException("Can't find scripting engine for '" + language + "'");
   }
   try {

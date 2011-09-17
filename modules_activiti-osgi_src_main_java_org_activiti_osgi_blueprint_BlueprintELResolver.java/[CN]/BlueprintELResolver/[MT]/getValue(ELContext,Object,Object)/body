@@ -1,0 +1,12 @@
+{
+  if (base == null) {
+    String key=(String)property;
+    for (    String name : delegateMap.keySet()) {
+      if (name.equalsIgnoreCase(key)) {
+        context.setPropertyResolved(true);
+        return delegateMap.get(name);
+      }
+    }
+  }
+  return null;
+}

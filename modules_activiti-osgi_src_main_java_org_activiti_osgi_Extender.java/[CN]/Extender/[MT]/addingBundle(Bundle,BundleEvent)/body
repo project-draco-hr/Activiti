@@ -5,5 +5,11 @@
  else {
     bundleChanged(event);
   }
+  List<BundleScriptEngineResolver> r=new ArrayList<BundleScriptEngineResolver>();
+  registerScriptEngines(bundle,r);
+  for (  BundleScriptEngineResolver service : r) {
+    service.register();
+  }
+  resolvers.put(bundle.getBundleId(),r);
   return bundle;
 }
