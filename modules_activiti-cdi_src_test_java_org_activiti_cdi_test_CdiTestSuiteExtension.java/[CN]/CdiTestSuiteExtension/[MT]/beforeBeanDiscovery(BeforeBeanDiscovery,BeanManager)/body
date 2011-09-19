@@ -1,0 +1,8 @@
+{
+  if (!isPluginTest) {
+    return;
+  }
+  AnnotatedType<NoopProcessEngineLookup> noopLookup=beanManager.createAnnotatedType(NoopProcessEngineLookup.class);
+  noopLookup=new AnnotatedTypeBuilder<CdiTestSuiteExtension.NoopProcessEngineLookup>().readFromType(noopLookup).removeFromClass(Alternative.class).create();
+  evt.addAnnotatedType(noopLookup);
+}

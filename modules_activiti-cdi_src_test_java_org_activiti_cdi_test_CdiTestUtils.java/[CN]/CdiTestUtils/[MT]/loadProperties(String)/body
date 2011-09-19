@@ -1,0 +1,21 @@
+{
+  InputStream is=null;
+  try {
+    is=CdiTestUtils.class.getClassLoader().getResourceAsStream(propertiesFile);
+    Properties properties=new Properties();
+    properties.load(is);
+    return properties;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("Could not load properties from file '" + propertiesFile + "'",e);
+  }
+ finally {
+    if (is != null) {
+      try {
+        is.close();
+      }
+ catch (      IOException e) {
+      }
+    }
+  }
+}

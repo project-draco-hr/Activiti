@@ -1,0 +1,13 @@
+{
+  log.info("=========== dropping / creating the activiti database schema");
+  CommandExecutor commandExecutor=ProgrammaticBeanLookup.lookup(SeamConfiguredProcessEngine.class).getProcessEngineConfiguration().getCommandExecutorTxRequired();
+  commandExecutor.execute(new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      DbSqlSession session=commandContext.getSession(DbSqlSession.class);
+      session.dbSchemaDrop();
+      session.dbSchemaCreate();
+      return null;
+    }
+  }
+);
+}

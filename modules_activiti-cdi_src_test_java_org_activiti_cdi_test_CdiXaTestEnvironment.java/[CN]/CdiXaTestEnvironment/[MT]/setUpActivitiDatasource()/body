@@ -1,0 +1,11 @@
+{
+  log.info("=========== setting up datasource java:comp/env/jdbc/activiti-engine");
+  Properties datasourceProperties=CdiTestUtils.loadProperties(datasourcePropertiesFileName);
+  AtomikosDataSourceBean engineDs=new AtomikosDataSourceBean();
+  engineDs.setXaDataSourceClassName(datasourceProperties.getProperty("ds.engine.xaDriverClassName"));
+  engineDs.setXaProperties(CdiTestUtils.loadProperties(engineDsPropertiesFileName));
+  engineDs.setUniqueResourceName("activiti-engine");
+  engineDs.setMaxPoolSize(2);
+  activitiDatasource=engineDs;
+  jndiBuilder.bind("java:comp/env/jdbc/activiti-engine",activitiDatasource);
+}

@@ -1,0 +1,7 @@
+{
+  log.info("=========== setting up JTA transaction manager");
+  transactionManager=new UserTransactionManager();
+  transactionManager.init();
+  jndiBuilder.bind("java:comp/env/TransactionManager",transactionManager);
+  jndiBuilder.bind("java:comp/UserTransaction",new UserTransactionImp());
+}

@@ -1,0 +1,13 @@
+{
+  log.info("=========== setting up datasource java:comp/env/jdbc/activiti-cycle");
+  AtomikosNonXADataSourceBean cycleDatasource=new AtomikosNonXADataSourceBean();
+  Properties datasourceProperties=CdiTestUtils.loadProperties(datasourcePropertiesFileName);
+  cycleDatasource.setDriverClassName(datasourceProperties.getProperty("ds.driverClassName"));
+  cycleDatasource.setUrl(datasourceProperties.getProperty("ds.url"));
+  cycleDatasource.setUser(datasourceProperties.getProperty("ds.user"));
+  cycleDatasource.setPassword(datasourceProperties.getProperty("ds.password"));
+  cycleDatasource.setUniqueResourceName("cycle-ds");
+  cycleDatasource.setMaxPoolSize(2);
+  this.cycleDatasource=cycleDatasource;
+  jndiBuilder.bind("java:comp/env/jdbc/activiti-cycle",cycleDatasource);
+}

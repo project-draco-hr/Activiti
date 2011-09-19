@@ -1,0 +1,10 @@
+{
+  if (currentRequestMap == null) {
+    throw new RuntimeException("Cannot start conversation: no request active.");
+  }
+  if (currentSessionMap == null) {
+    throw new RuntimeException("Cannot start conversation: no session active.");
+  }
+  currentSessionMap=new HashMap<String,Object>();
+  startTransientConversation(currentRequestMap,currentSessionMap);
+}

@@ -1,0 +1,7 @@
+{
+  if (processEngine != null) {
+    throw new IllegalStateException("Contract violation: " + getClass().getName() + " manages @ApplicationScoped ProcessEngines. ProcessEngine already built. "+ "Make sure not to call getProcessEngine() more than once.");
+  }
+  buildProcessEngine();
+  return processEngine;
+}
