@@ -7,4 +7,7 @@
   parseErrors();
   parseProcessDefinitions();
   parseDiagramInterchangeElements();
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseRootElement(rootElement,getProcessDefinitions());
+  }
 }

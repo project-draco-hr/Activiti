@@ -1,0 +1,16 @@
+{
+  assertEquals(0,repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").count());
+  assertEquals(1,repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess-modified").count());
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess-modified").singleResult();
+  assertNotNull(processDefinition.getDiagramResourceName());
+  InputStream diagramStream=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName());
+  try {
+    byte[] buffer=new byte[1];
+    assertEquals(1,diagramStream.read(buffer));
+  }
+  finally {
+    if (diagramStream != null) {
+      diagramStream.close();
+    }
+  }
+}
