@@ -3,7 +3,13 @@
     private static final long serialVersionUID=1L;
     public OutputStream receiveUpload(    String filename,    String mType){
       fileName=filename;
-      mimeType=mType;
+      String extention=extractExtention(filename);
+      if (extention != null) {
+        mimeType=mType + MIME_TYPE_EXTENTION_SPLIT_CHAR + extention;
+      }
+ else {
+        mimeType=mType;
+      }
       byteArrayOutputStream=new ByteArrayOutputStream();
       return byteArrayOutputStream;
     }

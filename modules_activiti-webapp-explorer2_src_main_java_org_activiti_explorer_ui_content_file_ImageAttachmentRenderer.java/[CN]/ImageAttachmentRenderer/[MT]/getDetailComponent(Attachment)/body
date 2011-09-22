@@ -7,7 +7,8 @@
   description.setSizeUndefined();
   verticalLayout.addComponent(description);
   TaskService taskService=ProcessEngines.getDefaultProcessEngine().getTaskService();
-  InputStream imageStream=ImageUtil.smallify(taskService.getAttachmentContent(attachment.getId()),attachment.getType(),900,550);
+  String mimeType=extractMineType(attachment.getType());
+  InputStream imageStream=ImageUtil.smallify(taskService.getAttachmentContent(attachment.getId()),mimeType,900,550);
   Resource resource=new StreamResource(new InputStreamStreamSource(imageStream),attachment.getName() + extractExtention(attachment.getType()),ExplorerApp.get());
   Embedded image=new Embedded(null,resource);
   verticalLayout.addComponent(image);

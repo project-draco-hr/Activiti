@@ -1,5 +1,9 @@
 {
-  int lastIndex=type.lastIndexOf('/');
+  int lastIndex=type.lastIndexOf(FileAttachmentEditorComponent.MIME_TYPE_EXTENTION_SPLIT_CHAR);
+  if (lastIndex > 0 && lastIndex < type.length() - 1) {
+    return "." + type.substring(lastIndex + 1);
+  }
+  lastIndex=type.lastIndexOf('/');
   if (lastIndex > 0 && lastIndex < type.length() - 1) {
     return "." + type.substring(lastIndex + 1);
   }
