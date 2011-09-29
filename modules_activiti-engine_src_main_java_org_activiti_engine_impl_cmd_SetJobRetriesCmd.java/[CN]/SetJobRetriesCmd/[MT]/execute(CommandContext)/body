@@ -1,0 +1,10 @@
+{
+  JobEntity job=commandContext.getJobManager().findJobById(jobId);
+  if (job != null) {
+    job.setRetries(retries);
+  }
+ else {
+    throw new ActivitiException("No job found with id '" + jobId + "'.");
+  }
+  return null;
+}

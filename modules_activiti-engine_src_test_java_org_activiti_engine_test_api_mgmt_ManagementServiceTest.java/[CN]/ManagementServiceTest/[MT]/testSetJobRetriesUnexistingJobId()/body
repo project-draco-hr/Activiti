@@ -1,0 +1,9 @@
+{
+  try {
+    managementService.setJobRetries("unexistingjob",5);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException re) {
+    assertTextPresent("No job found with id 'unexistingjob'.",re.getMessage());
+  }
+}

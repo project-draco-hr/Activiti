@@ -1,0 +1,9 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("exceptionInJobExecution");
+  Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull("No job found for process instance",timerJob);
+  assertEquals(JobEntity.DEFAULT_RETRIES,timerJob.getRetries());
+  managementService.setJobRetries(timerJob.getId(),5);
+  timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertEquals(5,timerJob.getRetries());
+}

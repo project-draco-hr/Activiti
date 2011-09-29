@@ -1,0 +1,10 @@
+{
+  if (jobId == null || jobId.length() < 1) {
+    throw new ActivitiException("The job id is mandatory, but '" + jobId + "' has been provided.");
+  }
+  if (retries < 0) {
+    throw new ActivitiException("The number of job retries must be a non-negative Integer, but '" + retries + "' has been provided.");
+  }
+  this.jobId=jobId;
+  this.retries=retries;
+}
