@@ -1,0 +1,9 @@
+{
+  String processDefinitionKey="oneTaskProcess";
+  runtimeService.startProcessInstanceByKey(processDefinitionKey);
+  runtimeService.startProcessInstanceByKey("orderProcess");
+  HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processDefinitionKey(processDefinitionKey).singleResult();
+  assertNotNull(historicProcessInstance);
+  assertTrue(historicProcessInstance.getProcessDefinitionId().startsWith(processDefinitionKey));
+  assertEquals("theStart",historicProcessInstance.getStartActivityId());
+}
