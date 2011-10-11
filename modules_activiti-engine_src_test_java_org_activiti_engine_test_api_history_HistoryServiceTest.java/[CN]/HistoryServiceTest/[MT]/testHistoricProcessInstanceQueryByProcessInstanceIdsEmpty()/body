@@ -1,0 +1,7 @@
+{
+  runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  HistoricProcessInstanceQuery processInstanceQuery=historyService.createHistoricProcessInstanceQuery().processInstanceIds(new HashSet<String>());
+  assertEquals(0,processInstanceQuery.count());
+  List<HistoricProcessInstance> processInstances=processInstanceQuery.list();
+  assertTrue(processInstances.isEmpty());
+}
