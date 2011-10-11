@@ -1,0 +1,5 @@
+{
+  Set<String> processInstanceIds=new HashSet<String>(this.processInstanceIds);
+  assertNotNull(runtimeService.createProcessInstanceQuery().processInstanceIds(processInstanceIds).list());
+  assertEquals(5,runtimeService.createProcessInstanceQuery().processInstanceIds(processInstanceIds).list().size());
+}
