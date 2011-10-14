@@ -1,0 +1,13 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("exceptionInJobExecution");
+  Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull("No job found for process instance",timerJob);
+  try {
+    managementService.executeJob(timerJob.getId());
+    fail("RuntimeException from within the script task expected");
+  }
+ catch (  RuntimeException re) {
+    assertTextPresent(EXCEPTION_MESSAGE,re.getMessage());
+  }
+  return processInstance;
+}

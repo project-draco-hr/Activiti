@@ -1,0 +1,7 @@
+{
+  JobQuery query=managementService.createJobQuery().exceptionMessage(EXCEPTION_MESSAGE);
+  verifyQueryResults(query,0);
+  ProcessInstance processInstance=startProcessInstanceWithFailingJob();
+  query=managementService.createJobQuery().exceptionMessage(EXCEPTION_MESSAGE);
+  verifyFailedJob(query,processInstance);
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    managementService.createJobQuery().exceptionMessage(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException e) {
+    assertEquals("Provided exception message is null",e.getMessage());
+  }
+}
