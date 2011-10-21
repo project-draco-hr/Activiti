@@ -1,0 +1,16 @@
+{
+  List<String> groups=Arrays.asList("management","accountancy");
+  TaskQuery query=taskService.createTaskQuery().taskCandidateGroupIn(groups);
+  assertEquals(5,query.count());
+  assertEquals(5,query.list().size());
+  try {
+    query.singleResult();
+    fail("expected exception");
+  }
+ catch (  ActivitiException e) {
+  }
+  groups=Arrays.asList("management","accountancy","sales","unexising");
+  query=taskService.createTaskQuery().taskCandidateGroupIn(groups);
+  assertEquals(5,query.count());
+  assertEquals(5,query.list().size());
+}

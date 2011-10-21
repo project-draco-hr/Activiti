@@ -5,6 +5,9 @@
   if (candidateGroup != null) {
     throw new ActivitiException("Invalid query usage: cannot set both candidateUser and candidateGroup");
   }
+  if (candidateGroups != null) {
+    throw new ActivitiException("Invalid query usage: cannot set both candidateUser and candidateGroupIn");
+  }
   this.candidateUser=candidateUser;
   return this;
 }
