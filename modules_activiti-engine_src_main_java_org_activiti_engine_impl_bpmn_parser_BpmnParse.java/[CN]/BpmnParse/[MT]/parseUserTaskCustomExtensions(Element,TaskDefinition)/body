@@ -27,4 +27,8 @@
   if (dueDateExpression != null) {
     taskDefinition.setDueDateExpression(expressionManager.createExpression(dueDateExpression));
   }
+  final String priorityExpression=taskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,PRIORITY_EXTENSION);
+  if (priorityExpression != null) {
+    taskDefinition.setPriorityExpression(expressionManager.createExpression(priorityExpression));
+  }
 }

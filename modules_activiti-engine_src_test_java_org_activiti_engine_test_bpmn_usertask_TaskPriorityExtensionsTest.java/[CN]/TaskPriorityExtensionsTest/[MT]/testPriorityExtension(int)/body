@@ -1,0 +1,7 @@
+{
+  final Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("taskPriority",priority);
+  final ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("taskPriorityExtension",variables);
+  final Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertEquals(priority,task.getPriority());
+}
