@@ -2,10 +2,34 @@
   if (authenticate() == false)   return null;
   String taskId=(String)getRequest().getAttributes().get("taskId");
   Task task=ActivitiUtil.getTaskService().createTaskQuery().taskId(taskId).singleResult();
+  if (task == null) {
+    throw new ActivitiException("Task not found for id " + taskId);
+  }
   TaskResponse response=new TaskResponse(task);
   TaskFormData taskFormData=ActivitiUtil.getFormService().getTaskFormData(taskId);
   if (taskFormData != null) {
     response.setFormResourceKey(taskFormData.getFormKey());
+  }
+  List<Task> subTaskList=ActivitiUtil.getTaskService().getSubTasks(task.getId());
+  if (subTaskList != null) {
+    for (    Task subTask : subTaskList) {
+      SubTaskResponse subTaskResponse=new SubTaskResponse(subTask);
+      response.addSubTask(subTaskResponse);
+    }
+  }
+  List<IdentityLink> linkList=ActivitiUtil.getTaskService().getIdentityLinksForTask(task.getId());
+  if (linkList != null) {
+    for (    IdentityLink identityLink : linkList) {
+      IdentityLinkResponse linkResponse=new IdentityLinkResponse(identityLink);
+      response.addIdentityLink(linkResponse);
+    }
+  }
+  List<Attachment> attachmentList=ActivitiUtil.getTaskService().getTaskAttachments(task.getId());
+  if (attachmentList != null) {
+    for (    Attachment attachment : attachmentList) {
+      AttachmentResponse attachmentResponse=new AttachmentResponse(attachment);
+      response.addAttachment(attachmentResponse);
+    }
   }
   return response;
 }

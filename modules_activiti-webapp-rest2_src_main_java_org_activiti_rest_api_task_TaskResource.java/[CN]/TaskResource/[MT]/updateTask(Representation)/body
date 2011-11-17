@@ -1,0 +1,43 @@
+{
+  if (authenticate() == false)   return null;
+  String taskId=(String)getRequest().getAttributes().get("taskId");
+  Task task=ActivitiUtil.getTaskService().createTaskQuery().taskId(taskId).singleResult();
+  if (task == null) {
+    throw new ActivitiException("Task not found for id " + taskId);
+  }
+  try {
+    String taskParams=entity.getText();
+    JsonNode taskJSON=new ObjectMapper().readTree(taskParams);
+    String description=null;
+    if (taskJSON.path("description") != null && taskJSON.path("description").getTextValue() != null) {
+      description=taskJSON.path("description").getTextValue();
+      task.setDescription(description);
+    }
+    String assignee=null;
+    if (taskJSON.path("assignee") != null && taskJSON.path("assignee").getTextValue() != null) {
+      assignee=taskJSON.path("assignee").getTextValue();
+      task.setAssignee(assignee);
+    }
+    String owner=null;
+    if (taskJSON.path("owner") != null && taskJSON.path("owner").getTextValue() != null) {
+      owner=taskJSON.path("owner").getTextValue();
+      task.setOwner(owner);
+    }
+    String priority=null;
+    if (taskJSON.path("priority") != null && taskJSON.path("priority").getTextValue() != null) {
+      priority=taskJSON.path("priority").getTextValue();
+      task.setPriority(RequestUtil.parseToInteger(priority));
+    }
+    String dueDate=null;
+    if (taskJSON.path("dueDate") != null && taskJSON.path("dueDate").getTextValue() != null) {
+      dueDate=taskJSON.path("dueDate").getTextValue();
+      task.setDueDate(RequestUtil.parseToDate(dueDate));
+    }
+    ActivitiUtil.getTaskService().saveTask(task);
+    TaskResponse response=new TaskResponse(task);
+    return response;
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Failed to update task " + taskId,e);
+  }
+}

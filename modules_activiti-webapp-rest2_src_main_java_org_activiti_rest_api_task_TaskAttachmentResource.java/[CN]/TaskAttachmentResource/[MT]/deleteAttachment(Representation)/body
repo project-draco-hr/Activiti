@@ -1,0 +1,8 @@
+{
+  if (authenticate() == false)   return;
+  String attachmentId=(String)getRequest().getAttributes().get("attachmentId");
+  if (attachmentId == null) {
+    throw new ActivitiException("No attachment id provided");
+  }
+  ActivitiUtil.getTaskService().deleteAttachment(attachmentId);
+}

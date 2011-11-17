@@ -1,0 +1,10 @@
+{
+  if (authenticate() == false)   return null;
+  String attachmentId=(String)getRequest().getAttributes().get("attachmentId");
+  if (attachmentId == null) {
+    throw new ActivitiException("No attachment id provided");
+  }
+  InputStream resource=ActivitiUtil.getTaskService().getAttachmentContent(attachmentId);
+  InputRepresentation output=new InputRepresentation(resource);
+  return output;
+}

@@ -1,0 +1,20 @@
+{
+  if (authenticate() == false)   return null;
+  String taskId=(String)getRequest().getAttributes().get("taskId");
+  try {
+    RestletFileUpload upload=new RestletFileUpload(new DiskFileItemFactory());
+    List<FileItem> items=upload.parseRepresentation(entity);
+    FileItem uploadItem=null;
+    for (    FileItem fileItem : items) {
+      if (fileItem.getName() != null) {
+        uploadItem=fileItem;
+      }
+    }
+    String fileName=uploadItem.getName();
+    Attachment attachment=ActivitiUtil.getTaskService().createAttachment(uploadItem.getContentType(),taskId,null,fileName,fileName,uploadItem.getInputStream());
+    return new AttachmentResponse(attachment);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Unable to add new attachment to task " + taskId);
+  }
+}
