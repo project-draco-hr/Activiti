@@ -4,7 +4,20 @@
   if (attachmentId == null) {
     throw new ActivitiException("No attachment id provided");
   }
+  Attachment attachment=ActivitiUtil.getTaskService().getAttachment(attachmentId);
+  if (attachment == null) {
+    throw new ActivitiException("No attachment found for " + attachmentId);
+  }
+  String contentType=attachment.getType();
+  MediaType mediatType=MediaType.IMAGE_PNG;
+  if (contentType != null) {
+    if (contentType.contains(";")) {
+      contentType=contentType.substring(0,contentType.indexOf(";"));
+    }
+    mediatType=MediaType.valueOf(contentType);
+  }
   InputStream resource=ActivitiUtil.getTaskService().getAttachmentContent(attachmentId);
-  InputRepresentation output=new InputRepresentation(resource);
+  InputRepresentation output=new InputRepresentation(resource,mediatType);
+  getResponse().getCacheDirectives().add(CacheDirective.maxAge(28800));
   return output;
 }
