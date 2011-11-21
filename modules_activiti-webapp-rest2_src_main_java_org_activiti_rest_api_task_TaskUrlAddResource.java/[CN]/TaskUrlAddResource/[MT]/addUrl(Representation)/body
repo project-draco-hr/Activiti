@@ -1,0 +1,28 @@
+{
+  if (authenticate() == false)   return null;
+  String taskId=(String)getRequest().getAttributes().get("taskId");
+  if (taskId == null || taskId.length() == 0) {
+    throw new ActivitiException("No taskId provided");
+  }
+  try {
+    String taskParams=entity.getText();
+    JsonNode taskJSON=new ObjectMapper().readTree(taskParams);
+    String name=null;
+    if (taskJSON.path("name") != null && taskJSON.path("name").getTextValue() != null) {
+      name=taskJSON.path("name").getTextValue();
+    }
+    String description=null;
+    if (taskJSON.path("description") != null && taskJSON.path("description").getTextValue() != null) {
+      description=taskJSON.path("description").getTextValue();
+    }
+    String url=null;
+    if (taskJSON.path("url") != null && taskJSON.path("url").getTextValue() != null) {
+      url=taskJSON.path("url").getTextValue();
+    }
+    Attachment attachment=ActivitiUtil.getTaskService().createAttachment("url",taskId,null,name,description,url);
+    return new AttachmentResponse(attachment);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Unable to add new attachment to task " + taskId);
+  }
+}

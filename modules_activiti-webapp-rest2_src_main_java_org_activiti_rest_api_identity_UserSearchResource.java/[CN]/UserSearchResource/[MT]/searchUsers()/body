@@ -1,0 +1,34 @@
+{
+  if (authenticate() == false)   return null;
+  String searchText=(String)getRequest().getAttributes().get("searchText");
+  if (searchText == null) {
+    throw new ActivitiException("No searchText provided");
+  }
+  searchText="%" + searchText + "%";
+  List<User> firstNameMatchList=ActivitiUtil.getIdentityService().createUserQuery().userFirstNameLike(searchText).list();
+  List<User> lastNameMatchList=ActivitiUtil.getIdentityService().createUserQuery().userLastNameLike(searchText).list();
+  Map<String,UserResponse> userMap=new HashMap<String,UserResponse>();
+  if (firstNameMatchList != null) {
+    for (    User user : firstNameMatchList) {
+      userMap.put(user.getId(),new UserResponse(user));
+    }
+  }
+  if (lastNameMatchList != null) {
+    for (    User user : lastNameMatchList) {
+      if (userMap.containsKey(user.getId()) == false) {
+        userMap.put(user.getId(),new UserResponse(user));
+      }
+    }
+  }
+  List<UserResponse> userList=new ArrayList<UserResponse>();
+  userList.addAll(userMap.values());
+  Collections.sort(userList,new UserResponseComparable());
+  DataResponse response=new DataResponse();
+  response.setStart(0);
+  response.setSize(userList.size());
+  response.setSort("lastName");
+  response.setOrder("asc");
+  response.setTotal(userList.size());
+  response.setData(userList);
+  return response;
+}

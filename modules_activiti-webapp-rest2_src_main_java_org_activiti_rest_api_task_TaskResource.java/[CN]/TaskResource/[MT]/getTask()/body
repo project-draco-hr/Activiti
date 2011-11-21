@@ -24,7 +24,13 @@
       response.addIdentityLink(linkResponse);
     }
   }
-  List<Attachment> attachmentList=ActivitiUtil.getTaskService().getTaskAttachments(task.getId());
+  List<Attachment> attachmentList=null;
+  if (task.getProcessInstanceId() != null && task.getProcessInstanceId().length() > 0) {
+    attachmentList=ActivitiUtil.getTaskService().getProcessInstanceAttachments(task.getProcessInstanceId());
+  }
+ else {
+    attachmentList=ActivitiUtil.getTaskService().getTaskAttachments(task.getId());
+  }
   if (attachmentList != null) {
     for (    Attachment attachment : attachmentList) {
       AttachmentResponse attachmentResponse=new AttachmentResponse(attachment);

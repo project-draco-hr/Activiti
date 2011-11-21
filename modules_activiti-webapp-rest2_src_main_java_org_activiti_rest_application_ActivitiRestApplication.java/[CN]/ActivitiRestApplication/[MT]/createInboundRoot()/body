@@ -25,6 +25,7 @@
   router.attach("/user/{userId}",UserResource.class);
   router.attach("/user/{userId}/groups",UserGroupsResource.class);
   router.attach("/user/{userId}/picture",UserPictureResource.class);
+  router.attach("/users/{searchText}",UserSearchResource.class);
   router.attach("/group/{groupId}",GroupResource.class);
   router.attach("/groups/{groupId}/users",GroupUsersResource.class);
   router.attach("/process-definitions",ProcessDefinitionsResource.class);
@@ -37,8 +38,9 @@
   router.attach("/task",TaskAddResource.class);
   router.attach("/task/{taskId}",TaskResource.class);
   router.attach("/task/{taskId}/form",TaskFormResource.class);
-  router.attach("/task/{taskId}/{operation}",TaskOperationResource.class);
   router.attach("/task/{taskId}/attachment",TaskAttachmentAddResource.class);
+  router.attach("/task/{taskId}/url",TaskUrlAddResource.class);
+  router.attach("/task/{taskId}/{operation}",TaskOperationResource.class);
   router.attach("/attachment/{attachmentId}",TaskAttachmentResource.class);
   router.attach("/form/{taskId}/properties",TaskPropertiesResource.class);
   router.attach("/deployments",DeploymentsResource.class);
