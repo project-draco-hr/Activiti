@@ -1,6 +1,12 @@
 {
   invocation.proceed();
+  ExecutionEntity execution=null;
+  try {
+    execution=Context.getExecutionContext().getExecution();
+  }
+ catch (  EmptyStackException e) {
+    return;
+  }
   CachingBeanStore beanStore=getAssociationManager().getBeanStore();
-  ExecutionEntity execution=Context.getExecutionContext().getExecution();
   execution.setVariables(beanStore.getAllAndClear());
 }
