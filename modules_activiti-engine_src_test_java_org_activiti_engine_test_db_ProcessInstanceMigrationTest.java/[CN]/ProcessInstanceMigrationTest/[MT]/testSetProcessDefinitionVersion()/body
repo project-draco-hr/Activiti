@@ -4,9 +4,9 @@
   assertNotNull(execution);
   org.activiti.engine.repository.Deployment deployment=repositoryService.createDeployment().addClasspathResource(TEST_PROCESS).deploy();
   assertEquals(2,repositoryService.createProcessDefinitionQuery().count());
-  ProcessDefinition newProcessDefinition=repositoryService.createProcessDefinitionQuery().latestVersion().singleResult();
+  ProcessDefinition newProcessDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionVersion(2).singleResult();
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
-  commandExecutor.execute(new SetProcessDefinitionVersionCmd(pi.getId(),newProcessDefinition.getId()));
+  commandExecutor.execute(new SetProcessDefinitionVersionCmd(pi.getId(),2));
   runtimeService.signal(execution.getId());
   pi=runtimeService.createProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals(newProcessDefinition.getId(),pi.getProcessDefinitionId());

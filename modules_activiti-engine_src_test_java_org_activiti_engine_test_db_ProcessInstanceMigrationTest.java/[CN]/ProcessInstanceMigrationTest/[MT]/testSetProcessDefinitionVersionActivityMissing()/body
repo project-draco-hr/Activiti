@@ -4,9 +4,8 @@
   assertNotNull(execution);
   org.activiti.engine.repository.Deployment deployment=repositoryService.createDeployment().addClasspathResource(TEST_PROCESS_ACTIVITY_MISSING).deploy();
   assertEquals(2,repositoryService.createProcessDefinitionQuery().count());
-  ProcessDefinition newProcessDefinition=repositoryService.createProcessDefinitionQuery().latestVersion().singleResult();
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
-  SetProcessDefinitionVersionCmd setProcessDefinitionVersionCmd=new SetProcessDefinitionVersionCmd(pi.getId(),newProcessDefinition.getId());
+  SetProcessDefinitionVersionCmd setProcessDefinitionVersionCmd=new SetProcessDefinitionVersionCmd(pi.getId(),2);
   try {
     commandExecutor.execute(setProcessDefinitionVersionCmd);
     fail("ActivitiException expected");

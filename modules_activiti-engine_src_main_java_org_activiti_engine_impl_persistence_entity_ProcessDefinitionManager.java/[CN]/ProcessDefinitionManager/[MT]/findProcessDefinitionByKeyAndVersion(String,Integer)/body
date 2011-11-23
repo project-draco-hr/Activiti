@@ -1,0 +1,11 @@
+{
+  ProcessDefinitionQueryImpl processDefinitionQuery=new ProcessDefinitionQueryImpl().processDefinitionKey(processDefinitionKey).processDefinitionVersion(processDefinitionVersion);
+  List<ProcessDefinition> results=findProcessDefinitionsByQueryCriteria(processDefinitionQuery,null);
+  if (results.size() == 1) {
+    return results.get(0);
+  }
+ else   if (results.size() > 1) {
+    throw new ActivitiException("There are " + results.size() + " process definitions with key = '"+ processDefinitionKey+ "' and version = '"+ processDefinitionVersion+ "'.");
+  }
+  return null;
+}

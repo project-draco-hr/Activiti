@@ -1,5 +1,5 @@
 {
-  ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)Context.getCommandContext().getProcessDefinitionManager().findLatestProcessDefinitionByKey(processDefinitionKey);
+  ProcessDefinitionEntity processDefinition=Context.getCommandContext().getProcessDefinitionManager().findLatestProcessDefinitionByKey(processDefinitionKey);
   if (processDefinition == null) {
     throw new ActivitiException("no processes deployed with key '" + processDefinitionKey + "'");
   }
