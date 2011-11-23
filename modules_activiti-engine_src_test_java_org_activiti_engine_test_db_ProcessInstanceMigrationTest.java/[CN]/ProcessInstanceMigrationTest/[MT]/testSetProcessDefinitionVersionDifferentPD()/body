@@ -1,0 +1,12 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("receiveTask");
+  ProcessDefinition newProcessDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey("processOne").singleResult();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  try {
+    commandExecutor.execute(new SetProcessDefinitionVersionCmd(pi.getId(),newProcessDefinition.getId()));
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("The key of the new process definition (key = 'processOne') is not equal to that of the process definition (key = 'receiveTask') currently used by the process instance (id = '",ae.getMessage());
+  }
+}

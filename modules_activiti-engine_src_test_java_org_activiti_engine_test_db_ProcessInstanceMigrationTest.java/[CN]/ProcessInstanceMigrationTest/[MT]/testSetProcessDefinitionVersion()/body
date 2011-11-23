@@ -1,0 +1,16 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("receiveTask");
+  Execution execution=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).activityId("waitState1").singleResult();
+  assertNotNull(execution);
+  org.activiti.engine.repository.Deployment deployment=repositoryService.createDeployment().addClasspathResource(TEST_PROCESS).deploy();
+  assertEquals(2,repositoryService.createProcessDefinitionQuery().count());
+  ProcessDefinition newProcessDefinition=repositoryService.createProcessDefinitionQuery().latestVersion().singleResult();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  commandExecutor.execute(new SetProcessDefinitionVersionCmd(pi.getId(),newProcessDefinition.getId()));
+  runtimeService.signal(execution.getId());
+  pi=runtimeService.createProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
+  assertEquals(newProcessDefinition.getId(),pi.getProcessDefinitionId());
+  HistoricProcessInstance historicPI=historyService.createHistoricProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
+  assertEquals(newProcessDefinition.getId(),historicPI.getProcessDefinitionId());
+  repositoryService.deleteDeployment(deployment.getId(),true);
+}
