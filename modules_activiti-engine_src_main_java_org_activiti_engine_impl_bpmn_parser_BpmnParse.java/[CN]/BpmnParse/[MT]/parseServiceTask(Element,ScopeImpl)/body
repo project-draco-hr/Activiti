@@ -5,13 +5,13 @@
   String expression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"expression");
   String delegateExpression=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"delegateExpression");
   String resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariable");
-  String async=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"async");
   if (resultVariableName == null) {
     resultVariableName=serviceTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
   }
   String implementation=serviceTaskElement.attribute("implementation");
   String operationRef=this.resolveName(serviceTaskElement.attribute("operationRef"));
-  activity.setAsync("true".equals(async));
+  activity.setAsync(isAsync(serviceTaskElement));
+  activity.setExclusive(isExclusive(serviceTaskElement));
   if (type != null) {
     if (type.equalsIgnoreCase("mail")) {
       parseEmailServiceTask(activity,serviceTaskElement,parseFieldDeclarations(serviceTaskElement));

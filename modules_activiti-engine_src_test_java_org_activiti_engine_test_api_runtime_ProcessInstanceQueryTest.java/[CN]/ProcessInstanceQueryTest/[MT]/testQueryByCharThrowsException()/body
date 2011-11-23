@@ -1,9 +1,0 @@
-{
-  try {
-    runtimeService.createProcessInstanceQuery().variableValueEquals("charVar",(char)'A').list();
-    fail("ActivitiException expected");
-  }
- catch (  ActivitiException re) {
-    assertTextPresent("Variables of type ByteArray cannot be used to query",re.getMessage());
-  }
-}

@@ -1,7 +1,7 @@
 {
   ActivityImpl activity=createActivityOnScope(userTaskElement,scope);
-  String async=userTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"async");
-  activity.setAsync("true".equals(async));
+  activity.setAsync(isAsync(userTaskElement));
+  activity.setExclusive(isExclusive(userTaskElement));
   TaskDefinition taskDefinition=parseTaskDefinition(userTaskElement,activity.getId(),(ProcessDefinitionEntity)scope.getProcessDefinition());
   UserTaskActivityBehavior userTaskActivity=new UserTaskActivityBehavior(expressionManager,taskDefinition);
   activity.setActivityBehavior(userTaskActivity);

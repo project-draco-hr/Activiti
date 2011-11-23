@@ -1,7 +1,7 @@
 {
   ActivityImpl activity=createActivityOnScope(subProcessElement,scope);
-  String async=subProcessElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"async");
-  activity.setAsync("true".equals(async));
+  activity.setAsync(isAsync(subProcessElement));
+  activity.setExclusive(isExclusive(subProcessElement));
   activity.setScope(true);
   activity.setActivityBehavior(new SubProcessActivityBehavior());
   parseScope(subProcessElement,activity);

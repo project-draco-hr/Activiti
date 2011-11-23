@@ -1,8 +1,8 @@
 {
   ActivityImpl activity=createActivityOnScope(taskElement,scope);
   activity.setActivityBehavior(new TaskActivityBehavior());
-  String async=taskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"async");
-  activity.setAsync("true".equals(async));
+  activity.setAsync(isAsync(taskElement));
+  activity.setExclusive(isExclusive(taskElement));
   parseExecutionListenersOnScope(taskElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseTask(taskElement,scope,activity);

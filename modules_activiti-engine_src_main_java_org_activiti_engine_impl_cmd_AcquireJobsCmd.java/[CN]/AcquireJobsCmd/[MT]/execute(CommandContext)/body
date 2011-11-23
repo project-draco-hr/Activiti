@@ -2,21 +2,31 @@
   String lockOwner=jobExecutor.getLockOwner();
   int lockTimeInMillis=jobExecutor.getLockTimeInMillis();
   int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
+  int jobsInThisAcquisition=0;
   AcquiredJobs acquiredJobs=new AcquiredJobs();
   List<JobEntity> jobs=commandContext.getJobManager().findNextJobsToExecute(new Page(0,maxJobsPerAcquisition));
   for (  JobEntity job : jobs) {
     List<String> jobIds=new ArrayList<String>();
-    if (job != null) {
-      job.setLockOwner(lockOwner);
-      GregorianCalendar gregorianCalendar=new GregorianCalendar();
-      gregorianCalendar.setTime(ClockUtil.getCurrentTime());
-      gregorianCalendar.add(Calendar.MILLISECOND,lockTimeInMillis);
-      job.setLockExpirationTime(gregorianCalendar.getTime());
-      jobIds.add(job.getId());
-      if (job.isExclusive()) {
+    if (job != null && !acquiredJobs.contains(job.getId())) {
+      if (job.isExclusive() && job.getProcessInstanceId() != null) {
+        List<JobEntity> exclusiveJobs=commandContext.getJobManager().findExclusiveJobsToExecute(job.getProcessInstanceId());
+        for (        JobEntity exclusiveJob : exclusiveJobs) {
+          if (exclusiveJob != null) {
+            lockJob(exclusiveJob,lockOwner,lockTimeInMillis);
+            jobIds.add(exclusiveJob.getId());
+          }
+        }
+      }
+ else {
+        lockJob(job,lockOwner,lockTimeInMillis);
+        jobIds.add(job.getId());
       }
     }
-    acquiredJobs.addJobIds(jobIds);
+    acquiredJobs.addJobIdBatch(jobIds);
+    jobsInThisAcquisition+=jobIds.size();
+    if (jobsInThisAcquisition >= maxJobsPerAcquisition) {
+      break;
+    }
   }
   return acquiredJobs;
 }

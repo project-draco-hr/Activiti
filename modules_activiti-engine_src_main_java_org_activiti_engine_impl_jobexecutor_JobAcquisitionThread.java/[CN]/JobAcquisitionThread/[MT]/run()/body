@@ -9,11 +9,11 @@
     int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
     try {
       AcquiredJobs acquiredJobs=commandExecutor.execute(acquireJobsCmd);
-      for (      List<String> jobIds : acquiredJobs.getJobIdsList()) {
+      for (      List<String> jobIds : acquiredJobs.getJobIdBatches()) {
         jobExecutor.executeJobs(jobIds);
       }
       millisToWait=jobExecutor.getWaitTimeInMillis();
-      int jobsAcquired=acquiredJobs.getJobIdsList().size();
+      int jobsAcquired=acquiredJobs.getJobIdBatches().size();
       if (jobsAcquired < maxJobsPerAcquisition) {
         isJobAdded=false;
         Date duedate=new Date(ClockUtil.getCurrentTime().getTime() + millisToWait);

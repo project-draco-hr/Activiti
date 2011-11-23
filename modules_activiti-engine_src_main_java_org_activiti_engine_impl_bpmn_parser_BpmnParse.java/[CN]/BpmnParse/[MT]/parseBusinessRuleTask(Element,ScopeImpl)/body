@@ -5,8 +5,8 @@
   String rulesString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"rules");
   String excludeString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"exclude");
   String resultVariableNameString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariable");
-  String async=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"async");
-  activity.setAsync("true".equals(async));
+  activity.setAsync(isAsync(businessRuleTaskElement));
+  activity.setExclusive(isExclusive(businessRuleTaskElement));
   if (resultVariableNameString == null) {
     resultVariableNameString=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"resultVariableName");
   }
