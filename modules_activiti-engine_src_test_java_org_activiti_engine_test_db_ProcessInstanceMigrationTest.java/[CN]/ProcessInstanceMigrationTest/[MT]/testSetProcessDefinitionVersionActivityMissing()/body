@@ -1,6 +1,6 @@
 {
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("receiveTask");
-  Execution execution=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).activityId("waitState1").singleResult();
+  Execution execution=runtimeService.createExecutionQuery().activityId("waitState1").singleResult();
   assertNotNull(execution);
   org.activiti.engine.repository.Deployment deployment=repositoryService.createDeployment().addClasspathResource(TEST_PROCESS_ACTIVITY_MISSING).deploy();
   assertEquals(2,repositoryService.createProcessDefinitionQuery().count());

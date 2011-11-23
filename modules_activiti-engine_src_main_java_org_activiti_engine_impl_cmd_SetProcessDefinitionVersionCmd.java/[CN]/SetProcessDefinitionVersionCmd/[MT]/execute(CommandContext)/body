@@ -1,7 +1,11 @@
 {
-  ExecutionEntity processInstance=commandContext.getExecutionManager().findExecutionById(processInstanceId);
+  ExecutionManager executionManager=commandContext.getExecutionManager();
+  ExecutionEntity processInstance=executionManager.findExecutionById(processInstanceId);
   if (processInstance == null) {
     throw new ActivitiException("No process instance found for id = '" + processInstanceId + "'.");
+  }
+ else   if (!processInstance.isProcessInstance()) {
+    throw new ActivitiException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' "+ "points to a child execution of process instance "+ "'"+ processInstance.getProcessInstanceId()+ "'. "+ "Please invoke the "+ getClass().getSimpleName()+ " with a root execution id.");
   }
   ProcessDefinitionImpl currentProcessDefinitionImpl=processInstance.getProcessDefinition();
   DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
@@ -21,6 +25,10 @@
   if (historicProcessInstanceManager.isHistoryEnabled()) {
     HistoricProcessInstanceEntity historicProcessInstance=historicProcessInstanceManager.findHistoricProcessInstance(processInstanceId);
     historicProcessInstance.setProcessDefinitionId(newProcessDefinition.getId());
+  }
+  List<ExecutionEntity> childExecutions=executionManager.findChildExecutionsByParentExecutionId(processInstanceId);
+  for (  ExecutionEntity executionEntity : childExecutions) {
+    executionEntity.setProcessDefinition(newProcessDefinition);
   }
   return null;
 }
