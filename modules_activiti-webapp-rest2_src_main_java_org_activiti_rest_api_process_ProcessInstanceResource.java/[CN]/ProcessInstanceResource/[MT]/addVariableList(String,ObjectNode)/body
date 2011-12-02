@@ -1,0 +1,17 @@
+{
+  List<HistoricDetail> variableList=ActivitiUtil.getHistoryService().createHistoricDetailQuery().processInstanceId(processInstanceId).variableUpdates().orderByTime().desc().list();
+  if (variableList != null && variableList.size() > 0) {
+    ArrayNode variablesJSON=new ObjectMapper().createArrayNode();
+    responseJSON.put("variables",variablesJSON);
+    for (    HistoricDetail historicDetail : variableList) {
+      HistoricVariableUpdate variableUpdate=(HistoricVariableUpdate)historicDetail;
+      ObjectNode variableJSON=new ObjectMapper().createObjectNode();
+      variableJSON.put("variableName",variableUpdate.getVariableName());
+      variableJSON.put("variableValue",variableUpdate.getValue().toString());
+      variableJSON.put("variableType",variableUpdate.getVariableTypeName());
+      variableJSON.put("revision",variableUpdate.getRevision());
+      variableJSON.put("time",RequestUtil.dateToString(variableUpdate.getTime()));
+      variablesJSON.add(variableJSON);
+    }
+  }
+}

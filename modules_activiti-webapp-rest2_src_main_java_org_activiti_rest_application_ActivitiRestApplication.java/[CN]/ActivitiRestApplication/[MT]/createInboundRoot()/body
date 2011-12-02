@@ -30,9 +30,11 @@
   router.attach("/groups/{groupId}/users",GroupUsersResource.class);
   router.attach("/process-definitions",ProcessDefinitionsResource.class);
   router.attach("/process-instances",ProcessInstancesResource.class);
-  router.attach("/process-instance",ProcessInstanceResource.class);
+  router.attach("/process-instance",StartProcessInstanceResource.class);
+  router.attach("/processInstance/{processInstanceId}",ProcessInstanceResource.class);
   router.attach("/processInstance/{processInstanceId}/diagram",ProcessInstanceDiagramResource.class);
   router.attach("/process-definition/{processDefinitionId}/form",ProcessDefinitionFormResource.class);
+  router.attach("/process-definition/{processDefinitionId}/properties",ProcessDefinitionPropertiesResource.class);
   router.attach("/tasks",TasksResource.class);
   router.attach("/tasks-summary",TasksSummaryResource.class);
   router.attach("/task",TaskAddResource.class);

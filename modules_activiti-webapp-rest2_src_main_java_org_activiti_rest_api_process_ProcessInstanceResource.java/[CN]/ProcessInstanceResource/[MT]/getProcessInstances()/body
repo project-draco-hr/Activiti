@@ -1,0 +1,28 @@
+{
+  if (authenticate() == false)   return null;
+  String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
+  HistoricProcessInstance instance=ActivitiUtil.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+  if (instance == null) {
+    throw new ActivitiException("Process instance not found for id " + processInstanceId);
+  }
+  ObjectNode responseJSON=new ObjectMapper().createObjectNode();
+  responseJSON.put("processInstanceId",instance.getId());
+  responseJSON.put("businessKey",instance.getBusinessKey() != null ? instance.getBusinessKey() : "null");
+  responseJSON.put("processDefinitionId",instance.getProcessDefinitionId());
+  responseJSON.put("startTime",RequestUtil.dateToString(instance.getStartTime()));
+  responseJSON.put("startActivityId",instance.getStartActivityId());
+  responseJSON.put("startUserId",instance.getStartUserId() != null ? instance.getStartUserId() : "null");
+  if (instance.getEndTime() == null) {
+    responseJSON.put("completed",false);
+  }
+ else {
+    responseJSON.put("completed",true);
+    responseJSON.put("endTime",RequestUtil.dateToString(instance.getEndTime()));
+    responseJSON.put("endActivityId",instance.getEndActivityId());
+    responseJSON.put("duration",instance.getDurationInMillis());
+  }
+  addTaskList(processInstanceId,responseJSON);
+  addActivityList(processInstanceId,responseJSON);
+  addVariableList(processInstanceId,responseJSON);
+  return responseJSON;
+}

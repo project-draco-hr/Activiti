@@ -1,0 +1,24 @@
+{
+  List<HistoricTaskInstance> taskList=ActivitiUtil.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().list();
+  if (taskList != null && taskList.size() > 0) {
+    ArrayNode tasksJSON=new ObjectMapper().createArrayNode();
+    responseJSON.put("tasks",tasksJSON);
+    for (    HistoricTaskInstance historicTaskInstance : taskList) {
+      ObjectNode taskJSON=new ObjectMapper().createObjectNode();
+      taskJSON.put("taskId",historicTaskInstance.getId());
+      taskJSON.put("taskName",historicTaskInstance.getName() != null ? historicTaskInstance.getName() : "null");
+      taskJSON.put("owner",historicTaskInstance.getOwner() != null ? historicTaskInstance.getOwner() : "null");
+      taskJSON.put("assignee",historicTaskInstance.getAssignee() != null ? historicTaskInstance.getAssignee() : "null");
+      taskJSON.put("startTime",RequestUtil.dateToString(historicTaskInstance.getStartTime()));
+      if (historicTaskInstance.getEndTime() == null) {
+        taskJSON.put("completed",false);
+      }
+ else {
+        taskJSON.put("completed",true);
+        taskJSON.put("endTime",RequestUtil.dateToString(historicTaskInstance.getEndTime()));
+        taskJSON.put("duration",historicTaskInstance.getDurationInMillis());
+      }
+      tasksJSON.add(taskJSON);
+    }
+  }
+}
