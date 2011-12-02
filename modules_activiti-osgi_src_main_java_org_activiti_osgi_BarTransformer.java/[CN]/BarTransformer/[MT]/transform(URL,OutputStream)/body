@@ -13,7 +13,10 @@
     while ((e=jis.getNextEntry()) != null) {
       String n=e.getName();
       int i=n.lastIndexOf('/');
-      if (i < n.length() - 1) {
+      if (-1 == i) {
+        paths.add("/");
+      }
+ else       if (i < n.length() - 1) {
         paths.add(n.substring(0,i + 1));
       }
     }
