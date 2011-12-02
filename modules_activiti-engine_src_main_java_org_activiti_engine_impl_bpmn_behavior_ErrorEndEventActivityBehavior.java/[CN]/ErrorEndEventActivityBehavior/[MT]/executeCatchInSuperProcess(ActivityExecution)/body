@@ -5,7 +5,7 @@
   while (!found && outgoingExecution != null) {
     if (outgoingExecution != null && catchingActivity != null) {
       for (      ActivityImpl nestedActivity : catchingActivity.getActivities()) {
-        if ("boundaryError".equals(nestedActivity.getProperty("type")) && errorCode.equals(nestedActivity.getProperty("errorCode"))) {
+        if ("boundaryError".equals(nestedActivity.getProperty("type")) && (nestedActivity.getProperty("errorCode") == null || errorCode.equals(nestedActivity.getProperty("errorCode")))) {
           found=true;
           catchingActivity=nestedActivity;
         }
