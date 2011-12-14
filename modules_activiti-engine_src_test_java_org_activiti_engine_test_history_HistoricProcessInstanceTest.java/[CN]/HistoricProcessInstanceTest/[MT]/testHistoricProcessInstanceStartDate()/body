@@ -1,0 +1,10 @@
+{
+  runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Date date=new Date();
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().startDateOn(date).count());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().startDateBy(date).count());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().startDateBy(DateUtils.addDays(date,-1)).count());
+  assertEquals(0,historyService.createHistoricProcessInstanceQuery().startDateBy(DateUtils.addDays(date,1)).count());
+  assertEquals(0,historyService.createHistoricProcessInstanceQuery().startDateOn(DateUtils.addDays(date,-1)).count());
+  assertEquals(0,historyService.createHistoricProcessInstanceQuery().startDateOn(DateUtils.addDays(date,1)).count());
+}

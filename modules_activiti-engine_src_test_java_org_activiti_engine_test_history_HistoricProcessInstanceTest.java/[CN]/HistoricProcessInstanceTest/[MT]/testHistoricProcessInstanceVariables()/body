@@ -1,0 +1,9 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("foo","bar");
+  vars.put("baz","boo");
+  runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().processVariableEquals("foo","bar").count());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().processVariableEquals("baz","boo").count());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().processVariableEquals("foo","bar").processVariableEquals("baz","boo").count());
+}
