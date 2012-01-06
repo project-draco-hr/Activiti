@@ -1,0 +1,17 @@
+{
+  if (executionId == null) {
+    throw new ActivitiException("executionId is null");
+  }
+  ExecutionEntity execution=commandContext.getExecutionManager().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution " + executionId + " doesn't exist");
+  }
+  List<String> executionVariables;
+  if (isLocal) {
+    executionVariables=new ArrayList<String>(execution.getVariableNamesLocal());
+  }
+ else {
+    executionVariables=new ArrayList<String>(execution.getVariableNames());
+  }
+  return executionVariables;
+}
