@@ -2,10 +2,10 @@
   ensureVariableInstancesInitialized();
   VariableScopeImpl parentScope=getParentVariableScope();
   if (parentScope != null) {
-    variables.putAll(parentScope.collectVariables(variables));
+    variableNames.addAll(parentScope.collectVariableNames(variableNames));
   }
   for (  VariableInstanceEntity variableInstance : variableInstances.values()) {
-    variables.put(variableInstance.getName(),variableInstance.getValue());
+    variableNames.add(variableInstance.getName());
   }
-  return variables;
+  return variableNames;
 }
