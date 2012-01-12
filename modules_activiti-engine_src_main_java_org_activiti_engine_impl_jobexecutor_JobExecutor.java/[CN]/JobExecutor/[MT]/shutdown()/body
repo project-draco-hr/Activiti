@@ -1,18 +1,10 @@
 {
   if (!isActive) {
-    log.info("Ignoring request to shut down non-active JobExecutor");
     return;
   }
-  log.info("Shutting down the JobExecutor");
-  threadPoolExecutor.shutdown();
-  try {
-    threadPoolExecutor.awaitTermination(60L,TimeUnit.SECONDS);
-  }
- catch (  InterruptedException e) {
-    throw new ActivitiException("Timeout during shutdown of job executor. " + "The current running jobs could not end withing 60 seconds after shutdown operation.",e);
-  }
-  jobAcquisitionThread.shutdown();
+  log.info("Shutting down the JobExecutor[" + getClass().getName() + "].");
+  acquireJobsRunnable.stop();
+  stopExecutingJobs();
+  ensureCleanup();
   isActive=false;
-  threadPoolExecutor=null;
-  jobAcquisitionThread=null;
 }

@@ -1,0 +1,11 @@
+{
+  threadPoolExecutor.shutdown();
+  try {
+    threadPoolExecutor.awaitTermination(60L,TimeUnit.SECONDS);
+  }
+ catch (  InterruptedException e) {
+    throw new ActivitiException("Timeout during shutdown of job executor. " + "The current running jobs could not end withing 60 seconds after shutdown operation.",e);
+  }
+  threadPoolExecutor=null;
+  jobAcquisitionThread=null;
+}

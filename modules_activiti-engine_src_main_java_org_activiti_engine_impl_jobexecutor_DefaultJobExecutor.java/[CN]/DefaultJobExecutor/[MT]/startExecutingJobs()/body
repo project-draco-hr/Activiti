@@ -1,0 +1,17 @@
+{
+  if (threadPoolQueue == null) {
+    threadPoolQueue=new ArrayBlockingQueue<Runnable>(queueSize);
+  }
+  if (threadPoolExecutor == null) {
+    threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,0L,TimeUnit.MILLISECONDS,threadPoolQueue);
+    if (rejectedExecutionHandler == null) {
+      rejectedExecutionHandler=new ThreadPoolExecutor.CallerRunsPolicy();
+    }
+    threadPoolExecutor.setRejectedExecutionHandler(rejectedExecutionHandler);
+  }
+  if (jobAcquisitionThread == null) {
+    jobAcquisitionThread=new Thread(acquireJobsRunnable);
+    jobAcquisitionThread.setDaemon(true);
+    jobAcquisitionThread.start();
+  }
+}
