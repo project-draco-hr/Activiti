@@ -1,0 +1,33 @@
+{
+  ServiceLoader<ProcessEngineLookup> processEngineServiceLoader=ServiceLoader.load(ProcessEngineLookup.class);
+  Iterator<ProcessEngineLookup> serviceIterator=processEngineServiceLoader.iterator();
+  List<ProcessEngineLookup> discoveredLookups=new ArrayList<ProcessEngineLookup>();
+  while (serviceIterator.hasNext()) {
+    ProcessEngineLookup serviceInstance=(ProcessEngineLookup)serviceIterator.next();
+    discoveredLookups.add(serviceInstance);
+  }
+  Collections.sort(discoveredLookups,new Comparator<ProcessEngineLookup>(){
+    public int compare(    ProcessEngineLookup o1,    ProcessEngineLookup o2){
+      return (-1) * ((Integer)o1.getPrecedence()).compareTo(o2.getPrecedence());
+    }
+  }
+);
+  ProcessEngine processEngine=null;
+  for (  ProcessEngineLookup processEngineLookup : discoveredLookups) {
+    processEngine=processEngineLookup.getProcessEngine();
+    if (processEngine != null) {
+      this.processEngineLookup=processEngineLookup;
+      logger.log(Level.FINE,"ProcessEngineLookup service " + processEngineLookup.getClass() + " returned process engine.");
+      break;
+    }
+ else {
+      logger.log(Level.FINE,"ProcessEngineLookup service " + processEngineLookup.getClass() + " retuned 'null' value.");
+    }
+  }
+  if (processEngineLookup == null) {
+    throw new ActivitiException("Could not find an implementation of the org.activiti.cdi.spi.ProcessEngineLookup service " + "returning a non-null processEngine. Giving up.");
+  }
+  ActivitiServices activitiServices=ProgrammaticBeanLookup.lookup(ActivitiServices.class,beanManager);
+  activitiServices.setProcessEngine(processEngine);
+  return processEngine;
+}

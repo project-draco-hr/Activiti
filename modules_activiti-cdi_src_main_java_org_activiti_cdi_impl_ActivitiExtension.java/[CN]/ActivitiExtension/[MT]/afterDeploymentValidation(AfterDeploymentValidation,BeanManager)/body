@@ -1,8 +1,8 @@
 {
   try {
     logger.info("Initializing activiti-cdi.");
-    initializeProcessEngine(beanManager);
-    deployProcesses();
+    ProcessEngine processEngine=lookupProcessEngine(beanManager);
+    deployProcesses(processEngine);
   }
  catch (  Exception e) {
     event.addDeploymentProblem(e);

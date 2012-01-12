@@ -1,6 +1,7 @@
 {
-  ProcessEngineLookup processEngineProvisionStrategy=ProgrammaticBeanLookup.lookup(ProcessEngineLookup.class);
-  processEngineProvisionStrategy.ungetProcessEngine();
-  processEngine=null;
+  if (processEngineLookup != null) {
+    processEngineLookup.ungetProcessEngine();
+    processEngineLookup=null;
+  }
   logger.info("Shutting down activiti-cdi");
 }
