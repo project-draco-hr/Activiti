@@ -10,21 +10,27 @@
   }
   boolean matchingParentFound=false;
   ActivityExecution leavingExecution=execution;
-  ActivityImpl currentActivity=(ActivityImpl)execution.getActivity().getParent();
-  while (!matchingParentFound && leavingExecution != null && currentActivity != null) {
-    if (!leavingExecution.isConcurrent() && currentActivity.getId().equals(catchingScope.getId())) {
-      matchingParentFound=true;
-    }
- else     if (leavingExecution.isConcurrent()) {
-      leavingExecution=leavingExecution.getParent();
-    }
- else {
-      currentActivity=currentActivity.getParentActivity();
-      leavingExecution=leavingExecution.getParent();
-    }
+  ActivityImpl currentActivity=(ActivityImpl)execution.getActivity();
+  if (currentActivity.getId().equals(catchingScope.getId())) {
+    matchingParentFound=true;
   }
-  while (leavingExecution.getParent() != null && leavingExecution.getParent().getActivity() != null && leavingExecution.getParent().getActivity().getId().equals(catchingScope.getId())) {
-    leavingExecution=leavingExecution.getParent();
+ else {
+    currentActivity=(ActivityImpl)currentActivity.getParent();
+    while (!matchingParentFound && leavingExecution != null && currentActivity != null) {
+      if (!leavingExecution.isConcurrent() && currentActivity.getId().equals(catchingScope.getId())) {
+        matchingParentFound=true;
+      }
+ else       if (leavingExecution.isConcurrent()) {
+        leavingExecution=leavingExecution.getParent();
+      }
+ else {
+        currentActivity=currentActivity.getParentActivity();
+        leavingExecution=leavingExecution.getParent();
+      }
+    }
+    while (leavingExecution != null && leavingExecution.getParent() != null && leavingExecution.getParent().getActivity() != null && leavingExecution.getParent().getActivity().getId().equals(catchingScope.getId())) {
+      leavingExecution=leavingExecution.getParent();
+    }
   }
   if (matchingParentFound && leavingExecution != null) {
     leavingExecution.executeActivity(borderEventActivity);
