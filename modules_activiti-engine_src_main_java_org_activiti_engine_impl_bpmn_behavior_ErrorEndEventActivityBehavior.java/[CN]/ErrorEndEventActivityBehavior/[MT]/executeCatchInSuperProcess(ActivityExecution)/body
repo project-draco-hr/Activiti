@@ -2,22 +2,20 @@
   ActivityExecution outgoingExecution=superExecution;
   ActivityImpl catchingActivity=(ActivityImpl)outgoingExecution.getActivity();
   boolean found=false;
-  while (!found && outgoingExecution != null) {
-    if (outgoingExecution != null && catchingActivity != null) {
-      for (      ActivityImpl nestedActivity : catchingActivity.getActivities()) {
-        if ("boundaryError".equals(nestedActivity.getProperty("type")) && (nestedActivity.getProperty("errorCode") == null || errorCode.equals(nestedActivity.getProperty("errorCode")))) {
-          found=true;
-          catchingActivity=nestedActivity;
-        }
+  while (!found && outgoingExecution != null && catchingActivity != null) {
+    for (    ActivityImpl nestedActivity : catchingActivity.getActivities()) {
+      if ("boundaryError".equals(nestedActivity.getProperty("type")) && (nestedActivity.getProperty("errorCode") == null || errorCode.equals(nestedActivity.getProperty("errorCode")))) {
+        found=true;
+        catchingActivity=nestedActivity;
       }
-      if (!found) {
-        if (outgoingExecution.isConcurrent()) {
-          outgoingExecution=outgoingExecution.getParent();
-        }
- else         if (outgoingExecution.isScope()) {
-          catchingActivity=catchingActivity.getParentActivity();
-          outgoingExecution=outgoingExecution.getParent();
-        }
+    }
+    if (!found) {
+      if (outgoingExecution.isConcurrent()) {
+        outgoingExecution=outgoingExecution.getParent();
+      }
+ else       if (outgoingExecution.isScope()) {
+        catchingActivity=catchingActivity.getParentActivity();
+        outgoingExecution=outgoingExecution.getParent();
       }
     }
   }
@@ -30,7 +28,7 @@
       executeCatchInSuperProcess(superSuperExecution);
     }
  else {
-      throw new ActivitiException("No catching boundary event found for error with errorCode '" + errorCode + "', not is same process nor in parent process");
+      throw new ActivitiException("No catching boundary event found for error with errorCode '" + errorCode + "', neither in same process nor in parent process");
     }
   }
 }
