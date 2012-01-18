@@ -1,0 +1,33 @@
+{
+  PvmActivity errorEventHandler=null;
+  PvmScope scope=execution.getActivity();
+  while (errorEventHandler == null && scope != null) {
+    for (    PvmActivity activity : scope.getActivities()) {
+      if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && error.getErrorCode().equals(activity.getProperty("errorCode"))) {
+        errorEventHandler=activity;
+        break;
+      }
+    }
+    if (errorEventHandler == null) {
+      for (      PvmActivity activity : scope.getActivities()) {
+        if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && (activity.getProperty("errorCode") == null || "".equals(activity.getProperty("errorCode")))) {
+          errorEventHandler=activity;
+          break;
+        }
+      }
+    }
+    if (errorEventHandler == null) {
+      if (scope instanceof PvmActivity) {
+        scope=((PvmActivity)scope).getParent();
+      }
+ else {
+        scope=null;
+      }
+    }
+  }
+  ErrorEndEventActivityBehavior errorEndEvent=new ErrorEndEventActivityBehavior(error.getErrorCode());
+  if (errorEventHandler != null) {
+    errorEndEvent.setBorderEventActivityId(errorEventHandler.getId());
+  }
+  errorEndEvent.execute(execution);
+}

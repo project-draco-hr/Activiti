@@ -1,6 +1,11 @@
 {
   if (getLoopVariable(execution,LOOP_COUNTER) == null) {
-    createInstances(execution);
+    try {
+      createInstances(execution);
+    }
+ catch (    BpmnError error) {
+      ErrorPropagation.propagateError(execution,error);
+    }
   }
  else {
     innerActivityBehavior.execute(execution);

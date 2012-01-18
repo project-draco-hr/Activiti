@@ -14,7 +14,10 @@
     try {
       executeOriginalBehavior(execution,loopCounter);
     }
- catch (    Exception e) {
+ catch (    BpmnError error) {
+      throw error;
+    }
+catch (    Exception e) {
       throw new ActivitiException("Could not execute inner activity behavior of multi instance behavior",e);
     }
   }
