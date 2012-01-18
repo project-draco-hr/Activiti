@@ -2,18 +2,32 @@
   if (!isWritable && properties.containsKey(id)) {
     throw new ActivitiException("form property '" + id + "' is not writable");
   }
-  if (isRequired && !properties.containsKey(id)) {
+  if (isRequired && !properties.containsKey(id) && defaultExpression == null) {
     throw new ActivitiException("form property '" + id + "' is required");
   }
+  Object modelValue=null;
   if (properties.containsKey(id)) {
-    String propertyValue=properties.remove(id);
-    Object modelValue;
+    final String propertyValue=properties.remove(id);
     if (type != null) {
       modelValue=type.convertFormValueToModelValue(propertyValue);
     }
  else {
       modelValue=propertyValue;
     }
+  }
+ else   if (defaultExpression != null) {
+    final Object expressionValue=defaultExpression.getValue(execution);
+    if (type != null && expressionValue != null) {
+      modelValue=type.convertFormValueToModelValue(expressionValue.toString());
+    }
+ else     if (expressionValue != null) {
+      modelValue=expressionValue.toString();
+    }
+ else     if (isRequired) {
+      throw new ActivitiException("form property '" + id + "' is required");
+    }
+  }
+  if (modelValue != null) {
     if (variableName != null) {
       execution.setVariable(variableName,modelValue);
     }

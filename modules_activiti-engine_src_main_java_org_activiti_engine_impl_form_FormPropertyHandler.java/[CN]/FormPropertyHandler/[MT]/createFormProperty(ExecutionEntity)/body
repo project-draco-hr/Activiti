@@ -2,16 +2,22 @@
   FormPropertyImpl formProperty=new FormPropertyImpl(this);
   if (execution != null) {
     Object modelValue=null;
-    if (variableName != null) {
-      modelValue=execution.getVariable(variableName);
-    }
- else     if (variableExpression != null) {
-      modelValue=variableExpression.getValue(execution);
+    if (variableName != null || variableExpression == null) {
+      final String varName=variableName != null ? variableName : id;
+      if (execution.hasVariable(varName)) {
+        modelValue=execution.getVariable(varName);
+      }
+ else       if (defaultExpression != null) {
+        modelValue=defaultExpression.getValue(execution);
+      }
     }
  else {
-      modelValue=execution.getVariable(id);
+      modelValue=variableExpression.getValue(execution);
     }
-    if (type != null) {
+    if (modelValue instanceof String) {
+      formProperty.setValue((String)modelValue);
+    }
+ else     if (type != null) {
       String formValue=type.convertModelValueToFormValue(modelValue);
       formProperty.setValue(formValue);
     }
