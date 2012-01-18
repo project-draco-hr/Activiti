@@ -1,15 +1,4 @@
 {
-  if (borderEventActivityId != null) {
-    executeCatchInSameProcess(execution);
-  }
- else {
-    ActivityExecution superExecution=getSuperExecution(execution);
-    if (superExecution != null) {
-      executeCatchInSuperProcess(superExecution);
-    }
- else {
-      LOG.info(execution.getActivity().getId() + " throws error event with errorCode '" + errorCode+ "', but no catching boundary event was defined. "+ "Execution will simply be ended (none end event semantics).");
-      execution.end();
-    }
-  }
+  String eventHandlerId=borderEventActivityId;
+  ErrorPropagation.propagateError(errorCode,eventHandlerId,execution);
 }

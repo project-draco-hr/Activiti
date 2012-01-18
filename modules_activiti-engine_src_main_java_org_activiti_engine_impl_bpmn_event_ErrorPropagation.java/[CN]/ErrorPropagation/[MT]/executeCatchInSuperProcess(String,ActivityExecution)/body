@@ -25,7 +25,7 @@
  else {
     ActivityExecution superSuperExecution=getSuperExecution(superExecution);
     if (superSuperExecution != null) {
-      executeCatchInSuperProcess(superSuperExecution);
+      executeCatchInSuperProcess(errorCode,superSuperExecution);
     }
  else {
       throw new ActivitiException("No catching boundary event found for error with errorCode '" + errorCode + "', neither in same process nor in parent process");
