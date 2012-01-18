@@ -1,8 +1,22 @@
 {
   ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
-  Object result=scriptingEngines.evaluate(script,language,execution);
-  if (resultVariable != null) {
-    execution.setVariable(resultVariable,result);
+  boolean noErrors=true;
+  try {
+    Object result=scriptingEngines.evaluate(script,language,execution);
+    if (resultVariable != null) {
+      execution.setVariable(resultVariable,result);
+    }
   }
-  leave(execution);
+ catch (  ActivitiException e) {
+    noErrors=false;
+    if (e.getCause() instanceof ScriptException && e.getCause().getCause() instanceof ScriptException && e.getCause().getCause().getCause() instanceof BpmnError) {
+      ErrorPropagation.propagateError((BpmnError)e.getCause().getCause().getCause(),execution);
+    }
+ else {
+      throw e;
+    }
+  }
+  if (noErrors) {
+    leave(execution);
+  }
 }

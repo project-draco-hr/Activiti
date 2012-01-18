@@ -1,0 +1,28 @@
+{
+  String procId=runtimeService.startProcessInstanceByKey(processDefinitionKey).getId();
+  List<Task> tasks=taskService.createTaskQuery().orderByTaskName().asc().list();
+  assertEquals(2,tasks.size());
+  assertEquals("task A",tasks.get(0).getName());
+  assertEquals("task B",tasks.get(1).getName());
+  taskService.complete(tasks.get(0).getId());
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("task D",task.getName());
+  taskService.complete(task.getId());
+  assertProcessEnded(procId);
+  procId=runtimeService.startProcessInstanceByKey(processDefinitionKey).getId();
+  tasks=taskService.createTaskQuery().orderByTaskName().asc().list();
+  assertEquals(2,tasks.size());
+  assertEquals("task A",tasks.get(0).getName());
+  assertEquals("task B",tasks.get(1).getName());
+  taskService.complete(tasks.get(1).getId());
+  tasks=taskService.createTaskQuery().orderByTaskName().asc().list();
+  assertEquals(2,tasks.size());
+  assertEquals("task A",tasks.get(0).getName());
+  assertEquals("task C",tasks.get(1).getName());
+  taskService.complete(tasks.get(1).getId());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("task A",task.getName());
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("task D",task.getName());
+}
