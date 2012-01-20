@@ -5,7 +5,7 @@
   try {
     taskService.complete(task.getId());
   }
- catch (  ActivitiException e) {
+ catch (  BpmnError e) {
     assertTextPresent("No catching boundary event found for error with errorCode 'myError', neither in same process nor in parent process",e.getMessage());
   }
 }

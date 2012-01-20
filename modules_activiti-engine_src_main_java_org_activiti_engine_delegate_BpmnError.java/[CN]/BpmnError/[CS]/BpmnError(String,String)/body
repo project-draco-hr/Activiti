@@ -1,10 +1,4 @@
 {
-  super(message);
-  if (errorCode == null) {
-    throw new ActivitiException("Error Code must not be null.");
-  }
-  if (errorCode.length() < 1) {
-    throw new ActivitiException("Error Code must not be empty.");
-  }
-  this.errorCode=errorCode;
+  super(message + " (errorCode='" + errorCode+ "')");
+  setErrorCode(errorCode);
 }
