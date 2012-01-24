@@ -6,5 +6,8 @@
   assertEquals("Task in subprocess",subProcessTask.getName());
   taskService.complete(subProcessTask.getId());
   Task taskAfterSubProcesses=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+  assertNotNull(taskAfterSubProcesses);
   assertEquals("Task after subprocesses",taskAfterSubProcesses.getName());
+  taskService.complete(taskAfterSubProcesses.getId());
+  assertProcessEnded(pi.getId());
 }
