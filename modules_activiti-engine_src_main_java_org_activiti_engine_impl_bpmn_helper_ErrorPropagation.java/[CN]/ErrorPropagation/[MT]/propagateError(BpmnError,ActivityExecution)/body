@@ -25,9 +25,9 @@
       }
     }
   }
-  ErrorEndEventActivityBehavior errorEndEvent=new ErrorEndEventActivityBehavior(error.getErrorCode());
+  String eventHandlerId=null;
   if (errorEventHandler != null) {
-    errorEndEvent.setBorderEventActivityId(errorEventHandler.getId());
+    eventHandlerId=errorEventHandler.getId();
   }
-  errorEndEvent.execute(execution);
+  propagateError(error.getErrorCode(),eventHandlerId,execution);
 }
