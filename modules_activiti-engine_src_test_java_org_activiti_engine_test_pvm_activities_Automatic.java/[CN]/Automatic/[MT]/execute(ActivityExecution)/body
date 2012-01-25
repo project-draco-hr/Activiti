@@ -1,4 +1,9 @@
 {
-  PvmTransition transition=execution.getActivity().getOutgoingTransitions().get(0);
-  execution.take(transition);
+  List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
+  if (outgoingTransitions.isEmpty()) {
+    execution.end();
+  }
+ else {
+    execution.take(outgoingTransitions.get(0));
+  }
 }
