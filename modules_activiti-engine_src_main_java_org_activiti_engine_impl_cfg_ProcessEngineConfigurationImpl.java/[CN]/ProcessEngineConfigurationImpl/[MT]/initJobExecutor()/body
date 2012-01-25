@@ -18,4 +18,12 @@
   }
   jobExecutor.setCommandExecutor(commandExecutorTxRequired);
   jobExecutor.setAutoActivate(jobExecutorActivate);
+  if (jobExecutor.getRejectedJobsHandler() == null) {
+    if (customRejectedJobsHandler != null) {
+      jobExecutor.setRejectedJobsHandler(customRejectedJobsHandler);
+    }
+ else {
+      jobExecutor.setRejectedJobsHandler(new CallerRunsRejectedJobsHandler());
+    }
+  }
 }
