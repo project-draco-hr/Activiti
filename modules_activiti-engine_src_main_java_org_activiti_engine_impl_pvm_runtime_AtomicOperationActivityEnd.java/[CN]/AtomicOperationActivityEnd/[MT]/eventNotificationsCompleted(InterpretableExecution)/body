@@ -12,8 +12,17 @@
     ActivityBehavior parentActivityBehavior=(parentActivity != null ? parentActivity.getActivityBehavior() : null);
     if (parentActivityBehavior instanceof CompositeActivityBehavior) {
       CompositeActivityBehavior compositeActivityBehavior=(CompositeActivityBehavior)parentActivity.getActivityBehavior();
-      execution.setActivity(parentActivity);
-      compositeActivityBehavior.lastExecutionEnded(execution);
+      if (activity.isScope() && activity.getOutgoingTransitions().isEmpty()) {
+        InterpretableExecution parentScopeExecution=(InterpretableExecution)execution.getParent();
+        execution.destroy();
+        execution.remove();
+        parentScopeExecution.setActivity(parentActivity);
+        compositeActivityBehavior.lastExecutionEnded(parentScopeExecution);
+      }
+ else {
+        execution.setActivity(parentActivity);
+        compositeActivityBehavior.lastExecutionEnded(execution);
+      }
     }
  else {
       InterpretableExecution parentScopeExecution=(InterpretableExecution)execution.getParent();
