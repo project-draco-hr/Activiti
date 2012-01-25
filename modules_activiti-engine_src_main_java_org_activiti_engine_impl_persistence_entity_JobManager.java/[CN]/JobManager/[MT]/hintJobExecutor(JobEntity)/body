@@ -1,13 +1,15 @@
 {
   JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
   JobExecutorContext jobExecutorContext=Context.getJobExecutorContext();
+  TransactionListener transactionListener=null;
   if (job.isExclusive() && jobExecutorContext != null && jobExecutorContext.isExecutingExclusiveJob()) {
     Date currentTime=ClockUtil.getCurrentTime();
     job.setLockExpirationTime(new Date(currentTime.getTime() + jobExecutor.getLockTimeInMillis()));
     job.setLockOwner(jobExecutor.getLockOwner());
-    jobExecutorContext.getCurrentProcessorJobQueue().add(job.getId());
+    transactionListener=new ExclusiveJobAddedNotification(job.getId());
   }
  else {
-    Context.getCommandContext().getTransactionContext().addTransactionListener(TransactionState.COMMITTED,new MessageAddedNotification(jobExecutor));
+    transactionListener=new MessageAddedNotification(jobExecutor);
   }
+  Context.getCommandContext().getTransactionContext().addTransactionListener(TransactionState.COMMITTED,transactionListener);
 }
