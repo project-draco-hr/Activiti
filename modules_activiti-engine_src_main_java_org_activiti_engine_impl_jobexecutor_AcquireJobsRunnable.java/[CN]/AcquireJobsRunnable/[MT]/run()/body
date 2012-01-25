@@ -34,6 +34,9 @@
       if (millisToWait > maxWait) {
         millisToWait=maxWait;
       }
+ else       if (millisToWait == 0) {
+        millisToWait=jobExecutor.getWaitTimeInMillis();
+      }
     }
     if ((millisToWait > 0) && (!isJobAdded)) {
       try {
