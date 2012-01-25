@@ -1,10 +1,18 @@
 {
-  threadPoolExecutor.shutdown();
   try {
-    threadPoolExecutor.awaitTermination(60L,TimeUnit.SECONDS);
+    jobAcquisitionThread.join();
   }
  catch (  InterruptedException e) {
-    throw new ActivitiException("Timeout during shutdown of job executor. " + "The current running jobs could not end withing 60 seconds after shutdown operation.",e);
+    log.log(Level.WARNING,"Interrupted while waiting for the job Acquisition thread to terminate",e);
+  }
+  threadPoolExecutor.shutdown();
+  try {
+    if (!threadPoolExecutor.awaitTermination(60L,TimeUnit.SECONDS)) {
+      log.log(Level.WARNING,"Timeout during shutdown of job executor. " + "The current running jobs could not end within 60 seconds after shutdown operation.");
+    }
+  }
+ catch (  InterruptedException e) {
+    log.log(Level.WARNING,"Interrupted while shutting down the job executor. ",e);
   }
   threadPoolExecutor=null;
   jobAcquisitionThread=null;

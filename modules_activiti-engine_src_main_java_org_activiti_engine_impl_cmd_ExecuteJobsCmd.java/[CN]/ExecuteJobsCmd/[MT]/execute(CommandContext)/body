@@ -9,6 +9,10 @@
   if (job == null) {
     throw new ActivitiException("No job found with id '" + jobId + "'");
   }
+  JobExecutorContext jobExecutorContext=Context.getJobExecutorContext();
+  if (jobExecutorContext != null) {
+    jobExecutorContext.setCurrentJob(job);
+  }
   try {
     job.execute(commandContext);
   }
@@ -16,6 +20,11 @@
     CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutorTxRequiresNew();
     commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new DecrementJobRetriesListener(commandExecutor,jobId,exception));
     throw exception;
+  }
+ finally {
+    if (jobExecutorContext != null) {
+      jobExecutorContext.setCurrentJob(null);
+    }
   }
   return null;
 }

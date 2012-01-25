@@ -1,5 +1,15 @@
 {
-  for (  String jobId : jobIds) {
-    commandExecutor.execute(new ExecuteJobsCmd(jobId));
+  final JobExecutorContext jobExecutorContext=new JobExecutorContext(jobExecutor);
+  final List<String> currentProcessorJobQueue=jobExecutorContext.getCurrentProcessorJobQueue();
+  final CommandExecutor commandExecutor=jobExecutor.getCommandExecutor();
+  currentProcessorJobQueue.addAll(jobIds);
+  Context.setJobExecutorContext(jobExecutorContext);
+  try {
+    while (!currentProcessorJobQueue.isEmpty()) {
+      commandExecutor.execute(new ExecuteJobsCmd(currentProcessorJobQueue.remove(0)));
+    }
+  }
+  finally {
+    Context.removeJobExecutorContext();
   }
 }
