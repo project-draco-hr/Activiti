@@ -1,0 +1,6 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  runtimeService.startProcessInstanceByKey(processDefinition.getKey());
+  ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
+  assertFalse(processInstance.isSuspended());
+}

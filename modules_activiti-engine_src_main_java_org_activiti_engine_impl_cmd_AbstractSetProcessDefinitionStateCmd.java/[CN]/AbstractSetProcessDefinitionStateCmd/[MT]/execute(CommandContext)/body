@@ -1,0 +1,21 @@
+{
+  if (processDefinitionId == null && processDefinitionKey == null) {
+    throw new ActivitiException("Process definition id / key cannot be null");
+  }
+  ProcessDefinitionEntity processDefinitionEntity=null;
+  ProcessDefinitionManager processDefinitionManager=commandContext.getProcessDefinitionManager();
+  if (processDefinitionId == null) {
+    processDefinitionEntity=processDefinitionManager.findLatestProcessDefinitionByKey(processDefinitionKey);
+    if (processDefinitionEntity == null) {
+      throw new ActivitiException("Cannot find process definition for key '" + processDefinitionKey + "'");
+    }
+  }
+ else {
+    processDefinitionEntity=processDefinitionManager.findLatestProcessDefinitionById(processDefinitionId);
+    if (processDefinitionEntity == null) {
+      throw new ActivitiException("Cannot find process definition for id '" + processDefinitionId + "'");
+    }
+  }
+  setState(processDefinitionEntity);
+  return null;
+}

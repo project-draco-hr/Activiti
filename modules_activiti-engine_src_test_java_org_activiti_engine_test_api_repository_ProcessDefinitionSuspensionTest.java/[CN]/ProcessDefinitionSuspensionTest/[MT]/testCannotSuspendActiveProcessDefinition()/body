@@ -1,0 +1,11 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertFalse(processDefinition.isSuspended());
+  repositoryService.suspendProcessDefinitionById(processDefinition.getId());
+  try {
+    repositoryService.suspendProcessDefinitionById(processDefinition.getId());
+    fail("Exception exprected");
+  }
+ catch (  ActivitiException e) {
+  }
+}

@@ -1,0 +1,13 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  runtimeService.startProcessInstanceByKey(processDefinition.getKey());
+  ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
+  assertFalse(processInstance.isSuspended());
+  runtimeService.suspendProcessInstanceById(processInstance.getId());
+  try {
+    runtimeService.suspendProcessInstanceById(processInstance.getId());
+    fail("Expected activiti exception");
+  }
+ catch (  ActivitiException e) {
+  }
+}

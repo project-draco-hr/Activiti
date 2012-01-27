@@ -1,0 +1,14 @@
+{
+  if (executionId == null) {
+    throw new ActivitiException("ProcessInstanceId cannot be null.");
+  }
+  ExecutionEntity executionEntity=commandContext.getExecutionManager().findExecutionById(executionId);
+  if (executionEntity == null) {
+    throw new ActivitiException("Cannot find processInstance for id '" + executionId + "'.");
+  }
+  if (!executionEntity.isProcessInstance()) {
+    throw new ActivitiException("Cannot set suspension state for execution '" + executionId + "': not a process instance.");
+  }
+  SuspensionStateUtil.setSuspensionState(executionEntity,getNewState());
+  return null;
+}

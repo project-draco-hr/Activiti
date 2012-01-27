@@ -1,0 +1,10 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertFalse(processDefinition.isSuspended());
+  repositoryService.suspendProcessDefinitionById(processDefinition.getId());
+  processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertTrue(processDefinition.isSuspended());
+  repositoryService.activateProcessDefinitionById(processDefinition.getId());
+  processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertFalse(processDefinition.isSuspended());
+}
