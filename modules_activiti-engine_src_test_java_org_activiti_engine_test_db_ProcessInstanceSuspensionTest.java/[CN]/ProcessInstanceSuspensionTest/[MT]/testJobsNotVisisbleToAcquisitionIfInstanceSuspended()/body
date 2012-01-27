@@ -1,7 +1,9 @@
 {
   ProcessDefinition pd=repositoryService.createProcessDefinitionQuery().singleResult();
   ProcessInstance pi=runtimeService.startProcessInstanceByKey(pd.getKey());
-  assertNotNull(managementService.createJobQuery().singleResult());
+  Job job=managementService.createJobQuery().singleResult();
+  assertNotNull(job);
+  makeSureJobDue(job);
   AcquiredJobs acquiredJobs=executeAcquireJobsCommand();
   assertEquals(1,acquiredJobs.size());
   runtimeService.suspendProcessInstanceById(pi.getId());
