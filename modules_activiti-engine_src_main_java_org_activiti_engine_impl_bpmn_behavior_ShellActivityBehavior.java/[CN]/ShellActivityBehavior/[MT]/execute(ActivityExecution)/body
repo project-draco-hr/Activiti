@@ -1,0 +1,34 @@
+{
+  readFields(execution);
+  List<String> argList=new ArrayList<String>();
+  argList.add(commandStr);
+  if (arg1Str != null)   argList.add(arg1Str);
+  if (arg2Str != null)   argList.add(arg2Str);
+  if (arg3Str != null)   argList.add(arg3Str);
+  if (arg4Str != null)   argList.add(arg4Str);
+  if (arg5Str != null)   argList.add(arg5Str);
+  ProcessBuilder processBuilder=new ProcessBuilder(argList);
+  try {
+    processBuilder.redirectErrorStream(redirectErrorFlag);
+    if (cleanEnvBoolan) {
+      Map<String,String> env=processBuilder.environment();
+      env.clear();
+    }
+    if (directoryStr != null && directoryStr.length() > 0)     processBuilder.directory(new File(directoryStr));
+    Process process=processBuilder.start();
+    if (waitFlag) {
+      int errorCode=process.waitFor();
+      if (resultVariableStr != null) {
+        String result=convertStreamToStr(process.getInputStream());
+        execution.setVariable(resultVariableStr,result);
+      }
+      if (errorCodeVariableStr != null) {
+        execution.setVariable(errorCodeVariableStr,Integer.toString(errorCode));
+      }
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Could not execute shell command ",e);
+  }
+  leave(execution);
+}

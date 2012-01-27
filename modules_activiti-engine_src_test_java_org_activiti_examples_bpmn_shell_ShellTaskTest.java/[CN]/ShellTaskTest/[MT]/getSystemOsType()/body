@@ -1,0 +1,8 @@
+{
+  String osName=System.getProperty("os.name").toLowerCase();
+  if (osName.indexOf("win") >= 0)   return OsType.WINDOWS;
+ else   if (osName.indexOf("mac") >= 0)   return OsType.MAC;
+ else   if ((osName.indexOf("nix") >= 0) || (osName.indexOf("nux") >= 0))   return OsType.LINUX;
+ else   if (osName.indexOf("sunos") >= 0)   return OsType.SOLARIS;
+ else   return OsType.UNKOWN;
+}

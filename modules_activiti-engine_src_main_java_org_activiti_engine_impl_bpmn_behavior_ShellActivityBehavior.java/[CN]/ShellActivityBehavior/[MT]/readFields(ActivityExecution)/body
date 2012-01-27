@@ -1,0 +1,17 @@
+{
+  commandStr=getStringFromField(command,execution);
+  arg1Str=getStringFromField(arg1,execution);
+  arg2Str=getStringFromField(arg2,execution);
+  arg3Str=getStringFromField(arg3,execution);
+  arg4Str=getStringFromField(arg4,execution);
+  arg5Str=getStringFromField(arg5,execution);
+  waitStr=getStringFromField(wait,execution);
+  resultVariableStr=getStringFromField(outputVariable,execution);
+  errorCodeVariableStr=getStringFromField(errorCodeVariable,execution);
+  String redirectErrorStr=getStringFromField(redirectError,execution);
+  String cleanEnvStr=getStringFromField(cleanEnv,execution);
+  waitFlag=waitStr == null || waitStr.equals("true");
+  redirectErrorFlag=redirectErrorStr != null && redirectErrorStr.equals("true");
+  cleanEnvBoolan=cleanEnvStr != null && cleanEnvStr.equals("true");
+  directoryStr=getStringFromField(directory,execution);
+}
