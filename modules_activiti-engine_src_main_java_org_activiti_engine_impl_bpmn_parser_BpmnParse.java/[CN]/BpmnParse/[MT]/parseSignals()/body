@@ -1,0 +1,23 @@
+{
+  for (  Element signalElement : rootElement.elements("signal")) {
+    String id=signalElement.attribute("id");
+    String signalName=this.resolveName(signalElement.attribute("name"));
+    for (    SignalDefinition signalDefinition : signals.values()) {
+      if (signalDefinition.getName().equals(signalName)) {
+        addError("duplicate signal name '" + signalName + "'.",signalElement);
+      }
+    }
+    if (id == null) {
+      addError("signal must have an id",signalElement);
+    }
+ else     if (signalName == null) {
+      addError("signal with id '" + id + "' has no name",signalElement);
+    }
+ else {
+      SignalDefinition signal=new SignalDefinition();
+      signal.setId(this.targetNamespace + ":" + id);
+      signal.setName(signalName);
+      this.signals.put(id,signal);
+    }
+  }
+}

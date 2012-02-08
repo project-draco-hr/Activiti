@@ -5,7 +5,18 @@
     String destinationRef=sequenceFlowElement.attribute("targetRef");
     ActivityImpl sourceActivity=scope.findActivity(sourceRef);
     ActivityImpl destinationActivity=scope.findActivity(destinationRef);
-    if (sourceActivity != null && destinationActivity != null) {
+    if (sourceActivity == null) {
+      addError("Invalid source '" + sourceRef + "' of sequence flow '"+ id+ "'",sequenceFlowElement);
+    }
+ else     if (destinationActivity == null) {
+      addError("Invalid destination '" + destinationRef + "' of sequence flow '"+ id+ "'",sequenceFlowElement);
+    }
+ else     if (sourceActivity.getActivityBehavior() instanceof EventBasedGatewayActivityBehavior) {
+    }
+ else     if (destinationActivity.getActivityBehavior() instanceof IntermediateCatchEventActivitiBehaviour && (destinationActivity.getParentActivity() != null) && (destinationActivity.getParentActivity().getActivityBehavior() instanceof EventBasedGatewayActivityBehavior)) {
+      addError("Invalid incoming sequenceflow for intermediateCatchEvent with id '" + destinationActivity.getId() + "' connected to an event-based gateway.",sequenceFlowElement);
+    }
+ else {
       TransitionImpl transition=sourceActivity.createOutgoingTransition(id);
       sequenceFlows.put(id,transition);
       transition.setProperty("name",sequenceFlowElement.attribute("name"));
@@ -16,12 +27,6 @@
       for (      BpmnParseListener parseListener : parseListeners) {
         parseListener.parseSequenceFlow(sequenceFlowElement,scope,transition);
       }
-    }
- else     if (sourceActivity == null) {
-      addError("Invalid source '" + sourceRef + "' of sequence flow '"+ id+ "'",sequenceFlowElement);
-    }
- else     if (destinationActivity == null) {
-      addError("Invalid destination '" + destinationRef + "' of sequence flow '"+ id+ "'",sequenceFlowElement);
     }
   }
 }

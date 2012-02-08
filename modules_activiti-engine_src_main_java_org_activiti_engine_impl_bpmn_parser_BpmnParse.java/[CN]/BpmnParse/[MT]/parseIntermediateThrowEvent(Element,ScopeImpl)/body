@@ -1,0 +1,19 @@
+{
+  ActivityImpl nestedActivityImpl=createActivityOnScope(intermediateEventElement,scopeElement);
+  ActivityBehavior activityBehavior=null;
+  Element signalEventDefinitionElement=intermediateEventElement.element("signalEventDefinition");
+  Element compensateEventDefinitionElement=intermediateEventElement.element("compensateEventDefinition");
+  if (signalEventDefinitionElement != null) {
+    SignalEventDefinition signalDefinition=parseSignalEventDefinition(signalEventDefinitionElement);
+    activityBehavior=new IntermediateThrowSignalEventActivityBehavior(signalDefinition);
+  }
+ else   if (compensateEventDefinitionElement != null) {
+    CompensateEventDefinition compensateEventDefinition=parseCompensateEventDefinition(compensateEventDefinitionElement,scopeElement);
+    activityBehavior=new IntermediateThrowCompensationEventActivityBehavior(compensateEventDefinition);
+  }
+ else {
+    addError("Unsupported intermediate throw event type",intermediateEventElement);
+  }
+  nestedActivityImpl.setActivityBehavior(activityBehavior);
+  return nestedActivityImpl;
+}

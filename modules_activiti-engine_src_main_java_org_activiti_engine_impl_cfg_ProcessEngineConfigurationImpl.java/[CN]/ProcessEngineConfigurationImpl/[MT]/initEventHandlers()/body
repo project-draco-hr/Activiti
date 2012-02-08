@@ -1,0 +1,14 @@
+{
+  if (eventHandlers == null) {
+    eventHandlers=new HashMap<String,EventHandler>();
+    SignalEventHander signalEventHander=new SignalEventHander();
+    eventHandlers.put(signalEventHander.getEventHandlerType(),signalEventHander);
+    CompensationEventHandler compensationEventHandler=new CompensationEventHandler();
+    eventHandlers.put(compensationEventHandler.getEventHandlerType(),compensationEventHandler);
+  }
+  if (customEventHandlers != null) {
+    for (    EventHandler eventHandler : customEventHandlers) {
+      eventHandlers.put(eventHandler.getEventHandlerType(),eventHandler);
+    }
+  }
+}

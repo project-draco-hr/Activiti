@@ -1,10 +1,14 @@
 {
+  HashMap<String,Element> postponedElements=new HashMap<String,Element>();
   parseStartEvents(scopeElement,parentScope);
-  parseActivities(scopeElement,parentScope);
+  parseActivities(scopeElement,parentScope,postponedElements);
+  parsePostponedElements(scopeElement,parentScope,postponedElements);
   parseEndEvents(scopeElement,parentScope);
   parseBoundaryEvents(scopeElement,parentScope);
   parseSequenceFlow(scopeElement,parentScope);
   parseExecutionListenersOnScope(scopeElement,parentScope);
+  parseAssociations(scopeElement,parentScope);
+  postponedElements.clear();
   IOSpecification ioSpecification=parseIOSpecification(scopeElement.element("ioSpecification"));
   parentScope.setIoSpecification(ioSpecification);
 }

@@ -1,0 +1,15 @@
+{
+  signalActivity.setProperty("type","intermediateSignalCatch");
+  SignalEventDefinition signalDefinition=parseSignalEventDefinition(signalEventDefinition);
+  signalDefinition.setActivityId(signalActivity.getId());
+  if (isAfterEventBasedGateway) {
+    addSignalDefinition(signalActivity.getParent(),signalDefinition);
+  }
+ else {
+    addSignalDefinition(signalActivity,signalDefinition);
+    signalActivity.setScope(true);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseIntermediateSignalCatchEventDefinition(signalEventDefinition,signalActivity);
+  }
+}

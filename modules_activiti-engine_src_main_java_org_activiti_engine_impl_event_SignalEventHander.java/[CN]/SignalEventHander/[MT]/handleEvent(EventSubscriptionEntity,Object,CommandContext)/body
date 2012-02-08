@@ -1,0 +1,26 @@
+{
+  ExecutionEntity execution=eventSubscription.getExecution();
+  ActivityImpl activity=eventSubscription.getActivity();
+  if (activity == null) {
+    throw new ActivitiException("Error while sending signal for event subscription '" + eventSubscription.getId() + "': "+ "no activity associated with event subscription");
+  }
+  if (!execution.getActivity().equals(activity)) {
+    execution.setActivity(activity);
+  }
+  if (activity.getActivityBehavior() instanceof BoundaryEventActivityBehavior) {
+    try {
+      activity.getActivityBehavior().execute(execution);
+    }
+ catch (    RuntimeException e) {
+      log.log(Level.SEVERE,"exception while sending signal for event subscription '" + eventSubscription + "'",e);
+      throw e;
+    }
+catch (    Exception e) {
+      log.log(Level.SEVERE,"exception while sending signal for event subscription '" + eventSubscription + "'",e);
+      throw new ActivitiException("exception while sending signal for event subscription '" + eventSubscription + "':"+ e.getMessage(),e);
+    }
+  }
+ else {
+    execution.signal("signal",null);
+  }
+}

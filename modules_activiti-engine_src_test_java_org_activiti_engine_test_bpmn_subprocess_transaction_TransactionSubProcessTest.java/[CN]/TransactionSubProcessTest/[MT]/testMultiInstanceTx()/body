@@ -1,0 +1,18 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("transactionProcess");
+  List<EventSubscription> eventSubscriptions=runtimeService.createEventSubscriptionQuery().eventType("compensate").list();
+  assertEquals(10,eventSubscriptions.size());
+  String executionId=eventSubscriptions.get(0).getExecutionId();
+  for (  EventSubscription eventSubscription : eventSubscriptions) {
+    if (!executionId.equals(eventSubscription.getExecutionId())) {
+      fail("subscriptions not under same execution");
+    }
+  }
+  Task task=taskService.createTaskQuery().listPage(0,1).get(0);
+  taskService.setVariable(task.getId(),"confirmed",false);
+  taskService.complete(task.getId());
+  assertEquals(0,runtimeService.createEventSubscriptionQuery().count());
+  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookFlight").count());
+  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
+  assertProcessEnded(processInstance.getId());
+}

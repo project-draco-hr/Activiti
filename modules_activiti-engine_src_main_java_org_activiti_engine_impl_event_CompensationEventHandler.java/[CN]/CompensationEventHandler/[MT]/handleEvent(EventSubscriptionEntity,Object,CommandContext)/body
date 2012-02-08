@@ -1,0 +1,21 @@
+{
+  String configuration=eventSubscription.getConfiguration();
+  if (configuration == null) {
+    throw new ActivitiException("Compensating execution not set for compensate event subscription with id " + eventSubscription.getId());
+  }
+  ExecutionEntity compensatingExecution=commandContext.getExecutionManager().findExecutionById(configuration);
+  ActivityImpl compensationHandler=eventSubscription.getActivity();
+  if ((compensationHandler.getProperty(BpmnParse.PROPERTYNAME_IS_FOR_COMPENSATION) == null || !(Boolean)compensationHandler.getProperty(BpmnParse.PROPERTYNAME_IS_FOR_COMPENSATION)) && compensationHandler.isScope()) {
+    List<CompensateEventSubscriptionEntity> eventsForThisScope=compensatingExecution.getCompensateEventSubscriptions();
+    ScopeUtil.throwCompensationEvent(eventsForThisScope,compensatingExecution,false);
+  }
+ else {
+    try {
+      compensatingExecution.setActivity(compensationHandler);
+      compensatingExecution.performOperation(AtomicOperation.ACTIVITY_START);
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Error while handling compensation event " + eventSubscription,e);
+    }
+  }
+}

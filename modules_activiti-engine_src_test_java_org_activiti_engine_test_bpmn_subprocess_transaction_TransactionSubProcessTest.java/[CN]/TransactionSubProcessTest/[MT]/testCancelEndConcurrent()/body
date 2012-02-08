@@ -1,0 +1,13 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("transactionProcess");
+  assertEquals(6,runtimeService.createEventSubscriptionQuery().eventType("compensate").count());
+  Task task=taskService.createTaskQuery().singleResult();
+  taskService.setVariable(task.getId(),"confirmed",false);
+  taskService.complete(task.getId());
+  waitForJobExecutorToProcessAllJobs(10000,100);
+  assertEquals(0,runtimeService.createEventSubscriptionQuery().eventType("compensate").count());
+  assertEquals(0,runtimeService.createEventSubscriptionQuery().eventType("compensate").count());
+  assertEquals(1,historyService.createHistoricActivityInstanceQuery().activityId("undoBookFlight").count());
+  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
+  assertProcessEnded(processInstance.getId());
+}

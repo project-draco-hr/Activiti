@@ -1,0 +1,13 @@
+{
+  runtimeService.startProcessInstanceByKey("catchSignal");
+  assertEquals(1,runtimeService.createEventSubscriptionQuery().count());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().count());
+  assertEquals(1,managementService.createJobQuery().count());
+  runtimeService.startProcessInstanceByKey("throwSignal");
+  assertEquals(0,runtimeService.createEventSubscriptionQuery().count());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().count());
+  assertEquals(0,managementService.createJobQuery().count());
+  Task task=taskService.createTaskQuery().taskName("afterSignal").singleResult();
+  assertNotNull(task);
+  taskService.complete(task.getId());
+}

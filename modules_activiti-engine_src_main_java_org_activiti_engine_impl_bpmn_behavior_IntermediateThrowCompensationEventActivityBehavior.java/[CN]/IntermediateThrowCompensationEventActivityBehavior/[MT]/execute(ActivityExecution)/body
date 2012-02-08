@@ -1,0 +1,17 @@
+{
+  final String activityRef=compensateEventDefinition.getActivityRef();
+  ExecutionEntity scopeExecution=ScopeUtil.findScopeExecution((ExecutionEntity)execution,(ActivityImpl)execution.getActivity());
+  List<CompensateEventSubscriptionEntity> eventSubscriptions;
+  if (activityRef != null) {
+    eventSubscriptions=scopeExecution.getCompensateEventSubscriptions(activityRef);
+  }
+ else {
+    eventSubscriptions=scopeExecution.getCompensateEventSubscriptions();
+  }
+  if (eventSubscriptions.isEmpty()) {
+    leave(execution);
+  }
+ else {
+    ScopeUtil.throwCompensationEvent(eventSubscriptions,execution,false);
+  }
+}

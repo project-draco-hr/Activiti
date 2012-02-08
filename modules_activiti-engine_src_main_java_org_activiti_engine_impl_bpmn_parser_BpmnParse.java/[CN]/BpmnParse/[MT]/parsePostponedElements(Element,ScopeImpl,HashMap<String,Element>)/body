@@ -1,0 +1,9 @@
+{
+  for (  Element postponedElement : postponedElements.values()) {
+    if (parentScope.findActivity(postponedElement.attribute("id")) == null) {
+      if (postponedElement.getTagName().equals("intermediateCatchEvent")) {
+        parseIntermediateCatchEvent(postponedElement,parentScope,false);
+      }
+    }
+  }
+}

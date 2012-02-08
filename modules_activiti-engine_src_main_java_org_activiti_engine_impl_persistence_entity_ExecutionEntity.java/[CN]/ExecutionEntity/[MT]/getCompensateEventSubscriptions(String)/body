@@ -1,0 +1,10 @@
+{
+  ensureCompensateEventSubscriptionsInitialized();
+  ArrayList<CompensateEventSubscriptionEntity> result=new ArrayList<CompensateEventSubscriptionEntity>();
+  for (  CompensateEventSubscriptionEntity eventSubscriptionEntity : compensateEventSubscriptions) {
+    if (eventSubscriptionEntity.getActivityId().equals(activityId)) {
+      result.add(eventSubscriptionEntity);
+    }
+  }
+  return result;
+}

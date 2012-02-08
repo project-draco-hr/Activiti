@@ -1,0 +1,15 @@
+{
+  ActivityExecution outgoingExecution=execution.getParent().createExecution();
+  outgoingExecution.setConcurrent(false);
+  ((InterpretableExecution)outgoingExecution).setActivity((ActivityImpl)execution.getActivity());
+  execution.setConcurrent(false);
+  execution.setActive(false);
+  ((InterpretableExecution)execution).setEventScope(true);
+  List<PvmTransition> outgoingTransitions=execution.getActivity().getOutgoingTransitions();
+  if (outgoingTransitions.isEmpty()) {
+    outgoingExecution.end();
+  }
+ else {
+    outgoingExecution.takeAll(outgoingTransitions,Collections.EMPTY_LIST);
+  }
+}

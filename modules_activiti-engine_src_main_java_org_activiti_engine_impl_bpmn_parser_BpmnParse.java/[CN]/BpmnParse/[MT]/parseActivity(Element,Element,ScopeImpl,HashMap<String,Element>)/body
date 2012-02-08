@@ -1,0 +1,60 @@
+{
+  ActivityImpl activity=null;
+  if (activityElement.getTagName().equals("exclusiveGateway")) {
+    activity=parseExclusiveGateway(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("inclusiveGateway")) {
+    activity=parseInclusiveGateway(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("parallelGateway")) {
+    activity=parseParallelGateway(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("scriptTask")) {
+    activity=parseScriptTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("serviceTask")) {
+    activity=parseServiceTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("businessRuleTask")) {
+    activity=parseBusinessRuleTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("task")) {
+    activity=parseTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("manualTask")) {
+    activity=parseManualTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("userTask")) {
+    activity=parseUserTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("sendTask")) {
+    activity=parseSendTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("receiveTask")) {
+    activity=parseReceiveTask(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("subProcess")) {
+    activity=parseSubProcess(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("callActivity")) {
+    activity=parseCallActivity(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("intermediateCatchEvent")) {
+    postponedElements.put(activityElement.attribute("id"),activityElement);
+  }
+ else   if (activityElement.getTagName().equals("intermediateThrowEvent")) {
+    activity=parseIntermediateThrowEvent(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("eventBasedGateway")) {
+    activity=parseEventBasedGateway(activityElement,parentElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("transaction")) {
+    activity=parseTransaction(activityElement,scopeElement);
+  }
+ else   if (activityElement.getTagName().equals("adHocSubProcess") || activityElement.getTagName().equals("complexGateway")) {
+    addWarning("Ignoring unsupported activity type",activityElement);
+  }
+  if (activity != null) {
+    parseMultiInstanceLoopCharacteristics(activityElement,activity);
+  }
+}

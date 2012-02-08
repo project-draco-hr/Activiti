@@ -1,0 +1,11 @@
+{
+  try {
+    repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/bpmn/event/compensate/CompensateEventTest.testMultipleCompensationCatchEventsFails.bpmn20.xml").deploy();
+    fail("exception expected");
+  }
+ catch (  Exception e) {
+    if (!e.getMessage().contains("multiple boundary events with compensateEventDefinition not supported on same activity")) {
+      fail("different exception expected");
+    }
+  }
+}

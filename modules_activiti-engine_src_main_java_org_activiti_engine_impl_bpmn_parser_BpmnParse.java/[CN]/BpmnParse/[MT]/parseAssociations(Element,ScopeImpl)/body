@@ -1,0 +1,32 @@
+{
+  for (  Element associationElement : scopeElement.elements("association")) {
+    String sourceRef=associationElement.attribute("sourceRef");
+    if (sourceRef == null) {
+      addError("association element missing attribute 'sourceRef'",associationElement);
+    }
+    String targetRef=associationElement.attribute("targetRef");
+    if (targetRef == null) {
+      addError("association element missing attribute 'targetRef'",associationElement);
+    }
+    ActivityImpl sourceActivity=parentScope.findActivity(sourceRef);
+    ActivityImpl targetActivity=parentScope.findActivity(targetRef);
+    if (sourceActivity != null && targetActivity != null) {
+      if (sourceActivity.getProperty("type").equals("compensationBoundaryCatch")) {
+        Object isForCompensation=targetActivity.getProperty(PROPERTYNAME_IS_FOR_COMPENSATION);
+        if (isForCompensation == null || !(Boolean)isForCompensation) {
+          addError("compensation boundary catch must be connected to element with isForCompensation=true",associationElement);
+        }
+ else {
+          ActivityImpl compensatedActivity=sourceActivity.getParentActivity();
+          compensatedActivity.setProperty(PROPERTYNAME_COMPENSATION_HANDLER_ID,targetActivity.getId());
+        }
+      }
+    }
+ else     if (sourceActivity == null) {
+      addError("invalid sourceRef '" + sourceRef + "' in association",associationElement);
+    }
+ else     if (targetActivity == null) {
+      addError("invalid targetRef '" + targetRef + "' in association",associationElement);
+    }
+  }
+}

@@ -15,10 +15,12 @@
     ActivityImpl nestedActivity=createActivityOnScope(boundaryEventElement,parentActivity);
     String cancelActivity=boundaryEventElement.attribute("cancelActivity","true");
     boolean interrupting=cancelActivity.equals("true") ? true : false;
-    BoundaryEventActivityBehavior behavior=new BoundaryEventActivityBehavior(interrupting);
-    nestedActivity.setActivityBehavior(behavior);
+    ActivityBehavior behavior=new BoundaryEventActivityBehavior(interrupting);
     Element timerEventDefinition=boundaryEventElement.element("timerEventDefinition");
     Element errorEventDefinition=boundaryEventElement.element("errorEventDefinition");
+    Element signalEventDefinition=boundaryEventElement.element("signalEventDefinition");
+    Element cancelEventDefinition=boundaryEventElement.element("cancelEventDefinition");
+    Element compensateEventDefinition=boundaryEventElement.element("compensateEventDefinition");
     if (timerEventDefinition != null) {
       parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,nestedActivity);
     }
@@ -26,8 +28,18 @@
       interrupting=true;
       parseBoundaryErrorEventDefinition(errorEventDefinition,interrupting,parentActivity,nestedActivity);
     }
+ else     if (signalEventDefinition != null) {
+      parseBoundarySignalEventDefinition(signalEventDefinition,interrupting,nestedActivity);
+    }
+ else     if (cancelEventDefinition != null) {
+      behavior=parseBoundaryCancelEventDefinition(cancelEventDefinition,nestedActivity);
+    }
+ else     if (compensateEventDefinition != null) {
+      parseCatchCompensateEventDefinition(compensateEventDefinition,nestedActivity);
+    }
  else {
       addError("Unsupported boundary event type",boundaryEventElement);
     }
+    nestedActivity.setActivityBehavior(behavior);
   }
 }

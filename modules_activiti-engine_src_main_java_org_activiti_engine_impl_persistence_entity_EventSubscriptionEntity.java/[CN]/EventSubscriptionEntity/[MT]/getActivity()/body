@@ -1,0 +1,10 @@
+{
+  if (activity == null && activityId != null) {
+    ExecutionEntity execution=getExecution();
+    if (execution != null) {
+      ProcessDefinitionImpl processDefinition=execution.getProcessDefinition();
+      activity=processDefinition.findActivity(activityId);
+    }
+  }
+  return activity;
+}

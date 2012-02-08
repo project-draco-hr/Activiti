@@ -1,0 +1,9 @@
+{
+  activity.setProperty("type","compensationBoundaryCatch");
+  ScopeImpl parent=activity.getParent();
+  for (  ActivityImpl child : parent.getActivities()) {
+    if (child.getProperty("type").equals("compensationBoundaryCatch") && child != activity) {
+      addError("multiple boundary events with compensateEventDefinition not supported on same activity",compensateEventDefinition);
+    }
+  }
+}

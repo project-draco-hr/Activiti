@@ -36,12 +36,20 @@
       }
     }
  else {
-      if (log.isLoggable(Level.FINE)) {
-        log.fine("No outgoing sequence flow found for " + execution.getActivity().getId() + ". Ending execution.");
+      Object isForCompensation=execution.getActivity().getProperty(BpmnParse.PROPERTYNAME_IS_FOR_COMPENSATION);
+      if (isForCompensation != null && (Boolean)isForCompensation) {
+        InterpretableExecution parentExecution=(InterpretableExecution)execution.getParent();
+        ((InterpretableExecution)execution).remove();
+        parentExecution.signal("compensationDone",null);
       }
-      execution.end();
-      if (throwExceptionIfExecutionStuck) {
-        throw new ActivitiException("No outgoing sequence flow of the inclusive gateway '" + execution.getActivity().getId() + "' could be selected for continuing the process");
+ else {
+        if (log.isLoggable(Level.FINE)) {
+          log.fine("No outgoing sequence flow found for " + execution.getActivity().getId() + ". Ending execution.");
+        }
+        execution.end();
+        if (throwExceptionIfExecutionStuck) {
+          throw new ActivitiException("No outgoing sequence flow of the inclusive gateway '" + execution.getActivity().getId() + "' could be selected for continuing the process");
+        }
       }
     }
   }

@@ -1,0 +1,12 @@
+{
+  if (execution.getExecutions().isEmpty()) {
+    if (execution.getParent() != null) {
+      ActivityExecution parent=execution.getParent();
+      ((InterpretableExecution)execution).remove();
+      ((InterpretableExecution)parent).signal("compensationDone",signalData);
+    }
+  }
+ else {
+    ((ExecutionEntity)execution).forceUpdate();
+  }
+}

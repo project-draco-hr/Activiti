@@ -1,0 +1,12 @@
+{
+  ActivityImpl activity=createActivityOnScope(transactionElement,scope);
+  activity.setAsync(isAsync(transactionElement));
+  activity.setExclusive(isExclusive(transactionElement));
+  activity.setScope(true);
+  activity.setActivityBehavior(new TransactionActivityBehavior());
+  parseScope(transactionElement,activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseTransaction(transactionElement,scope,activity);
+  }
+  return activity;
+}

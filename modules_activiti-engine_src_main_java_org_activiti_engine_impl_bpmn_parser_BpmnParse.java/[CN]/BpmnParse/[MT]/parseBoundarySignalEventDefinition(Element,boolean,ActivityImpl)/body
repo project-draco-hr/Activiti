@@ -1,0 +1,15 @@
+{
+  signalActivity.setProperty("type","boundarySignal");
+  SignalEventDefinition signalDefinition=parseSignalEventDefinition(signalEventDefinition);
+  if (signalActivity.getId() == null) {
+    addError("boundary event has no id",signalEventDefinition);
+  }
+  signalDefinition.setActivityId(signalActivity.getId());
+  addSignalDefinition(signalActivity.getParent(),signalDefinition);
+  if (signalActivity.getParent() instanceof ActivityImpl) {
+    ((ActivityImpl)signalActivity.getParent()).setScope(true);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseBoundarySignalEventDefinition(signalEventDefinition,interrupting,signalActivity);
+  }
+}

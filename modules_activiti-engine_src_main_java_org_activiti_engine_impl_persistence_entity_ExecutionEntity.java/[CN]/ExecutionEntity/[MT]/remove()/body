@@ -25,5 +25,31 @@
       ((JobEntity)job).delete();
     }
   }
+  List<SignalEventSubscriptionEntity> eventSubscriptions=commandContext.getEventSubscriptionManager().findSignalEventSubscriptionsByExecution(id);
+  for (  EventSubscriptionEntity eventSubscription : eventSubscriptions) {
+    if (replacedBy != null) {
+      eventSubscription.setExecutionId(replacedBy.getId());
+    }
+ else {
+      eventSubscription.delete();
+    }
+  }
+  for (  CompensateEventSubscriptionEntity compensateEventSubscription : getCompensateEventSubscriptions()) {
+    if (replacedBy != null) {
+      compensateEventSubscription.setExecutionId(replacedBy.getId());
+    }
+ else {
+      removeCompensateEventSubscription(compensateEventSubscription);
+      compensateEventSubscription.delete();
+    }
+  }
+  List<InterpretableExecution> childExecutions=new ArrayList<InterpretableExecution>(getExecutions());
+  for (  InterpretableExecution childExecution : childExecutions) {
+    if (childExecution.isEventScope()) {
+      log.fine("removing eventScope " + childExecution);
+      childExecution.destroy();
+      childExecution.remove();
+    }
+  }
   commandContext.getDbSqlSession().delete(ExecutionEntity.class,id);
 }

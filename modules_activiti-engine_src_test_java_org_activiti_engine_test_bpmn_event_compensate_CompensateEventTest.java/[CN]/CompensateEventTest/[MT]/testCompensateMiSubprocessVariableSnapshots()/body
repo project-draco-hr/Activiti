@@ -1,0 +1,6 @@
+{
+  SetVariablesDelegate.variablesMap.clear();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("compensateProcess");
+  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
+  assertProcessEnded(processInstance.getId());
+}

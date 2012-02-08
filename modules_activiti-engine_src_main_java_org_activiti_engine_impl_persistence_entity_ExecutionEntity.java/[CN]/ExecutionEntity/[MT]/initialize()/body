@@ -15,4 +15,16 @@
       Context.getCommandContext().getJobManager().schedule(timer);
     }
   }
+  List<SignalEventDefinition> signalDefinitions=(List<SignalEventDefinition>)scope.getProperty(BpmnParse.PROPERTYNAME_SIGNAL_DEFINITION_NAME);
+  if (signalDefinitions != null) {
+    for (    SignalEventDefinition signalDefinition : signalDefinitions) {
+      SignalEventSubscriptionEntity signalEventSubscriptionEntity=new SignalEventSubscriptionEntity(this);
+      signalEventSubscriptionEntity.setEventName(signalDefinition.getSignalName());
+      if (signalDefinition.getActivityId() != null) {
+        ActivityImpl activity=getActivity().findActivity(signalDefinition.getActivityId());
+        signalEventSubscriptionEntity.setActivity(activity);
+      }
+      Context.getCommandContext().getEventSubscriptionManager().insert(signalEventSubscriptionEntity);
+    }
+  }
 }

@@ -1,0 +1,9 @@
+{
+  String compensationHandlerId=(String)execution.getActivity().getProperty(BpmnParse.PROPERTYNAME_COMPENSATION_HANDLER_ID);
+  ExecutionEntity executionEntity=(ExecutionEntity)execution;
+  ActivityImpl compensationHandlder=executionEntity.getProcessDefinition().findActivity(compensationHandlerId);
+  PvmScope scopeActivitiy=compensationHandlder.getParent();
+  ExecutionEntity scopeExecution=ScopeUtil.findScopeExecution(executionEntity,scopeActivitiy);
+  CompensateEventSubscriptionEntity compensateEventSubscriptionEntity=CompensateEventSubscriptionEntity.createAndInsert(scopeExecution);
+  compensateEventSubscriptionEntity.setActivity(compensationHandlder);
+}

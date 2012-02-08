@@ -1,0 +1,24 @@
+{
+  if (scopeActivity instanceof PvmProcessDefinition) {
+    return execution.getProcessInstance();
+  }
+ else {
+    ActivityImpl currentActivity=execution.getActivity();
+    ExecutionEntity candiadateExecution=null;
+    ExecutionEntity originalExecution=execution;
+    while (execution != null) {
+      currentActivity=execution.getActivity();
+      if (scopeActivity.getActivities().contains(currentActivity) || scopeActivity.equals(currentActivity)) {
+        candiadateExecution=execution;
+      }
+ else       if (currentActivity != null && currentActivity.contains((ActivityImpl)scopeActivity)) {
+        break;
+      }
+      execution=execution.getParent();
+    }
+    if (originalExecution == candiadateExecution && originalExecution.getActivity().isScope() && !originalExecution.getActivity().equals(scopeActivity)) {
+      candiadateExecution=originalExecution.getParent();
+    }
+    return candiadateExecution;
+  }
+}

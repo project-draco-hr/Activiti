@@ -9,5 +9,9 @@
   activity.setProperty("default",activityElement.attribute("default"));
   activity.setProperty("type",activityElement.getTagName());
   activity.setProperty("line",activityElement.getLine());
+  String isForCompensation=activityElement.attribute("isForCompensation");
+  if (isForCompensation != null && (isForCompensation.equals("true") || isForCompensation.equals("TRUE"))) {
+    activity.setProperty(PROPERTYNAME_IS_FOR_COMPENSATION,true);
+  }
   return activity;
 }

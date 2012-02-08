@@ -1,0 +1,6 @@
+{
+  getDbSqlSession().delete(persistentObject.getClass(),persistentObject.getId());
+  if (persistentObject instanceof SignalEventSubscriptionEntity) {
+    createdSignalSubscriptions.remove(persistentObject);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  Map<String,String> parameters=new HashMap<String,String>();
+  parameters.put("activityId",activityRef);
+  parameters.put("parentExecutionId",parentExecutionId);
+  return getDbSqlSession().selectList("selectExecutionsByParentExecutionId",parameters);
+}

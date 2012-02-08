@@ -1,0 +1,11 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("transactionProcess");
+  Task task=taskService.createTaskQuery().singleResult();
+  taskService.setVariable(task.getId(),"confirmed",false);
+  taskService.complete(task.getId());
+  assertEquals(0,runtimeService.createEventSubscriptionQuery().eventType("compensate").count());
+  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("innerTxundoBookHotel").count());
+  assertEquals(1,historyService.createHistoricActivityInstanceQuery().activityId("innerTxundoBookFlight").count());
+  assertEquals(1,historyService.createHistoricActivityInstanceQuery().activityId("undoBookFlight").count());
+  assertProcessEnded(processInstance.getId());
+}

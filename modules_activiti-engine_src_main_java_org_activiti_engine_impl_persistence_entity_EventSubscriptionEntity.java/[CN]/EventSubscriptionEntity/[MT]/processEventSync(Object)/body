@@ -1,0 +1,7 @@
+{
+  EventHandler eventHandler=Context.getProcessEngineConfiguration().getEventHandler(eventType);
+  if (eventHandler == null) {
+    throw new ActivitiException("Could not find eventhandler for event of type '" + eventType + "'.");
+  }
+  eventHandler.handleEvent(this,payload,Context.getCommandContext());
+}

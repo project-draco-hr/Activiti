@@ -1,0 +1,9 @@
+{
+  List<CompensateEventSubscriptionEntity> eventSubscriptions=((ExecutionEntity)execution).getCompensateEventSubscriptions();
+  if (eventSubscriptions.isEmpty()) {
+    leave(execution);
+  }
+ else {
+    ScopeUtil.throwCompensationEvent(eventSubscriptions,execution,false);
+  }
+}

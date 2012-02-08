@@ -1,0 +1,10 @@
+{
+  final String query="selectSignalEventSubscriptionsByEventName";
+  Set<SignalEventSubscriptionEntity> selectList=new HashSet<SignalEventSubscriptionEntity>(getDbSqlSession().selectList(query,eventName));
+  for (  EventSubscriptionEntity entity : createdSignalSubscriptions) {
+    if (entity instanceof SignalEventSubscriptionEntity && eventName.equals(entity.getEventName())) {
+      selectList.add((SignalEventSubscriptionEntity)entity);
+    }
+  }
+  return new ArrayList<SignalEventSubscriptionEntity>(selectList);
+}

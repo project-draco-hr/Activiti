@@ -1,0 +1,8 @@
+{
+  Object nrOfCompletedInstances=execution.getVariable("nrOfCompletedInstances");
+  Integer variable=SetVariablesDelegate.variablesMap.get(nrOfCompletedInstances);
+  Object variableLocal=execution.getVariable("variable");
+  if (!variableLocal.equals(variable)) {
+    throw new ActivitiException("wrong variable passed in to compensation handler");
+  }
+}

@@ -22,6 +22,16 @@
       job.setExecutionId(replacedBy.getId());
     }
   }
+  List<EventSubscriptionEntity> eventSubscriptions=(List)new EventSubscriptionQueryImpl(commandContext).executionId(id).list();
+  for (  EventSubscriptionEntity subscriptionEntity : eventSubscriptions) {
+    subscriptionEntity.setExecutionId(replacedBy.getId());
+  }
+  eventSubscriptions=dbSqlSession.findInCache(EventSubscriptionEntity.class);
+  for (  EventSubscriptionEntity eventSubscription : eventSubscriptions) {
+    if (id.equals(eventSubscription.getExecutionId())) {
+      eventSubscription.setExecutionId(replacedBy.getId());
+    }
+  }
   List<VariableInstanceEntity> variables=(List)commandContext.getVariableInstanceManager().findVariableInstancesByExecutionId(id);
   for (  VariableInstanceEntity variable : variables) {
     variable.setExecutionId(replacedBy.getId());

@@ -11,6 +11,8 @@
   jobHandlers.put(timerStartEvent.getType(),timerStartEvent);
   AsyncContinuationJobHandler asyncContinuationJobHandler=new AsyncContinuationJobHandler();
   jobHandlers.put(asyncContinuationJobHandler.getType(),asyncContinuationJobHandler);
+  ProcessEventJobHandler processEventJobHandler=new ProcessEventJobHandler();
+  jobHandlers.put(processEventJobHandler.getType(),processEventJobHandler);
   if (getCustomJobHandlers() != null) {
     for (    JobHandler customJobHandler : getCustomJobHandlers()) {
       jobHandlers.put(customJobHandler.getType(),customJobHandler);

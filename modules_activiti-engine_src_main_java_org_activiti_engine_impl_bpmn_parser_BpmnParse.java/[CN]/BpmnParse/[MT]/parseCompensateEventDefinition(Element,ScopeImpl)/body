@@ -1,0 +1,13 @@
+{
+  String activityRef=compensateEventDefinitionElement.attribute("activityRef");
+  boolean waitForCompletion="true".equals(compensateEventDefinitionElement.attribute("waitForCompletion","true"));
+  if (activityRef != null) {
+    if (scopeElement.findActivity(activityRef) == null) {
+      addError("Invalid attribute value for 'activityRef': no activity with id '" + activityRef + "' in current scope",compensateEventDefinitionElement);
+    }
+  }
+  CompensateEventDefinition compensateEventDefinition=new CompensateEventDefinition();
+  compensateEventDefinition.setActivityRef(activityRef);
+  compensateEventDefinition.setWaitForCompletion(waitForCompletion);
+  return compensateEventDefinition;
+}

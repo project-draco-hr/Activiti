@@ -1,0 +1,19 @@
+{
+  runtimeService.startProcessInstanceByKey("catchSignal");
+  assertEquals(1,runtimeService.createEventSubscriptionQuery().count());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().count());
+  assertEquals(1,managementService.createJobQuery().count());
+  ClockUtil.setCurrentTime(new Date(ClockUtil.getCurrentTime().getTime() + 10000));
+  try {
+    waitForJobExecutorToProcessAllJobs(10000,100);
+    assertEquals(0,runtimeService.createEventSubscriptionQuery().count());
+    assertEquals(1,runtimeService.createProcessInstanceQuery().count());
+    assertEquals(0,managementService.createJobQuery().count());
+    Task task=taskService.createTaskQuery().taskName("afterTimer").singleResult();
+    assertNotNull(task);
+    taskService.complete(task.getId());
+  }
+  finally {
+    ClockUtil.setCurrentTime(new Date());
+  }
+}

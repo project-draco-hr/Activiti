@@ -1,0 +1,11 @@
+{
+  PvmProcessDefinition processDefinition=new ProcessDefinitionBuilder().createActivity("start").initial().behavior(new Automatic()).transition("embeddedsubprocess").endActivity().createActivity("embeddedsubprocess").scope().behavior(new EmbeddedSubProcess()).createActivity("startInside").behavior(new Automatic()).transition("nestedSubProcess").endActivity().createActivity("nestedSubProcess").scope().behavior(new EventScopeCreatingSubprocess()).createActivity("startNestedInside").behavior(new Automatic()).endActivity().transition("wait").endActivity().createActivity("wait").behavior(new WaitState()).transition("endInside").endActivity().createActivity("endInside").behavior(new Automatic()).endActivity().transition("end").endActivity().createActivity("end").behavior(new Automatic()).endActivity().buildProcessDefinition();
+  PvmProcessInstance processInstance=processDefinition.createProcessInstance();
+  processInstance.start();
+  List<String> expectedActiveActivityIds=new ArrayList<String>();
+  expectedActiveActivityIds.add("wait");
+  assertEquals(expectedActiveActivityIds,processInstance.findActiveActivityIds());
+  PvmExecution execution=processInstance.findExecution("wait");
+  execution.signal(null,null);
+  assertTrue(processInstance.isEnded());
+}

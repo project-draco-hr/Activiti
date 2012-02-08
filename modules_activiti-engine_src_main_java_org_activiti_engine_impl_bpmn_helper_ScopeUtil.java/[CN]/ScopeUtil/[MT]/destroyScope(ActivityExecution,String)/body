@@ -1,0 +1,9 @@
+{
+  List<InterpretableExecution> executions=new ArrayList<InterpretableExecution>((List<InterpretableExecution>)execution.getExecutions());
+  for (  InterpretableExecution childExecution : executions) {
+    if (childExecution.getSubProcessInstance() != null) {
+      childExecution.getSubProcessInstance().deleteCascade(reason);
+    }
+    childExecution.deleteCascade(reason);
+  }
+}

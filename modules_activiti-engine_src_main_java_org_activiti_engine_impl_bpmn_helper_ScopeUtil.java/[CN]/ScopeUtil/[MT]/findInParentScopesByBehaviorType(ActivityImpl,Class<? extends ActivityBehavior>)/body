@@ -1,0 +1,11 @@
+{
+  while (activity != null) {
+    for (    ActivityImpl childActivity : activity.getActivities()) {
+      if (behaviorType.isAssignableFrom(childActivity.getActivityBehavior().getClass())) {
+        return childActivity;
+      }
+    }
+    activity=activity.getParentActivity();
+  }
+  return null;
+}
