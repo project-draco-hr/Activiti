@@ -1,6 +1,12 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("compensateProcess");
-  assertEquals(6,historyService.createHistoricProcessInstanceQuery().count());
-  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
+  if (!processEngineConfiguration.getHistory().equals(ProcessEngineConfiguration.HISTORY_NONE)) {
+    assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
+  }
+  runtimeService.signal(processInstance.getId());
   assertProcessEnded(processInstance.getId());
+  assertEquals(0,runtimeService.createProcessInstanceQuery().count());
+  if (!processEngineConfiguration.getHistory().equals(ProcessEngineConfiguration.HISTORY_NONE)) {
+    assertEquals(6,historyService.createHistoricProcessInstanceQuery().count());
+  }
 }

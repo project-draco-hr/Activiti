@@ -1,6 +1,7 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("compensateProcess");
-  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
-  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookFlight").count());
+  assertEquals(5,runtimeService.getVariable(processInstance.getId(),"undoBookHotel"));
+  assertEquals(5,runtimeService.getVariable(processInstance.getId(),"undoBookFlight"));
+  runtimeService.signal(processInstance.getId());
   assertProcessEnded(processInstance.getId());
 }

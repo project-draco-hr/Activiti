@@ -17,6 +17,7 @@
   for (  Execution execution : executions) {
     runtimeService.signal(execution.getId());
   }
+  runtimeService.signal(runtimeService.createExecutionQuery().activityId("afterSuccess").singleResult().getId());
   assertEquals(0,runtimeService.createEventSubscriptionQuery().count());
   assertProcessEnded(processInstance.getId());
 }

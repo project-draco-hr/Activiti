@@ -12,7 +12,8 @@
   taskService.setVariable(task.getId(),"confirmed",false);
   taskService.complete(task.getId());
   assertEquals(0,runtimeService.createEventSubscriptionQuery().count());
-  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookFlight").count());
-  assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
+  assertEquals(5,runtimeService.getVariable(processInstance.getId(),"undoBookHotel"));
+  assertEquals(5,runtimeService.getVariable(processInstance.getId(),"undoBookFlight"));
+  runtimeService.signal(runtimeService.createExecutionQuery().activityId("afterCancellation").singleResult().getId());
   assertProcessEnded(processInstance.getId());
 }
