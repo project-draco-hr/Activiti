@@ -3,14 +3,14 @@
   PvmScope scope=execution.getActivity();
   while (errorEventHandler == null && scope != null) {
     for (    PvmActivity activity : scope.getActivities()) {
-      if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && error.getErrorCode().equals(activity.getProperty("errorCode"))) {
+      if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && "boundaryError".equals(activity.getProperty("type")) && error.getErrorCode().equals(activity.getProperty("errorCode"))) {
         errorEventHandler=activity;
         break;
       }
     }
     if (errorEventHandler == null) {
       for (      PvmActivity activity : scope.getActivities()) {
-        if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && (activity.getProperty("errorCode") == null || "".equals(activity.getProperty("errorCode")))) {
+        if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && "boundaryError".equals(activity.getProperty("type")) && (activity.getProperty("errorCode") == null || "".equals(activity.getProperty("errorCode")))) {
           errorEventHandler=activity;
           break;
         }
