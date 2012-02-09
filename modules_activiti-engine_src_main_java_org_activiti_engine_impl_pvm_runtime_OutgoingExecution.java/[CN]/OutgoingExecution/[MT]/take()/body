@@ -2,5 +2,10 @@
   if (outgoingExecution.getReplacedBy() != null) {
     outgoingExecution=outgoingExecution.getReplacedBy();
   }
-  outgoingExecution.take(outgoingTransition);
+  if (!outgoingExecution.isDeleteRoot()) {
+    outgoingExecution.take(outgoingTransition);
+  }
+ else {
+    log.fine("Not taking transition '" + outgoingTransition + "', outgoing execution has ended.");
+  }
 }
