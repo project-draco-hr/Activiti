@@ -22,6 +22,7 @@
   router.attachDefault(DefaultResource.class);
   router.attach("/process-engine",ProcessEngineResource.class);
   router.attach("/login",LoginResource.class);
+  router.attach("/user",UserCreateResource.class);
   router.attach("/user/{userId}",UserResource.class);
   router.attach("/user/{userId}/groups",UserGroupsResource.class);
   router.attach("/user/{userId}/picture",UserPictureResource.class);
@@ -49,6 +50,8 @@
   router.attach("/deployment",DeploymentUploadResource.class);
   router.attach("/deployments/delete",DeploymentsDeleteResource.class);
   router.attach("/deployment/{deploymentId}",DeploymentDeleteResource.class);
+  router.attach("/deployment/{deploymentId}/resources",DeploymentArtifactsResource.class);
+  router.attach("/deployment/{deploymentId}/resource/{resourceName}",DeploymentArtifactResource.class);
   router.attach("/management/jobs",JobsResource.class);
   router.attach("/management/job/{jobId}",JobResource.class);
   router.attach("/management/job/{jobId}/execute",JobExecuteResource.class);

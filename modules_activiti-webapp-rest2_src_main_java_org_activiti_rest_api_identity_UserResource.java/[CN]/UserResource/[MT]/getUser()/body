@@ -5,6 +5,6 @@
     throw new ActivitiException("No userId provided");
   }
   User user=ActivitiUtil.getIdentityService().createUserQuery().userId(userId).singleResult();
-  UserResponse response=new UserResponse(user);
+  UserInfo response=new UserInfo(user);
   return response;
 }
