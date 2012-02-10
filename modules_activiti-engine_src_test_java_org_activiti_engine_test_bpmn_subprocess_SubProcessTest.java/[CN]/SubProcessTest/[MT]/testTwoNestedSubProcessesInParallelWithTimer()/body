@@ -1,5 +1,4 @@
 {
-  Date startTime=new Date();
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("nestedParallelSubProcessesWithTimer");
   TaskQuery taskQuery=taskService.createTaskQuery().processInstanceId(pi.getId()).orderByTaskName().asc();
   List<Task> tasks=taskQuery.list();

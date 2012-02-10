@@ -1,5 +1,4 @@
 {
-  Date startTime=new Date();
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("simpleSubProcessWithConcurrentTimer");
   TaskQuery taskQuery=taskService.createTaskQuery().processInstanceId(pi.getId()).orderByTaskName().asc();
   Task subProcessTask=taskQuery.singleResult();
