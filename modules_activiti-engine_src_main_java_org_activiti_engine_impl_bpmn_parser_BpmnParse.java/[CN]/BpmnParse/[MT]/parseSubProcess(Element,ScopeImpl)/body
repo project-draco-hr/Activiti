@@ -2,6 +2,7 @@
   ActivityImpl activity=createActivityOnScope(subProcessElement,scope);
   activity.setAsync(isAsync(subProcessElement));
   activity.setExclusive(isExclusive(subProcessElement));
+  activity.setProperty("triggeredByEvent",parseBooleanAttribute(subProcessElement.attribute("triggeredByEvent"),false));
   activity.setScope(true);
   activity.setActivityBehavior(new SubProcessActivityBehavior());
   parseScope(subProcessElement,activity);

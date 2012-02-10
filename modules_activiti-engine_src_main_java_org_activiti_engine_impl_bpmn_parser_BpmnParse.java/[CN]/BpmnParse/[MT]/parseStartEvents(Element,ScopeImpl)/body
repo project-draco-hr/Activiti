@@ -33,8 +33,21 @@
     }
  else {
       scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
+      Element errorEventDefinition=startEventElement.element("errorEventDefinition");
+      if (errorEventDefinition != null) {
+        startEventActivity.setProperty("type","errorStartEvent");
+        String errorRef=errorEventDefinition.attribute("errorRef");
+        Error error=null;
+        if (errorRef != null) {
+          error=errors.get(errorRef);
+          startEventActivity.setProperty("errorCode",error == null ? errorRef : error.getErrorCode());
+        }
+        startEventActivity.setActivityBehavior(new EventSubProcessStartEventActivityBehavior());
+      }
     }
-    startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+    if (startEventActivity.getActivityBehavior() == null) {
+      startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+    }
     for (    BpmnParseListener parseListener : parseListeners) {
       parseListener.parseStartEvent(startEventElement,scope,startEventActivity);
     }

@@ -1,33 +1,9 @@
 {
-  PvmActivity errorEventHandler=null;
-  PvmScope scope=execution.getActivity();
-  while (errorEventHandler == null && scope != null) {
-    for (    PvmActivity activity : scope.getActivities()) {
-      if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && "boundaryError".equals(activity.getProperty("type")) && error.getErrorCode().equals(activity.getProperty("errorCode"))) {
-        errorEventHandler=activity;
-        break;
-      }
-    }
-    if (errorEventHandler == null) {
-      for (      PvmActivity activity : scope.getActivities()) {
-        if (((ActivityImpl)activity).getActivityBehavior() instanceof BoundaryEventActivityBehavior && "boundaryError".equals(activity.getProperty("type")) && (activity.getProperty("errorCode") == null || "".equals(activity.getProperty("errorCode")))) {
-          errorEventHandler=activity;
-          break;
-        }
-      }
-    }
-    if (errorEventHandler == null) {
-      if (scope instanceof PvmActivity) {
-        scope=((PvmActivity)scope).getParent();
-      }
- else {
-        scope=null;
-      }
-    }
-  }
+  String errorCode=error.getErrorCode();
+  PvmActivity errorEventHandler=findLocalErrorEventHandler(execution,errorCode);
   String eventHandlerId=null;
   if (errorEventHandler != null) {
     eventHandlerId=errorEventHandler.getId();
   }
-  propagateError(error.getErrorCode(),eventHandlerId,execution);
+  propagateError(errorCode,eventHandlerId,execution);
 }

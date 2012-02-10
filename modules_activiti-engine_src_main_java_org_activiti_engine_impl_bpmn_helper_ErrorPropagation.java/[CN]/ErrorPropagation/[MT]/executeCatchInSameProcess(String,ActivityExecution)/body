@@ -6,7 +6,15 @@
   }
   ActivityImpl catchingScope=borderEventActivity.getParentActivity();
   if (catchingScope == null) {
-    throw new ActivitiException(borderEventActivityId + " is suppossed to be a nested activity, " + "but no parent activity can be found.");
+    if (borderEventActivity.getActivityBehavior() instanceof SubProcessActivityBehavior) {
+      ExecutionEntity scopeExecution=ScopeUtil.findScopeExecution((ExecutionEntity)execution,borderEventActivity.getParent());
+      ActivityExecution executionForEventSubProcess=interruptExecutionAndCreateEventSubProcessExecution(scopeExecution);
+      executionForEventSubProcess.executeActivity(borderEventActivity);
+      return;
+    }
+ else {
+      throw new ActivitiException(borderEventActivityId + " is suppossed to be a nested activity, " + "but no parent activity can be found.");
+    }
   }
   boolean matchingParentFound=false;
   ActivityExecution leavingExecution=execution;
@@ -33,7 +41,7 @@
     }
   }
   if (matchingParentFound && leavingExecution != null) {
-    leavingExecution.executeActivity(borderEventActivity);
+    executeEventHandler(borderEventActivity,leavingExecution);
   }
  else {
     throw new ActivitiException("No matching parent execution for activity " + borderEventActivityId + " found");

@@ -1,26 +1,8 @@
 {
-  ActivityExecution outgoingExecution=superExecution;
-  ActivityImpl catchingActivity=(ActivityImpl)outgoingExecution.getActivity();
-  boolean found=false;
-  while (!found && outgoingExecution != null && catchingActivity != null) {
-    for (    ActivityImpl nestedActivity : catchingActivity.getActivities()) {
-      if ("boundaryError".equals(nestedActivity.getProperty("type")) && (nestedActivity.getProperty("errorCode") == null || errorCode.equals(nestedActivity.getProperty("errorCode")))) {
-        found=true;
-        catchingActivity=nestedActivity;
-      }
-    }
-    if (!found) {
-      if (outgoingExecution.isConcurrent()) {
-        outgoingExecution=outgoingExecution.getParent();
-      }
- else       if (outgoingExecution.isScope()) {
-        catchingActivity=catchingActivity.getParentActivity();
-        outgoingExecution=outgoingExecution.getParent();
-      }
-    }
-  }
-  if (found) {
-    outgoingExecution.executeActivity(catchingActivity);
+  PvmActivity catchingActivity=findLocalErrorEventHandler(superExecution,errorCode);
+  if (catchingActivity != null) {
+    ActivityExecution outgoingExecution=ScopeUtil.findScopeExecution((ExecutionEntity)superExecution,catchingActivity.getParent());
+    executeEventHandler((ActivityImpl)catchingActivity,outgoingExecution);
   }
  else {
     ActivityExecution superSuperExecution=getSuperExecution(superExecution);
