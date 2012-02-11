@@ -1,0 +1,6 @@
+{
+  PvmProcessDefinition processDefinition=new ProcessDefinitionBuilder().createActivity("start").initial().behavior(new Automatic()).transition("embeddedsubprocess").endActivity().createActivity("embeddedsubprocess").scope().behavior(new EmbeddedSubProcess()).createActivity("startInside").behavior(new Automatic()).endActivity().endActivity().buildProcessDefinition();
+  PvmProcessInstance processInstance=processDefinition.createProcessInstance();
+  processInstance.start();
+  assertTrue(processInstance.isEnded());
+}

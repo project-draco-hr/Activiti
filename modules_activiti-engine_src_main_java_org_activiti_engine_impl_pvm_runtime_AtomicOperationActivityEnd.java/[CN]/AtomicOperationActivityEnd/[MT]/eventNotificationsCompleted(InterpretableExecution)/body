@@ -28,8 +28,14 @@
       InterpretableExecution parentScopeExecution=(InterpretableExecution)execution.getParent();
       execution.destroy();
       execution.remove();
-      parentScopeExecution.setActivity(parentActivity);
-      parentScopeExecution.performOperation(ACTIVITY_END);
+      if (activity.getParent() == activity.getProcessDefinition() && activity.getOutgoingTransitions().isEmpty()) {
+        parentScopeExecution.setActivity(activity);
+        parentScopeExecution.end();
+      }
+ else {
+        parentScopeExecution.setActivity(parentActivity);
+        parentScopeExecution.performOperation(ACTIVITY_END);
+      }
     }
   }
  else {
