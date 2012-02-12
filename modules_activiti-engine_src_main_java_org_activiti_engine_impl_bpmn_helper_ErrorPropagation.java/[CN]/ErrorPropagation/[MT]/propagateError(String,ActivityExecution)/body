@@ -1,6 +1,7 @@
 {
+  String eventHandlerId=findLocalErrorEventHandler(execution,errorCode);
   if (eventHandlerId != null) {
-    executeCatchInSameProcess(eventHandlerId,execution);
+    executeCatch(eventHandlerId,execution);
   }
  else {
     ActivityExecution superExecution=getSuperExecution(execution);

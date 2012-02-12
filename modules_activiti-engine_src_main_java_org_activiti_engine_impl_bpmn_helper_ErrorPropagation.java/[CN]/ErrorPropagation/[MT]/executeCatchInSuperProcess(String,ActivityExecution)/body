@@ -1,8 +1,7 @@
 {
-  PvmActivity catchingActivity=findLocalErrorEventHandler(superExecution,errorCode);
-  if (catchingActivity != null) {
-    ActivityExecution outgoingExecution=ScopeUtil.findScopeExecution((ExecutionEntity)superExecution,catchingActivity.getParent());
-    executeEventHandler((ActivityImpl)catchingActivity,outgoingExecution);
+  String errorHandlerId=findLocalErrorEventHandler(superExecution,errorCode);
+  if (errorHandlerId != null) {
+    executeCatch(errorHandlerId,superExecution);
   }
  else {
     ActivityExecution superSuperExecution=getSuperExecution(superExecution);

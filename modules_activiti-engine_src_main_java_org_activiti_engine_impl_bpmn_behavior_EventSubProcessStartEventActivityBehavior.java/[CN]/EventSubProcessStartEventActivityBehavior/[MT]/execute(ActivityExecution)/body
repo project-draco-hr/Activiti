@@ -1,0 +1,13 @@
+{
+  ActivityExecution outgoingExecution=execution;
+  if (isInterrupting) {
+    ScopeUtil.destroyScope(execution,"interrupting event subprocess started");
+  }
+ else {
+    outgoingExecution=execution.createExecution();
+    outgoingExecution.setActive(true);
+    outgoingExecution.setScope(false);
+    outgoingExecution.setConcurrent(true);
+  }
+  super.execute(outgoingExecution);
+}

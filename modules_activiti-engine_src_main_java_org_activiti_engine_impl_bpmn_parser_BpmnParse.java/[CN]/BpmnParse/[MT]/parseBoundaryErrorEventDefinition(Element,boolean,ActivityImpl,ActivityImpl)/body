@@ -1,25 +1,15 @@
 {
   nestedErrorEventActivity.setProperty("type","boundaryError");
-  ((ActivityImpl)nestedErrorEventActivity.getParent()).setScope(true);
+  ScopeImpl catchingScope=nestedErrorEventActivity.getParent();
+  ((ActivityImpl)catchingScope).setScope(true);
   String errorRef=errorEventDefinition.attribute("errorRef");
   Error error=null;
+  ErrorEventDefinition definition=new ErrorEventDefinition(nestedErrorEventActivity.getId());
   if (errorRef != null) {
     error=errors.get(errorRef);
-    nestedErrorEventActivity.setProperty("errorCode",error == null ? errorRef : error.getErrorCode());
+    definition.setErrorCode(error == null ? errorRef : error.getErrorCode());
   }
-  List<ActivityImpl> childErrorEndEvents=getAllChildActivitiesOfType("errorEndEvent",activity);
-  for (  ActivityImpl errorEndEvent : childErrorEndEvents) {
-    ErrorEndEventActivityBehavior behavior=(ErrorEndEventActivityBehavior)errorEndEvent.getActivityBehavior();
-    if (errorRef == null || errorRef.equals(behavior.getErrorCode()) || (error != null && error.getErrorCode().equals(behavior.getErrorCode()))) {
-      ActivityImpl catchingActivity=null;
-      if (behavior.getBorderEventActivityId() != null) {
-        catchingActivity=activity.getProcessDefinition().findActivity(behavior.getBorderEventActivityId());
-      }
-      if (catchingActivity == null || isChildActivity(activity,catchingActivity)) {
-        behavior.setBorderEventActivityId(nestedErrorEventActivity.getId());
-      }
-    }
-  }
+  addErrorEventDefinition(definition,catchingScope);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseBoundaryErrorEventDefinition(errorEventDefinition,interrupting,activity,nestedErrorEventActivity);
   }

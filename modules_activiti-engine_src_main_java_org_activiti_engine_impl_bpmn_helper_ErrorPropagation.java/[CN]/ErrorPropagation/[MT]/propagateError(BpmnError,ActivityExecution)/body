@@ -1,9 +1,3 @@
 {
-  String errorCode=error.getErrorCode();
-  PvmActivity errorEventHandler=findLocalErrorEventHandler(execution,errorCode);
-  String eventHandlerId=null;
-  if (errorEventHandler != null) {
-    eventHandlerId=errorEventHandler.getId();
-  }
-  propagateError(errorCode,eventHandlerId,execution);
+  propagateError(error.getErrorCode(),execution);
 }

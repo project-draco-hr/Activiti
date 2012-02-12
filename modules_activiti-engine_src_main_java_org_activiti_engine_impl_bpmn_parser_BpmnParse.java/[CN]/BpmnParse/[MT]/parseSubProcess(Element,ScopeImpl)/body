@@ -2,8 +2,9 @@
   ActivityImpl activity=createActivityOnScope(subProcessElement,scope);
   activity.setAsync(isAsync(subProcessElement));
   activity.setExclusive(isExclusive(subProcessElement));
-  activity.setProperty("triggeredByEvent",parseBooleanAttribute(subProcessElement.attribute("triggeredByEvent"),false));
-  activity.setScope(true);
+  Boolean isTriggeredByEvent=parseBooleanAttribute(subProcessElement.attribute("triggeredByEvent"),false);
+  activity.setProperty("triggeredByEvent",isTriggeredByEvent);
+  activity.setScope(!isTriggeredByEvent);
   activity.setActivityBehavior(new SubProcessActivityBehavior());
   parseScope(subProcessElement,activity);
   for (  BpmnParseListener parseListener : parseListeners) {

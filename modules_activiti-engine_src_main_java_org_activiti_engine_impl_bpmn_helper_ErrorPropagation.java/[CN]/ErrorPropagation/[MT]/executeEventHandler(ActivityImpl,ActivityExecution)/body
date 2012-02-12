@@ -1,6 +1,10 @@
 {
-  if (borderEventActivity.getActivityBehavior() instanceof SubProcessActivityBehavior) {
-    leavingExecution=interruptExecutionAndCreateEventSubProcessExecution((ExecutionEntity)leavingExecution);
+  if (borderEventActivity.getActivityBehavior() instanceof EventSubProcessStartEventActivityBehavior) {
+    InterpretableExecution execution=(InterpretableExecution)leavingExecution;
+    execution.setActivity(borderEventActivity.getParentActivity());
+    execution.performOperation(AtomicOperation.ACTIVITY_START);
   }
-  leavingExecution.executeActivity(borderEventActivity);
+ else {
+    leavingExecution.executeActivity(borderEventActivity);
+  }
 }
