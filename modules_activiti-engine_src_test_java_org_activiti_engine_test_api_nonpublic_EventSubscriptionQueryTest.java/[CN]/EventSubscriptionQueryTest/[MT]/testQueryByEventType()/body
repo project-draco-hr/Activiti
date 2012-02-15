@@ -1,0 +1,22 @@
+{
+  processEngineConfiguration.getCommandExecutorTxRequired().execute(new Command<Void>(){
+    public Void execute(    CommandContext commandContext){
+      MessageEventSubscriptionEntity messageEventSubscriptionEntity1=new MessageEventSubscriptionEntity();
+      messageEventSubscriptionEntity1.setEventName("messageName");
+      messageEventSubscriptionEntity1.insert();
+      MessageEventSubscriptionEntity messageEventSubscriptionEntity2=new MessageEventSubscriptionEntity();
+      messageEventSubscriptionEntity2.setEventName("messageName");
+      messageEventSubscriptionEntity2.insert();
+      SignalEventSubscriptionEntity signalEventSubscriptionEntity3=new SignalEventSubscriptionEntity();
+      signalEventSubscriptionEntity3.setEventName("messageName2");
+      signalEventSubscriptionEntity3.insert();
+      return null;
+    }
+  }
+);
+  List<EventSubscriptionEntity> list=newEventSubscriptionQuery().eventType("signal").list();
+  assertEquals(1,list.size());
+  list=newEventSubscriptionQuery().eventType("message").list();
+  assertEquals(2,list.size());
+  cleanDb();
+}
