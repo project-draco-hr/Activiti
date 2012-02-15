@@ -1,0 +1,27 @@
+{
+  if (scope.getProperty(PROPERTYNAME_INITIAL) == null) {
+    scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
+    Object triggeredByEvent=scope.getProperty("triggeredByEvent");
+    boolean isTriggeredByEvent=triggeredByEvent != null && ((Boolean)triggeredByEvent == true);
+    Element errorEventDefinition=startEventElement.element("errorEventDefinition");
+    if (errorEventDefinition != null) {
+      if (isTriggeredByEvent) {
+        parseErrorStartEventDefinition(errorEventDefinition,startEventActivity,scope);
+      }
+ else {
+        addError("errorEventDefinition only allowed on start event if subprocess is an event subprocess",errorEventDefinition);
+      }
+    }
+ else {
+      if (!isTriggeredByEvent) {
+        startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+      }
+ else {
+        addError("none start event not allowed for event subprocess",startEventElement);
+      }
+    }
+  }
+ else {
+    addError("multiple start events not supported for subprocess",startEventElement);
+  }
+}

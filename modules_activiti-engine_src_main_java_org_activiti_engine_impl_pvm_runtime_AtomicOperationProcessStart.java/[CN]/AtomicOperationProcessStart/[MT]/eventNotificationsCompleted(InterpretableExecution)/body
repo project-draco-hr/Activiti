@@ -1,6 +1,7 @@
 {
   ProcessDefinitionImpl processDefinition=execution.getProcessDefinition();
-  List<ActivityImpl> initialActivityStack=processDefinition.getInitialActivityStack();
+  StartingExecution startingExecution=execution.getStartingExecution();
+  List<ActivityImpl> initialActivityStack=processDefinition.getInitialActivityStack(startingExecution.getInitial());
   execution.setActivity(initialActivityStack.get(0));
   execution.performOperation(PROCESS_START_INITIAL);
 }

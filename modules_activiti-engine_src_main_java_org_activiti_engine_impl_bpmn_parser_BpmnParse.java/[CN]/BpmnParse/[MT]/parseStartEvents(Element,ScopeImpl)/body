@@ -1,61 +1,21 @@
 {
   List<Element> startEventElements=parentElement.elements("startEvent");
-  if (startEventElements.size() > 0) {
-    Element startEventElement=startEventElements.get(0);
+  List<ActivityImpl> startEventActivities=new ArrayList<ActivityImpl>();
+  for (  Element startEventElement : startEventElements) {
     ActivityImpl startEventActivity=createActivityOnScope(startEventElement,scope);
     if (scope instanceof ProcessDefinitionEntity) {
-      ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)scope;
-      if (processDefinition.getInitial() != null) {
-        addError("multiple startEvents in a process definition are not yet supported",startEventElement);
-      }
-      processDefinition.setInitial(startEventActivity);
-      StartFormHandler startFormHandler;
-      String startFormHandlerClassName=startEventElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"formHandlerClass");
-      if (startFormHandlerClassName != null) {
-        startFormHandler=(StartFormHandler)ReflectUtil.instantiate(startFormHandlerClassName);
-      }
- else {
-        startFormHandler=new DefaultStartFormHandler();
-      }
-      startFormHandler.parseConfiguration(startEventElement,deployment,processDefinition,this);
-      processDefinition.setStartFormHandler(startFormHandler);
-      String initiatorVariableName=startEventElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"initiator");
-      if (initiatorVariableName != null) {
-        processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,initiatorVariableName);
-      }
-      Element timerEventDefinition=startEventElement.element("timerEventDefinition");
-      Element messageEventDefinition=startEventElement.element("messageEventDefinition");
-      if (timerEventDefinition != null) {
-        parseTimerStartEventDefinition(timerEventDefinition,startEventActivity,processDefinition);
-      }
- else       if (messageEventDefinition != null) {
-        parseMessageStartEventDefinition(messageEventDefinition,startEventActivity,processDefinition);
-      }
+      parseProcessDefinitionStartEvent(startEventActivity,startEventElement,parentElement,scope);
+      startEventActivities.add(startEventActivity);
     }
  else {
-      scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
-      Element errorEventDefinition=startEventElement.element("errorEventDefinition");
-      if (errorEventDefinition != null) {
-        startEventActivity.setProperty("type","errorStartEvent");
-        String errorRef=errorEventDefinition.attribute("errorRef");
-        Error error=null;
-        ErrorEventDefinition definition=new ErrorEventDefinition(startEventActivity.getId());
-        if (errorRef != null) {
-          error=errors.get(errorRef);
-          String errorCode=error == null ? errorRef : error.getErrorCode();
-          definition.setErrorCode(errorCode);
-        }
-        ScopeImpl catchingScope=((ActivityImpl)scope).getParent();
-        definition.setPrecedence(10);
-        addErrorEventDefinition(definition,catchingScope);
-        startEventActivity.setActivityBehavior(new EventSubProcessStartEventActivityBehavior());
-      }
-    }
-    if (startEventActivity.getActivityBehavior() == null) {
-      startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+      parseScopeStartEvent(startEventActivity,startEventElement,parentElement,scope);
     }
     for (    BpmnParseListener parseListener : parseListeners) {
       parseListener.parseStartEvent(startEventElement,scope,startEventActivity);
     }
+  }
+  if (scope instanceof ProcessDefinitionEntity) {
+    selectInitial(startEventActivities,(ProcessDefinitionEntity)scope,parentElement);
+    parseStartFormHandlers(startEventElements,(ProcessDefinitionEntity)scope);
   }
 }

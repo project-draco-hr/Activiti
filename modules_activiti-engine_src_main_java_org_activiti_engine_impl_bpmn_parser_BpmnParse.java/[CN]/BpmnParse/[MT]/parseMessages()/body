@@ -3,13 +3,13 @@
     String id=messageElement.attribute("id");
     String itemRef=this.resolveName(messageElement.attribute("itemRef"));
     String name=messageElement.attribute("name");
-    MessageDefinition messageDefinition=new MessageDefinition(id,name);
+    MessageDefinition messageDefinition=new MessageDefinition(this.targetNamespace + ":" + id,name);
     if (itemRef != null) {
-      ItemDefinition itemDefinition=this.itemDefinitions.get(itemRef);
-      if (itemDefinition == null) {
+      if (!this.itemDefinitions.containsKey(itemRef)) {
         addError(itemRef + " does not exist",messageElement);
       }
  else {
+        ItemDefinition itemDefinition=this.itemDefinitions.get(itemRef);
         messageDefinition.setItemDefinition(itemDefinition);
       }
     }

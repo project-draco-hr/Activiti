@@ -1,0 +1,16 @@
+{
+  ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)scope;
+  String initiatorVariableName=startEventElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"initiator");
+  if (initiatorVariableName != null) {
+    processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,initiatorVariableName);
+  }
+  startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+  Element timerEventDefinition=startEventElement.element("timerEventDefinition");
+  Element messageEventDefinition=startEventElement.element("messageEventDefinition");
+  if (timerEventDefinition != null) {
+    parseTimerStartEventDefinition(timerEventDefinition,startEventActivity,processDefinition);
+  }
+ else   if (messageEventDefinition != null) {
+    parseMessageStartEventDefinition(messageEventDefinition,startEventActivity,processDefinition);
+  }
+}

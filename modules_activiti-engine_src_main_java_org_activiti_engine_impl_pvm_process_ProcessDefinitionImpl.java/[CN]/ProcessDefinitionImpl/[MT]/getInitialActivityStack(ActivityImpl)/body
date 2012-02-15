@@ -1,0 +1,13 @@
+{
+  List<ActivityImpl> initialActivityStack=initialActivityStacks.get(startActivity);
+  if (initialActivityStack == null) {
+    initialActivityStack=new ArrayList<ActivityImpl>();
+    ActivityImpl activity=startActivity;
+    while (activity != null) {
+      initialActivityStack.add(0,activity);
+      activity=activity.getParentActivity();
+    }
+    initialActivityStacks.put(startActivity,initialActivityStack);
+  }
+  return initialActivityStack;
+}

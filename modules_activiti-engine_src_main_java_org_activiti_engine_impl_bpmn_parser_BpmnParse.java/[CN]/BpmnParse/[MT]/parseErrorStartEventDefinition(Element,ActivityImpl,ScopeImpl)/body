@@ -1,0 +1,15 @@
+{
+  startEventActivity.setProperty("type","errorStartEvent");
+  String errorRef=errorEventDefinition.attribute("errorRef");
+  Error error=null;
+  ErrorEventDefinition definition=new ErrorEventDefinition(startEventActivity.getId());
+  if (errorRef != null) {
+    error=errors.get(errorRef);
+    String errorCode=error == null ? errorRef : error.getErrorCode();
+    definition.setErrorCode(errorCode);
+  }
+  ScopeImpl catchingScope=((ActivityImpl)scope).getParent();
+  definition.setPrecedence(10);
+  addErrorEventDefinition(definition,catchingScope);
+  startEventActivity.setActivityBehavior(new EventSubProcessStartEventActivityBehavior());
+}
