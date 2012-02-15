@@ -2,13 +2,17 @@
   for (  Element messageElement : rootElement.elements("message")) {
     String id=messageElement.attribute("id");
     String itemRef=this.resolveName(messageElement.attribute("itemRef"));
-    if (!this.itemDefinitions.containsKey(itemRef)) {
-      addError(itemRef + " does not exist",messageElement);
-    }
- else {
+    String name=messageElement.attribute("name");
+    MessageDefinition messageDefinition=new MessageDefinition(id,name);
+    if (itemRef != null) {
       ItemDefinition itemDefinition=this.itemDefinitions.get(itemRef);
-      MessageDefinition message=new MessageDefinition(this.targetNamespace + ":" + id,itemDefinition);
-      this.messages.put(message.getId(),message);
+      if (itemDefinition == null) {
+        addError(itemRef + " does not exist",messageElement);
+      }
+ else {
+        messageDefinition.setItemDefinition(itemDefinition);
+      }
     }
+    this.messages.put(messageDefinition.getId(),messageDefinition);
   }
 }

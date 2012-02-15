@@ -1,0 +1,6 @@
+{
+  List<EventSubscriptionEntity> subscriptionsToDelete=Context.getCommandContext().getEventSubscriptionManager().findEventSubscriptionsByConfiguration(MessageEventHandler.TYPE,processDefinition.getKey());
+  for (  EventSubscriptionEntity eventSubscriptionEntity : subscriptionsToDelete) {
+    eventSubscriptionEntity.delete();
+  }
+}

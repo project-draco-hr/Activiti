@@ -28,7 +28,7 @@
   List<SignalEventSubscriptionEntity> eventSubscriptions=commandContext.getEventSubscriptionManager().findSignalEventSubscriptionsByExecution(id);
   for (  EventSubscriptionEntity eventSubscription : eventSubscriptions) {
     if (replacedBy != null) {
-      eventSubscription.setExecutionId(replacedBy.getId());
+      eventSubscription.setExecution(replacedBy);
     }
  else {
       eventSubscription.delete();
@@ -36,7 +36,7 @@
   }
   for (  CompensateEventSubscriptionEntity compensateEventSubscription : getCompensateEventSubscriptions()) {
     if (replacedBy != null) {
-      compensateEventSubscription.setExecutionId(replacedBy.getId());
+      compensateEventSubscription.setExecution(replacedBy);
     }
  else {
       removeCompensateEventSubscription(compensateEventSubscription);

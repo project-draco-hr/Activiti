@@ -1,0 +1,23 @@
+{
+  List<MessageEventDefinition> messageEventDefinitions=(List<MessageEventDefinition>)processDefinition.getProperty(BpmnParse.PROPERTYNAME_MESSAGE_EVENT_DEFINITIONS);
+  if (messageEventDefinitions == null) {
+    return;
+  }
+  for (  MessageEventDefinition messageEventDefinition : messageEventDefinitions) {
+    List<EventSubscriptionEntity> subscriptionsForSameMessageName=Context.getCommandContext().getEventSubscriptionManager().findEventSubscriptionByName(MessageEventHandler.TYPE,messageEventDefinition.getName());
+    List<MessageEventSubscriptionEntity> cachedSubscriptions=Context.getCommandContext().getDbSqlSession().findInCache(MessageEventSubscriptionEntity.class);
+    for (    MessageEventSubscriptionEntity cachedSubscription : cachedSubscriptions) {
+      if (messageEventDefinition.getName().equals(cachedSubscription.getEventName())) {
+        subscriptionsForSameMessageName.add(cachedSubscription);
+      }
+    }
+    if (!subscriptionsForSameMessageName.isEmpty()) {
+      throw new ActivitiException("Cannot deploy process definition '" + processDefinition.getDiagramResourceName() + "': there already is a message event subscription for the message with name '"+ messageEventDefinition.getName()+ "'.");
+    }
+    MessageEventSubscriptionEntity newSubscription=new MessageEventSubscriptionEntity();
+    newSubscription.setEventName(messageEventDefinition.getName());
+    newSubscription.setActivityId(messageEventDefinition.getActivityId());
+    newSubscription.setConfiguration(processDefinition.getKey());
+    newSubscription.insert();
+  }
+}

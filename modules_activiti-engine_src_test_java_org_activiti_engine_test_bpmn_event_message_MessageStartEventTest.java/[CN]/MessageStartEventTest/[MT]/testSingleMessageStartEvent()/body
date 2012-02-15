@@ -1,0 +1,7 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByMessage("newInvoiceMessage",null);
+  assertFalse(processInstance.isEnded());
+  Task task=taskService.createTaskQuery().singleResult();
+  assertNotNull(task);
+  taskService.complete(task.getId());
+}

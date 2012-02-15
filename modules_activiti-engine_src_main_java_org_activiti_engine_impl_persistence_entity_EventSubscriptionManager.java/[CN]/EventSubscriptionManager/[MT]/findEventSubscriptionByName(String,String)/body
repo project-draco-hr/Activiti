@@ -1,0 +1,7 @@
+{
+  final String query="selectEventSubscriptionsByName";
+  Map<String,String> params=new HashMap<String,String>();
+  params.put("eventType",type);
+  params.put("eventName",eventName);
+  return getDbSqlSession().selectList(query,params);
+}

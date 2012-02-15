@@ -1,0 +1,8 @@
+{
+  List<MessageEventDefinition> messageEventDefinitions=(List<MessageEventDefinition>)scope.getProperty(PROPERTYNAME_MESSAGE_EVENT_DEFINITIONS);
+  if (messageEventDefinitions == null) {
+    messageEventDefinitions=new ArrayList<MessageEventDefinition>();
+    scope.setProperty(PROPERTYNAME_MESSAGE_EVENT_DEFINITIONS,messageEventDefinitions);
+  }
+  messageEventDefinitions.add(subscription);
+}

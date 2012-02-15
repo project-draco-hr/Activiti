@@ -1,13 +1,24 @@
 {
+  List<ProcessDefinition> processDefinitions=getDbSqlSession().createProcessDefinitionQuery().deploymentId(deploymentId).list();
   if (cascade) {
-    List<ProcessDefinition> processDefinitions=getDbSqlSession().createProcessDefinitionQuery().deploymentId(deploymentId).list();
     for (    ProcessDefinition processDefinition : processDefinitions) {
       String processDefinitionId=processDefinition.getId();
       getProcessInstanceManager().deleteProcessInstancesByProcessDefinition(processDefinitionId,"deleted deployment",cascade);
-      Context.getProcessEngineConfiguration().getDeploymentCache().removeProcessDefinition(processDefinitionId);
     }
   }
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    String processDefinitionId=processDefinition.getId();
+    Context.getProcessEngineConfiguration().getDeploymentCache().removeProcessDefinition(processDefinitionId);
+    List<Job> timerStartJobs=Context.getCommandContext().getJobManager().findJobsByConfiguration(TimerStartEventJobHandler.TYPE,processDefinition.getKey());
+    for (    Job job : timerStartJobs) {
+      ((JobEntity)job).delete();
+    }
+    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionManager().findEventSubscriptionsByConfiguration(MessageEventHandler.TYPE,processDefinition.getKey());
+    for (    EventSubscriptionEntity eventSubscriptionEntity : findEventSubscriptionsByConfiguration) {
+      eventSubscriptionEntity.delete();
+    }
+  }
   getResourceManager().deleteResourcesByDeploymentId(deploymentId);
   getDbSqlSession().delete("deleteDeployment",deploymentId);
 }

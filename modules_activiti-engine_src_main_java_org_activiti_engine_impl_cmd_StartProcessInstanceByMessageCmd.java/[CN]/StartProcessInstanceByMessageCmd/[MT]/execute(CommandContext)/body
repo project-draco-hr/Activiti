@@ -1,0 +1,25 @@
+{
+  if (messageName == null) {
+    throw new ActivitiException("Cannot start process instance by message: message name is null");
+  }
+  MessageEventSubscriptionEntity messageEventSubscription=commandContext.getEventSubscriptionManager().findMessageStartEventSubscriptionByName(messageName);
+  if (messageEventSubscription == null) {
+    throw new ActivitiException("Cannot start process instance by message: no subscription to message with name '" + messageName + "' found.");
+  }
+  String processDefinitionKey=messageEventSubscription.getConfiguration();
+  if (processDefinitionKey == null) {
+    throw new ActivitiException("Cannot start process instance by message: subscription to message with name '" + messageName + "' is not a message start event.");
+  }
+  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
+  ProcessDefinitionEntity processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
+  if (processDefinition == null) {
+    throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
+  }
+  ActivityImpl startActivity=processDefinition.findActivity(messageEventSubscription.getActivityId());
+  ExecutionEntity processInstance=processDefinition.createProcessInstance(businessKey,startActivity);
+  if (processVariables != null) {
+    processInstance.setVariables(processVariables);
+  }
+  processInstance.start();
+  return processInstance;
+}

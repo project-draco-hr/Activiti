@@ -1,9 +1,6 @@
 {
   List<Element> startEventElements=parentElement.elements("startEvent");
-  if (startEventElements.size() > 1) {
-    addError("Multiple start events are currently unsupported",parentElement);
-  }
- else   if (startEventElements.size() > 0) {
+  if (startEventElements.size() > 0) {
     Element startEventElement=startEventElements.get(0);
     ActivityImpl startEventActivity=createActivityOnScope(startEventElement,scope);
     if (scope instanceof ProcessDefinitionEntity) {
@@ -27,8 +24,12 @@
         processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,initiatorVariableName);
       }
       Element timerEventDefinition=startEventElement.element("timerEventDefinition");
+      Element messageEventDefinition=startEventElement.element("messageEventDefinition");
       if (timerEventDefinition != null) {
         parseTimerStartEventDefinition(timerEventDefinition,startEventActivity,processDefinition);
+      }
+ else       if (messageEventDefinition != null) {
+        parseMessageStartEventDefinition(messageEventDefinition,startEventActivity,processDefinition);
       }
     }
  else {

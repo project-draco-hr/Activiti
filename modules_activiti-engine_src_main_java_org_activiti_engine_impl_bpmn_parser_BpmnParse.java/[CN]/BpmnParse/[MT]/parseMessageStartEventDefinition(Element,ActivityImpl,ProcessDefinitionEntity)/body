@@ -1,0 +1,13 @@
+{
+  String messageRef=messageEventDefinition.attribute("messageRef");
+  if (messageRef == null) {
+    addError("attriute 'messageRef' is required",messageEventDefinition);
+  }
+  MessageDefinition messageDefinition=messages.get(messageRef);
+  if (messageDefinition == null) {
+    addError("Invalid 'messageRef': no message with id '" + messageRef + "' found.",messageEventDefinition);
+  }
+  startEventActivity.setProperty("type","messageStartEvent");
+  MessageEventDefinition subscription=new MessageEventDefinition(messageDefinition.getId(),messageDefinition.getName(),startEventActivity.getId());
+  addMessageEventDefinition(subscription,processDefinition);
+}

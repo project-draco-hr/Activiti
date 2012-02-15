@@ -60,6 +60,8 @@
       processDefinition.setId(processDefinitionId);
       removeObsoleteTimers(processDefinition);
       addTimerDeclarations(processDefinition);
+      removeObsoleteMessageEventSubscriptions(processDefinition);
+      addMessageEventSubscriptions(processDefinition);
       dbSqlSession.insert(processDefinition);
       deploymentCache.addProcessDefinition(processDefinition);
     }
