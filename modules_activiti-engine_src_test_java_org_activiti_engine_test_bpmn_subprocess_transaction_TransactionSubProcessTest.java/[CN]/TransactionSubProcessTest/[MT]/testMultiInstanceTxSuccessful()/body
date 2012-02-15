@@ -1,10 +1,10 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("transactionProcess");
-  List<EventSubscription> eventSubscriptions=runtimeService.createEventSubscriptionQuery().eventType("compensate").list();
-  assertEquals(10,eventSubscriptions.size());
-  String executionId=eventSubscriptions.get(0).getExecutionId();
-  for (  EventSubscription eventSubscription : eventSubscriptions) {
-    if (!executionId.equals(eventSubscription.getExecutionId())) {
+  List<EventSubscriptionEntity> EventSubscriptionEntitys=createEventSubscriptionQuery().eventType("compensate").list();
+  assertEquals(10,EventSubscriptionEntitys.size());
+  String executionId=EventSubscriptionEntitys.get(0).getExecutionId();
+  for (  EventSubscriptionEntity EventSubscriptionEntity : EventSubscriptionEntitys) {
+    if (!executionId.equals(EventSubscriptionEntity.getExecutionId())) {
       fail("subscriptions not under same execution");
     }
   }
@@ -18,6 +18,6 @@
     runtimeService.signal(execution.getId());
   }
   runtimeService.signal(runtimeService.createExecutionQuery().activityId("afterSuccess").singleResult().getId());
-  assertEquals(0,runtimeService.createEventSubscriptionQuery().count());
+  assertEquals(0,createEventSubscriptionQuery().count());
   assertProcessEnded(processInstance.getId());
 }

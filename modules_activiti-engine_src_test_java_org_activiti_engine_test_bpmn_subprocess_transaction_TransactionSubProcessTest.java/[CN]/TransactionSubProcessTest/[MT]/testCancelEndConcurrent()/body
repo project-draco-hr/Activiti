@@ -1,14 +1,14 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("transactionProcess");
-  assertEquals(5,runtimeService.createEventSubscriptionQuery().eventType("compensate").activityId("undoBookHotel").count());
-  assertEquals(1,runtimeService.createEventSubscriptionQuery().eventType("compensate").activityId("undoBookFlight").count());
+  assertEquals(5,createEventSubscriptionQuery().eventType("compensate").activityId("undoBookHotel").count());
+  assertEquals(1,createEventSubscriptionQuery().eventType("compensate").activityId("undoBookFlight").count());
   Task task=taskService.createTaskQuery().singleResult();
   assertNotNull(task);
   taskService.setVariable(task.getId(),"confirmed",false);
   taskService.complete(task.getId());
   List<String> activeActivityIds=runtimeService.getActiveActivityIds(processInstance.getId());
   assertTrue(activeActivityIds.contains("afterCancellation"));
-  assertEquals(0,runtimeService.createEventSubscriptionQuery().eventType("compensate").count());
+  assertEquals(0,createEventSubscriptionQuery().eventType("compensate").count());
   assertEquals(5,runtimeService.getVariable(processInstance.getId(),"undoBookHotel"));
   assertEquals(1,runtimeService.getVariable(processInstance.getId(),"undoBookFlight"));
   if (!processEngineConfiguration.getHistory().equals(ProcessEngineConfiguration.HISTORY_NONE)) {
