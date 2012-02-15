@@ -1,6 +1,5 @@
 {
   assertAssociated();
-  processEngine.getRuntimeService().setVariables(associationManager.getExecutionId(),associationManager.getBeanStore().getAllAndClear());
-  processEngine.getRuntimeService().signal(associationManager.getExecutionId());
+  processEngine.getRuntimeService().signal(associationManager.getExecutionId(),associationManager.getBeanStore().getAllAndClear());
   associationManager.disAssociate();
 }
