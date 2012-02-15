@@ -6,6 +6,9 @@
   if (execution == null) {
     throw new ActivitiException("execution " + executionId + " doesn't exist");
   }
+  if (processVariables != null) {
+    execution.setVariables(processVariables);
+  }
   execution.signal(signalName,signalData);
   return null;
 }
