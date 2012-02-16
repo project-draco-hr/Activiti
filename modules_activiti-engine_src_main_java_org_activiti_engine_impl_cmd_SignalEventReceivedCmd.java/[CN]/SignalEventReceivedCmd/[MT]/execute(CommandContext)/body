@@ -1,0 +1,20 @@
+{
+  List<SignalEventSubscriptionEntity> signalEvents=null;
+  if (executionId == null) {
+    signalEvents=commandContext.getEventSubscriptionManager().findSignalEventSubscriptionsByEventName(eventName);
+  }
+ else {
+    signalEvents=commandContext.getEventSubscriptionManager().findSignalEventSubscriptionsByNameAndExecution(eventName,executionId);
+    if (signalEvents.isEmpty()) {
+      throw new ActivitiException("Execution '" + executionId + "' has not subscribed to a signal event with name '"+ eventName+ "'.");
+    }
+  }
+  HashMap<String,Object> payload=null;
+  if (variables != null) {
+    payload=new HashMap<String,Object>(variables);
+  }
+  for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : signalEvents) {
+    signalEventSubscriptionEntity.eventReceived(payload,false);
+  }
+  return null;
+}

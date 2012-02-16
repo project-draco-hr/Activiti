@@ -7,6 +7,10 @@
   if (!execution.getActivity().equals(activity)) {
     execution.setActivity(activity);
   }
+  if (payload instanceof Map) {
+    @SuppressWarnings("unchecked") Map<String,Object> processVariables=(Map<String,Object>)payload;
+    execution.setVariables(processVariables);
+  }
   if (activity.getActivityBehavior() instanceof BoundaryEventActivityBehavior) {
     try {
       activity.getActivityBehavior().execute(execution);
