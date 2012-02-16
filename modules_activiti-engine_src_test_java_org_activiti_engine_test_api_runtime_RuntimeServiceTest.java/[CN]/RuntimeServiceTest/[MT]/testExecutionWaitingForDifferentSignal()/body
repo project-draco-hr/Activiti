@@ -1,0 +1,11 @@
+{
+  runtimeService.startProcessInstanceByKey("catchAlertSignal");
+  Execution execution=runtimeService.createExecutionQuery().signalEventSubscription("alert").singleResult();
+  try {
+    runtimeService.signalEventReceived("bogusSignal",execution.getId());
+    fail("exeception expected");
+  }
+ catch (  ActivitiException e) {
+    assertTrue(e.getMessage().contains("has not subscribed to a signal event with name 'bogusSignal'"));
+  }
+}
