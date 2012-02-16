@@ -3,6 +3,7 @@
   ActivityBehavior activityBehavior=null;
   Element signalEventDefinitionElement=intermediateEventElement.element("signalEventDefinition");
   Element compensateEventDefinitionElement=intermediateEventElement.element("compensateEventDefinition");
+  boolean otherUnsupportedThrowingIntermediateEvent=(intermediateEventElement.element("escalationEventDefinition") != null) || (intermediateEventElement.element("messageEventDefinition") != null) || (intermediateEventElement.element("linkEventDefinition") != null);
   if (signalEventDefinitionElement != null) {
     SignalEventDefinition signalDefinition=parseSignalEventDefinition(signalEventDefinitionElement);
     activityBehavior=new IntermediateThrowSignalEventActivityBehavior(signalDefinition);
@@ -11,8 +12,14 @@
     CompensateEventDefinition compensateEventDefinition=parseCompensateEventDefinition(compensateEventDefinitionElement,scopeElement);
     activityBehavior=new IntermediateThrowCompensationEventActivityBehavior(compensateEventDefinition);
   }
- else {
+ else   if (otherUnsupportedThrowingIntermediateEvent) {
     addError("Unsupported intermediate throw event type",intermediateEventElement);
+  }
+ else {
+    activityBehavior=new IntermediateThrowNoneEventActivityBehavior();
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseIntermediateThrowEvent(intermediateEventElement,scopeElement,nestedActivityImpl);
   }
   nestedActivityImpl.setActivityBehavior(activityBehavior);
   return nestedActivityImpl;
