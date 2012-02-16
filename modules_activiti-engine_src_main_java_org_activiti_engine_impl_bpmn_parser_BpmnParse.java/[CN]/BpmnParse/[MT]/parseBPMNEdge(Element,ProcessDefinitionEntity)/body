@@ -16,7 +16,7 @@
         addError("Minimum 2 waypoint elements must be definted for a 'BPMNEdge'",bpmnEdgeElement);
       }
     }
- else {
+ else     if (!elementIds.contains(sequenceFlowId)) {
       addError("Invalid reference in 'bpmnElement' attribute, sequenceFlow " + sequenceFlowId + "not found",bpmnEdgeElement);
     }
   }

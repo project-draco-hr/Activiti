@@ -18,7 +18,7 @@
         activity.setProperty(PROPERTYNAME_ISEXPANDED,parseBooleanAttribute(isExpanded));
       }
     }
- else {
+ else     if (!elementIds.contains(activityId)) {
       addError("Invalid reference in 'bpmnElement' attribute, activity " + activityId + "not found",bpmnShapeElement);
     }
   }

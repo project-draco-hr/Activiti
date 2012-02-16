@@ -10,7 +10,13 @@
     }
     ActivityImpl sourceActivity=parentScope.findActivity(sourceRef);
     ActivityImpl targetActivity=parentScope.findActivity(targetRef);
-    if (sourceActivity != null && targetActivity != null) {
+    if (sourceActivity == null && !elementIds.contains(sourceRef)) {
+      addError("Invalid reference sourceRef '" + sourceRef + "' of association element ",associationElement);
+    }
+ else     if (targetRef == null && !elementIds.contains(targetRef)) {
+      addError("Invalid reference targetRef '" + targetRef + "' of association element ",associationElement);
+    }
+ else {
       if (sourceActivity.getProperty("type").equals("compensationBoundaryCatch")) {
         Object isForCompensation=targetActivity.getProperty(PROPERTYNAME_IS_FOR_COMPENSATION);
         if (isForCompensation == null || !(Boolean)isForCompensation) {
@@ -21,12 +27,6 @@
           compensatedActivity.setProperty(PROPERTYNAME_COMPENSATION_HANDLER_ID,targetActivity.getId());
         }
       }
-    }
- else     if (sourceActivity == null) {
-      addError("invalid sourceRef '" + sourceRef + "' in association",associationElement);
-    }
- else     if (targetActivity == null) {
-      addError("invalid targetRef '" + targetRef + "' in association",associationElement);
     }
   }
 }
