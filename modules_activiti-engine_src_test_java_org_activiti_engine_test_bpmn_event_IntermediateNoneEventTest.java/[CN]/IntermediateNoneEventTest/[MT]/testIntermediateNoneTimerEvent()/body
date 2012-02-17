@@ -1,4 +1,6 @@
 {
+  assertFalse(listenerExcecuted);
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("intermediateNoneEventExample");
   assertProcessEnded(pi.getProcessInstanceId());
+  assertTrue(listenerExcecuted);
 }
