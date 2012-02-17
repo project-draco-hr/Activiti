@@ -1,6 +1,11 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   assertEquals(1,runtimeService.createProcessInstanceQuery().processDefinitionKey("oneTaskProcess").count());
-  runtimeService.deleteProcessInstance(processInstance.getId(),"testing instance deletion");
+  String deleteReason="testing instance deletion";
+  runtimeService.deleteProcessInstance(processInstance.getId(),deleteReason);
   assertEquals(0,runtimeService.createProcessInstanceQuery().processDefinitionKey("oneTaskProcess").count());
+  if (!ProcessEngineConfiguration.HISTORY_NONE.equals(processEngineConfiguration.getHistory())) {
+    HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals(deleteReason,historicTaskInstance.getDeleteReason());
+  }
 }
