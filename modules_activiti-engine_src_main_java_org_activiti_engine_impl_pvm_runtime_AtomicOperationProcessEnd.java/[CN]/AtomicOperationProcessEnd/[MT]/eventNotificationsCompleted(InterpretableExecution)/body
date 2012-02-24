@@ -7,8 +7,13 @@
     try {
       subProcessActivityBehavior.completing(superExecution,execution);
     }
- catch (    Exception e) {
+ catch (    RuntimeException e) {
       log.log(Level.SEVERE,"Error while completing sub process of execution " + execution,e);
+      throw e;
+    }
+catch (    Exception e) {
+      log.log(Level.SEVERE,"Error while completing sub process of execution " + execution,e);
+      throw new ActivitiException("Error while completing sub process of execution " + execution,e);
     }
   }
   execution.destroy();
@@ -18,8 +23,13 @@
     try {
       subProcessActivityBehavior.completed(superExecution);
     }
- catch (    Exception e) {
+ catch (    RuntimeException e) {
       log.log(Level.SEVERE,"Error while completing sub process of execution " + execution,e);
+      throw e;
+    }
+catch (    Exception e) {
+      log.log(Level.SEVERE,"Error while completing sub process of execution " + execution,e);
+      throw new ActivitiException("Error while completing sub process of execution " + execution,e);
     }
   }
 }
