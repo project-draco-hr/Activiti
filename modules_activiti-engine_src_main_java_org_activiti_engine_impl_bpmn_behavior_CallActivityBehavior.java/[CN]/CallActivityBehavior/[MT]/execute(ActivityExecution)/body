@@ -1,4 +1,7 @@
 {
+  if ((processDefinitonKey == null) && (processDefinitionExpression != null)) {
+    processDefinitonKey=(String)processDefinitionExpression.getValue(execution);
+  }
   ProcessDefinitionImpl processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedLatestProcessDefinitionByKey(processDefinitonKey);
   PvmProcessInstance subProcessInstance=execution.createSubProcessInstance(processDefinition);
   for (  AbstractDataAssociation dataInputAssociation : dataInputAssociations) {

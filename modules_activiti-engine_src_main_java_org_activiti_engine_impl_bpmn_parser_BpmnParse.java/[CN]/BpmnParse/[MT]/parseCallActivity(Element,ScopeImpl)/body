@@ -6,7 +6,14 @@
   if (calledElement == null) {
     addError("Missing attribute 'calledElement'",callActivityElement);
   }
-  CallActivityBehavior callActivityBehaviour=new CallActivityBehavior(calledElement);
+  CallActivityBehavior callActivityBehaviour=null;
+  String expressionRegex="\\$+\\{+.+\\}";
+  if (calledElement.matches(expressionRegex)) {
+    callActivityBehaviour=new CallActivityBehavior(expressionManager.createExpression(calledElement));
+  }
+ else {
+    callActivityBehaviour=new CallActivityBehavior(calledElement);
+  }
   Element extentionsElement=callActivityElement.element("extensionElements");
   if (extentionsElement != null) {
     for (    Element listenerElement : extentionsElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"in")) {
