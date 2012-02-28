@@ -41,13 +41,5 @@
  else   if (dbSqlSessionFactory.isDbIdentityUsed()) {
     dbSchemaCreateIdentity();
   }
-  if (isCycleTablePresent()) {
-    if (isUpgradeNeeded) {
-      dbSchemaUpgrade("cycle",dbVersion);
-    }
-  }
- else   if (dbSqlSessionFactory.isDbCycleUsed()) {
-    dbSchemaCreateCycle();
-  }
   return feedback;
 }

@@ -14,9 +14,6 @@
     if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
       errorMessage=addMissingComponent(errorMessage,"identity");
     }
-    if (dbSqlSessionFactory.isDbCycleUsed() && !isCycleTablePresent()) {
-      errorMessage=addMissingComponent(errorMessage,"cycle");
-    }
     Integer configuredHistoryLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
     PropertyEntity historyLevelProperty=selectById(PropertyEntity.class,"historyLevel");
     if (historyLevelProperty == null) {
