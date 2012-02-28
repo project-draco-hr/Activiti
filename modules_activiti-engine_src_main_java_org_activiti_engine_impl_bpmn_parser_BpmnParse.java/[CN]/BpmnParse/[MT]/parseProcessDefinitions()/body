@@ -1,5 +1,15 @@
 {
   for (  Element processElement : rootElement.elements("process")) {
-    processDefinitions.add(parseProcess(processElement));
+    boolean processProcess=true;
+    String isExecutableStr=processElement.attribute("isExecutable");
+    if (isExecutableStr != null) {
+      boolean isExecutable=Boolean.parseBoolean(isExecutableStr);
+      if (!isExecutable) {
+        processProcess=false;
+      }
+    }
+    if (processProcess) {
+      processDefinitions.add(parseProcess(processElement));
+    }
   }
 }
