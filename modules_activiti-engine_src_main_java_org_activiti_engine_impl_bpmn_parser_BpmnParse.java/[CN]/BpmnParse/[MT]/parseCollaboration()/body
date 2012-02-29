@@ -1,0 +1,11 @@
+{
+  Element collaboration=rootElement.element("collaboration");
+  if (collaboration != null) {
+    for (    Element participant : collaboration.elements("participant")) {
+      String processRef=participant.attribute("processRef");
+      if (processRef != null) {
+        participantProcesses.put(participant.attribute("id"),processRef);
+      }
+    }
+  }
+}

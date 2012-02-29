@@ -1,3 +1,13 @@
 {
-  return type.getName().replace('.','/') + "." + name+ "."+ BpmnDeployer.BPMN_RESOURCE_SUFFIX;
+  for (  String suffix : BpmnDeployer.BPMN_RESOURCE_SUFFIXES) {
+    String resource=type.getName().replace('.','/') + "." + name+ "."+ suffix;
+    InputStream inputStream=ReflectUtil.getResourceAsStream(resource);
+    if (inputStream == null) {
+      continue;
+    }
+ else {
+      return resource;
+    }
+  }
+  return type.getName().replace('.','/') + "." + name+ "."+ BpmnDeployer.BPMN_RESOURCE_SUFFIXES[0];
 }

@@ -1,20 +1,16 @@
 {
-  String processId=bpmnPlaneElement.attribute("bpmnElement");
-  if (processId != null && !"".equals(processId)) {
-    ProcessDefinitionEntity processDefinition=getProcessDefinition(processId);
-    if (processDefinition != null) {
-      processDefinition.setGraphicalNotationDefined(true);
-      List<Element> shapes=bpmnPlaneElement.elementsNS(BpmnParser.BPMN_DI_NS,"BPMNShape");
-      for (      Element shape : shapes) {
-        parseBPMNShape(shape,processDefinition);
-      }
-      List<Element> edges=bpmnPlaneElement.elementsNS(BpmnParser.BPMN_DI_NS,"BPMNEdge");
-      for (      Element edge : edges) {
-        parseBPMNEdge(edge,processDefinition);
-      }
+  String bpmnElement=bpmnPlaneElement.attribute("bpmnElement");
+  if (bpmnElement != null && !"".equals(bpmnElement)) {
+    if (getProcessDefinition(bpmnElement) != null) {
+      getProcessDefinition(bpmnElement).setGraphicalNotationDefined(true);
     }
- else {
-      addError("Invalid reference in 'bpmnElement' attribute, process " + processId + " not found",bpmnPlaneElement);
+    List<Element> shapes=bpmnPlaneElement.elementsNS(BpmnParser.BPMN_DI_NS,"BPMNShape");
+    for (    Element shape : shapes) {
+      parseBPMNShape(shape);
+    }
+    List<Element> edges=bpmnPlaneElement.elementsNS(BpmnParser.BPMN_DI_NS,"BPMNEdge");
+    for (    Element edge : edges) {
+      parseBPMNEdge(edge);
     }
   }
  else {
