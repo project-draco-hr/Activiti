@@ -9,13 +9,7 @@
   assertNotNull(processDefinitionEntity);
   assertEquals(7,processDefinitionEntity.getActivities().size());
   List<String> resourceNames=repositoryService.getDeploymentResourceNames(processDefinitionEntity.getDeploymentId());
-  GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
-  if (!ge.isHeadlessInstance()) {
-    assertEquals(2,resourceNames.size());
-  }
- else {
-    assertEquals(1,resourceNames.size());
-  }
+  assertEquals(2,resourceNames.size());
   for (  ActivityImpl activity : processDefinitionEntity.getActivities()) {
     if (activity.getId().equals("theStart")) {
       assertActivityBounds(activity,70,255,30,30);
