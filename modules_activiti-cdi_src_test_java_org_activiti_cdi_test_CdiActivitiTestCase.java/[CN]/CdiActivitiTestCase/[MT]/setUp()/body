@@ -1,10 +1,12 @@
 {
-  ProcessEngineLookupForTestsuite.processEngine=processEngine;
-  weld=new Weld();
-  weldContainer=weld.initialize();
-  beanManager=weldContainer.getBeanManager();
-  BeanManagerLookup.localInstance=beanManager;
-  beginRequest();
-  beginSession();
-  beginConversation();
+  beanManager=ProgrammaticBeanLookup.lookup(BeanManager.class);
+  processEngine=ProgrammaticBeanLookup.lookup(ProcessEngine.class);
+  processEngineConfiguration=((ProcessEngineImpl)ProcessEngineLookupForTestsuite.processEngine).getProcessEngineConfiguration();
+  formService=processEngine.getFormService();
+  historyService=processEngine.getHistoryService();
+  identityService=processEngine.getIdentityService();
+  managementService=processEngine.getManagementService();
+  repositoryService=processEngine.getRepositoryService();
+  runtimeService=processEngine.getRuntimeService();
+  taskService=processEngine.getTaskService();
 }

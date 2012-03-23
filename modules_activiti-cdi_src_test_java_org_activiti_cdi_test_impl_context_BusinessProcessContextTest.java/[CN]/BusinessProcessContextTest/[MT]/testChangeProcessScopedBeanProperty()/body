@@ -1,0 +1,11 @@
+{
+  getBeanInstance(CreditCard.class).setCreditcardNumber("123");
+  String pid=getBeanInstance(BusinessProcess.class).startProcessByKey("testConversationalBeanStoreFlush").getId();
+  getBeanInstance(BusinessProcess.class).startTask(taskService.createTaskQuery().singleResult().getId());
+  assertEquals("123",getBeanInstance(CreditCard.class).getCreditcardNumber());
+  getBeanInstance(CreditCard.class).setCreditcardNumber("321");
+  getBeanInstance(BusinessProcess.class).completeTask();
+  getBeanInstance(BusinessProcess.class).associateExecutionById(pid);
+  assertEquals("321",getBeanInstance(CreditCard.class).getCreditcardNumber());
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+}

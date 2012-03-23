@@ -1,8 +1,0 @@
-{
-  getBeanInstance(BusinessProcess.class).setVariable("testVariable","testValue");
-  String pid=getBeanInstance(BusinessProcess.class).startProcessByKey("testConversationalBeanStoreFlush").getId();
-  endConversationAndBeginNew(pid);
-  assertEquals("testValue",runtimeService.getVariable(pid,"testVariable"));
-  assertEquals("Hello from Activiti",getBeanInstance(ProcessScopedMessageBean.class).getMessage());
-  taskService.complete(taskService.createTaskQuery().singleResult().getId());
-}

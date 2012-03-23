@@ -1,9 +1,0 @@
-{
-  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
-  String pid=businessProcess.startProcessByKey("processkey").getId();
-  assertEquals(pid,businessProcess.getProcessInstanceId());
-  endRequest();
-  beginRequest();
-  assertNull(businessProcess.getProcessInstanceId());
-  runtimeService.deleteProcessInstance(pid,null);
-}
