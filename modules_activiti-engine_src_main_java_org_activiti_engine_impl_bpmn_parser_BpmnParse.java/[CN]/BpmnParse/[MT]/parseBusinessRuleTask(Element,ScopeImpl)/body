@@ -1,7 +1,5 @@
 {
-  String className=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"class");
-  String expression=businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"expression");
-  if (className != null || expression != null) {
+  if (businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"class") != null || businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"expression") != null || businessRuleTaskElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"delegateExpression") != null) {
     return parseServiceTask(businessRuleTaskElement,scope);
   }
  else {
