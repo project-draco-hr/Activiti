@@ -13,6 +13,7 @@
     for (    BpmnParseListener parseListener : parseListeners) {
       parseListener.parseStartEvent(startEventElement,scope,startEventActivity);
     }
+    parseExecutionListenersOnScope(startEventElement,startEventActivity);
   }
   if (scope instanceof ProcessDefinitionEntity) {
     selectInitial(startEventActivities,(ProcessDefinitionEntity)scope,parentElement);
