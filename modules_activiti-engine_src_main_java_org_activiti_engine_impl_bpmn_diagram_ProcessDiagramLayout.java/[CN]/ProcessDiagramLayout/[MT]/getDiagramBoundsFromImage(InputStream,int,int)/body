@@ -1,0 +1,11 @@
+{
+  BufferedImage image;
+  try {
+    image=ImageIO.read(imageStream);
+  }
+ catch (  IOException e) {
+    throw new ActivitiException("Error while reading process diagram image.",e);
+  }
+  Bounds diagramBoundsImage=getDiagramBoundsFromImage(image,offsetTop,offsetBottom);
+  return diagramBoundsImage;
+}
