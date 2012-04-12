@@ -1,7 +1,9 @@
 {
-  Conversation conversation=conversationInstance.get();
-  if (conversation.isTransient()) {
-    conversation.begin();
+  if (beginConversation) {
+    Conversation conversation=conversationInstance.get();
+    if (conversation.isTransient()) {
+      conversation.begin();
+    }
   }
   return startTask(taskId);
 }
