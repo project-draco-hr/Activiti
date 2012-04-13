@@ -40,6 +40,9 @@
  else {
       addError("Unsupported boundary event type",boundaryEventElement);
     }
+    for (    BpmnParseListener parseListener : parseListeners) {
+      parseListener.parseBoundaryEvent(boundaryEventElement,scopeElement,nestedActivity);
+    }
     nestedActivity.setActivityBehavior(behavior);
   }
 }

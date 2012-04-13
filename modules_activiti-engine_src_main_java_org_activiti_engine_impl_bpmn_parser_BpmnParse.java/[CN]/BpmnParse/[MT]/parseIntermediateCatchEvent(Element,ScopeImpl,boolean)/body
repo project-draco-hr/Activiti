@@ -12,6 +12,9 @@
  else {
     addError("Unsupported intermediate catch event type",intermediateEventElement);
   }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseIntermediateCatchEvent(intermediateEventElement,scopeElement,nestedActivity);
+  }
   parseExecutionListenersOnScope(intermediateEventElement,nestedActivity);
   return nestedActivity;
 }
