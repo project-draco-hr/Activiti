@@ -1,0 +1,8 @@
+{
+  if (Status.STATUS_ROLLEDBACK == status && TransactionState.ROLLED_BACK.equals(transactionState)) {
+    transactionListener.execute(commandContext);
+  }
+ else   if (Status.STATUS_COMMITTED == status && TransactionState.COMMITTED.equals(transactionState)) {
+    transactionListener.execute(commandContext);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  try {
+    Transaction transaction=getTransaction();
+    int status=transaction.getStatus();
+    if (status != Status.STATUS_NO_TRANSACTION && status != Status.STATUS_ROLLEDBACK) {
+      transaction.setRollbackOnly();
+    }
+  }
+ catch (  IllegalStateException e) {
+    throw new ActivitiException("Unexpected IllegalStateException while marking transaction rollback only");
+  }
+catch (  SystemException e) {
+    throw new ActivitiException("SystemException while marking transaction rollback only");
+  }
+}

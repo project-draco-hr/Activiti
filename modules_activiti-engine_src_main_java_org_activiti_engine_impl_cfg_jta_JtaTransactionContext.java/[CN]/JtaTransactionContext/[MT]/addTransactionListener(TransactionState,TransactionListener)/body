@@ -1,0 +1,16 @@
+{
+  Transaction transaction=getTransaction();
+  CommandContext commandContext=Context.getCommandContext();
+  try {
+    transaction.registerSynchronization(new TransactionStateSynchronization(transactionState,transactionListener,commandContext));
+  }
+ catch (  IllegalStateException e) {
+    throw new ActivitiException("IllegalStateException while registering synchronization ",e);
+  }
+catch (  RollbackException e) {
+    throw new ActivitiException("RollbackException while registering synchronization ",e);
+  }
+catch (  SystemException e) {
+    throw new ActivitiException("SystemException while registering synchronization ",e);
+  }
+}

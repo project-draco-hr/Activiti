@@ -1,0 +1,5 @@
+{
+  if (TransactionState.COMMITTING.equals(transactionState) || TransactionState.ROLLINGBACK.equals(transactionState)) {
+    transactionListener.execute(commandContext);
+  }
+}
