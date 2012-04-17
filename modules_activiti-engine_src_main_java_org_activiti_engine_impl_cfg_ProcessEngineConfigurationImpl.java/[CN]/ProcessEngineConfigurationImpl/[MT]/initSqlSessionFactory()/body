@@ -5,7 +5,9 @@
       inputStream=ReflectUtil.getResourceAsStream("org/activiti/db/mapping/mappings.xml");
       Environment environment=new Environment("default",transactionFactory,dataSource);
       Reader reader=new InputStreamReader(inputStream);
-      XMLConfigBuilder parser=new XMLConfigBuilder(reader);
+      Properties properties=new Properties();
+      properties.put("prefix",databaseTablePrefix);
+      XMLConfigBuilder parser=new XMLConfigBuilder(reader,"",properties);
       Configuration configuration=parser.getConfiguration();
       configuration.setEnvironment(environment);
       configuration.getTypeHandlerRegistry().register(VariableType.class,JdbcType.VARCHAR,new IbatisVariableTypeHandler());

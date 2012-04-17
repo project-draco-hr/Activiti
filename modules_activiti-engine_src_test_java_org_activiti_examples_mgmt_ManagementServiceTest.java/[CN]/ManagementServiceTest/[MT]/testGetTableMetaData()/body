@@ -1,5 +1,6 @@
 {
-  TableMetaData tableMetaData=managementService.getTableMetaData("ACT_RU_TASK");
+  String tablePrefix=processEngineConfiguration.getDatabaseTablePrefix();
+  TableMetaData tableMetaData=managementService.getTableMetaData(tablePrefix + "ACT_RU_TASK");
   assertEquals(tableMetaData.getColumnNames().size(),tableMetaData.getColumnTypes().size());
   assertEquals(15,tableMetaData.getColumnNames().size());
   int assigneeIndex=tableMetaData.getColumnNames().indexOf("ASSIGNEE_");
