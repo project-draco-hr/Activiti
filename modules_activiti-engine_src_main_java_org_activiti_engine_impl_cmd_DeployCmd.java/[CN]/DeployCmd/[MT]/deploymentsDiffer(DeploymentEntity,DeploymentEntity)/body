@@ -3,6 +3,7 @@
   Map<String,ResourceEntity> savedResources=saved.getResources();
   for (  String resourceName : resources.keySet()) {
     ResourceEntity savedResource=savedResources.get(resourceName);
+    if (savedResource == null)     return true;
     if (!savedResource.isGenerated()) {
       ResourceEntity resource=resources.get(resourceName);
       byte[] bytes=resource.getBytes();
