@@ -1,0 +1,12 @@
+{
+  Element bounds=bpmnShapeElement.elementNS(BpmnParser.BPMN_DC_NS,"Bounds");
+  if (bounds != null) {
+    target.setX(parseDoubleAttribute(bpmnShapeElement,"x",bounds.attribute("x"),true).intValue());
+    target.setY(parseDoubleAttribute(bpmnShapeElement,"y",bounds.attribute("y"),true).intValue());
+    target.setWidth(parseDoubleAttribute(bpmnShapeElement,"width",bounds.attribute("width"),true).intValue());
+    target.setHeight(parseDoubleAttribute(bpmnShapeElement,"height",bounds.attribute("height"),true).intValue());
+  }
+ else {
+    addError("'Bounds' element is required",bpmnShapeElement);
+  }
+}

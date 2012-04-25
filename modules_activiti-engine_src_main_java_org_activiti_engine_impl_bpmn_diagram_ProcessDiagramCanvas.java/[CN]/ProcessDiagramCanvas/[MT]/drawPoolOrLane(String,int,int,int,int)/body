@@ -1,0 +1,16 @@
+{
+  g.drawRect(x,y,width,height);
+  if (name != null && name.length() > 0) {
+    int availableTextSpace=height - 6;
+    AffineTransform transformation=new AffineTransform();
+    transformation.setToIdentity();
+    transformation.rotate(270 * Math.PI / 180);
+    Font currentFont=g.getFont();
+    Font theDerivedFont=currentFont.deriveFont(transformation);
+    g.setFont(theDerivedFont);
+    String truncated=fitTextToWidth(name,availableTextSpace);
+    int realWidth=fontMetrics.stringWidth(truncated);
+    g.drawString(truncated,x + 2 + fontMetrics.getHeight(),3 + y + availableTextSpace - (availableTextSpace - realWidth) / 2);
+    g.setFont(currentFont);
+  }
+}

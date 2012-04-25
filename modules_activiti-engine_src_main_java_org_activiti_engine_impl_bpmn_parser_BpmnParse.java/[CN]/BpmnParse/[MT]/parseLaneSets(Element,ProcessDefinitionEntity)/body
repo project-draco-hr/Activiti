@@ -1,0 +1,12 @@
+{
+  List<Element> laneSets=parentElement.elements("laneSet");
+  if (laneSets != null && laneSets.size() > 0) {
+    for (    Element laneSetElement : laneSets) {
+      LaneSet newLaneSet=new LaneSet();
+      newLaneSet.setId(laneSetElement.attribute("id"));
+      newLaneSet.setName(laneSetElement.attribute("name"));
+      parseLanes(laneSetElement,newLaneSet);
+      processDefinition.addLaneSet(newLaneSet);
+    }
+  }
+}

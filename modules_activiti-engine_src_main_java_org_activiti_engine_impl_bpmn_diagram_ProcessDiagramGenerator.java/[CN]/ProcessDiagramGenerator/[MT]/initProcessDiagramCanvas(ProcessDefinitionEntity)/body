@@ -3,6 +3,13 @@
   int maxX=0;
   int minY=Integer.MAX_VALUE;
   int maxY=0;
+  if (processDefinition.getParticipantProcess() != null) {
+    ParticipantProcess pProc=processDefinition.getParticipantProcess();
+    minX=pProc.getX();
+    maxX=pProc.getX() + pProc.getWidth();
+    minY=pProc.getY();
+    maxY=pProc.getY() + pProc.getHeight();
+  }
   for (  ActivityImpl activity : processDefinition.getActivities()) {
     if (activity.getX() + activity.getWidth() > maxX) {
       maxX=activity.getX() + activity.getWidth();
@@ -30,6 +37,26 @@
         }
         if (waypoints.get(i + 1) < minY) {
           minY=waypoints.get(i + 1);
+        }
+      }
+    }
+  }
+  if (processDefinition.getLaneSets() != null && processDefinition.getLaneSets().size() > 0) {
+    for (    LaneSet laneSet : processDefinition.getLaneSets()) {
+      if (laneSet.getLanes() != null && laneSet.getLanes().size() > 0) {
+        for (        Lane lane : laneSet.getLanes()) {
+          if (lane.getX() + lane.getWidth() > maxX) {
+            maxX=lane.getX() + lane.getWidth();
+          }
+          if (lane.getX() < minX) {
+            minX=lane.getX();
+          }
+          if (lane.getY() + lane.getHeight() > maxY) {
+            maxY=lane.getY() + lane.getHeight();
+          }
+          if (lane.getY() < minY) {
+            minY=lane.getY();
+          }
         }
       }
     }
