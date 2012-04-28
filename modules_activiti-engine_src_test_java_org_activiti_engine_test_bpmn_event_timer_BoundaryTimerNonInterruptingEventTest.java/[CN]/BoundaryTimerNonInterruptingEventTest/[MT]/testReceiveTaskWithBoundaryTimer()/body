@@ -6,7 +6,7 @@
   JobQuery jobQuery=managementService.createJobQuery().processInstanceId(pi.getId());
   List<Job> jobs=jobQuery.list();
   assertEquals(1,jobs.size());
-  List<Execution> executions=runtimeService.createExecutionQuery().activityId("task").variableValueEquals("timeCycle","R/PT1H").list();
+  List<Execution> executions=runtimeService.createExecutionQuery().activityId("task").list();
   assertEquals(1,executions.size());
   List<String> activeActivityIds=runtimeService.getActiveActivityIds(executions.get(0).getId());
   assertEquals(1,activeActivityIds.size());
