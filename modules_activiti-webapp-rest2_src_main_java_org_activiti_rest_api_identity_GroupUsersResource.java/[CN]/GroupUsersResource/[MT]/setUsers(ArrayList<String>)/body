@@ -1,0 +1,19 @@
+{
+  if (authenticate() == false)   return null;
+  String groupId=(String)getRequest().getAttributes().get("groupId");
+  if (groupId == null) {
+    throw new ActivitiException("No groupId provided");
+  }
+  if (userIds == null) {
+    throw new ActivitiException("No userIds provided");
+  }
+  IdentityService identityService=ActivitiUtil.getIdentityService();
+  if (identityService.createGroupQuery().groupId(groupId).singleResult() == null)   throw new ActivitiException("The user '" + groupId + "' does not exist.");
+  for (  String userId : userIds) {
+    if (identityService.createUserQuery().userId(userId).singleResult() == null)     throw new ActivitiException("User '" + userId + " does not exist.");
+  }
+  for (  String userId : userIds) {
+    if (identityService.createUserQuery().userId(userId).memberOfGroup(groupId).singleResult() == null)     identityService.createMembership(userId,groupId);
+  }
+  return new StateResponse().setSuccess(true);
+}
