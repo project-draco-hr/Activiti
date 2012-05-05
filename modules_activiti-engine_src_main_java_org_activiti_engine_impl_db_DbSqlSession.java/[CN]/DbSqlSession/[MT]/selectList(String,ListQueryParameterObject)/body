@@ -1,0 +1,15 @@
+{
+  statement=dbSqlSessionFactory.mapStatement(statement);
+  if (parameter.firstResult == -1 || parameter.maxResults == -1) {
+    return Collections.EMPTY_LIST;
+  }
+  List loadedObjects=null;
+  String databaseType=dbSqlSessionFactory.databaseType;
+  if (databaseType.equals("mssql") || databaseType.equals("db2")) {
+    loadedObjects=sqlSession.selectList(statement,parameter,new RowBounds(parameter.getFirstResult(),parameter.getMaxResults()));
+  }
+ else {
+    loadedObjects=sqlSession.selectList(statement,parameter);
+  }
+  return filterLoadedObjects(loadedObjects);
+}

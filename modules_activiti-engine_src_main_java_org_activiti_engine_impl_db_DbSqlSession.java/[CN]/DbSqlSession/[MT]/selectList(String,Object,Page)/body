@@ -1,11 +1,8 @@
 {
-  statement=dbSqlSessionFactory.mapStatement(statement);
-  List loadedObjects;
   if (page != null) {
-    loadedObjects=sqlSession.selectList(statement,parameter,new RowBounds(page.getFirstResult(),page.getMaxResults()));
+    return selectList(statement,parameter,page.getFirstResult(),page.getMaxResults());
   }
  else {
-    loadedObjects=sqlSession.selectList(statement,parameter);
+    return selectList(statement,parameter,0,Integer.MAX_VALUE);
   }
-  return filterLoadedObjects(loadedObjects);
 }

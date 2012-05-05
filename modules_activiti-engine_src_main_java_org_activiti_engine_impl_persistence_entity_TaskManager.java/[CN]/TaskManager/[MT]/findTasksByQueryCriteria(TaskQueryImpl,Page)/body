@@ -1,4 +1,5 @@
 {
-  final String query="selectTaskByQueryCriteria";
-  return getDbSqlSession().selectList(query,taskQuery,page);
+  taskQuery.setFirstResult(page.getFirstResult());
+  taskQuery.setMaxResults(page.getMaxResults());
+  return findTasksByQueryCriteria(taskQuery);
 }
