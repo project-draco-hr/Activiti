@@ -1,0 +1,31 @@
+{
+  setUpUsersAndGroups();
+  try {
+    ProcessDefinition latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process1").singleResult();
+    assertNotNull(latestProcessDef);
+    List<IdentityLink> links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(0,links.size());
+    latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process2").singleResult();
+    assertNotNull(latestProcessDef);
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(2,links.size());
+    assertEquals(true,containsUserOrGroup("user1",null,links));
+    assertEquals(true,containsUserOrGroup("user2",null,links));
+    latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process3").singleResult();
+    assertNotNull(latestProcessDef);
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(1,links.size());
+    assertEquals("user1",links.get(0).getUserId());
+    latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process4").singleResult();
+    assertNotNull(latestProcessDef);
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(4,links.size());
+    assertEquals(true,containsUserOrGroup("userInGroup2",null,links));
+    assertEquals(true,containsUserOrGroup(null,"group1",links));
+    assertEquals(true,containsUserOrGroup(null,"group2",links));
+    assertEquals(true,containsUserOrGroup(null,"group3",links));
+  }
+  finally {
+    tearDownUsersAndGroups();
+  }
+}

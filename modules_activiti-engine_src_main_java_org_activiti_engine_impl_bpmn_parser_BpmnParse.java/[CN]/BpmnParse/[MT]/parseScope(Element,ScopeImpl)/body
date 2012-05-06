@@ -8,6 +8,9 @@
   parseSequenceFlow(scopeElement,parentScope);
   parseExecutionListenersOnScope(scopeElement,parentScope);
   parseAssociations(scopeElement,parentScope);
+  if (parentScope instanceof ProcessDefinition) {
+    parseProcessDefinitionCustomExtensions(scopeElement,(ProcessDefinition)parentScope);
+  }
   postponedElements.clear();
   IOSpecification ioSpecification=parseIOSpecification(scopeElement.element("ioSpecification"));
   parentScope.setIoSpecification(ioSpecification);

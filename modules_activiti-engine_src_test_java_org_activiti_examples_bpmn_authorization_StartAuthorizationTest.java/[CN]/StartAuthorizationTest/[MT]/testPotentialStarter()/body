@@ -1,0 +1,19 @@
+{
+  setUpUsersAndGroups();
+  try {
+    identityService.setAuthenticatedUserId("unauthorizedUser");
+    try {
+      runtimeService.startProcessInstanceByKey("potentialStarter");
+    }
+ catch (    Exception e) {
+      fail("No StartAuthorizationException expected, " + e.getClass().getName() + " caught.");
+    }
+    identityService.setAuthenticatedUserId("user1");
+    ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("potentialStarter");
+    assertProcessEnded(processInstance.getId());
+    assertTrue(processInstance.isEnded());
+  }
+  finally {
+    tearDownUsersAndGroups();
+  }
+}

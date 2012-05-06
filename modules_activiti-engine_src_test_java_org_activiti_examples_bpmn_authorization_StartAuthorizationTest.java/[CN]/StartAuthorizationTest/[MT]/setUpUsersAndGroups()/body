@@ -1,0 +1,21 @@
+{
+  identityService=processEngine.getIdentityService();
+  identityService.saveUser(identityService.newUser("user1"));
+  identityService.saveUser(identityService.newUser("user2"));
+  identityService.saveUser(identityService.newUser("user3"));
+  userInGroup1=identityService.newUser("userInGroup1");
+  identityService.saveUser(userInGroup1);
+  userInGroup2=identityService.newUser("userInGroup2");
+  identityService.saveUser(userInGroup2);
+  userInGroup3=identityService.newUser("userInGroup3");
+  identityService.saveUser(userInGroup3);
+  group1=identityService.newGroup("group1");
+  identityService.saveGroup(group1);
+  group2=identityService.newGroup("group2");
+  identityService.saveGroup(group2);
+  group3=identityService.newGroup("group3");
+  identityService.saveGroup(group3);
+  identityService.createMembership(userInGroup1.getId(),group1.getId());
+  identityService.createMembership(userInGroup2.getId(),group2.getId());
+  identityService.createMembership(userInGroup3.getId(),group3.getId());
+}

@@ -1,0 +1,46 @@
+{
+  setUpUsersAndGroups();
+  try {
+    ProcessDefinition latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process1").singleResult();
+    List<User> authorizedUsers=ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().potentialStarter(latestProcessDef.getId()).list();
+    assertEquals(0,authorizedUsers.size());
+    latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process2").singleResult();
+    authorizedUsers=ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().potentialStarter(latestProcessDef.getId()).orderByUserId().asc().list();
+    assertEquals(2,authorizedUsers.size());
+    assertEquals("user1",authorizedUsers.get(0).getId());
+    assertEquals("user2",authorizedUsers.get(1).getId());
+    latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process2").singleResult();
+    List<Group> authorizedGroups=ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().potentialStarter(latestProcessDef.getId()).list();
+    assertEquals(0,authorizedGroups.size());
+    latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process4").singleResult();
+    authorizedGroups=ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().potentialStarter(latestProcessDef.getId()).list();
+    assertEquals(3,authorizedGroups.size());
+    assertEquals("group1",authorizedGroups.get(0).getId());
+    assertEquals("group2",authorizedGroups.get(1).getId());
+    assertEquals("group3",authorizedGroups.get(2).getId());
+    List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().orderByProcessDefinitionName().asc().list();
+    assertEquals(4,processDefinitions.size());
+    assertEquals("process1",processDefinitions.get(0).getKey());
+    assertEquals("process2",processDefinitions.get(1).getKey());
+    assertEquals("process3",processDefinitions.get(2).getKey());
+    assertEquals("process4",processDefinitions.get(3).getKey());
+    processDefinitions=repositoryService.createProcessDefinitionQuery().orderByProcessDefinitionName().asc().startableByUser("user1").list();
+    assertEquals(2,processDefinitions.size());
+    assertEquals("process2",processDefinitions.get(0).getKey());
+    assertEquals("process3",processDefinitions.get(1).getKey());
+    processDefinitions=repositoryService.createProcessDefinitionQuery().startableByUser("user2").list();
+    assertEquals(1,processDefinitions.size());
+    assertEquals("process2",processDefinitions.get(0).getKey());
+    processDefinitions=repositoryService.createProcessDefinitionQuery().startableByUser("user4").list();
+    assertEquals(0,processDefinitions.size());
+    processDefinitions=repositoryService.createProcessDefinitionQuery().startableByUser("userInGroup3").list();
+    assertEquals(1,processDefinitions.size());
+    assertEquals("process4",processDefinitions.get(0).getKey());
+    processDefinitions=repositoryService.createProcessDefinitionQuery().startableByUser("userInGroup2").list();
+    assertEquals(1,processDefinitions.size());
+    assertEquals("process4",processDefinitions.get(0).getKey());
+  }
+  finally {
+    tearDownUsersAndGroups();
+  }
+}

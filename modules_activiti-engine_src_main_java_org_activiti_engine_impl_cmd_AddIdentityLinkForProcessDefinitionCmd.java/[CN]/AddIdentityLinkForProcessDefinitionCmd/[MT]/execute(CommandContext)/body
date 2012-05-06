@@ -1,0 +1,8 @@
+{
+  ProcessDefinitionEntity processDefinition=Context.getCommandContext().getProcessDefinitionManager().findLatestProcessDefinitionById(processDefinitionId);
+  if (processDefinition == null) {
+    throw new ActivitiException("Cannot find process definition with id " + processDefinitionId);
+  }
+  processDefinition.addIdentityLink(userId,groupId);
+  return null;
+}

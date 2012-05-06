@@ -6,6 +6,10 @@
       getProcessInstanceManager().deleteProcessInstancesByProcessDefinition(processDefinitionId,"deleted deployment",cascade);
     }
   }
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    String processDefinitionId=processDefinition.getId();
+    getIdentityLinkManager().deleteIdentityLinksByProcDef(processDefinitionId);
+  }
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
   for (  ProcessDefinition processDefinition : processDefinitions) {
     String processDefinitionId=processDefinition.getId();

@@ -1,0 +1,8 @@
+{
+  identityService=processEngine.getIdentityService();
+  identityService.setAuthenticatedUserId("someOneFromMars");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("potentialStarterNoDefinition");
+  assertNotNull(processInstance.getId());
+  assertProcessEnded(processInstance.getId());
+  assertTrue(processInstance.isEnded());
+}

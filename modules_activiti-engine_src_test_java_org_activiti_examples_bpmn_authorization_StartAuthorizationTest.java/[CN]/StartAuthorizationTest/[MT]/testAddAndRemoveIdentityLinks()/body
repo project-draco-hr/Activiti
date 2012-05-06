@@ -1,0 +1,31 @@
+{
+  setUpUsersAndGroups();
+  try {
+    ProcessDefinition latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("potentialStarterNoDefinition").singleResult();
+    assertNotNull(latestProcessDef);
+    List<IdentityLink> links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(0,links.size());
+    repositoryService.addCandidateStarterGroup(latestProcessDef.getId(),"group1");
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(1,links.size());
+    assertEquals("group1",links.get(0).getGroupId());
+    repositoryService.addCandidateStarterUser(latestProcessDef.getId(),"user1");
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(2,links.size());
+    assertEquals(true,containsUserOrGroup(null,"group1",links));
+    assertEquals(true,containsUserOrGroup("user1",null,links));
+    repositoryService.deleteCandidateStarterGroup(latestProcessDef.getId(),"nonexisting");
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(2,links.size());
+    repositoryService.deleteCandidateStarterGroup(latestProcessDef.getId(),"group1");
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(1,links.size());
+    assertEquals("user1",links.get(0).getUserId());
+    repositoryService.deleteCandidateStarterUser(latestProcessDef.getId(),"user1");
+    links=repositoryService.getIdentityLinksForProcessDefinition(latestProcessDef.getId());
+    assertEquals(0,links.size());
+  }
+  finally {
+    tearDownUsersAndGroups();
+  }
+}

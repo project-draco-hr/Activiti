@@ -1,0 +1,19 @@
+{
+  CommandContext commandContext=Context.getCommandContext();
+  if (exprSet != null) {
+    Iterator<Expression> iterator=exprSet.iterator();
+    while (iterator.hasNext()) {
+      Expression expr=(Expression)iterator.next();
+      IdentityLinkEntity identityLink=new IdentityLinkEntity();
+      identityLink.setProcessDef(processDefinition);
+      if (exprType.equals(ExprType.USER)) {
+        identityLink.setUserId(expr.toString());
+      }
+ else       if (exprType.equals(ExprType.GROUP)) {
+        identityLink.setGroupId(expr.toString());
+      }
+      identityLink.setType(IdentityLinkType.CANDIDATE);
+      commandContext.getDbSqlSession().insert(identityLink);
+    }
+  }
+}
