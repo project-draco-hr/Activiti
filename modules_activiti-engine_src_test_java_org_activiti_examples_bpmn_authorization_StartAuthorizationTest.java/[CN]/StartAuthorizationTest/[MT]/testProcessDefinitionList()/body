@@ -10,7 +10,7 @@
     assertEquals("user1",authorizedUsers.get(0).getId());
     assertEquals("user2",authorizedUsers.get(1).getId());
     latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process2").singleResult();
-    List<Group> authorizedGroups=ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().potentialStarter(latestProcessDef.getId()).list();
+    List<Group> authorizedGroups=ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().potentialStarter(latestProcessDef.getId()).orderByGroupId().asc().list();
     assertEquals(0,authorizedGroups.size());
     latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process4").singleResult();
     authorizedGroups=ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().potentialStarter(latestProcessDef.getId()).list();
