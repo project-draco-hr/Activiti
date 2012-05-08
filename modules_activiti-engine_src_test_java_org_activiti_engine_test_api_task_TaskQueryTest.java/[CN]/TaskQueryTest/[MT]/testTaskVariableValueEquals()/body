@@ -28,4 +28,9 @@
   otherDate.add(Calendar.YEAR,1);
   assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals("dateVar",otherDate.getTime()).count());
   assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals("nullVar","999").count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("longVar",999L).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("shortVar",(short)999).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("integerVar",999).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("stringVar","999").count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("booleanVar",false).count());
 }
