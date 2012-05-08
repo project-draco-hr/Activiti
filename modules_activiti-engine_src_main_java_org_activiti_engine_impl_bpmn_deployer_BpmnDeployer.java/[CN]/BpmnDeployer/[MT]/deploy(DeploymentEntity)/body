@@ -15,7 +15,7 @@
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setResourceName(resourceName);
         String diagramResourceName=getDiagramResourceForProcess(resourceName,processDefinition.getKey(),resources);
-        if (diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
+        if (Context.getProcessEngineConfiguration().isCreateDiagramOnDeploy() && diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
           try {
             byte[] diagramBytes=IoUtil.readInputStream(ProcessDiagramGenerator.generatePngDiagram(processDefinition),null);
             diagramResourceName=getProcessImageResourceName(resourceName,processDefinition.getKey(),"png");

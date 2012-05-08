@@ -1,0 +1,21 @@
+{
+  processEngineConfiguration.setCreateDiagramOnDeploy(false);
+  try {
+    repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/bpmn/parse/BpmnParseTest.testParseDiagramInterchangeElements.bpmn20.xml").deploy();
+    CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+    ProcessDefinitionEntity processDefinitionEntity=commandExecutor.execute(new Command<ProcessDefinitionEntity>(){
+      public ProcessDefinitionEntity execute(      CommandContext commandContext){
+        return Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedLatestProcessDefinitionByKey("myProcess");
+      }
+    }
+);
+    assertNotNull(processDefinitionEntity);
+    assertEquals(7,processDefinitionEntity.getActivities().size());
+    List<String> resourceNames=repositoryService.getDeploymentResourceNames(processDefinitionEntity.getDeploymentId());
+    assertEquals(1,resourceNames.size());
+    repositoryService.deleteDeployment(repositoryService.createDeploymentQuery().singleResult().getId(),true);
+  }
+  finally {
+    processEngineConfiguration.setCreateDiagramOnDeploy(true);
+  }
+}
