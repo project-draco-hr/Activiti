@@ -56,6 +56,9 @@
           lastConcurrent.getExecutions().clear();
         }
         concurrentRoot.setVariablesLocal(lastConcurrent.getVariablesLocal());
+        if (!concurrentRoot.isActive() && lastConcurrent.isActive()) {
+          concurrentRoot.setActive(true);
+        }
         lastConcurrent.remove();
       }
  else {
