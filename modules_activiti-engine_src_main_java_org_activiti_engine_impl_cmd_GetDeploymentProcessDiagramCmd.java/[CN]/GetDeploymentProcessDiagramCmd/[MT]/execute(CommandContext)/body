@@ -2,6 +2,12 @@
   ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedProcessDefinitionById(processDefinitionId);
   String deploymentId=processDefinition.getDeploymentId();
   String resourceName=processDefinition.getDiagramResourceName();
-  InputStream processDiagramStream=new GetDeploymentResourceCmd(deploymentId,resourceName).execute(commandContext);
-  return processDiagramStream;
+  if (resourceName == null) {
+    log.info("Resource name is null! No process diagram stream exists.");
+    return null;
+  }
+ else {
+    InputStream processDiagramStream=new GetDeploymentResourceCmd(deploymentId,resourceName).execute(commandContext);
+    return processDiagramStream;
+  }
 }
