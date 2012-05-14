@@ -2,7 +2,7 @@
   if (sqlSessionFactory == null) {
     InputStream inputStream=null;
     try {
-      inputStream=ReflectUtil.getResourceAsStream("org/activiti/db/mapping/mappings.xml");
+      inputStream=getMyBatisXmlConfigurationSteam();
       Environment environment=new Environment("default",transactionFactory,dataSource);
       Reader reader=new InputStreamReader(inputStream);
       Properties properties=new Properties();
