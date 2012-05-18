@@ -1,5 +1,5 @@
 {
   InputStream processModelStream=new GetDeploymentProcessModelCmd(processDefinitionId).execute(commandContext);
   InputStream processDiagramStream=new GetDeploymentProcessDiagramCmd(processDefinitionId).execute(commandContext);
-  return new ProcessDiagramLayout().getProcessDiagramLayout(processModelStream,processDiagramStream);
+  return new ProcessDiagramLayoutFactory().getProcessDiagramLayout(processModelStream,processDiagramStream);
 }

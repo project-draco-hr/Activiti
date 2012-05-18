@@ -1,0 +1,54 @@
+{
+  Double minX=null;
+  Double minY=null;
+  Double maxX=null;
+  Double maxY=null;
+  NodeList setOfBounds=bpmnModel.getElementsByTagNameNS(BpmnParser.BPMN_DC_NS,"Bounds");
+  for (int i=0; i < setOfBounds.getLength(); i++) {
+    Element element=(Element)setOfBounds.item(i);
+    Double x=Double.valueOf(element.getAttribute("x"));
+    Double y=Double.valueOf(element.getAttribute("y"));
+    Double width=Double.valueOf(element.getAttribute("width"));
+    Double height=Double.valueOf(element.getAttribute("height"));
+    if (x == 0.0 && y == 0.0 && width == 0.0 && height == 0.0) {
+    }
+ else {
+      if (minX == null || x < minX) {
+        minX=x;
+      }
+      if (minY == null || y < minY) {
+        minY=y;
+      }
+      if (maxX == null || maxX < (x + width)) {
+        maxX=(x + width);
+      }
+      if (maxY == null || maxY < (y + height)) {
+        maxY=(y + height);
+      }
+    }
+  }
+  NodeList waypoints=bpmnModel.getElementsByTagNameNS(BpmnParser.OMG_DI_NS,"waypoint");
+  for (int i=0; i < waypoints.getLength(); i++) {
+    Element waypoint=(Element)waypoints.item(i);
+    Double x=Double.valueOf(waypoint.getAttribute("x"));
+    Double y=Double.valueOf(waypoint.getAttribute("y"));
+    if (minX == null || x < minX) {
+      minX=x;
+    }
+    if (minY == null || y < minY) {
+      minY=y;
+    }
+    if (maxX == null || maxX < x) {
+      maxX=x;
+    }
+    if (maxY == null || maxY < y) {
+      maxY=y;
+    }
+  }
+  DiagramNode diagramBounds=new DiagramNode("BPMNDiagram");
+  diagramBounds.setX(minX);
+  diagramBounds.setY(minY);
+  diagramBounds.setWidth(maxX - minX);
+  diagramBounds.setHeight(maxY - minY);
+  return diagramBounds;
+}

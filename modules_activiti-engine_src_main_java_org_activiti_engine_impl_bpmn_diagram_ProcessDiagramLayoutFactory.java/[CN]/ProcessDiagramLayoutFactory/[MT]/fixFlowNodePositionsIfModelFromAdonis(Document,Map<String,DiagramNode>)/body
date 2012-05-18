@@ -1,0 +1,29 @@
+{
+  if (isExportedFromAdonis50(bpmnModel)) {
+    Map<String,DiagramNode> mapOfFixedBounds=new HashMap<String,DiagramNode>();
+    XPathFactory xPathFactory=XPathFactory.newInstance();
+    XPath xPath=xPathFactory.newXPath();
+    xPath.setNamespaceContext(new Bpmn20NamespaceContext());
+    for (    Entry<String,DiagramNode> entry : elementBoundsFromBpmnDi.entrySet()) {
+      String elementId=entry.getKey();
+      DiagramNode elementBounds=entry.getValue();
+      String expression="local-name(//bpmn:*[@id = '" + elementId + "'])";
+      try {
+        XPathExpression xPathExpression=xPath.compile(expression);
+        String elementLocalName=xPathExpression.evaluate(bpmnModel);
+        if (!"participant".equals(elementLocalName) && !"lane".equals(elementLocalName) && !"textAnnotation".equals(elementLocalName)&& !"group".equals(elementLocalName)) {
+          elementBounds.setX(elementBounds.getX() - elementBounds.getWidth() / 2);
+          elementBounds.setY(elementBounds.getY() - elementBounds.getHeight() / 2);
+        }
+      }
+ catch (      XPathExpressionException e) {
+        throw new ActivitiException("Error while evaluating the following XPath expression on a BPMN XML document: '" + expression + "'.",e);
+      }
+      mapOfFixedBounds.put(elementId,elementBounds);
+    }
+    return mapOfFixedBounds;
+  }
+ else {
+    return elementBoundsFromBpmnDi;
+  }
+}

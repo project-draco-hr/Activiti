@@ -1,5 +1,5 @@
 {
-  Map<String,Bounds> processDiagramLayout;
+  DiagramLayout processDiagramLayout;
   if (1 == processDefinitionQuery.count()) {
     ProcessDefinition processDefinition=processDefinitionQuery.singleResult();
     assertNotNull(processDefinition);
@@ -10,7 +10,7 @@
     InputStream imageStream=new FileInputStream("src/test/resources/org/activiti/engine/test/api/repository/diagram/" + imageFileName);
     assertNotNull(bpmnXmlStream);
     assertNotNull(imageStream);
-    processDiagramLayout=new ProcessDiagramLayout().getProcessDiagramLayout(bpmnXmlStream,imageStream);
+    processDiagramLayout=new ProcessDiagramLayoutFactory().getProcessDiagramLayout(bpmnXmlStream,imageStream);
   }
   assertLayoutCorrect(processDiagramLayout);
 }

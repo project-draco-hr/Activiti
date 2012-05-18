@@ -1,0 +1,10 @@
+{
+  List<DiagramNode> nodes=new ArrayList<DiagramNode>();
+  for (  Entry<String,DiagramElement> entry : getElements().entrySet()) {
+    DiagramElement element=entry.getValue();
+    if (element instanceof DiagramNode) {
+      nodes.add((DiagramNode)element);
+    }
+  }
+  return nodes;
+}

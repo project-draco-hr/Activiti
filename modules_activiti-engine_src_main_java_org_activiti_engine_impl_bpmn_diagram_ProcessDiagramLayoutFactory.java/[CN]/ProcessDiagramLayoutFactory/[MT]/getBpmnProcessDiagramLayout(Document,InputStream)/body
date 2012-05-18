@@ -1,0 +1,20 @@
+{
+  if (imageStream == null) {
+    return null;
+  }
+  DiagramNode diagramBoundsXml=getDiagramBoundsFromBpmnDi(bpmnModel);
+  DiagramNode diagramBoundsImage;
+  if (isExportedFromAdonis50(bpmnModel)) {
+    int offsetTop=29;
+    int offsetBottom=61;
+    diagramBoundsImage=getDiagramBoundsFromImage(imageStream,offsetTop,offsetBottom);
+  }
+ else {
+    diagramBoundsImage=getDiagramBoundsFromImage(imageStream);
+  }
+  Map<String,DiagramNode> listOfBounds=new HashMap<String,DiagramNode>();
+  listOfBounds.put(diagramBoundsXml.getId(),diagramBoundsXml);
+  listOfBounds.putAll(fixFlowNodePositionsIfModelFromAdonis(bpmnModel,getElementBoundsFromBpmnDi(bpmnModel)));
+  Map<String,DiagramElement> listOfBoundsForImage=transformBoundsForImage(diagramBoundsImage,diagramBoundsXml,listOfBounds);
+  return new DiagramLayout(listOfBoundsForImage);
+}

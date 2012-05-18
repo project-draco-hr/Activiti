@@ -1,0 +1,10 @@
+{
+  double scalingFactorX=diagramBoundsImage.getWidth() / diagramBoundsXml.getWidth();
+  double scalingFactorY=diagramBoundsImage.getWidth() / diagramBoundsXml.getWidth();
+  DiagramNode elementBoundsForImage=new DiagramNode(elementBounds.getId());
+  elementBoundsForImage.setX((double)Math.round((elementBounds.getX() - diagramBoundsXml.getX()) * scalingFactorX + diagramBoundsImage.getX()));
+  elementBoundsForImage.setY((double)Math.round((elementBounds.getY() - diagramBoundsXml.getY()) * scalingFactorY + diagramBoundsImage.getY()));
+  elementBoundsForImage.setWidth((double)Math.round(elementBounds.getWidth() * scalingFactorX));
+  elementBoundsForImage.setHeight((double)Math.round(elementBounds.getHeight() * scalingFactorY));
+  return elementBoundsForImage;
+}
