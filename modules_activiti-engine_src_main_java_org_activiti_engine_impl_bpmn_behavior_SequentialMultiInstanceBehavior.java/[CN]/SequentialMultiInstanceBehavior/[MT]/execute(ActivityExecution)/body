@@ -1,0 +1,8 @@
+{
+  super.execute(execution);
+  if (innerActivityBehavior instanceof SubProcessActivityBehavior) {
+    if (!execution.isActive() && execution.isEnded() && (execution.getExecutions() == null || execution.getExecutions().size() == 0)) {
+      execution.setActive(true);
+    }
+  }
+}
