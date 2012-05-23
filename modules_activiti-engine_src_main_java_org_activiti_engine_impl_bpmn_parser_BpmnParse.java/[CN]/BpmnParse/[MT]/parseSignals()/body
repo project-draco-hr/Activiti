@@ -1,7 +1,7 @@
 {
   for (  Element signalElement : rootElement.elements("signal")) {
     String id=signalElement.attribute("id");
-    String signalName=this.resolveName(signalElement.attribute("name"));
+    String signalName=signalElement.attribute("name");
     for (    SignalDefinition signalDefinition : signals.values()) {
       if (signalDefinition.getName().equals(signalName)) {
         addError("duplicate signal name '" + signalName + "'.",signalElement);
@@ -17,7 +17,7 @@
       SignalDefinition signal=new SignalDefinition();
       signal.setId(this.targetNamespace + ":" + id);
       signal.setName(signalName);
-      this.signals.put(id,signal);
+      this.signals.put(signal.getId(),signal);
     }
   }
 }
