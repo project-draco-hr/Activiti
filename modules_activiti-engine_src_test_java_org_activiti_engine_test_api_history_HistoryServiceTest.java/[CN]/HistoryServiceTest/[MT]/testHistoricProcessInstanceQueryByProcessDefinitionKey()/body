@@ -6,4 +6,11 @@
   assertNotNull(historicProcessInstance);
   assertTrue(historicProcessInstance.getProcessDefinitionId().startsWith(processDefinitionKey));
   assertEquals("theStart",historicProcessInstance.getStartActivityId());
+  Task task=taskService.createTaskQuery().processDefinitionKey("checkCreditProcess").singleResult();
+  Map<String,Object> map=new HashMap<String,Object>();
+  map.put("creditApproved",true);
+  taskService.complete(task.getId(),map);
+  HistoricProcessInstance historicProcessInstanceSub=historyService.createHistoricProcessInstanceQuery().processDefinitionKey("checkCreditProcess").singleResult();
+  HistoricProcessInstance historicProcessInstanceSuper=historyService.createHistoricProcessInstanceQuery().processDefinitionKey("orderProcess").singleResult();
+  assertEquals(historicProcessInstanceSuper.getId(),((HistoricProcessInstanceEntity)historicProcessInstanceSub).getSuperProcessInstanceId());
 }
