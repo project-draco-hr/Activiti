@@ -1,15 +1,15 @@
 {
   signalActivity.setProperty("type","intermediateSignalCatch");
-  SignalEventDefinition signalDefinition=parseSignalEventDefinition(signalEventDefinition);
-  signalDefinition.setActivityId(signalActivity.getId());
+  EventDefinition signalDefinition=parseSignalEventDefinition(element);
   if (isAfterEventBasedGateway) {
-    addSignalDefinition(signalActivity.getParent(),signalDefinition);
+    signalDefinition.setActivityId(signalActivity.getId());
+    addEventDefinition(signalDefinition,signalActivity.getParent(),element);
   }
  else {
-    addSignalDefinition(signalActivity,signalDefinition);
     signalActivity.setScope(true);
+    addEventDefinition(signalDefinition,signalActivity,element);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
-    parseListener.parseIntermediateSignalCatchEventDefinition(signalEventDefinition,signalActivity);
+    parseListener.parseIntermediateSignalCatchEventDefinition(element,signalActivity);
   }
 }

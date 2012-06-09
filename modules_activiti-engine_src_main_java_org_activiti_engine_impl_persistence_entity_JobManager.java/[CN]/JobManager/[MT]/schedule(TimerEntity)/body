@@ -3,8 +3,7 @@
   if (duedate == null) {
     throw new ActivitiException("duedate is null");
   }
-  CommandContext commandContext=Context.getCommandContext();
-  commandContext.getDbSqlSession().insert(timer);
+  timer.insert();
   JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
   int waitTimeInMillis=jobExecutor.getWaitTimeInMillis();
   if (duedate.getTime() < (ClockUtil.getCurrentTime().getTime() + waitTimeInMillis)) {

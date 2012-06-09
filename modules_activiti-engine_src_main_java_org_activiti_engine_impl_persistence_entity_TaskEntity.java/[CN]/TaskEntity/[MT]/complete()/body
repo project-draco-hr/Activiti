@@ -2,6 +2,8 @@
   fireEvent(TaskListener.EVENTNAME_COMPLETE);
   Context.getCommandContext().getTaskManager().deleteTask(this,TaskEntity.DELETE_REASON_COMPLETED,false);
   if (executionId != null) {
-    getExecution().signal(null,null);
+    ExecutionEntity execution=getExecution();
+    execution.removeTask(this);
+    execution.signal(null,null);
   }
 }

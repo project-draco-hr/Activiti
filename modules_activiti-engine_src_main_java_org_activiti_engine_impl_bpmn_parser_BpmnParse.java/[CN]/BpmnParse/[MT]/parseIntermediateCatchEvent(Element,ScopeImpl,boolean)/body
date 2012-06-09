@@ -3,11 +3,15 @@
   nestedActivity.setActivityBehavior(new IntermediateCatchEventActivitiBehaviour());
   Element timerEventDefinition=intermediateEventElement.element("timerEventDefinition");
   Element signalEventDefinition=intermediateEventElement.element("signalEventDefinition");
+  Element messageEventDefinition=intermediateEventElement.element("messageEventDefinition");
   if (timerEventDefinition != null) {
     parseIntemediateTimerEventDefinition(timerEventDefinition,nestedActivity,isAfterEventBasedGateway);
   }
  else   if (signalEventDefinition != null) {
     parseIntemediateSignalEventDefinition(signalEventDefinition,nestedActivity,isAfterEventBasedGateway);
+  }
+ else   if (messageEventDefinition != null) {
+    parseIntemediateMessageEventDefinition(messageEventDefinition,nestedActivity,isAfterEventBasedGateway);
   }
  else {
     addError("Unsupported intermediate catch event type",intermediateEventElement);

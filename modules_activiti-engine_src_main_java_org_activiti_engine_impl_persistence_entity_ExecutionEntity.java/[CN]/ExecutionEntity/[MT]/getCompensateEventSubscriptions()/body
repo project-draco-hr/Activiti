@@ -1,4 +1,10 @@
 {
-  ensureCompensateEventSubscriptionsInitialized();
-  return new ArrayList<CompensateEventSubscriptionEntity>(compensateEventSubscriptions);
+  List<EventSubscriptionEntity> eventSubscriptions=getEventSubscriptionsInternal();
+  List<CompensateEventSubscriptionEntity> result=new ArrayList<CompensateEventSubscriptionEntity>(eventSubscriptions.size());
+  for (  EventSubscriptionEntity eventSubscriptionEntity : eventSubscriptions) {
+    if (eventSubscriptionEntity instanceof CompensateEventSubscriptionEntity) {
+      result.add((CompensateEventSubscriptionEntity)eventSubscriptionEntity);
+    }
+  }
+  return result;
 }

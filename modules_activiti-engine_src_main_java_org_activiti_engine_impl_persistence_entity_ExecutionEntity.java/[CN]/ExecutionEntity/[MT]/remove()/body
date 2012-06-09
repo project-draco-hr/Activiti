@@ -6,18 +6,15 @@
   }
   ensureVariableInstancesInitialized();
   removeVariablesLocal();
-  CommandContext commandContext=Context.getCommandContext();
-  List<TaskEntity> tasks=commandContext.getTaskManager().findTasksByExecutionId(id);
-  for (  TaskEntity task : tasks) {
+  for (  TaskEntity task : getTasks()) {
     if (replacedBy != null) {
       task.setExecution(replacedBy);
     }
  else {
-      commandContext.getTaskManager().deleteTask(task,TaskEntity.DELETE_REASON_DELETED,false);
+      Context.getCommandContext().getTaskManager().deleteTask(task,TaskEntity.DELETE_REASON_DELETED,false);
     }
   }
-  List<Job> jobs=commandContext.getJobManager().findJobsByExecutionId(id);
-  for (  Job job : jobs) {
+  for (  Job job : getJobs()) {
     if (replacedBy != null) {
       ((JobEntity)job).setExecution((ExecutionEntity)replacedBy);
     }
@@ -25,22 +22,12 @@
       ((JobEntity)job).delete();
     }
   }
-  List<SignalEventSubscriptionEntity> eventSubscriptions=commandContext.getEventSubscriptionManager().findSignalEventSubscriptionsByExecution(id);
-  for (  EventSubscriptionEntity eventSubscription : eventSubscriptions) {
+  for (  EventSubscriptionEntity eventSubscription : getEventSubscriptions()) {
     if (replacedBy != null) {
-      eventSubscription.setExecution(replacedBy);
+      eventSubscription.setExecution((ExecutionEntity)replacedBy);
     }
  else {
       eventSubscription.delete();
-    }
-  }
-  for (  CompensateEventSubscriptionEntity compensateEventSubscription : getCompensateEventSubscriptions()) {
-    if (replacedBy != null) {
-      compensateEventSubscription.setExecution(replacedBy);
-    }
- else {
-      removeCompensateEventSubscription(compensateEventSubscription);
-      compensateEventSubscription.delete();
     }
   }
   List<InterpretableExecution> childExecutions=new ArrayList<InterpretableExecution>(getExecutions());
@@ -51,5 +38,5 @@
       childExecution.remove();
     }
   }
-  commandContext.getDbSqlSession().delete(ExecutionEntity.class,id);
+  Context.getCommandContext().getDbSqlSession().delete(ExecutionEntity.class,id);
 }

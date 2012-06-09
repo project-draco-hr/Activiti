@@ -4,8 +4,8 @@
   params.put("executionId",executionId);
   params.put("eventName",name);
   Set<SignalEventSubscriptionEntity> selectList=new HashSet<SignalEventSubscriptionEntity>(getDbSqlSession().selectList(query,params));
-  for (  EventSubscriptionEntity entity : createdSignalSubscriptions) {
-    if (entity instanceof SignalEventSubscriptionEntity && executionId.equals(entity.getExecutionId()) && name.equals(entity.getEventName())) {
+  for (  SignalEventSubscriptionEntity entity : createdSignalSubscriptions) {
+    if (executionId.equals(entity.getExecutionId()) && name.equals(entity.getEventName())) {
       selectList.add((SignalEventSubscriptionEntity)entity);
     }
   }

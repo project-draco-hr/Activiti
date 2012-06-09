@@ -1,0 +1,8 @@
+{
+  DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
+  dbSqlSession.insert(this);
+  if (executionId != null) {
+    ExecutionEntity execution=Context.getCommandContext().getExecutionManager().findExecutionById(executionId);
+    execution.addJob(this);
+  }
+}

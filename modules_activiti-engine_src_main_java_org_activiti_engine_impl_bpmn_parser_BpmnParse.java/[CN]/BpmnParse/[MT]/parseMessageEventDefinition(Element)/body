@@ -1,0 +1,11 @@
+{
+  String messageRef=messageEventDefinition.attribute("messageRef");
+  if (messageRef == null) {
+    addError("attriute 'messageRef' is required",messageEventDefinition);
+  }
+  MessageDefinition messageDefinition=messages.get(resolveName(messageRef));
+  if (messageDefinition == null) {
+    addError("Invalid 'messageRef': no message with id '" + messageRef + "' found.",messageEventDefinition);
+  }
+  return new EventDefinition(messageDefinition.getName(),"message");
+}

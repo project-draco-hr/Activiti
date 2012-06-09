@@ -1,0 +1,19 @@
+{
+  if (messageName == null) {
+    throw new ActivitiException("messageName cannot be null");
+  }
+  if (executionId == null) {
+    throw new ActivitiException("executionId cannot be null");
+  }
+  List<EventSubscriptionEntity> eventSubscriptions=commandContext.getEventSubscriptionManager().findEventSubscriptionsByNameAndExecution(MessageEventHandler.EVENT_HANDLER_TYPE,messageName,executionId);
+  if (eventSubscriptions.isEmpty()) {
+    throw new ActivitiException("Execution with id '" + executionId + "' does not have a subscription to a message event with name '"+ messageName+ "'");
+  }
+  EventSubscriptionEntity eventSubscriptionEntity=eventSubscriptions.get(0);
+  HashMap<String,Object> payload=null;
+  if (processVariables != null) {
+    payload=new HashMap<String,Object>(processVariables);
+  }
+  eventSubscriptionEntity.eventReceived(payload,false);
+  return null;
+}

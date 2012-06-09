@@ -18,7 +18,7 @@
     for (    Job job : timerStartJobs) {
       ((JobEntity)job).delete();
     }
-    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionManager().findEventSubscriptionsByConfiguration(MessageEventHandler.TYPE,processDefinition.getId());
+    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,processDefinition.getId());
     for (    EventSubscriptionEntity eventSubscriptionEntity : findEventSubscriptionsByConfiguration) {
       eventSubscriptionEntity.delete();
     }

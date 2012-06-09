@@ -1,7 +1,7 @@
 {
   if (latestProcessDefinition != null) {
     CommandContext commandContext=Context.getCommandContext();
-    List<EventSubscriptionEntity> subscriptionsToDelete=commandContext.getEventSubscriptionManager().findEventSubscriptionsByConfiguration(MessageEventHandler.TYPE,latestProcessDefinition.getId());
+    List<EventSubscriptionEntity> subscriptionsToDelete=commandContext.getEventSubscriptionManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,latestProcessDefinition.getId());
     for (    EventSubscriptionEntity eventSubscriptionEntity : subscriptionsToDelete) {
       eventSubscriptionEntity.delete();
     }

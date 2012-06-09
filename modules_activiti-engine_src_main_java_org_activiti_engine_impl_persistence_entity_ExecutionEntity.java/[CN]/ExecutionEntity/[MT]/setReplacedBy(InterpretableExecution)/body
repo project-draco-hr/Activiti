@@ -12,25 +12,13 @@
       task.setExecutionId(replacedBy.getId());
     }
   }
-  List<JobEntity> jobs=(List)new JobQueryImpl(commandContext).executionId(id).list();
+  List<JobEntity> jobs=getJobs();
   for (  JobEntity job : jobs) {
-    job.setExecutionId(replacedBy.getId());
+    job.setExecution((ExecutionEntity)replacedBy);
   }
-  jobs=dbSqlSession.findInCache(JobEntity.class);
-  for (  JobEntity job : jobs) {
-    if (id.equals(job.getExecutionId())) {
-      job.setExecutionId(replacedBy.getId());
-    }
-  }
-  List<EventSubscriptionEntity> eventSubscriptions=(List)new EventSubscriptionQueryImpl(commandContext).executionId(id).list();
+  List<EventSubscriptionEntity> eventSubscriptions=getEventSubscriptions();
   for (  EventSubscriptionEntity subscriptionEntity : eventSubscriptions) {
-    subscriptionEntity.setExecutionId(replacedBy.getId());
-  }
-  eventSubscriptions=dbSqlSession.findInCache(EventSubscriptionEntity.class);
-  for (  EventSubscriptionEntity eventSubscription : eventSubscriptions) {
-    if (id.equals(eventSubscription.getExecutionId())) {
-      eventSubscription.setExecutionId(replacedBy.getId());
-    }
+    subscriptionEntity.setExecution((ExecutionEntity)replacedBy);
   }
   List<VariableInstanceEntity> variables=(List)commandContext.getVariableInstanceManager().findVariableInstancesByExecutionId(id);
   for (  VariableInstanceEntity variable : variables) {

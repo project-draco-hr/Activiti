@@ -11,6 +11,10 @@
     parseTimerStartEventDefinition(timerEventDefinition,startEventActivity,processDefinition);
   }
  else   if (messageEventDefinition != null) {
-    parseMessageStartEventDefinition(messageEventDefinition,startEventActivity,processDefinition);
+    EventDefinition messageDefinition=parseMessageEventDefinition(messageEventDefinition);
+    startEventActivity.setProperty("type","messageStartEvent");
+    messageDefinition.setActivityId(startEventActivity.getId());
+    messageDefinition.setStartEvent(true);
+    addEventDefinition(messageDefinition,processDefinition,startEventElement);
   }
 }

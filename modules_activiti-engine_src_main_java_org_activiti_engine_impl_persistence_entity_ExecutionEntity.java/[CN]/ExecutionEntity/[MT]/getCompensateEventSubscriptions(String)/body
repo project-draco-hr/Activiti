@@ -1,9 +1,11 @@
 {
-  ensureCompensateEventSubscriptionsInitialized();
-  ArrayList<CompensateEventSubscriptionEntity> result=new ArrayList<CompensateEventSubscriptionEntity>();
-  for (  CompensateEventSubscriptionEntity eventSubscriptionEntity : compensateEventSubscriptions) {
-    if (eventSubscriptionEntity.getActivityId().equals(activityId)) {
-      result.add(eventSubscriptionEntity);
+  List<EventSubscriptionEntity> eventSubscriptions=getEventSubscriptionsInternal();
+  List<CompensateEventSubscriptionEntity> result=new ArrayList<CompensateEventSubscriptionEntity>(eventSubscriptions.size());
+  for (  EventSubscriptionEntity eventSubscriptionEntity : eventSubscriptions) {
+    if (eventSubscriptionEntity instanceof CompensateEventSubscriptionEntity) {
+      if (activityId.equals(eventSubscriptionEntity.getActivityId())) {
+        result.add((CompensateEventSubscriptionEntity)eventSubscriptionEntity);
+      }
     }
   }
   return result;

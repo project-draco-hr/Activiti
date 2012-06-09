@@ -1,7 +1,11 @@
 {
   DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
-  dbSqlSession.delete(JobEntity.class,id);
+  dbSqlSession.delete(getClass(),id);
   if (exceptionByteArrayId != null) {
     dbSqlSession.delete(ByteArrayEntity.class,exceptionByteArrayId);
+  }
+  if (executionId != null) {
+    ExecutionEntity execution=Context.getCommandContext().getExecutionManager().findExecutionById(executionId);
+    execution.removeJob(this);
   }
 }

@@ -5,7 +5,9 @@
   if (eventType == null) {
     throw new ActivitiException("event type is null");
   }
-  this.eventSubscriptionType=eventType;
-  this.eventSubscriptionName=eventName;
+  if (eventSubscriptions == null) {
+    eventSubscriptions=new ArrayList<EventSubscriptionQueryValue>();
+  }
+  eventSubscriptions.add(new EventSubscriptionQueryValue(eventName,eventType));
   return this;
 }

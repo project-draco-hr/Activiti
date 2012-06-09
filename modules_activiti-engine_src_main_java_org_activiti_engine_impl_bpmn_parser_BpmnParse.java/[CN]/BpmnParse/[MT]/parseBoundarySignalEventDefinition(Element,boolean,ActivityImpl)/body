@@ -1,15 +1,15 @@
 {
   signalActivity.setProperty("type","boundarySignal");
-  SignalEventDefinition signalDefinition=parseSignalEventDefinition(signalEventDefinition);
+  EventDefinition signalDefinition=parseSignalEventDefinition(element);
   if (signalActivity.getId() == null) {
-    addError("boundary event has no id",signalEventDefinition);
+    addError("boundary event has no id",element);
   }
   signalDefinition.setActivityId(signalActivity.getId());
-  addSignalDefinition(signalActivity.getParent(),signalDefinition);
+  addEventDefinition(signalDefinition,signalActivity.getParent(),element);
   if (signalActivity.getParent() instanceof ActivityImpl) {
     ((ActivityImpl)signalActivity.getParent()).setScope(true);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
-    parseListener.parseBoundarySignalEventDefinition(signalEventDefinition,interrupting,signalActivity);
+    parseListener.parseBoundarySignalEventDefinition(element,interrupting,signalActivity);
   }
 }
