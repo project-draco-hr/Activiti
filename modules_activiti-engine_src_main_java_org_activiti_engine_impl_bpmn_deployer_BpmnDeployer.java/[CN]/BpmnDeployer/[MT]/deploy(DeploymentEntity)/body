@@ -15,14 +15,16 @@
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setResourceName(resourceName);
         String diagramResourceName=getDiagramResourceForProcess(resourceName,processDefinition.getKey(),resources);
-        if (Context.getProcessEngineConfiguration().isCreateDiagramOnDeploy() && diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
-          try {
-            byte[] diagramBytes=IoUtil.readInputStream(ProcessDiagramGenerator.generatePngDiagram(processDefinition),null);
-            diagramResourceName=getProcessImageResourceName(resourceName,processDefinition.getKey(),"png");
-            createResource(diagramResourceName,diagramBytes,deployment);
-          }
- catch (          Throwable t) {
-            LOG.log(Level.WARNING,"Error while generating process diagram, image will not be stored in repository",t);
+        if (deployment.isNew()) {
+          if (Context.getProcessEngineConfiguration().isCreateDiagramOnDeploy() && diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
+            try {
+              byte[] diagramBytes=IoUtil.readInputStream(ProcessDiagramGenerator.generatePngDiagram(processDefinition),null);
+              diagramResourceName=getProcessImageResourceName(resourceName,processDefinition.getKey(),"png");
+              createResource(diagramResourceName,diagramBytes,deployment);
+            }
+ catch (            Throwable t) {
+              LOG.log(Level.WARNING,"Error while generating process diagram, image will not be stored in repository",t);
+            }
           }
         }
         processDefinition.setDiagramResourceName(diagramResourceName);
