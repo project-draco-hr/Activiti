@@ -1,12 +1,12 @@
 {
-  List<EventDefinition> eventDefinitions=(List<EventDefinition>)scope.getProperty(PROPERTYNAME_EVENT_DEFINITIONS);
+  List<EventSubscriptionDeclaration> eventDefinitions=(List<EventSubscriptionDeclaration>)scope.getProperty(PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION);
   if (eventDefinitions == null) {
-    eventDefinitions=new ArrayList<EventDefinition>();
-    scope.setProperty(PROPERTYNAME_EVENT_DEFINITIONS,eventDefinitions);
+    eventDefinitions=new ArrayList<EventSubscriptionDeclaration>();
+    scope.setProperty(PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION,eventDefinitions);
   }
  else {
     if (subscription.getEventType().equals("message")) {
-      for (      EventDefinition eventDefinition : eventDefinitions) {
+      for (      EventSubscriptionDeclaration eventDefinition : eventDefinitions) {
         if (eventDefinition.getEventType().equals("message") && eventDefinition.getEventName().equals(subscription.getEventName()) && eventDefinition.isStartEvent() == subscription.isStartEvent()) {
           addError("Cannot have more than one message event subscription with name '" + subscription.getEventName() + "' for scope '"+ scope.getId()+ "'",element);
         }

@@ -6,7 +6,7 @@
   boolean otherUnsupportedThrowingIntermediateEvent=(intermediateEventElement.element("escalationEventDefinition") != null) || (intermediateEventElement.element("messageEventDefinition") != null) || (intermediateEventElement.element("linkEventDefinition") != null);
   if (signalEventDefinitionElement != null) {
     nestedActivityImpl.setProperty("type","intermediateSignalThrow");
-    EventDefinition signalDefinition=parseSignalEventDefinition(signalEventDefinitionElement);
+    EventSubscriptionDeclaration signalDefinition=parseSignalEventDefinition(signalEventDefinitionElement);
     activityBehavior=new IntermediateThrowSignalEventActivityBehavior(signalDefinition);
   }
  else   if (compensateEventDefinitionElement != null) {

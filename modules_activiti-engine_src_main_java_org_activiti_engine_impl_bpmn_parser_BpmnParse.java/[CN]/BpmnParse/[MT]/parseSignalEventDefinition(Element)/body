@@ -9,7 +9,7 @@
     if (signalDefinition == null) {
       addError("Could not find signal with id '" + signalRef + "'",signalEventDefinitionElement);
     }
-    EventDefinition signalEventDefinition=new EventDefinition(signalDefinition.getName(),"signal");
+    EventSubscriptionDeclaration signalEventDefinition=new EventSubscriptionDeclaration(signalDefinition.getName(),"signal");
     boolean asynch="true".equals(signalEventDefinitionElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"async","false"));
     signalEventDefinition.setAsync(asynch);
     return signalEventDefinition;

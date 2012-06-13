@@ -1,8 +1,8 @@
 {
   CommandContext commandContext=Context.getCommandContext();
-  List<EventDefinition> messageEventDefinitions=(List<EventDefinition>)processDefinition.getProperty(BpmnParse.PROPERTYNAME_EVENT_DEFINITIONS);
+  List<EventSubscriptionDeclaration> messageEventDefinitions=(List<EventSubscriptionDeclaration>)processDefinition.getProperty(BpmnParse.PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION);
   if (messageEventDefinitions != null) {
-    for (    EventDefinition messageEventDefinition : messageEventDefinitions) {
+    for (    EventSubscriptionDeclaration messageEventDefinition : messageEventDefinitions) {
       if (messageEventDefinition.isStartEvent()) {
         List<EventSubscriptionEntity> subscriptionsForSameMessageName=commandContext.getEventSubscriptionManager().findEventSubscriptionsByName(MessageEventHandler.EVENT_HANDLER_TYPE,messageEventDefinition.getEventName());
         List<MessageEventSubscriptionEntity> cachedSubscriptions=commandContext.getDbSqlSession().findInCache(MessageEventSubscriptionEntity.class);

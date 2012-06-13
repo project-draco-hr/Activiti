@@ -19,28 +19,13 @@
       Context.getCommandContext().getJobManager().schedule(timer);
     }
   }
-  List<EventDefinition> eventDefinitions=(List<EventDefinition>)scope.getProperty(BpmnParse.PROPERTYNAME_EVENT_DEFINITIONS);
-  if (eventDefinitions != null) {
-    for (    EventDefinition eventDefinition : eventDefinitions) {
-      if (eventDefinition.isStartEvent()) {
-        continue;
+  List<EventSubscriptionDeclaration> eventSubscriptionDeclarations=(List<EventSubscriptionDeclaration>)scope.getProperty(BpmnParse.PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION);
+  if (eventSubscriptionDeclarations != null) {
+    for (    EventSubscriptionDeclaration eventSubscriptionDeclaration : eventSubscriptionDeclarations) {
+      if (!eventSubscriptionDeclaration.isStartEvent()) {
+        EventSubscriptionEntity eventSubscriptionEntity=eventSubscriptionDeclaration.prepareEventSubscriptionEntity(this);
+        eventSubscriptionEntity.insert();
       }
-      EventSubscriptionEntity eventSubscriptionEntity=null;
-      if (eventDefinition.getEventType().equals("message")) {
-        eventSubscriptionEntity=new MessageEventSubscriptionEntity(this);
-      }
- else       if (eventDefinition.getEventType().equals("signal")) {
-        eventSubscriptionEntity=new SignalEventSubscriptionEntity(this);
-      }
- else {
-        throw new ActivitiException("Found event definition of unknown type: " + eventDefinition.getEventType());
-      }
-      eventSubscriptionEntity.setEventName(eventDefinition.getEventName());
-      if (eventDefinition.getActivityId() != null) {
-        ActivityImpl activity=getActivity().findActivity(eventDefinition.getActivityId());
-        eventSubscriptionEntity.setActivity(activity);
-      }
-      eventSubscriptionEntity.insert();
     }
   }
 }

@@ -1,0 +1,18 @@
+{
+  EventSubscriptionEntity eventSubscriptionEntity=null;
+  if (eventType.equals("message")) {
+    eventSubscriptionEntity=new MessageEventSubscriptionEntity(execution);
+  }
+ else   if (eventType.equals("signal")) {
+    eventSubscriptionEntity=new SignalEventSubscriptionEntity(execution);
+  }
+ else {
+    throw new ActivitiException("Found event definition of unknown type: " + eventType);
+  }
+  eventSubscriptionEntity.setEventName(eventName);
+  if (activityId != null) {
+    ActivityImpl activity=execution.getActivity().findActivity(activityId);
+    eventSubscriptionEntity.setActivity(activity);
+  }
+  return eventSubscriptionEntity;
+}

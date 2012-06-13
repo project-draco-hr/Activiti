@@ -11,7 +11,7 @@
     parseTimerStartEventDefinition(timerEventDefinition,startEventActivity,processDefinition);
   }
  else   if (messageEventDefinition != null) {
-    EventDefinition messageDefinition=parseMessageEventDefinition(messageEventDefinition);
+    EventSubscriptionDeclaration messageDefinition=parseMessageEventDefinition(messageEventDefinition);
     startEventActivity.setProperty("type","messageStartEvent");
     messageDefinition.setActivityId(startEventActivity.getId());
     messageDefinition.setStartEvent(true);
