@@ -1,0 +1,17 @@
+{
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  commandExecutor.execute(new Command<Void>(){
+    public Void execute(    CommandContext commandContext){
+      JobManager jobManager=commandContext.getJobManager();
+      timerEntity=new TimerEntity();
+      timerEntity.setLockOwner(UUID.randomUUID().toString());
+      timerEntity.setDuedate(new Date());
+      timerEntity.setRetries(0);
+      timerEntity.setExceptionMessage("I'm supposed to fail");
+      jobManager.insert(timerEntity);
+      assertNotNull(timerEntity.getId());
+      return null;
+    }
+  }
+);
+}

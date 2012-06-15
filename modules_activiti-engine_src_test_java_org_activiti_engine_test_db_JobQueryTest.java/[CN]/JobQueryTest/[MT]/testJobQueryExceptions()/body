@@ -1,0 +1,14 @@
+{
+  createJobWithoutExceptionMsg();
+  Job job=managementService.createJobQuery().jobId(timerEntity.getId()).singleResult();
+  assertNotNull(job);
+  List<Job> list=managementService.createJobQuery().withException().list();
+  assertEquals(list.size(),1);
+  deleteJobInDatabase();
+  createJobWithoutExceptionStacktrace();
+  job=managementService.createJobQuery().jobId(timerEntity.getId()).singleResult();
+  assertNotNull(job);
+  list=managementService.createJobQuery().withException().list();
+  assertEquals(list.size(),1);
+  deleteJobInDatabase();
+}

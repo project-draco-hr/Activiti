@@ -1,0 +1,10 @@
+{
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  commandExecutor.execute(new Command<Void>(){
+    public Void execute(    CommandContext commandContext){
+      timerEntity.delete();
+      return null;
+    }
+  }
+);
+}
