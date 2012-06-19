@@ -1,0 +1,23 @@
+{
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  ProcessDefinitionEntity processDefinitionEntity=commandExecutor.execute(new Command<ProcessDefinitionEntity>(){
+    public ProcessDefinitionEntity execute(    CommandContext commandContext){
+      return Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedLatestProcessDefinitionByKey("resolvableNamespacesProcess");
+    }
+  }
+);
+  assertNotNull(processDefinitionEntity);
+  ActivityImpl activity=processDefinitionEntity.findActivity("ExclusiveGateway_1");
+  assertNotNull(activity);
+  for (  PvmTransition transition : activity.getOutgoingTransitions()) {
+    if (transition.getDestination().getId().equals("Task_2")) {
+      assertTrue(transition.getProperty("conditionText").equals("#{approved}"));
+    }
+ else     if (transition.getDestination().getId().equals("Task_3")) {
+      assertTrue(transition.getProperty("conditionText").equals("#{!approved}"));
+    }
+ else {
+      fail("Something went wrong");
+    }
+  }
+}
