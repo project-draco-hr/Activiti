@@ -1,10 +1,13 @@
 {
   HashMap<String,Object> variables1=new HashMap<String,Object>();
   variables1.put("processName","catchSignal");
-  ProcessInstance pi1=runtimeService.startProcessInstanceByKey("catchSignal",variables1);
+  ProcessInstance piCatchSignal=runtimeService.startProcessInstanceByKey("catchSignal",variables1);
   HashMap<String,Object> variables2=new HashMap<String,Object>();
   variables2.put("processName","throwSignal");
-  ProcessInstance pi2=runtimeService.startProcessInstanceByKey("throwSignal",variables2);
-  Assert.assertEquals("catchSignal",runtimeService.getVariable(pi1.getId(),"processName"));
-  Assert.assertEquals("throwSignal",runtimeService.getVariable(pi2.getId(),"processName"));
+  variables2.put("signalProcessInstanceId",piCatchSignal.getProcessInstanceId());
+  ProcessInstance piThrowSignal=runtimeService.startProcessInstanceByKey("throwSignal",variables2);
+  assertEquals(1,runtimeService.createExecutionQuery().processInstanceId(piCatchSignal.getProcessInstanceId()).activityId("receiveTask").count());
+  assertEquals(1,runtimeService.createExecutionQuery().processInstanceId(piThrowSignal.getProcessInstanceId()).activityId("receiveTask").count());
+  runtimeService.signal(piCatchSignal.getId());
+  runtimeService.signal(piThrowSignal.getId());
 }
