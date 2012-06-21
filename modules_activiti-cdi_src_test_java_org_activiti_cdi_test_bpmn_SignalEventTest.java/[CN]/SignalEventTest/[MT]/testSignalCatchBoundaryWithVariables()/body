@@ -1,0 +1,10 @@
+{
+  HashMap<String,Object> variables1=new HashMap<String,Object>();
+  variables1.put("processName","catchSignal");
+  ProcessInstance pi1=runtimeService.startProcessInstanceByKey("catchSignal",variables1);
+  HashMap<String,Object> variables2=new HashMap<String,Object>();
+  variables2.put("processName","throwSignal");
+  ProcessInstance pi2=runtimeService.startProcessInstanceByKey("throwSignal",variables2);
+  Assert.assertEquals("catchSignal",runtimeService.getVariable(pi1.getId(),"processName"));
+  Assert.assertEquals("throwSignal",runtimeService.getVariable(pi2.getId(),"processName"));
+}
