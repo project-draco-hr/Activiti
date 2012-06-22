@@ -11,8 +11,12 @@
  catch (    IOException e) {
       throw new ActivitiException("problem retrieving activiti.cfg.xml resources on the classpath: " + System.getProperty("java.class.path"),e);
     }
+    Set<URL> configUrls=new HashSet<URL>();
     while (resources.hasMoreElements()) {
-      URL resource=resources.nextElement();
+      configUrls.add(resources.nextElement());
+    }
+    for (Iterator<URL> iterator=configUrls.iterator(); iterator.hasNext(); ) {
+      URL resource=iterator.next();
       initProcessEnginFromResource(resource);
     }
     try {
