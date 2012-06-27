@@ -1,0 +1,12 @@
+{
+  this.cachedEntityState=cachedEntityState;
+  if (jobs == null && !BitMaskUtil.isBitOn(cachedEntityState,JOBS_STATE_BIT)) {
+    jobs=new ArrayList<JobEntity>();
+  }
+  if (tasks == null && !BitMaskUtil.isBitOn(cachedEntityState,TASKS_STATE_BIT)) {
+    tasks=new ArrayList<TaskEntity>();
+  }
+  if (eventSubscriptions == null && !BitMaskUtil.isBitOn(cachedEntityState,EVENT_SUBSCRIPTIONS_STATE_BIT)) {
+    eventSubscriptions=new ArrayList<EventSubscriptionEntity>();
+  }
+}

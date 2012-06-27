@@ -8,7 +8,10 @@
   removeVariablesLocal();
   for (  TaskEntity task : getTasks()) {
     if (replacedBy != null) {
-      task.setExecution(replacedBy);
+      if (task.getExecution() == null || task.getExecution() != replacedBy) {
+        task.setExecution(replacedBy);
+        this.replacedBy.addTask(task);
+      }
     }
  else {
       Context.getCommandContext().getTaskManager().deleteTask(task,TaskEntity.DELETE_REASON_DELETED,false);

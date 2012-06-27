@@ -2,10 +2,12 @@
   this.replacedBy=(ExecutionEntity)replacedBy;
   CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
-  List<TaskEntity> tasks=(List)new TaskQueryImpl(commandContext).executionId(id).list();
-  for (  TaskEntity task : tasks) {
+  for (  TaskEntity task : getTasks()) {
     task.setExecutionId(replacedBy.getId());
+    task.setExecution(this.replacedBy);
+    this.replacedBy.addTask(task);
   }
+  this.tasks.clear();
   tasks=dbSqlSession.findInCache(TaskEntity.class);
   for (  TaskEntity task : tasks) {
     if (id.equals(task.getExecutionId())) {
