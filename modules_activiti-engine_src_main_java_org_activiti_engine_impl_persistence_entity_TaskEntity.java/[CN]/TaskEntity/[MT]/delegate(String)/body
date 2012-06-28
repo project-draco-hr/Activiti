@@ -1,4 +1,7 @@
 {
   setDelegationState(DelegationState.PENDING);
+  if (getOwner() == null) {
+    setOwner(getAssignee());
+  }
   setAssignee(userId);
 }

@@ -5,9 +5,9 @@
   if (type == null) {
     throw new ActivitiException("type is required when adding a new task identity link");
   }
-  if (IdentityLinkType.ASSIGNEE.equals(type)) {
+  if (IdentityLinkType.ASSIGNEE.equals(type) || IdentityLinkType.OWNER.equals(type)) {
     if (groupId != null) {
-      throw new ActivitiException("Incompatible usage: cannot use ASSIGNEE" + " together with a groupId");
+      throw new ActivitiException("Incompatible usage: cannot use type '" + type + "' together with a groupId");
     }
   }
  else {

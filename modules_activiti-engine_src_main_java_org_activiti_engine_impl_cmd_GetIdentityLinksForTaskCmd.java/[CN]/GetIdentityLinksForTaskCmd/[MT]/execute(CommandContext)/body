@@ -7,5 +7,11 @@
     identityLink.setType(IdentityLinkType.ASSIGNEE);
     identityLinks.add(identityLink);
   }
+  if (task.getOwner() != null) {
+    IdentityLinkEntity identityLink=new IdentityLinkEntity();
+    identityLink.setUserId(task.getOwner());
+    identityLink.setType(IdentityLinkType.OWNER);
+    identityLinks.add(identityLink);
+  }
   return (List)task.getIdentityLinks();
 }

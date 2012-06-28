@@ -6,6 +6,9 @@
   if (IdentityLinkType.ASSIGNEE.equals(type)) {
     task.setAssignee(null);
   }
+ else   if (IdentityLinkType.OWNER.equals(type)) {
+    task.setOwner(null);
+  }
  else {
     task.deleteIdentityLink(userId,groupId,type);
   }
