@@ -1,0 +1,18 @@
+{
+  Task task=taskService.newTask();
+  task.setOwner("wuzh");
+  task.delegate("other");
+  taskService.saveTask(task);
+  String taskId=task.getId();
+  task=taskService.createTaskQuery().taskId(taskId).singleResult();
+  assertEquals("wuzh",task.getOwner());
+  assertEquals("other",task.getAssignee());
+  assertEquals(DelegationState.PENDING,task.getDelegationState());
+  task.setDelegationState(DelegationState.RESOLVED);
+  taskService.saveTask(task);
+  task=taskService.createTaskQuery().taskId(taskId).singleResult();
+  assertEquals("wuzh",task.getOwner());
+  assertEquals("other",task.getAssignee());
+  assertEquals(DelegationState.RESOLVED,task.getDelegationState());
+  taskService.deleteTask(taskId,true);
+}
