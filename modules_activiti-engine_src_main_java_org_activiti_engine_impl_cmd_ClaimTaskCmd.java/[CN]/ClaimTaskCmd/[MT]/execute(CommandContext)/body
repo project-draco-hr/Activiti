@@ -9,7 +9,7 @@
   if (userId != null) {
     if (task.getAssignee() != null) {
       if (!task.getAssignee().equals(userId)) {
-        throw new ActivitiException("Task " + taskId + " is already claimed by someone else");
+        throw new ActivitiTaskAlreadyClaimedException(task.getId(),task.getAssignee());
       }
     }
  else {
