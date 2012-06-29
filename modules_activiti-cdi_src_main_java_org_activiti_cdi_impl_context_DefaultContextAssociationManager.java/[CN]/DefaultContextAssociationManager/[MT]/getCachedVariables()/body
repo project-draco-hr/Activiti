@@ -1,0 +1,6 @@
+{
+  if (Context.getCommandContext() != null) {
+    throw new ActivitiCdiException("Cannot work with cached variables in an activiti command.");
+  }
+  return getScopedAssociation().getCachedVariables();
+}

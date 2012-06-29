@@ -1,5 +1,8 @@
 {
-  ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey(key,businessKey,getBeanStore());
+  if (Context.getCommandContext() != null) {
+    throw new ActivitiCdiException("Cannot use startProcessByKey in an activiti command.");
+  }
+  ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey(key,businessKey,getAndClearCachedVariables());
   setExecution(instance);
   return instance;
 }

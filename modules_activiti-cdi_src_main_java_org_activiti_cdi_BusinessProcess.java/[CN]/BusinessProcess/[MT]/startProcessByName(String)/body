@@ -1,9 +1,12 @@
 {
+  if (Context.getCommandContext() != null) {
+    throw new ActivitiCdiException("Cannot use startProcessByName in an activiti command.");
+  }
   ProcessDefinition definition=processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionName(string).singleResult();
   if (definition == null) {
     throw new ActivitiException("No process definition found for name: " + string);
   }
-  ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceById(definition.getId(),getBeanStore());
+  ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceById(definition.getId(),getAndClearCachedVariables());
   setExecution(instance);
   return instance;
 }

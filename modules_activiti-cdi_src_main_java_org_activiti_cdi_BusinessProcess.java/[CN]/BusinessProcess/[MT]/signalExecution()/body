@@ -1,6 +1,5 @@
 {
   assertAssociated();
-  Map<String,Object> beanStore=getBeanStore();
-  processEngine.getRuntimeService().signal(associationManager.getExecutionId(),beanStore);
+  processEngine.getRuntimeService().signal(associationManager.getExecutionId(),getAndClearCachedVariables());
   associationManager.disAssociate();
 }
