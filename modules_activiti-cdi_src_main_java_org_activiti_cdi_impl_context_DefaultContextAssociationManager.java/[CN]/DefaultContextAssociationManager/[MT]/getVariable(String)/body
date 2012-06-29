@@ -1,9 +1,9 @@
 {
   ExecutionEntity execution=getExecutionFromContext();
   if (execution != null) {
-    return (T)execution.getVariable(variableName);
+    return execution.getVariable(variableName);
   }
  else {
-    return (T)getScopedAssociation().getVariable(variableName);
+    return getScopedAssociation().getVariable(variableName);
   }
 }
