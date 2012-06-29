@@ -3,12 +3,8 @@
   byte[] bytes=(byte[])value;
   if (byteArray == null) {
     byteArray=new ByteArrayEntity(bytes);
-    DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
-    dbSqlSession.insert(byteArray);
+    Context.getCommandContext().getDbSqlSession().insert(byteArray);
     valueFields.setByteArrayValue(byteArray);
-    if (valueFields instanceof VariableInstanceEntity) {
-      dbSqlSession.addDeserializedObject(valueFields.getCachedValue(),bytes,(VariableInstanceEntity)valueFields);
-    }
   }
  else {
     byteArray.setBytes(bytes);
