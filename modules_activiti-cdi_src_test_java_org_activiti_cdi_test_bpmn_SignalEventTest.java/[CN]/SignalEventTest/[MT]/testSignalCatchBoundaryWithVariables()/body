@@ -8,6 +8,8 @@
   ProcessInstance piThrowSignal=runtimeService.startProcessInstanceByKey("throwSignal",variables2);
   assertEquals(1,runtimeService.createExecutionQuery().processInstanceId(piCatchSignal.getProcessInstanceId()).activityId("receiveTask").count());
   assertEquals(1,runtimeService.createExecutionQuery().processInstanceId(piThrowSignal.getProcessInstanceId()).activityId("receiveTask").count());
+  assertEquals("catchSignal-visited (was catchSignal)",runtimeService.getVariable(piCatchSignal.getId(),"processName"));
+  assertEquals("throwSignal-visited (was throwSignal)",runtimeService.getVariable(piThrowSignal.getId(),"processName"));
   runtimeService.signal(piCatchSignal.getId());
   runtimeService.signal(piThrowSignal.getId());
 }

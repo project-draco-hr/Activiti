@@ -1,13 +1,7 @@
 {
-  if (Context.getCommandContext() != null) {
-    ExecutionEntity processInstance=Context.getExecutionContext().getProcessInstance();
-    if (processInstance != null) {
-      return processInstance;
-    }
-  }
   Execution execution=getExecution();
-  if (execution != null) {
+  if (execution != null && !(execution.getProcessInstanceId().equals(execution.getId()))) {
     return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(execution.getProcessInstanceId()).singleResult();
   }
-  return null;
+  return (ProcessInstance)execution;
 }

@@ -1,0 +1,14 @@
+{
+  if (Context.getCommandContext() != null) {
+    throw new ActivitiCdiException("Cannot work with scoped associations inside command context.");
+  }
+  ScopedAssociation scopedAssociation=getScopedAssociation();
+  if (scopedAssociation.getExecution() == null) {
+    throw new ActivitiException("Cannot dissasociate execution, no " + scopedAssociation.getClass().getAnnotations()[0].annotationType().getSimpleName() + " execution associated. ");
+  }
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("Disassociating");
+  }
+  scopedAssociation.setExecution(null);
+  scopedAssociation.setTask(null);
+}

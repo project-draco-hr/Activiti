@@ -1,13 +1,7 @@
 {
-  associate(executionId);
-  try {
-    getExecution();
+  Execution execution=processEngine.getRuntimeService().createExecutionQuery().executionId(executionId).singleResult();
+  if (execution == null) {
+    throw new ActivitiCdiException("Cannot associate execution by id: no execution with id '" + executionId + "' found.");
   }
- catch (  ActivitiException e) {
-    associationManager.disAssociate();
-    throw new ActivitiCdiException("Cannot resume process: no execution with id '" + executionId + "' found.");
-  }
-  if (logger.isLoggable(Level.FINE)) {
-    logger.fine("Resumig Execution[" + executionId + "].");
-  }
+  associationManager.setExecution(execution);
 }

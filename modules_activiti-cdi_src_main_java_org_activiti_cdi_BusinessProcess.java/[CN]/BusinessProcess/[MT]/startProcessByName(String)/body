@@ -1,10 +1,9 @@
 {
   ProcessDefinition definition=processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionName(string).singleResult();
   if (definition == null) {
-    logger.log(Level.SEVERE,"No process definition found for name: " + string);
     throw new ActivitiException("No process definition found for name: " + string);
   }
-  ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceById(definition.getId(),getBeanStore().getAll());
-  associate(instance.getProcessInstanceId());
+  ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceById(definition.getId(),getBeanStore());
+  setExecution(instance);
   return instance;
 }

@@ -1,5 +1,6 @@
 {
   assertTaskAssociated();
-  processEngine.getTaskService().complete(getTask().getId(),associationManager.getBeanStore().getAllAndClear());
+  Map<String,Object> beanStore=getBeanStore();
+  processEngine.getTaskService().complete(getTask().getId(),beanStore);
   associationManager.disAssociate();
 }

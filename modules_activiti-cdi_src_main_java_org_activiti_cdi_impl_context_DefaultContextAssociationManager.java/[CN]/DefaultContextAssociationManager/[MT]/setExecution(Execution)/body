@@ -1,0 +1,17 @@
+{
+  if (execution == null) {
+    throw new ActivitiCdiException("Cannot associate with execution: null");
+  }
+  if (Context.getCommandContext() != null) {
+    throw new ActivitiCdiException("Cannot work with scoped associations inside command context.");
+  }
+  ScopedAssociation scopedAssociation=getScopedAssociation();
+  Execution associatedExecution=scopedAssociation.getExecution();
+  if (associatedExecution != null && !associatedExecution.getId().equals(execution.getId())) {
+    throw new ActivitiCdiException("Cannot associate " + execution + ", already associated with "+ associatedExecution+ ". Disassociate first!");
+  }
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("Associating " + execution + " (@"+ scopedAssociation.getClass().getAnnotations()[0].annotationType().getSimpleName()+ ")");
+  }
+  scopedAssociation.setExecution(execution);
+}

@@ -1,0 +1,10 @@
+{
+  Object value=beanStore.get(variableName);
+  if (value == null) {
+    if (execution != null) {
+      value=runtimeService.getVariable(execution.getId(),variableName);
+      beanStore.put(variableName,value);
+    }
+  }
+  return (T)value;
+}

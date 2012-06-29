@@ -1,7 +1,4 @@
 {
-  ProcessInstance processInstance=getProcessInstance();
-  if (processInstance != null) {
-    return processInstance.getId();
-  }
-  return null;
+  Execution execution=associationManager.getExecution();
+  return execution != null ? execution.getProcessInstanceId() : null;
 }

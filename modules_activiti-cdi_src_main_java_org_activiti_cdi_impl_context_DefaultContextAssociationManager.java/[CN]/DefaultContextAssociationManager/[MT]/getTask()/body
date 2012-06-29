@@ -1,0 +1,6 @@
+{
+  if (Context.getCommandContext() != null) {
+    throw new ActivitiCdiException("Cannot work with tasks in an activiti command.");
+  }
+  return getScopedAssociation().getTask();
+}

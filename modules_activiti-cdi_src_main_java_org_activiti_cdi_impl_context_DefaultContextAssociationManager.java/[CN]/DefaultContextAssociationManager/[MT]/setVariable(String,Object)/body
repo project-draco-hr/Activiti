@@ -1,0 +1,10 @@
+{
+  ExecutionEntity execution=getExecutionFromContext();
+  if (execution != null) {
+    execution.setVariable(variableName,value);
+    execution.getVariable(variableName);
+  }
+ else {
+    getScopedAssociation().setVariable(variableName,value);
+  }
+}
