@@ -1,10 +1,5 @@
 {
-  try {
-    jobAcquisitionThread.join();
-  }
- catch (  InterruptedException e) {
-    log.log(Level.WARNING,"Interrupted while waiting for the job Acquisition thread to terminate",e);
-  }
+  stopJobAcquisitionThread();
   threadPoolExecutor.shutdown();
   try {
     if (!threadPoolExecutor.awaitTermination(60L,TimeUnit.SECONDS)) {
@@ -15,5 +10,4 @@
     log.log(Level.WARNING,"Interrupted while shutting down the job executor. ",e);
   }
   threadPoolExecutor=null;
-  jobAcquisitionThread=null;
 }

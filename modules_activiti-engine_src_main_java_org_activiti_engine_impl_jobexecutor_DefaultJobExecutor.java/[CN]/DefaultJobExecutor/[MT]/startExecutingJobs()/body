@@ -6,8 +6,5 @@
     threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,0L,TimeUnit.MILLISECONDS,threadPoolQueue);
     threadPoolExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
   }
-  if (jobAcquisitionThread == null) {
-    jobAcquisitionThread=new Thread(acquireJobsRunnable);
-    jobAcquisitionThread.start();
-  }
+  startJobAcquisitionThread();
 }
