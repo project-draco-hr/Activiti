@@ -1,7 +1,7 @@
 {
   Variable v=(Variable)execution.getVariable("variable");
 synchronized (ServiceTaskVariablesTest.class) {
-    isNullInDelegate2=(v.value == null);
+    isNullInDelegate2=(v.value != null && v.value.equals("delegate1"));
   }
-  v.value="test";
+  v.value="delegate2";
 }
