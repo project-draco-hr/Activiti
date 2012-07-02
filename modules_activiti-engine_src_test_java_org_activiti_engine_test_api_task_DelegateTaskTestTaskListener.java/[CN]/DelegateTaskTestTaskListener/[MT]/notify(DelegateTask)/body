@@ -1,0 +1,15 @@
+{
+  Set<IdentityLink> candidates=delegateTask.getCandidates();
+  Set<String> candidateUsers=new HashSet<String>();
+  Set<String> candidateGroups=new HashSet<String>();
+  for (  IdentityLink candidate : candidates) {
+    if (candidate.getUserId() != null) {
+      candidateUsers.add(candidate.getUserId());
+    }
+ else     if (candidate.getGroupId() != null) {
+      candidateGroups.add(candidate.getGroupId());
+    }
+  }
+  delegateTask.setVariable(VARNAME_CANDIDATE_USERS,candidateUsers);
+  delegateTask.setVariable(VARNAME_CANDIDATE_GROUPS,candidateGroups);
+}
