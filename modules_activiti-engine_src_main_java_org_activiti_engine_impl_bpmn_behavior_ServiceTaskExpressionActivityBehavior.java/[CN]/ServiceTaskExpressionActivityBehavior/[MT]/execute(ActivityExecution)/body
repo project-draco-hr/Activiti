@@ -1,7 +1,27 @@
 {
-  Object value=expression.getValue(execution);
-  if (resultVariable != null) {
-    execution.setVariable(resultVariable,value);
+  Object value=null;
+  try {
+    value=expression.getValue(execution);
+    if (resultVariable != null) {
+      execution.setVariable(resultVariable,value);
+    }
+    leave(execution);
   }
-  leave(execution);
+ catch (  Exception exc) {
+    Throwable cause=exc;
+    BpmnError error=null;
+    while (cause != null) {
+      if (cause instanceof BpmnError) {
+        error=(BpmnError)cause;
+        break;
+      }
+      cause=cause.getCause();
+    }
+    if (error != null) {
+      ErrorPropagation.propagateError(error,execution);
+    }
+ else {
+      throw exc;
+    }
+  }
 }
