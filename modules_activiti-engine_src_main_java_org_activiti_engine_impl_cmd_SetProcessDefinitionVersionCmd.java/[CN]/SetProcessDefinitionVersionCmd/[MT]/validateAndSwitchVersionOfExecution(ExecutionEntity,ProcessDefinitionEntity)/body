@@ -1,0 +1,6 @@
+{
+  if (execution.getActivity() != null && !newProcessDefinition.contains(execution.getActivity())) {
+    throw new ActivitiException("The new process definition " + "(key = '" + newProcessDefinition.getKey() + "') "+ "does not contain the current activity "+ "(id = '"+ execution.getActivity().getId()+ "') "+ "of the process instance "+ "(id = '"+ processInstanceId+ "').");
+  }
+  execution.setProcessDefinition(newProcessDefinition);
+}
