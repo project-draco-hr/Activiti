@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess","BUSINESS-KEY-1");
+  runtimeService.startProcessInstanceByKey("oneTaskProcess","BUSINESS-KEY-1");
   assertEquals(1,taskService.createTaskQuery().processDefinitionName("The One Task Process").processInstanceBusinessKey("BUSINESS-KEY-1").list().size());
   assertEquals(1,taskService.createTaskQuery().processInstanceBusinessKey("BUSINESS-KEY-1").list().size());
   assertEquals(0,taskService.createTaskQuery().processInstanceBusinessKey("NON-EXISTING").count());
