@@ -1,7 +1,5 @@
 {
-  if (Context.getCommandContext() != null) {
-    throw new ActivitiCdiException("Cannot use startProcessByKey in an activiti command.");
-  }
+  validateValidUsage();
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey(key,getAndClearCachedVariables());
   setExecution(instance);
   return instance;

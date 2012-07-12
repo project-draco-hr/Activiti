@@ -1,0 +1,8 @@
+{
+  validateValidUsage();
+  Map<String,Object> cachedVariables=getAndClearCachedVariables();
+  cachedVariables.putAll(processVariables);
+  ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceByMessage(messageName,businessKey,cachedVariables);
+  setExecution(processInstance);
+  return processInstance;
+}
