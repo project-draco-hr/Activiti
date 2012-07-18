@@ -1,7 +1,7 @@
 {
   FormPropertyImpl formProperty=new FormPropertyImpl(this);
+  Object modelValue=null;
   if (execution != null) {
-    Object modelValue=null;
     if (variableName != null || variableExpression == null) {
       final String varName=variableName != null ? variableName : id;
       if (execution.hasVariable(varName)) {
@@ -14,16 +14,21 @@
  else {
       modelValue=variableExpression.getValue(execution);
     }
-    if (modelValue instanceof String) {
-      formProperty.setValue((String)modelValue);
+  }
+ else {
+    if (defaultExpression != null) {
+      modelValue=defaultExpression.getValue(StartFormVariableScope.getSharedInstance());
     }
- else     if (type != null) {
-      String formValue=type.convertModelValueToFormValue(modelValue);
-      formProperty.setValue(formValue);
-    }
- else     if (modelValue != null) {
-      formProperty.setValue(modelValue.toString());
-    }
+  }
+  if (modelValue instanceof String) {
+    formProperty.setValue((String)modelValue);
+  }
+ else   if (type != null) {
+    String formValue=type.convertModelValueToFormValue(modelValue);
+    formProperty.setValue(formValue);
+  }
+ else   if (modelValue != null) {
+    formProperty.setValue(modelValue.toString());
   }
   return formProperty;
 }
