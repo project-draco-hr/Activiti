@@ -6,7 +6,12 @@
     for (    HistoricActivityInstance historicActivityInstance : activityList) {
       ObjectNode activityJSON=new ObjectMapper().createObjectNode();
       activityJSON.put("activityId",historicActivityInstance.getActivityId());
-      activityJSON.put("activityName",historicActivityInstance.getActivityName() != null ? historicActivityInstance.getActivityName() : "null");
+      if (historicActivityInstance.getActivityName() != null) {
+        activityJSON.put("activityName",historicActivityInstance.getActivityName());
+      }
+ else {
+        activityJSON.putNull("activityName");
+      }
       activityJSON.put("activityType",historicActivityInstance.getActivityType());
       activityJSON.put("startTime",RequestUtil.dateToString(historicActivityInstance.getStartTime()));
       if (historicActivityInstance.getEndTime() == null) {

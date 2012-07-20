@@ -7,11 +7,21 @@
   }
   ObjectNode responseJSON=new ObjectMapper().createObjectNode();
   responseJSON.put("processInstanceId",instance.getId());
-  responseJSON.put("businessKey",instance.getBusinessKey() != null ? instance.getBusinessKey() : "null");
+  if (instance.getBusinessKey() != null) {
+    responseJSON.put("businessKey",instance.getBusinessKey());
+  }
+ else {
+    responseJSON.putNull("businessKey");
+  }
   responseJSON.put("processDefinitionId",instance.getProcessDefinitionId());
   responseJSON.put("startTime",RequestUtil.dateToString(instance.getStartTime()));
   responseJSON.put("startActivityId",instance.getStartActivityId());
-  responseJSON.put("startUserId",instance.getStartUserId() != null ? instance.getStartUserId() : "null");
+  if (instance.getStartUserId() != null) {
+    responseJSON.put("startUserId",instance.getStartUserId());
+  }
+ else {
+    responseJSON.putNull("startUserId");
+  }
   if (instance.getEndTime() == null) {
     responseJSON.put("completed",false);
   }
