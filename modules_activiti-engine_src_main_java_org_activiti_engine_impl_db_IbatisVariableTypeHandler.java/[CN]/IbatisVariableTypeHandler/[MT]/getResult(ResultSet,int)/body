@@ -1,0 +1,8 @@
+{
+  String typeName=resultSet.getString(columnIndex);
+  VariableType type=getVariableTypes().getVariableType(typeName);
+  if (type == null) {
+    throw new ActivitiException("unknown variable type name " + typeName);
+  }
+  return type;
+}

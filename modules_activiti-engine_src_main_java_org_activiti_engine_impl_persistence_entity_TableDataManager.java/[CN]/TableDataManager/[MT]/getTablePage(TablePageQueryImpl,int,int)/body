@@ -1,9 +1,9 @@
 {
   TablePage tablePage=new TablePage();
-  List<Map<String,Object>> tableData=(List<Map<String,Object>>)getDbSqlSession().getSqlSession().selectList("selectTableData",tablePageQuery,new RowBounds(firstResult,maxResults));
+  @SuppressWarnings("rawtypes") List tableData=getDbSqlSession().getSqlSession().selectList("selectTableData",tablePageQuery,new RowBounds(firstResult,maxResults));
   tablePage.setTableName(tablePageQuery.getTableName());
   tablePage.setTotal(getTableCount(tablePageQuery.getTableName()));
-  tablePage.setRows(tableData);
+  tablePage.setRows((List<Map<String,Object>>)tableData);
   tablePage.setFirstResult(firstResult);
   return tablePage;
 }
