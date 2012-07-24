@@ -1,0 +1,38 @@
+{
+  ObjectNode responseJSON=new ObjectMapper().createObjectNode();
+  String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
+  if (processInstanceId == null) {
+    throw new ActivitiException("No process instance id provided");
+  }
+  try {
+    if (authenticate() == false)     return null;
+    String startParams=entity.getText();
+    JsonNode startJSON=new ObjectMapper().readTree(startParams);
+    Iterator<String> itName=startJSON.getFieldNames();
+    Map<String,Object> variables=new HashMap<String,Object>();
+    while (itName.hasNext()) {
+      String name=itName.next();
+      JsonNode valueNode=startJSON.path(name);
+      variables.put(name,valueNode.getTextValue());
+    }
+    String activityId=(String)variables.remove("activityId");
+    if (activityId == null) {
+      responseJSON.put("success",false);
+      responseJSON.put("failureReason","Request is missing activity id");
+      return responseJSON;
+    }
+    RuntimeService runtimeService=ActivitiUtil.getRuntimeService();
+    Execution execution=runtimeService.createExecutionQuery().processInstanceId(processInstanceId).activityId(activityId).singleResult();
+    if (variables.size() > 0) {
+      runtimeService.signal(execution.getId(),variables);
+    }
+ else {
+      runtimeService.signal(execution.getId());
+    }
+    responseJSON.put("success",true);
+    return responseJSON;
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Failed to signal receive task for process instance id " + processInstanceId,e);
+  }
+}
