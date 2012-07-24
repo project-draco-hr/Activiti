@@ -1,6 +1,12 @@
 {
   Bindings bindings=createBindings(variableScope);
-  ScriptEngine scriptEngine=scriptEngineManager.getEngineByName(language);
+  ScriptEngine scriptEngine=null;
+  try {
+    scriptEngine=Extender.resolveScriptEngine(language);
+  }
+ catch (  InvalidSyntaxException e) {
+    throw new ActivitiException("problem resolving scripting engine" + e.getMessage(),e);
+  }
   if (scriptEngine == null) {
     throw new ActivitiException("Can't find scripting engine for '" + language + "'");
   }

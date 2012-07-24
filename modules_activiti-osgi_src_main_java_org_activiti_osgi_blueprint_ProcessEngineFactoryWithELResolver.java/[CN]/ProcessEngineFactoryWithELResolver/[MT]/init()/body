@@ -1,4 +1,12 @@
 {
-  ((ProcessEngineConfigurationImpl)getProcessEngineConfiguration()).setExpressionManager(new BlueprintExpressionManager());
+  ProcessEngineConfigurationImpl configImpl=(ProcessEngineConfigurationImpl)getProcessEngineConfiguration();
+  configImpl.setExpressionManager(new BlueprintExpressionManager());
+  List<ResolverFactory> resolverFactories=configImpl.getResolverFactories();
+  if (resolverFactories == null) {
+    resolverFactories=new ArrayList<ResolverFactory>();
+    resolverFactories.add(new VariableScopeResolverFactory());
+    resolverFactories.add(new BeansResolverFactory());
+  }
+  configImpl.setScriptingEngines(new OsgiScriptingEngines(new ScriptBindingsFactory(resolverFactories)));
   super.init();
 }
