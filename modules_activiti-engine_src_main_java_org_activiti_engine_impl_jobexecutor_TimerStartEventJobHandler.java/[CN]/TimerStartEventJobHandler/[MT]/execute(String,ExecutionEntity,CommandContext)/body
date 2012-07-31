@@ -1,6 +1,13 @@
 {
+  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
+  ProcessDefinition processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKey(configuration);
   try {
-    new StartProcessInstanceCmd(configuration,null,null,null).execute(commandContext);
+    if (!processDefinition.isSuspended()) {
+      new StartProcessInstanceCmd(configuration,null,null,null).execute(commandContext);
+    }
+ else {
+      log.log(Level.FINE,"ignoring timer of suspended process definition " + processDefinition.getName());
+    }
   }
  catch (  RuntimeException e) {
     log.log(Level.SEVERE,"exception during timer execution",e);
