@@ -26,6 +26,7 @@
           throw new ActivitiException("database update java class '" + upgradestepClassName + "' can't be instantiated: "+ e.getMessage(),e);
         }
         try {
+          log.fine("executing upgrade step java class " + upgradestepClassName);
           dbUpgradeStep.execute(this);
         }
  catch (        Exception e) {
@@ -37,6 +38,7 @@
           sqlStatement=addSqlStatementPiece(sqlStatement,line.substring(0,line.length() - 1));
           Statement jdbcStatement=connection.createStatement();
           try {
+            log.fine("SQL: " + sqlStatement);
             jdbcStatement.execute(sqlStatement);
             jdbcStatement.close();
           }
