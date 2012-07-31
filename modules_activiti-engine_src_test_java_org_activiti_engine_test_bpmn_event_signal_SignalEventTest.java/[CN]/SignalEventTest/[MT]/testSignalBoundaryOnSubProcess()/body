@@ -1,0 +1,5 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("signalEventOnSubprocess");
+  runtimeService.signalEventReceived("stopSignal");
+  assertProcessEnded(pi.getProcessInstanceId());
+}

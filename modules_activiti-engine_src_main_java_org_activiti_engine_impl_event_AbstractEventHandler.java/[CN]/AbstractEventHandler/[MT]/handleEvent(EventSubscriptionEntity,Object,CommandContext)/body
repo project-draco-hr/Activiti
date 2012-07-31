@@ -4,7 +4,7 @@
   if (activity == null) {
     throw new ActivitiException("Error while sending signal for event subscription '" + eventSubscription.getId() + "': "+ "no activity associated with event subscription");
   }
-  if (!execution.getActivity().equals(activity)) {
+  if (!activity.equals(execution.getActivity())) {
     execution.setActivity(activity);
   }
   if (payload instanceof Map) {
