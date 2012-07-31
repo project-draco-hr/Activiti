@@ -1,0 +1,9 @@
+{
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_VARIABLE) {
+    HistoricProcessVariableQueryImpl historicProcessVariableQuery=(HistoricProcessVariableQueryImpl)new HistoricProcessVariableQueryImpl().taskId(taskId);
+    List<HistoricProcessVariable> historicProcessVariables=historicProcessVariableQuery.list();
+    for (    HistoricProcessVariable historicProcessVariable : historicProcessVariables) {
+      ((HistoricProcessVariableEntity)historicProcessVariable).delete();
+    }
+  }
+}

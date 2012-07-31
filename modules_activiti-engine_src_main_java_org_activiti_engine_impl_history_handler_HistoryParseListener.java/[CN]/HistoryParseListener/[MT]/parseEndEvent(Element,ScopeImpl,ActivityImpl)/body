@@ -1,3 +1,6 @@
 {
   addActivityHandlers(activity);
+  if (variableHistoryEnabled(activity,historyLevel)) {
+    activity.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END,HISTORIC_PROCESS_VARIABLE_HANDLER,-1);
+  }
 }

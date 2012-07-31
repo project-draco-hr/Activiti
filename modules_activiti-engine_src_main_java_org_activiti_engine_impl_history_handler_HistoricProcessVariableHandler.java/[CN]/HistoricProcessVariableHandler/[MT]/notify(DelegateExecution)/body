@@ -1,0 +1,22 @@
+{
+  int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
+  String processInstanceId=execution.getProcessInstanceId();
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_VARIABLE && processInstanceId != null && execution.getId().equals(processInstanceId)) {
+    Map<String,VariableInstanceEntity> historicVariablesByName=new HashMap<String,VariableInstanceEntity>();
+    CommandContext commandContext=Context.getCommandContext();
+    List<VariableInstanceEntity> variableInstances=commandContext.getVariableInstanceManager().findVariableInstancesByExecutionId(processInstanceId);
+    for (    VariableInstanceEntity variableInstanceEntity : variableInstances) {
+      historicVariablesByName.put(variableInstanceEntity.getName(),variableInstanceEntity);
+    }
+    List<VariableInstanceEntity> variableInstancesInCache=commandContext.getDbSqlSession().findInCache(VariableInstanceEntity.class);
+    for (    VariableInstanceEntity variableInstanceEntity : variableInstancesInCache) {
+      if (variableInstanceEntity.getProcessInstanceId().equals(processInstanceId)) {
+        historicVariablesByName.put(variableInstanceEntity.getName(),variableInstanceEntity);
+      }
+    }
+    for (    VariableInstanceEntity variableInstanceEntity : historicVariablesByName.values()) {
+      HistoricProcessVariableEntity historicProcessVariable=new HistoricProcessVariableEntity(variableInstanceEntity);
+      Context.getCommandContext().getDbSqlSession().insert(historicProcessVariable);
+    }
+  }
+}

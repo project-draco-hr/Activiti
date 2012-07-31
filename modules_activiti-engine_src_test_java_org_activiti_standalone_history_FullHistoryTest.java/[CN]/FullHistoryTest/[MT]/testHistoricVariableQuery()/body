@@ -8,4 +8,14 @@
   assertEquals(2,historyService.createHistoricDetailQuery().variableUpdates().processInstanceId(processInstance.getId()).count());
   assertEquals(0,historyService.createHistoricDetailQuery().variableUpdates().processInstanceId("unexisting").count());
   assertEquals(2,historyService.createHistoricDetailQuery().variableUpdates().activityInstanceId(null).processInstanceId(processInstance.getId()).count());
+  List<Task> tasks=taskService.createTaskQuery().list();
+  assertEquals(1,tasks.size());
+  taskService.complete(tasks.get(0).getId());
+  assertProcessEnded(processInstance.getId());
+  assertEquals(2,historyService.createHistoricProcessVariableQuery().count());
+  assertEquals(2,historyService.createHistoricProcessVariableQuery().activityInstanceId(null).count());
+  assertEquals(0,historyService.createHistoricProcessVariableQuery().activityInstanceId("unexisting").count());
+  assertEquals(2,historyService.createHistoricProcessVariableQuery().processInstanceId(processInstance.getId()).count());
+  assertEquals(0,historyService.createHistoricProcessVariableQuery().processInstanceId("unexisting").count());
+  assertEquals(2,historyService.createHistoricProcessVariableQuery().activityInstanceId(null).processInstanceId(processInstance.getId()).count());
 }

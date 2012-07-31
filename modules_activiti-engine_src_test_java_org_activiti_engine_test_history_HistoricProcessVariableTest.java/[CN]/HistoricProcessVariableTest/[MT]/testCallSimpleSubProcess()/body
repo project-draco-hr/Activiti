@@ -1,0 +1,22 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
+  assertProcessEnded(processInstance.getId());
+  List<HistoricProcessVariable> variables=historyService.createHistoricProcessVariableQuery().list();
+  assertEquals(4,variables.size());
+  HistoricProcessVariableEntity historicVariable=(HistoricProcessVariableEntity)variables.get(0);
+  assertEquals("myVar",historicVariable.getName());
+  assertEquals("test666",historicVariable.getTextValue());
+  HistoricProcessVariableEntity historicVariable1=(HistoricProcessVariableEntity)variables.get(1);
+  assertEquals("myVar1",historicVariable1.getName());
+  assertEquals("test666",historicVariable1.getTextValue());
+  HistoricProcessVariableEntity historicVariable2=(HistoricProcessVariableEntity)variables.get(2);
+  assertEquals(processInstance.getId(),historicVariable2.getProcessInstanceId());
+  assertEquals("myVar",historicVariable2.getName());
+  assertEquals("test123",historicVariable2.getTextValue());
+  HistoricProcessVariableEntity historicVariable3=(HistoricProcessVariableEntity)variables.get(3);
+  assertEquals(processInstance.getProcessInstanceId(),historicVariable3.getProcessInstanceId());
+  assertEquals("myVar1",historicVariable3.getName());
+  assertEquals("test456",historicVariable3.getTextValue());
+  assertEquals(7,historyService.createHistoricActivityInstanceQuery().count());
+  assertEquals(5,historyService.createHistoricDetailQuery().count());
+}

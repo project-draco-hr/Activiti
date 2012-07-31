@@ -1,0 +1,9 @@
+{
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_VARIABLE) {
+    List<HistoricProcessVariableEntity> historicProcessVariables=(List)getDbSqlSession().createHistoricProcessVariableQuery().processInstanceId(historicProcessInstanceId).list();
+    HistoricProcessVariableManager historicProcessVariableManager=Context.getCommandContext().getHistoricProcessVariableManager();
+    for (    HistoricProcessVariableEntity historicProcessVariable : historicProcessVariables) {
+      historicProcessVariableManager.deleteHistoricProcessVariable(historicProcessVariable);
+    }
+  }
+}
