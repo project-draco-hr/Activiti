@@ -1,0 +1,6 @@
+{
+  runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
+  HistoricActivityInstance historicActivityInstance=historyService.createHistoricActivityInstanceQuery().activityId("callSubProcess").singleResult();
+  HistoricProcessInstance oldInstance=historyService.createHistoricProcessInstanceQuery().processDefinitionKey("calledProcess").singleResult();
+  assertEquals(oldInstance.getId(),historicActivityInstance.getCalledProcessInstanceId());
+}
