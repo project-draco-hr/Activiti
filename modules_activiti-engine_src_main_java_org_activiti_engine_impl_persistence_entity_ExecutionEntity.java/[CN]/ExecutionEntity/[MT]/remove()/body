@@ -6,40 +6,9 @@
   }
   ensureVariableInstancesInitialized();
   removeVariablesLocal();
-  for (  TaskEntity task : getTasks()) {
-    if (replacedBy != null) {
-      if (task.getExecution() == null || task.getExecution() != replacedBy) {
-        task.setExecution(replacedBy);
-        this.replacedBy.addTask(task);
-      }
-    }
- else {
-      Context.getCommandContext().getTaskManager().deleteTask(task,TaskEntity.DELETE_REASON_DELETED,false);
-    }
-  }
-  for (  Job job : getJobs()) {
-    if (replacedBy != null) {
-      ((JobEntity)job).setExecution((ExecutionEntity)replacedBy);
-    }
- else {
-      ((JobEntity)job).delete();
-    }
-  }
-  for (  EventSubscriptionEntity eventSubscription : getEventSubscriptions()) {
-    if (replacedBy != null) {
-      eventSubscription.setExecution((ExecutionEntity)replacedBy);
-    }
- else {
-      eventSubscription.delete();
-    }
-  }
-  List<InterpretableExecution> childExecutions=new ArrayList<InterpretableExecution>(getExecutions());
-  for (  InterpretableExecution childExecution : childExecutions) {
-    if (childExecution.isEventScope()) {
-      log.fine("removing eventScope " + childExecution);
-      childExecution.destroy();
-      childExecution.remove();
-    }
-  }
+  removeTasks(null);
+  removeJobs();
+  removeEventSubscriptions();
+  removeEventScopes();
   Context.getCommandContext().getDbSqlSession().delete(ExecutionEntity.class,id);
 }

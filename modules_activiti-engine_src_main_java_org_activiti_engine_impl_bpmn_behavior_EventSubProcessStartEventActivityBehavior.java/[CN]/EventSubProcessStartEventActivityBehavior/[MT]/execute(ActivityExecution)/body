@@ -3,7 +3,7 @@
   ActivityImpl activity=interpretableExecution.getProcessDefinition().findActivity(activityId);
   ActivityExecution outgoingExecution=execution;
   if (isInterrupting) {
-    ScopeUtil.destroyScope(execution,"Event subprocess triggered using activity " + activityId);
+    execution.destroyScope("Event subprocess triggered using activity " + activityId);
   }
  else {
     outgoingExecution=execution.createExecution();

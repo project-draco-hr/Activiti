@@ -1,0 +1,10 @@
+{
+  for (  EventSubscriptionEntity eventSubscription : getEventSubscriptions()) {
+    if (replacedBy != null) {
+      eventSubscription.setExecution((ExecutionEntity)replacedBy);
+    }
+ else {
+      eventSubscription.delete();
+    }
+  }
+}

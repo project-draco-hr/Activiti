@@ -1,0 +1,16 @@
+{
+  if (reason == null) {
+    reason=TaskEntity.DELETE_REASON_DELETED;
+  }
+  for (  TaskEntity task : getTasks()) {
+    if (replacedBy != null) {
+      if (task.getExecution() == null || task.getExecution() != replacedBy) {
+        task.setExecution(replacedBy);
+        this.replacedBy.addTask(task);
+      }
+    }
+ else {
+      Context.getCommandContext().getTaskManager().deleteTask(task,reason,false);
+    }
+  }
+}

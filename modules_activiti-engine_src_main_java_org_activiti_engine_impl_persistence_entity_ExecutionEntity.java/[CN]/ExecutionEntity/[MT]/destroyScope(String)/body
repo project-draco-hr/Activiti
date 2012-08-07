@@ -1,0 +1,14 @@
+{
+  if (log.isLoggable(Level.FINE)) {
+    log.fine("performing destroy scope behavior for execution " + this);
+  }
+  List<InterpretableExecution> executions=new ArrayList<InterpretableExecution>(getExecutions());
+  for (  InterpretableExecution childExecution : executions) {
+    if (childExecution.getSubProcessInstance() != null) {
+      childExecution.getSubProcessInstance().deleteCascade(reason);
+    }
+    childExecution.deleteCascade(reason);
+  }
+  removeTasks(reason);
+  removeJobs();
+}

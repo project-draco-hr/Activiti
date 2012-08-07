@@ -1,0 +1,10 @@
+{
+  for (  Job job : getJobs()) {
+    if (replacedBy != null) {
+      ((JobEntity)job).setExecution((ExecutionEntity)replacedBy);
+    }
+ else {
+      ((JobEntity)job).delete();
+    }
+  }
+}
