@@ -1,0 +1,30 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("process");
+  Execution execution=runtimeService.createExecutionQuery().executionId(processInstance.getId()).messageEventSubscriptionName("newMessage").singleResult();
+  assertNotNull(execution);
+  assertEquals(1,createEventSubscriptionQuery().count());
+  assertEquals(1,runtimeService.createExecutionQuery().count());
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("task",task.getTaskDefinitionKey());
+  taskService.complete(task.getId());
+  assertEquals(0,createEventSubscriptionQuery().count());
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+  processInstance=runtimeService.startProcessInstanceByKey("process");
+  runtimeService.messageEventReceived("newMessage",processInstance.getId());
+  assertEquals(2,taskService.createTaskQuery().count());
+  task=taskService.createTaskQuery().taskDefinitionKey("task").singleResult();
+  taskService.complete(task.getId());
+  assertEquals(2,runtimeService.createExecutionQuery().count());
+  task=taskService.createTaskQuery().taskDefinitionKey("eventSubProcessTask").singleResult();
+  taskService.complete(task.getId());
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+  processInstance=runtimeService.startProcessInstanceByKey("process");
+  runtimeService.messageEventReceived("newMessage",processInstance.getId());
+  assertEquals(2,taskService.createTaskQuery().count());
+  task=taskService.createTaskQuery().taskDefinitionKey("eventSubProcessTask").singleResult();
+  taskService.complete(task.getId());
+  assertEquals(2,runtimeService.createExecutionQuery().count());
+  task=taskService.createTaskQuery().taskDefinitionKey("task").singleResult();
+  taskService.complete(task.getId());
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+}
