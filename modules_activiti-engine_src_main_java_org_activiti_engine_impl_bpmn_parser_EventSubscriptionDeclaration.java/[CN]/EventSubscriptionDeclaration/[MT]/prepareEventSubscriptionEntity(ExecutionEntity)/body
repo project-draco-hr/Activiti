@@ -11,7 +11,7 @@
   }
   eventSubscriptionEntity.setEventName(eventName);
   if (activityId != null) {
-    ActivityImpl activity=execution.getActivity().findActivity(activityId);
+    ActivityImpl activity=execution.getProcessDefinition().findActivity(activityId);
     eventSubscriptionEntity.setActivity(activity);
   }
   return eventSubscriptionEntity;

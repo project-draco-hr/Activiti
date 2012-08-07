@@ -4,27 +4,26 @@
   if (activity == null) {
     throw new ActivitiException("Error while sending signal for event subscription '" + eventSubscription.getId() + "': "+ "no activity associated with event subscription");
   }
-  if (!activity.equals(execution.getActivity())) {
-    execution.setActivity(activity);
-  }
   if (payload instanceof Map) {
     @SuppressWarnings("unchecked") Map<String,Object> processVariables=(Map<String,Object>)payload;
     execution.setVariables(processVariables);
   }
-  if (activity.getActivityBehavior() instanceof BoundaryEventActivityBehavior) {
+  ActivityBehavior activityBehavior=activity.getActivityBehavior();
+  if (activityBehavior instanceof BoundaryEventActivityBehavior || activityBehavior instanceof EventSubProcessStartEventActivityBehavior) {
     try {
-      activity.getActivityBehavior().execute(execution);
+      activityBehavior.execute(execution);
     }
  catch (    RuntimeException e) {
-      log.log(Level.SEVERE,"exception while sending signal for event subscription '" + eventSubscription + "'",e);
       throw e;
     }
 catch (    Exception e) {
-      log.log(Level.SEVERE,"exception while sending signal for event subscription '" + eventSubscription + "'",e);
       throw new ActivitiException("exception while sending signal for event subscription '" + eventSubscription + "':"+ e.getMessage(),e);
     }
   }
  else {
+    if (!activity.equals(execution.getActivity())) {
+      execution.setActivity(activity);
+    }
     execution.signal("signal",null);
   }
 }

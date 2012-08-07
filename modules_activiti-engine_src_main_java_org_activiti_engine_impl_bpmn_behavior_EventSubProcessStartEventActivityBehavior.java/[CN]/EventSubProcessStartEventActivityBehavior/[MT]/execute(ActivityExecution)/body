@@ -1,7 +1,9 @@
 {
+  InterpretableExecution interpretableExecution=(InterpretableExecution)execution;
+  ActivityImpl activity=interpretableExecution.getProcessDefinition().findActivity(activityId);
   ActivityExecution outgoingExecution=execution;
   if (isInterrupting) {
-    ScopeUtil.destroyScope(execution,"interrupting event subprocess started");
+    ScopeUtil.destroyScope(execution,"Event subprocess triggered using activity " + activityId);
   }
  else {
     outgoingExecution=execution.createExecution();
@@ -9,5 +11,6 @@
     outgoingExecution.setScope(false);
     outgoingExecution.setConcurrent(true);
   }
-  super.execute(outgoingExecution);
+  ((InterpretableExecution)outgoingExecution).setActivity(activity);
+  outgoingExecution.takeAll(activity.getOutgoingTransitions(),Collections.EMPTY_LIST);
 }

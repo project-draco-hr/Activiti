@@ -8,8 +8,6 @@
     String errorCode=error == null ? errorRef : error.getErrorCode();
     definition.setErrorCode(errorCode);
   }
-  ScopeImpl catchingScope=((ActivityImpl)scope).getParent();
   definition.setPrecedence(10);
-  addErrorEventDefinition(definition,catchingScope);
-  startEventActivity.setActivityBehavior(new EventSubProcessStartEventActivityBehavior());
+  addErrorEventDefinition(definition,scope);
 }
