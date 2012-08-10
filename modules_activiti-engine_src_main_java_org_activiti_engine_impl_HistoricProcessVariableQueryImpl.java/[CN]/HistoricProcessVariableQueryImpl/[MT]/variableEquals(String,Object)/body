@@ -1,0 +1,11 @@
+{
+  if (variableName == null) {
+    throw new ActivitiException("variableName is null");
+  }
+  if (variableValue == null) {
+    throw new ActivitiException("variableValue is null");
+  }
+  this.variableName=variableName;
+  queryVariableValue=new QueryVariableValue(variableName,variableValue,QueryOperator.EQUALS);
+  return this;
+}
