@@ -1,0 +1,14 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("rootValue","test");
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("concurrent",vars);
+  List<Task> tasks=taskService.createTaskQuery().processInstanceId(pi.getId()).list();
+  for (  Task task : tasks) {
+    Map<String,Object> variables=new HashMap<String,Object>();
+    runtimeService.setVariable(task.getExecutionId(),"parallelValue1",task.getId());
+    runtimeService.setVariable(task.getExecutionId(),"parallelValue2","test");
+    taskService.complete(task.getId(),variables);
+  }
+  taskService.complete(taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult().getId());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().variableValueEquals("rootValue","test").count());
+}

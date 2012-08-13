@@ -1,0 +1,8 @@
+{
+  DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
+  dbSqlSession.delete(HistoricProcessVariableEntity.class,id);
+  if (byteArrayValueId != null) {
+    getByteArrayValue();
+    Context.getCommandContext().getSession(DbSqlSession.class).delete(ByteArrayEntity.class,byteArrayValueId);
+  }
+}

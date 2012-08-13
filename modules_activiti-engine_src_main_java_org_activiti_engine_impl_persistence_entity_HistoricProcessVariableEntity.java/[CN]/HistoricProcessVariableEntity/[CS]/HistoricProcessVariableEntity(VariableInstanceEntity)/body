@@ -1,3 +1,15 @@
 {
-  super(variableInstance);
+  this.processInstanceId=variableInstance.getProcessInstanceId();
+  this.revision=variableInstance.getRevision();
+  this.name=variableInstance.getName();
+  this.variableType=variableInstance.getType();
+  if (variableInstance.getByteArrayValueId() != null) {
+    this.byteArrayValue=new ByteArrayEntity(name,variableInstance.getByteArrayValue().getBytes());
+    Context.getCommandContext().getDbSqlSession().insert(byteArrayValue);
+    this.byteArrayValueId=byteArrayValue.getId();
+  }
+  this.textValue=variableInstance.getTextValue();
+  this.textValue2=variableInstance.getTextValue2();
+  this.doubleValue=variableInstance.getDoubleValue();
+  this.longValue=variableInstance.getLongValue();
 }
