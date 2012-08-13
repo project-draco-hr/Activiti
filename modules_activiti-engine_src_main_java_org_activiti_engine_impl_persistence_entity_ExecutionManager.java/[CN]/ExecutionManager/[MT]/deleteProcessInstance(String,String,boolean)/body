@@ -5,8 +5,8 @@
   }
   CommandContext commandContext=Context.getCommandContext();
   commandContext.getTaskManager().deleteTasksByProcessInstanceId(processInstanceId,deleteReason,cascade);
+  execution.deleteCascade(deleteReason);
   if (cascade) {
     commandContext.getHistoricProcessInstanceManager().deleteHistoricProcessInstanceById(processInstanceId);
   }
-  execution.deleteCascade(deleteReason);
 }

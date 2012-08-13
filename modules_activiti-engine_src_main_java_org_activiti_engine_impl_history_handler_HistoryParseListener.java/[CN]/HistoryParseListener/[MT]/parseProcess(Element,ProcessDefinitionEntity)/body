@@ -2,4 +2,7 @@
   if (activityHistoryEnabled(processDefinition,historyLevel)) {
     processDefinition.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END,new ProcessInstanceEndHandler());
   }
+  if (variableHistoryEnabled(processDefinition,historyLevel)) {
+    processDefinition.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END,HISTORIC_PROCESS_VARIABLE_HANDLER);
+  }
 }

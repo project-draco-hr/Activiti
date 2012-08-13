@@ -6,10 +6,7 @@
   assertEquals(4,historyService.createHistoricProcessVariableQuery().orderByProcessInstanceId().asc().count());
   assertEquals(4,historyService.createHistoricProcessVariableQuery().orderByTime().asc().count());
   assertEquals(4,historyService.createHistoricProcessVariableQuery().orderByVariableName().asc().count());
-  assertEquals(4,historyService.createHistoricProcessVariableQuery().excludeTaskDetails().count());
   assertEquals(2,historyService.createHistoricProcessVariableQuery().processInstanceId(processInstance.getId()).count());
-  assertEquals(4,historyService.createHistoricProcessVariableQuery().activityInstanceId(null).count());
-  assertEquals(0,historyService.createHistoricProcessVariableQuery().taskId("").count());
   assertEquals(2,historyService.createHistoricProcessVariableQuery().variableName("myVar").count());
   assertEquals(2,historyService.createHistoricProcessVariableQuery().variableNameLike("myVar1").count());
   HistoricProcessVariableEntity historicVariable=(HistoricProcessVariableEntity)variables.get(0);
