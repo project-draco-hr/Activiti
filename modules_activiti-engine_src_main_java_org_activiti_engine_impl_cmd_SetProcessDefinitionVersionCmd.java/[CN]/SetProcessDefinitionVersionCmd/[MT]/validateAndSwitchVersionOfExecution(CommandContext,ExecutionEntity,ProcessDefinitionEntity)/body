@@ -3,4 +3,8 @@
     throw new ActivitiException("The new process definition " + "(key = '" + newProcessDefinition.getKey() + "') "+ "does not contain the current activity "+ "(id = '"+ execution.getActivity().getId()+ "') "+ "of the process instance "+ "(id = '"+ processInstanceId+ "').");
   }
   execution.setProcessDefinition(newProcessDefinition);
+  List<TaskEntity> tasks=commandContext.getTaskManager().findTasksByExecutionId(execution.getId());
+  for (  TaskEntity taskEntity : tasks) {
+    taskEntity.setProcessDefinitionId(newProcessDefinition.getId());
+  }
 }
