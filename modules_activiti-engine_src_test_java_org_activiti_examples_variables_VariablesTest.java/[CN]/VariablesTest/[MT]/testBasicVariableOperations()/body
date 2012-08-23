@@ -62,6 +62,13 @@
   assertEquals(serializable,variables.get("serializableVar"));
   assertTrue(Arrays.equals(bytes,(byte[])variables.get("bytesVar")));
   assertEquals(9,variables.size());
+  Collection<String> varFilter=new ArrayList<String>(2);
+  varFilter.add("stringVar");
+  varFilter.add("integerVar");
+  Map<String,Object> filteredVariables=runtimeService.getVariables(processInstance.getId(),varFilter);
+  assertEquals(2,filteredVariables.size());
+  assertTrue(filteredVariables.containsKey("stringVar"));
+  assertTrue(filteredVariables.containsKey("integerVar"));
   runtimeService.setVariable(processInstance.getId(),"nullVar","a value");
   Object newValue=runtimeService.getVariable(processInstance.getId(),"nullVar");
   assertNotNull(newValue);

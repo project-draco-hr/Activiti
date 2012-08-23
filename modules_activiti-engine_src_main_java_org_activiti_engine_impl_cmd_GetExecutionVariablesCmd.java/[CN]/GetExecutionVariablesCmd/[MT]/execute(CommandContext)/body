@@ -13,5 +13,14 @@
  else {
     executionVariables=execution.getVariables();
   }
+  if (variableNames != null && variableNames.size() > 0) {
+    Map<String,Object> tempVariables=new HashMap<String,Object>();
+    for (    String variableName : variableNames) {
+      if (executionVariables.containsKey(variableName)) {
+        tempVariables.put(variableName,executionVariables.get(variableName));
+      }
+    }
+    executionVariables=tempVariables;
+  }
   return executionVariables;
 }
