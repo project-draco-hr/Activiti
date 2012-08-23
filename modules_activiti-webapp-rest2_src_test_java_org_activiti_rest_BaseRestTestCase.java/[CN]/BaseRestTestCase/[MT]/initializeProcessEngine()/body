@@ -1,0 +1,11 @@
+{
+  if (cachedProcessEngine == null) {
+    cachedProcessEngine=ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration().setProcessEngineName("default").buildProcessEngine();
+    if (cachedProcessEngine == null) {
+      throw new ActivitiException("no in-memory process engine available");
+    }
+    ProcessEnginesRest.init();
+    ProcessEngines.registerProcessEngine(cachedProcessEngine);
+  }
+  processEngine=cachedProcessEngine;
+}

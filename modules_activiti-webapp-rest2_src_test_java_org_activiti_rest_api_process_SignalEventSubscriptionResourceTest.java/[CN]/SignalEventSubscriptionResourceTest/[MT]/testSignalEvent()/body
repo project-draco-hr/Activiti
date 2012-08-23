@@ -1,0 +1,12 @@
+{
+  ProcessInstance instance=runtimeService.startProcessInstanceByKey("signalEvent");
+  List<ProcessInstance> instanceList=runtimeService.createProcessInstanceQuery().list();
+  assertEquals(1,instanceList.size());
+  ClientResource client=getAuthenticatedClient("process-instance/" + instance.getProcessInstanceId() + "/event/stopSignal");
+  Representation response=client.post(null);
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.get("success").getBooleanValue());
+  instanceList=runtimeService.createProcessInstanceQuery().list();
+  assertEquals(0,instanceList.size());
+}

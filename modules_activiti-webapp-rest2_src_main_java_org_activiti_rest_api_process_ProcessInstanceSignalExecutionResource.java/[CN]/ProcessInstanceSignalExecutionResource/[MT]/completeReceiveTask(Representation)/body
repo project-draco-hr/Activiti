@@ -2,18 +2,15 @@
   ObjectNode responseJSON=new ObjectMapper().createObjectNode();
   String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
   if (processInstanceId == null) {
-    throw new ActivitiException("No process instance id provided");
+    throw new ActivitiException("No process instance is provided");
   }
   try {
     if (authenticate() == false)     return null;
-    String startParams=entity.getText();
-    JsonNode startJSON=new ObjectMapper().readTree(startParams);
-    Iterator<String> itName=startJSON.getFieldNames();
     Map<String,Object> variables=new HashMap<String,Object>();
-    while (itName.hasNext()) {
-      String name=itName.next();
-      JsonNode valueNode=startJSON.path(name);
-      variables.put(name,valueNode.getTextValue());
+    String startParams=entity.getText();
+    if (StringUtils.isNotEmpty(startParams)) {
+      JsonNode startJSON=new ObjectMapper().readTree(startParams);
+      variables.putAll(retrieveVariables(startJSON));
     }
     String activityId=(String)variables.remove("activityId");
     if (activityId == null) {

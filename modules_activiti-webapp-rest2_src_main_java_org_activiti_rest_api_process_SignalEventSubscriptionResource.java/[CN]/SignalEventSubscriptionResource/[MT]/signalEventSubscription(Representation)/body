@@ -1,0 +1,46 @@
+{
+  ObjectNode responseJSON=new ObjectMapper().createObjectNode();
+  String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
+  String signalName=(String)getRequest().getAttributes().get("signalName");
+  if (StringUtils.isEmpty(processInstanceId)) {
+    responseJSON.put("success",false);
+    responseJSON.put("failureReason","No process instance is provided");
+    return responseJSON;
+  }
+  if (StringUtils.isEmpty(signalName)) {
+    responseJSON.put("success",false);
+    responseJSON.put("failureReason","No signal name is provided");
+    return responseJSON;
+  }
+  try {
+    if (authenticate() == false) {
+      responseJSON.put("success",false);
+      responseJSON.put("failureReason","Not authenticated");
+      return responseJSON;
+    }
+    Map<String,Object> variables=new HashMap<String,Object>();
+    if (entity != null) {
+      String signalVariables=entity.getText();
+      if (StringUtils.isNotEmpty(signalVariables)) {
+        JsonNode startJSON=new ObjectMapper().readTree(signalVariables);
+        variables.putAll(retrieveVariables(startJSON));
+      }
+    }
+    List<Execution> executionList=ActivitiUtil.getRuntimeService().createExecutionQuery().signalEventSubscriptionName(signalName).list();
+    for (    Execution execution : executionList) {
+      if (execution.getProcessInstanceId().equals(processInstanceId)) {
+        if (variables.size() > 0) {
+          ActivitiUtil.getRuntimeService().signalEventReceived(signalName,execution.getId(),variables);
+        }
+ else {
+          ActivitiUtil.getRuntimeService().signalEventReceived(signalName,execution.getId());
+        }
+      }
+    }
+    responseJSON.put("success",true);
+    return responseJSON;
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Failed to signal receive task for process instance id " + processInstanceId,e);
+  }
+}
