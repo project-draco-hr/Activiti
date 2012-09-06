@@ -21,6 +21,7 @@
     Element signalEventDefinition=boundaryEventElement.element("signalEventDefinition");
     Element cancelEventDefinition=boundaryEventElement.element("cancelEventDefinition");
     Element compensateEventDefinition=boundaryEventElement.element("compensateEventDefinition");
+    Element messageEventDefinition=boundaryEventElement.element("messageEventDefinition");
     if (timerEventDefinition != null) {
       parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,nestedActivity);
     }
@@ -36,6 +37,9 @@
     }
  else     if (compensateEventDefinition != null) {
       parseCatchCompensateEventDefinition(compensateEventDefinition,nestedActivity);
+    }
+ else     if (messageEventDefinition != null) {
+      parseBoundaryMessageEventDefinition(messageEventDefinition,interrupting,nestedActivity);
     }
  else {
       addError("Unsupported boundary event type",boundaryEventElement);

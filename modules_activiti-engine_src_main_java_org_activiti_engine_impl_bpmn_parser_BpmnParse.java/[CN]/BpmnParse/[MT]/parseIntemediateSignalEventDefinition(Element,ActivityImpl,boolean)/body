@@ -3,11 +3,11 @@
   EventSubscriptionDeclaration signalDefinition=parseSignalEventDefinition(element);
   if (isAfterEventBasedGateway) {
     signalDefinition.setActivityId(signalActivity.getId());
-    addEventDefinition(signalDefinition,signalActivity.getParent(),element);
+    addEventSubscriptionDeclaration(signalDefinition,signalActivity.getParent(),element);
   }
  else {
     signalActivity.setScope(true);
-    addEventDefinition(signalDefinition,signalActivity,element);
+    addEventSubscriptionDeclaration(signalDefinition,signalActivity,element);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseIntermediateSignalCatchEventDefinition(element,signalActivity);

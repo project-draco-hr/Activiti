@@ -28,13 +28,13 @@
       EventSubscriptionDeclaration eventSubscriptionDeclaration=parseMessageEventDefinition(messageEventDefinition);
       eventSubscriptionDeclaration.setActivityId(startEventActivity.getId());
       eventSubscriptionDeclaration.setStartEvent(false);
-      addEventDefinition(eventSubscriptionDeclaration,catchingScope,messageEventDefinition);
+      addEventSubscriptionDeclaration(eventSubscriptionDeclaration,catchingScope,messageEventDefinition);
     }
  else     if (signalEventDefinition != null) {
       EventSubscriptionDeclaration eventSubscriptionDeclaration=parseSignalEventDefinition(signalEventDefinition);
       eventSubscriptionDeclaration.setActivityId(startEventActivity.getId());
       eventSubscriptionDeclaration.setStartEvent(false);
-      addEventDefinition(eventSubscriptionDeclaration,catchingScope,signalEventDefinition);
+      addEventSubscriptionDeclaration(eventSubscriptionDeclaration,catchingScope,signalEventDefinition);
     }
  else {
       addError("start event of event subprocess must be of type 'error', 'message' or 'signal'",startEventElement);

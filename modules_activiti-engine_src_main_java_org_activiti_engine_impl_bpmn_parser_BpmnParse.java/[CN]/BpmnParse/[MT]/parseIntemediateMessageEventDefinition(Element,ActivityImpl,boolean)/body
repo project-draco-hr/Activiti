@@ -3,11 +3,11 @@
   EventSubscriptionDeclaration messageDefinition=parseMessageEventDefinition(messageEventDefinition);
   if (isAfterEventBasedGateway) {
     messageDefinition.setActivityId(nestedActivity.getId());
-    addEventDefinition(messageDefinition,nestedActivity.getParent(),messageEventDefinition);
+    addEventSubscriptionDeclaration(messageDefinition,nestedActivity.getParent(),messageEventDefinition);
   }
  else {
     nestedActivity.setScope(true);
-    addEventDefinition(messageDefinition,nestedActivity,messageEventDefinition);
+    addEventSubscriptionDeclaration(messageDefinition,nestedActivity,messageEventDefinition);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseIntermediateMessageCatchEventDefinition(messageEventDefinition,nestedActivity);
