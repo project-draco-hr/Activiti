@@ -1,5 +1,5 @@
 {
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("process");
+  runtimeService.startProcessInstanceByKey("process");
   assertEquals(2,runtimeService.createExecutionQuery().count());
   Task userTask=taskService.createTaskQuery().singleResult();
   assertNotNull(userTask);
@@ -11,7 +11,7 @@
   assertEquals("taskAfterMessage",userTask.getTaskDefinitionKey());
   taskService.complete(userTask.getId());
   assertEquals(0,runtimeService.createProcessInstanceQuery().count());
-  processInstance=runtimeService.startProcessInstanceByKey("process");
+  runtimeService.startProcessInstanceByKey("process");
   userTask=taskService.createTaskQuery().singleResult();
   assertNotNull(userTask);
   taskService.complete(userTask.getId());
