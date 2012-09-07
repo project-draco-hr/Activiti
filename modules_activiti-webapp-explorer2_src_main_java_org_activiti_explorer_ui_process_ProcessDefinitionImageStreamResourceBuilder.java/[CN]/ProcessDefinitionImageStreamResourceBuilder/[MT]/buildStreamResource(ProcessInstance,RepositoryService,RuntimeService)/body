@@ -2,11 +2,18 @@
   StreamResource imageResource=null;
   ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
   if (processDefinition != null && processDefinition.isGraphicalNotationDefined()) {
-    InputStream definitionImageStream=ProcessDiagramGenerator.generateDiagram(processDefinition,"png",runtimeService.getActiveActivityIds(processInstance.getId()));
-    StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
-    String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());
-    String fileName=processInstance.getId() + UUID.randomUUID() + "."+ imageExtension;
-    imageResource=new StreamResource(streamSource,fileName,ExplorerApp.get());
+    try {
+      InputStream definitionImageStream=ProcessDiagramGenerator.generateDiagram(processDefinition,"png",runtimeService.getActiveActivityIds(processInstance.getId()));
+      if (definitionImageStream != null) {
+        StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
+        String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());
+        String fileName=processInstance.getId() + UUID.randomUUID() + "."+ imageExtension;
+        imageResource=new StreamResource(streamSource,fileName,ExplorerApp.get());
+      }
+    }
+ catch (    Throwable t) {
+      LOGGER.warning("Process image cannot be generated due to exception: " + t.getClass().getName() + " - "+ t.getMessage());
+    }
   }
   return imageResource;
 }
