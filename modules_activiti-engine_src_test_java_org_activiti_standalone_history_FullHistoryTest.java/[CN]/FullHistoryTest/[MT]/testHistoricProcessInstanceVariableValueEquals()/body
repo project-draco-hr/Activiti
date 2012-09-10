@@ -1,0 +1,13 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("longVar",12345L);
+  variables.put("shortVar",(short)123);
+  variables.put("integerVar",1234);
+  variables.put("stringVar","stringValue");
+  variables.put("booleanVar",true);
+  Date date=Calendar.getInstance().getTime();
+  variables.put("dateVar",date);
+  variables.put("nullVar",null);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("HistoricProcessInstanceTest",variables);
+  assertEquals(7,historyService.createHistoricDetailQuery().variableUpdates().processInstanceId(processInstance.getId()).count());
+}
