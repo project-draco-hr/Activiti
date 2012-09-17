@@ -1,0 +1,5 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  assertEquals(1,historyService.createNativeHistoricTaskInstanceQuery().from(managementService.getTableName(HistoricProcessInstance.class)).count());
+  assertEquals(1,historyService.createNativeHistoricTaskInstanceQuery().from(managementService.getTableName(HistoricProcessInstance.class)).list().size());
+}
