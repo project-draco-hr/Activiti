@@ -1,0 +1,16 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("x","parent");
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("concurrent",variables);
+  List<Execution> concurrentExecutions=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).list();
+  assertEquals(3,concurrentExecutions.size());
+  for (  Execution execution : concurrentExecutions) {
+    if (!((ExecutionEntity)execution).isProcessInstance()) {
+      runtimeService.setVariableLocal(execution.getId(),"x","child");
+    }
+  }
+  assertEquals(2,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).variableValueEquals("x","child").count());
+  assertEquals(1,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).variableValueEquals("x","parent").count());
+  assertEquals(3,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).processVariableValueEquals("x","parent").count());
+  assertEquals(3,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).processVariableValueNotEquals("x","xxx").count());
+}
