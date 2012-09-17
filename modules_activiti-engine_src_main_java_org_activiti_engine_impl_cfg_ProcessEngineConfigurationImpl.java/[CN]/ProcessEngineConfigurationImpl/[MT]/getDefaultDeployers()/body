@@ -3,7 +3,10 @@
   BpmnDeployer bpmnDeployer=new BpmnDeployer();
   bpmnDeployer.setExpressionManager(expressionManager);
   bpmnDeployer.setIdGenerator(idGenerator);
-  BpmnParser bpmnParser=new BpmnParser(expressionManager);
+  if (bpmnParseFactory == null) {
+    bpmnParseFactory=new DefaultBpmnParseFactory();
+  }
+  BpmnParser bpmnParser=new BpmnParser(expressionManager,bpmnParseFactory);
   if (preParseListeners != null) {
     bpmnParser.getParseListeners().addAll(preParseListeners);
   }
