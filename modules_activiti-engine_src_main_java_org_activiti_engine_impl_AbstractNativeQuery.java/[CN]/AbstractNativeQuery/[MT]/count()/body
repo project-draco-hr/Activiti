@@ -1,0 +1,7 @@
+{
+  this.resultType=ResultType.COUNT;
+  if (commandExecutor != null) {
+    return (Long)commandExecutor.execute(this);
+  }
+  return executeCount(Context.getCommandContext(),getParameterMap());
+}

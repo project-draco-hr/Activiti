@@ -1,0 +1,7 @@
+{
+  this.resultType=ResultType.LIST;
+  if (commandExecutor != null) {
+    return (List<U>)commandExecutor.execute(this);
+  }
+  return executeList(Context.getCommandContext(),getParameterMap(),0,Integer.MAX_VALUE);
+}

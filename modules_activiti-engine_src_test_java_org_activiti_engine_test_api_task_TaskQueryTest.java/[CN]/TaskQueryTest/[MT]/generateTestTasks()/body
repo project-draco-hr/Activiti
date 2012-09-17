@@ -18,6 +18,7 @@
   task.setPriority(4);
   taskService.saveTask(task);
   taskService.setAssignee(task.getId(),"gonzo");
+  taskService.setVariable(task.getId(),"testVar","someVariable");
   ids.add(task.getId());
   ClockUtil.setCurrentTime(sdf.parse("03/03/2003 03:03:03.000"));
   for (int i=0; i < 2; i++) {

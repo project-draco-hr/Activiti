@@ -1,0 +1,16 @@
+{
+  String databaseTablePrefix=getDbSqlSession().getDbSqlSessionFactory().getDatabaseTablePrefix();
+  String tableName=null;
+  if (PersistentObject.class.isAssignableFrom(entityClass)) {
+    tableName=persistentObjectToTableNameMap.get(entityClass);
+  }
+ else {
+    tableName=apiTypeToTableNameMap.get(entityClass);
+  }
+  if (withPrefix) {
+    return databaseTablePrefix + tableName;
+  }
+ else {
+    return tableName;
+  }
+}
