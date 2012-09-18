@@ -1,0 +1,16 @@
+{
+  if (taskId == null) {
+    throw new ActivitiException("taskId is null");
+  }
+  TaskEntity task=Context.getCommandContext().getTaskManager().findTaskById(taskId);
+  if (task == null) {
+    throw new ActivitiException("task " + taskId + " doesn't exist");
+  }
+  if (isLocal) {
+    task.removeVariablesLocal(variableNames);
+  }
+ else {
+    task.removeVariables(variableNames);
+  }
+  return null;
+}

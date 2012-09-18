@@ -1,0 +1,21 @@
+{
+  if (processEngineConfiguration.getHistoryLevel() == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
+    boolean deletedVariableUpdateFound=false;
+    List<HistoricDetail> resultSet=historyService.createHistoricDetailQuery().processInstanceId(processInstanceId).list();
+    for (    HistoricDetail currentHistoricDetail : resultSet) {
+      assertTrue(currentHistoricDetail instanceof HistoricVariableUpdateEntity);
+      HistoricVariableUpdateEntity historicVariableUpdate=(HistoricVariableUpdateEntity)currentHistoricDetail;
+      if (historicVariableUpdate.getName().equals(variableName)) {
+        if (historicVariableUpdate.getValue() == null) {
+          if (deletedVariableUpdateFound) {
+            fail("Mismatch: A HistoricVariableUpdateEntity with a null value already found");
+          }
+ else {
+            deletedVariableUpdateFound=true;
+          }
+        }
+      }
+    }
+    assertTrue(deletedVariableUpdateFound);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    taskService.removeVariablesLocal(null,Collections.EMPTY_LIST);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("taskId is null",ae.getMessage());
+  }
+}

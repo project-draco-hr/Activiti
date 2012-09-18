@@ -1,0 +1,9 @@
+{
+  List<String> variableNames=new ArrayList<String>(getVariableNamesLocal());
+  for (  String variableName : variableNames) {
+    VariableInstanceEntity variableInstance=variableInstances.remove(variableName);
+    if (variableInstance != null) {
+      variableInstance.delete();
+    }
+  }
+}

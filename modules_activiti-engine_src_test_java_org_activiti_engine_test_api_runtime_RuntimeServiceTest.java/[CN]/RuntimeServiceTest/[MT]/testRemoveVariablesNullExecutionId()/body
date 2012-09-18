@@ -1,0 +1,9 @@
+{
+  try {
+    runtimeService.removeVariables(null,Collections.EMPTY_LIST);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+    assertTextPresent("executionId is null",ae.getMessage());
+  }
+}
