@@ -1,10 +1,9 @@
 {
-  variableInstance.delete();
-  variableInstance.setValue(null);
+  variableInstance.setValue(value);
   int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
   if (historyLevel == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
     HistoricVariableUpdateEntity historicVariableUpdate=new HistoricVariableUpdateEntity(variableInstance);
-    initializeActivityInstanceId(historicVariableUpdate);
+    initializeActivityInstanceId(historicVariableUpdate,scopes);
     Context.getCommandContext().getDbSqlSession().insert(historicVariableUpdate);
   }
 }
