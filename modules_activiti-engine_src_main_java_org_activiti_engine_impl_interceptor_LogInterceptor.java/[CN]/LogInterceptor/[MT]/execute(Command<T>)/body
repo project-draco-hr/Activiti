@@ -1,4 +1,7 @@
 {
+  if (!log.isLoggable(Level.FINE)) {
+    return next.execute(command);
+  }
   log.fine("                                                                                                    ");
   log.fine("--- starting " + ClassNameUtil.getClassNameWithoutPackage(command) + " --------------------------------------------------------");
   try {
