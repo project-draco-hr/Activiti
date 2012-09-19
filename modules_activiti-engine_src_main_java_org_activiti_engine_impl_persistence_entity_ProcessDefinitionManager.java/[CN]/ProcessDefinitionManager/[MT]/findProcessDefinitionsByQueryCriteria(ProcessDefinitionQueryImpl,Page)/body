@@ -1,9 +1,3 @@
 {
-  List<ProcessDefinition> processDefinitions=getDbSqlSession().selectList("selectProcessDefinitionsByQueryCriteria",processDefinitionQuery,page);
-  ArrayList<ProcessDefinition> result=new ArrayList<ProcessDefinition>();
-  for (  ProcessDefinition processDefinitionEntity : processDefinitions) {
-    ProcessDefinitionEntity fullProcessDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().resolveProcessDefinition((ProcessDefinitionEntity)processDefinitionEntity);
-    result.add(fullProcessDefinition);
-  }
-  return result;
+  return getDbSqlSession().selectList("selectProcessDefinitionsByQueryCriteria",processDefinitionQuery,page);
 }
