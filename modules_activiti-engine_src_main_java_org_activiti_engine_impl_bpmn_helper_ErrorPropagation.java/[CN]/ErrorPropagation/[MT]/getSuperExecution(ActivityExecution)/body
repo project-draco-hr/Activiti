@@ -1,4 +1,8 @@
 {
   ExecutionEntity executionEntity=(ExecutionEntity)execution;
-  return executionEntity.getProcessInstance().getSuperExecution();
+  ExecutionEntity superExecution=executionEntity.getProcessInstance().getSuperExecution();
+  if (superExecution != null && !superExecution.isScope()) {
+    return superExecution.getParent();
+  }
+  return superExecution;
 }
