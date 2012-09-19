@@ -1,0 +1,37 @@
+{
+  if (activity.getOutgoingTransitions().size() == 0) {
+    addError("Exclusive Gateway '" + activity.getId() + "' has no outgoing sequence flows.",null);
+  }
+ else   if (activity.getOutgoingTransitions().size() == 1) {
+    PvmTransition flow=activity.getOutgoingTransitions().get(0);
+    Condition condition=(Condition)flow.getProperty(BpmnParse.PROPERTYNAME_CONDITION);
+    if (condition != null) {
+      addError("Exclusive Gateway '" + activity.getId() + "' has only one outgoing sequence flow ('"+ flow.getId()+ "'). This is not allowed to have a condition.",null);
+    }
+  }
+ else {
+    String defaultSequenceFlow=(String)activity.getProperty("default");
+    boolean hasDefaultFlow=defaultSequenceFlow != null && defaultSequenceFlow.length() > 0;
+    ArrayList<PvmTransition> flowsWithoutCondition=new ArrayList<PvmTransition>();
+    for (    PvmTransition flow : activity.getOutgoingTransitions()) {
+      Condition condition=(Condition)flow.getProperty(BpmnParse.PROPERTYNAME_CONDITION);
+      boolean isDefaultFlow=flow.getId() != null && flow.getId().equals(defaultSequenceFlow);
+      boolean hasConditon=condition != null;
+      if (!hasConditon && !isDefaultFlow) {
+        flowsWithoutCondition.add(flow);
+      }
+      if (hasConditon && isDefaultFlow) {
+        addError("Exclusive Gateway '" + activity.getId() + "' has outgoing sequence flow '"+ flow.getId()+ "' which is the default flow but has a condition too.",null);
+      }
+    }
+    if (hasDefaultFlow || flowsWithoutCondition.size() > 1) {
+      for (      PvmTransition flow : flowsWithoutCondition) {
+        addError("Exclusive Gateway '" + activity.getId() + "' has outgoing sequence flow '"+ flow.getId()+ "' without condition which is not the default flow.",null);
+      }
+    }
+ else     if (flowsWithoutCondition.size() == 1) {
+      PvmTransition flow=flowsWithoutCondition.get(0);
+      addWarning("Exclusive Gateway '" + activity.getId() + "' has outgoing sequence flow '"+ flow.getId()+ "' without condition which is not the default flow. We assume it to be the default flow, but it is bad modeling practice, better set the default flow in your gateway.",null);
+    }
+  }
+}
