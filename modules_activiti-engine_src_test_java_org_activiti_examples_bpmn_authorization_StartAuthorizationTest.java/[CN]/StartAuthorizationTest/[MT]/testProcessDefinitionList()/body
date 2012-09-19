@@ -2,18 +2,18 @@
   setUpUsersAndGroups();
   try {
     ProcessDefinition latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process1").singleResult();
-    List<User> authorizedUsers=ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().potentialStarter(latestProcessDef.getId()).list();
+    List<User> authorizedUsers=identityService.createUserQuery().potentialStarter(latestProcessDef.getId()).list();
     assertEquals(0,authorizedUsers.size());
     latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process2").singleResult();
-    authorizedUsers=ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().potentialStarter(latestProcessDef.getId()).orderByUserId().asc().list();
+    authorizedUsers=identityService.createUserQuery().potentialStarter(latestProcessDef.getId()).orderByUserId().asc().list();
     assertEquals(2,authorizedUsers.size());
     assertEquals("user1",authorizedUsers.get(0).getId());
     assertEquals("user2",authorizedUsers.get(1).getId());
     latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process2").singleResult();
-    List<Group> authorizedGroups=ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().potentialStarter(latestProcessDef.getId()).list();
+    List<Group> authorizedGroups=identityService.createGroupQuery().potentialStarter(latestProcessDef.getId()).list();
     assertEquals(0,authorizedGroups.size());
     latestProcessDef=repositoryService.createProcessDefinitionQuery().processDefinitionKey("process4").singleResult();
-    authorizedGroups=ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().potentialStarter(latestProcessDef.getId()).orderByGroupId().asc().list();
+    authorizedGroups=identityService.createGroupQuery().potentialStarter(latestProcessDef.getId()).orderByGroupId().asc().list();
     assertEquals(3,authorizedGroups.size());
     assertEquals("group1",authorizedGroups.get(0).getId());
     assertEquals("group2",authorizedGroups.get(1).getId());
