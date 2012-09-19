@@ -1,7 +1,14 @@
 {
-  Element docElement=element.element("documentation");
-  if (docElement != null) {
-    return docElement.getText().trim();
+  List<Element> docElements=element.elements("documentation");
+  if (docElements.isEmpty()) {
+    return null;
   }
-  return null;
+  StringBuilder builder=new StringBuilder();
+  for (  Element e : docElements) {
+    if (builder.length() != 0) {
+      builder.append("\n\n");
+    }
+    builder.append(e.getText().trim());
+  }
+  return builder.toString();
 }
