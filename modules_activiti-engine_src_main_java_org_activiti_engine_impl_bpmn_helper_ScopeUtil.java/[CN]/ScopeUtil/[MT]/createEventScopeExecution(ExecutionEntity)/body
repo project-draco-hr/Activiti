@@ -1,5 +1,5 @@
 {
-  ExecutionEntity eventScope=ScopeUtil.findScopeExecution(execution,execution.getActivity().getParent());
+  ExecutionEntity eventScope=ScopeUtil.findScopeExecutionForScope(execution,execution.getActivity().getParent());
   List<CompensateEventSubscriptionEntity> eventSubscriptions=execution.getCompensateEventSubscriptions();
   if (eventSubscriptions.size() > 0) {
     ExecutionEntity eventScopeExecution=eventScope.createExecution();

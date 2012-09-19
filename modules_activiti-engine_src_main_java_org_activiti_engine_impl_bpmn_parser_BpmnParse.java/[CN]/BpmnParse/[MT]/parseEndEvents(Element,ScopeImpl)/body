@@ -3,6 +3,7 @@
     ActivityImpl activity=createActivityOnScope(endEventElement,scope);
     Element errorEventDefinition=endEventElement.element("errorEventDefinition");
     Element cancelEventDefinition=endEventElement.element("cancelEventDefinition");
+    Element terminateEventDefinition=endEventElement.element("terminateEventDefinition");
     if (errorEventDefinition != null) {
       String errorRef=errorEventDefinition.attribute("errorRef");
       if (errorRef == null || "".equals(errorRef)) {
@@ -25,6 +26,9 @@
         activity.setProperty("type","cancelEndEvent");
         activity.setActivityBehavior(new CancelEndEventActivityBehavior());
       }
+    }
+ else     if (terminateEventDefinition != null) {
+      activity.setActivityBehavior(new TerminateEndEventActivityBehavior());
     }
  else {
       activity.setActivityBehavior(new NoneEndEventActivityBehavior());

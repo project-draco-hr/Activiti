@@ -3,7 +3,7 @@
   if (cancelBoundaryEvent == null) {
     throw new ActivitiException("Could not find cancel boundary event for cancel end event " + execution.getActivity());
   }
-  ActivityExecution scopeExecution=ScopeUtil.findScopeExecution((ExecutionEntity)execution,cancelBoundaryEvent.getParentActivity());
+  ActivityExecution scopeExecution=ScopeUtil.findScopeExecutionForScope((ExecutionEntity)execution,cancelBoundaryEvent.getParentActivity());
   scopeExecution.destroyScope("cancel end event fired");
   InterpretableExecution outgoingExecution=(InterpretableExecution)scopeExecution;
   outgoingExecution.setActivity(cancelBoundaryEvent);

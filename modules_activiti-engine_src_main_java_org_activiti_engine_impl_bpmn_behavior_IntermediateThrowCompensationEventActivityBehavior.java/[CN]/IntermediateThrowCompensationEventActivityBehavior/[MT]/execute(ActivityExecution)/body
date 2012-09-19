@@ -1,6 +1,6 @@
 {
   final String activityRef=compensateEventDefinition.getActivityRef();
-  ExecutionEntity scopeExecution=ScopeUtil.findScopeExecution((ExecutionEntity)execution,(ActivityImpl)execution.getActivity());
+  ExecutionEntity scopeExecution=ScopeUtil.findScopeExecutionForScope((ExecutionEntity)execution,(ActivityImpl)execution.getActivity());
   List<CompensateEventSubscriptionEntity> eventSubscriptions;
   if (activityRef != null) {
     eventSubscriptions=scopeExecution.getCompensateEventSubscriptions(activityRef);

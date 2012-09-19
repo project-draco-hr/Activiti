@@ -1,0 +1,9 @@
+{
+  while (!execution.isScope()) {
+    execution=execution.getParent();
+  }
+  if (execution.isConcurrent()) {
+    execution=execution.getParent();
+  }
+  return execution;
+}

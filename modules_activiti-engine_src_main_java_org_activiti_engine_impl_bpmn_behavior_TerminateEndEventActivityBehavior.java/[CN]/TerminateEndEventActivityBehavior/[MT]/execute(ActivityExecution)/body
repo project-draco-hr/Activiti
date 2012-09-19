@@ -1,0 +1,7 @@
+{
+  PvmActivity terminateEndEventActivity=execution.getActivity();
+  ActivityExecution scopeExecution=ScopeUtil.findScopeExecution(execution);
+  scopeExecution.destroyScope("terminate end event fired");
+  ((InterpretableExecution)scopeExecution).setActivity((ActivityImpl)terminateEndEventActivity);
+  scopeExecution.end();
+}

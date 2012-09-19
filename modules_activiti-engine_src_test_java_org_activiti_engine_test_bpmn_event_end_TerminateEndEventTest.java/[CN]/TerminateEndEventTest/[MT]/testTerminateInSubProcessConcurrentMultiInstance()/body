@@ -1,0 +1,15 @@
+{
+  serviceTaskInvokedCount=0;
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("terminateEndEventExample");
+  long executionEntities=runtimeService.createExecutionQuery().count();
+  assertEquals(12,executionEntities);
+  Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).taskDefinitionKey("preNormalEnd").singleResult();
+  taskService.complete(task.getId());
+  long executionEntities2=runtimeService.createExecutionQuery().count();
+  assertEquals(10,executionEntities2);
+  List<Task> tasks=taskService.createTaskQuery().list();
+  for (  Task t : tasks) {
+    taskService.complete(t.getId());
+  }
+  assertProcessEnded(pi.getId());
+}
