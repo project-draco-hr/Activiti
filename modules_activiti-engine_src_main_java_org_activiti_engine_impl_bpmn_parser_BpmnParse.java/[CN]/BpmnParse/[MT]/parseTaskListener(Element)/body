@@ -10,7 +10,7 @@
     taskListener=new ExpressionTaskListener(expressionManager.createExpression(expression));
   }
  else   if (delegateExpression != null) {
-    taskListener=new DelegateExpressionTaskListener(expressionManager.createExpression(delegateExpression));
+    taskListener=new DelegateExpressionTaskListener(expressionManager.createExpression(delegateExpression),parseFieldDeclarations(taskListenerElement));
   }
  else {
     addError("Element 'class', 'expression' or 'delegateExpression' is mandatory on taskListener",taskListenerElement);

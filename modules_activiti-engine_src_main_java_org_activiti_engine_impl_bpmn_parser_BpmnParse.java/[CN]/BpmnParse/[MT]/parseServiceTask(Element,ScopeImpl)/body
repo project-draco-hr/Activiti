@@ -36,7 +36,7 @@
     if (resultVariableName != null) {
       addError("'resultVariableName' not supported for service tasks using 'delegateExpression'",serviceTaskElement);
     }
-    activity.setActivityBehavior(new ServiceTaskDelegateExpressionActivityBehavior(expressionManager.createExpression(delegateExpression)));
+    activity.setActivityBehavior(new ServiceTaskDelegateExpressionActivityBehavior(expressionManager.createExpression(delegateExpression),parseFieldDeclarations(serviceTaskElement)));
   }
  else   if (expression != null && expression.trim().length() > 0) {
     activity.setActivityBehavior(new ServiceTaskExpressionActivityBehavior(expressionManager.createExpression(expression),resultVariableName));

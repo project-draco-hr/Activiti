@@ -1,6 +1,7 @@
 {
   try {
     Object delegate=expression.getValue(execution);
+    ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
     if (delegate instanceof ActivityBehavior) {
       Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ActivityBehaviorInvocation((ActivityBehavior)delegate,execution));
     }

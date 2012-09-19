@@ -1,5 +1,6 @@
 {
   Object delegate=expression.getValue(delegateTask.getExecution());
+  ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
   if (delegate instanceof TaskListener) {
     try {
       Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new TaskListenerInvocation((TaskListener)delegate,delegateTask));

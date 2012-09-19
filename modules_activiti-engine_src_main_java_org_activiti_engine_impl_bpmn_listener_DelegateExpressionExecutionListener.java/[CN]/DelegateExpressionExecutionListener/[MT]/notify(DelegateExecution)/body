@@ -1,5 +1,6 @@
 {
   Object delegate=expression.getValue(execution);
+  ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
   if (delegate instanceof ExecutionListener) {
     Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation((ExecutionListener)delegate,execution));
   }
