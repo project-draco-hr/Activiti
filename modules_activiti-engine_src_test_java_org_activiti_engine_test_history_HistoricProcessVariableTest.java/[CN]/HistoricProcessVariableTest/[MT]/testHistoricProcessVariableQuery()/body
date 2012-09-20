@@ -25,4 +25,6 @@
   assertEquals("test456",historicVariable3.getTextValue());
   assertEquals(7,historyService.createHistoricActivityInstanceQuery().count());
   assertEquals(5,historyService.createHistoricDetailQuery().count());
+  assertEquals(3,historyService.createHistoricDetailQuery().executionId(processInstance.getId()).count());
+  assertEquals(3,historyService.createHistoricDetailQuery().processInstanceId(processInstance.getId()).count());
 }
