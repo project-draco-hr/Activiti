@@ -3,8 +3,8 @@
     boolean deletedVariableUpdateFound=false;
     List<HistoricDetail> resultSet=historyService.createHistoricDetailQuery().processInstanceId(processInstanceId).list();
     for (    HistoricDetail currentHistoricDetail : resultSet) {
-      assertTrue(currentHistoricDetail instanceof HistoricVariableUpdateEntity);
-      HistoricVariableUpdateEntity historicVariableUpdate=(HistoricVariableUpdateEntity)currentHistoricDetail;
+      assertTrue(currentHistoricDetail instanceof HistoricDetailVariableInstanceUpdateEntity);
+      HistoricDetailVariableInstanceUpdateEntity historicVariableUpdate=(HistoricDetailVariableInstanceUpdateEntity)currentHistoricDetail;
       if (historicVariableUpdate.getName().equals(variableName)) {
         if (historicVariableUpdate.getValue() == null) {
           if (deletedVariableUpdateFound) {

@@ -1,8 +1,0 @@
-{
-  HashMap<String,Object> variables=new HashMap<String,Object>();
-  variables.put("testVar","Hallo Christian");
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",variables);
-  runtimeService.deleteProcessInstance(processInstance.getId(),"deleted");
-  assertProcessEnded(processInstance.getId());
-  assertEquals(1,historyService.createHistoricProcessVariableQuery().processInstanceId(processInstance.getId()).variableValueEquals("testVar","Hallo Christian").count());
-}

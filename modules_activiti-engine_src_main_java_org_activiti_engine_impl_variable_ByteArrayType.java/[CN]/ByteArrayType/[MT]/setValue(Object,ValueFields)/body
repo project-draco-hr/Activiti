@@ -2,9 +2,7 @@
   ByteArrayEntity byteArray=valueFields.getByteArrayValue();
   byte[] bytes=(byte[])value;
   if (byteArray == null) {
-    byteArray=new ByteArrayEntity(bytes);
-    Context.getCommandContext().getDbSqlSession().insert(byteArray);
-    valueFields.setByteArrayValue(byteArray);
+    valueFields.setByteArrayValue(bytes);
   }
  else {
     byteArray.setBytes(bytes);

@@ -12,7 +12,7 @@
   assertEquals(1,tasks.size());
   taskService.complete(tasks.get(0).getId());
   assertProcessEnded(processInstance.getId());
-  assertEquals(2,historyService.createHistoricProcessVariableQuery().count());
-  assertEquals(2,historyService.createHistoricProcessVariableQuery().processInstanceId(processInstance.getId()).count());
-  assertEquals(0,historyService.createHistoricProcessVariableQuery().processInstanceId("unexisting").count());
+  assertEquals(2,historyService.createHistoricVariableInstanceQuery().count());
+  assertEquals(2,historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).count());
+  assertEquals(0,historyService.createHistoricVariableInstanceQuery().processInstanceId("unexisting").count());
 }

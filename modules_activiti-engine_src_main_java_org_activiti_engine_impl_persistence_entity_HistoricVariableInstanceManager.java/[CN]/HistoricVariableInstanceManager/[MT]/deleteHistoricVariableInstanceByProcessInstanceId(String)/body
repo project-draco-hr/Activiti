@@ -1,0 +1,15 @@
+{
+  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+    HistoricVariableInstanceManager historicProcessVariableManager=Context.getCommandContext().getHistoricVariableInstanceManager();
+    List<HistoricVariableInstanceEntity> historicProcessVariables=(List)getDbSqlSession().createHistoricVariableInstanceQuery().processInstanceId(historicProcessInstanceId).list();
+    for (    HistoricVariableInstanceEntity historicProcessVariable : historicProcessVariables) {
+      historicProcessVariable.delete();
+    }
+    List<HistoricVariableInstanceEntity> cachedHistoricVariableInstances=getDbSqlSession().findInCache(HistoricVariableInstanceEntity.class);
+    for (    HistoricVariableInstanceEntity historicProcessVariable : cachedHistoricVariableInstances) {
+      if (historicProcessVariable.getProcessInstanceId().equals(historicProcessInstanceId)) {
+        historicProcessVariable.delete();
+      }
+    }
+  }
+}

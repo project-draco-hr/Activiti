@@ -1,0 +1,14 @@
+{
+  List<String> variableNames=new ArrayList<String>(getVariableNamesLocal());
+  for (  String variableName : variableNames) {
+    ensureVariableInstancesInitialized();
+    VariableInstanceEntity variableInstance=variableInstances.remove(variableName);
+    if (variableInstance != null) {
+      variableInstance.delete();
+      int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
+      if (historyLevel == ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+        insertHistoricVariableInstance(variableInstance);
+      }
+    }
+  }
+}

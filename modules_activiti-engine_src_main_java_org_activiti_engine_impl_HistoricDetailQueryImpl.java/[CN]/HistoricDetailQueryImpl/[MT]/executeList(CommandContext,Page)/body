@@ -1,4 +1,12 @@
 {
   checkQueryOk();
-  return commandContext.getHistoricDetailManager().findHistoricDetailsByQueryCriteria(this,page);
+  List<HistoricDetail> historicDetails=commandContext.getHistoricDetailManager().findHistoricDetailsByQueryCriteria(this,page);
+  if (historicDetails != null) {
+    for (    HistoricDetail historicDetail : historicDetails) {
+      if (historicDetail instanceof HistoricDetailVariableInstanceUpdateEntity) {
+        ((HistoricDetailVariableInstanceUpdateEntity)historicDetail).getByteArrayValue();
+      }
+    }
+  }
+  return historicDetails;
 }

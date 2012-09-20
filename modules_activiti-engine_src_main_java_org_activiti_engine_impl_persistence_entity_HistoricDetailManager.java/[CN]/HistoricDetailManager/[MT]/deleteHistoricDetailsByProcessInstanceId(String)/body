@@ -3,7 +3,7 @@
     List<HistoricDetailEntity> historicDetails=(List)getDbSqlSession().createHistoricDetailQuery().processInstanceId(historicProcessInstanceId).list();
     HistoricDetailManager historicDetailManager=Context.getCommandContext().getHistoricDetailManager();
     for (    HistoricDetailEntity historicDetail : historicDetails) {
-      historicDetailManager.deleteHistoricDetail(historicDetail);
+      historicDetail.delete();
     }
   }
 }

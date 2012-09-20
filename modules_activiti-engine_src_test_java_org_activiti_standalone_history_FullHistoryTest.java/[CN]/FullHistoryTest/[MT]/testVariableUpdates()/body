@@ -66,10 +66,10 @@
   assertEquals(serviceTaskActivity.getId(),historicVariableUpdate.getActivityInstanceId());
   runtimeService.signal(processInstance.getId());
   assertProcessEnded(processInstance.getId());
-  HistoricProcessVariableQuery historicProcessVariableQuery=historyService.createHistoricProcessVariableQuery().orderByVariableName().asc();
+  HistoricVariableInstanceQuery historicProcessVariableQuery=historyService.createHistoricVariableInstanceQuery().orderByVariableName().asc();
   assertEquals(8,historicProcessVariableQuery.count());
-  List<HistoricProcessVariable> historicVariables=historicProcessVariableQuery.list();
-  HistoricProcessVariable historicVariable=historicVariables.get(0);
+  List<HistoricVariableInstance> historicVariables=historicProcessVariableQuery.list();
+  HistoricVariableInstance historicVariable=historicVariables.get(0);
   assertEquals("bytes",historicVariable.getVariableName());
   assertEquals(":-)",new String((byte[])historicVariable.getValue()));
   historicVariable=historicVariables.get(1);

@@ -1,3 +1,15 @@
 {
-  return setVariableLocal(variableName,value,newStack());
+  ensureVariableInstancesInitialized();
+  VariableInstanceEntity variableInstance=variableInstances.get(variableName);
+  if ((variableInstance != null) && (!variableInstance.getType().isAbleToStore(value))) {
+    removeVariable(variableName);
+    variableInstance=null;
+  }
+  if (variableInstance == null) {
+    createVariableLocal(variableName,value);
+  }
+ else {
+    updateVariableInstance(variableInstance,value);
+  }
+  return null;
 }

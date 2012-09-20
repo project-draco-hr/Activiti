@@ -1,3 +1,11 @@
 {
-  removeVariable(variableName,newStack());
+  ensureVariableInstancesInitialized();
+  if (variableInstances.containsKey(variableName)) {
+    removeVariableLocal(variableName);
+    return;
+  }
+  VariableScope parentVariableScope=getParentVariableScope();
+  if (parentVariableScope != null) {
+    parentVariableScope.removeVariable(variableName);
+  }
 }

@@ -1,0 +1,13 @@
+{
+  HistoricVariableInstanceEntity historicProcessVariable=Context.getCommandContext().getDbSqlSession().findInCache(HistoricVariableInstanceEntity.class,variableInstance.getId());
+  if (historicProcessVariable == null) {
+    historicProcessVariable=Context.getCommandContext().getHistoricVariableInstanceManager().findHistoricVariableInstanceByVariableInstanceId(variableInstance.getId());
+  }
+  if (historicProcessVariable != null) {
+    historicProcessVariable.copyValue(variableInstance);
+  }
+ else {
+    historicProcessVariable=new HistoricVariableInstanceEntity(variableInstance);
+    Context.getCommandContext().getDbSqlSession().insert(historicProcessVariable);
+  }
+}
