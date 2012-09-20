@@ -1,6 +1,17 @@
 {
-  String sourceRef=dataAssociationElement.element("sourceRef").getText();
-  String targetRef=dataAssociationElement.element("targetRef").getText();
+  String sourceRef=null;
+  Element sourceElement=dataAssociationElement.element("sourceRef");
+  if (sourceElement != null) {
+    sourceRef=sourceElement.getText();
+  }
+  String targetRef=null;
+  Element targetElement=dataAssociationElement.element("targetRef");
+  if (targetElement != null) {
+    targetRef=targetElement.getText();
+  }
+  if (StringUtils.isEmpty(targetRef)) {
+    addError("targetRef is required",dataAssociationElement);
+  }
   List<Element> assignments=dataAssociationElement.elements("assignment");
   if (assignments.isEmpty()) {
     return new MessageImplicitDataInputAssociation(sourceRef,targetRef);
@@ -8,10 +19,12 @@
  else {
     SimpleDataInputAssociation dataAssociation=new SimpleDataInputAssociation(sourceRef,targetRef);
     for (    Element assigmentElement : dataAssociationElement.elements("assignment")) {
-      Expression from=this.expressionManager.createExpression(assigmentElement.element("from").getText());
-      Expression to=this.expressionManager.createExpression(assigmentElement.element("to").getText());
-      Assignment assignment=new Assignment(from,to);
-      dataAssociation.addAssignment(assignment);
+      if (assigmentElement.element("from") != null && assigmentElement.element("to") != null) {
+        Expression from=this.expressionManager.createExpression(assigmentElement.element("from").getText());
+        Expression to=this.expressionManager.createExpression(assigmentElement.element("to").getText());
+        Assignment assignment=new Assignment(from,to);
+        dataAssociation.addAssignment(assignment);
+      }
     }
     return dataAssociation;
   }
