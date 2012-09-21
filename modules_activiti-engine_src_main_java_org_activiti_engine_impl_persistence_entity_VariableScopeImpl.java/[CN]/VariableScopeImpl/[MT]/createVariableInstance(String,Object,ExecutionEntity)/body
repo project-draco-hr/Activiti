@@ -7,7 +7,7 @@
   variableInstance.setValue(value);
   int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
   if (historyLevel == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
-    insertHistoricDetailVariableInstanceUpdate(variableInstance);
+    insertHistoricDetailVariableInstanceUpdate(variableInstance,sourceActivityExecution);
   }
   if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
     insertHistoricVariableInstance(variableInstance);
