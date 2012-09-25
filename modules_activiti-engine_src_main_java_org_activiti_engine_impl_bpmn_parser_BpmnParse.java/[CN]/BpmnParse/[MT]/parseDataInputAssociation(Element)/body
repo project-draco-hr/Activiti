@@ -9,7 +9,7 @@
   if (targetElement != null) {
     targetRef=targetElement.getText();
   }
-  if (StringUtils.isEmpty(targetRef)) {
+  if (targetRef != null && targetRef.equals("")) {
     addError("targetRef is required",dataAssociationElement);
   }
   List<Element> assignments=dataAssociationElement.elements("assignment");
