@@ -1,5 +1,13 @@
 {
-  CommandContext context=commandContextFactory.createCommandContext(command);
+  CommandContext context=Context.getCommandContext();
+  boolean contextReused=false;
+  if (!isContextReusePossible || context == null || context.getException() != null) {
+    context=commandContextFactory.createCommandContext(command);
+  }
+ else {
+    log.fine("Valid context found. Reusing it for the current comment '" + command.getClass().getCanonicalName() + "'");
+    contextReused=true;
+  }
   try {
     Context.setCommandContext(context);
     Context.setProcessEngineConfiguration(processEngineConfiguration);
@@ -10,7 +18,9 @@
   }
  finally {
     try {
-      context.close();
+      if (!contextReused) {
+        context.close();
+      }
     }
   finally {
       Context.removeCommandContext();
