@@ -1,0 +1,7 @@
+{
+  ensureVariableInstancesInitialized();
+  if (variableInstances.containsKey(variableName)) {
+    throw new ActivitiException("variable '" + variableName + "' already exists. Use setVariableLocal if you want to overwrite the value");
+  }
+  createVariableInstance(variableName,value,sourceActivityExecution);
+}

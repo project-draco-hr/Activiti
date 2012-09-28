@@ -1,0 +1,16 @@
+{
+  ensureVariableInstancesInitialized();
+  if (variableInstances.containsKey(variableName)) {
+    removeVariableLocal(variableName);
+    return;
+  }
+  VariableScopeImpl parentVariableScope=getParentVariableScope();
+  if (parentVariableScope != null) {
+    if (sourceActivityExecution == null) {
+      parentVariableScope.removeVariable(variableName);
+    }
+ else {
+      parentVariableScope.removeVariable(variableName,sourceActivityExecution);
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  if (hasVariableLocal(variableName)) {
+    setVariableLocal(variableName,value,sourceActivityExecution);
+    return;
+  }
+  VariableScopeImpl parentVariableScope=getParentVariableScope();
+  if (parentVariableScope != null) {
+    if (sourceActivityExecution == null) {
+      parentVariableScope.setVariable(variableName,value);
+    }
+ else {
+      parentVariableScope.setVariable(variableName,value,sourceActivityExecution);
+    }
+    return;
+  }
+  createVariableLocal(variableName,value);
+}

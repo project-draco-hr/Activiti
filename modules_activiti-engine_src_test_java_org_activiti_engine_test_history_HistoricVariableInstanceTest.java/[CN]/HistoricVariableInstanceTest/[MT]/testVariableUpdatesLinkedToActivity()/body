@@ -11,13 +11,20 @@
   assertProcessEnded(pi.getId());
   List<HistoricDetail> updates=historyService.createHistoricDetailQuery().variableUpdates().list();
   assertEquals(2,updates.size());
-  HistoricVariableUpdate update1=(HistoricVariableUpdate)updates.get(0);
-  HistoricVariableUpdate update2=(HistoricVariableUpdate)updates.get(1);
-  assertEquals("1",update1.getValue());
-  assertEquals("2",update2.getValue());
+  Map<String,HistoricVariableUpdate> updatesMap=new HashMap<String,HistoricVariableUpdate>();
+  HistoricVariableUpdate update=(HistoricVariableUpdate)updates.get(0);
+  updatesMap.put((String)update.getValue(),update);
+  update=(HistoricVariableUpdate)updates.get(1);
+  updatesMap.put((String)update.getValue(),update);
+  HistoricVariableUpdate update1=updatesMap.get("1");
+  HistoricVariableUpdate update2=updatesMap.get("2");
   assertNotNull(update1.getActivityInstanceId());
   assertNotNull(update1.getExecutionId());
   HistoricActivityInstance historicActivityInstance1=historyService.createHistoricActivityInstanceQuery().activityInstanceId(update1.getActivityInstanceId()).singleResult();
   assertEquals(historicActivityInstance1.getExecutionId(),update1.getExecutionId());
   assertEquals("usertask1",historicActivityInstance1.getActivityId());
+  assertNotNull(update2.getActivityInstanceId());
+  HistoricActivityInstance historicActivityInstance2=historyService.createHistoricActivityInstanceQuery().activityInstanceId(update2.getActivityInstanceId()).singleResult();
+  assertEquals("usertask2",historicActivityInstance2.getActivityId());
+  assertFalse(historicActivityInstance2.getExecutionId().equals(update2.getExecutionId()));
 }
