@@ -1,6 +1,6 @@
 {
   String fragment=source.getUriFragmentUtility().getFragment();
-  if (fragment != null && !"".equals(fragment)) {
+  if (StringUtils.isNotEmpty(fragment)) {
     UriFragment uriFragment=new UriFragment(fragment);
     Navigator navigationHandler=null;
     if (uriFragment.getUriParts() != null && uriFragment.getUriParts().size() > 0) {
@@ -10,5 +10,11 @@
       navigationHandler=navigatorManager.getDefaultNavigator();
     }
     navigationHandler.handleNavigation(uriFragment);
+  }
+ else   if (ExplorerApp.get().getCurrentUriFragment() != null && ExplorerApp.get().getCurrentUriFragment().getUriParts() != null && ExplorerApp.get().getCurrentUriFragment().getUriParts().size() > 0) {
+    Navigator navigationHandler=navigatorManager.getNavigator(ExplorerApp.get().getCurrentUriFragment().getUriParts().get(0));
+    if (navigationHandler instanceof ProcessModelNavigator) {
+      navigationHandler.handleNavigation(ExplorerApp.get().getCurrentUriFragment());
+    }
   }
 }

@@ -1,0 +1,15 @@
+{
+  super.parseChildElement(xtr,parentElement);
+  if (parentElement instanceof Activity) {
+    ((Activity)parentElement).getExecutionListeners().add(listener);
+  }
+ else   if (parentElement instanceof SequenceFlow) {
+    ((SequenceFlow)parentElement).getExecutionListeners().add(listener);
+  }
+ else   if (parentElement instanceof SubProcess) {
+    ((SubProcess)parentElement).getExecutionListeners().add(listener);
+  }
+ else   if (parentElement instanceof Process) {
+    ((Process)parentElement).getExecutionListeners().add(listener);
+  }
+}

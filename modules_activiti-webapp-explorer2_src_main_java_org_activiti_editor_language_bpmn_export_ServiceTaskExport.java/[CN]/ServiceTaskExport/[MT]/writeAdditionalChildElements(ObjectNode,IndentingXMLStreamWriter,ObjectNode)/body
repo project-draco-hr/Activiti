@@ -1,0 +1,22 @@
+{
+  JsonNode fieldsNode=getProperty(PROPERTY_SERVICETASK_FIELDS,objectNode);
+  if (fieldsNode != null) {
+    JsonNode itemsArrayNode=fieldsNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    if (itemsArrayNode != null) {
+      for (      JsonNode itemNode : itemsArrayNode) {
+        JsonNode nameNode=itemNode.get("servicetask_field_name");
+        if (nameNode != null && StringUtils.isNotEmpty(nameNode.asText())) {
+          if (didWriteExtensionStartElement == false) {
+            xtw.writeStartElement("extensionElements");
+            didWriteExtensionStartElement=true;
+          }
+          xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,"field",ACTIVITI_EXTENSIONS_NAMESPACE);
+          xtw.writeAttribute("name",nameNode.asText());
+          writeAttribute("stringValue","servicetask_field_value",itemNode,xtw);
+          writeAttribute("expression","servicetask_field_expression",itemNode,xtw);
+          xtw.writeEndElement();
+        }
+      }
+    }
+  }
+}

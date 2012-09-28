@@ -1,0 +1,8 @@
+{
+  StartEvent startEvent=(StartEvent)flowElement;
+  if (StringUtils.isNotEmpty(startEvent.getInitiator())) {
+    propertiesNode.put(PROPERTY_NONE_STARTEVENT_INITIATOR,startEvent.getInitiator());
+  }
+  addFormProperties(startEvent.getFormProperties(),propertiesNode);
+  addEventProperties(startEvent,propertiesNode);
+}

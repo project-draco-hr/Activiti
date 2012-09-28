@@ -1,0 +1,11 @@
+{
+  try {
+    JsonNode modelNode=objectMapper.readTree(model.getModelJson());
+    model.setName(modelNode.get(MODEL_NAME).getTextValue());
+    model.setRevision(modelNode.get(MODEL_REVISION).getNumberValue().intValue());
+  }
+ catch (  Exception e) {
+    throw new ModelException("Model Json tree could not be read");
+  }
+  return saveObject(model);
+}

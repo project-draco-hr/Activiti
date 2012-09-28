@@ -1,0 +1,16 @@
+{
+  EntityManager entityManager=createEntityManager();
+  try {
+    entityManager.getTransaction().begin();
+    BaseDatabaseObject databaseObject=entityManager.find(object.getClass(),object.getObjectId());
+    entityManager.remove(databaseObject);
+    entityManager.flush();
+    entityManager.getTransaction().commit();
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.SEVERE,"Error deleting object " + object,e);
+  }
+ finally {
+    entityManager.close();
+  }
+}

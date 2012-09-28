@@ -1,0 +1,12 @@
+{
+  for (  ObjectNode childNode : shapeMap.values()) {
+    xtw.writeStartElement(BPMNDI_PREFIX,"BPMNShape",BPMNDI_NAMESPACE);
+    xtw.writeAttribute("bpmnElement",childNode.get(EDITOR_SHAPE_ID).asText());
+    xtw.writeAttribute("id","BPMNShape_" + childNode.get(EDITOR_SHAPE_ID).asText());
+    JsonNode boundsNode=childNode.get(EDITOR_BOUNDS);
+    BoundsLocation upperLeftLocation=getLocation(EDITOR_BOUNDS_UPPER_LEFT,boundsNode);
+    BoundsLocation lowerRightLocation=getLocation(EDITOR_BOUNDS_LOWER_RIGHT,boundsNode);
+    createBounds(upperLeftLocation.x,upperLeftLocation.y,lowerRightLocation.x - upperLeftLocation.x,lowerRightLocation.y - upperLeftLocation.y);
+    xtw.writeEndElement();
+  }
+}

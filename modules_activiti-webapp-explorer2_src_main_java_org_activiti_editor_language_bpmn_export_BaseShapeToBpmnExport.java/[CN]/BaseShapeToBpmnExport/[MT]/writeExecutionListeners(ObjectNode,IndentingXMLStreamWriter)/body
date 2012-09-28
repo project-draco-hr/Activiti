@@ -1,0 +1,23 @@
+{
+  JsonNode listenersNode=getProperty(PROPERTY_EXECUTION_LISTENERS,objectNode);
+  if (listenersNode != null) {
+    JsonNode itemsArrayNode=listenersNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    if (itemsArrayNode != null) {
+      for (      JsonNode itemNode : itemsArrayNode) {
+        JsonNode typeNode=itemNode.get("execution_listener_event_type");
+        if (typeNode != null && StringUtils.isNotEmpty(typeNode.asText())) {
+          if (didWriteExtensionStartElement == false) {
+            xtw.writeStartElement("extensionElements");
+            didWriteExtensionStartElement=true;
+          }
+          xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,"executionListener",ACTIVITI_EXTENSIONS_NAMESPACE);
+          xtw.writeAttribute("event",typeNode.asText());
+          writeAttribute("class","execution_listener_class",itemNode,xtw);
+          writeAttribute("expression","execution_listener_expression",itemNode,xtw);
+          writeAttribute("delegateExpression","execution_listener_delegate_expression",itemNode,xtw);
+          xtw.writeEndElement();
+        }
+      }
+    }
+  }
+}

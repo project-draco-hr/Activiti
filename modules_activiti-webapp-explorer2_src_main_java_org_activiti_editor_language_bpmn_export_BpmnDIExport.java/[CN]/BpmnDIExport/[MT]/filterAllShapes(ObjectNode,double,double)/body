@@ -1,0 +1,33 @@
+{
+  if (objectNode.get(EDITOR_CHILD_SHAPES) != null) {
+    for (    JsonNode jsonChildNode : objectNode.get(EDITOR_CHILD_SHAPES)) {
+      ObjectNode childNode=(ObjectNode)jsonChildNode;
+      String stencilId=getStencilId(childNode);
+      if (STENCIL_SEQUENCE_FLOW.equals(stencilId) == false) {
+        JsonNode boundsNode=childNode.get(EDITOR_BOUNDS);
+        ObjectNode upperLeftNode=(ObjectNode)boundsNode.get(EDITOR_BOUNDS_UPPER_LEFT);
+        double upperLeftX=upperLeftNode.get(EDITOR_BOUNDS_X).asDouble();
+        upperLeftNode.put(EDITOR_BOUNDS_X,upperLeftX + parentX);
+        double upperLeftY=upperLeftNode.get(EDITOR_BOUNDS_Y).asDouble();
+        upperLeftNode.put(EDITOR_BOUNDS_Y,upperLeftY + parentY);
+        ObjectNode lowerRightNode=(ObjectNode)boundsNode.get(EDITOR_BOUNDS_LOWER_RIGHT);
+        double lowerRightX=lowerRightNode.get(EDITOR_BOUNDS_X).asDouble();
+        lowerRightNode.put(EDITOR_BOUNDS_X,lowerRightX + parentX);
+        double lowerRightY=lowerRightNode.get(EDITOR_BOUNDS_Y).asDouble();
+        lowerRightNode.put(EDITOR_BOUNDS_Y,lowerRightY + parentY);
+        String childShapeId=childNode.get(EDITOR_SHAPE_ID).asText();
+        shapeMap.put(childShapeId,childNode);
+        ArrayNode outgoingNode=(ArrayNode)childNode.get("outgoing");
+        if (outgoingNode != null && outgoingNode.size() > 0) {
+          for (          JsonNode outgoingChildNode : outgoingNode) {
+            JsonNode resourceNode=outgoingChildNode.get(EDITOR_SHAPE_ID);
+            if (resourceNode != null) {
+              sourceRefMap.put(resourceNode.asText(),childNode);
+            }
+          }
+        }
+        filterAllShapes(childNode,upperLeftX,upperLeftY);
+      }
+    }
+  }
+}

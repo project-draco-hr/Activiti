@@ -1,0 +1,11 @@
+{
+  windowLayout.setSpacing(true);
+  addStyleName(Reindeer.WINDOW_LIGHT);
+  setModal(true);
+  center();
+  String name=processDefinition.getName();
+  if (StringUtils.isEmpty(name)) {
+    name=processDefinition.getKey();
+  }
+  setCaption(i18nManager.getMessage(Messages.PROCESS_CONVERT_POPUP_CAPTION,name));
+}

@@ -1,0 +1,8 @@
+{
+  propertiesNode.put("activitytype","Sub-Process");
+  propertiesNode.put("subprocesstype","Embedded");
+  ArrayNode subProcessshapesArrayNode=objectMapper.createArrayNode();
+  GraphicInfo graphicInfo=model.getGraphicInfo(flowElement.getId());
+  processor.processFlowElements(process,model,shapesArrayNode,graphicInfo.x + subProcessX,graphicInfo.y + subProcessY);
+  flowElementNode.put("childShapes",subProcessshapesArrayNode);
+}

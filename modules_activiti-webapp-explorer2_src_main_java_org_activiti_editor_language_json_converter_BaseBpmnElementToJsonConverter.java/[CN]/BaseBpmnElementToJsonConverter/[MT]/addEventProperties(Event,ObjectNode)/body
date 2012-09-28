@@ -1,0 +1,30 @@
+{
+  List<EventDefinition> eventDefinitions=event.getEventDefinitions();
+  if (eventDefinitions.size() == 1) {
+    EventDefinition eventDefinition=eventDefinitions.get(0);
+    if (eventDefinition instanceof ErrorEventDefinition) {
+      ErrorEventDefinition errorDefinition=(ErrorEventDefinition)eventDefinition;
+      if (StringUtils.isNotEmpty(errorDefinition.getErrorCode())) {
+        propertiesNode.put(PROPERTY_ERRORREF,errorDefinition.getErrorCode());
+      }
+    }
+ else     if (eventDefinition instanceof SignalEventDefinition) {
+      SignalEventDefinition signalDefinition=(SignalEventDefinition)eventDefinition;
+      if (StringUtils.isNotEmpty(signalDefinition.getSignalRef())) {
+        propertiesNode.put(PROPERTY_SIGNALREF,signalDefinition.getSignalRef());
+      }
+    }
+ else     if (eventDefinition instanceof TimerEventDefinition) {
+      TimerEventDefinition timerDefinition=(TimerEventDefinition)eventDefinition;
+      if (StringUtils.isNotEmpty(timerDefinition.getTimeDuration())) {
+        propertiesNode.put(PROPERTY_TIMER_DURATON,timerDefinition.getTimeDuration());
+      }
+      if (StringUtils.isNotEmpty(timerDefinition.getTimeCycle())) {
+        propertiesNode.put(PROPERTY_TIMER_CYCLE,timerDefinition.getTimeCycle());
+      }
+      if (StringUtils.isNotEmpty(timerDefinition.getTimeDate())) {
+        propertiesNode.put(PROPERTY_TIMER_DATE,timerDefinition.getTimeDate());
+      }
+    }
+  }
+}

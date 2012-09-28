@@ -1,0 +1,32 @@
+{
+  this.model=model;
+  this.flowElement=flowElement;
+  this.processor=processor;
+  this.process=process;
+  this.subProcessX=subProcessX;
+  this.subProcessY=subProcessY;
+  this.shapesArrayNode=shapesArrayNode;
+  GraphicInfo graphicInfo=model.getGraphicInfo(flowElement.getId());
+  flowElementNode=BpmnJsonConverterUtil.createChildShape(flowElement.getId(),getActivityType(),graphicInfo.x - subProcessX + graphicInfo.width,graphicInfo.y - subProcessY + graphicInfo.height,graphicInfo.x - subProcessX,graphicInfo.y - subProcessY);
+  shapesArrayNode.add(flowElementNode);
+  ObjectNode propertiesNode=objectMapper.createObjectNode();
+  if (StringUtils.isNotEmpty(flowElement.getName())) {
+    propertiesNode.put(PROPERTY_NAME,flowElement.getName());
+  }
+  if (StringUtils.isNotEmpty(flowElement.getDocumentation())) {
+    propertiesNode.put(PROPERTY_DOCUMENTATION,flowElement.getDocumentation());
+  }
+  convertElement(propertiesNode);
+  flowElementNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
+  ArrayNode outgoingArrayNode=objectMapper.createArrayNode();
+  for (  SequenceFlow sequenceFlow : flowElement.getOutgoingFlows()) {
+    outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(sequenceFlow.getId()));
+  }
+  if (flowElement instanceof Activity) {
+    Activity activity=(Activity)flowElement;
+    for (    BoundaryEvent boundaryEvent : activity.getBoundaryEvents()) {
+      outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(boundaryEvent.getId()));
+    }
+  }
+  flowElementNode.put("outgoing",outgoingArrayNode);
+}

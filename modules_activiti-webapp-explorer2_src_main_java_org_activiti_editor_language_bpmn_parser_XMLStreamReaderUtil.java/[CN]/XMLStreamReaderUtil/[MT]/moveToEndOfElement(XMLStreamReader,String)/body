@@ -1,0 +1,18 @@
+{
+  try {
+    while (xtr.hasNext()) {
+      int event=xtr.next();
+switch (event) {
+case XMLStreamConstants.END_DOCUMENT:
+        return false;
+case XMLStreamConstants.END_ELEMENT:
+      if (xtr.getLocalName().equals(elementName))       return true;
+    break;
+}
+}
+}
+ catch (Exception e) {
+LOGGER.log(Level.WARNING,"Error while moving to end of element " + elementName,e);
+}
+return false;
+}

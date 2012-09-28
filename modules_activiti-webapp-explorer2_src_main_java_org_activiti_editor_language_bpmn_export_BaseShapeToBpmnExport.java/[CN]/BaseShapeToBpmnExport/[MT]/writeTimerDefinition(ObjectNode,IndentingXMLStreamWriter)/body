@@ -1,0 +1,22 @@
+{
+  xtw.writeStartElement("timerEventDefinition");
+  String timeDate=getPropertyValueAsString(PROPERTY_TIMER_DATE,objectNode);
+  String timeCycle=getPropertyValueAsString(PROPERTY_TIMER_CYCLE,objectNode);
+  String timeDuration=getPropertyValueAsString(PROPERTY_TIMER_DURATON,objectNode);
+  if (StringUtils.isNotEmpty(timeDate)) {
+    xtw.writeStartElement("timeDate");
+    xtw.writeCharacters(timeDate);
+    xtw.writeEndElement();
+  }
+ else   if (StringUtils.isNotEmpty(timeCycle)) {
+    xtw.writeStartElement("timeCycle");
+    xtw.writeCharacters(timeCycle);
+    xtw.writeEndElement();
+  }
+ else   if (StringUtils.isNotEmpty(timeDuration)) {
+    xtw.writeStartElement("timeDuration");
+    xtw.writeCharacters(timeDuration);
+    xtw.writeEndElement();
+  }
+  xtw.writeEndElement();
+}

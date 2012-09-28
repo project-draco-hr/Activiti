@@ -1,0 +1,20 @@
+{
+  this.parentElement=parentElement;
+  boolean readyWithChildElements=false;
+  try {
+    while (readyWithChildElements == false && xtr.hasNext()) {
+      xtr.next();
+      if (xtr.isStartElement()) {
+        if (parser.getElementName().equals(xtr.getLocalName())) {
+          parser.parseChildElement(xtr,parentElement);
+        }
+      }
+ else       if (xtr.isEndElement() && getElementName().equalsIgnoreCase(xtr.getLocalName())) {
+        readyWithChildElements=true;
+      }
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.WARNING,"Error parsing child elements for " + getElementName(),e);
+  }
+}

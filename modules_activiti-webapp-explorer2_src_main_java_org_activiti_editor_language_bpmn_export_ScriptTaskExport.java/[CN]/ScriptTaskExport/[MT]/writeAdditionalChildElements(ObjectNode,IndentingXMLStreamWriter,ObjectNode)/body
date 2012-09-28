@@ -1,0 +1,9 @@
+{
+  String script=getPropertyValueAsString(PROPERTY_SCRIPT_TEXT,objectNode);
+  if (StringUtils.isNotEmpty(script)) {
+    xtw.writeStartElement("script");
+    xtw.writeCharacters(script);
+    xtw.writeEndElement();
+  }
+  super.writeAdditionalChildElements(objectNode,xtw,modelNode);
+}

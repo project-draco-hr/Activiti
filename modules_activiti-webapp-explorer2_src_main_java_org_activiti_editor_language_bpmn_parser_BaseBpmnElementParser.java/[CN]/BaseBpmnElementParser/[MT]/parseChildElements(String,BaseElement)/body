@@ -1,0 +1,24 @@
+{
+  Map<String,BaseChildElementParser> childParsers=new HashMap<String,BaseChildElementParser>();
+  childParsers.putAll(genericChildParserMap);
+  if (childElementParsers != null) {
+    childParsers.putAll(childElementParsers);
+  }
+  boolean readyWithChildElements=false;
+  try {
+    while (readyWithChildElements == false && xtr.hasNext()) {
+      xtr.next();
+      if (xtr.isStartElement()) {
+        if (childParsers.containsKey(xtr.getLocalName())) {
+          childParsers.get(xtr.getLocalName()).parseChildElement(xtr,parentElement);
+        }
+      }
+ else       if (xtr.isEndElement() && elementName.equalsIgnoreCase(xtr.getLocalName())) {
+        readyWithChildElements=true;
+      }
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.WARNING,"Error parsing child elements for " + elementName,e);
+  }
+}

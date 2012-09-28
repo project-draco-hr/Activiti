@@ -1,0 +1,22 @@
+{
+  String sourceRef=null;
+  for (  JsonNode childNode : modelNode.get(EDITOR_CHILD_SHAPES)) {
+    ArrayNode outgoingNode=(ArrayNode)childNode.get("outgoing");
+    if (outgoingNode != null && outgoingNode.size() > 0) {
+      for (      JsonNode outgoingChildNode : outgoingNode) {
+        JsonNode resourceNode=outgoingChildNode.get(EDITOR_SHAPE_ID);
+        if (resourceNode != null && objectNode.get(EDITOR_SHAPE_ID).asText().equals(resourceNode.asText())) {
+          sourceRef=childNode.get(EDITOR_SHAPE_ID).asText();
+          break;
+        }
+      }
+      if (sourceRef != null) {
+        break;
+      }
+    }
+  }
+  if (sourceRef != null) {
+    xtw.writeAttribute("sourceRef",sourceRef);
+  }
+  xtw.writeAttribute("targetRef",objectNode.get("target").get(EDITOR_SHAPE_ID).asText());
+}

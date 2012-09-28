@@ -1,0 +1,25 @@
+{
+  writeFormProperties(objectNode,xtw);
+  JsonNode listenersNode=getProperty(PROPERTY_TASK_LISTENERS,objectNode);
+  if (listenersNode != null) {
+    JsonNode itemsArrayNode=listenersNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    if (itemsArrayNode != null) {
+      for (      JsonNode itemNode : itemsArrayNode) {
+        JsonNode typeNode=itemNode.get("task_listener_event_type");
+        if (typeNode != null && StringUtils.isNotEmpty(typeNode.asText())) {
+          if (didWriteExtensionStartElement == false) {
+            xtw.writeStartElement("extensionElements");
+            didWriteExtensionStartElement=true;
+          }
+          xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,"taskListener",ACTIVITI_EXTENSIONS_NAMESPACE);
+          xtw.writeAttribute("event",typeNode.asText());
+          writeAttribute("class","task_listener_class",itemNode,xtw);
+          writeAttribute("expression","task_listener_expression",itemNode,xtw);
+          writeAttribute("delegateExpression","task_listener_delegate_expression",itemNode,xtw);
+          xtw.writeEndElement();
+        }
+      }
+    }
+  }
+  super.writeAdditionalChildElements(objectNode,xtw,modelNode);
+}

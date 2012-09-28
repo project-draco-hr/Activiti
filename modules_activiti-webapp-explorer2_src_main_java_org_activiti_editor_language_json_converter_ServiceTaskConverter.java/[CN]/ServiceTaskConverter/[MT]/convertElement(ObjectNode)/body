@@ -1,0 +1,12 @@
+{
+  ServiceTask serviceTask=(ServiceTask)flowElement;
+  if (CLASS_TYPE.equals(serviceTask.getImplementationType())) {
+    propertiesNode.put(PROPERTY_SERVICETASK_CLASS,serviceTask.getImplementation());
+  }
+ else   if (EXPRESSION_TYPE.equals(serviceTask.getImplementationType())) {
+    propertiesNode.put(PROPERTY_SERVICETASK_EXPRESSION,serviceTask.getImplementation());
+  }
+ else   if (DELEGATE_EXPRESSION_TYPE.equals(serviceTask.getImplementationType())) {
+    propertiesNode.put(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION,serviceTask.getImplementation());
+  }
+}

@@ -1,0 +1,17 @@
+{
+  BoundaryEvent boundaryEvent=(BoundaryEvent)flowElement;
+  List<EventDefinition> eventDefinitions=boundaryEvent.getEventDefinitions();
+  if (eventDefinitions.size() != 1) {
+    return STENCIL_EVENT_BOUNDARY_TIMER;
+  }
+  EventDefinition eventDefinition=eventDefinitions.get(0);
+  if (eventDefinition instanceof ErrorEventDefinition) {
+    return STENCIL_EVENT_BOUNDARY_ERROR;
+  }
+ else   if (eventDefinition instanceof SignalEventDefinition) {
+    return STENCIL_EVENT_BOUNDARY_SIGNAL;
+  }
+ else {
+    return STENCIL_EVENT_BOUNDARY_TIMER;
+  }
+}

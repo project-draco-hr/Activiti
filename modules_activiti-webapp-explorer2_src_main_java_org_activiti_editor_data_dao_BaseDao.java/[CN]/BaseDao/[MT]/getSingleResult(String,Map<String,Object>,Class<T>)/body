@@ -1,0 +1,20 @@
+{
+  EntityManager entityManager=createEntityManager();
+  T result=null;
+  try {
+    Query query=entityManager.createQuery(queryString);
+    if (parameterMap != null) {
+      for (      String key : parameterMap.keySet()) {
+        query.setParameter(key,parameterMap.get(key));
+      }
+    }
+    result=(T)query.getSingleResult();
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.SEVERE,"Error query for single result " + entityClass + " with query "+ queryString,e);
+  }
+ finally {
+    entityManager.close();
+  }
+  return result;
+}

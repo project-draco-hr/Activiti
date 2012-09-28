@@ -1,0 +1,28 @@
+{
+  Button cancelButton=new Button(i18nManager.getMessage(Messages.BUTTON_CANCEL));
+  cancelButton.addStyleName(Reindeer.BUTTON_SMALL);
+  cancelButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      close();
+    }
+  }
+);
+  Button deleteButton=new Button(i18nManager.getMessage(Messages.PROCESS_DELETE_POPUP_DELETE_BUTTON));
+  deleteButton.addStyleName(Reindeer.BUTTON_SMALL);
+  deleteButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      new ModelDao().deleteModel(modelData);
+      close();
+      ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage();
+    }
+  }
+);
+  HorizontalLayout buttonLayout=new HorizontalLayout();
+  buttonLayout.setSpacing(true);
+  buttonLayout.addComponent(cancelButton);
+  buttonLayout.addComponent(deleteButton);
+  addComponent(buttonLayout);
+  windowLayout.setComponentAlignment(buttonLayout,Alignment.BOTTOM_RIGHT);
+}

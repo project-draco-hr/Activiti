@@ -1,0 +1,11 @@
+{
+  ObjectNode shapeNode=objectMapper.createObjectNode();
+  shapeNode.put(EDITOR_BOUNDS,createBoundsNode(lowerRightX,lowerRightY,upperLeftX,upperLeftY));
+  shapeNode.put(EDITOR_SHAPE_ID,id);
+  ArrayNode shapesArrayNode=objectMapper.createArrayNode();
+  shapeNode.put(EDITOR_CHILD_SHAPES,shapesArrayNode);
+  ObjectNode stencilNode=objectMapper.createObjectNode();
+  stencilNode.put(EDITOR_STENCIL_ID,type);
+  shapeNode.put(EDITOR_STENCIL,stencilNode);
+  return shapeNode;
+}

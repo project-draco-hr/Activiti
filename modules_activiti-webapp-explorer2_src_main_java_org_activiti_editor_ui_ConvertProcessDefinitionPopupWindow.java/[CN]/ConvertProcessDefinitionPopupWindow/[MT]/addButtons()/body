@@ -1,0 +1,39 @@
+{
+  Button cancelButton=new Button(i18nManager.getMessage(Messages.BUTTON_CANCEL));
+  cancelButton.addStyleName(Reindeer.BUTTON_SMALL);
+  cancelButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      close();
+    }
+  }
+);
+  Button convertButton=new Button(i18nManager.getMessage(Messages.PROCESS_CONVERT_POPUP_CONVERT_BUTTON));
+  convertButton.addStyleName(Reindeer.BUTTON_SMALL);
+  convertButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      InputStream bpmnStream=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getResourceName());
+      BpmnToEditorJsonConverter converter=new BpmnToEditorJsonConverter(processDefinition.getResourceName(),bpmnStream);
+      ObjectNode modelNode=converter.convertToJson();
+      ModelData modelData=new ModelData();
+      modelData.setModelEditorJson(modelNode.toString());
+      ObjectNode modelObjectNode=new ObjectMapper().createObjectNode();
+      modelObjectNode.put(MODEL_NAME,processDefinition.getName());
+      modelObjectNode.put(MODEL_REVISION,1);
+      modelObjectNode.put(MODEL_DESCRIPTION,processDefinition.getDescription());
+      modelData.setModelJson(modelObjectNode.toString());
+      long modelId=new ModelDao().saveModel(modelData);
+      close();
+      ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(String.valueOf(modelId));
+      ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString() + "service/editor?id=" + modelId));
+    }
+  }
+);
+  HorizontalLayout buttonLayout=new HorizontalLayout();
+  buttonLayout.setSpacing(true);
+  buttonLayout.addComponent(cancelButton);
+  buttonLayout.addComponent(convertButton);
+  addComponent(buttonLayout);
+  windowLayout.setComponentAlignment(buttonLayout,Alignment.BOTTOM_RIGHT);
+}

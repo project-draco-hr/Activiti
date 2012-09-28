@@ -1,0 +1,47 @@
+{
+  String nodeType=getStencilId(objectNode);
+  if (toIgnoreFlows.contains(objectNode)) {
+  }
+ else   if (STENCIL_SUB_PROCESS.equals(nodeType)) {
+    BaseShapeHelper.writeStartElement("subProcess",objectNode,xtw);
+    if (StringUtils.isEmpty(BaseShapeHelper.getPropertyValueAsString("name",objectNode))) {
+      xtw.writeAttribute("name","subProcess");
+    }
+    ArrayNode shapesArrayNode=(ArrayNode)objectNode.get("childShapes");
+    Map<String,String> flowIds=new HashMap<String,String>();
+    for (    JsonNode shapeNode : shapesArrayNode) {
+      createXML((ObjectNode)shapeNode);
+      ArrayNode outgoingNode=(ArrayNode)shapeNode.get("outgoing");
+      if (outgoingNode != null && outgoingNode.size() > 0) {
+        for (        JsonNode outgoingChildNode : outgoingNode) {
+          JsonNode resourceNode=outgoingChildNode.get(EDITOR_SHAPE_ID);
+          if (resourceNode != null) {
+            flowIds.put(resourceNode.asText(),shapeNode.get(EDITOR_SHAPE_ID).asText());
+          }
+        }
+      }
+    }
+    for (    String flowId : flowIds.keySet()) {
+      for (      JsonNode childNode : modelNode.get(EDITOR_CHILD_SHAPES)) {
+        String flowNodeType=getStencilId((ObjectNode)childNode);
+        if (STENCIL_SEQUENCE_FLOW.equals(flowNodeType) && flowId.equals(childNode.get(EDITOR_SHAPE_ID).asText())) {
+          xtw.writeStartElement("sequenceFlow");
+          xtw.writeAttribute("id",flowId);
+          xtw.writeAttribute("sourceRef",flowIds.get(flowId));
+          xtw.writeAttribute("targetRef",childNode.get("target").get(EDITOR_SHAPE_ID).asText());
+          xtw.writeEndElement();
+          toIgnoreFlows.add(childNode);
+          break;
+        }
+      }
+    }
+    xtw.writeEndElement();
+  }
+ else {
+    Class<? extends BaseShapeToBpmnExport> converter=converterMap.get(nodeType);
+    if (converter == null) {
+      throw new XMLException("Node type " + nodeType + " is unknown");
+    }
+    converter.newInstance().convert(objectNode,xtw,modelNode);
+  }
+}

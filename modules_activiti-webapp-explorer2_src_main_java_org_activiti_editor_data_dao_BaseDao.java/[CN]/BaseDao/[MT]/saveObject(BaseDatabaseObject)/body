@@ -1,0 +1,21 @@
+{
+  EntityManager entityManager=createEntityManager();
+  try {
+    entityManager.getTransaction().begin();
+    if (object.getObjectId() > 0) {
+      entityManager.merge(object);
+    }
+ else {
+      entityManager.persist(object);
+    }
+    entityManager.flush();
+    entityManager.getTransaction().commit();
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.SEVERE,"Error saving object " + object,e);
+  }
+ finally {
+    entityManager.close();
+  }
+  return object.getObjectId();
+}
