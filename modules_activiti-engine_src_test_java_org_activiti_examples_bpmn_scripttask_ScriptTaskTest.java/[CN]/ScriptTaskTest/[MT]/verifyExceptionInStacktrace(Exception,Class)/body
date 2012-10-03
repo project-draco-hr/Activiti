@@ -1,0 +1,13 @@
+{
+  Throwable expectedException=rootExcepton;
+  boolean found=false;
+  while (!found && expectedException != null) {
+    if (expectedException.getClass().equals(expectedExceptionClass)) {
+      found=true;
+    }
+ else {
+      expectedException=expectedException.getCause();
+    }
+  }
+  assertEquals(expectedExceptionClass,expectedException.getClass());
+}
