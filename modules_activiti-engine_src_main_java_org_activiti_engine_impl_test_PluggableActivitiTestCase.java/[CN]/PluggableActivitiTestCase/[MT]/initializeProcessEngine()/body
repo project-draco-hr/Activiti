@@ -1,9 +1,3 @@
 {
-  if (cachedProcessEngine == null) {
-    cachedProcessEngine=ProcessEngines.getDefaultProcessEngine();
-    if (cachedProcessEngine == null) {
-      throw new ActivitiException("no default process engine available");
-    }
-  }
-  processEngine=cachedProcessEngine;
+  processEngine=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml").buildProcessEngine();
 }
