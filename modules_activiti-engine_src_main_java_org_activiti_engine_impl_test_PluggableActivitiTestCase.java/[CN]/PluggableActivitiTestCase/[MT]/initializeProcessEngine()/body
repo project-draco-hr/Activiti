@@ -1,3 +1,6 @@
 {
-  processEngine=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml").buildProcessEngine();
+  if (cachedProcessEngine == null) {
+    cachedProcessEngine=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml").buildProcessEngine();
+  }
+  processEngine=cachedProcessEngine;
 }
