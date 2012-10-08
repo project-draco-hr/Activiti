@@ -1,0 +1,14 @@
+{
+  setOwner(this.getOwner());
+  setAssignee(this.getAssignee());
+  setDelegationState(this.getDelegationState());
+  setName(this.getName());
+  setDescription(this.getDescription());
+  setPriority(this.getPriority());
+  setCreateTime(this.getCreateTime());
+  setDueDate(this.getDueDate());
+  setParentTaskId(this.getParentTaskId());
+  CommandContext commandContext=Context.getCommandContext();
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  dbSqlSession.update(this);
+}

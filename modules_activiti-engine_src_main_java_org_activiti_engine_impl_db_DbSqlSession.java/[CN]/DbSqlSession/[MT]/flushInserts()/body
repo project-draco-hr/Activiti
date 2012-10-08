@@ -7,6 +7,9 @@
     }
     log.fine("inserting: " + toString(insertedObject));
     sqlSession.insert(insertStatement,insertedObject);
+    if (insertedObject instanceof HasRevision) {
+      ((HasRevision)insertedObject).setRevision(((HasRevision)insertedObject).getRevisionNext());
+    }
   }
   insertedObjects.clear();
 }
