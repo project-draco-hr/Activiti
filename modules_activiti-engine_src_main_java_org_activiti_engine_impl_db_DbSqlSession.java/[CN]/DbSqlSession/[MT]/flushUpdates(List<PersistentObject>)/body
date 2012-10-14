@@ -10,6 +10,9 @@
     if (updatedRecords != 1) {
       throw new ActivitiOptimisticLockingException(toString(updatedObject) + " was updated by another transaction concurrently");
     }
+    if (updatedObject instanceof HasRevision) {
+      ((HasRevision)updatedObject).setRevision(((HasRevision)updatedObject).getRevisionNext());
+    }
   }
   updatedObjects.clear();
 }

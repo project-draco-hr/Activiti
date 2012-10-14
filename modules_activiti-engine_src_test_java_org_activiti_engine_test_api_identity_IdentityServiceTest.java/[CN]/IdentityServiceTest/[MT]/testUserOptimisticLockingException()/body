@@ -1,0 +1,16 @@
+{
+  User user=identityService.newUser("kermit");
+  identityService.saveUser(user);
+  User user1=identityService.createUserQuery().singleResult();
+  User user2=identityService.createUserQuery().singleResult();
+  user1.setFirstName("name one");
+  identityService.saveUser(user1);
+  try {
+    user2.setFirstName("name two");
+    identityService.saveUser(user2);
+    fail("Expected an exception");
+  }
+ catch (  ActivitiOptimisticLockingException e) {
+  }
+  identityService.deleteUser(user.getId());
+}

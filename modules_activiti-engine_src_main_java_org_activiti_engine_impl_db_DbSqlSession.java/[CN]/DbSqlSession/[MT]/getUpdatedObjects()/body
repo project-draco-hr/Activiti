@@ -6,7 +6,7 @@
       PersistentObject persistentObject=(PersistentObject)cachedObject.getPersistentObject();
       if (!deletedObjects.contains(persistentObject)) {
         Object originalState=cachedObject.getPersistentObjectState();
-        if (!originalState.equals(persistentObject.getPersistentState())) {
+        if (!persistentObject.getPersistentState().equals(originalState)) {
           updatedObjects.add(persistentObject);
         }
  else {
