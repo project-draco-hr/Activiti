@@ -5,20 +5,19 @@
   }
   String dueDateString=null;
   Date duedate=null;
-  if (executionEntity == null) {
-    dueDateString=description.getExpressionText();
+  VariableScope scopeForExpression=executionEntity;
+  if (scopeForExpression == null) {
+    scopeForExpression=StartProcessVariableScope.getSharedInstance();
+  }
+  Object dueDateValue=description.getValue(scopeForExpression);
+  if (dueDateValue instanceof String) {
+    dueDateString=(String)dueDateValue;
+  }
+ else   if (dueDateValue instanceof Date) {
+    duedate=(Date)dueDateValue;
   }
  else {
-    Object dueDateValue=description.getValue(executionEntity);
-    if (dueDateValue instanceof String) {
-      dueDateString=(String)dueDateValue;
-    }
- else     if (dueDateValue instanceof Date) {
-      duedate=(Date)dueDateValue;
-    }
- else {
-      throw new ActivitiException("Timer '" + executionEntity.getActivityId() + "' was not configured with a valid duration/time, either hand in a java.util.Date or a String in format 'yyyy-MM-dd'T'hh:mm:ss'");
-    }
+    throw new ActivitiException("Timer '" + executionEntity.getActivityId() + "' was not configured with a valid duration/time, either hand in a java.util.Date or a String in format 'yyyy-MM-dd'T'hh:mm:ss'");
   }
   if (duedate == null) {
     duedate=businessCalendar.resolveDuedate(dueDateString);
