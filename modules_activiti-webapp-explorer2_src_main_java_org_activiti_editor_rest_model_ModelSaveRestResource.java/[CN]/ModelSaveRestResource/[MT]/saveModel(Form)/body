@@ -9,8 +9,7 @@
     modelJson.put(MODEL_DESCRIPTION,modelForm.getFirstValue("description"));
     model.setModelJson(modelJson.toString());
     model.setModelEditorJson(modelForm.getFirstValue("json_xml"));
-    System.out.println("svg " + modelForm.getFirstValue("svg_xml"));
-    model.setModelSvg(modelForm.getFirstValue("svg_xml"));
+    model.setModelSvg(new String(modelForm.getFirstValue("svg_xml").getBytes("utf-8")));
     modelDao.saveModel(model);
   }
  catch (  Exception e) {

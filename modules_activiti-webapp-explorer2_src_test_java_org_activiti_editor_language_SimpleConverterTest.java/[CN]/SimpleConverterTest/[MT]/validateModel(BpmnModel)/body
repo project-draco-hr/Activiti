@@ -1,0 +1,24 @@
+{
+  assertEquals("simpleProcess",model.getMainProcess().getId());
+  assertEquals("Simple process",model.getMainProcess().getName());
+  FlowElement flowElement=model.getMainProcess().getFlowElement("flow1");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof SequenceFlow);
+  assertEquals("flow1",flowElement.getId());
+  flowElement=model.getMainProcess().getFlowElement("catchEvent");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof IntermediateCatchEvent);
+  assertEquals("catchEvent",flowElement.getId());
+  IntermediateCatchEvent catchEvent=(IntermediateCatchEvent)flowElement;
+  assertTrue(catchEvent.getEventDefinitions().size() == 1);
+  EventDefinition eventDefinition=catchEvent.getEventDefinitions().get(0);
+  assertTrue(eventDefinition instanceof TimerEventDefinition);
+  TimerEventDefinition timerDefinition=(TimerEventDefinition)eventDefinition;
+  assertEquals("PT5M",timerDefinition.getTimeDuration());
+  flowElement=model.getMainProcess().getFlowElement("flow1Condition");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof SequenceFlow);
+  assertEquals("flow1Condition",flowElement.getId());
+  SequenceFlow flow=(SequenceFlow)flowElement;
+  assertEquals("${number <= 1}",flow.getConditionExpression());
+}

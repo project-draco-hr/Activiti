@@ -1,0 +1,23 @@
+{
+  for (  FlowElement flowElement : flowElementList) {
+    if (flowElement instanceof SequenceFlow) {
+      SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
+      FlowElement sourceElement=getFlowElementFromScope(sequenceFlow.getSourceRef(),parentScope);
+      if (sourceElement != null) {
+        sourceElement.addOutgoingFlow(sequenceFlow);
+      }
+    }
+ else     if (flowElement instanceof BoundaryEvent) {
+      BoundaryEvent boundaryEvent=(BoundaryEvent)flowElement;
+      FlowElement attachedToElement=getFlowElementFromScope(boundaryEvent.getAttachedToRefId(),parentScope);
+      if (attachedToElement != null) {
+        boundaryEvent.setAttachedToRef((Activity)attachedToElement);
+        ((Activity)attachedToElement).getBoundaryEvents().add(boundaryEvent);
+      }
+    }
+ else     if (flowElement instanceof SubProcess) {
+      SubProcess subProcess=(SubProcess)flowElement;
+      processFlowElements(subProcess.getFlowElements(),subProcess);
+    }
+  }
+}

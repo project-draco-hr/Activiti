@@ -1,0 +1,114 @@
+{
+  BpmnModel model=new BpmnModel();
+  try {
+    boolean processExtensionAvailable=false;
+    Process activeProcess=null;
+    List<SubProcess> activeSubProcessList=new ArrayList<SubProcess>();
+    while (xtr.hasNext()) {
+      try {
+        xtr.next();
+      }
+ catch (      Exception e) {
+        LOGGER.log(Level.SEVERE,"Error reading XML document",e);
+        return model;
+      }
+      if (xtr.isEndElement() && ELEMENT_SUBPROCESS.equalsIgnoreCase(xtr.getLocalName())) {
+        activeSubProcessList.remove(activeSubProcessList.size() - 1);
+      }
+      if (xtr.isStartElement() == false)       continue;
+      if ("definitions".equalsIgnoreCase(xtr.getLocalName())) {
+        model.setTargetNamespace(xtr.getAttributeValue(null,TARGET_NAMESPACE_ATTRIBUTE));
+      }
+ else       if (ELEMENT_SIGNAL.equalsIgnoreCase(xtr.getLocalName())) {
+        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
+          String signalId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+          String signalName=xtr.getAttributeValue(null,ATTRIBUTE_NAME);
+          model.addSignal(signalId,signalName);
+        }
+      }
+ else       if (ELEMENT_MESSAGE.equalsIgnoreCase(xtr.getLocalName())) {
+        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
+          String messageId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+          String messageName=xtr.getAttributeValue(null,ATTRIBUTE_NAME);
+          model.addMessage(messageId,messageName);
+        }
+      }
+ else       if (ELEMENT_PARTICIPANT.equalsIgnoreCase(xtr.getLocalName())) {
+        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
+          Pool pool=new Pool();
+          pool.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
+          pool.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
+          pool.setProcessRef(xtr.getAttributeValue(null,ATTRIBUTE_PROCESS_REF));
+          model.getPools().add(pool);
+        }
+      }
+ else       if (ELEMENT_PROCESS.equalsIgnoreCase(xtr.getLocalName())) {
+        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
+          String processId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+          processExtensionAvailable=true;
+          Process process=new Process();
+          process.setId(processId);
+          process.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
+          model.getProcesses().add(process);
+          activeProcess=process;
+        }
+      }
+ else       if ("lane".equalsIgnoreCase(xtr.getLocalName())) {
+        Lane lane=new Lane();
+        lane.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
+        lane.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
+        lane.setParentProcess(activeProcess);
+        activeProcess.getLanes().add(lane);
+        while (xtr.hasNext()) {
+          xtr.next();
+          if (xtr.isStartElement() && "flowNodeRef".equalsIgnoreCase(xtr.getLocalName())) {
+            lane.getFlowReferences().add(xtr.getElementText());
+          }
+ else           if (xtr.isEndElement() && "lane".equalsIgnoreCase(xtr.getLocalName())) {
+            break;
+          }
+        }
+      }
+ else       if (ELEMENT_DOCUMENTATION.equalsIgnoreCase(xtr.getLocalName())) {
+        BaseElement parentElement=null;
+        if (activeSubProcessList.size() > 0) {
+          parentElement=activeSubProcessList.get(activeSubProcessList.size() - 1);
+        }
+ else         if (activeProcess != null) {
+          parentElement=activeProcess;
+        }
+        new DocumentationParser().parseChildElement(xtr,parentElement);
+      }
+ else       if (ELEMENT_SUBPROCESS.equalsIgnoreCase(xtr.getLocalName())) {
+        new SubProcessParser().parse(xtr,activeSubProcessList,activeProcess);
+      }
+ else       if (ELEMENT_DI_SHAPE.equalsIgnoreCase(xtr.getLocalName())) {
+        new BpmnShapeParser().parse(xtr,model);
+      }
+ else       if (ELEMENT_DI_EDGE.equalsIgnoreCase(xtr.getLocalName())) {
+        new BpmnEdgeParser().parse(xtr,model);
+      }
+ else       if (processExtensionAvailable == true && ELEMENT_EXECUTION_LISTENER.equalsIgnoreCase(xtr.getLocalName())) {
+        new ExecutionListenerParser().parseChildElement(xtr,activeProcess);
+      }
+ else {
+        processExtensionAvailable=false;
+        if (activeSubProcessList.size() > 0 && ELEMENT_EXTENSIONS.equalsIgnoreCase(xtr.getLocalName())) {
+          new ExecutionListenerParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1));
+        }
+ else         if (activeSubProcessList.size() > 0 && "multiInstanceLoopCharacteristics".equalsIgnoreCase(xtr.getLocalName())) {
+          new MultiInstanceParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1));
+        }
+ else         if (convertersToBpmnMap.containsKey(xtr.getLocalName())) {
+          Class<? extends BaseBpmnXMLConverter> converter=convertersToBpmnMap.get(xtr.getLocalName());
+          converter.newInstance().convertToBpmnModel(xtr,model,activeProcess,activeSubProcessList);
+        }
+      }
+    }
+    processFlowElements(model.getMainProcess().getFlowElements(),model.getMainProcess());
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.SEVERE,"Error processing BPMN document",e);
+  }
+  return model;
+}

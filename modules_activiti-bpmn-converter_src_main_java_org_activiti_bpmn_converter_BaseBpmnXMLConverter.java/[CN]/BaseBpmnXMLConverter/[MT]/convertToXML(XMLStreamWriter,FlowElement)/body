@@ -1,0 +1,23 @@
+{
+  xtw.writeStartElement(getXMLElementName());
+  didWriteExtensionStartElement=false;
+  writeDefaultAttribute(ATTRIBUTE_ID,flowElement.getId(),xtw);
+  writeDefaultAttribute(ATTRIBUTE_NAME,flowElement.getName(),xtw);
+  if (flowElement instanceof Activity) {
+    Activity activity=(Activity)flowElement;
+    if (activity.isAsynchronous()) {
+      writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS,ATTRIBUTE_VALUE_TRUE,xtw);
+    }
+    if (activity.isNotExclusive()) {
+      writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_EXCLUSIVE,ATTRIBUTE_VALUE_FALSE,xtw);
+    }
+    writeDefaultAttribute(ATTRIBUTE_ACTIVITY_DEFAULT,activity.getDefaultFlow(),xtw);
+  }
+  writeAdditionalAttributes(flowElement,xtw);
+  writeAdditionalChildElements(flowElement,xtw);
+  writeListeners(flowElement,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
+  }
+  xtw.writeEndElement();
+}

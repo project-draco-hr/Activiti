@@ -1,0 +1,36 @@
+{
+  ServiceTask task=new ServiceTask();
+  if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_CLASS,elementNode))) {
+    task.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
+    task.setImplementation(getPropertyValueAsString(PROPERTY_SERVICETASK_CLASS,elementNode));
+  }
+ else   if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_EXPRESSION,elementNode))) {
+    task.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
+    task.setImplementation(getPropertyValueAsString(PROPERTY_SERVICETASK_EXPRESSION,elementNode));
+  }
+ else   if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION,elementNode))) {
+    task.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
+    task.setImplementation(getPropertyValueAsString(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION,elementNode));
+  }
+  JsonNode fieldsNode=getProperty(PROPERTY_SERVICETASK_FIELDS,elementNode);
+  if (fieldsNode != null) {
+    JsonNode itemsArrayNode=fieldsNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    if (itemsArrayNode != null) {
+      for (      JsonNode itemNode : itemsArrayNode) {
+        JsonNode nameNode=itemNode.get(PROPERTY_SERVICETASK_FIELD_NAME);
+        if (nameNode != null && StringUtils.isNotEmpty(nameNode.asText())) {
+          FieldExtension field=new FieldExtension();
+          field.setFieldName(nameNode.asText());
+          if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_SERVICETASK_FIELD_VALUE,itemNode))) {
+            field.setStringValue(getValueAsString(PROPERTY_SERVICETASK_FIELD_VALUE,itemNode));
+          }
+ else           if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_SERVICETASK_FIELD_EXPRESSION,itemNode))) {
+            field.setExpression(getValueAsString(PROPERTY_SERVICETASK_FIELD_EXPRESSION,itemNode));
+          }
+          task.getFieldExtensions().add(field);
+        }
+      }
+    }
+  }
+  return task;
+}

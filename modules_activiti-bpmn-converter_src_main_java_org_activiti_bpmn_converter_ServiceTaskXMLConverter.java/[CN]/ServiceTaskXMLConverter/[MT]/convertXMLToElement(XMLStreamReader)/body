@@ -1,0 +1,18 @@
+{
+  ServiceTask serviceTask=new ServiceTask();
+  if (StringUtils.isNotEmpty(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_CLASS))) {
+    serviceTask.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
+    serviceTask.setImplementation(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_CLASS));
+  }
+ else   if (StringUtils.isNotEmpty(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_EXPRESSION))) {
+    serviceTask.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
+    serviceTask.setImplementation(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_EXPRESSION));
+  }
+ else   if (StringUtils.isNotEmpty(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_DELEGATEEXPRESSION))) {
+    serviceTask.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
+    serviceTask.setImplementation(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_DELEGATEEXPRESSION));
+  }
+  serviceTask.setResultVariableName(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_RESULTVARIABLE));
+  parseChildElements(getXMLElementName(),serviceTask,xtr);
+  return serviceTask;
+}

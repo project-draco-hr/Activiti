@@ -1,0 +1,11 @@
+{
+  for (  FlowElement flowElement : subProcess.getFlowElements()) {
+    if (flowElement instanceof SubProcess) {
+      SubProcess childSubProcess=(SubProcess)flowElement;
+      fillSubShapes(subShapesMap,childSubProcess);
+    }
+ else {
+      subShapesMap.put(flowElement.getId(),subProcess);
+    }
+  }
+}

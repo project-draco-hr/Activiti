@@ -1,0 +1,6 @@
+{
+  InputStream jsonStream=this.getClass().getClassLoader().getResourceAsStream(getResource());
+  JsonNode modelNode=new ObjectMapper().readTree(jsonStream);
+  BpmnModel bpmnModel=new BpmnJsonConverter().convertToBpmnModel(modelNode);
+  return bpmnModel;
+}

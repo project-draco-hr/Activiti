@@ -1,0 +1,10 @@
+{
+  FlowElement flowElement=null;
+  if (scope instanceof Process) {
+    flowElement=((Process)scope).getFlowElement(elementId);
+  }
+ else   if (scope instanceof SubProcess) {
+    flowElement=((SubProcess)scope).getFlowElement(elementId);
+  }
+  return flowElement;
+}

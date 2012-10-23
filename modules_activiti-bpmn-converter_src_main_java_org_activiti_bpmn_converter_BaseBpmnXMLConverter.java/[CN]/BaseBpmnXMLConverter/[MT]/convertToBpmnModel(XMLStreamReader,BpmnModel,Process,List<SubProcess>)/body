@@ -1,0 +1,45 @@
+{
+  this.model=model;
+  this.activeProcess=activeProcess;
+  String elementId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+  String elementName=xtr.getAttributeValue(null,ATTRIBUTE_NAME);
+  boolean async=parseAsync(xtr);
+  boolean notExclusive=parseNotExclusive(xtr);
+  String defaultFlow=xtr.getAttributeValue(null,"default");
+  BaseElement parsedElement=convertXMLToElement(xtr);
+  if (parsedElement instanceof Artifact) {
+    Artifact currentArtifact=(Artifact)parsedElement;
+    currentArtifact.setId(elementId);
+    if (isInSubProcess(activeSubProcessList)) {
+      final SubProcess currentSubProcess=activeSubProcessList.get(activeSubProcessList.size() - 2);
+      currentSubProcess.getArtifacts().add(currentArtifact);
+    }
+ else {
+      this.activeProcess.getArtifacts().add(currentArtifact);
+    }
+  }
+  if (parsedElement instanceof FlowElement) {
+    FlowElement currentFlowElement=(FlowElement)parsedElement;
+    currentFlowElement.setId(elementId);
+    currentFlowElement.setName(elementName);
+    if (currentFlowElement instanceof Activity) {
+      Activity activity=(Activity)currentFlowElement;
+      activity.setAsynchronous(async);
+      activity.setNotExclusive(notExclusive);
+      if (StringUtils.isNotEmpty(defaultFlow)) {
+        activity.setDefaultFlow(defaultFlow);
+      }
+    }
+    if (currentFlowElement instanceof Gateway) {
+      if (StringUtils.isNotEmpty(defaultFlow)) {
+        ((Gateway)currentFlowElement).setDefaultFlow(defaultFlow);
+      }
+    }
+    if (activeSubProcessList.size() > 0) {
+      activeSubProcessList.get(activeSubProcessList.size() - 1).addFlowElement(currentFlowElement);
+    }
+ else {
+      this.activeProcess.addFlowElement(currentFlowElement);
+    }
+  }
+}

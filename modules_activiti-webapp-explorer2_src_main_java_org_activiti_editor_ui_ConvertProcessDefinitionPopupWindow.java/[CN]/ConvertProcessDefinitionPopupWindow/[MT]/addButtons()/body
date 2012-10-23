@@ -14,7 +14,7 @@
     private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
       InputStream bpmnStream=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getResourceName());
-      BpmnToEditorJsonConverter converter=new BpmnToEditorJsonConverter(processDefinition.getResourceName(),bpmnStream);
+      BpmnJsonConverter converter=new BpmnJsonConverter(processDefinition.getResourceName(),bpmnStream);
       ObjectNode modelNode=converter.convertToJson();
       ModelData modelData=new ModelData();
       modelData.setModelEditorJson(modelNode.toString());

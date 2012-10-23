@@ -1,0 +1,20 @@
+{
+  if (parameterList.size() == 0)   return;
+  for (  IOParameter ioParameter : parameterList) {
+    if (didWriteExtensionStartElement == false) {
+      xtw.writeStartElement(ELEMENT_EXTENSIONS);
+      didWriteExtensionStartElement=true;
+    }
+    xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,elementName,ACTIVITI_EXTENSIONS_NAMESPACE);
+    if (StringUtils.isNotEmpty(ioParameter.getSource())) {
+      writeDefaultAttribute(ATTRIBUTE_IOPARAMETER_SOURCE,ioParameter.getSource(),xtw);
+    }
+    if (StringUtils.isNotEmpty(ioParameter.getSourceExpression())) {
+      writeDefaultAttribute(ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION,ioParameter.getSourceExpression(),xtw);
+    }
+    if (StringUtils.isNotEmpty(ioParameter.getTarget())) {
+      writeDefaultAttribute(ATTRIBUTE_IOPARAMETER_TARGET,ioParameter.getTarget(),xtw);
+    }
+    xtw.writeEndElement();
+  }
+}

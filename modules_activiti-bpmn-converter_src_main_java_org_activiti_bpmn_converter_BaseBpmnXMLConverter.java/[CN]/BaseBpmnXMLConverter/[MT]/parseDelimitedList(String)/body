@@ -1,0 +1,16 @@
+{
+  List<String> resultList=new ArrayList<String>();
+  if (StringUtils.isNotEmpty(expression)) {
+    String[] expressionList=null;
+    if (expression.contains(",")) {
+      expressionList=expression.split(",");
+    }
+ else {
+      expressionList=new String[]{expression};
+    }
+    for (    String strExpression : expressionList) {
+      resultList.add(strExpression);
+    }
+  }
+  return resultList;
+}

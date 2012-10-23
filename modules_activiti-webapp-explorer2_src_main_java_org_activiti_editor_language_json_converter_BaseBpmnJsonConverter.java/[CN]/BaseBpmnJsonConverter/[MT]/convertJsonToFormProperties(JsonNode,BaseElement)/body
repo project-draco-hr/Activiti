@@ -1,0 +1,25 @@
+{
+  JsonNode formPropertiesNode=getProperty(PROPERTY_FORM_PROPERTIES,objectNode);
+  if (formPropertiesNode != null) {
+    JsonNode itemsArrayNode=formPropertiesNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    if (itemsArrayNode != null) {
+      for (      JsonNode formNode : itemsArrayNode) {
+        JsonNode formIdNode=formNode.get(PROPERTY_FORM_ID);
+        if (formIdNode != null && StringUtils.isNotEmpty(formIdNode.asText())) {
+          FormProperty formProperty=new FormProperty();
+          formProperty.setId(formIdNode.asText());
+          formProperty.setName(getValueAsString(PROPERTY_FORM_NAME,formNode));
+          formProperty.setType(getValueAsString(PROPERTY_FORM_TYPE,formNode));
+          formProperty.setExpression(getValueAsString(PROPERTY_FORM_EXPRESSION,formNode));
+          formProperty.setVariable(getValueAsString(PROPERTY_FORM_VARIABLE,formNode));
+          if (element instanceof StartEvent) {
+            ((StartEvent)element).getFormProperties().add(formProperty);
+          }
+ else           if (element instanceof UserTask) {
+            ((UserTask)element).getFormProperties().add(formProperty);
+          }
+        }
+      }
+    }
+  }
+}
