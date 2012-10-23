@@ -1,6 +1,6 @@
 {
   final Table deploymentTable=new Table();
-  LazyLoadingQuery deploymentListQuery=new DeploymentListQuery();
+  LazyLoadingQuery deploymentListQuery=new DeploymentListQuery(deploymentFilter);
   deploymentListContainer=new LazyLoadingContainer(deploymentListQuery,10);
   deploymentTable.setContainerDataSource(deploymentListContainer);
   deploymentTable.addListener(new Property.ValueChangeListener(){

@@ -1,7 +1,7 @@
 {
   Deployment deployment=repositoryService.createDeploymentQuery().deploymentId(id).singleResult();
   if (deployment != null) {
-    return new DeploymentListitem(deployment);
+    return deploymentFilter.createItem(deployment);
   }
   return null;
 }
