@@ -1,0 +1,16 @@
+{
+  Group group=identityService.newGroup("group");
+  identityService.saveGroup(group);
+  Group group1=identityService.createGroupQuery().singleResult();
+  Group group2=identityService.createGroupQuery().singleResult();
+  group1.setName("name one");
+  identityService.saveGroup(group1);
+  try {
+    group2.setName("name two");
+    identityService.saveGroup(group2);
+    fail("Expected an exception");
+  }
+ catch (  ActivitiOptimisticLockingException e) {
+  }
+  identityService.deleteGroup(group.getId());
+}

@@ -1,3 +1,11 @@
 {
-  processEngine=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml").buildProcessEngine();
+  if (cachedProcessEngine == null) {
+    pluggableActivitiTestCaseLogger.info("No cached process engine found for test. Retrieving the default engine.");
+    ProcessEngines.destroy();
+    cachedProcessEngine=ProcessEngines.getDefaultProcessEngine();
+    if (cachedProcessEngine == null) {
+      throw new ActivitiException("no default process engine available");
+    }
+  }
+  processEngine=cachedProcessEngine;
 }

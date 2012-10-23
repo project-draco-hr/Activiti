@@ -17,7 +17,9 @@
   html.append("  <body>\n");
   html.append("    <div style=\"position: relative\">\n");
   html.append("      <img src=\"" + imageUrl + "\" />\n");
-  for (  DiagramNode node : processDiagramLayout.getNodes()) {
+  List<DiagramNode> nodes=processDiagramLayout.getNodes();
+  Collections.sort(nodes,new DiagramElementComparator());
+  for (  DiagramNode node : nodes) {
     html.append("      <div");
     html.append(" class=\"BPMNElement\"");
     html.append(" id=\"" + node.getId() + "\"");
