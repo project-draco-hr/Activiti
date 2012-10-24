@@ -1,0 +1,9 @@
+{
+  try {
+    managementService.deleteJob(null);
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException re) {
+    assertTextPresent("jobId is null",re.getMessage());
+  }
+}

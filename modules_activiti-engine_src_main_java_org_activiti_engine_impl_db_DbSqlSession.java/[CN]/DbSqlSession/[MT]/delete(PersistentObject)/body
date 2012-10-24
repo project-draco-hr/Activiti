@@ -1,0 +1,11 @@
+{
+  for (  DeleteOperation deleteOperation : deleteOperations) {
+    if (deleteOperation instanceof DeletePersistentObjectOperation) {
+      DeletePersistentObjectOperation deletePersistentObjectOperation=(DeletePersistentObjectOperation)deleteOperation;
+      if (persistentObject.getId().equals(deletePersistentObjectOperation.getPersistentObject().getId()) && persistentObject.getClass().equals(deletePersistentObjectOperation.getPersistentObject().getClass())) {
+        return;
+      }
+    }
+  }
+  deleteOperations.add(new DeletePersistentObjectOperation(persistentObject));
+}

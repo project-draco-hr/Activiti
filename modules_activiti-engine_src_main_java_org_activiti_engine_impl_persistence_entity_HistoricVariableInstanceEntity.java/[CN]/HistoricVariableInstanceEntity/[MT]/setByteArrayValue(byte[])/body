@@ -2,7 +2,7 @@
   ByteArrayEntity byteArrayValue=null;
   if (this.byteArrayValueId != null) {
     getByteArrayValue();
-    Context.getCommandContext().getDbSqlSession().delete(ByteArrayEntity.class,this.byteArrayValueId);
+    Context.getCommandContext().getByteArrayManager().deleteByteArrayById(this.byteArrayValueId);
   }
   if (bytes != null) {
     byteArrayValue=new ByteArrayEntity(bytes);

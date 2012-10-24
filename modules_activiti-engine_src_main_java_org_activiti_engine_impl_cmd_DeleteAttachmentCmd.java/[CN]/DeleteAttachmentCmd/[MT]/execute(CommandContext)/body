@@ -1,6 +1,6 @@
 {
   AttachmentEntity attachment=commandContext.getDbSqlSession().selectById(AttachmentEntity.class,attachmentId);
-  commandContext.getDbSqlSession().delete(AttachmentEntity.class,attachmentId);
+  commandContext.getDbSqlSession().delete(attachment);
   if (attachment.getTaskId() != null) {
     CommentManager commentManager=commandContext.getCommentManager();
     if (commentManager.isHistoryEnabled()) {

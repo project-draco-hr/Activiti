@@ -1,10 +1,11 @@
 {
   if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
     CommandContext commandContext=Context.getCommandContext();
+    HistoricProcessInstanceEntity historicProcessInstance=findHistoricProcessInstance(historicProcessInstanceId);
     commandContext.getHistoricDetailManager().deleteHistoricDetailsByProcessInstanceId(historicProcessInstanceId);
     commandContext.getHistoricVariableInstanceManager().deleteHistoricVariableInstanceByProcessInstanceId(historicProcessInstanceId);
     commandContext.getHistoricActivityInstanceManager().deleteHistoricActivityInstancesByProcessInstanceId(historicProcessInstanceId);
     commandContext.getHistoricTaskInstanceManager().deleteHistoricTaskInstancesByProcessInstanceId(historicProcessInstanceId);
-    getDbSqlSession().delete(HistoricProcessInstanceEntity.class,historicProcessInstanceId);
+    getDbSqlSession().delete(historicProcessInstance);
   }
 }

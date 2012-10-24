@@ -1,6 +1,6 @@
 {
   List<IdentityLinkEntity> identityLinks=Context.getCommandContext().getIdentityLinkManager().findIdentityLinkByProcessDefinitionUserAndGroup(id,userId,groupId);
   for (  IdentityLinkEntity identityLink : identityLinks) {
-    Context.getCommandContext().getDbSqlSession().delete(IdentityLinkEntity.class,identityLink.getId());
+    Context.getCommandContext().getDbSqlSession().delete(identityLink);
   }
 }

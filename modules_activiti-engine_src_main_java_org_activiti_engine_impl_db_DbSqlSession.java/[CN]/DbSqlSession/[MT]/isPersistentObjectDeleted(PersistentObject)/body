@@ -1,0 +1,10 @@
+{
+  for (  DeleteOperation deleteOperation : deleteOperations) {
+    if (deleteOperation instanceof DeletePersistentObjectOperation) {
+      if (((DeletePersistentObjectOperation)deleteOperation).getPersistentObject().equals(persistentObject)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

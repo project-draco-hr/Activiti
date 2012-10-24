@@ -1,0 +1,17 @@
+{
+  ClockUtil.setCurrentTime(new Date());
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("timerOnTask");
+  Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  ClockUtil.setCurrentTime(new Date(ClockUtil.getCurrentTime().getTime() + 7200000L));
+  ProcessEngineImpl processEngineImpl=(ProcessEngineImpl)processEngine;
+  AcquireJobsCmd acquireJobsCmd=new AcquireJobsCmd(processEngineImpl.getProcessEngineConfiguration().getJobExecutor());
+  CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutorTxRequired();
+  commandExecutor.execute(acquireJobsCmd);
+  try {
+    managementService.deleteJob(timerJob.getId());
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  managementService.executeJob(timerJob.getId());
+}

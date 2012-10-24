@@ -1,4 +1,5 @@
 {
+  GroupEntity group=getDbSqlSession().selectById(GroupEntity.class,groupId);
   getDbSqlSession().delete("deleteMembershipsByGroupId",groupId);
-  getDbSqlSession().delete("deleteGroup",groupId);
+  getDbSqlSession().delete(group);
 }

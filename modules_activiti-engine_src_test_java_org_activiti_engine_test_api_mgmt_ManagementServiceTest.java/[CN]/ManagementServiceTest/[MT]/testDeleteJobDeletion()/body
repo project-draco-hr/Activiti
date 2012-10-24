@@ -1,0 +1,8 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("timerOnTask");
+  Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull("Task timer should be there",timerJob);
+  managementService.deleteJob(timerJob.getId());
+  timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNull("There should be no job now. It was deleted",timerJob);
+}

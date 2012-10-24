@@ -4,7 +4,7 @@
     Map<String,CachedObject> classCache=cachedObjects.get(clazz);
     for (    CachedObject cachedObject : classCache.values()) {
       PersistentObject persistentObject=(PersistentObject)cachedObject.getPersistentObject();
-      if (!deletedObjects.contains(persistentObject)) {
+      if (!isPersistentObjectDeleted(persistentObject)) {
         Object originalState=cachedObject.getPersistentObjectState();
         if (!persistentObject.getPersistentState().equals(originalState)) {
           updatedObjects.add(persistentObject);
