@@ -7,7 +7,7 @@
   processDefinitionTable.setNullSelectionAllowed(false);
   processDefinitionTable.setSortDisabled(true);
   processDefinitionTable.setSizeFull();
-  LazyLoadingQuery lazyLoadingQuery=new ProcessDefinitionListQuery(repositoryService);
+  LazyLoadingQuery lazyLoadingQuery=new ProcessDefinitionListQuery(repositoryService,definitionFilter);
   this.processDefinitionContainer=new LazyLoadingContainer(lazyLoadingQuery,10);
   processDefinitionTable.setContainerDataSource(processDefinitionContainer);
   processDefinitionTable.addListener(new Property.ValueChangeListener(){

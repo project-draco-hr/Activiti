@@ -1,0 +1,15 @@
+{
+  ServiceTask serviceTask=(ServiceTask)element;
+  if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(serviceTask.getImplementationType())) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_SERVICE_CLASS,serviceTask.getImplementation(),xtw);
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equals(serviceTask.getImplementationType())) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_SERVICE_EXPRESSION,serviceTask.getImplementation(),xtw);
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(serviceTask.getImplementationType())) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_SERVICE_DELEGATEEXPRESSION,serviceTask.getImplementation(),xtw);
+  }
+  if (StringUtils.isNotEmpty(serviceTask.getResultVariableName())) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_SERVICE_RESULTVARIABLE,serviceTask.getResultVariableName(),xtw);
+  }
+}

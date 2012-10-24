@@ -1,0 +1,8 @@
+{
+  EndEvent endEvent=new EndEvent();
+  String stencilId=BpmnJsonConverterUtil.getStencilId(elementNode);
+  if (STENCIL_EVENT_END_ERROR.equals(stencilId)) {
+    convertJsonToErrorDefinition(elementNode,endEvent);
+  }
+  return endEvent;
+}

@@ -1,0 +1,20 @@
+{
+  BusinessRuleTask businessRuleTask=(BusinessRuleTask)element;
+  String inputVariables=convertToDelimitedString(businessRuleTask.getInputVariables());
+  if (StringUtils.isNotEmpty(inputVariables)) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_RULE_VARIABLES_INPUT,inputVariables,xtw);
+  }
+  String ruleNames=convertToDelimitedString(businessRuleTask.getRuleNames());
+  if (StringUtils.isNotEmpty(ruleNames)) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_RULE_RULES,ruleNames,xtw);
+  }
+  if (StringUtils.isNotEmpty(businessRuleTask.getResultVariableName())) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_RULE_RESULT_VARIABLE,businessRuleTask.getResultVariableName(),xtw);
+  }
+  if (StringUtils.isNotEmpty(businessRuleTask.getClassName())) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_RULE_CLASS,businessRuleTask.getClassName(),xtw);
+  }
+  if (businessRuleTask.isExclude()) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_RULE_EXCLUDE,ATTRIBUTE_VALUE_TRUE,xtw);
+  }
+}

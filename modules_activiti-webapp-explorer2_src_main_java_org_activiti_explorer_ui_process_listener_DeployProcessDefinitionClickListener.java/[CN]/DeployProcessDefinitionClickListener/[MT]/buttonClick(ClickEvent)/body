@@ -1,7 +1,12 @@
 {
   try {
-    JsonToBpmnExport converter=new JsonToBpmnExport((ObjectNode)new ObjectMapper().readTree(modelData.getModelEditorJson()));
-    byte[] bpmnBytes=converter.convert();
+    System.out.println("converting to model");
+    ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(modelData.getModelEditorJson());
+    System.out.println("json " + modelNode.toString());
+    BpmnModel model=new BpmnJsonConverter().convertToBpmnModel(modelNode);
+    System.out.println("converted to model");
+    byte[] bpmnBytes=new BpmnXMLConverter().convertToXML(model);
+    System.out.println(new String(bpmnBytes));
     Deployment deployment=repositoryService.createDeployment().name(modelData.getName()).addString(modelData.getName() + ".bpmn20.xml",new String(bpmnBytes)).deploy();
     ExplorerApp.get().getViewManager().showDeploymentPage(deployment.getId());
   }

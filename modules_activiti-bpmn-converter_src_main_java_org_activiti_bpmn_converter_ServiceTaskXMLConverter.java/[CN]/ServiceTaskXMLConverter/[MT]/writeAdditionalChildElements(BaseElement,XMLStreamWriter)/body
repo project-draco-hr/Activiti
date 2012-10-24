@@ -1,0 +1,16 @@
+{
+  ServiceTask serviceTask=(ServiceTask)element;
+  for (  FieldExtension fieldExtension : serviceTask.getFieldExtensions()) {
+    if (StringUtils.isNotEmpty(fieldExtension.getFieldName())) {
+      if (didWriteExtensionStartElement == false) {
+        xtw.writeStartElement(ELEMENT_EXTENSIONS);
+        didWriteExtensionStartElement=true;
+      }
+      xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,ELEMENT_FIELD,ACTIVITI_EXTENSIONS_NAMESPACE);
+      writeDefaultAttribute(ATTRIBUTE_FIELD_NAME,fieldExtension.getFieldName(),xtw);
+      writeDefaultAttribute(ATTRIBUTE_FIELD_STRING,fieldExtension.getStringValue(),xtw);
+      writeDefaultAttribute(ATTRIBUTE_FIELD_EXPRESSION,fieldExtension.getExpression(),xtw);
+      xtw.writeEndElement();
+    }
+  }
+}

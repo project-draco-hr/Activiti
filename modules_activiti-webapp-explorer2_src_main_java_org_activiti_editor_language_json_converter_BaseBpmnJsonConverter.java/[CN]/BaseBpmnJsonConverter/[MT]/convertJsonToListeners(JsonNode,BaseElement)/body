@@ -1,0 +1,65 @@
+{
+  JsonNode listenersNode=null;
+  String propertyName=null;
+  String eventType=null;
+  String listenerClass=null;
+  String listenerExpression=null;
+  String listenerDelegateExpression=null;
+  if (element instanceof UserTask) {
+    propertyName=PROPERTY_TASK_LISTENERS;
+    eventType=PROPERTY_TASK_LISTENER_EVENT;
+    listenerClass=PROPERTY_TASK_LISTENER_CLASS;
+    listenerExpression=PROPERTY_TASK_LISTENER_EXPRESSION;
+    listenerDelegateExpression=PROPERTY_TASK_LISTENER_DELEGATEEXPRESSION;
+  }
+ else {
+    propertyName=PROPERTY_EXECUTION_LISTENERS;
+    eventType=PROPERTY_EXECUTION_LISTENER_EVENT;
+    listenerClass=PROPERTY_EXECUTION_LISTENER_CLASS;
+    listenerExpression=PROPERTY_EXECUTION_LISTENER_EXPRESSION;
+    listenerDelegateExpression=PROPERTY_EXECUTION_LISTENER_DELEGATEEXPRESSION;
+  }
+  listenersNode=getProperty(propertyName,objectNode);
+  if (listenersNode != null && StringUtils.isNotEmpty(listenersNode.asText())) {
+    try {
+      listenersNode=objectMapper.readTree(listenersNode.asText());
+    }
+ catch (    Exception e) {
+      LOGGER.log(Level.INFO,"Listeners node can not be read",e);
+    }
+    JsonNode itemsArrayNode=listenersNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    if (itemsArrayNode != null) {
+      for (      JsonNode itemNode : itemsArrayNode) {
+        JsonNode typeNode=itemNode.get(eventType);
+        if (typeNode != null && StringUtils.isNotEmpty(typeNode.asText())) {
+          ActivitiListener listener=new ActivitiListener();
+          listener.setEvent(typeNode.asText());
+          if (StringUtils.isNotEmpty(getValueAsString(listenerClass,itemNode))) {
+            listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
+            listener.setImplementation(getValueAsString(listenerClass,itemNode));
+          }
+ else           if (StringUtils.isNotEmpty(getValueAsString(listenerExpression,itemNode))) {
+            listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
+            listener.setImplementation(getValueAsString(listenerExpression,itemNode));
+          }
+ else           if (StringUtils.isNotEmpty(getValueAsString(listenerDelegateExpression,itemNode))) {
+            listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
+            listener.setImplementation(getValueAsString(listenerDelegateExpression,itemNode));
+          }
+          if (element instanceof Process) {
+            ((Process)element).getExecutionListeners().add(listener);
+          }
+ else           if (element instanceof SequenceFlow) {
+            ((SequenceFlow)element).getExecutionListeners().add(listener);
+          }
+ else           if (element instanceof UserTask) {
+            ((UserTask)element).getTaskListeners().add(listener);
+          }
+ else           if (element instanceof Activity) {
+            ((Activity)element).getExecutionListeners().add(listener);
+          }
+        }
+      }
+    }
+  }
+}

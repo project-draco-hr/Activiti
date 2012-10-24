@@ -1,0 +1,15 @@
+{
+  BoundaryEvent boundaryEvent=new BoundaryEvent();
+  String stencilId=BpmnJsonConverterUtil.getStencilId(elementNode);
+  if (STENCIL_EVENT_BOUNDARY_TIMER.equals(stencilId)) {
+    convertJsonToTimerDefinition(elementNode,boundaryEvent);
+  }
+ else   if (STENCIL_EVENT_BOUNDARY_ERROR.equals(stencilId)) {
+    convertJsonToErrorDefinition(elementNode,boundaryEvent);
+  }
+ else   if (STENCIL_EVENT_BOUNDARY_SIGNAL.equals(stencilId)) {
+    convertJsonToSignalDefinition(elementNode,boundaryEvent);
+  }
+  boundaryEvent.setAttachedToRefId(lookForAttachedRef(elementNode.get(EDITOR_SHAPE_ID).asText(),modelNode.get(EDITOR_CHILD_SHAPES)));
+  return boundaryEvent;
+}

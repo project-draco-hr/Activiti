@@ -1,0 +1,26 @@
+{
+  ObjectNode formPropertiesNode=objectMapper.createObjectNode();
+  ArrayNode itemsNode=objectMapper.createArrayNode();
+  for (  FormProperty property : formProperties) {
+    ObjectNode propertyItemNode=objectMapper.createObjectNode();
+    propertyItemNode.put(PROPERTY_FORM_ID,property.getId());
+    propertyItemNode.put(PROPERTY_FORM_NAME,property.getName());
+    propertyItemNode.put(PROPERTY_FORM_TYPE,property.getType());
+    if (StringUtils.isNotEmpty(property.getExpression())) {
+      propertyItemNode.put(PROPERTY_FORM_EXPRESSION,property.getExpression());
+    }
+ else {
+      propertyItemNode.putNull(PROPERTY_FORM_EXPRESSION);
+    }
+    if (StringUtils.isNotEmpty(property.getVariable())) {
+      propertyItemNode.put(PROPERTY_FORM_VARIABLE,property.getVariable());
+    }
+ else {
+      propertyItemNode.putNull(PROPERTY_FORM_VARIABLE);
+    }
+    itemsNode.add(propertyItemNode);
+  }
+  formPropertiesNode.put("totalCount",itemsNode.size());
+  formPropertiesNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,itemsNode);
+  propertiesNode.put("formproperties",formPropertiesNode);
+}

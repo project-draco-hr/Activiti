@@ -1,0 +1,21 @@
+{
+  StartEvent startEvent=new StartEvent();
+  startEvent.setInitiator(getPropertyValueAsString(PROPERTY_NONE_STARTEVENT_INITIATOR,elementNode));
+  String stencilId=BpmnJsonConverterUtil.getStencilId(elementNode);
+  if (STENCIL_EVENT_START_NONE.equals(stencilId)) {
+    convertJsonToFormProperties(elementNode,startEvent);
+  }
+ else   if (STENCIL_EVENT_START_TIMER.equals(stencilId)) {
+    convertJsonToTimerDefinition(elementNode,startEvent);
+  }
+ else   if (STENCIL_EVENT_START_ERROR.equals(stencilId)) {
+    convertJsonToErrorDefinition(elementNode,startEvent);
+  }
+ else   if (STENCIL_EVENT_START_MESSAGE.equals(stencilId)) {
+    convertJsonToMessageDefinition(elementNode,startEvent);
+  }
+ else   if (STENCIL_EVENT_START_SIGNAL.equals(stencilId)) {
+    convertJsonToSignalDefinition(elementNode,startEvent);
+  }
+  return startEvent;
+}

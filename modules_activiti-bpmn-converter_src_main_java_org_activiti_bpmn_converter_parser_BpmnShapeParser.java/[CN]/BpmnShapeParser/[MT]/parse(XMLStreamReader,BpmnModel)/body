@@ -1,0 +1,25 @@
+{
+  String id=xtr.getAttributeValue(null,ATTRIBUTE_DI_BPMNELEMENT);
+  while (xtr.hasNext()) {
+    xtr.next();
+    if (xtr.isStartElement() && ELEMENT_DI_BOUNDS.equalsIgnoreCase(xtr.getLocalName())) {
+      GraphicInfo graphicInfo=new GraphicInfo();
+      graphicInfo.x=Double.valueOf(xtr.getAttributeValue(null,ATTRIBUTE_DI_X)).intValue();
+      graphicInfo.y=Double.valueOf(xtr.getAttributeValue(null,ATTRIBUTE_DI_Y)).intValue();
+      FlowElement flowElement=model.getMainProcess().getFlowElement(id);
+      if (flowElement instanceof Event) {
+        graphicInfo.width=30;
+        graphicInfo.height=30;
+      }
+ else {
+        graphicInfo.width=Double.valueOf(xtr.getAttributeValue(null,ATTRIBUTE_DI_WIDTH)).intValue();
+        graphicInfo.height=Double.valueOf(xtr.getAttributeValue(null,ATTRIBUTE_DI_HEIGHT)).intValue();
+      }
+      model.addGraphicInfo(id,graphicInfo);
+      break;
+    }
+ else     if (xtr.isEndElement() && ELEMENT_DI_SHAPE.equalsIgnoreCase(xtr.getLocalName())) {
+      break;
+    }
+  }
+}

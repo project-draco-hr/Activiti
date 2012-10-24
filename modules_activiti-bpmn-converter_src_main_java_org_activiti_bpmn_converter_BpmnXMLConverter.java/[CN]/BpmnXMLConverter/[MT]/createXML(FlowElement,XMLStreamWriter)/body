@@ -1,0 +1,24 @@
+{
+  if (flowElement instanceof SubProcess) {
+    SubProcess subProcess=(SubProcess)flowElement;
+    xtw.writeStartElement(ELEMENT_SUBPROCESS);
+    xtw.writeAttribute(ATTRIBUTE_ID,subProcess.getId());
+    if (StringUtils.isNotEmpty(subProcess.getName())) {
+      xtw.writeAttribute(ATTRIBUTE_NAME,subProcess.getName());
+    }
+ else {
+      xtw.writeAttribute(ATTRIBUTE_NAME,"subProcess");
+    }
+    for (    FlowElement subElement : subProcess.getFlowElements()) {
+      createXML(subElement,xtw);
+    }
+    xtw.writeEndElement();
+  }
+ else {
+    Class<? extends BaseBpmnXMLConverter> converter=convertersToXMLMap.get(flowElement.getClass());
+    if (converter == null) {
+      throw new XMLException("No converter for " + flowElement.getClass() + " found");
+    }
+    converter.newInstance().convertToXML(xtw,flowElement);
+  }
+}

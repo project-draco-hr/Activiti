@@ -1,0 +1,14 @@
+{
+  IntermediateCatchEvent catchEvent=new IntermediateCatchEvent();
+  String stencilId=BpmnJsonConverterUtil.getStencilId(elementNode);
+  if (STENCIL_EVENT_CATCH_TIMER.equals(stencilId)) {
+    convertJsonToTimerDefinition(elementNode,catchEvent);
+  }
+ else   if (STENCIL_EVENT_CATCH_MESSAGE.equals(stencilId)) {
+    convertJsonToMessageDefinition(elementNode,catchEvent);
+  }
+ else   if (STENCIL_EVENT_CATCH_SIGNAL.equals(stencilId)) {
+    convertJsonToSignalDefinition(elementNode,catchEvent);
+  }
+  return catchEvent;
+}

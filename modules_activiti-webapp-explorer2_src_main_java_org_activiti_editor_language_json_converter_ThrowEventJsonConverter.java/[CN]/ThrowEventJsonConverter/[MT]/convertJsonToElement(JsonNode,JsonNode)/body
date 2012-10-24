@@ -1,0 +1,8 @@
+{
+  ThrowEvent throwEvent=new ThrowEvent();
+  String stencilId=BpmnJsonConverterUtil.getStencilId(elementNode);
+  if (STENCIL_EVENT_THROW_SIGNAL.equals(stencilId)) {
+    convertJsonToSignalDefinition(elementNode,throwEvent);
+  }
+  return throwEvent;
+}

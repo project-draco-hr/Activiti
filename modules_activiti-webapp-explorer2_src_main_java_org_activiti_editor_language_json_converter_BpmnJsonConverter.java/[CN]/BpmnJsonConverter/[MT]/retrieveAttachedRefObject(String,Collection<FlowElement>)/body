@@ -1,0 +1,15 @@
+{
+  for (  FlowElement flowElement : flowElementList) {
+    if (attachedToRefId.equals(flowElement.getId())) {
+      return (Activity)flowElement;
+    }
+ else     if (flowElement instanceof SubProcess) {
+      SubProcess subProcess=(SubProcess)flowElement;
+      Activity activity=retrieveAttachedRefObject(attachedToRefId,subProcess.getFlowElements());
+      if (activity != null) {
+        return activity;
+      }
+    }
+  }
+  return null;
+}
