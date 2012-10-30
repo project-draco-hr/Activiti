@@ -1,0 +1,9 @@
+{
+  String processDefinitionId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  runtimeService.startProcessInstanceById(processDefinitionId);
+  Task task=taskService.createTaskQuery().singleResult();
+  assertNotNull(task);
+  String expectedFormKey=formService.getTaskFormData(task.getId()).getFormKey();
+  String actualFormKey=formService.getTaskFormKey(task.getProcessDefinitionId(),task.getTaskDefinitionKey());
+  assertEquals(expectedFormKey,actualFormKey);
+}
