@@ -28,8 +28,10 @@
     timer.setExecution(executionEntity);
   }
   if (type == TimerDeclarationType.CYCLE) {
-    String prepared=prepareRepeat(dueDateString);
-    timer.setRepeat(prepared);
+    if (!isInterruptingTimer) {
+      String prepared=prepareRepeat(dueDateString);
+      timer.setRepeat(prepared);
+    }
   }
   return timer;
 }

@@ -1,0 +1,12 @@
+{
+  ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedProcessDefinitionById(processDefinitionId);
+  DefaultFormHandler formHandler;
+  if (taskDefinitionKey == null) {
+    formHandler=(DefaultFormHandler)processDefinition.getStartFormHandler();
+  }
+ else {
+    TaskDefinition taskDefinition=processDefinition.getTaskDefinitions().get(taskDefinitionKey);
+    formHandler=(DefaultFormHandler)taskDefinition.getTaskFormHandler();
+  }
+  return formHandler.getFormKey();
+}

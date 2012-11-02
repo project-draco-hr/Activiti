@@ -1,0 +1,6 @@
+{
+  String processDefinitionId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  String expectedFormKey=formService.getStartFormData(processDefinitionId).getFormKey();
+  String actualFormKey=formService.getStartFormKey(processDefinitionId);
+  assertEquals(expectedFormKey,actualFormKey);
+}

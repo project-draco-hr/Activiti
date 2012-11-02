@@ -1,6 +1,9 @@
 {
   timerActivity.setProperty("type","boundaryTimer");
   TimerDeclarationImpl timerDeclaration=parseTimer(timerEventDefinition,timerActivity,TimerExecuteNestedActivityJobHandler.TYPE);
+  if (interrupting) {
+    timerDeclaration.setInterruptingTimer(true);
+  }
   addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
   if (timerActivity.getParent() instanceof ActivityImpl) {
     ((ActivityImpl)timerActivity.getParent()).setScope(true);
