@@ -14,6 +14,11 @@
     writeDefaultAttribute(ATTRIBUTE_ACTIVITY_DEFAULT,activity.getDefaultFlow(),xtw);
   }
   writeAdditionalAttributes(flowElement,xtw);
+  if (StringUtils.isNotEmpty(flowElement.getDocumentation())) {
+    xtw.writeStartElement(ELEMENT_DOCUMENTATION);
+    xtw.writeCharacters(flowElement.getDocumentation());
+    xtw.writeEndElement();
+  }
   writeAdditionalChildElements(flowElement,xtw);
   writeListeners(flowElement,xtw);
   if (didWriteExtensionStartElement) {
