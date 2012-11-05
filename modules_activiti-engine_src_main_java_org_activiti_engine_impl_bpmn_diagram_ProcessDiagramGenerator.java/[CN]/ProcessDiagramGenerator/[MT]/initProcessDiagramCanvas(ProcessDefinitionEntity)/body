@@ -61,5 +61,9 @@
       }
     }
   }
+  if ((processDefinition.getActivities() == null || processDefinition.getActivities().size() == 0) && (processDefinition.getLaneSets() == null || processDefinition.getLaneSets().size() == 0)) {
+    minX=0;
+    minY=0;
+  }
   return new ProcessDiagramCanvas(maxX + 10,maxY + 10,minX,minY);
 }
