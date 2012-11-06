@@ -7,8 +7,8 @@
     JsonNode dockersNode=edgeNode.get(EDITOR_DOCKERS);
     double sourceDockersX=dockersNode.get(0).get(EDITOR_BOUNDS_X).getDoubleValue();
     double sourceDockersY=dockersNode.get(0).get(EDITOR_BOUNDS_Y).getDoubleValue();
-    GraphicInfo sourceInfo=bpmnModel.getGraphicInfo(sourceRefNode.get(EDITOR_SHAPE_ID).asText());
-    GraphicInfo targetInfo=bpmnModel.getGraphicInfo(targetRefNode.get(EDITOR_SHAPE_ID).asText());
+    GraphicInfo sourceInfo=bpmnModel.getGraphicInfo(BpmnJsonConverterUtil.getElementId(sourceRefNode));
+    GraphicInfo targetInfo=bpmnModel.getGraphicInfo(BpmnJsonConverterUtil.getElementId(targetRefNode));
     double sourceRefLineX=sourceInfo.x + sourceDockersX;
     double sourceRefLineY=sourceInfo.y + sourceDockersY;
     double nextPointInLineX;

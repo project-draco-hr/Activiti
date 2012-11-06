@@ -12,7 +12,7 @@
         graphicInfo.width=lowerRightNode.get(EDITOR_BOUNDS_X).asDouble() - graphicInfo.x + parentX;
         graphicInfo.height=lowerRightNode.get(EDITOR_BOUNDS_Y).asDouble() - graphicInfo.y + parentY;
         String childShapeId=jsonChildNode.get(EDITOR_SHAPE_ID).asText();
-        bpmnModel.addGraphicInfo(childShapeId,graphicInfo);
+        bpmnModel.addGraphicInfo(BpmnJsonConverterUtil.getElementId(jsonChildNode),graphicInfo);
         shapeMap.put(childShapeId,jsonChildNode);
         ArrayNode outgoingNode=(ArrayNode)jsonChildNode.get("outgoing");
         if (outgoingNode != null && outgoingNode.size() > 0) {

@@ -25,6 +25,7 @@
   flowNode.put("outgoing",outgoingArrayNode);
   flowNode.put("target",BpmnJsonConverterUtil.createResourceNode(sequenceFlow.getTargetRef()));
   ObjectNode propertiesNode=objectMapper.createObjectNode();
+  propertiesNode.put(PROPERTY_OVERRIDE_ID,flowElement.getId());
   if (StringUtils.isNotEmpty(sequenceFlow.getName())) {
     propertiesNode.put(PROPERTY_NAME,sequenceFlow.getName());
   }

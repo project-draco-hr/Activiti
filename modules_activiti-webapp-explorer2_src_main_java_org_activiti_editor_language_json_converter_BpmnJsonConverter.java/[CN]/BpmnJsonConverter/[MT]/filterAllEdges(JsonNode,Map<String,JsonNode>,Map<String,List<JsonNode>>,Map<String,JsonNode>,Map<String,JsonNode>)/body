@@ -7,10 +7,10 @@
         filterAllEdges(childNode,edgeMap,sourceAndTargetMap,shapeMap,sourceRefMap);
       }
  else       if (STENCIL_SEQUENCE_FLOW.equals(stencilId)) {
-        String childEdgeId=childNode.get(EDITOR_SHAPE_ID).asText();
+        String childEdgeId=BpmnJsonConverterUtil.getElementId(childNode);
         String targetRefId=childNode.get("target").get(EDITOR_SHAPE_ID).asText();
         List<JsonNode> sourceAndTargetList=new ArrayList<JsonNode>();
-        sourceAndTargetList.add(sourceRefMap.get(childEdgeId));
+        sourceAndTargetList.add(sourceRefMap.get(childNode.get(EDITOR_SHAPE_ID).asText()));
         sourceAndTargetList.add(shapeMap.get(targetRefId));
         edgeMap.put(childEdgeId,childNode);
         sourceAndTargetMap.put(childEdgeId,sourceAndTargetList);

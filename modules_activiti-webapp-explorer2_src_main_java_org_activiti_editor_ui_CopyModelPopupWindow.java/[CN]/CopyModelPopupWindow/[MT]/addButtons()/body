@@ -1,0 +1,47 @@
+{
+  Button cancelButton=new Button(i18nManager.getMessage(Messages.BUTTON_CANCEL));
+  cancelButton.addStyleName(Reindeer.BUTTON_SMALL);
+  cancelButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      close();
+    }
+  }
+);
+  Button createButton=new Button(i18nManager.getMessage(Messages.PROCESS_NEW_POPUP_CREATE_BUTTON));
+  createButton.addStyleName(Reindeer.BUTTON_SMALL);
+  createButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      if (StringUtils.isEmpty((String)nameTextField.getValue())) {
+        form.setComponentError(new UserError("The name field is required."));
+        return;
+      }
+      ModelData newModelData=new ModelData();
+      newModelData.setModelEditorJson(modelData.getModelEditorJson());
+      newModelData.setModelSvg(modelData.getModelSvg());
+      ObjectNode modelObjectNode=new ObjectMapper().createObjectNode();
+      modelObjectNode.put(MODEL_NAME,(String)nameTextField.getValue());
+      modelObjectNode.put(MODEL_REVISION,1);
+      String description=null;
+      if (StringUtils.isNotEmpty((String)descriptionTextArea.getValue())) {
+        description=(String)descriptionTextArea.getValue();
+      }
+ else {
+        description="";
+      }
+      modelObjectNode.put(MODEL_DESCRIPTION,description);
+      newModelData.setModelJson(modelObjectNode.toString());
+      long modelId=new ModelDao().saveModel(newModelData);
+      close();
+      ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(String.valueOf(modelId));
+    }
+  }
+);
+  HorizontalLayout buttonLayout=new HorizontalLayout();
+  buttonLayout.setSpacing(true);
+  buttonLayout.addComponent(cancelButton);
+  buttonLayout.addComponent(createButton);
+  addComponent(buttonLayout);
+  windowLayout.setComponentAlignment(buttonLayout,Alignment.BOTTOM_RIGHT);
+}

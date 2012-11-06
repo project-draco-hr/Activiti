@@ -1,0 +1,10 @@
+{
+  String elementId=null;
+  if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_OVERRIDE_ID,objectNode))) {
+    elementId=getPropertyValueAsString(PROPERTY_OVERRIDE_ID,objectNode).trim();
+  }
+ else {
+    elementId=objectNode.get(EDITOR_SHAPE_ID).asText();
+  }
+  return elementId;
+}

@@ -7,7 +7,7 @@
         for (        JsonNode outgoingChildNode : outgoingNode) {
           JsonNode resourceNode=outgoingChildNode.get(EDITOR_SHAPE_ID);
           if (resourceNode != null && boundaryEventId.equals(resourceNode.asText())) {
-            attachedRefId=childNode.get(EDITOR_SHAPE_ID).asText();
+            attachedRefId=BpmnJsonConverterUtil.getElementId(childNode);
             break;
           }
         }

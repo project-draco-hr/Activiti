@@ -16,7 +16,7 @@
     bpmnModel.getMainProcess().setName(processNameNode.asText());
   }
   ArrayNode shapesArrayNode=(ArrayNode)modelNode.get(EDITOR_CHILD_SHAPES);
-  processJsonElements(shapesArrayNode,modelNode,bpmnModel.getMainProcess());
+  processJsonElements(shapesArrayNode,modelNode,bpmnModel.getMainProcess(),shapeMap);
   Map<String,SubProcess> subShapesMap=new HashMap<String,SubProcess>();
   for (  FlowElement flowElement : bpmnModel.getMainProcess().getFlowElements()) {
     if (flowElement instanceof SubProcess) {
