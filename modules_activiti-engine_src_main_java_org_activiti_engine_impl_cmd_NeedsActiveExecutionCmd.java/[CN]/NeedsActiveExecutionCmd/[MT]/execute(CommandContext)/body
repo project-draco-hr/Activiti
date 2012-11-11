@@ -1,0 +1,13 @@
+{
+  if (executionId == null) {
+    throw new ActivitiException("executionId is null");
+  }
+  ExecutionEntity execution=commandContext.getExecutionManager().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiException("execution " + executionId + " doesn't exist");
+  }
+  if (execution.isSuspended()) {
+    throw new ActivitiException(getSuspendedExceptionMessage());
+  }
+  return execute(commandContext,execution);
+}

@@ -1,0 +1,13 @@
+{
+  if (taskId == null) {
+    throw new ActivitiException("taskId is null");
+  }
+  TaskEntity task=Context.getCommandContext().getTaskManager().findTaskById(taskId);
+  if (task == null) {
+    throw new ActivitiException("Cannot find task with id " + taskId);
+  }
+  if (task.isSuspended()) {
+    throw new ActivitiException(getSuspendedTaskException());
+  }
+  return execute(commandContext,task);
+}

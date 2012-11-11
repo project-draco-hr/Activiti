@@ -1,0 +1,16 @@
+{
+  if (userId != null) {
+    if (task.getAssignee() != null) {
+      if (!task.getAssignee().equals(userId)) {
+        throw new ActivitiTaskAlreadyClaimedException(task.getId(),task.getAssignee());
+      }
+    }
+ else {
+      task.setAssignee(userId);
+    }
+  }
+ else {
+    task.setAssignee(null);
+  }
+  return null;
+}

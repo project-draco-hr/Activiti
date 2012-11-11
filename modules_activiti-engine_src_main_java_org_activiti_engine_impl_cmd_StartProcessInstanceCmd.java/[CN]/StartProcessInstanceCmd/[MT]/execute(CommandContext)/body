@@ -16,6 +16,9 @@
  else {
     throw new ActivitiException("processDefinitionKey and processDefinitionId are null");
   }
+  if (processDefinition.isSuspended()) {
+    throw new ActivitiException("Cannot start process instance. Process definition " + processDefinition.getName() + " (id = "+ processDefinition.getId()+ ") is suspended");
+  }
   ExecutionEntity processInstance=processDefinition.createProcessInstance(businessKey);
   if (variables != null) {
     processInstance.setVariables(variables);

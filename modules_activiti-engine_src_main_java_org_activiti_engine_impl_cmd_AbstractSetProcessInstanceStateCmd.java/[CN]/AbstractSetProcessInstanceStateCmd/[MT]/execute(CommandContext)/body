@@ -10,5 +10,15 @@
     throw new ActivitiException("Cannot set suspension state for execution '" + executionId + "': not a process instance.");
   }
   SuspensionStateUtil.setSuspensionState(executionEntity,getNewState());
+  List<ExecutionEntity> childExecutions=commandContext.getExecutionManager().findChildExecutionsByProcessInstanceId(executionId);
+  for (  ExecutionEntity childExecution : childExecutions) {
+    if (!childExecution.getId().equals(executionId)) {
+      SuspensionStateUtil.setSuspensionState(childExecution,getNewState());
+    }
+  }
+  List<TaskEntity> tasks=commandContext.getTaskManager().findTasksByProcessInstanceId(executionId);
+  for (  TaskEntity taskEntity : tasks) {
+    SuspensionStateUtil.setSuspensionState(taskEntity,getNewState());
+  }
   return null;
 }
