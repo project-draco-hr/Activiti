@@ -1,0 +1,7 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("asyncCamelProcess");
+  List<Execution> executionList=runtimeService.createExecutionQuery().list();
+  assertEquals(3,executionList.size());
+  Thread.sleep(4000);
+  assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+}
