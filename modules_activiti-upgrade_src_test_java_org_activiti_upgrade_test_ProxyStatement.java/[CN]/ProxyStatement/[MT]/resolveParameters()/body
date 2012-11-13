@@ -1,0 +1,9 @@
+{
+  int parameterIndex=1;
+  int questionMarkIndex=sql.indexOf('?');
+  while (questionMarkIndex != -1) {
+    sql=sql.substring(0,questionMarkIndex) + parameters.get(parameterIndex) + sql.substring(questionMarkIndex + 1);
+    parameterIndex++;
+    questionMarkIndex=sql.indexOf('?');
+  }
+}
