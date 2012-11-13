@@ -2,13 +2,12 @@
   ObjectNode modelNode=null;
   String modelId=(String)getRequest().getAttributes().get("modelId");
   if (NumberUtils.isNumber(modelId)) {
-    ModelDao modelDao=new ModelDao();
-    ModelData model=modelDao.getModelById(Long.valueOf(modelId));
+    Model model=ProcessEngines.getDefaultProcessEngine().getRepositoryService().getModel(modelId);
     if (model != null) {
       try {
-        modelNode=(ObjectNode)objectMapper.readTree(model.getModelJson());
-        modelNode.put(MODEL_ID,model.getObjectId());
-        ObjectNode editorJsonNode=(ObjectNode)objectMapper.readTree(model.getModelEditorJson());
+        modelNode=(ObjectNode)objectMapper.readTree(model.getMetaInfo());
+        modelNode.put(MODEL_ID,model.getId());
+        ObjectNode editorJsonNode=(ObjectNode)objectMapper.readTree(new String(model.getEditorSource(),"utf-8"));
         modelNode.put("model",editorJsonNode);
       }
  catch (      Exception e) {

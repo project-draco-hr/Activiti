@@ -1,0 +1,43 @@
+{
+  detailsGrid=new GridLayout(2,3);
+  detailsGrid.setSpacing(true);
+  detailLayout.setMargin(true,true,true,false);
+  detailLayout.addComponent(detailsGrid);
+  Label typeLabel=new Label(i18nManager.getMessage(Messages.DATABASE_TYPE) + ": ");
+  typeLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+  detailsGrid.addComponent(typeLabel);
+  Label typeValueLabel=new Label(engineConfiguration.getDatabaseType());
+  detailsGrid.addComponent(typeValueLabel);
+  Label schemaUpdateLabel=new Label(i18nManager.getMessage(Messages.DATABASE_UPDATE) + ": ");
+  schemaUpdateLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+  detailsGrid.addComponent(schemaUpdateLabel);
+  Label schemaUpdateValueLabel=new Label(engineConfiguration.getDatabaseSchemaUpdate());
+  detailsGrid.addComponent(schemaUpdateValueLabel);
+  Label configTypeLabel=new Label(i18nManager.getMessage(Messages.DATABASE_CONFIG_TYPE) + ": ");
+  configTypeLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+  detailsGrid.addComponent(configTypeLabel);
+  String databaseConfigType=getDatabaseType();
+  Label configTypeValueLabel=new Label(databaseConfigType);
+  detailsGrid.addComponent(configTypeValueLabel);
+  if ("JNDI".equals(databaseConfigType)) {
+    Label jndiLabel=new Label(i18nManager.getMessage(Messages.DATABASE_JNDI) + ": ");
+    jndiLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+    detailsGrid.addComponent(jndiLabel);
+    Label jndiValueLabel=new Label(engineConfiguration.getDataSourceJndiName());
+    detailsGrid.addComponent(jndiValueLabel);
+  }
+ else   if ("Datasource".equals(databaseConfigType)) {
+    Label datasourceLabel=new Label(i18nManager.getMessage(Messages.DATABASE_DATASOURCE_CLASS) + ": ");
+    datasourceLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+    detailsGrid.addComponent(datasourceLabel);
+    Label datasourceValueLabel=new Label(engineConfiguration.getDataSource().getClass().getName());
+    detailsGrid.addComponent(datasourceValueLabel);
+  }
+ else {
+    Label jdbcURLLabel=new Label(i18nManager.getMessage(Messages.DATABASE_JDBC_URL) + ": ");
+    jdbcURLLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+    detailsGrid.addComponent(jdbcURLLabel);
+    Label jdbcURLValueLabel=new Label(engineConfiguration.getJdbcUrl());
+    detailsGrid.addComponent(jdbcURLValueLabel);
+  }
+}

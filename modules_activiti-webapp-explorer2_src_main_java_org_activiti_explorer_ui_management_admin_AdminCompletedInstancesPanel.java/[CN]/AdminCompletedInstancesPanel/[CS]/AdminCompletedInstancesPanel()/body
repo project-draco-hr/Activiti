@@ -1,0 +1,9 @@
+{
+  this.historyService=ProcessEngines.getDefaultProcessEngine().getHistoryService();
+  this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+  this.identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
+  this.variableRendererManager=ExplorerApp.get().getVariableRendererManager();
+  this.instanceList=historyService.createHistoricProcessInstanceQuery().finished().list();
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  init();
+}

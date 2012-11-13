@@ -2,11 +2,10 @@
   final FileResource stream=new FileResource(new File(""),ExplorerApp.get()){
     private static final long serialVersionUID=1L;
     @Override public DownloadStream getStream(){
-      String editorJson=modelData.getModelEditorJson();
       DownloadStream ds=null;
       try {
         BpmnJsonConverter jsonConverter=new BpmnJsonConverter();
-        JsonNode editorNode=new ObjectMapper().readTree(editorJson);
+        JsonNode editorNode=new ObjectMapper().readTree(modelData.getEditorSource());
         BpmnModel bpmnModel=jsonConverter.convertToBpmnModel(editorNode);
         BpmnXMLConverter xmlConverter=new BpmnXMLConverter();
         byte[] bpmnBytes=xmlConverter.convertToXML(bpmnModel);

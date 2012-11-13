@@ -1,0 +1,38 @@
+{
+  managementTable=new Table();
+  managementTable.setEditable(false);
+  managementTable.setImmediate(true);
+  managementTable.setSelectable(true);
+  managementTable.setNullSelectionAllowed(false);
+  managementTable.setSortDisabled(true);
+  managementTable.setSizeFull();
+  managementTable.addContainerProperty("name",String.class,null);
+  managementTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  managementTable.addItem(new String[]{i18nManager.getMessage(Messages.ADMIN_MENU_RUNNING)},0);
+  managementTable.addItem(new String[]{i18nManager.getMessage(Messages.ADMIN_MENU_COMPLETED)},1);
+  managementTable.addItem(new String[]{i18nManager.getMessage(Messages.ADMIN_MENU_DATABASE)},2);
+  managementTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=managementTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        if ("0".equals(event.getProperty().getValue().toString())) {
+          setDetailComponent(new AdminRunningInstancesPanel());
+        }
+ else         if ("1".equals(event.getProperty().getValue().toString())) {
+          setDetailComponent(new AdminCompletedInstancesPanel());
+        }
+ else         if ("2".equals(event.getProperty().getValue().toString())) {
+          setDetailComponent(new AdminDatabaseSettingsPanel());
+        }
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(AdministrationNavigator.MANAGEMENT_URI_PART,event.getProperty().getValue().toString()));
+      }
+ else {
+        setDetailComponent(null);
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(AdministrationNavigator.MANAGEMENT_URI_PART,managementId));
+      }
+    }
+  }
+);
+  return managementTable;
+}

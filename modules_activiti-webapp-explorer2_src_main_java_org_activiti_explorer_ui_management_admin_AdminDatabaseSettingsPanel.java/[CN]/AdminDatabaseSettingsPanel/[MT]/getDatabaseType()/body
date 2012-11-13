@@ -1,0 +1,13 @@
+{
+  String databaseType=null;
+  if (engineConfiguration.getDataSourceJndiName() != null) {
+    databaseType="JNDI";
+  }
+ else   if (engineConfiguration.getDataSource() != null) {
+    databaseType="Datasource";
+  }
+ else {
+    databaseType="JDBC config";
+  }
+  return databaseType;
+}

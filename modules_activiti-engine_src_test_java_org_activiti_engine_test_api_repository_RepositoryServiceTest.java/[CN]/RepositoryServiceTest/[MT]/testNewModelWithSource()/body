@@ -1,0 +1,13 @@
+{
+  Model model=repositoryService.newModel();
+  model.setName("Test model");
+  byte[] testSource="modelsource".getBytes("utf-8");
+  assertNotNull(testSource);
+  model.setEditorSource(testSource);
+  repositoryService.saveModel(model);
+  assertNotNull(model.getId());
+  model=repositoryService.getModel(model.getId());
+  assertNotNull(model);
+  assertEquals("modelsource",new String(model.getEditorSource(),"utf-8"));
+  repositoryService.deleteModel(model.getId());
+}

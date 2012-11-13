@@ -17,31 +17,36 @@
         form.setComponentError(new UserError("The name field is required."));
         return;
       }
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectNode editorNode=objectMapper.createObjectNode();
-      editorNode.put("id","canvas");
-      editorNode.put("resourceId","canvas");
-      ObjectNode stencilSetNode=objectMapper.createObjectNode();
-      stencilSetNode.put("namespace","http://b3mn.org/stencilset/bpmn2.0#");
-      editorNode.put("stencilset",stencilSetNode);
-      ModelData modelData=new ModelData();
-      modelData.setModelEditorJson(editorNode.toString());
-      ObjectNode modelObjectNode=objectMapper.createObjectNode();
-      modelObjectNode.put(MODEL_NAME,(String)nameTextField.getValue());
-      modelObjectNode.put(MODEL_REVISION,1);
-      String description=null;
-      if (StringUtils.isNotEmpty((String)descriptionTextArea.getValue())) {
-        description=(String)descriptionTextArea.getValue();
-      }
+      try {
+        ObjectMapper objectMapper=new ObjectMapper();
+        ObjectNode editorNode=objectMapper.createObjectNode();
+        editorNode.put("id","canvas");
+        editorNode.put("resourceId","canvas");
+        ObjectNode stencilSetNode=objectMapper.createObjectNode();
+        stencilSetNode.put("namespace","http://b3mn.org/stencilset/bpmn2.0#");
+        editorNode.put("stencilset",stencilSetNode);
+        Model modelData=repositoryService.newModel();
+        modelData.setEditorSource(editorNode.toString().getBytes("utf-8"));
+        ObjectNode modelObjectNode=objectMapper.createObjectNode();
+        modelObjectNode.put(MODEL_NAME,(String)nameTextField.getValue());
+        modelObjectNode.put(MODEL_REVISION,1);
+        String description=null;
+        if (StringUtils.isNotEmpty((String)descriptionTextArea.getValue())) {
+          description=(String)descriptionTextArea.getValue();
+        }
  else {
-        description="";
+          description="";
+        }
+        modelObjectNode.put(MODEL_DESCRIPTION,description);
+        modelData.setMetaInfo(modelObjectNode.toString());
+        repositoryService.saveModel(modelData);
+        close();
+        ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(modelData.getId());
+        ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString() + "service/editor?id=" + modelData.getId()));
       }
-      modelObjectNode.put(MODEL_DESCRIPTION,description);
-      modelData.setModelJson(modelObjectNode.toString());
-      long modelId=new ModelDao().saveModel(modelData);
-      close();
-      ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(String.valueOf(modelId));
-      ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString() + "service/editor?id=" + modelId));
+ catch (      Exception e) {
+        notificationManager.showErrorNotification("error",e);
+      }
     }
   }
 );

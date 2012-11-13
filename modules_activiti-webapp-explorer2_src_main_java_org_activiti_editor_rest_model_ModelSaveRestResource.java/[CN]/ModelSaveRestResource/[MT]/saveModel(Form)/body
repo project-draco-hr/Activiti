@@ -2,15 +2,16 @@
   ObjectMapper objectMapper=new ObjectMapper();
   String modelId=(String)getRequest().getAttributes().get("modelId");
   try {
-    ModelDao modelDao=new ModelDao();
-    ModelData model=modelDao.getModelById(Long.valueOf(modelId));
-    ObjectNode modelJson=(ObjectNode)objectMapper.readTree(model.getModelJson());
+    RepositoryService repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+    Model model=repositoryService.getModel(modelId);
+    ObjectNode modelJson=(ObjectNode)objectMapper.readTree(model.getMetaInfo());
     modelJson.put(MODEL_NAME,modelForm.getFirstValue("name"));
     modelJson.put(MODEL_DESCRIPTION,modelForm.getFirstValue("description"));
-    model.setModelJson(modelJson.toString());
-    model.setModelEditorJson(modelForm.getFirstValue("json_xml"));
-    model.setModelSvg(new String(modelForm.getFirstValue("svg_xml").getBytes("utf-8")));
-    modelDao.saveModel(model);
+    model.setMetaInfo(modelJson.toString());
+    model.setName(modelForm.getFirstValue("name"));
+    model.setEditorSource(modelForm.getFirstValue("json_xml").getBytes("utf-8"));
+    model.setEditorSourceExtra(modelForm.getFirstValue("svg_xml").getBytes("utf-8"));
+    repositoryService.saveModel(model);
   }
  catch (  Exception e) {
     LOGGER.log(Level.SEVERE,"Error saving model",e);

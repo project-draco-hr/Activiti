@@ -13,7 +13,7 @@
   deleteButton.addListener(new ClickListener(){
     private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
-      new ModelDao().deleteModel(modelData);
+      repositoryService.deleteModel(modelData.getId());
       close();
       ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage();
     }

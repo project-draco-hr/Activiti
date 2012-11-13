@@ -1,0 +1,19 @@
+{
+  if (currentEmbedded != null) {
+    mainPanel.removeComponent(currentEmbedded);
+  }
+  ProcessDefinitionEntity processDefinitionEntity=(ProcessDefinitionEntity)((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processDefinition.getId());
+  if (processDefinitionEntity != null && processDefinitionEntity.isGraphicalNotationDefined()) {
+    if (imageHeader == null) {
+      imageHeader=new Label(i18nManager.getMessage(Messages.PROCESS_HEADER_DIAGRAM));
+      imageHeader.addStyleName(ExplorerLayout.STYLE_H3);
+      imageHeader.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+      imageHeader.addStyleName(ExplorerLayout.STYLE_NO_LINE);
+      addDetailComponent(imageHeader);
+    }
+    StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processDefinition,repositoryService);
+    currentEmbedded=new Embedded(null,diagram);
+    currentEmbedded.setType(Embedded.TYPE_IMAGE);
+    addDetailComponent(currentEmbedded);
+  }
+}
