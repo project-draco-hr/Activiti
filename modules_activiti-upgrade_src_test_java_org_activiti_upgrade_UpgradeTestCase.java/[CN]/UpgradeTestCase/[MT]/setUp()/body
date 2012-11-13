@@ -1,0 +1,7 @@
+{
+  super.setUp();
+  if (processEngine == null) {
+    String database=System.getProperty("database");
+    setProcessEngine(createProcessEngineConfiguration(database).buildProcessEngine());
+  }
+}
