@@ -15,8 +15,12 @@
     public void buttonClick(    ClickEvent event){
       try {
         InputStream bpmnStream=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getResourceName());
-        BpmnJsonConverter converter=new BpmnJsonConverter(processDefinition.getResourceName(),bpmnStream);
-        ObjectNode modelNode=converter.convertToJson();
+        XMLInputFactory xif=XMLInputFactory.newInstance();
+        InputStreamReader in=new InputStreamReader(bpmnStream,"UTF-8");
+        XMLStreamReader xtr=xif.createXMLStreamReader(in);
+        BpmnModel model=new BpmnXMLConverter().convertToBpmnModel(xtr);
+        BpmnJsonConverter converter=new BpmnJsonConverter();
+        ObjectNode modelNode=converter.convertToJson(model);
         Model modelData=repositoryService.newModel();
         modelData.setEditorSource(modelNode.toString().getBytes("utf-8"));
         ObjectNode modelObjectNode=new ObjectMapper().createObjectNode();

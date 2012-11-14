@@ -10,17 +10,6 @@
   stencilsetNode.put("url","../editor/stencilsets/bpmn2.0/bpmn2.0.json");
   modelNode.put("stencilset",stencilsetNode);
   ArrayNode shapesArrayNode=objectMapper.createArrayNode();
-  BpmnModel model=null;
-  try {
-    XMLInputFactory xif=XMLInputFactory.newInstance();
-    InputStreamReader in=new InputStreamReader(inputStream,"UTF-8");
-    XMLStreamReader xtr=xif.createXMLStreamReader(in);
-    model=new BpmnXMLConverter().convertToBpmnModel(xtr);
-  }
- catch (  Exception e) {
-    LOGGER.log(Level.SEVERE,"Error parsing BPMN XML",e);
-    return modelNode;
-  }
   Process process=model.getMainProcess();
   ObjectNode propertiesNode=objectMapper.createObjectNode();
   if (StringUtils.isNotEmpty(process.getId())) {
