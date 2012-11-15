@@ -1,0 +1,18 @@
+{
+  String executionId=execution.getId();
+  String activityId=execution.getActivityId();
+  List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=getDbSqlSession().findInCache(HistoricActivityInstanceEntity.class);
+  for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
+    if (executionId.equals(cachedHistoricActivityInstance.getExecutionId()) && activityId != null && (activityId.equals(cachedHistoricActivityInstance.getActivityId())) && (cachedHistoricActivityInstance.getEndTime() == null)) {
+      return cachedHistoricActivityInstance;
+    }
+  }
+  List<HistoricActivityInstance> historicActivityInstances=new HistoricActivityInstanceQueryImpl(Context.getCommandContext()).executionId(executionId).activityId(activityId).unfinished().listPage(0,1);
+  if (!historicActivityInstances.isEmpty()) {
+    return (HistoricActivityInstanceEntity)historicActivityInstances.get(0);
+  }
+  if (execution.getParentId() != null) {
+    return findActivityInstance((ExecutionEntity)execution.getParent());
+  }
+  return null;
+}

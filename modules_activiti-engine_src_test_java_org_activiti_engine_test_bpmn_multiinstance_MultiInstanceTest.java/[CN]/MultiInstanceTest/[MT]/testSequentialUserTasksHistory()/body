@@ -3,7 +3,7 @@
   for (int i=0; i < 4; i++) {
     taskService.complete(taskService.createTaskQuery().singleResult().getId());
   }
-  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     List<HistoricTaskInstance> historicTaskInstances=historyService.createHistoricTaskInstanceQuery().list();
     assertEquals(4,historicTaskInstances.size());
     for (    HistoricTaskInstance ht : historicTaskInstances) {

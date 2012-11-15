@@ -1,7 +1,3 @@
 {
-  ExecutionEntity executionEntity=(ExecutionEntity)execution;
-  HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(executionEntity);
-  if (historicActivityInstance != null) {
-    historicActivityInstance.markEnded(null);
-  }
+  Context.getCommandContext().getHistoryManager().recordActivityEnd((ExecutionEntity)execution);
 }

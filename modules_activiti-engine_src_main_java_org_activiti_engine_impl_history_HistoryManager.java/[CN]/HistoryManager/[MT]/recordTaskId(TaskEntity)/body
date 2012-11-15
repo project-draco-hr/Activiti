@@ -1,0 +1,11 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
+    ExecutionEntity execution=task.getExecution();
+    if (execution != null) {
+      HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(execution);
+      if (historicActivityInstance != null) {
+        historicActivityInstance.setTaskId(task.getId());
+      }
+    }
+  }
+}

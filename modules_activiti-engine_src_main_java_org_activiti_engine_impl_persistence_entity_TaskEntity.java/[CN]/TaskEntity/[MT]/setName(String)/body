@@ -2,6 +2,6 @@
   this.name=taskName;
   CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
-    commandContext.getHistoricTaskInstanceManager().setTaskName(id,taskName);
+    commandContext.getHistoryManager().recordTaskNameChange(id,taskName);
   }
 }

@@ -19,7 +19,7 @@
   for (  Task subTask : subTasks) {
     subTaskNames.add(subTask.getName());
   }
-  if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
     Set<String> expectedSubTaskNames=new HashSet<String>();
     expectedSubTaskNames.add("subtask one");
     expectedSubTaskNames.add("subtask two");
