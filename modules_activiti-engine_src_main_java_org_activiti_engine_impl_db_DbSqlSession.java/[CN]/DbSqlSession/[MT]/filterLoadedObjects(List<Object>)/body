@@ -5,10 +5,10 @@
   if (!(PersistentObject.class.isAssignableFrom(loadedObjects.get(0).getClass()))) {
     return loadedObjects;
   }
-  List<PersistentObject> filteredObjects=new ArrayList<PersistentObject>(loadedObjects.size());
+  Map<String,PersistentObject> filteredObjectsMap=new LinkedHashMap<String,PersistentObject>(loadedObjects.size());
   for (  Object loadedObject : loadedObjects) {
     PersistentObject cachedPersistentObject=cacheFilter((PersistentObject)loadedObject);
-    filteredObjects.add(cachedPersistentObject);
+    filteredObjectsMap.put(cachedPersistentObject.getId(),cachedPersistentObject);
   }
-  return filteredObjects;
+  return new ArrayList<PersistentObject>(filteredObjectsMap.values());
 }
