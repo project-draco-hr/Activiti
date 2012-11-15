@@ -3,7 +3,7 @@
   for (  Task task : taskService.createTaskQuery().list()) {
     taskService.complete(task.getId());
   }
-  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().activityId("miSubProcess").list();
     assertEquals(2,historicActivityInstances.size());
     for (    HistoricActivityInstance hai : historicActivityInstances) {

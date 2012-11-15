@@ -4,11 +4,7 @@
     this.executionId=this.execution.getId();
     this.processInstanceId=this.execution.getProcessInstanceId();
     this.processDefinitionId=this.execution.getProcessDefinitionId();
-    int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
-    if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-      HistoricTaskInstanceEntity historicTaskInstance=Context.getCommandContext().getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
-      historicTaskInstance.setExecutionId(executionId);
-    }
+    Context.getCommandContext().getHistoryManager().recordTaskExecutionIdChange(this.id,executionId);
   }
  else {
     this.execution=null;

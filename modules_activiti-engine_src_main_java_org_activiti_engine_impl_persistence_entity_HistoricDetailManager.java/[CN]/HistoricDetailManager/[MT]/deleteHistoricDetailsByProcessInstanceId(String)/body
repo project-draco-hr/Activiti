@@ -1,5 +1,5 @@
 {
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+  if (getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
     List<HistoricDetailEntity> historicDetails=(List)getDbSqlSession().createHistoricDetailQuery().processInstanceId(historicProcessInstanceId).list();
     for (    HistoricDetailEntity historicDetail : historicDetails) {
       historicDetail.delete();

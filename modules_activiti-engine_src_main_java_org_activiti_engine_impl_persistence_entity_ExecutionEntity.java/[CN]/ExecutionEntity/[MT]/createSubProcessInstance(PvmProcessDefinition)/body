@@ -4,16 +4,6 @@
   this.setSubProcessInstance(subProcessInstance);
   subProcessInstance.setProcessDefinition((ProcessDefinitionImpl)processDefinition);
   subProcessInstance.setProcessInstance(subProcessInstance);
-  CommandContext commandContext=Context.getCommandContext();
-  int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
-    DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
-    HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity((ExecutionEntity)subProcessInstance);
-    dbSqlSession.insert(historicProcessInstance);
-    HistoricActivityInstanceEntity activitiyInstance=ActivityInstanceEndHandler.findActivityInstance(this);
-    if (activitiyInstance != null) {
-      activitiyInstance.setCalledProcessInstanceId(subProcessInstance.getProcessInstanceId());
-    }
-  }
+  Context.getCommandContext().getHistoryManager().recordSubProcessInstanceStart(this,subProcessInstance);
   return subProcessInstance;
 }

@@ -32,16 +32,5 @@
       variable.setExecutionId(replacedBy.getId());
     }
   }
-  List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=dbSqlSession.findInCache(HistoricActivityInstanceEntity.class);
-  for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
-    if ((cachedHistoricActivityInstance.getEndTime() == null) && (id.equals(cachedHistoricActivityInstance.getExecutionId()))) {
-      cachedHistoricActivityInstance.setExecutionId(replacedBy.getId());
-    }
-  }
-  if (Context.getProcessEngineConfiguration().getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
-    List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl(commandContext).executionId(id).unfinished().list();
-    for (    HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
-      historicActivityInstance.setExecutionId(replacedBy.getId());
-    }
-  }
+  commandContext.getHistoryManager().recordExecutionReplacedBy(this,replacedBy);
 }

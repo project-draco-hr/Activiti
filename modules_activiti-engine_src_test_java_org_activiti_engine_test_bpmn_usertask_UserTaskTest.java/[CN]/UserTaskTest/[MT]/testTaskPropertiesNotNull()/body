@@ -11,7 +11,7 @@
   assertNotNull(task.getProcessDefinitionId());
   assertNotNull(task.getTaskDefinitionKey());
   assertNotNull(task.getCreateTime());
-  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     assertEquals(0,taskService.getTaskEvents(task.getId()).size());
   }
 }

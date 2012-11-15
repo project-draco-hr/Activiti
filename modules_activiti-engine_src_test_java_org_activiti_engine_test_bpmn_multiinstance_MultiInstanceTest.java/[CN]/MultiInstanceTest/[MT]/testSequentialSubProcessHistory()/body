@@ -5,7 +5,7 @@
     taskService.complete(tasks.get(0).getId());
     taskService.complete(tasks.get(1).getId());
   }
-  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     List<HistoricActivityInstance> onlySubProcessInstances=historyService.createHistoricActivityInstanceQuery().activityType("subProcess").list();
     assertEquals(4,onlySubProcessInstances.size());
     List<HistoricActivityInstance> historicInstances=historyService.createHistoricActivityInstanceQuery().activityType("subProcess").list();

@@ -1,0 +1,10 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity((ExecutionEntity)subProcessInstance);
+    getDbSqlSession().insert(historicProcessInstance);
+    HistoricActivityInstanceEntity activitiyInstance=findActivityInstance(parentExecution);
+    if (activitiyInstance != null) {
+      activitiyInstance.setCalledProcessInstanceId(subProcessInstance.getProcessInstanceId());
+    }
+  }
+}

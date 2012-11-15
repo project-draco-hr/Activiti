@@ -1,5 +1,5 @@
 {
-  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (getHistoryManager().isHistoryEnabled()) {
     List<String> historicProcessInstanceIds=getDbSqlSession().selectList("selectHistoricProcessInstanceIdsByProcessDefinitionId",processDefinitionId);
     for (    String historicProcessInstanceId : historicProcessInstanceIds) {
       deleteHistoricProcessInstanceById(historicProcessInstanceId);

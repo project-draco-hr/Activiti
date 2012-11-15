@@ -1,8 +1,6 @@
 {
   addActivityHandlers(activity);
-  if (activityHistoryEnabled(scope,historyLevel)) {
-    TaskDefinition taskDefinition=((UserTaskActivityBehavior)activity.getActivityBehavior()).getTaskDefinition();
-    taskDefinition.addTaskListener(TaskListener.EVENTNAME_ASSIGNMENT,USER_TASK_ASSIGNMENT_HANDLER);
-    taskDefinition.addTaskListener(TaskListener.EVENTNAME_CREATE,USER_TASK_ID_HANDLER);
-  }
+  TaskDefinition taskDefinition=((UserTaskActivityBehavior)activity.getActivityBehavior()).getTaskDefinition();
+  taskDefinition.addTaskListener(TaskListener.EVENTNAME_ASSIGNMENT,USER_TASK_ASSIGNMENT_HANDLER);
+  taskDefinition.addTaskListener(TaskListener.EVENTNAME_CREATE,USER_TASK_ID_HANDLER);
 }

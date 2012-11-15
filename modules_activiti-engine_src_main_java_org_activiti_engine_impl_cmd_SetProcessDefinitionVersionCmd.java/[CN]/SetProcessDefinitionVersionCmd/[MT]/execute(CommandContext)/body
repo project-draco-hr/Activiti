@@ -18,11 +18,7 @@
   }
   ProcessDefinitionEntity newProcessDefinition=deploymentCache.findDeployedProcessDefinitionByKeyAndVersion(currentProcessDefinition.getKey(),processDefinitionVersion);
   validateAndSwitchVersionOfExecution(commandContext,processInstance,newProcessDefinition);
-  HistoricProcessInstanceManager historicProcessInstanceManager=commandContext.getHistoricProcessInstanceManager();
-  if (historicProcessInstanceManager.isHistoryEnabled()) {
-    HistoricProcessInstanceEntity historicProcessInstance=historicProcessInstanceManager.findHistoricProcessInstance(processInstanceId);
-    historicProcessInstance.setProcessDefinitionId(newProcessDefinition.getId());
-  }
+  commandContext.getHistoryManager().recordProcessDefinitionChange(processInstanceId,newProcessDefinition.getId());
   List<ExecutionEntity> childExecutions=executionManager.findChildExecutionsByParentExecutionId(processInstanceId);
   for (  ExecutionEntity executionEntity : childExecutions) {
     validateAndSwitchVersionOfExecution(commandContext,executionEntity,newProcessDefinition);
