@@ -1,0 +1,11 @@
+{
+  if (authorizationUserId != null) {
+    List<Group> groups=Context.getCommandContext().getGroupManager().findGroupsByUser(authorizationUserId);
+    List<String> groupIds=new ArrayList<String>();
+    for (    Group group : groups) {
+      groupIds.add(group.getId());
+    }
+    return groupIds;
+  }
+  return null;
+}
