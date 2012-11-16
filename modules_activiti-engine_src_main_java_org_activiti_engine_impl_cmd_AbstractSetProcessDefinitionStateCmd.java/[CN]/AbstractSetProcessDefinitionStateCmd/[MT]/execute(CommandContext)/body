@@ -18,5 +18,17 @@
   }
   setState(processDefinitionEntity);
   Context.getProcessEngineConfiguration().getDeploymentCache().removeProcessDefinition(processDefinitionEntity.getId());
+  if (includeProcessInstances) {
+    int currentStartIndex=0;
+    List<ProcessInstance> processInstances=fetchProcessInstancesPage(commandContext,processDefinitionEntity,currentStartIndex);
+    while (processInstances.size() > 0) {
+      for (      ProcessInstance processInstance : processInstances) {
+        AbstractSetProcessInstanceStateCmd processInstanceCmd=getProcessInstanceCmd(processInstance);
+        processInstanceCmd.execute(commandContext);
+      }
+      currentStartIndex+=processInstances.size();
+      processInstances=fetchProcessInstancesPage(commandContext,processDefinitionEntity,currentStartIndex);
+    }
+  }
   return null;
 }

@@ -11,7 +11,6 @@
     fail();
   }
  catch (  Exception e) {
-    assertTextPresent("does not have a subscription to a message event with name 'messageName_2'",e.getMessage());
   }
   assertEquals(1,runtimeService.createExecutionQuery().count());
   Task userTask=taskService.createTaskQuery().singleResult();
