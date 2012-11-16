@@ -1,5 +1,5 @@
 {
-  if (isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricVariableInstanceEntity historicProcessVariable=getDbSqlSession().findInCache(HistoricVariableInstanceEntity.class,variable.getId());
     if (historicProcessVariable == null) {
       historicProcessVariable=Context.getCommandContext().getHistoricVariableInstanceManager().findHistoricVariableInstanceByVariableInstanceId(variable.getId());

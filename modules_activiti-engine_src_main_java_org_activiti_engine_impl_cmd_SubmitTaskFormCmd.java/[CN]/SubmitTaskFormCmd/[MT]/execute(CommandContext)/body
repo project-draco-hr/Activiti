@@ -6,15 +6,7 @@
   if (task == null) {
     throw new ActivitiException("Cannot find task with id " + taskId);
   }
-  ExecutionEntity execution=task.getExecution();
-  if (commandContext.getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.AUDIT) && execution != null) {
-    DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
-    for (    String propertyId : properties.keySet()) {
-      String propertyValue=properties.get(propertyId);
-      HistoricFormPropertyEntity historicFormProperty=new HistoricFormPropertyEntity(execution,propertyId,propertyValue,taskId);
-      dbSqlSession.insert(historicFormProperty);
-    }
-  }
+  commandContext.getHistoryManager().reportFormPropertiesSubmitted(task.getExecution(),properties,taskId);
   TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
   taskFormHandler.submitFormProperties(properties,task.getExecution());
   task.complete();
