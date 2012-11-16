@@ -1,6 +1,8 @@
 {
   if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricProcessInstanceEntity historicProcessInstance=getHistoricProcessInstanceManager().findHistoricProcessInstance(processInstanceId);
-    historicProcessInstance.setProcessDefinitionId(processDefinitionId);
+    if (historicProcessInstance != null) {
+      historicProcessInstance.setProcessDefinitionId(processDefinitionId);
+    }
   }
 }

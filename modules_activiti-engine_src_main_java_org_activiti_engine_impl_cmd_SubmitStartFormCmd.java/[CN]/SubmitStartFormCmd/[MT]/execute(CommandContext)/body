@@ -10,14 +10,7 @@
  else {
     processInstance=processDefinition.createProcessInstance();
   }
-  if (commandContext.getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
-    DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
-    for (    String propertyId : properties.keySet()) {
-      String propertyValue=properties.get(propertyId);
-      HistoricFormPropertyEntity historicFormProperty=new HistoricFormPropertyEntity(processInstance,propertyId,propertyValue);
-      dbSqlSession.insert(historicFormProperty);
-    }
-  }
+  commandContext.getHistoryManager().reportFormPropertiesSubmitted(processInstance,properties,null);
   StartFormHandler startFormHandler=processDefinition.getStartFormHandler();
   startFormHandler.submitFormProperties(properties,processInstance);
   processInstance.start();
