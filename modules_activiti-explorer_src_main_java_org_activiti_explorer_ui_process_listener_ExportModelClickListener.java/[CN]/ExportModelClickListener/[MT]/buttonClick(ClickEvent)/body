@@ -5,7 +5,7 @@
       DownloadStream ds=null;
       try {
         BpmnJsonConverter jsonConverter=new BpmnJsonConverter();
-        JsonNode editorNode=new ObjectMapper().readTree(modelData.getEditorSource());
+        JsonNode editorNode=new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
         BpmnModel bpmnModel=jsonConverter.convertToBpmnModel(editorNode);
         BpmnXMLConverter xmlConverter=new BpmnXMLConverter();
         byte[] bpmnBytes=xmlConverter.convertToXML(bpmnModel);

@@ -4,8 +4,9 @@
   processTitle.addStyleName(ExplorerLayout.STYLE_H3);
   processImageContainer.addComponent(processTitle);
   StreamSource streamSource=null;
-  if (modelData.getEditorSourceExtra() != null) {
-    InputStream svgStream=new ByteArrayInputStream(modelData.getEditorSourceExtra());
+  byte[] editorSourceExtra=repositoryService.getModelEditorSourceExtra(modelData.getId());
+  if (editorSourceExtra != null) {
+    InputStream svgStream=new ByteArrayInputStream(editorSourceExtra);
     TranscoderInput input=new TranscoderInput(svgStream);
     PNGTranscoder transcoder=new PNGTranscoder();
     try {

@@ -1,6 +1,6 @@
 {
   try {
-    ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(modelData.getEditorSource());
+    ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
     BpmnModel model=new BpmnJsonConverter().convertToBpmnModel(modelNode);
     byte[] bpmnBytes=new BpmnXMLConverter().convertToXML(model);
     Deployment deployment=repositoryService.createDeployment().name(modelData.getName()).addString(modelData.getName() + ".bpmn20.xml",new String(bpmnBytes)).deploy();

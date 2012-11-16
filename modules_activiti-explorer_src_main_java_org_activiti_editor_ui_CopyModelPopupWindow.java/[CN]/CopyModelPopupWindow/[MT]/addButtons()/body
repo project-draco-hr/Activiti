@@ -18,8 +18,6 @@
         return;
       }
       Model newModelData=repositoryService.newModel();
-      newModelData.setEditorSource(modelData.getEditorSource());
-      newModelData.setEditorSourceExtra(modelData.getEditorSourceExtra());
       ObjectNode modelObjectNode=new ObjectMapper().createObjectNode();
       modelObjectNode.put(MODEL_NAME,(String)nameTextField.getValue());
       String description=null;
@@ -33,6 +31,8 @@
       newModelData.setMetaInfo(modelObjectNode.toString());
       newModelData.setName((String)nameTextField.getValue());
       repositoryService.saveModel(newModelData);
+      repositoryService.addModelEditorSource(newModelData.getId(),repositoryService.getModelEditorSource(modelData.getId()));
+      repositoryService.addModelEditorSourceExtra(newModelData.getId(),repositoryService.getModelEditorSourceExtra(modelData.getId()));
       close();
       ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(newModelData.getId());
     }

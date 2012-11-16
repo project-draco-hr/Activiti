@@ -22,13 +22,13 @@
         BpmnJsonConverter converter=new BpmnJsonConverter();
         ObjectNode modelNode=converter.convertToJson(model);
         Model modelData=repositoryService.newModel();
-        modelData.setEditorSource(modelNode.toString().getBytes("utf-8"));
         ObjectNode modelObjectNode=new ObjectMapper().createObjectNode();
         modelObjectNode.put(MODEL_NAME,processDefinition.getName());
         modelObjectNode.put(MODEL_REVISION,1);
         modelObjectNode.put(MODEL_DESCRIPTION,processDefinition.getDescription());
         modelData.setMetaInfo(modelObjectNode.toString());
         repositoryService.saveModel(modelData);
+        repositoryService.addModelEditorSource(modelData.getId(),modelNode.toString().getBytes("utf-8"));
         close();
         ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(modelData.getId());
         ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString() + "service/editor?id=" + modelData.getId()));
