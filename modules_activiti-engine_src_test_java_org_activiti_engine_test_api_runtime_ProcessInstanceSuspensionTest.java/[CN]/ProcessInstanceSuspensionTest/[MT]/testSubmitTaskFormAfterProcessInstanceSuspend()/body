@@ -1,0 +1,11 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
+  runtimeService.suspendProcessInstanceById(processInstance.getId());
+  try {
+    formService.submitTaskFormData(taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getId(),new HashMap<String,String>());
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+}
