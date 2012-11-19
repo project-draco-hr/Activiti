@@ -33,4 +33,17 @@
   assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("integerVar",999).count());
   assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("stringVar","999").count());
   assertEquals(1,taskService.createTaskQuery().taskVariableValueNotEquals("booleanVar",false).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueEquals(928374L).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueEquals((short)123).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueEquals(1234).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueEquals("stringValue").count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueEquals(true).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueEquals(date).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueEquals(null).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals(999999L).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals((short)999).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals(9999).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals("unexistingstringvalue").count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals(false).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals(otherDate.getTime()).count());
 }

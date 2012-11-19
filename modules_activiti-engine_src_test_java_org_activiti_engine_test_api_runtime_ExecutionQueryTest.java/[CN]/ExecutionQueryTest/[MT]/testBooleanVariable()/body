@@ -21,6 +21,9 @@
   assertNotNull(instances);
   assertEquals(1,instances.size());
   assertEquals(processInstance1.getId(),instances.get(0).getId());
+  Execution execution=runtimeService.createExecutionQuery().variableValueEquals(true).singleResult();
+  assertNotNull(execution);
+  assertEquals(processInstance1.getId(),execution.getId());
   try {
     runtimeService.createProcessInstanceQuery().variableValueGreaterThan("booleanVar",true);
     fail("Excetion expected");

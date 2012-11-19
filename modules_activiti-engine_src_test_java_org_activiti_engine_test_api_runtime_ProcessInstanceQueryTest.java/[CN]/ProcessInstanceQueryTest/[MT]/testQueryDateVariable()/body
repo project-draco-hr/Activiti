@@ -56,6 +56,17 @@
   processInstances=runtimeService.createProcessInstanceQuery().variableValueLessThanOrEqual("dateVar",nextYear.getTime()).list();
   Assert.assertEquals(3,processInstances.size());
   Assert.assertEquals(0,runtimeService.createProcessInstanceQuery().variableValueLessThanOrEqual("dateVar",oneYearAgo.getTime()).count());
+  resultInstance=runtimeService.createProcessInstanceQuery().variableValueEquals(nextYear.getTime()).singleResult();
+  assertNotNull(resultInstance);
+  assertEquals(processInstance3.getId(),resultInstance.getId());
+  processInstances=runtimeService.createProcessInstanceQuery().variableValueEquals(date1).list();
+  Assert.assertEquals(2,processInstances.size());
+  expecedIds=Arrays.asList(processInstance1.getId(),processInstance2.getId());
+  ids=new ArrayList<String>(Arrays.asList(processInstances.get(0).getId(),processInstances.get(1).getId()));
+  ids.removeAll(expecedIds);
+  assertTrue(ids.isEmpty());
+  resultInstance=runtimeService.createProcessInstanceQuery().variableValueEquals(twoYearsLater.getTime()).singleResult();
+  assertNull(resultInstance);
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance2.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance3.getId(),"test");

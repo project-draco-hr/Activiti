@@ -13,4 +13,6 @@
   assertEquals(1,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).variableValueEquals("x","parent").count());
   assertEquals(3,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).processVariableValueEquals("x","parent").count());
   assertEquals(3,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).processVariableValueNotEquals("x","xxx").count());
+  assertEquals(0,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).processVariableValueEquals("child").count());
+  assertEquals(3,runtimeService.createExecutionQuery().processInstanceId(pi.getId()).processVariableValueEquals("parent").count());
 }
