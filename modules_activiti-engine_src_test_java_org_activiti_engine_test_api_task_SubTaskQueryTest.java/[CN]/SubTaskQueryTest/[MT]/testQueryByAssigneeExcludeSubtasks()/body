@@ -1,0 +1,16 @@
+{
+  TaskQuery query=taskService.createTaskQuery().taskAssignee("gonzo");
+  assertEquals(7,query.count());
+  assertEquals(7,query.list().size());
+  query=taskService.createTaskQuery().taskAssignee("gonzo").excludeSubtasks();
+  assertEquals(2,query.count());
+  assertEquals(2,query.list().size());
+  query=taskService.createTaskQuery().taskAssignee("kermit");
+  assertEquals(0,query.count());
+  assertEquals(0,query.list().size());
+  assertNull(query.singleResult());
+  query=taskService.createTaskQuery().taskAssignee("kermit").excludeSubtasks();
+  assertEquals(0,query.count());
+  assertEquals(0,query.list().size());
+  assertNull(query.singleResult());
+}
