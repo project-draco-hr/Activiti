@@ -1,6 +1,6 @@
 {
   if (authenticate() == false)   return null;
-  String searchText=(String)getRequest().getAttributes().get("searchText");
+  String searchText=(String)getQuery().getValues("searchText");
   if (searchText == null) {
     throw new ActivitiException("No searchText provided");
   }
