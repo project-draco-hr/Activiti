@@ -1,0 +1,9 @@
+{
+  for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
+    TimerEntity timer=new TimerEntity();
+    timer.setDuedate(executionDate);
+    timer.setJobHandlerType(getDelayedExecutionJobHandlerType());
+    timer.setJobHandlerConfiguration(TimerChangeProcessDefinitionSuspensionStateJobHandler.createJobHandlerConfiguration(processDefinition.getId(),includeProcessInstances));
+    commandContext.getJobManager().schedule(timer);
+  }
+}

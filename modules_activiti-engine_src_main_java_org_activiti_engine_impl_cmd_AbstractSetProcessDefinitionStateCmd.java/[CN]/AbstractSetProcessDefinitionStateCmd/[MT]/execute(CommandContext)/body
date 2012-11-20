@@ -1,10 +1,10 @@
 {
-  ProcessDefinitionEntity processDefinitionEntity=findProcessDefinition(commandContext);
+  List<ProcessDefinitionEntity> processDefinitions=findProcessDefinition(commandContext);
   if (executionDate != null) {
-    createTimerForDelayedExecution(commandContext,processDefinitionEntity);
+    createTimerForDelayedExecution(commandContext,processDefinitions);
   }
  else {
-    changeProcessDefinitionState(commandContext,processDefinitionEntity);
+    changeProcessDefinitionState(commandContext,processDefinitions);
   }
   return null;
 }

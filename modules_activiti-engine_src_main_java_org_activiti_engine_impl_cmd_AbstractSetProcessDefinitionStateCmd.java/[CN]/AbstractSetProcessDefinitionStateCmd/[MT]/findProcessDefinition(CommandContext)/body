@@ -2,19 +2,23 @@
   if (processDefinitionId == null && processDefinitionKey == null) {
     throw new ActivitiException("Process definition id or key cannot be null");
   }
-  ProcessDefinitionEntity processDefinitionEntity=null;
+  List<ProcessDefinitionEntity> processDefinitionEntities=new ArrayList<ProcessDefinitionEntity>();
   ProcessDefinitionManager processDefinitionManager=commandContext.getProcessDefinitionManager();
-  if (processDefinitionId == null) {
-    processDefinitionEntity=processDefinitionManager.findLatestProcessDefinitionByKey(processDefinitionKey);
-    if (processDefinitionEntity == null) {
-      throw new ActivitiException("Cannot find process definition for key '" + processDefinitionKey + "'");
-    }
-  }
- else {
-    processDefinitionEntity=processDefinitionManager.findLatestProcessDefinitionById(processDefinitionId);
+  if (processDefinitionId != null) {
+    ProcessDefinitionEntity processDefinitionEntity=processDefinitionManager.findLatestProcessDefinitionById(processDefinitionId);
     if (processDefinitionEntity == null) {
       throw new ActivitiException("Cannot find process definition for id '" + processDefinitionId + "'");
     }
+    processDefinitionEntities.add(processDefinitionEntity);
   }
-  return processDefinitionEntity;
+ else {
+    List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl(commandContext).processDefinitionKey(processDefinitionKey).list();
+    if (processDefinitions.size() == 0) {
+      throw new ActivitiException("Cannot find process definition for key '" + processDefinitionKey + "'");
+    }
+    for (    ProcessDefinition processDefinition : processDefinitions) {
+      processDefinitionEntities.add((ProcessDefinitionEntity)processDefinition);
+    }
+  }
+  return processDefinitionEntities;
 }
