@@ -13,10 +13,15 @@
   if (taskDefinition.getDueDateExpression() != null) {
     Object dueDate=taskDefinition.getDueDateExpression().getValue(execution);
     if (dueDate != null) {
-      if (!(dueDate instanceof Date)) {
-        throw new ActivitiException("Due date expression does not resolve to a Date: " + taskDefinition.getDueDateExpression().getExpressionText());
+      if (dueDate instanceof Date) {
+        task.setDueDate((Date)dueDate);
       }
-      task.setDueDate((Date)dueDate);
+ else       if (dueDate instanceof String) {
+        task.setDueDate(new DueDateBusinessCalendar().resolveDuedate((String)dueDate));
+      }
+ else {
+        throw new ActivitiException("Due date expression does not resolve to a Date or Date string: " + taskDefinition.getDueDateExpression().getExpressionText());
+      }
     }
   }
   if (taskDefinition.getPriorityExpression() != null) {
