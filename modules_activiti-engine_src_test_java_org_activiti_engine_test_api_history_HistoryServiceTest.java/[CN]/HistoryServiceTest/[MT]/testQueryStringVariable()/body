@@ -57,6 +57,17 @@
   assertEquals(processInstance3.getId(),resultInstance.getId());
   assertEquals(3,historyService.createHistoricProcessInstanceQuery().variableValueLike("stringVar","a%").count());
   assertEquals(0,historyService.createHistoricProcessInstanceQuery().variableValueLike("stringVar","%x%").count());
+  resultInstance=historyService.createHistoricProcessInstanceQuery().variableValueEquals("azerty").singleResult();
+  assertNotNull(resultInstance);
+  assertEquals(processInstance3.getId(),resultInstance.getId());
+  processInstances=historyService.createHistoricProcessInstanceQuery().variableValueEquals("abcdef").list();
+  Assert.assertEquals(2,processInstances.size());
+  expecedIds=Arrays.asList(processInstance1.getId(),processInstance2.getId());
+  ids=new ArrayList<String>(Arrays.asList(processInstances.get(0).getId(),processInstances.get(1).getId()));
+  ids.removeAll(expecedIds);
+  assertTrue(ids.isEmpty());
+  resultInstance=historyService.createHistoricProcessInstanceQuery().variableValueEquals("notmatchinganyvalues").singleResult();
+  assertNull(resultInstance);
   historyService.deleteHistoricProcessInstance(processInstance1.getId());
   historyService.deleteHistoricProcessInstance(processInstance2.getId());
   historyService.deleteHistoricProcessInstance(processInstance3.getId());

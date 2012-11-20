@@ -59,6 +59,17 @@
   processInstances=historyService.createHistoricProcessInstanceQuery().variableValueLessThanOrEqual("dateVar",nextYear.getTime()).list();
   Assert.assertEquals(3,processInstances.size());
   Assert.assertEquals(0,historyService.createHistoricProcessInstanceQuery().variableValueLessThanOrEqual("dateVar",oneYearAgo.getTime()).count());
+  resultInstance=historyService.createHistoricProcessInstanceQuery().variableValueEquals(nextYear.getTime()).singleResult();
+  assertNotNull(resultInstance);
+  assertEquals(processInstance3.getId(),resultInstance.getId());
+  processInstances=historyService.createHistoricProcessInstanceQuery().variableValueEquals(date1).list();
+  Assert.assertEquals(2,processInstances.size());
+  expecedIds=Arrays.asList(processInstance1.getId(),processInstance2.getId());
+  ids=new ArrayList<String>(Arrays.asList(processInstances.get(0).getId(),processInstances.get(1).getId()));
+  ids.removeAll(expecedIds);
+  assertTrue(ids.isEmpty());
+  resultInstance=historyService.createHistoricProcessInstanceQuery().variableValueEquals(twoYearsLater.getTime()).singleResult();
+  assertNull(resultInstance);
   historyService.deleteHistoricProcessInstance(processInstance1.getId());
   historyService.deleteHistoricProcessInstance(processInstance2.getId());
   historyService.deleteHistoricProcessInstance(processInstance3.getId());
