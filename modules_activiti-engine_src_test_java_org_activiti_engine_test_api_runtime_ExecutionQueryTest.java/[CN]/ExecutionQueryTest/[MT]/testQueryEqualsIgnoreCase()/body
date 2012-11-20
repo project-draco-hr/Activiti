@@ -30,4 +30,24 @@
  catch (  ActivitiException ae) {
     assertEquals("name is null",ae.getMessage());
   }
+  execution=runtimeService.createExecutionQuery().variableValueNotEqualsIgnoreCase("upper","UIOP").singleResult();
+  assertNotNull(execution);
+  execution=runtimeService.createExecutionQuery().variableValueNotEqualsIgnoreCase("upper","ABCdefg").singleResult();
+  assertNull(execution);
+  execution=runtimeService.createExecutionQuery().variableValueNotEquals("upper","ABCdefg").singleResult();
+  assertNotNull(execution);
+  try {
+    execution=runtimeService.createExecutionQuery().variableValueNotEqualsIgnoreCase("upper",null).singleResult();
+    fail("Exception expected");
+  }
+ catch (  ActivitiException ae) {
+    assertEquals("value is null",ae.getMessage());
+  }
+  try {
+    execution=runtimeService.createExecutionQuery().variableValueNotEqualsIgnoreCase(null,"abcdefg").singleResult();
+    fail("Exception expected");
+  }
+ catch (  ActivitiException ae) {
+    assertEquals("name is null",ae.getMessage());
+  }
 }
