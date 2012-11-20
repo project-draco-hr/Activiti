@@ -45,6 +45,17 @@
   processInstances=runtimeService.createProcessInstanceQuery().variableValueLessThanOrEqual("longVar",55555L).list();
   Assert.assertEquals(3,processInstances.size());
   Assert.assertEquals(0,runtimeService.createProcessInstanceQuery().variableValueLessThanOrEqual("longVar",12344L).count());
+  resultInstance=runtimeService.createProcessInstanceQuery().variableValueEquals(55555L).singleResult();
+  assertNotNull(resultInstance);
+  assertEquals(processInstance3.getId(),resultInstance.getId());
+  processInstances=runtimeService.createProcessInstanceQuery().variableValueEquals(12345L).list();
+  Assert.assertEquals(2,processInstances.size());
+  expecedIds=Arrays.asList(processInstance1.getId(),processInstance2.getId());
+  ids=new ArrayList<String>(Arrays.asList(processInstances.get(0).getId(),processInstances.get(1).getId()));
+  ids.removeAll(expecedIds);
+  assertTrue(ids.isEmpty());
+  resultInstance=runtimeService.createProcessInstanceQuery().variableValueEquals(999L).singleResult();
+  assertNull(resultInstance);
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance2.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance3.getId(),"test");
