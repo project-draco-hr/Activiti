@@ -13,6 +13,10 @@
   jobHandlers.put(asyncContinuationJobHandler.getType(),asyncContinuationJobHandler);
   ProcessEventJobHandler processEventJobHandler=new ProcessEventJobHandler();
   jobHandlers.put(processEventJobHandler.getType(),processEventJobHandler);
+  TimerSuspendProcessDefinitionHandler suspendProcessDefinitionHandler=new TimerSuspendProcessDefinitionHandler();
+  jobHandlers.put(suspendProcessDefinitionHandler.getType(),suspendProcessDefinitionHandler);
+  TimerActivateProcessDefinitionHandler activateProcessDefinitionHandler=new TimerActivateProcessDefinitionHandler();
+  jobHandlers.put(activateProcessDefinitionHandler.getType(),activateProcessDefinitionHandler);
   if (getCustomJobHandlers() != null) {
     for (    JobHandler customJobHandler : getCustomJobHandlers()) {
       jobHandlers.put(customJobHandler.getType(),customJobHandler);

@@ -1,0 +1,7 @@
+{
+  JSONObject cfgJson=new JSONObject(configuration);
+  String processDefinitionId=getProcessDefinitionId(cfgJson);
+  boolean activateProcessInstances=getIncludeProcessInstances(cfgJson);
+  ActivateProcessDefinitionCmd activateProcessDefinitionCmd=new ActivateProcessDefinitionCmd(processDefinitionId,null,activateProcessInstances,null);
+  activateProcessDefinitionCmd.execute(commandContext);
+}
