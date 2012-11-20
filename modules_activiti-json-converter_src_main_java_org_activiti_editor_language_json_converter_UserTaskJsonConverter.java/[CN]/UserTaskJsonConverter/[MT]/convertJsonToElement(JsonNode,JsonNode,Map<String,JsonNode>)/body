@@ -23,10 +23,10 @@
           task.setAssignee(assignmentItemNode.get(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION).asText());
         }
  else         if (PROPERTY_USERTASK_CANDIDATE_USERS.equals(assignmentType)) {
-          task.setCandidateUsers(convertPropertyToList(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,assignmentItemNode));
+          task.setCandidateUsers(getValueAsList(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,assignmentItemNode));
         }
  else         if (PROPERTY_USERTASK_CANDIDATE_GROUPS.equals(assignmentType)) {
-          task.setCandidateGroups(convertPropertyToList(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,assignmentItemNode));
+          task.setCandidateGroups(getValueAsList(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,assignmentItemNode));
         }
       }
     }

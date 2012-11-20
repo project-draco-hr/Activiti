@@ -1,28 +1,8 @@
 {
   UserTask userTask=(UserTask)flowElement;
   String assignee=userTask.getAssignee();
-  String candidateUsers=null;
-  String candidateGroups=null;
-  if (userTask.getCandidateUsers().size() > 0) {
-    StringBuilder expressionBuilder=new StringBuilder();
-    for (    String candidateUser : userTask.getCandidateUsers()) {
-      if (expressionBuilder.length() > 0) {
-        expressionBuilder.append(",");
-      }
-      expressionBuilder.append(candidateUser);
-    }
-    candidateUsers=expressionBuilder.toString();
-  }
-  if (userTask.getCandidateGroups().size() > 0) {
-    StringBuilder expressionBuilder=new StringBuilder();
-    for (    String candidateGroup : userTask.getCandidateGroups()) {
-      if (expressionBuilder.length() > 0) {
-        expressionBuilder.append(",");
-      }
-      expressionBuilder.append(candidateGroup);
-    }
-    candidateGroups=expressionBuilder.toString();
-  }
+  String candidateUsers=convertListToCommaSeparatedString(userTask.getCandidateUsers());
+  String candidateGroups=convertListToCommaSeparatedString(userTask.getCandidateGroups());
   if (StringUtils.isNotEmpty(assignee) || StringUtils.isNotEmpty(candidateUsers) || StringUtils.isNotEmpty(candidateGroups)) {
     ObjectNode assignmentNode=objectMapper.createObjectNode();
     ArrayNode itemsNode=objectMapper.createArrayNode();

@@ -7,24 +7,15 @@
   convertJsonToListeners(elementNode,flowElement);
   if (flowElement instanceof Activity) {
     Activity activity=(Activity)flowElement;
-    String asynchronous=getPropertyValueAsString(PROPERTY_ASYNCHRONOUS,elementNode);
-    if (PROPERTY_VALUE_YES.equalsIgnoreCase(asynchronous)) {
-      activity.setAsynchronous(true);
-    }
-    String exclusive=getPropertyValueAsString(PROPERTY_EXCLUSIVE,elementNode);
-    if (PROPERTY_VALUE_NO.equalsIgnoreCase(exclusive)) {
-      activity.setNotExclusive(true);
-    }
+    activity.setAsynchronous(getPropertyValueAsBoolean(PROPERTY_ASYNCHRONOUS,elementNode));
+    activity.setNotExclusive(getPropertyValueAsBoolean(PROPERTY_EXCLUSIVE,elementNode));
     String multiInstanceCardinality=getPropertyValueAsString(PROPERTY_MULTIINSTANCE_CARDINALITY,elementNode);
     String multiInstanceCollection=getPropertyValueAsString(PROPERTY_MULTIINSTANCE_COLLECTION,elementNode);
     String multiInstanceCondition=getPropertyValueAsString(PROPERTY_MULTIINSTANCE_CONDITION,elementNode);
     if (StringUtils.isNotEmpty(multiInstanceCardinality) || StringUtils.isNotEmpty(multiInstanceCollection) || StringUtils.isNotEmpty(multiInstanceCondition)) {
-      String multiInstanceSequential=getPropertyValueAsString(PROPERTY_MULTIINSTANCE_SEQUENTIAL,elementNode);
       String multiInstanceVariable=getPropertyValueAsString(PROPERTY_MULTIINSTANCE_VARIABLE,elementNode);
       MultiInstanceLoopCharacteristics multiInstanceObject=new MultiInstanceLoopCharacteristics();
-      if (PROPERTY_VALUE_YES.equalsIgnoreCase(multiInstanceSequential)) {
-        multiInstanceObject.setSequential(true);
-      }
+      multiInstanceObject.setSequential(getPropertyValueAsBoolean(PROPERTY_MULTIINSTANCE_SEQUENTIAL,elementNode));
       multiInstanceObject.setLoopCardinality(multiInstanceCardinality);
       multiInstanceObject.setInputDataItem(multiInstanceCollection);
       multiInstanceObject.setElementVariable(multiInstanceVariable);
