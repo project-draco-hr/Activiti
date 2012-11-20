@@ -2,7 +2,7 @@
   if (taskForm.getFormKey() == null) {
     return null;
   }
-  String formTemplateString=getFormTemplateString(taskForm);
+  String formTemplateString=getFormTemplateString(taskForm,taskForm.getFormKey());
   ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
   TaskEntity task=(TaskEntity)taskForm.getTask();
   return scriptingEngines.evaluate(formTemplateString,ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE,task.getExecution());

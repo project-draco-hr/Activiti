@@ -2,7 +2,7 @@
   if (startForm.getFormKey() == null) {
     return null;
   }
-  String formTemplateString=getFormTemplateString(startForm);
+  String formTemplateString=getFormTemplateString(startForm,startForm.getFormKey());
   ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
   return scriptingEngines.evaluate(formTemplateString,ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE,null);
 }
