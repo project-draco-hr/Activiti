@@ -1,0 +1,12 @@
+{
+  if (deployedArtifacts == null) {
+    deployedArtifacts=new HashMap<Class<?>,List<Object>>();
+  }
+  Class<?> clazz=deployedArtifact.getClass();
+  List<Object> artifacts=deployedArtifacts.get(clazz);
+  if (artifacts == null) {
+    artifacts=new ArrayList<Object>();
+    deployedArtifacts.put(clazz,artifacts);
+  }
+  artifacts.add(deployedArtifact);
+}

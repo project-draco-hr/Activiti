@@ -9,5 +9,8 @@
   }
   deployment.setNew(true);
   Context.getCommandContext().getDeploymentManager().insertDeployment(deployment);
+  if (deploymentBuilder.getProcessDefinitionsActivationDate() != null) {
+    scheduleProcessDefinitionActivation(commandContext,deployment);
+  }
   return deployment;
 }

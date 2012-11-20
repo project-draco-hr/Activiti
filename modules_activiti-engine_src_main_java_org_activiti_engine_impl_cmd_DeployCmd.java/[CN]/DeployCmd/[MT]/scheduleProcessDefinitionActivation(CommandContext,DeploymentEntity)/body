@@ -1,0 +1,8 @@
+{
+  for (  ProcessDefinitionEntity processDefinitionEntity : deployment.getDeployedArtifacts(ProcessDefinitionEntity.class)) {
+    SuspendProcessDefinitionCmd suspendProcessDefinitionCmd=new SuspendProcessDefinitionCmd(processDefinitionEntity,false,null);
+    suspendProcessDefinitionCmd.execute(commandContext);
+    ActivateProcessDefinitionCmd activateProcessDefinitionCmd=new ActivateProcessDefinitionCmd(processDefinitionEntity,false,deploymentBuilder.getProcessDefinitionsActivationDate());
+    activateProcessDefinitionCmd.execute(commandContext);
+  }
+}
