@@ -59,7 +59,7 @@
     fail("Excetion expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("Booleans and null cannot be used in 'like' condition",ae.getMessage());
+    assertTextPresent("Only string values can be used with 'like' condition",ae.getMessage());
   }
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance2.getId(),"test");
