@@ -1,0 +1,23 @@
+{
+  Model model=repositoryService.newModel();
+  model.setName(name);
+  ObjectNode modelObjectNode=new ObjectMapper().createObjectNode();
+  modelObjectNode.put(MODEL_NAME,name);
+  modelObjectNode.put(MODEL_DESCRIPTION,description);
+  model.setMetaInfo(modelObjectNode.toString());
+  repositoryService.saveModel(model);
+  try {
+    InputStream svgStream=this.getClass().getClassLoader().getResourceAsStream("org/activiti/explorer/demo/model/test.svg");
+    repositoryService.addModelEditorSourceExtra(model.getId(),IOUtils.toByteArray(svgStream));
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.WARNING,"Failed to read SVG",e);
+  }
+  try {
+    InputStream editorJsonStream=this.getClass().getClassLoader().getResourceAsStream(jsonFile);
+    repositoryService.addModelEditorSource(model.getId(),IOUtils.toByteArray(editorJsonStream));
+  }
+ catch (  Exception e) {
+    LOGGER.log(Level.WARNING,"Failed to read editor JSON",e);
+  }
+}

@@ -1,0 +1,72 @@
+{
+  Verifier verifier=new SecretVerifier(){
+    @Override public boolean verify(    String username,    char[] password) throws IllegalArgumentException {
+      boolean verified=ActivitiUtil.getIdentityService().checkPassword(username,new String(password));
+      return verified;
+    }
+  }
+;
+  authenticator=new ChallengeAuthenticator(null,true,ChallengeScheme.HTTP_BASIC,"Activiti Realm"){
+    @Override protected boolean authenticate(    Request request,    Response response){
+      if (request.getChallengeResponse() == null) {
+        return false;
+      }
+ else {
+        return super.authenticate(request,response);
+      }
+    }
+  }
+;
+  authenticator.setVerifier(verifier);
+  Router router=new Router(getContext());
+  router.attachDefault(DefaultResource.class);
+  router.attach("/process-engine",ProcessEngineResource.class);
+  router.attach("/login",LoginResource.class);
+  router.attach("/user",UserCreateResource.class);
+  router.attach("/user/{userId}",UserResource.class);
+  router.attach("/user/{userId}/groups",UserGroupsResource.class);
+  router.attach("/user/{userId}/groups/{groupId}",UserGroupsDeleteResource.class);
+  router.attach("/user/{userId}/picture",UserPictureResource.class);
+  router.attach("/users",UserSearchResource.class);
+  router.attach("/group",GroupCreateResource.class);
+  router.attach("/group/{groupId}",GroupResource.class);
+  router.attach("/group/{groupId}/users/{userId}",UserGroupsDeleteResource.class);
+  router.attach("/groups/{groupId}/users",GroupUsersResource.class);
+  router.attach("/groups",GroupSearchResource.class);
+  router.attach("/process-definitions",ProcessDefinitionsResource.class);
+  router.attach("/process-instances",ProcessInstancesResource.class);
+  router.attach("/process-instance",StartProcessInstanceResource.class);
+  router.attach("/process-instance/{processInstanceId}",ProcessInstanceResource.class);
+  router.attach("/process-instance/{processInstanceId}/diagram",ProcessInstanceDiagramResource.class);
+  router.attach("/process-instance/{processInstanceId}/tasks",ProcessInstanceTaskResource.class);
+  router.attach("/process-instance/{processInstanceId}/signal",ProcessInstanceSignalExecutionResource.class);
+  router.attach("/process-instance/{processInstanceId}/event/{signalName}",SignalEventSubscriptionResource.class);
+  router.attach("/process-definition/{processDefinitionId}/form",ProcessDefinitionFormResource.class);
+  router.attach("/process-definition/{processDefinitionId}/diagram",ProcessDefinitionDiagramResource.class);
+  router.attach("/process-definition/{processDefinitionId}/properties",ProcessDefinitionPropertiesResource.class);
+  router.attach("/tasks",TasksResource.class);
+  router.attach("/tasks-summary",TasksSummaryResource.class);
+  router.attach("/task",TaskAddResource.class);
+  router.attach("/task/{taskId}",TaskResource.class);
+  router.attach("/task/{taskId}/form",TaskFormResource.class);
+  router.attach("/task/{taskId}/attachment",TaskAttachmentAddResource.class);
+  router.attach("/task/{taskId}/url",TaskUrlAddResource.class);
+  router.attach("/task/{taskId}/{operation}",TaskOperationResource.class);
+  router.attach("/attachment/{attachmentId}",TaskAttachmentResource.class);
+  router.attach("/form/{taskId}/properties",TaskPropertiesResource.class);
+  router.attach("/deployments",DeploymentsResource.class);
+  router.attach("/deployment",DeploymentUploadResource.class);
+  router.attach("/deployments/delete",DeploymentsDeleteResource.class);
+  router.attach("/deployment/{deploymentId}",DeploymentDeleteResource.class);
+  router.attach("/deployment/{deploymentId}/resources",DeploymentArtifactsResource.class);
+  router.attach("/deployment/{deploymentId}/resource/{resourceName}",DeploymentArtifactResource.class);
+  router.attach("/management/jobs",JobsResource.class);
+  router.attach("/management/job/{jobId}",JobResource.class);
+  router.attach("/management/job/{jobId}/execute",JobExecuteResource.class);
+  router.attach("/management/jobs/execute",JobsExecuteResource.class);
+  router.attach("/management/tables",TablesResource.class);
+  router.attach("/management/table/{tableName}",TableResource.class);
+  router.attach("/management/table/{tableName}/data",TableDataResource.class);
+  authenticator.setNext(router);
+  return authenticator;
+}

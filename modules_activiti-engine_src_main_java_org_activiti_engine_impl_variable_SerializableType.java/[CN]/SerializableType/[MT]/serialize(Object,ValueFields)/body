@@ -5,11 +5,11 @@
   ByteArrayOutputStream baos=new ByteArrayOutputStream();
   ObjectOutputStream ois=null;
   try {
-    ois=new ObjectOutputStream(baos);
+    ois=createObjectOutputStream(baos);
     ois.writeObject(value);
   }
  catch (  Exception e) {
-    throw new ActivitiException("coudn't serialize value '" + value + "' in variable '"+ valueFields.getName()+ "'",e);
+    throw new ActivitiException("Couldn't serialize value '" + value + "' in variable '"+ valueFields.getName()+ "'",e);
   }
  finally {
     IoUtil.closeSilently(ois);

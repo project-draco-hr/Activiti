@@ -1,0 +1,25 @@
+{
+  String attachedRefId=null;
+  if (childShapesNode != null) {
+    for (    JsonNode childNode : childShapesNode) {
+      ArrayNode outgoingNode=(ArrayNode)childNode.get("outgoing");
+      if (outgoingNode != null && outgoingNode.size() > 0) {
+        for (        JsonNode outgoingChildNode : outgoingNode) {
+          JsonNode resourceNode=outgoingChildNode.get(EDITOR_SHAPE_ID);
+          if (resourceNode != null && boundaryEventId.equals(resourceNode.asText())) {
+            attachedRefId=BpmnJsonConverterUtil.getElementId(childNode);
+            break;
+          }
+        }
+        if (attachedRefId != null) {
+          break;
+        }
+      }
+      attachedRefId=lookForAttachedRef(boundaryEventId,childNode.get(EDITOR_CHILD_SHAPES));
+      if (attachedRefId != null) {
+        break;
+      }
+    }
+  }
+  return attachedRefId;
+}

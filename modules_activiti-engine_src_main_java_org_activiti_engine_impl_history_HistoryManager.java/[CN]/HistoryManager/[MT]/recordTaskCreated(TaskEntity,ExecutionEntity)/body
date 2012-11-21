@@ -1,0 +1,6 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
+    HistoricTaskInstanceEntity historicTaskInstance=new HistoricTaskInstanceEntity(task,execution);
+    getDbSqlSession().insert(historicTaskInstance);
+  }
+}

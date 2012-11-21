@@ -1,0 +1,9 @@
+{
+  BusinessRuleTask task=new BusinessRuleTask();
+  task.setClassName(getPropertyValueAsString(PROPERTY_RULETASK_CLASS,elementNode));
+  task.setInputVariables(getPropertyValueAsList(PROPERTY_RULETASK_VARIABLES_INPUT,elementNode));
+  task.setResultVariableName(getPropertyValueAsString(PROPERTY_RULETASK_RESULT,elementNode));
+  task.setRuleNames(getPropertyValueAsList(PROPERTY_RULETASK_RULES,elementNode));
+  task.setExclude(getPropertyValueAsBoolean(PROPERTY_RULETASK_EXCLUDE,elementNode));
+  return task;
+}

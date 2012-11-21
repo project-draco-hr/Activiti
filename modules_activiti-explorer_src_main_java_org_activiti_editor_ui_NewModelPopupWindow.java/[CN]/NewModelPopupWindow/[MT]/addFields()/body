@@ -1,0 +1,17 @@
+{
+  form=new Form();
+  form.setCaption(i18nManager.getMessage(Messages.PROCESS_NEW_POPUP_CAPTION));
+  form.getLayout().setMargin(true);
+  nameTextField=new TextField(i18nManager.getMessage(Messages.TASK_NAME));
+  nameTextField.setWidth(20,Sizeable.UNITS_EM);
+  nameTextField.setRequired(true);
+  form.getLayout().addComponent(nameTextField);
+  nameTextField.focus();
+  descriptionTextArea=new TextArea(i18nManager.getMessage(Messages.TASK_DESCRIPTION));
+  descriptionTextArea.setRows(8);
+  descriptionTextArea.setWidth(20,Sizeable.UNITS_EM);
+  form.getLayout().addComponent(descriptionTextArea);
+  addComponent(form);
+  Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
+  addComponent(emptySpace);
+}

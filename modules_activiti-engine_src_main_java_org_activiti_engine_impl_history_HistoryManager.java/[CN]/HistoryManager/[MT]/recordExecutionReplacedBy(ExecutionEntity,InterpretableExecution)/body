@@ -1,0 +1,14 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
+    List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=getDbSqlSession().findInCache(HistoricActivityInstanceEntity.class);
+    for (    HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
+      if ((cachedHistoricActivityInstance.getEndTime() == null) && (execution.getId().equals(cachedHistoricActivityInstance.getExecutionId()))) {
+        cachedHistoricActivityInstance.setExecutionId(replacedBy.getId());
+      }
+    }
+    List<HistoricActivityInstanceEntity> historicActivityInstances=(List)new HistoricActivityInstanceQueryImpl(Context.getCommandContext()).executionId(execution.getId()).unfinished().list();
+    for (    HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstances) {
+      historicActivityInstance.setExecutionId(replacedBy.getId());
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  SequenceFlow flow=new SequenceFlow();
+  String sourceRef=lookForSourceRef(elementNode.get(EDITOR_SHAPE_ID).asText(),modelNode.get(EDITOR_CHILD_SHAPES));
+  if (sourceRef != null) {
+    flow.setSourceRef(sourceRef);
+    String targetId=elementNode.get("target").get(EDITOR_SHAPE_ID).asText();
+    flow.setTargetRef(BpmnJsonConverterUtil.getElementId(shapeMap.get(targetId)));
+  }
+  flow.setConditionExpression(getPropertyValueAsString(PROPERTY_SEQUENCEFLOW_CONDITION,elementNode));
+  return flow;
+}

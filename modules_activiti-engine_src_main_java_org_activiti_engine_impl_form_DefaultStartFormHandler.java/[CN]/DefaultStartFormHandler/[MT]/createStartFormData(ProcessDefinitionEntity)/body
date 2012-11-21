@@ -1,6 +1,8 @@
 {
   StartFormDataImpl startFormData=new StartFormDataImpl();
-  startFormData.setFormKey(formKey);
+  if (formKey != null) {
+    startFormData.setFormKey(formKey.getExpressionText());
+  }
   startFormData.setDeploymentId(deploymentId);
   startFormData.setProcessDefinition(processDefinition);
   initializeFormProperties(startFormData,null);

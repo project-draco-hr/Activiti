@@ -1,0 +1,28 @@
+{
+  ObjectNode modelNode=objectMapper.createObjectNode();
+  modelNode.put("bounds",BpmnJsonConverterUtil.createBoundsNode(1485,1050,0,0));
+  modelNode.put("resourceId","canvas");
+  ObjectNode stencilNode=objectMapper.createObjectNode();
+  stencilNode.put("id","BPMNDiagram");
+  modelNode.put("stencil",stencilNode);
+  ObjectNode stencilsetNode=objectMapper.createObjectNode();
+  stencilsetNode.put("namespace","http://b3mn.org/stencilset/bpmn2.0#");
+  stencilsetNode.put("url","../editor/stencilsets/bpmn2.0/bpmn2.0.json");
+  modelNode.put("stencilset",stencilsetNode);
+  ArrayNode shapesArrayNode=objectMapper.createArrayNode();
+  Process process=model.getMainProcess();
+  ObjectNode propertiesNode=objectMapper.createObjectNode();
+  if (StringUtils.isNotEmpty(process.getId())) {
+    propertiesNode.put(PROPERTY_PROCESS_ID,process.getId());
+  }
+  if (StringUtils.isNotEmpty(process.getName())) {
+    propertiesNode.put(PROPERTY_NAME,process.getName());
+  }
+  if (StringUtils.isNotEmpty(process.getDocumentation())) {
+    propertiesNode.put(PROPERTY_DOCUMENTATION,process.getDocumentation());
+  }
+  modelNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
+  processFlowElements(process,model,shapesArrayNode,0.0,0.0);
+  modelNode.put(EDITOR_CHILD_SHAPES,shapesArrayNode);
+  return modelNode;
+}

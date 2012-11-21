@@ -1,6 +1,5 @@
 {
-  int historyLevel=processEngineConfiguration.getHistoryLevel();
-  if (historyLevel > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     Task task=taskService.newTask();
     task.setOwner("johndoe");
     taskService.saveTask(task);

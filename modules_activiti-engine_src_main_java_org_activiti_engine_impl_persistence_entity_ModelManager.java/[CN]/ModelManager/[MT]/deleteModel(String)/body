@@ -1,0 +1,6 @@
+{
+  ModelEntity model=getDbSqlSession().selectById(ModelEntity.class,modelId);
+  getDbSqlSession().delete(model);
+  deleteEditorSource(model);
+  deleteEditorSourceExtra(model);
+}

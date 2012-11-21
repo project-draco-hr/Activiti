@@ -5,7 +5,7 @@
   this.assignee=assignee;
   CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
-    commandContext.getHistoricTaskInstanceManager().setTaskAssignee(id,assignee);
+    commandContext.getHistoryManager().recordTaskAssigneeChange(id,assignee);
     if (commandContext != null) {
       fireEvent(TaskListener.EVENTNAME_ASSIGNMENT);
     }

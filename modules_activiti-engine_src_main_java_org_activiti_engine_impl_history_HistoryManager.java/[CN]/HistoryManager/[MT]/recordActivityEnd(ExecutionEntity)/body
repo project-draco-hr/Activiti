@@ -1,0 +1,8 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(executionEntity);
+    if (historicActivityInstance != null) {
+      historicActivityInstance.markEnded(null);
+    }
+  }
+}

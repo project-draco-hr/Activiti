@@ -1,0 +1,59 @@
+{
+  Button cancelButton=new Button(i18nManager.getMessage(Messages.BUTTON_CANCEL));
+  cancelButton.addStyleName(Reindeer.BUTTON_SMALL);
+  cancelButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      close();
+    }
+  }
+);
+  Button createButton=new Button(i18nManager.getMessage(Messages.PROCESS_NEW_POPUP_CREATE_BUTTON));
+  createButton.addStyleName(Reindeer.BUTTON_SMALL);
+  createButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      if (StringUtils.isEmpty((String)nameTextField.getValue())) {
+        form.setComponentError(new UserError("The name field is required."));
+        return;
+      }
+      try {
+        ObjectMapper objectMapper=new ObjectMapper();
+        ObjectNode editorNode=objectMapper.createObjectNode();
+        editorNode.put("id","canvas");
+        editorNode.put("resourceId","canvas");
+        ObjectNode stencilSetNode=objectMapper.createObjectNode();
+        stencilSetNode.put("namespace","http://b3mn.org/stencilset/bpmn2.0#");
+        editorNode.put("stencilset",stencilSetNode);
+        Model modelData=repositoryService.newModel();
+        ObjectNode modelObjectNode=objectMapper.createObjectNode();
+        modelObjectNode.put(MODEL_NAME,(String)nameTextField.getValue());
+        modelObjectNode.put(MODEL_REVISION,1);
+        String description=null;
+        if (StringUtils.isNotEmpty((String)descriptionTextArea.getValue())) {
+          description=(String)descriptionTextArea.getValue();
+        }
+ else {
+          description="";
+        }
+        modelObjectNode.put(MODEL_DESCRIPTION,description);
+        modelData.setMetaInfo(modelObjectNode.toString());
+        repositoryService.saveModel(modelData);
+        repositoryService.addModelEditorSource(modelData.getId(),editorNode.toString().getBytes("utf-8"));
+        close();
+        ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(modelData.getId());
+        ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString() + "service/editor?id=" + modelData.getId()));
+      }
+ catch (      Exception e) {
+        notificationManager.showErrorNotification("error",e);
+      }
+    }
+  }
+);
+  HorizontalLayout buttonLayout=new HorizontalLayout();
+  buttonLayout.setSpacing(true);
+  buttonLayout.addComponent(cancelButton);
+  buttonLayout.addComponent(createButton);
+  addComponent(buttonLayout);
+  windowLayout.setComponentAlignment(buttonLayout,Alignment.BOTTOM_RIGHT);
+}

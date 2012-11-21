@@ -1,7 +1,7 @@
 {
   runtimeService.startProcessInstanceByKey("process");
   int expectedActivityInstances=-1;
-  if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     expectedActivityInstances=2;
   }
  else {

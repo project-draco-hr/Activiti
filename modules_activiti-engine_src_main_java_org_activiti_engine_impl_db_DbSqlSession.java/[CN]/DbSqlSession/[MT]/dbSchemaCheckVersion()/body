@@ -14,23 +14,6 @@
     if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
       errorMessage=addMissingComponent(errorMessage,"identity");
     }
-    Integer configuredHistoryLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
-    PropertyEntity historyLevelProperty=selectById(PropertyEntity.class,"historyLevel");
-    if (historyLevelProperty == null) {
-      if (errorMessage == null) {
-        errorMessage="";
-      }
-      errorMessage+="no historyLevel property specified";
-    }
- else {
-      Integer databaseHistoryLevel=new Integer(historyLevelProperty.getValue());
-      if (!configuredHistoryLevel.equals(databaseHistoryLevel)) {
-        if (errorMessage == null) {
-          errorMessage="";
-        }
-        errorMessage+="historyLevel mismatch: configuration says " + configuredHistoryLevel + " and database says "+ databaseHistoryLevel;
-      }
-    }
     if (errorMessage != null) {
       throw new ActivitiException("Activiti database problem: " + errorMessage);
     }

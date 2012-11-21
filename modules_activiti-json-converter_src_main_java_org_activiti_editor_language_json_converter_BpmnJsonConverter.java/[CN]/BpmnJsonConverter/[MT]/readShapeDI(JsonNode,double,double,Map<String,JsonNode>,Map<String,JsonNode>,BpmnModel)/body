@@ -1,0 +1,30 @@
+{
+  if (objectNode.get(EDITOR_CHILD_SHAPES) != null) {
+    for (    JsonNode jsonChildNode : objectNode.get(EDITOR_CHILD_SHAPES)) {
+      String stencilId=BpmnJsonConverterUtil.getStencilId(jsonChildNode);
+      if (STENCIL_SEQUENCE_FLOW.equals(stencilId) == false) {
+        GraphicInfo graphicInfo=new GraphicInfo();
+        JsonNode boundsNode=jsonChildNode.get(EDITOR_BOUNDS);
+        ObjectNode upperLeftNode=(ObjectNode)boundsNode.get(EDITOR_BOUNDS_UPPER_LEFT);
+        graphicInfo.x=upperLeftNode.get(EDITOR_BOUNDS_X).asDouble() + parentX;
+        graphicInfo.y=upperLeftNode.get(EDITOR_BOUNDS_Y).asDouble() + parentY;
+        ObjectNode lowerRightNode=(ObjectNode)boundsNode.get(EDITOR_BOUNDS_LOWER_RIGHT);
+        graphicInfo.width=lowerRightNode.get(EDITOR_BOUNDS_X).asDouble() - graphicInfo.x + parentX;
+        graphicInfo.height=lowerRightNode.get(EDITOR_BOUNDS_Y).asDouble() - graphicInfo.y + parentY;
+        String childShapeId=jsonChildNode.get(EDITOR_SHAPE_ID).asText();
+        bpmnModel.addGraphicInfo(BpmnJsonConverterUtil.getElementId(jsonChildNode),graphicInfo);
+        shapeMap.put(childShapeId,jsonChildNode);
+        ArrayNode outgoingNode=(ArrayNode)jsonChildNode.get("outgoing");
+        if (outgoingNode != null && outgoingNode.size() > 0) {
+          for (          JsonNode outgoingChildNode : outgoingNode) {
+            JsonNode resourceNode=outgoingChildNode.get(EDITOR_SHAPE_ID);
+            if (resourceNode != null) {
+              sourceRefMap.put(resourceNode.asText(),jsonChildNode);
+            }
+          }
+        }
+        readShapeDI(jsonChildNode,graphicInfo.x,graphicInfo.y,shapeMap,sourceRefMap,bpmnModel);
+      }
+    }
+  }
+}

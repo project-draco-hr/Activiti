@@ -1,0 +1,37 @@
+{
+  instancesTable=new Table();
+  instancesTable.setWidth(100,UNITS_PERCENTAGE);
+  instancesTable.setHeight(250,UNITS_PIXELS);
+  instancesTable.setEditable(false);
+  instancesTable.setImmediate(true);
+  instancesTable.setSelectable(true);
+  instancesTable.setSortDisabled(false);
+  instancesTable.addContainerProperty("id",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_ID),null,Table.ALIGN_LEFT);
+  instancesTable.addContainerProperty("business key",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_BUSINESSKEY),null,Table.ALIGN_LEFT);
+  instancesTable.addContainerProperty("start user id",String.class,null,i18nManager.getMessage(Messages.ADMIN_STARTED_BY),null,Table.ALIGN_LEFT);
+  instancesTable.addContainerProperty("start activity id",String.class,null,i18nManager.getMessage(Messages.ADMIN_START_ACTIVITY),null,Table.ALIGN_LEFT);
+  instancesTable.addContainerProperty("start time",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_STARTED),null,Table.ALIGN_LEFT);
+  instancesTable.addContainerProperty("end time",String.class,null,i18nManager.getMessage(Messages.TASK_COMPLETE_TIME),null,Table.ALIGN_LEFT);
+  instancesTable.addContainerProperty("duration",String.class,null,i18nManager.getMessage(Messages.TASK_DURATION),null,Table.ALIGN_LEFT);
+  instancesTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=instancesTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String instanceId=(String)item.getItemProperty("id").getValue();
+        HistoricProcessInstance processInstance=null;
+        for (        HistoricProcessInstance instance : selectedManagementDefinition.runningInstances) {
+          if (instance.getId().equals(instanceId)) {
+            processInstance=instance;
+            break;
+          }
+        }
+        if (processInstance != null)         addProcessImage(selectedManagementDefinition.processDefinition,processInstance);
+        addTasks(processInstance);
+        addVariables(processInstance);
+      }
+    }
+  }
+);
+  instancesLayout.addComponent(instancesTable);
+}

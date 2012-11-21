@@ -1,5 +1,5 @@
 {
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+  if (getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricVariableInstanceQueryImpl historicProcessVariableQuery=(HistoricVariableInstanceQueryImpl)new HistoricVariableInstanceQueryImpl().taskId(taskId);
     List<HistoricVariableInstance> historicProcessVariables=historicProcessVariableQuery.list();
     for (    HistoricVariableInstance historicProcessVariable : historicProcessVariables) {

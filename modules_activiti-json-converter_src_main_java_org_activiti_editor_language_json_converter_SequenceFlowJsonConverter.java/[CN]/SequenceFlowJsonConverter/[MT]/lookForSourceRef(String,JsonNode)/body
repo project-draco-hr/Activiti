@@ -1,0 +1,25 @@
+{
+  String sourceRef=null;
+  if (childShapesNode != null) {
+    for (    JsonNode childNode : childShapesNode) {
+      ArrayNode outgoingNode=(ArrayNode)childNode.get("outgoing");
+      if (outgoingNode != null && outgoingNode.size() > 0) {
+        for (        JsonNode outgoingChildNode : outgoingNode) {
+          JsonNode resourceNode=outgoingChildNode.get(EDITOR_SHAPE_ID);
+          if (resourceNode != null && flowId.equals(resourceNode.asText())) {
+            sourceRef=BpmnJsonConverterUtil.getElementId(childNode);
+            break;
+          }
+        }
+        if (sourceRef != null) {
+          break;
+        }
+      }
+      sourceRef=lookForSourceRef(flowId,childNode.get(EDITOR_CHILD_SHAPES));
+      if (sourceRef != null) {
+        break;
+      }
+    }
+  }
+  return sourceRef;
+}

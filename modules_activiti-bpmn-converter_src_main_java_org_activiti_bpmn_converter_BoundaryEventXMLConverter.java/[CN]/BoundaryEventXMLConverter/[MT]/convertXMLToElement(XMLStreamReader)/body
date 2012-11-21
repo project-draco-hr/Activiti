@@ -8,5 +8,11 @@
   }
   boundaryEvent.setAttachedToRefId(xtr.getAttributeValue(null,ATTRIBUTE_BOUNDARY_ATTACHEDTOREF));
   parseChildElements(getXMLElementName(),boundaryEvent,xtr);
+  if (boundaryEvent.getEventDefinitions().size() == 1) {
+    EventDefinition eventDef=boundaryEvent.getEventDefinitions().get(0);
+    if (eventDef instanceof ErrorEventDefinition) {
+      boundaryEvent.setCancelActivity(false);
+    }
+  }
   return boundaryEvent;
 }

@@ -8,5 +8,9 @@
     TaskDefinition taskDefinition=processDefinition.getTaskDefinitions().get(taskDefinitionKey);
     formHandler=(DefaultFormHandler)taskDefinition.getTaskFormHandler();
   }
-  return formHandler.getFormKey();
+  String formKey=null;
+  if (formHandler.getFormKey() != null) {
+    formKey=formHandler.getFormKey().getExpressionText();
+  }
+  return formKey;
 }

@@ -1,0 +1,50 @@
+{
+  if (instanceList == null || instanceList.size() == 0) {
+    noMembersTable=new Label(i18nManager.getMessage(Messages.ADMIN_COMPLETED_NONE_FOUND));
+    definitionsLayout.addComponent(noMembersTable);
+  }
+ else {
+    completedDefinitions=new HashMap<String,ManagementProcessDefinition>();
+    for (    HistoricProcessInstance instance : instanceList) {
+      String processDefinitionId=instance.getProcessDefinitionId();
+      ManagementProcessDefinition managementDefinition=null;
+      if (completedDefinitions.containsKey(processDefinitionId)) {
+        managementDefinition=completedDefinitions.get(processDefinitionId);
+      }
+ else {
+        ProcessDefinition definition=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+        managementDefinition=new ManagementProcessDefinition();
+        managementDefinition.processDefinition=definition;
+        managementDefinition.runningInstances=new ArrayList<HistoricProcessInstance>();
+        completedDefinitions.put(definition.getId(),managementDefinition);
+      }
+      managementDefinition.runningInstances.add(instance);
+    }
+    definitionsTable=new Table();
+    definitionsTable.setWidth(100,UNITS_PERCENTAGE);
+    definitionsTable.setHeight(250,UNITS_PIXELS);
+    definitionsTable.setEditable(false);
+    definitionsTable.setImmediate(true);
+    definitionsTable.setSelectable(true);
+    definitionsTable.setSortDisabled(false);
+    definitionsTable.addContainerProperty("id",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_ID),null,Table.ALIGN_LEFT);
+    definitionsTable.addContainerProperty("name",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_NAME),null,Table.ALIGN_LEFT);
+    definitionsTable.addContainerProperty("nr of instances",String.class,null,i18nManager.getMessage(Messages.ADMIN_NR_INSTANCES),null,Table.ALIGN_LEFT);
+    for (    ManagementProcessDefinition managementDefinition : completedDefinitions.values()) {
+      definitionsTable.addItem(new String[]{managementDefinition.processDefinition.getId(),managementDefinition.processDefinition.getName(),String.valueOf(managementDefinition.runningInstances.size())},managementDefinition.processDefinition.getId());
+    }
+    definitionsTable.addListener(new Property.ValueChangeListener(){
+      private static final long serialVersionUID=1L;
+      public void valueChange(      ValueChangeEvent event){
+        Item item=definitionsTable.getItem(event.getProperty().getValue());
+        if (item != null) {
+          String definitionId=(String)item.getItemProperty("id").getValue();
+          selectedManagementDefinition=completedDefinitions.get(definitionId);
+          refreshInstancesTable();
+        }
+      }
+    }
+);
+    definitionsLayout.addComponent(definitionsTable);
+  }
+}

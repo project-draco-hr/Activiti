@@ -1,0 +1,14 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
+    if (activityId == null) {
+      return;
+    }
+    List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=getDbSqlSession().findInCache(HistoricActivityInstanceEntity.class);
+    for (    HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
+      if (executionId.equals(cachedHistoricActivityInstance.getExecutionId()) && (activityId.equals(cachedHistoricActivityInstance.getActivityId())) && (cachedHistoricActivityInstance.getEndTime() == null)) {
+        cachedHistoricActivityInstance.markEnded(null);
+        return;
+      }
+    }
+  }
+}

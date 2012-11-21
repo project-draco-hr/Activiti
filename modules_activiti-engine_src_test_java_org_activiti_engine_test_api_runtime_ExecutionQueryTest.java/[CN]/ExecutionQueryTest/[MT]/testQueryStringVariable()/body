@@ -54,6 +54,17 @@
   assertEquals(processInstance3.getId(),execution.getId());
   assertEquals(3,runtimeService.createExecutionQuery().variableValueLike("stringVar","a%").count());
   assertEquals(0,runtimeService.createExecutionQuery().variableValueLike("stringVar","%x%").count());
+  execution=runtimeService.createExecutionQuery().variableValueEquals("azerty").singleResult();
+  assertNotNull(execution);
+  assertEquals(processInstance3.getId(),execution.getId());
+  executions=runtimeService.createExecutionQuery().variableValueEquals("abcdef").list();
+  Assert.assertEquals(2,executions.size());
+  expecedIds=Arrays.asList(processInstance1.getId(),processInstance2.getId());
+  ids=new ArrayList<String>(Arrays.asList(executions.get(0).getId(),executions.get(1).getId()));
+  ids.removeAll(expecedIds);
+  assertTrue(ids.isEmpty());
+  execution=runtimeService.createExecutionQuery().variableValueEquals("notmatchinganyvalues").singleResult();
+  assertNull(execution);
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance2.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance3.getId(),"test");

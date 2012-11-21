@@ -15,7 +15,7 @@
     ActivityImpl nestedActivity=createActivityOnScope(boundaryEventElement,parentActivity);
     String cancelActivity=boundaryEventElement.attribute("cancelActivity","true");
     boolean interrupting=cancelActivity.equals("true") ? true : false;
-    ActivityBehavior behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    ActivityBehavior behavior=null;
     Element timerEventDefinition=boundaryEventElement.element("timerEventDefinition");
     Element errorEventDefinition=boundaryEventElement.element("errorEventDefinition");
     Element signalEventDefinition=boundaryEventElement.element("signalEventDefinition");
@@ -23,22 +23,27 @@
     Element compensateEventDefinition=boundaryEventElement.element("compensateEventDefinition");
     Element messageEventDefinition=boundaryEventElement.element("messageEventDefinition");
     if (timerEventDefinition != null) {
+      behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
       parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,nestedActivity);
     }
  else     if (errorEventDefinition != null) {
       interrupting=true;
+      behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
       parseBoundaryErrorEventDefinition(errorEventDefinition,interrupting,parentActivity,nestedActivity);
     }
  else     if (signalEventDefinition != null) {
+      behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
       parseBoundarySignalEventDefinition(signalEventDefinition,interrupting,nestedActivity);
     }
  else     if (cancelEventDefinition != null) {
       behavior=parseBoundaryCancelEventDefinition(cancelEventDefinition,nestedActivity);
     }
  else     if (compensateEventDefinition != null) {
+      behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
       parseCatchCompensateEventDefinition(compensateEventDefinition,nestedActivity);
     }
  else     if (messageEventDefinition != null) {
+      behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
       parseBoundaryMessageEventDefinition(messageEventDefinition,interrupting,nestedActivity);
     }
  else {

@@ -21,6 +21,10 @@
   assertNotNull(instances);
   assertEquals(1,instances.size());
   assertEquals(processInstance1.getId(),instances.get(0).getId());
+  instances=runtimeService.createProcessInstanceQuery().variableValueEquals(true).list();
+  assertNotNull(instances);
+  assertEquals(1,instances.size());
+  assertEquals(processInstance1.getId(),instances.get(0).getId());
   try {
     runtimeService.createProcessInstanceQuery().variableValueGreaterThan("booleanVar",true);
     fail("Excetion expected");
@@ -51,4 +55,7 @@
   }
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance2.getId(),"test");
+  instances=runtimeService.createProcessInstanceQuery().variableValueEquals(true).list();
+  assertNotNull(instances);
+  assertEquals(0,instances.size());
 }

@@ -1,0 +1,59 @@
+{
+  if (variablesHeader != null) {
+    mainPanel.removeComponent(variablesHeader);
+    mainPanel.removeComponent(variablesEmptyHeader);
+  }
+  if (noVariablesLabel != null) {
+    mainPanel.removeComponent(noVariablesLabel);
+  }
+  variablesHeader=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCE_HEADER_VARIABLES));
+  variablesHeader.addStyleName(ExplorerLayout.STYLE_H3);
+  variablesHeader.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  variablesHeader.addStyleName(ExplorerLayout.STYLE_NO_LINE);
+  addDetailComponent(variablesHeader);
+  variablesEmptyHeader=new Label("&nbsp;",Label.CONTENT_XHTML);
+  addDetailComponent(variablesEmptyHeader);
+  if (variablesTable != null) {
+    mainPanel.removeComponent(variablesTable);
+  }
+  List<HistoricDetail> variables=historyService.createHistoricDetailQuery().processInstanceId(processInstance.getId()).orderByTime().desc().list();
+  if (variables.size() > 0) {
+    variablesTable=new Table();
+    variablesTable.setWidth(60,UNITS_PERCENTAGE);
+    variablesTable.setHeight(250,UNITS_PIXELS);
+    variablesTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_TASK_LIST);
+    variablesTable.addContainerProperty("name",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_VARIABLE_NAME),null,Table.ALIGN_LEFT);
+    variablesTable.addContainerProperty("value",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_VARIABLE_VALUE),null,Table.ALIGN_LEFT);
+    variablesTable.addContainerProperty("type",String.class,null,i18nManager.getMessage(Messages.GROUP_TYPE),null,Table.ALIGN_LEFT);
+    List<String> variableNames=new ArrayList<String>();
+    for (    HistoricDetail detail : variables) {
+      if (detail instanceof HistoricVariableUpdate) {
+        HistoricVariableUpdate variable=(HistoricVariableUpdate)detail;
+        if (variableNames.contains(variable.getId()) == false) {
+          variableNames.add(variable.getId());
+          Item variableItem=variablesTable.addItem(variable.getId());
+          variableItem.getItemProperty("name").setValue(variable.getId());
+          String theValue=variableRendererManager.getStringRepresentation(variable.getValue());
+          variableItem.getItemProperty("value").setValue(theValue);
+          variableItem.getItemProperty("type").setValue("variable");
+        }
+      }
+ else {
+        HistoricFormProperty form=(HistoricFormProperty)detail;
+        if (variableNames.contains(form.getPropertyId()) == false) {
+          variableNames.add(form.getPropertyId());
+          Item variableItem=variablesTable.addItem(form.getPropertyId());
+          variableItem.getItemProperty("name").setValue(form.getPropertyId());
+          variableItem.getItemProperty("value").setValue(form.getPropertyValue());
+          variableItem.getItemProperty("type").setValue("form property");
+        }
+      }
+    }
+    variablesTable.setPageLength(variables.size());
+    addDetailComponent(variablesTable);
+  }
+ else {
+    noVariablesLabel=new Label(i18nManager.getMessage(Messages.PROCESS_INSTANCE_NO_VARIABLES));
+    addDetailComponent(noVariablesLabel);
+  }
+}

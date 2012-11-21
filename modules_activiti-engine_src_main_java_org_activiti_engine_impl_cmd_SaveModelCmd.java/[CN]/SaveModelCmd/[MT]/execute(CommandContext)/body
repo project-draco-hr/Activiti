@@ -1,0 +1,12 @@
+{
+  if (model == null) {
+    throw new ActivitiException("model is null");
+  }
+  if (model.getId() == null) {
+    commandContext.getModelManager().insertModel(model);
+  }
+ else {
+    commandContext.getModelManager().updateModel(model);
+  }
+  return null;
+}

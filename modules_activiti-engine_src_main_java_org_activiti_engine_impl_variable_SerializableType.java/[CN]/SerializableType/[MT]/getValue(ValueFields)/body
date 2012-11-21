@@ -7,7 +7,7 @@
   ByteArrayInputStream bais=new ByteArrayInputStream(bytes);
   Object deserializedObject;
   try {
-    ObjectInputStream ois=new ObjectInputStream(bais);
+    ObjectInputStream ois=createObjectInputStream(bais);
     deserializedObject=ois.readObject();
     valueFields.setCachedValue(deserializedObject);
     if (valueFields instanceof VariableInstanceEntity) {
@@ -15,7 +15,7 @@
     }
   }
  catch (  Exception e) {
-    throw new ActivitiException("coudn't deserialize object in variable '" + valueFields.getName() + "'",e);
+    throw new ActivitiException("Couldn't deserialize object in variable '" + valueFields.getName() + "'",e);
   }
  finally {
     IoUtil.closeSilently(bais);

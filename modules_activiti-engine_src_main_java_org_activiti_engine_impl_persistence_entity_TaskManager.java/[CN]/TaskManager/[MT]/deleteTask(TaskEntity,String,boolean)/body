@@ -13,7 +13,7 @@
       commandContext.getHistoricTaskInstanceManager().deleteHistoricTaskInstanceById(taskId);
     }
  else {
-      commandContext.getHistoricTaskInstanceManager().markTaskInstanceEnded(taskId,deleteReason);
+      commandContext.getHistoryManager().recordTaskEnd(taskId,deleteReason);
     }
     getDbSqlSession().delete(task);
   }

@@ -1,0 +1,12 @@
+{
+  if (base == null) {
+    String key=(String)property;
+    for (    String componentId : (Set<String>)blueprintContainer.getComponentIds()) {
+      if (componentId.equals(key)) {
+        context.setPropertyResolved(true);
+        return blueprintContainer.getComponentInstance(key);
+      }
+    }
+  }
+  return null;
+}
