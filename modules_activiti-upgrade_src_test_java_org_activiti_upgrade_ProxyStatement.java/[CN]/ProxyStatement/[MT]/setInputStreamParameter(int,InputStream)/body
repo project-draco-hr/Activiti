@@ -1,4 +1,5 @@
 {
   byte[] bytes=IoUtil.readInputStream(x,"jdbc variable bytes");
   parameters.put(parameterIndex,ProxyDriver.databaseFormatter.formatBinary(bytes));
+  return new ByteArrayInputStream(bytes);
 }
