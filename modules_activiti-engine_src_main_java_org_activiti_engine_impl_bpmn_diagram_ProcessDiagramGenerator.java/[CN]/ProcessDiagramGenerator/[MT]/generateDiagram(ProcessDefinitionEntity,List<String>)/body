@@ -1,20 +1,3 @@
 {
-  ProcessDiagramCanvas processDiagramCanvas=initProcessDiagramCanvas(processDefinition);
-  if (processDefinition.getParticipantProcess() != null) {
-    ParticipantProcess pProc=processDefinition.getParticipantProcess();
-    processDiagramCanvas.drawPoolOrLane(pProc.getName(),pProc.getX(),pProc.getY(),pProc.getWidth(),pProc.getHeight());
-  }
-  if (processDefinition.getLaneSets() != null && processDefinition.getLaneSets().size() > 0) {
-    for (    LaneSet laneSet : processDefinition.getLaneSets()) {
-      if (laneSet.getLanes() != null && laneSet.getLanes().size() > 0) {
-        for (        Lane lane : laneSet.getLanes()) {
-          processDiagramCanvas.drawPoolOrLane(lane.getName(),lane.getX(),lane.getY(),lane.getWidth(),lane.getHeight());
-        }
-      }
-    }
-  }
-  for (  ActivityImpl activity : processDefinition.getActivities()) {
-    drawActivity(processDiagramCanvas,activity,highLightedActivities);
-  }
-  return processDiagramCanvas;
+  return generateDiagram(processDefinition,highLightedActivities,Collections.<String>emptyList());
 }

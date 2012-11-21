@@ -13,6 +13,7 @@
         multiInstanceParallel=true;
       }
     }
+    collapsed=(activity.getActivityBehavior() instanceof CallActivityBehavior);
     Boolean expanded=(Boolean)activity.getProperty(BpmnParse.PROPERTYNAME_ISEXPANDED);
     if (expanded != null) {
       collapsed=!expanded;
@@ -23,18 +24,19 @@
     }
   }
   for (  PvmTransition sequenceFlow : activity.getOutgoingTransitions()) {
+    boolean highLighted=(highLightedFlows.contains(sequenceFlow.getId()));
+    boolean drawConditionalIndicator=sequenceFlow.getProperty(BpmnParse.PROPERTYNAME_CONDITION) != null && !((String)activity.getProperty("type")).toLowerCase().contains("gateway");
+    boolean isDefault=sequenceFlow.getId().equals(activity.getProperty("default")) && ((String)activity.getProperty("type")).toLowerCase().contains("gateway");
     List<Integer> waypoints=((TransitionImpl)sequenceFlow).getWaypoints();
-    for (int i=2; i < waypoints.size(); i+=2) {
-      boolean drawConditionalIndicator=(i == 2) && sequenceFlow.getProperty(BpmnParse.PROPERTYNAME_CONDITION) != null && !((String)activity.getProperty("type")).toLowerCase().contains("gateway");
-      if (i < waypoints.size() - 2) {
-        processDiagramCanvas.drawSequenceflowWithoutArrow(waypoints.get(i - 2),waypoints.get(i - 1),waypoints.get(i),waypoints.get(i + 1),drawConditionalIndicator);
-      }
- else {
-        processDiagramCanvas.drawSequenceflow(waypoints.get(i - 2),waypoints.get(i - 1),waypoints.get(i),waypoints.get(i + 1),drawConditionalIndicator);
-      }
+    int xPoints[]=new int[waypoints.size() / 2];
+    int yPoints[]=new int[waypoints.size() / 2];
+    for (int i=0, j=0; i < waypoints.size(); i+=2, j++) {
+      xPoints[j]=waypoints.get(i);
+      yPoints[j]=waypoints.get(i + 1);
     }
+    processDiagramCanvas.drawSequenceflow(xPoints,yPoints,drawConditionalIndicator,isDefault,highLighted);
   }
   for (  ActivityImpl nestedActivity : activity.getActivities()) {
-    drawActivity(processDiagramCanvas,nestedActivity,highLightedActivities);
+    drawActivity(processDiagramCanvas,nestedActivity,highLightedActivities,highLightedFlows);
   }
 }
