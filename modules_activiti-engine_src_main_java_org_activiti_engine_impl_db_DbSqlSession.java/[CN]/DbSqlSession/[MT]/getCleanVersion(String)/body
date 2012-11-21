@@ -1,0 +1,13 @@
+{
+  Matcher matcher=CLEAN_VERSION_REGEX.matcher(versionString);
+  if (!matcher.find()) {
+    throw new ActivitiException("Illegal format for version: " + versionString);
+  }
+  String cleanString=matcher.group();
+  try {
+    return Double.parseDouble(cleanString);
+  }
+ catch (  NumberFormatException nfe) {
+    throw new ActivitiException("Illegal format for version: " + versionString);
+  }
+}
