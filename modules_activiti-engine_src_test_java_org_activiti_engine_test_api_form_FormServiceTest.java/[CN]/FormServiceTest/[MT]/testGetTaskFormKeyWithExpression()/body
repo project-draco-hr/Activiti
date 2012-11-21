@@ -1,0 +1,6 @@
+{
+  runtimeService.startProcessInstanceByKey("FormsProcess",CollectionUtil.singletonMap("dynamicKey","test"));
+  Task task=taskService.createTaskQuery().singleResult();
+  assertNotNull(task);
+  assertEquals("test",formService.getTaskFormData(task.getId()).getFormKey());
+}

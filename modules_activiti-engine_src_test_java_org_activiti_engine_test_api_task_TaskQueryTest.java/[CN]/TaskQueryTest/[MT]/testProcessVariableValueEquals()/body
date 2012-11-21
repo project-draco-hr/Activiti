@@ -38,9 +38,24 @@
   assertEquals(1,taskService.createTaskQuery().processVariableValueNotEquals("stringVar","999").count());
   assertEquals(1,taskService.createTaskQuery().processVariableValueNotEquals("booleanVar",false).count());
   assertEquals(0,taskService.createTaskQuery().processVariableValueNotEquals("longVar",928374L).count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals(928374L).count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals((short)123).count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals(1234).count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals("stringValue").count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals(true).count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals(date).count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals(null).count());
+  assertEquals(0,taskService.createTaskQuery().processVariableValueEquals(999999L).count());
+  assertEquals(0,taskService.createTaskQuery().processVariableValueEquals((short)999).count());
+  assertEquals(0,taskService.createTaskQuery().processVariableValueEquals(9999).count());
+  assertEquals(0,taskService.createTaskQuery().processVariableValueEquals("unexistingstringvalue").count());
+  assertEquals(0,taskService.createTaskQuery().processVariableValueEquals(false).count());
+  assertEquals(0,taskService.createTaskQuery().processVariableValueEquals(otherDate.getTime()).count());
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.setVariableLocal(task.getId(),"taskVar","theValue");
   taskService.setVariableLocal(task.getId(),"longVar",928374L);
   assertEquals(1,taskService.createTaskQuery().processVariableValueEquals("longVar",928374L).taskVariableValueEquals("taskVar","theValue").count());
   assertEquals(1,taskService.createTaskQuery().processVariableValueEquals("longVar",928374L).taskVariableValueEquals("longVar",928374L).count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals(928374L).taskVariableValueEquals("theValue").count());
+  assertEquals(1,taskService.createTaskQuery().processVariableValueEquals(928374L).taskVariableValueEquals(928374L).count());
 }

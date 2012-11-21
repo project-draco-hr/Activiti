@@ -1,5 +1,5 @@
 {
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_ACTIVITY) {
+  if (getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
     getDbSqlSession().delete("deleteHistoricActivityInstancesByProcessInstanceId",historicProcessInstanceId);
   }
 }

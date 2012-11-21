@@ -1,0 +1,32 @@
+{
+  UserTask userTask=(UserTask)flowElement;
+  String assignee=userTask.getAssignee();
+  String candidateUsers=convertListToCommaSeparatedString(userTask.getCandidateUsers());
+  String candidateGroups=convertListToCommaSeparatedString(userTask.getCandidateGroups());
+  if (StringUtils.isNotEmpty(assignee) || StringUtils.isNotEmpty(candidateUsers) || StringUtils.isNotEmpty(candidateGroups)) {
+    ObjectNode assignmentNode=objectMapper.createObjectNode();
+    ArrayNode itemsNode=objectMapper.createArrayNode();
+    if (StringUtils.isNotEmpty(assignee)) {
+      ObjectNode assignmentItemNode=objectMapper.createObjectNode();
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_TYPE,PROPERTY_USERTASK_ASSIGNEE);
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,assignee);
+      itemsNode.add(assignmentItemNode);
+    }
+    if (StringUtils.isNotEmpty(candidateUsers)) {
+      ObjectNode assignmentItemNode=objectMapper.createObjectNode();
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_TYPE,PROPERTY_USERTASK_CANDIDATE_USERS);
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,candidateUsers);
+      itemsNode.add(assignmentItemNode);
+    }
+    if (StringUtils.isNotEmpty(candidateGroups)) {
+      ObjectNode assignmentItemNode=objectMapper.createObjectNode();
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_TYPE,PROPERTY_USERTASK_CANDIDATE_GROUPS);
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,candidateGroups);
+      itemsNode.add(assignmentItemNode);
+    }
+    assignmentNode.put("totalCount",itemsNode.size());
+    assignmentNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,itemsNode);
+    propertiesNode.put(PROPERTY_USERTASK_ASSIGNMENT,assignmentNode);
+  }
+  addFormProperties(userTask.getFormProperties(),propertiesNode);
+}

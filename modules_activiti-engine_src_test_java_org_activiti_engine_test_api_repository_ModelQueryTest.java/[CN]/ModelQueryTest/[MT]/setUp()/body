@@ -1,0 +1,9 @@
+{
+  Model model=repositoryService.newModel();
+  model.setName("my model");
+  model.setCategory("test");
+  repositoryService.saveModel(model);
+  modelOneId=model.getId();
+  repositoryService.addModelEditorSource(modelOneId,"bytes".getBytes("utf-8"));
+  super.setUp();
+}

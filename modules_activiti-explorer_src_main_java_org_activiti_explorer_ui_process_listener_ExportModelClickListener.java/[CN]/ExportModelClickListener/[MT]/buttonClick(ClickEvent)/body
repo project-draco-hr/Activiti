@@ -1,0 +1,27 @@
+{
+  final FileResource stream=new FileResource(new File(""),ExplorerApp.get()){
+    private static final long serialVersionUID=1L;
+    @Override public DownloadStream getStream(){
+      DownloadStream ds=null;
+      try {
+        BpmnJsonConverter jsonConverter=new BpmnJsonConverter();
+        JsonNode editorNode=new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
+        BpmnModel bpmnModel=jsonConverter.convertToBpmnModel(editorNode);
+        BpmnXMLConverter xmlConverter=new BpmnXMLConverter();
+        byte[] bpmnBytes=xmlConverter.convertToXML(bpmnModel);
+        ByteArrayInputStream in=new ByteArrayInputStream(bpmnBytes);
+        String filename=bpmnModel.getMainProcess().getId() + ".bpmn20.xml";
+        ds=new DownloadStream(in,"application/xml",filename);
+        ds.setParameter("Content-Disposition","attachment; filename=" + filename);
+      }
+ catch (      Exception e) {
+        LOGGER.log(Level.SEVERE,"failed to export model to BPMN XML",e);
+        notificationManager.showErrorNotification(Messages.PROCESS_TOXML_FAILED,e);
+      }
+      return ds;
+    }
+  }
+;
+  stream.setCacheTime(0);
+  ExplorerApp.get().getMainWindow().open(stream);
+}

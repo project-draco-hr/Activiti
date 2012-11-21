@@ -1,8 +1,0 @@
-{
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-    HistoricTaskInstanceEntity historicTaskInstance=getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
-    if (historicTaskInstance != null) {
-      historicTaskInstance.setParentTaskId(parentTaskId);
-    }
-  }
-}

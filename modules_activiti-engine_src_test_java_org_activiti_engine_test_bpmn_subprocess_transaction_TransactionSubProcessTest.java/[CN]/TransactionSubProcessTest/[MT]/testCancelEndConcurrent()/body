@@ -11,7 +11,7 @@
   assertEquals(0,createEventSubscriptionQuery().eventType("compensate").count());
   assertEquals(5,runtimeService.getVariable(processInstance.getId(),"undoBookHotel"));
   assertEquals(1,runtimeService.getVariable(processInstance.getId(),"undoBookFlight"));
-  if (!processEngineConfiguration.getHistory().equals(ProcessEngineConfiguration.HISTORY_NONE)) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     assertEquals(1,historyService.createHistoricActivityInstanceQuery().activityId("undoBookFlight").count());
     assertEquals(5,historyService.createHistoricActivityInstanceQuery().activityId("undoBookHotel").count());
   }

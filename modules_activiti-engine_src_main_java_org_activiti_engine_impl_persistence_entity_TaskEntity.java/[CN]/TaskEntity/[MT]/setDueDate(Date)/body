@@ -2,6 +2,6 @@
   this.dueDate=dueDate;
   CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
-    commandContext.getHistoricTaskInstanceManager().setTaskDueDate(id,dueDate);
+    commandContext.getHistoryManager().recordTaskDueDateChange(id,dueDate);
   }
 }

@@ -5,18 +5,7 @@
     commandContext.getByteArrayManager().deleteByteArrayById(attachment.getContentId());
   }
   if (attachment.getTaskId() != null) {
-    CommentManager commentManager=commandContext.getCommentManager();
-    if (commentManager.isHistoryEnabled()) {
-      String authenticatedUserId=Authentication.getAuthenticatedUserId();
-      CommentEntity comment=new CommentEntity();
-      comment.setUserId(authenticatedUserId);
-      comment.setType(CommentEntity.TYPE_EVENT);
-      comment.setTime(ClockUtil.getCurrentTime());
-      comment.setAction(Event.ACTION_DELETE_ATTACHMENT);
-      comment.setMessage(attachment.getName());
-      comment.setTaskId(attachment.getTaskId());
-      commentManager.insert(comment);
-    }
+    commandContext.getHistoryManager().createAttachmentComment(attachment.getTaskId(),attachment.getProcessInstanceId(),attachment.getName(),false);
   }
   return null;
 }

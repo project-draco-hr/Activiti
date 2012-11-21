@@ -1,0 +1,21 @@
+{
+  ObjectNode modelNode=null;
+  String modelId=(String)getRequest().getAttributes().get("modelId");
+  if (NumberUtils.isNumber(modelId)) {
+    RepositoryService repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+    Model model=repositoryService.getModel(modelId);
+    if (model != null) {
+      try {
+        modelNode=(ObjectNode)objectMapper.readTree(model.getMetaInfo());
+        modelNode.put(MODEL_ID,model.getId());
+        ObjectNode editorJsonNode=(ObjectNode)objectMapper.readTree(new String(repositoryService.getModelEditorSource(model.getId()),"utf-8"));
+        modelNode.put("model",editorJsonNode);
+      }
+ catch (      Exception e) {
+        LOGGER.log(Level.SEVERE,"Error creating model JSON",e);
+        setStatus(Status.SERVER_ERROR_INTERNAL);
+      }
+    }
+  }
+  return modelNode;
+}

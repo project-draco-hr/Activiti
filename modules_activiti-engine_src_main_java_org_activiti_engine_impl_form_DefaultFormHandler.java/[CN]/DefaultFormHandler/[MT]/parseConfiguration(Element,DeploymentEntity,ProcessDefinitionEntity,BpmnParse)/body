@@ -1,9 +1,12 @@
 {
   this.deploymentId=deployment.getId();
-  this.formKey=activityElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"formKey");
+  ExpressionManager expressionManager=Context.getProcessEngineConfiguration().getExpressionManager();
+  String formKeyAttribute=activityElement.attributeNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"formKey");
+  if (formKeyAttribute != null) {
+    this.formKey=expressionManager.createExpression(formKeyAttribute);
+  }
   Element extensionElement=activityElement.element("extensionElements");
   if (extensionElement != null) {
-    ExpressionManager expressionManager=Context.getProcessEngineConfiguration().getExpressionManager();
     FormTypes formTypes=Context.getProcessEngineConfiguration().getFormTypes();
     List<Element> formPropertyElements=extensionElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"formProperty");
     for (    Element formPropertyElement : formPropertyElements) {

@@ -3,7 +3,7 @@
   vars.put("sum",0);
   vars.put("nrOfLoops",7);
   runtimeService.startProcessInstanceByKey("miSequentialScriptTask",vars);
-  if (processEngineConfiguration.getHistoryLevel() > ProcessEngineConfigurationImpl.HISTORYLEVEL_NONE) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     List<HistoricActivityInstance> historicInstances=historyService.createHistoricActivityInstanceQuery().activityType("scriptTask").orderByActivityId().asc().list();
     assertEquals(7,historicInstances.size());
     for (int i=0; i < 7; i++) {

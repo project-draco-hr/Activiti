@@ -1,6 +1,9 @@
 {
   CompositeELResolver compositeElResolver=new CompositeELResolver();
   compositeElResolver.add(new VariableScopeElResolver(variableScope));
+  if (blueprintContextELResolver != null) {
+    compositeElResolver.add(blueprintContextELResolver);
+  }
   compositeElResolver.add(blueprintELResolver);
   compositeElResolver.add(new ArrayELResolver());
   compositeElResolver.add(new ListELResolver());

@@ -1,0 +1,28 @@
+{
+  if (authenticate() == false)   return null;
+  String searchText=(String)getQuery().getValues("searchText");
+  if (searchText != null) {
+    searchText=searchText.toLowerCase();
+  }
+  List<Group> groups=ActivitiUtil.getIdentityService().createGroupQuery().list();
+  List<GroupInfo> groupList=new ArrayList<GroupInfo>();
+  for (  Group group : groups) {
+    if (StringUtils.isNotEmpty(searchText)) {
+      if (group.getName().toLowerCase().contains(searchText) || group.getId().toLowerCase().contains(searchText)) {
+        groupList.add(new GroupInfo(group));
+      }
+    }
+ else {
+      groupList.add(new GroupInfo(group));
+    }
+  }
+  Collections.sort(groupList,new GroupResponseComparable());
+  DataResponse response=new DataResponse();
+  response.setStart(0);
+  response.setSize(groupList.size());
+  response.setSort("name");
+  response.setOrder("asc");
+  response.setTotal(groupList.size());
+  response.setData(groupList);
+  return response;
+}

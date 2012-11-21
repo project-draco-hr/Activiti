@@ -23,6 +23,7 @@
   Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarLong",null).count());
   Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarDouble",null).count());
   Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarByte",null).count());
+  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueEquals(null).count());
   try {
     runtimeService.createProcessInstanceQuery().variableValueGreaterThan("nullVar",null);
     fail("Excetion expected");
@@ -56,11 +57,12 @@
     fail("Excetion expected");
   }
  catch (  ActivitiException ae) {
-    assertTextPresent("Booleans and null cannot be used in 'like' condition",ae.getMessage());
+    assertTextPresent("Only string values can be used with 'like' condition",ae.getMessage());
   }
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance2.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance3.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance4.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance5.getId(),"test");
+  Assert.assertEquals(0,runtimeService.createProcessInstanceQuery().variableValueEquals(null).count());
 }

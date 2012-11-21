@@ -1,0 +1,11 @@
+{
+  byte[] bytes=null;
+  ModelEntity model=findModelById(modelId);
+  if (model != null && model.getEditorSourceValueId() != null) {
+    ByteArrayEntity byteEntity=Context.getCommandContext().getDbSqlSession().selectById(ByteArrayEntity.class,model.getEditorSourceValueId());
+    if (byteEntity != null) {
+      bytes=byteEntity.getBytes();
+    }
+  }
+  return bytes;
+}

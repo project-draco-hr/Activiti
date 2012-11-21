@@ -1,0 +1,6 @@
+{
+  instancesTable.removeAllItems();
+  for (  HistoricProcessInstance instance : selectedManagementDefinition.runningInstances) {
+    instancesTable.addItem(new String[]{instance.getId(),instance.getBusinessKey(),instance.getStartUserId(),instance.getStartActivityId(),instance.getStartTime().toString(),instance.getEndTime() != null ? instance.getEndTime().toString() : "",instance.getDurationInMillis() != null ? instance.getDurationInMillis().toString() : ""},instance.getId());
+  }
+}

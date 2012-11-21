@@ -1,5 +1,5 @@
 {
-  if (processEngineConfiguration.getHistoryLevel() == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.FULL)) {
     boolean deletedVariableUpdateFound=false;
     List<HistoricDetail> resultSet=historyService.createHistoricDetailQuery().processInstanceId(processInstanceId).list();
     for (    HistoricDetail currentHistoricDetail : resultSet) {

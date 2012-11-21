@@ -5,9 +5,5 @@
   if (execution != null) {
     execution.addTask(this);
   }
-  int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-    HistoricTaskInstanceEntity historicTaskInstance=new HistoricTaskInstanceEntity(this,execution);
-    dbSqlSession.insert(historicTaskInstance);
-  }
+  commandContext.getHistoryManager().recordTaskCreated(this,execution);
 }

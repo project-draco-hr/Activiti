@@ -5,12 +5,7 @@
   initializeVariableInstanceBackPointer(variableInstance);
   variableInstances.put(variableName,variableInstance);
   variableInstance.setValue(value);
-  int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
-  if (historyLevel == ProcessEngineConfigurationImpl.HISTORYLEVEL_FULL) {
-    insertHistoricDetailVariableInstanceUpdate(variableInstance,sourceActivityExecution);
-  }
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-    insertHistoricVariableInstance(variableInstance);
-  }
+  Context.getCommandContext().getHistoryManager().recordVariableCreate(variableInstance);
+  Context.getCommandContext().getHistoryManager().recordHistoricDetailVariableCreate(variableInstance,sourceActivityExecution,isActivityIdUsedForDetails());
   return variableInstance;
 }

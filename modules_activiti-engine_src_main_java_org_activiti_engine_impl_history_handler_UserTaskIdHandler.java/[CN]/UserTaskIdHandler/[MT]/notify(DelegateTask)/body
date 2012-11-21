@@ -1,8 +1,3 @@
 {
-  TaskEntity t=(TaskEntity)task;
-  ExecutionEntity execution=t.getExecution();
-  if (execution != null) {
-    HistoricActivityInstanceEntity historicActivityInstance=ActivityInstanceEndHandler.findActivityInstance(execution);
-    historicActivityInstance.setTaskId(t.getId());
-  }
+  Context.getCommandContext().getHistoryManager().recordTaskId((TaskEntity)task);
 }

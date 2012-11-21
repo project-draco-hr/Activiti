@@ -1,0 +1,11 @@
+{
+  ExecutionEntity executionEntity=task.getExecution();
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
+    if (executionEntity != null) {
+      HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(executionEntity);
+      if (historicActivityInstance != null) {
+        historicActivityInstance.setAssignee(task.getAssignee());
+      }
+    }
+  }
+}

@@ -14,18 +14,6 @@
     dbSqlSession.insert(byteArray);
     attachment.setContentId(byteArray.getId());
   }
-  CommentManager commentManager=commandContext.getCommentManager();
-  if (commentManager.isHistoryEnabled()) {
-    String userId=Authentication.getAuthenticatedUserId();
-    CommentEntity comment=new CommentEntity();
-    comment.setUserId(userId);
-    comment.setType(CommentEntity.TYPE_EVENT);
-    comment.setTime(ClockUtil.getCurrentTime());
-    comment.setTaskId(taskId);
-    comment.setProcessInstanceId(processInstanceId);
-    comment.setAction(Event.ACTION_ADD_ATTACHMENT);
-    comment.setMessage(attachmentName);
-    commentManager.insert(comment);
-  }
+  commandContext.getHistoryManager().createAttachmentComment(taskId,processInstanceId,attachmentName,true);
   return attachment;
 }

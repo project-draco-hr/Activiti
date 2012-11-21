@@ -3,12 +3,6 @@
   this.taskDefinitionKey=taskDefinition.getKey();
   CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
-    int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
-    if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
-      HistoricTaskInstanceEntity historicTaskInstance=commandContext.getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,id);
-      if (historicTaskInstance != null) {
-        historicTaskInstance.setTaskDefinitionKey(this.taskDefinitionKey);
-      }
-    }
+    commandContext.getHistoryManager().recordTaskDefinitionKeyChange(id,taskDefinitionKey);
   }
 }

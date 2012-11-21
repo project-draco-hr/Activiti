@@ -1,5 +1,5 @@
 {
-  if (!ProcessEngineConfiguration.HISTORY_NONE.equals(processEngineConfiguration.getHistory())) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     final String deleteReason="some delete reason";
     ProcessInstance pi=runtimeService.startProcessInstanceByKey("oneTaskProcess");
     runtimeService.deleteProcessInstance(pi.getId(),deleteReason);

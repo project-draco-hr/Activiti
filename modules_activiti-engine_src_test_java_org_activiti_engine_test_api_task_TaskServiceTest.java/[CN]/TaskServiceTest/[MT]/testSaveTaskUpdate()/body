@@ -31,7 +31,7 @@
   assertEquals("updatedowner",task.getOwner());
   assertEquals(dueDate,task.getDueDate());
   assertEquals(1,task.getPriority());
-  if (processEngineConfiguration.getHistoryLevel() >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT) {
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
     HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().taskId(task.getId()).singleResult();
     assertEquals("updatedtaskname",historicTaskInstance.getName());
     assertEquals("updateddescription",historicTaskInstance.getDescription());

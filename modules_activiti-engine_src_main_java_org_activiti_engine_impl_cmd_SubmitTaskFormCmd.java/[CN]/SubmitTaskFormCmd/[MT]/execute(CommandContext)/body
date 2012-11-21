@@ -2,20 +2,11 @@
   if (taskId == null) {
     throw new ActivitiException("taskId is null");
   }
-  TaskEntity task=Context.getCommandContext().getTaskManager().findTaskById(taskId);
+  TaskEntity task=commandContext.getTaskManager().findTaskById(taskId);
   if (task == null) {
     throw new ActivitiException("Cannot find task with id " + taskId);
   }
-  int historyLevel=Context.getProcessEngineConfiguration().getHistoryLevel();
-  ExecutionEntity execution=task.getExecution();
-  if (historyLevel >= ProcessEngineConfigurationImpl.HISTORYLEVEL_AUDIT && execution != null) {
-    DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
-    for (    String propertyId : properties.keySet()) {
-      String propertyValue=properties.get(propertyId);
-      HistoricFormPropertyEntity historicFormProperty=new HistoricFormPropertyEntity(execution,propertyId,propertyValue,taskId);
-      dbSqlSession.insert(historicFormProperty);
-    }
-  }
+  commandContext.getHistoryManager().reportFormPropertiesSubmitted(task.getExecution(),properties,taskId);
   TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
   taskFormHandler.submitFormProperties(properties,task.getExecution());
   task.complete();
