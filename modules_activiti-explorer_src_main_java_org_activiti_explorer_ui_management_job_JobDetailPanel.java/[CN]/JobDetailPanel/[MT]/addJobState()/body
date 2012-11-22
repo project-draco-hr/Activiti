@@ -30,8 +30,22 @@
     layout.setExpandRatio(stackPanel,1.0f);
   }
  else {
-    Label noException=new Label(i18nManager.getMessage(Messages.JOB_NOT_EXECUTED));
-    layout.addComponent(noException);
-    layout.setExpandRatio(noException,1.0f);
+    if (job.getProcessDefinitionId() != null) {
+      JobEntity jobEntity=(JobEntity)job;
+      if (jobEntity.getJobHandlerType().equals(TimerSuspendProcessDefinitionHandler.TYPE)) {
+        Label processDefinitionLabel=new Label(i18nManager.getMessage(Messages.JOB_SUSPEND_PROCESSDEFINITION,job.getProcessDefinitionId()));
+        layout.addComponent(processDefinitionLabel);
+      }
+ else       if (jobEntity.getJobHandlerType().equals(TimerActivateProcessDefinitionHandler.TYPE)) {
+        Label processDefinitionLabel=new Label(i18nManager.getMessage(Messages.JOB_ACTIVATE_PROCESSDEFINITION,job.getProcessDefinitionId()));
+        layout.addComponent(processDefinitionLabel);
+      }
+ else {
+        addNotYetExecutedLabel(layout);
+      }
+    }
+ else {
+      addNotYetExecutedLabel(layout);
+    }
   }
 }

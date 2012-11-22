@@ -1,0 +1,14 @@
+{
+  SuspendedProcessDefinitionPage processDefinitionPage=(SuspendedProcessDefinitionPage)parentPage;
+  Button activateButton=new Button(i18nManager.getMessage(Messages.PROCESS_ACTIVATE));
+  activateButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      ChangeProcessSuspensionStatePopupWindow popupWindow=new ChangeProcessSuspensionStatePopupWindow(processDefinition.getId(),parentPage,false);
+      ExplorerApp.get().getViewManager().showPopupWindow(popupWindow);
+    }
+  }
+);
+  processDefinitionPage.getToolBar().removeAllButtons();
+  processDefinitionPage.getToolBar().addButton(activateButton);
+}

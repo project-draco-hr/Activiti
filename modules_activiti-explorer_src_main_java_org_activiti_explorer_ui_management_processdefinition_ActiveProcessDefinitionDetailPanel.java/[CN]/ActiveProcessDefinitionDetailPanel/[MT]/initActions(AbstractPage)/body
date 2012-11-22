@@ -2,8 +2,9 @@
   ActiveProcessDefinitionPage processDefinitionPage=(ActiveProcessDefinitionPage)parentPage;
   Button suspendButton=new Button(i18nManager.getMessage(Messages.PROCESS_SUSPEND));
   suspendButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
-      ChangeProcessSuspensionStatePopupWindow popupWindow=new ChangeProcessSuspensionStatePopupWindow(processDefinition.getId(),parentPage);
+      ChangeProcessSuspensionStatePopupWindow popupWindow=new ChangeProcessSuspensionStatePopupWindow(processDefinition.getId(),parentPage,true);
       ExplorerApp.get().getViewManager().showPopupWindow(popupWindow);
     }
   }

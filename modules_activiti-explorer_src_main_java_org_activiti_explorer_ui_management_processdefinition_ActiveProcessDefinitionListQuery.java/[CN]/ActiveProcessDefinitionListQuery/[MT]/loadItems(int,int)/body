@@ -2,7 +2,7 @@
   List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().active().orderByProcessDefinitionName().asc().orderByProcessDefinitionVersion().asc().listPage(start,count);
   List<Item> processDefinitionItems=new ArrayList<Item>();
   for (  ProcessDefinition processDefinition : processDefinitions) {
-    processDefinitionItems.add(new ActiveProcessDefinitionListItem(processDefinition));
+    processDefinitionItems.add(new ProcessDefinitionListItem(processDefinition));
   }
   return processDefinitionItems;
 }

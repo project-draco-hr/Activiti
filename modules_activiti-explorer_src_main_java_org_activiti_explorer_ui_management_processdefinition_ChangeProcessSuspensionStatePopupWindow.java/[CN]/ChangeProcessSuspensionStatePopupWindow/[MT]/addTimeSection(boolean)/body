@@ -1,0 +1,53 @@
+{
+  Label timeLabel=new Label(suspend ? i18nManager.getMessage(Messages.PROCESS_SUSPEND_POPUP_TIME_DESCRIPTION) : i18nManager.getMessage(Messages.PROCESS_ACTIVATE_POPUP_TIME_DESCRIPTION));
+  verticalLayout.addComponent(timeLabel);
+  verticalLayout.addComponent(new Label("&nbsp",Label.CONTENT_XHTML));
+  nowCheckBox=new CheckBox(i18nManager.getMessage(Messages.PROCESS_SUSPEND_POPUP_TIME_NOW),true);
+  nowCheckBox.addStyleName(ExplorerLayout.STYLE_PROCESS_DEFINITION_SUSPEND_CHOICE);
+  nowCheckBox.setImmediate(true);
+  nowCheckBox.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      if (nowCheckBox.booleanValue() == true) {
+        dateField.setValue(null);
+        dateCheckBox.setValue(false);
+      }
+ else {
+        dateCheckBox.setValue(true);
+        dateField.setValue(new Date());
+      }
+    }
+  }
+);
+  verticalLayout.addComponent(nowCheckBox);
+  HorizontalLayout dateLayout=new HorizontalLayout();
+  verticalLayout.addComponent(dateLayout);
+  dateCheckBox=new CheckBox(i18nManager.getMessage(Messages.PROCESS_SUSPEND_POPUP_TIME_DATE));
+  dateCheckBox.addStyleName(ExplorerLayout.STYLE_PROCESS_DEFINITION_SUSPEND_CHOICE);
+  dateCheckBox.setImmediate(true);
+  dateCheckBox.addListener(new ClickListener(){
+    public void buttonClick(    ClickEvent event){
+      if (dateCheckBox.booleanValue() == true) {
+        dateField.setValue(new Date());
+        nowCheckBox.setValue(false);
+      }
+ else {
+        dateField.setValue(null);
+        nowCheckBox.setValue(true);
+      }
+    }
+  }
+);
+  dateLayout.addComponent(dateCheckBox);
+  dateField=new DateField();
+  dateField.setImmediate(true);
+  dateField.addListener(new ValueChangeListener(){
+    public void valueChange(    ValueChangeEvent event){
+      if (dateField.getValue() != null) {
+        nowCheckBox.setValue(false);
+        dateCheckBox.setValue(true);
+      }
+    }
+  }
+);
+  dateLayout.addComponent(dateField);
+}
