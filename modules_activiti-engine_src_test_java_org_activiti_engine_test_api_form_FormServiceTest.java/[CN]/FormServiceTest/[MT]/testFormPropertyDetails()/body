@@ -24,10 +24,16 @@
   assertFalse(property.isRequired());
   assertEquals("enum",property.getType().getName());
   Map<String,String> values=(Map<String,String>)property.getType().getInformation("values");
-  Map<String,String> expectedValues=new HashMap<String,String>();
+  Map<String,String> expectedValues=new LinkedHashMap<String,String>();
   expectedValues.put("left","Go Left");
   expectedValues.put("right","Go Right");
   expectedValues.put("up","Go Up");
   expectedValues.put("down","Go Down");
+  Iterator<Entry<String,String>> expectedValuesIterator=expectedValues.entrySet().iterator();
+  for (  Entry<String,String> entry : values.entrySet()) {
+    Entry<String,String> expectedEntryAtLocation=expectedValuesIterator.next();
+    assertEquals(expectedEntryAtLocation.getKey(),entry.getKey());
+    assertEquals(expectedEntryAtLocation.getValue(),entry.getValue());
+  }
   assertEquals(expectedValues,values);
 }
