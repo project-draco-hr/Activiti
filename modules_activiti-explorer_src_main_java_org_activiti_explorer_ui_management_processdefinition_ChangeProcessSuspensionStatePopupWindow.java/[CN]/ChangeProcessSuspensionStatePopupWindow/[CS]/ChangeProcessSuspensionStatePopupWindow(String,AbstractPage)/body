@@ -1,0 +1,17 @@
+{
+  this.processDefinitionId=processDefinitionId;
+  this.parentPage=parentPage;
+  this.i18nManager=ExplorerApp.get().getI18nManager();
+  setCaption(i18nManager.getMessage(Messages.PROCESS_SUSPEND_POPUP));
+  setModal(true);
+  center();
+  setResizable(false);
+  setWidth(400,UNITS_PIXELS);
+  setHeight(300,UNITS_PIXELS);
+  addStyleName(Reindeer.WINDOW_LIGHT);
+  verticalLayout=new VerticalLayout();
+  addComponent(verticalLayout);
+  addTimeSection();
+  addIncludeProcessInstancesSection();
+  addOkButton();
+}
