@@ -1,4 +1,15 @@
 {
+  Button deleteButton=new Button(i18nManager.getMessage(Messages.JOB_DELETE));
+  deleteButton.setIcon(Images.DELETE);
+  deleteButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      managementService.deleteJob(job.getId());
+      notificationManager.showInformationNotification(Messages.JOB_DELETED);
+      jobPage.refreshSelectNext();
+    }
+  }
+);
   Button executeButton=new Button(i18nManager.getMessage(Messages.JOB_EXECUTE));
   executeButton.setIcon(Images.EXECUTE);
   executeButton.addListener(new ClickListener(){
@@ -18,4 +29,5 @@
 );
   jobPage.getToolBar().removeAllButtons();
   jobPage.getToolBar().addButton(executeButton);
+  jobPage.getToolBar().addButton(deleteButton);
 }

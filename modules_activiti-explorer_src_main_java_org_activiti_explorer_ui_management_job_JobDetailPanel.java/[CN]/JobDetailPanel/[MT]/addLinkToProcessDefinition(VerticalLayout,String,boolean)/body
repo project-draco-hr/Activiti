@@ -1,0 +1,23 @@
+{
+  HorizontalLayout layout=new HorizontalLayout();
+  verticalLayout.addComponent(layout);
+  Label processDefinitionLabel=new Label(labelText);
+  processDefinitionLabel.setSizeUndefined();
+  layout.addComponent(processDefinitionLabel);
+  layout.addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
+  Button showProcessDefinitionLink=new Button(job.getProcessDefinitionId());
+  showProcessDefinitionLink.addStyleName(Reindeer.BUTTON_LINK);
+  showProcessDefinitionLink.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      if (isSuspendedProcessDefinition) {
+        ExplorerApp.get().getViewManager().showSuspendedProcessDefinitionsPage(job.getProcessDefinitionId());
+      }
+ else {
+        ExplorerApp.get().getViewManager().showActiveProcessDefinitionsPage(job.getProcessDefinitionId());
+      }
+    }
+  }
+);
+  layout.addComponent(showProcessDefinitionLink);
+}

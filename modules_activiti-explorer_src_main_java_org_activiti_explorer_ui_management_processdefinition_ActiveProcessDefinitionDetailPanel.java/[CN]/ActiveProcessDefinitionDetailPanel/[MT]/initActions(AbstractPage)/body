@@ -9,6 +9,15 @@
     }
   }
 );
+  boolean suspendJobPending=false;
+  List<Job> jobs=ProcessEngines.getDefaultProcessEngine().getManagementService().createJobQuery().processDefinitionId(processDefinition.getId()).list();
+  for (  Job job : jobs) {
+    if (((JobEntity)job).getJobHandlerType().equals(TimerSuspendProcessDefinitionHandler.TYPE)) {
+      suspendJobPending=true;
+      break;
+    }
+  }
+  suspendButton.setEnabled(!suspendJobPending);
   processDefinitionPage.getToolBar().removeAllButtons();
   processDefinitionPage.getToolBar().addButton(suspendButton);
 }

@@ -9,6 +9,15 @@
     }
   }
 );
+  boolean activateJobPending=false;
+  List<Job> jobs=ProcessEngines.getDefaultProcessEngine().getManagementService().createJobQuery().processDefinitionId(processDefinition.getId()).list();
+  for (  Job job : jobs) {
+    if (((JobEntity)job).getJobHandlerType().equals(TimerActivateProcessDefinitionHandler.TYPE)) {
+      activateJobPending=true;
+      break;
+    }
+  }
+  activateButton.setEnabled(!activateJobPending);
   processDefinitionPage.getToolBar().removeAllButtons();
   processDefinitionPage.getToolBar().addButton(activateButton);
 }
