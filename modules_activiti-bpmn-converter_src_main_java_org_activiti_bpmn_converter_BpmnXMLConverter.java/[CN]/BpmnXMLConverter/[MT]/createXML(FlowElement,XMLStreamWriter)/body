@@ -9,6 +9,9 @@
  else {
       xtw.writeAttribute(ATTRIBUTE_NAME,"subProcess");
     }
+    if (subProcess instanceof EventSubProcess) {
+      xtw.writeAttribute(ATTRIBUTE_TRIGGERED_BY,"true");
+    }
     if (StringUtils.isNotEmpty(subProcess.getDocumentation())) {
       xtw.writeStartElement(ELEMENT_DOCUMENTATION);
       xtw.writeCharacters(subProcess.getDocumentation());
