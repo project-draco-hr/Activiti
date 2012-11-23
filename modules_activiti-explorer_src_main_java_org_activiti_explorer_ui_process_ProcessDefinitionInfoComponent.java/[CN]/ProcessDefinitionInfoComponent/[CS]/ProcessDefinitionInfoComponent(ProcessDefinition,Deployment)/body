@@ -1,9 +1,11 @@
 {
   super();
   this.repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+  this.managementService=ProcessEngines.getDefaultProcessEngine().getManagementService();
   this.i18nManager=ExplorerApp.get().getI18nManager();
   this.processDefinition=processDefinition;
   this.deployment=deployment;
   addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  initSuspensionStateInformation();
   initImage();
 }

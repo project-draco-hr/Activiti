@@ -1,0 +1,23 @@
+{
+  SuspendedProcessDefinitionPage processDefinitionPage=(SuspendedProcessDefinitionPage)parentPage;
+  Button activateButton=new Button(i18nManager.getMessage(Messages.PROCESS_ACTIVATE));
+  activateButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      ChangeProcessSuspensionStatePopupWindow popupWindow=new ChangeProcessSuspensionStatePopupWindow(processDefinition.getId(),parentPage,false);
+      ExplorerApp.get().getViewManager().showPopupWindow(popupWindow);
+    }
+  }
+);
+  boolean activateJobPending=false;
+  List<Job> jobs=ProcessEngines.getDefaultProcessEngine().getManagementService().createJobQuery().processDefinitionId(processDefinition.getId()).list();
+  for (  Job job : jobs) {
+    if (((JobEntity)job).getJobHandlerType().equals(TimerActivateProcessDefinitionHandler.TYPE)) {
+      activateJobPending=true;
+      break;
+    }
+  }
+  activateButton.setEnabled(!activateJobPending);
+  processDefinitionPage.getToolBar().removeAllButtons();
+  processDefinitionPage.getToolBar().addButton(activateButton);
+}

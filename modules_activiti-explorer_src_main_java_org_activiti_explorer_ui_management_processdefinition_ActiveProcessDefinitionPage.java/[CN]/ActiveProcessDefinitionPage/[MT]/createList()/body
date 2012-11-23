@@ -1,0 +1,25 @@
+{
+  processDefinitionTable=new Table();
+  processDefinitionListQuery=new ActiveProcessDefinitionListQuery();
+  processDefinitionListContainer=new LazyLoadingContainer(processDefinitionListQuery);
+  processDefinitionTable.setContainerDataSource(processDefinitionListContainer);
+  processDefinitionTable.addContainerProperty("name",String.class,null);
+  processDefinitionTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  processDefinitionTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=processDefinitionTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String processDefinitionId=(String)item.getItemProperty("id").getValue();
+        setDetailComponent(new ActiveProcessDefinitionDetailPanel(processDefinitionId,ActiveProcessDefinitionPage.this));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ActiveProcessDefinitionNavigator.ACTIVE_PROC_DEF_URI_PART,processDefinitionId));
+      }
+ else {
+        setDetailComponent(null);
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ActiveProcessDefinitionNavigator.ACTIVE_PROC_DEF_URI_PART));
+      }
+    }
+  }
+);
+  return processDefinitionTable;
+}
