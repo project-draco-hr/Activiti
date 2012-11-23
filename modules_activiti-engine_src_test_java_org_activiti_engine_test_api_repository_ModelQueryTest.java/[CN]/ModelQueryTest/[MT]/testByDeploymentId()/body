@@ -1,0 +1,11 @@
+{
+  Deployment deployment=repositoryService.createDeployment().addString("test","test").deploy();
+  Model model=repositoryService.createModelQuery().singleResult();
+  model.setDeploymentId(deployment.getId());
+  repositoryService.saveModel(model);
+  assertEquals(1,repositoryService.createModelQuery().deploymentId(deployment.getId()).count());
+  repositoryService.deleteDeployment(deployment.getId(),true);
+  assertEquals(0,repositoryService.createDeploymentQuery().count());
+  assertEquals(0,repositoryService.createModelQuery().deploymentId(deployment.getId()).count());
+  assertEquals(1,repositoryService.createModelQuery().count());
+}

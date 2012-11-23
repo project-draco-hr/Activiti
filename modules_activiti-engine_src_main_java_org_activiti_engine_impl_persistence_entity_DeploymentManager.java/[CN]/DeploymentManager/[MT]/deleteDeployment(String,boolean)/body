@@ -1,5 +1,11 @@
 {
   List<ProcessDefinition> processDefinitions=getDbSqlSession().createProcessDefinitionQuery().deploymentId(deploymentId).list();
+  List<Model> models=getDbSqlSession().createModelQueryImpl().deploymentId(deploymentId).list();
+  for (  Model model : models) {
+    ModelEntity modelEntity=(ModelEntity)model;
+    modelEntity.setDeploymentId(null);
+    getModelManager().updateModel(modelEntity);
+  }
   if (cascade) {
     for (    ProcessDefinition processDefinition : processDefinitions) {
       String processDefinitionId=processDefinition.getId();
