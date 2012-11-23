@@ -2,7 +2,10 @@
   ProcessInstance procInst=runtimeService.startProcessInstanceByKey("suspendProcess");
   assertNotNull(procInst);
   assertEquals(1,managementService.createJobQuery().processInstanceId(procInst.getId()).count());
-  processEngineConfiguration.getJobExecutor().shutdown();
+  boolean wasJobExecutorActive=processEngineConfiguration.getJobExecutor().isActive();
+  if (wasJobExecutorActive) {
+    processEngineConfiguration.getJobExecutor().shutdown();
+  }
   Calendar tomorrow=Calendar.getInstance();
   tomorrow.add(Calendar.DAY_OF_YEAR,1);
   ClockUtil.setCurrentTime(tomorrow.getTime());
@@ -12,5 +15,7 @@
   runtimeService.suspendProcessInstanceById(procInst.getId());
   jobs=commandExecutor.execute(new GetUnlockedTimersByDuedateCmd(ClockUtil.getCurrentTime(),new Page(0,1)));
   assertEquals(0,jobs.size());
-  processEngineConfiguration.getJobExecutor().start();
+  if (wasJobExecutorActive) {
+    processEngineConfiguration.getJobExecutor().start();
+  }
 }
