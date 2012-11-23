@@ -38,6 +38,7 @@
         }
         modelObjectNode.put(MODEL_DESCRIPTION,description);
         modelData.setMetaInfo(modelObjectNode.toString());
+        modelData.setName((String)nameTextField.getValue());
         repositoryService.saveModel(modelData);
         repositoryService.addModelEditorSource(modelData.getId(),editorNode.toString().getBytes("utf-8"));
         close();
