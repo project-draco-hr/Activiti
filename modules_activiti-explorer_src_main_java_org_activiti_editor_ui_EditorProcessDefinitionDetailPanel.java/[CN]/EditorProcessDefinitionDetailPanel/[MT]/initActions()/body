@@ -1,21 +1,45 @@
 {
   newModelButton=new Button(i18nManager.getMessage(Messages.PROCESS_NEW));
   newModelButton.addListener(new NewModelClickListener());
-  deployProcessDefinitionButton=new Button(i18nManager.getMessage(Messages.PROCESS_DEPLOY));
-  deployProcessDefinitionButton.addListener(new DeployProcessDefinitionClickListener(modelData));
-  exportModelButton=new Button(i18nManager.getMessage(Messages.PROCESS_EXPORT));
-  exportModelButton.addListener(new ExportModelClickListener(modelData));
+  importModelButton=new Button(i18nManager.getMessage(Messages.PROCESS_IMPORT));
+  importModelButton.addListener(new ImportModelClickListener());
   editModelButton=new Button(i18nManager.getMessage(Messages.PROCESS_EDIT));
   editModelButton.addListener(new EditModelClickListener(modelData.getId()));
-  copyModelButton=new Button(i18nManager.getMessage(Messages.PROCESS_COPY));
-  copyModelButton.addListener(new CopyModelClickListener(modelData));
-  deleteModelButton=new Button(i18nManager.getMessage(Messages.PROCESS_DELETE));
-  deleteModelButton.addListener(new DeleteModelClickListener(modelData));
+  actionLabel=new Label(i18nManager.getMessage(Messages.MODEL_ACTION));
+  actionLabel.setSizeUndefined();
+  actionSelect=new Select();
+  actionSelect.addItem(i18nManager.getMessage(Messages.PROCESS_COPY));
+  actionSelect.addItem(i18nManager.getMessage(Messages.PROCESS_DELETE));
+  actionSelect.addItem(i18nManager.getMessage(Messages.PROCESS_DEPLOY));
+  actionSelect.addItem(i18nManager.getMessage(Messages.PROCESS_EXPORT));
+  actionSelect.setWidth("100px");
+  actionSelect.setFilteringMode(Filtering.FILTERINGMODE_OFF);
+  actionSelect.setImmediate(true);
+  actionSelect.addListener(new ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    @Override public void valueChange(    ValueChangeEvent event){
+      if (i18nManager.getMessage(Messages.PROCESS_COPY).equals(event.getProperty().getValue())) {
+        ExplorerApp.get().getViewManager().showPopupWindow(new CopyModelPopupWindow(modelData));
+      }
+ else       if (i18nManager.getMessage(Messages.PROCESS_DELETE).equals(event.getProperty().getValue())) {
+        ExplorerApp.get().getViewManager().showPopupWindow(new DeleteModelPopupWindow(modelData));
+      }
+ else       if (i18nManager.getMessage(Messages.PROCESS_DEPLOY).equals(event.getProperty().getValue())) {
+        deployModel();
+      }
+ else       if (i18nManager.getMessage(Messages.PROCESS_EXPORT).equals(event.getProperty().getValue())) {
+        exportModel();
+      }
+    }
+  }
+);
   processDefinitionPage.getToolBar().removeAllButtons();
+  processDefinitionPage.getToolBar().removeAllAdditionalComponents();
   processDefinitionPage.getToolBar().addButton(newModelButton);
-  processDefinitionPage.getToolBar().addButton(deployProcessDefinitionButton);
-  processDefinitionPage.getToolBar().addButton(exportModelButton);
+  processDefinitionPage.getToolBar().addButton(importModelButton);
   processDefinitionPage.getToolBar().addButton(editModelButton);
-  processDefinitionPage.getToolBar().addButton(copyModelButton);
-  processDefinitionPage.getToolBar().addButton(deleteModelButton);
+  processDefinitionPage.getToolBar().addAdditionalComponent(actionLabel);
+  processDefinitionPage.getToolBar().setComponentAlignment(actionLabel,Alignment.MIDDLE_LEFT);
+  processDefinitionPage.getToolBar().addAdditionalComponent(actionSelect);
+  processDefinitionPage.getToolBar().setComponentAlignment(actionSelect,Alignment.MIDDLE_RIGHT);
 }

@@ -4,6 +4,14 @@
     List<JsonNode> sourceAndTargetList=sourceAndTargetMap.get(edgeId);
     JsonNode sourceRefNode=sourceAndTargetList.get(0);
     JsonNode targetRefNode=sourceAndTargetList.get(1);
+    if (sourceRefNode == null) {
+      LOGGER.log(Level.INFO,"Skipping edge " + edgeId + " because source ref is null");
+      continue;
+    }
+    if (targetRefNode == null) {
+      LOGGER.log(Level.INFO,"Skipping edge " + edgeId + " because target ref is null");
+      continue;
+    }
     JsonNode dockersNode=edgeNode.get(EDITOR_DOCKERS);
     double sourceDockersX=dockersNode.get(0).get(EDITOR_BOUNDS_X).getDoubleValue();
     double sourceDockersY=dockersNode.get(0).get(EDITOR_BOUNDS_Y).getDoubleValue();

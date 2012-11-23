@@ -1,0 +1,10 @@
+{
+  removeAllComponents();
+  this.progressIndicator=new ProgressIndicator();
+  progressIndicator.setPollingInterval(500);
+  addComponent(progressIndicator);
+  setComponentAlignment(progressIndicator,Alignment.MIDDLE_CENTER);
+  for (  StartedListener startedListener : startedListeners) {
+    startedListener.uploadStarted(event);
+  }
+}

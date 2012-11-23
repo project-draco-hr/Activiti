@@ -1,3 +1,10 @@
 {
-  return new ProcessMenuBar();
+  ProcessMenuBar menuBar=new ProcessMenuBar();
+  Button newModelButton=new Button(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_NEW));
+  newModelButton.addListener(new NewModelClickListener());
+  menuBar.addButton(newModelButton);
+  Button importModelButton=new Button(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_IMPORT));
+  importModelButton.addListener(new ImportModelClickListener());
+  menuBar.addButton(importModelButton);
+  return menuBar;
 }

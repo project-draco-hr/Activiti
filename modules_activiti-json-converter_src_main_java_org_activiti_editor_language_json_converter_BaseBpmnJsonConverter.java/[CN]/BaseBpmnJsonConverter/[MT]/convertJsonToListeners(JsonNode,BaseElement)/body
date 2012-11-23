@@ -20,12 +20,14 @@
     listenerDelegateExpression=PROPERTY_EXECUTION_LISTENER_DELEGATEEXPRESSION;
   }
   listenersNode=getProperty(propertyName,objectNode);
-  if (listenersNode != null && StringUtils.isNotEmpty(listenersNode.asText())) {
-    try {
-      listenersNode=objectMapper.readTree(listenersNode.asText());
-    }
- catch (    Exception e) {
-      LOGGER.log(Level.INFO,"Listeners node can not be read",e);
+  if (listenersNode != null) {
+    if (listenersNode.isValueNode() && StringUtils.isNotEmpty(listenersNode.asText())) {
+      try {
+        listenersNode=objectMapper.readTree(listenersNode.asText());
+      }
+ catch (      Exception e) {
+        LOGGER.log(Level.INFO,"Listeners node can not be read",e);
+      }
     }
     JsonNode itemsArrayNode=listenersNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
     if (itemsArrayNode != null) {

@@ -6,7 +6,7 @@
     formType=new DateFormType(datePatternText);
   }
  else   if ("enum".equals(typeText)) {
-    Map<String,String> values=new HashMap<String,String>();
+    Map<String,String> values=new LinkedHashMap<String,String>();
     for (    Element valueElement : formPropertyElement.elementsNS(BpmnParser.ACTIVITI_BPMN_EXTENSIONS_NS,"value")) {
       String valueId=valueElement.attribute("id");
       String valueName=valueElement.attribute("name");
