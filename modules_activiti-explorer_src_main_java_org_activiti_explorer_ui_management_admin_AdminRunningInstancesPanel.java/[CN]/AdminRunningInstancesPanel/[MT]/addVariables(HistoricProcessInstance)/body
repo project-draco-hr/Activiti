@@ -27,7 +27,13 @@
     for (    String variable : variables.keySet()) {
       Item variableItem=variablesTable.addItem(variable);
       variableItem.getItemProperty("name").setValue(variable);
-      String theValue=variableRendererManager.getStringRepresentation(variables.get(variable));
+      String theValue=null;
+      try {
+        theValue=variableRendererManager.getStringRepresentation(variables.get(variable));
+      }
+ catch (      Exception e) {
+        theValue="N/A";
+      }
       variableItem.getItemProperty("value").setValue(theValue);
     }
     variablesTable.setPageLength(variables.size());
