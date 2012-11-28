@@ -1,0 +1,21 @@
+{
+  if (UpgradeUtil.getProcessEngineVersion(processEngine) == 11) {
+    ProcessDefinition processDefinition=processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey("suspendAndActivate").singleResult();
+    assertNotNull(processDefinition);
+    assertFalse(processDefinition.isSuspended());
+    assertEquals(Activiti_5_10_DataGenerator.NR_OF_INSTANCES_FOR_SUSPENSION,processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).active().count());
+    assertEquals(0,processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).suspended().count());
+    processEngine.getRepositoryService().suspendProcessDefinitionById(processDefinition.getId(),true,null);
+    try {
+      processEngine.getRuntimeService().startProcessInstanceById(processDefinition.getId());
+    }
+ catch (    ActivitiException e) {
+      assertTrue(e.getMessage().toLowerCase().contains("suspend"));
+    }
+    assertEquals(0,processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).active().count());
+    assertEquals(Activiti_5_10_DataGenerator.NR_OF_INSTANCES_FOR_SUSPENSION,processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).suspended().count());
+    processEngine.getRepositoryService().activateProcessDefinitionById(processDefinition.getId(),true,null);
+    assertEquals(Activiti_5_10_DataGenerator.NR_OF_INSTANCES_FOR_SUSPENSION,processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).active().count());
+    assertEquals(0,processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).suspended().count());
+  }
+}

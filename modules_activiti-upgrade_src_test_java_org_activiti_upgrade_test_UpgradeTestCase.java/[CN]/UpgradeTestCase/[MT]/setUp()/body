@@ -1,0 +1,9 @@
+{
+  super.setUp();
+  if (processEngine == null) {
+    String database=System.getProperty("database");
+    log.fine("Configuration properties...");
+    log.fine("database.....:" + database);
+    setProcessEngine(UpgradeUtil.createProcessEngineConfiguration(database).buildProcessEngine());
+  }
+}

@@ -1,8 +1,0 @@
-{
-  RuntimeService runtimeService=processEngine.getRuntimeService();
-  TaskService taskService=processEngine.getTaskService();
-  processEngine.getRepositoryService().createDeployment().name("simpleTaskProcess").addClasspathResource("org/activiti/upgrade/test/UserTaskBeforeTest.testSimplestTask.bpmn20.xml").deploy();
-  runtimeService.startProcessInstanceByKey("simpleTaskProcess");
-  String taskId=taskService.createTaskQuery().singleResult().getId();
-  taskService.complete(taskId);
-}
