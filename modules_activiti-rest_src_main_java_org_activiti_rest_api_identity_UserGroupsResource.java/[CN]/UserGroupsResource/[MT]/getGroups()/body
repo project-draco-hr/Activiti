@@ -4,6 +4,6 @@
   if (userId == null) {
     throw new ActivitiException("No userId provided");
   }
-  DataResponse dataResponse=new DefaultPaginateList().paginateList(getQuery(),ActivitiUtil.getIdentityService().createGroupQuery().groupMember(userId),"id",properties);
+  DataResponse dataResponse=new UserGroupsPaginateList().paginateList(getQuery(),ActivitiUtil.getIdentityService().createGroupQuery().groupMember(userId),"id",properties);
   return dataResponse;
 }
