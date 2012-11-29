@@ -1,0 +1,10 @@
+{
+  if (UpgradeUtil.getProcessEngineVersion(processEngine) == 11) {
+    ProcessDefinition processDefinition=getLatestVersionOfProcessDefinition();
+    assertNotNull(processDefinition);
+    assertNull(processDefinition.getDescription());
+    deployTestProcess();
+    processDefinition=getLatestVersionOfProcessDefinition();
+    assertEquals("This is not really a very usable process...",processDefinition.getDescription());
+  }
+}
