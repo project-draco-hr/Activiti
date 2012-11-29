@@ -1,5 +1,5 @@
 {
-  if (UpgradeUtil.getProcessEngineVersion(processEngine) == 11) {
+  if (UpgradeUtil.getProcessEngineVersion(processEngine) == 11 && isTestRunningInUpgrade("5.10","5.11")) {
     ProcessDefinition processDefinition=processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey("suspendAndActivate").singleResult();
     assertNotNull(processDefinition);
     assertFalse(processDefinition.isSuspended());
