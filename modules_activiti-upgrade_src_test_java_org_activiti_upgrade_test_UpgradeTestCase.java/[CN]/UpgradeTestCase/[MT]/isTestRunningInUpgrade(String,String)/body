@@ -1,0 +1,12 @@
+{
+  ProcessEngineConfigurationImpl processEngineConfiguration=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  return commandExecutor.execute(new Command<Boolean>(){
+    public Boolean execute(    CommandContext commandContext){
+      PropertyEntity dbHistoryProperty=commandContext.getDbSqlSession().selectById(PropertyEntity.class,"schema.history");
+      String dbHistory=dbHistoryProperty.getValue();
+      return dbHistory.contains(versionFrom + "->" + versionTo);
+    }
+  }
+);
+}
