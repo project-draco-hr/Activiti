@@ -1,14 +1,6 @@
 {
   UserTask task=new UserTask();
-  String priority=getPropertyValueAsString(PROPERTY_USERTASK_PRIORITY,elementNode);
-  if (StringUtils.isNotEmpty(priority)) {
-    try {
-      task.setPriority(Integer.valueOf(priority));
-    }
- catch (    Exception e) {
-      LOGGER.log(Level.INFO,"priority is not a number " + priority);
-    }
-  }
+  task.setPriority(getPropertyValueAsString(PROPERTY_USERTASK_PRIORITY,elementNode));
   task.setFormKey(getPropertyValueAsString(PROPERTY_USERTASK_FORMKEY,elementNode));
   task.setDueDate(getPropertyValueAsString(PROPERTY_USERTASK_DUEDATE,elementNode));
   JsonNode assignmentNode=getProperty(PROPERTY_USERTASK_ASSIGNMENT,elementNode);

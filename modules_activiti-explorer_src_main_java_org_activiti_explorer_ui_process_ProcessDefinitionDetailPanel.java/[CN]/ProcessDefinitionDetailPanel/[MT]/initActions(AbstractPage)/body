@@ -4,7 +4,7 @@
   startProcessInstanceButton.addListener(new StartProcessInstanceClickListener(processDefinition,processDefinitionPage));
   editProcessDefinitionButton=new Button(i18nManager.getMessage(Messages.PROCESS_CONVERT));
   editProcessDefinitionButton.addListener(new ConvertProcessDefinitionToModelClickListener(processDefinition));
-  if (processDefinition.getDiagramResourceName() == null) {
+  if (((ProcessDefinitionEntity)processDefinition).isGraphicalNotationDefined() == false) {
     editProcessDefinitionButton.setEnabled(false);
   }
   processDefinitionPage.getToolBar().removeAllButtons();

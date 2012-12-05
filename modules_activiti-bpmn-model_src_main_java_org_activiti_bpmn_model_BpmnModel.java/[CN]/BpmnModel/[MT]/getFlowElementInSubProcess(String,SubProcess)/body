@@ -1,0 +1,14 @@
+{
+  FlowElement foundFlowElement=subProcess.getFlowElement(id);
+  if (foundFlowElement == null) {
+    for (    FlowElement flowElement : subProcess.getFlowElements()) {
+      if (flowElement instanceof SubProcess) {
+        foundFlowElement=getFlowElementInSubProcess(id,(SubProcess)flowElement);
+        if (foundFlowElement != null) {
+          break;
+        }
+      }
+    }
+  }
+  return foundFlowElement;
+}

@@ -10,19 +10,71 @@
   stencilsetNode.put("url","../editor/stencilsets/bpmn2.0/bpmn2.0.json");
   modelNode.put("stencilset",stencilsetNode);
   ArrayNode shapesArrayNode=objectMapper.createArrayNode();
-  Process process=model.getMainProcess();
+  Process mainProcess=null;
+  if (model.getPools().size() > 0) {
+    mainProcess=model.getProcess(model.getPools().get(0).getId());
+  }
+ else {
+    mainProcess=model.getMainProcess();
+  }
   ObjectNode propertiesNode=objectMapper.createObjectNode();
-  if (StringUtils.isNotEmpty(process.getId())) {
-    propertiesNode.put(PROPERTY_PROCESS_ID,process.getId());
+  if (StringUtils.isNotEmpty(mainProcess.getId())) {
+    propertiesNode.put(PROPERTY_PROCESS_ID,mainProcess.getId());
   }
-  if (StringUtils.isNotEmpty(process.getName())) {
-    propertiesNode.put(PROPERTY_NAME,process.getName());
+  if (StringUtils.isNotEmpty(mainProcess.getName())) {
+    propertiesNode.put(PROPERTY_NAME,mainProcess.getName());
   }
-  if (StringUtils.isNotEmpty(process.getDocumentation())) {
-    propertiesNode.put(PROPERTY_DOCUMENTATION,process.getDocumentation());
+  if (StringUtils.isNotEmpty(mainProcess.getDocumentation())) {
+    propertiesNode.put(PROPERTY_DOCUMENTATION,mainProcess.getDocumentation());
   }
   modelNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
-  processFlowElements(process.getFlowElements(),model,shapesArrayNode,0.0,0.0);
+  if (model.getPools().size() > 0) {
+    for (    Pool pool : model.getPools()) {
+      GraphicInfo graphicInfo=model.getGraphicInfo(pool.getId());
+      ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,graphicInfo.x + graphicInfo.width,graphicInfo.y + graphicInfo.height,graphicInfo.x,graphicInfo.y);
+      shapesArrayNode.add(poolNode);
+      ObjectNode poolPropertiesNode=objectMapper.createObjectNode();
+      poolPropertiesNode.put(PROPERTY_OVERRIDE_ID,pool.getId());
+      if (StringUtils.isNotEmpty(pool.getName())) {
+        poolPropertiesNode.put(PROPERTY_NAME,pool.getName());
+      }
+      poolNode.put(EDITOR_SHAPE_PROPERTIES,poolPropertiesNode);
+      ArrayNode laneShapesArrayNode=objectMapper.createArrayNode();
+      poolNode.put(EDITOR_CHILD_SHAPES,laneShapesArrayNode);
+      Process process=model.getProcess(pool.getId());
+      if (process != null) {
+        for (        Lane lane : process.getLanes()) {
+          GraphicInfo laneGraphicInfo=model.getGraphicInfo(lane.getId());
+          ObjectNode laneNode=BpmnJsonConverterUtil.createChildShape(lane.getId(),STENCIL_LANE,laneGraphicInfo.x + laneGraphicInfo.width,laneGraphicInfo.y + laneGraphicInfo.height,laneGraphicInfo.x,laneGraphicInfo.y);
+          laneShapesArrayNode.add(laneNode);
+          ObjectNode lanePropertiesNode=objectMapper.createObjectNode();
+          lanePropertiesNode.put(PROPERTY_OVERRIDE_ID,lane.getId());
+          if (StringUtils.isNotEmpty(lane.getName())) {
+            lanePropertiesNode.put(PROPERTY_NAME,lane.getName());
+          }
+          laneNode.put(EDITOR_SHAPE_PROPERTIES,lanePropertiesNode);
+          ArrayNode elementShapesArrayNode=objectMapper.createArrayNode();
+          laneNode.put(EDITOR_CHILD_SHAPES,elementShapesArrayNode);
+          for (          FlowElement flowElement : process.getFlowElements()) {
+            if (lane.getFlowReferences().contains(flowElement.getId())) {
+              Class<? extends BaseBpmnJsonConverter> converter=convertersToJsonMap.get(flowElement.getClass());
+              if (converter != null) {
+                try {
+                  converter.newInstance().convertToJson(flowElement,this,model,elementShapesArrayNode,laneGraphicInfo.x,laneGraphicInfo.y);
+                }
+ catch (                Exception e) {
+                  LOGGER.log(Level.SEVERE,"Error converting " + flowElement,e);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+ else {
+    processFlowElements(model.getMainProcess().getFlowElements(),model,shapesArrayNode,0.0,0.0);
+  }
   modelNode.put(EDITOR_CHILD_SHAPES,shapesArrayNode);
   return modelNode;
 }

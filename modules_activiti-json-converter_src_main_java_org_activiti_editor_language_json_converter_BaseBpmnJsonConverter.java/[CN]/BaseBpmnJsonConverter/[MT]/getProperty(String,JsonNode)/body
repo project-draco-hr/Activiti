@@ -1,8 +1,3 @@
 {
-  JsonNode propertyNode=null;
-  if (objectNode.get(EDITOR_SHAPE_PROPERTIES) != null) {
-    JsonNode propertiesNode=objectNode.get(EDITOR_SHAPE_PROPERTIES);
-    propertyNode=propertiesNode.get(name);
-  }
-  return propertyNode;
+  return JsonConverterUtil.getProperty(name,objectNode);
 }

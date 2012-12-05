@@ -1,0 +1,16 @@
+{
+  if (model.getPools().size() > 0) {
+    xtw.writeStartElement(ELEMENT_COLLABORATION);
+    xtw.writeAttribute(ATTRIBUTE_ID,"Collaboration");
+    for (    Pool pool : model.getPools()) {
+      xtw.writeStartElement(ELEMENT_PARTICIPANT);
+      xtw.writeAttribute(ATTRIBUTE_ID,pool.getId());
+      if (StringUtils.isNotEmpty(pool.getName())) {
+        xtw.writeAttribute(ATTRIBUTE_NAME,pool.getName());
+      }
+      xtw.writeAttribute(ATTRIBUTE_PROCESS_REF,pool.getProcessRef());
+      xtw.writeEndElement();
+    }
+    xtw.writeEndElement();
+  }
+}
