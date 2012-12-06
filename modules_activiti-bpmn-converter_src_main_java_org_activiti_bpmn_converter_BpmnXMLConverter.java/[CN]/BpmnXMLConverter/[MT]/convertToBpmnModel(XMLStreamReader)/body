@@ -16,7 +16,7 @@
         activeSubProcessList.remove(activeSubProcessList.size() - 1);
       }
       if (xtr.isStartElement() == false)       continue;
-      if ("definitions".equalsIgnoreCase(xtr.getLocalName())) {
+      if (ELEMENT_DEFINITIONS.equalsIgnoreCase(xtr.getLocalName())) {
         model.setTargetNamespace(xtr.getAttributeValue(null,TARGET_NAMESPACE_ATTRIBUTE));
       }
  else       if (ELEMENT_SIGNAL.equalsIgnoreCase(xtr.getLocalName())) {
@@ -53,21 +53,8 @@
           activeProcess=process;
         }
       }
- else       if ("lane".equalsIgnoreCase(xtr.getLocalName())) {
-        Lane lane=new Lane();
-        lane.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
-        lane.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
-        lane.setParentProcess(activeProcess);
-        activeProcess.getLanes().add(lane);
-        while (xtr.hasNext()) {
-          xtr.next();
-          if (xtr.isStartElement() && "flowNodeRef".equalsIgnoreCase(xtr.getLocalName())) {
-            lane.getFlowReferences().add(xtr.getElementText());
-          }
- else           if (xtr.isEndElement() && "lane".equalsIgnoreCase(xtr.getLocalName())) {
-            break;
-          }
-        }
+ else       if (ELEMENT_LANE.equalsIgnoreCase(xtr.getLocalName())) {
+        new LaneParser().parse(xtr,activeProcess);
       }
  else       if (ELEMENT_DOCUMENTATION.equalsIgnoreCase(xtr.getLocalName())) {
         BaseElement parentElement=null;
@@ -105,7 +92,9 @@
         }
       }
     }
-    processFlowElements(model.getMainProcess().getFlowElements(),model.getMainProcess());
+    for (    Process process : model.getProcesses()) {
+      processFlowElements(process.getFlowElements(),process);
+    }
   }
  catch (  Exception e) {
     LOGGER.log(Level.SEVERE,"Error processing BPMN document",e);

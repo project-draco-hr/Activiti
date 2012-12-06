@@ -5,112 +5,32 @@
     OutputStreamWriter out=new OutputStreamWriter(outputStream,"UTF-8");
     XMLStreamWriter writer=xof.createXMLStreamWriter(out);
     XMLStreamWriter xtw=new IndentingXMLStreamWriter(writer);
-    xtw.writeStartDocument("UTF-8","1.0");
-    xtw.writeStartElement("definitions");
-    xtw.setDefaultNamespace(BPMN2_NAMESPACE);
-    xtw.writeDefaultNamespace(BPMN2_NAMESPACE);
-    xtw.writeNamespace(XSI_PREFIX,XSI_NAMESPACE);
-    xtw.writeNamespace(ACTIVITI_EXTENSIONS_PREFIX,ACTIVITI_EXTENSIONS_NAMESPACE);
-    xtw.writeNamespace(BPMNDI_PREFIX,BPMNDI_NAMESPACE);
-    xtw.writeNamespace(OMGDC_PREFIX,OMGDC_NAMESPACE);
-    xtw.writeNamespace(OMGDI_PREFIX,OMGDI_NAMESPACE);
-    xtw.writeAttribute(TYPE_LANGUAGE_ATTRIBUTE,SCHEMA_NAMESPACE);
-    xtw.writeAttribute(EXPRESSION_LANGUAGE_ATTRIBUTE,XPATH_NAMESPACE);
-    xtw.writeAttribute(TARGET_NAMESPACE_ATTRIBUTE,PROCESS_NAMESPACE);
-    for (    FlowElement flowElement : model.getMainProcess().getFlowElements()) {
-      if (flowElement instanceof Event) {
-        Event event=(Event)flowElement;
-        if (event.getEventDefinitions().size() > 0) {
-          EventDefinition eventDefinition=event.getEventDefinitions().get(0);
-          if (eventDefinition instanceof SignalEventDefinition) {
-            SignalEventDefinition signalEvent=(SignalEventDefinition)eventDefinition;
-            if (model.containsSignalId(signalEvent.getSignalRef()) == false) {
-              model.addSignal(signalEvent.getSignalRef(),signalEvent.getSignalRef());
-            }
-          }
- else           if (eventDefinition instanceof MessageEventDefinition) {
-            MessageEventDefinition messageEvent=(MessageEventDefinition)eventDefinition;
-            if (model.containsMessageId(messageEvent.getMessageRef()) == false) {
-              model.addMessage(messageEvent.getMessageRef(),messageEvent.getMessageRef());
-            }
-          }
-        }
+    DefinitionsRootExport.writeRootElement(xtw);
+    SignalAndMessageDefinitionExport.writeSignalsAndMessages(model,xtw);
+    PoolExport.writePools(model,xtw);
+    for (    Process process : model.getProcesses()) {
+      if (process.getFlowElements().size() == 0 && process.getLanes().size() == 0) {
+        continue;
       }
-    }
-    for (    Signal signal : model.getSignals()) {
-      xtw.writeStartElement(ELEMENT_SIGNAL);
-      xtw.writeAttribute(ATTRIBUTE_ID,signal.getId());
-      xtw.writeAttribute(ATTRIBUTE_NAME,signal.getName());
-      xtw.writeEndElement();
-    }
-    for (    Message message : model.getMessages()) {
-      xtw.writeStartElement(ELEMENT_MESSAGE);
-      xtw.writeAttribute(ATTRIBUTE_ID,message.getId());
-      xtw.writeAttribute(ATTRIBUTE_NAME,message.getName());
-      xtw.writeEndElement();
-    }
-    if (model.getPools().size() > 0) {
-      xtw.writeStartElement(ELEMENT_COLLABORATION);
-      xtw.writeAttribute(ATTRIBUTE_ID,"Collaboration");
-      for (      Pool pool : model.getPools()) {
-        xtw.writeStartElement(ELEMENT_PARTICIPANT);
-        xtw.writeAttribute(ATTRIBUTE_ID,pool.getId());
-        if (StringUtils.isNotEmpty(pool.getName())) {
-          xtw.writeAttribute(ATTRIBUTE_NAME,pool.getName());
-        }
-        xtw.writeAttribute(ATTRIBUTE_PROCESS_REF,pool.getProcessRef());
+      xtw.writeStartElement(ELEMENT_PROCESS);
+      xtw.writeAttribute(ATTRIBUTE_ID,process.getId());
+      if (StringUtils.isNotEmpty(process.getName())) {
+        xtw.writeAttribute(ATTRIBUTE_NAME,process.getName());
+      }
+      xtw.writeAttribute(ATTRIBUTE_PROCESS_EXECUTABLE,ATTRIBUTE_VALUE_TRUE);
+      if (StringUtils.isNotEmpty(process.getDocumentation())) {
+        xtw.writeStartElement(ELEMENT_DOCUMENTATION);
+        xtw.writeCharacters(process.getDocumentation());
         xtw.writeEndElement();
       }
-      xtw.writeEndElement();
-    }
-    xtw.writeStartElement(ELEMENT_PROCESS);
-    xtw.writeAttribute(ATTRIBUTE_ID,model.getMainProcess().getId());
-    if (StringUtils.isNotEmpty(model.getMainProcess().getName())) {
-      xtw.writeAttribute(ATTRIBUTE_NAME,model.getMainProcess().getName());
-    }
-    xtw.writeAttribute(ATTRIBUTE_PROCESS_EXECUTABLE,ATTRIBUTE_VALUE_TRUE);
-    if (StringUtils.isNotEmpty(model.getMainProcess().getDocumentation())) {
-      xtw.writeStartElement(ELEMENT_DOCUMENTATION);
-      xtw.writeCharacters(model.getMainProcess().getDocumentation());
-      xtw.writeEndElement();
-    }
-    for (    FlowElement flowElement : model.getMainProcess().getFlowElements()) {
-      createXML(flowElement,xtw);
-    }
-    xtw.writeEndElement();
-    xtw.writeStartElement(BPMNDI_PREFIX,ELEMENT_DI_DIAGRAM,BPMNDI_NAMESPACE);
-    xtw.writeAttribute(ATTRIBUTE_ID,"BPMNDiagram_" + model.getMainProcess().getId());
-    xtw.writeStartElement(BPMNDI_PREFIX,ELEMENT_DI_PLANE,BPMNDI_NAMESPACE);
-    xtw.writeAttribute(ATTRIBUTE_DI_BPMNELEMENT,model.getMainProcess().getId());
-    xtw.writeAttribute(ATTRIBUTE_ID,"BPMNPlane_" + model.getMainProcess().getId());
-    for (    String elementId : model.getLocationMap().keySet()) {
-      xtw.writeStartElement(BPMNDI_PREFIX,ELEMENT_DI_SHAPE,BPMNDI_NAMESPACE);
-      xtw.writeAttribute(ATTRIBUTE_DI_BPMNELEMENT,elementId);
-      xtw.writeAttribute(ATTRIBUTE_ID,"BPMNShape_" + elementId);
-      GraphicInfo graphicInfo=model.getGraphicInfo(elementId);
-      xtw.writeStartElement(OMGDC_PREFIX,ELEMENT_DI_BOUNDS,OMGDC_NAMESPACE);
-      xtw.writeAttribute(ATTRIBUTE_DI_HEIGHT,"" + graphicInfo.height);
-      xtw.writeAttribute(ATTRIBUTE_DI_WIDTH,"" + graphicInfo.width);
-      xtw.writeAttribute(ATTRIBUTE_DI_X,"" + graphicInfo.x);
-      xtw.writeAttribute(ATTRIBUTE_DI_Y,"" + graphicInfo.y);
-      xtw.writeEndElement();
-      xtw.writeEndElement();
-    }
-    for (    String elementId : model.getFlowLocationMap().keySet()) {
-      xtw.writeStartElement(BPMNDI_PREFIX,ELEMENT_DI_EDGE,BPMNDI_NAMESPACE);
-      xtw.writeAttribute(ATTRIBUTE_DI_BPMNELEMENT,elementId);
-      xtw.writeAttribute(ATTRIBUTE_ID,"BPMNEdge_" + elementId);
-      List<GraphicInfo> graphicInfoList=model.getFlowLocationGraphicInfo(elementId);
-      for (      GraphicInfo graphicInfo : graphicInfoList) {
-        xtw.writeStartElement(OMGDI_PREFIX,ELEMENT_DI_WAYPOINT,OMGDI_NAMESPACE);
-        xtw.writeAttribute(ATTRIBUTE_DI_X,"" + graphicInfo.x);
-        xtw.writeAttribute(ATTRIBUTE_DI_Y,"" + graphicInfo.y);
-        xtw.writeEndElement();
+      LaneExport.writeLanes(process,xtw);
+      ActivitiListenerUtil.writeListeners(process,false,xtw);
+      for (      FlowElement flowElement : process.getFlowElements()) {
+        createXML(flowElement,xtw);
       }
       xtw.writeEndElement();
     }
-    xtw.writeEndElement();
-    xtw.writeEndElement();
+    BPMNDIExport.writeBPMNDI(model,xtw);
     xtw.writeEndElement();
     xtw.writeEndDocument();
     xtw.flush();

@@ -4,7 +4,11 @@
       SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
       FlowElement sourceElement=getFlowElementFromScope(sequenceFlow.getSourceRef(),parentScope);
       if (sourceElement != null) {
-        sourceElement.addOutgoingFlow(sequenceFlow);
+        sourceElement.getOutgoingFlows().add(sequenceFlow);
+      }
+      FlowElement targetElement=getFlowElementFromScope(sequenceFlow.getTargetRef(),parentScope);
+      if (targetElement != null) {
+        targetElement.getIncomingFlows().add(sequenceFlow);
       }
     }
  else     if (flowElement instanceof BoundaryEvent) {

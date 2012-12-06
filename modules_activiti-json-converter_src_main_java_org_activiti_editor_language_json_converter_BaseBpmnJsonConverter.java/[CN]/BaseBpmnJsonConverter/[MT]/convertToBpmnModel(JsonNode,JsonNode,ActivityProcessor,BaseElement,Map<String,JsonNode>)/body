@@ -29,4 +29,9 @@
  else   if (parentElement instanceof SubProcess) {
     ((SubProcess)parentElement).addFlowElement(flowElement);
   }
+ else   if (parentElement instanceof Lane) {
+    Lane lane=(Lane)parentElement;
+    lane.getFlowReferences().add(flowElement.getId());
+    lane.getParentProcess().addFlowElement(flowElement);
+  }
 }
