@@ -1,6 +1,6 @@
 {
   CommandContext commandContext=Context.getCommandContext();
-  List<SignalEventSubscriptionEntity> findSignalEventSubscriptionsByEventName=commandContext.getEventSubscriptionManager().findSignalEventSubscriptionsByEventName(signalDefinition.getEventName());
+  List<SignalEventSubscriptionEntity> findSignalEventSubscriptionsByEventName=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(signalDefinition.getEventName());
   for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : findSignalEventSubscriptionsByEventName) {
     signalEventSubscriptionEntity.eventReceived(null,signalDefinition.isAsync());
   }

@@ -1,5 +1,5 @@
 {
-  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
+  DeploymentManager deploymentCache=Context.getProcessEngineConfiguration().getDeploymentManager();
   ProcessDefinition processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKey(configuration);
   try {
     if (!processDefinition.isSuspended()) {

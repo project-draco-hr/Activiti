@@ -1,0 +1,11 @@
+{
+  if (getHistoryManager().isHistoryEnabled()) {
+    CommandContext commandContext=Context.getCommandContext();
+    HistoricProcessInstanceEntity historicProcessInstance=findHistoricProcessInstance(historicProcessInstanceId);
+    commandContext.getHistoricDetailEntityManager().deleteHistoricDetailsByProcessInstanceId(historicProcessInstanceId);
+    commandContext.getHistoricVariableInstanceEntityManager().deleteHistoricVariableInstanceByProcessInstanceId(historicProcessInstanceId);
+    commandContext.getHistoricActivityInstanceEntityManager().deleteHistoricActivityInstancesByProcessInstanceId(historicProcessInstanceId);
+    commandContext.getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstancesByProcessInstanceId(historicProcessInstanceId);
+    getDbSqlSession().delete(historicProcessInstance);
+  }
+}

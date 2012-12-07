@@ -3,10 +3,10 @@
     throw new ActivitiException("group is null");
   }
   if (group.getRevision() == 0) {
-    commandContext.getGroupManager().insertGroup(group);
+    commandContext.getGroupEntityManager().insertGroup(group);
   }
  else {
-    commandContext.getGroupManager().updateGroup(group);
+    commandContext.getGroupEntityManager().updateGroup(group);
   }
   return null;
 }

@@ -2,7 +2,7 @@
   for (  EventSubscriptionEntity eventSubscription : eventSubscriptions) {
     ExecutionEntity compensatingExecution=null;
     if (eventSubscription.getConfiguration() != null) {
-      compensatingExecution=Context.getCommandContext().getExecutionManager().findExecutionById(eventSubscription.getConfiguration());
+      compensatingExecution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(eventSubscription.getConfiguration());
       compensatingExecution.setParent((InterpretableExecution)execution);
       compensatingExecution.setEventScope(false);
     }

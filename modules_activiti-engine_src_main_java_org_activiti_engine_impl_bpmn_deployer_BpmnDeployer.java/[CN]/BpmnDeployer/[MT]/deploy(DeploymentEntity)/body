@@ -41,8 +41,7 @@
     keyList.add(processDefinition.getKey());
   }
   CommandContext commandContext=Context.getCommandContext();
-  ProcessDefinitionManager processDefinitionManager=commandContext.getProcessDefinitionManager();
-  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
+  ProcessDefinitionEntityManager processDefinitionManager=commandContext.getProcessDefinitionEntityManager();
   DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
   for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
     if (deployment.isNew()) {
@@ -67,7 +66,6 @@
       removeObsoleteMessageEventSubscriptions(processDefinition,latestProcessDefinition);
       addMessageEventSubscriptions(processDefinition);
       dbSqlSession.insert(processDefinition);
-      deploymentCache.addProcessDefinition(processDefinition);
       addAuthorizations(processDefinition);
     }
  else {
@@ -77,10 +75,9 @@
       processDefinition.setId(persistedProcessDefinition.getId());
       processDefinition.setVersion(persistedProcessDefinition.getVersion());
       processDefinition.setSuspensionState(persistedProcessDefinition.getSuspensionState());
-      deploymentCache.addProcessDefinition(processDefinition);
       addAuthorizations(processDefinition);
     }
-    Context.getProcessEngineConfiguration().getDeploymentCache().addProcessDefinition(processDefinition);
+    Context.getProcessEngineConfiguration().getDeploymentManager().getProcessDefinitionCache().add(processDefinition.getId(),processDefinition);
     deployment.addDeployedArtifact(processDefinition);
   }
 }

@@ -2,7 +2,7 @@
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
   commandExecutor.execute(new Command<Void>(){
     public Void execute(    CommandContext commandContext){
-      JobManager jobManager=commandContext.getJobManager();
+      JobEntityManager jobManager=commandContext.getJobEntityManager();
       jobManager.send(createTweetMessage("message-one"));
       jobManager.send(createTweetMessage("message-two"));
       jobManager.send(createTweetMessage("message-three"));

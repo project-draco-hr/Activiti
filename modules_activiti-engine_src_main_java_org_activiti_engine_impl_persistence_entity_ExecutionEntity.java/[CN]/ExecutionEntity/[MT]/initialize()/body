@@ -17,7 +17,7 @@
   if (timerDeclarations != null) {
     for (    TimerDeclarationImpl timerDeclaration : timerDeclarations) {
       TimerEntity timer=timerDeclaration.prepareTimerEntity(this);
-      Context.getCommandContext().getJobManager().schedule(timer);
+      Context.getCommandContext().getJobEntityManager().schedule(timer);
     }
   }
   List<EventSubscriptionDeclaration> eventSubscriptionDeclarations=(List<EventSubscriptionDeclaration>)scope.getProperty(BpmnParse.PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION);

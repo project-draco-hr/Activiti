@@ -2,10 +2,10 @@
   DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
   dbSqlSession.delete(this);
   if (exceptionByteArrayId != null) {
-    Context.getCommandContext().getByteArrayManager().deleteByteArrayById(exceptionByteArrayId);
+    Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(exceptionByteArrayId);
   }
   if (executionId != null) {
-    ExecutionEntity execution=Context.getCommandContext().getExecutionManager().findExecutionById(executionId);
+    ExecutionEntity execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(executionId);
     execution.removeJob(this);
   }
 }

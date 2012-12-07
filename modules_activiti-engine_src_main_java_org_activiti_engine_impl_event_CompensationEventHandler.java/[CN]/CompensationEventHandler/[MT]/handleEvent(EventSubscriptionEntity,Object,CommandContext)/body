@@ -3,7 +3,7 @@
   if (configuration == null) {
     throw new ActivitiException("Compensating execution not set for compensate event subscription with id " + eventSubscription.getId());
   }
-  ExecutionEntity compensatingExecution=commandContext.getExecutionManager().findExecutionById(configuration);
+  ExecutionEntity compensatingExecution=commandContext.getExecutionEntityManager().findExecutionById(configuration);
   ActivityImpl compensationHandler=eventSubscription.getActivity();
   if ((compensationHandler.getProperty(BpmnParse.PROPERTYNAME_IS_FOR_COMPENSATION) == null || !(Boolean)compensationHandler.getProperty(BpmnParse.PROPERTYNAME_IS_FOR_COMPENSATION)) && compensationHandler.isScope()) {
     List<CompensateEventSubscriptionEntity> eventsForThisScope=compensatingExecution.getCompensateEventSubscriptions();

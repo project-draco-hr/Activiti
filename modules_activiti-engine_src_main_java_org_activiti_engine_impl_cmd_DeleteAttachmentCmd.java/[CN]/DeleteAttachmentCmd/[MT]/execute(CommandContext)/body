@@ -2,7 +2,7 @@
   AttachmentEntity attachment=commandContext.getDbSqlSession().selectById(AttachmentEntity.class,attachmentId);
   commandContext.getDbSqlSession().delete(attachment);
   if (attachment.getContentId() != null) {
-    commandContext.getByteArrayManager().deleteByteArrayById(attachment.getContentId());
+    commandContext.getByteArrayEntityManager().deleteByteArrayById(attachment.getContentId());
   }
   if (attachment.getTaskId() != null) {
     commandContext.getHistoryManager().createAttachmentComment(attachment.getTaskId(),attachment.getProcessInstanceId(),attachment.getName(),false);

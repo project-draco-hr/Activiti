@@ -3,7 +3,7 @@
   if (processDefinitionExpression != null) {
     processDefinitonKey=(String)processDefinitionExpression.getValue(execution);
   }
-  ProcessDefinitionImpl processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedLatestProcessDefinitionByKey(processDefinitonKey);
+  ProcessDefinitionImpl processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedLatestProcessDefinitionByKey(processDefinitonKey);
   PvmProcessInstance subProcessInstance=execution.createSubProcessInstance(processDefinition);
   for (  AbstractDataAssociation dataInputAssociation : dataInputAssociations) {
     Object value=null;

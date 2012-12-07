@@ -1,5 +1,5 @@
 {
-  JobEntity job=Context.getCommandContext().getJobManager().findJobById(jobId);
+  JobEntity job=Context.getCommandContext().getJobEntityManager().findJobById(jobId);
   job.setRetries(job.getRetries() - 1);
   job.setLockOwner(null);
   job.setLockExpirationTime(null);

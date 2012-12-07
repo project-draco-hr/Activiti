@@ -2,7 +2,7 @@
   DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
   dbSqlSession.insert(this);
   if (executionId != null) {
-    ExecutionEntity execution=Context.getCommandContext().getExecutionManager().findExecutionById(executionId);
+    ExecutionEntity execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(executionId);
     execution.addJob(this);
   }
 }

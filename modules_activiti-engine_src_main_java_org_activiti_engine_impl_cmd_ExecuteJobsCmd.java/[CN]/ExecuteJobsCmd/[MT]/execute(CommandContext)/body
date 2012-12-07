@@ -5,7 +5,7 @@
   if (log.isLoggable(Level.FINE)) {
     log.fine("Executing job " + jobId);
   }
-  JobEntity job=commandContext.getJobManager().findJobById(jobId);
+  JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
   if (job == null) {
     throw new JobNotFoundException(jobId);
   }

@@ -5,6 +5,6 @@
     timer.setDuedate(executionDate);
     timer.setJobHandlerType(getDelayedExecutionJobHandlerType());
     timer.setJobHandlerConfiguration(TimerChangeProcessDefinitionSuspensionStateJobHandler.createJobHandlerConfiguration(includeProcessInstances));
-    commandContext.getJobManager().schedule(timer);
+    commandContext.getJobEntityManager().schedule(timer);
   }
 }

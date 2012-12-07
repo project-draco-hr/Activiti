@@ -1,0 +1,20 @@
+{
+  if (!task.isDeleted()) {
+    task.setDeleted(true);
+    CommandContext commandContext=Context.getCommandContext();
+    String taskId=task.getId();
+    List<Task> subTasks=findTasksByParentTaskId(taskId);
+    for (    Task subTask : subTasks) {
+      deleteTask((TaskEntity)subTask,deleteReason,cascade);
+    }
+    commandContext.getIdentityLinkEntityManager().deleteIdentityLinksByTaskId(taskId);
+    commandContext.getVariableInstanceEntityManager().deleteVariableInstanceByTask(task);
+    if (cascade) {
+      commandContext.getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstanceById(taskId);
+    }
+ else {
+      commandContext.getHistoryManager().recordTaskEnd(taskId,deleteReason);
+    }
+    getDbSqlSession().delete(task);
+  }
+}

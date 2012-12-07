@@ -2,13 +2,14 @@
   DeploymentEntity deployment=deploymentBuilder.getDeployment();
   deployment.setDeploymentTime(ClockUtil.getCurrentTime());
   if (deploymentBuilder.isDuplicateFilterEnabled()) {
-    DeploymentEntity existingDeployment=Context.getCommandContext().getDeploymentManager().findLatestDeploymentByName(deployment.getName());
+    DeploymentEntity existingDeployment=Context.getCommandContext().getDeploymentEntityManager().findLatestDeploymentByName(deployment.getName());
     if ((existingDeployment != null) && !deploymentsDiffer(deployment,existingDeployment)) {
       return existingDeployment;
     }
   }
   deployment.setNew(true);
-  Context.getCommandContext().getDeploymentManager().insertDeployment(deployment);
+  Context.getCommandContext().getDeploymentEntityManager().insertDeployment(deployment);
+  Context.getProcessEngineConfiguration().getDeploymentManager().deploy(deployment);
   if (deploymentBuilder.getProcessDefinitionsActivationDate() != null) {
     scheduleProcessDefinitionActivation(commandContext,deployment);
   }

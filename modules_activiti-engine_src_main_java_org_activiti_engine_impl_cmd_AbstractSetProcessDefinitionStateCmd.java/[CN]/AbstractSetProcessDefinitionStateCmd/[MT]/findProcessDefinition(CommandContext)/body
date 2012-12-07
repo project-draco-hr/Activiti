@@ -6,7 +6,7 @@
     throw new ActivitiException("Process definition id or key cannot be null");
   }
   List<ProcessDefinitionEntity> processDefinitionEntities=new ArrayList<ProcessDefinitionEntity>();
-  ProcessDefinitionManager processDefinitionManager=commandContext.getProcessDefinitionManager();
+  ProcessDefinitionEntityManager processDefinitionManager=commandContext.getProcessDefinitionEntityManager();
   if (processDefinitionId != null) {
     ProcessDefinitionEntity processDefinitionEntity=processDefinitionManager.findLatestProcessDefinitionById(processDefinitionId);
     if (processDefinitionEntity == null) {

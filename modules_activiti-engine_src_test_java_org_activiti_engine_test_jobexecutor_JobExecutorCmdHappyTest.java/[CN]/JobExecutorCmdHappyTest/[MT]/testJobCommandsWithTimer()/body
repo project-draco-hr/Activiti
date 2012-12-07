@@ -5,7 +5,7 @@
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       TimerEntity timer=createTweetTimer("i'm coding a test",new Date(SOME_TIME + (10 * SECOND)));
-      commandContext.getJobManager().schedule(timer);
+      commandContext.getJobEntityManager().schedule(timer);
       return timer.getId();
     }
   }

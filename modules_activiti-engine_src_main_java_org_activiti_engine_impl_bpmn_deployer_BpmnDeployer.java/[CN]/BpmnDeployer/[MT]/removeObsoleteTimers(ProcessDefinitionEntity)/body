@@ -1,5 +1,5 @@
 {
-  List<Job> jobsToDelete=Context.getCommandContext().getJobManager().findJobsByConfiguration(TimerStartEventJobHandler.TYPE,processDefinition.getKey());
+  List<Job> jobsToDelete=Context.getCommandContext().getJobEntityManager().findJobsByConfiguration(TimerStartEventJobHandler.TYPE,processDefinition.getKey());
   for (  Job job : jobsToDelete) {
     new DeleteJobsCmd(job.getId()).execute(Context.getCommandContext());
   }
