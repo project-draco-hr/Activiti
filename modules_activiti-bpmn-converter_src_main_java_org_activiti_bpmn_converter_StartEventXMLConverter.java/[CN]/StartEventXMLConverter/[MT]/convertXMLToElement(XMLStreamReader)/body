@@ -1,7 +1,16 @@
 {
-  StartEvent startEvent=new StartEvent();
+  String formKey=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_FORM_FORMKEY);
+  StartEvent startEvent=null;
+  if (StringUtils.isNotEmpty(formKey)) {
+    if (formTypes.contains(formKey)) {
+      startEvent=new AlfrescoStartEvent();
+    }
+  }
+  if (startEvent == null) {
+    startEvent=new StartEvent();
+  }
   startEvent.setInitiator(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_EVENT_START_INITIATOR));
-  startEvent.setFormKey(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_FORM_FORMKEY));
+  startEvent.setFormKey(formKey);
   parseChildElements(getXMLElementName(),startEvent,xtr);
   return startEvent;
 }

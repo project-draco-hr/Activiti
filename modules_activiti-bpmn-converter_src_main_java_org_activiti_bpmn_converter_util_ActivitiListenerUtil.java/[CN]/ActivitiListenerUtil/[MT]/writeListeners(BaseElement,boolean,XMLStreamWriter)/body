@@ -32,8 +32,10 @@
  else         if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(listener.getImplementationType())) {
           BpmnXMLUtil.writeDefaultAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION,listener.getImplementation(),xtw);
         }
+        FieldExtensionUtil.writeFieldExtensions(listener.getFieldExtensions(),true,xtw);
         xtw.writeEndElement();
       }
     }
   }
+  return didWriteExtensionStartElement;
 }

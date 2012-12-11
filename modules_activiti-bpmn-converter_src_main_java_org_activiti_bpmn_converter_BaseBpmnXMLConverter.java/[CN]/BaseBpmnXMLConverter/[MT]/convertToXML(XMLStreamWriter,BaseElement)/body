@@ -1,0 +1,60 @@
+{
+  xtw.writeStartElement(getXMLElementName());
+  didWriteExtensionStartElement=false;
+  writeDefaultAttribute(ATTRIBUTE_ID,baseElement.getId(),xtw);
+  if (baseElement instanceof FlowElement) {
+    writeDefaultAttribute(ATTRIBUTE_NAME,((FlowElement)baseElement).getName(),xtw);
+  }
+  if (baseElement instanceof Activity) {
+    Activity activity=(Activity)baseElement;
+    if (activity.isAsynchronous()) {
+      writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS,ATTRIBUTE_VALUE_TRUE,xtw);
+    }
+    if (activity.isNotExclusive()) {
+      writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_EXCLUSIVE,ATTRIBUTE_VALUE_FALSE,xtw);
+    }
+    writeDefaultAttribute(ATTRIBUTE_ACTIVITY_DEFAULT,activity.getDefaultFlow(),xtw);
+  }
+  writeAdditionalAttributes(baseElement,xtw);
+  if (baseElement instanceof FlowElement) {
+    FlowElement flowElement=(FlowElement)baseElement;
+    if (StringUtils.isNotEmpty(flowElement.getDocumentation())) {
+      xtw.writeStartElement(ELEMENT_DOCUMENTATION);
+      xtw.writeCharacters(flowElement.getDocumentation());
+      xtw.writeEndElement();
+    }
+  }
+  writeAdditionalChildElements(baseElement,xtw);
+  didWriteExtensionStartElement=writeListeners(baseElement,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
+  }
+  if (baseElement instanceof Activity) {
+    Activity activity=(Activity)baseElement;
+    if (activity.getLoopCharacteristics() != null) {
+      MultiInstanceLoopCharacteristics multiInstanceObject=activity.getLoopCharacteristics();
+      if (StringUtils.isNotEmpty(multiInstanceObject.getLoopCardinality()) || StringUtils.isNotEmpty(multiInstanceObject.getInputDataItem()) || StringUtils.isNotEmpty(multiInstanceObject.getCompletionCondition())) {
+        xtw.writeStartElement(ELEMENT_MULTIINSTANCE);
+        writeDefaultAttribute(ATTRIBUTE_MULTIINSTANCE_SEQUENTIAL,String.valueOf(multiInstanceObject.isSequential()).toLowerCase(),xtw);
+        if (StringUtils.isNotEmpty(multiInstanceObject.getInputDataItem())) {
+          writeQualifiedAttribute(ATTRIBUTE_MULTIINSTANCE_COLLECTION,multiInstanceObject.getInputDataItem(),xtw);
+        }
+        if (StringUtils.isNotEmpty(multiInstanceObject.getElementVariable())) {
+          writeQualifiedAttribute(ATTRIBUTE_MULTIINSTANCE_VARIABLE,multiInstanceObject.getElementVariable(),xtw);
+        }
+        if (StringUtils.isNotEmpty(multiInstanceObject.getLoopCardinality())) {
+          xtw.writeStartElement(ELEMENT_MULTIINSTANCE_CARDINALITY);
+          xtw.writeCharacters(multiInstanceObject.getLoopCardinality());
+          xtw.writeEndElement();
+        }
+        if (StringUtils.isNotEmpty(multiInstanceObject.getCompletionCondition())) {
+          xtw.writeStartElement(ELEMENT_MULTIINSTANCE_CONDITION);
+          xtw.writeCharacters(multiInstanceObject.getCompletionCondition());
+          xtw.writeEndElement();
+        }
+        xtw.writeEndElement();
+      }
+    }
+  }
+  xtw.writeEndElement();
+}

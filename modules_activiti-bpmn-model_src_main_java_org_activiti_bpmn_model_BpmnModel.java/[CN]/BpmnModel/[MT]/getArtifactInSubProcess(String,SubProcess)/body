@@ -1,0 +1,14 @@
+{
+  Artifact foundArtifact=subProcess.getArtifact(id);
+  if (foundArtifact == null) {
+    for (    FlowElement flowElement : subProcess.getFlowElements()) {
+      if (flowElement instanceof SubProcess) {
+        foundArtifact=getArtifactInSubProcess(id,(SubProcess)flowElement);
+        if (foundArtifact != null) {
+          break;
+        }
+      }
+    }
+  }
+  return foundArtifact;
+}
