@@ -2,11 +2,11 @@
   this.cache=new LinkedHashMap<String,T>(limit + 1,0.75f,true){
     private static final long serialVersionUID=1L;
     protected boolean removeEldestEntry(    java.util.Map.Entry<String,T> eldest){
-      return size() > limit;
-    }
-    public T remove(    Object key){
-      logger.finer("Cache limit is reached, " + key + " will is evicted");
-      return super.remove(key);
+      boolean removeEldest=size() > limit;
+      if (removeEldest) {
+        logger.finer("Cache limit is reached, " + eldest.getKey() + " will be evicted");
+      }
+      return removeEldest;
     }
   }
 ;
