@@ -31,8 +31,11 @@
   convertElementToJson(propertiesNode,flowElement);
   flowElementNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
   ArrayNode outgoingArrayNode=objectMapper.createArrayNode();
-  for (  SequenceFlow sequenceFlow : flowElement.getOutgoingFlows()) {
-    outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(sequenceFlow.getId()));
+  if (flowElement instanceof FlowNode) {
+    FlowNode flowNode=(FlowNode)flowElement;
+    for (    SequenceFlow sequenceFlow : flowNode.getOutgoingFlows()) {
+      outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(sequenceFlow.getId()));
+    }
   }
   if (flowElement instanceof Activity) {
     Activity activity=(Activity)flowElement;
