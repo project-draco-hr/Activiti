@@ -3,7 +3,7 @@
   List<GraphicInfo> wayPointList=new ArrayList<GraphicInfo>();
   while (xtr.hasNext()) {
     xtr.next();
-    if (xtr.isStartElement() && "BPMNLabel".equalsIgnoreCase(xtr.getLocalName())) {
+    if (xtr.isStartElement() && ELEMENT_DI_LABEL.equalsIgnoreCase(xtr.getLocalName())) {
       while (xtr.hasNext()) {
         xtr.next();
         if (xtr.isStartElement() && ELEMENT_DI_BOUNDS.equalsIgnoreCase(xtr.getLocalName())) {
@@ -13,7 +13,7 @@
           model.addLabelGraphicInfo(id,graphicInfo);
           break;
         }
- else         if (xtr.isEndElement() && "BPMNLabel".equalsIgnoreCase(xtr.getLocalName())) {
+ else         if (xtr.isEndElement() && ELEMENT_DI_LABEL.equalsIgnoreCase(xtr.getLocalName())) {
           break;
         }
       }

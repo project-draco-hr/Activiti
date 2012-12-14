@@ -1,0 +1,20 @@
+{
+  verifyParameters(commandContext);
+  AttachmentEntity attachment=new AttachmentEntity();
+  attachment.setName(attachmentName);
+  attachment.setDescription(attachmentDescription);
+  attachment.setType(attachmentType);
+  attachment.setTaskId(taskId);
+  attachment.setProcessInstanceId(processInstanceId);
+  attachment.setUrl(url);
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  dbSqlSession.insert(attachment);
+  if (content != null) {
+    byte[] bytes=IoUtil.readInputStream(content,attachmentName);
+    ByteArrayEntity byteArray=new ByteArrayEntity(bytes);
+    dbSqlSession.insert(byteArray);
+    attachment.setContentId(byteArray.getId());
+  }
+  commandContext.getHistoryManager().createAttachmentComment(taskId,processInstanceId,attachmentName,true);
+  return attachment;
+}

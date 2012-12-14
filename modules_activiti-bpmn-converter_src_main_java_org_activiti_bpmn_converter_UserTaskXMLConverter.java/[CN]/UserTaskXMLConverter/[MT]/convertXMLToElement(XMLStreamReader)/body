@@ -1,7 +1,16 @@
 {
-  UserTask userTask=new UserTask();
+  String formKey=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_FORM_FORMKEY);
+  UserTask userTask=null;
+  if (StringUtils.isNotEmpty(formKey)) {
+    if (formTypes.contains(formKey)) {
+      userTask=new AlfrescoUserTask();
+    }
+  }
+  if (userTask == null) {
+    userTask=new UserTask();
+  }
   userTask.setDueDate(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_DUEDATE));
-  userTask.setFormKey(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_FORM_FORMKEY));
+  userTask.setFormKey(formKey);
   userTask.setAssignee(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_ASSIGNEE));
   userTask.setPriority(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_PRIORITY));
   if (StringUtils.isNotEmpty(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEUSERS))) {

@@ -12,10 +12,10 @@
     currentArtifact.setId(elementId);
     if (isInSubProcess(activeSubProcessList)) {
       final SubProcess currentSubProcess=activeSubProcessList.get(activeSubProcessList.size() - 2);
-      currentSubProcess.getArtifacts().add(currentArtifact);
+      currentSubProcess.addArtifact(currentArtifact);
     }
  else {
-      this.activeProcess.getArtifacts().add(currentArtifact);
+      this.activeProcess.addArtifact(currentArtifact);
     }
   }
   if (parsedElement instanceof FlowElement) {

@@ -1,0 +1,14 @@
+{
+  CommentEntityManager commentManager=commandContext.getCommentEntityManager();
+  ArrayList<Comment> comments=new ArrayList<Comment>();
+  if (processInstanceId != null) {
+    comments.addAll(commentManager.findCommentsByProcessInstanceId(processInstanceId));
+  }
+  if (taskId != null) {
+    comments.addAll(commentManager.findCommentsByTaskId(taskId));
+  }
+  for (  Comment comment : comments) {
+    commentManager.delete((CommentEntity)comment);
+  }
+  return null;
+}

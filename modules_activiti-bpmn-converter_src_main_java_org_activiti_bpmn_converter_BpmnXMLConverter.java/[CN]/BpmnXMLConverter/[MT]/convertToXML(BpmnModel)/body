@@ -24,9 +24,15 @@
         xtw.writeEndElement();
       }
       LaneExport.writeLanes(process,xtw);
-      ActivitiListenerUtil.writeListeners(process,false,xtw);
+      boolean wroteListener=ActivitiListenerUtil.writeListeners(process,false,xtw);
+      if (wroteListener) {
+        xtw.writeEndElement();
+      }
       for (      FlowElement flowElement : process.getFlowElements()) {
         createXML(flowElement,xtw);
+      }
+      for (      Artifact artifact : process.getArtifacts()) {
+        createXML(artifact,xtw);
       }
       xtw.writeEndElement();
     }

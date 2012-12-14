@@ -1,7 +1,6 @@
 {
   BpmnModel model=new BpmnModel();
   try {
-    boolean processExtensionAvailable=false;
     Process activeProcess=null;
     List<SubProcess> activeSubProcessList=new ArrayList<SubProcess>();
     while (xtr.hasNext()) {
@@ -45,7 +44,6 @@
  else       if (ELEMENT_PROCESS.equalsIgnoreCase(xtr.getLocalName())) {
         if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
           String processId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
-          processExtensionAvailable=true;
           Process process=new Process();
           process.setId(processId);
           process.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
@@ -75,11 +73,10 @@
  else       if (ELEMENT_DI_EDGE.equalsIgnoreCase(xtr.getLocalName())) {
         new BpmnEdgeParser().parse(xtr,model);
       }
- else       if (processExtensionAvailable == true && ELEMENT_EXECUTION_LISTENER.equalsIgnoreCase(xtr.getLocalName())) {
+ else       if (ELEMENT_EXECUTION_LISTENER.equalsIgnoreCase(xtr.getLocalName())) {
         new ExecutionListenerParser().parseChildElement(xtr,activeProcess);
       }
  else {
-        processExtensionAvailable=false;
         if (activeSubProcessList.size() > 0 && ELEMENT_EXTENSIONS.equalsIgnoreCase(xtr.getLocalName())) {
           new ExecutionListenerParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1));
         }
@@ -87,8 +84,21 @@
           new MultiInstanceParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1));
         }
  else         if (convertersToBpmnMap.containsKey(xtr.getLocalName())) {
-          Class<? extends BaseBpmnXMLConverter> converter=convertersToBpmnMap.get(xtr.getLocalName());
-          converter.newInstance().convertToBpmnModel(xtr,model,activeProcess,activeSubProcessList);
+          Class<? extends BaseBpmnXMLConverter> converterClass=convertersToBpmnMap.get(xtr.getLocalName());
+          BaseBpmnXMLConverter converter=converterClass.newInstance();
+          if (userTaskFormTypes != null && ELEMENT_TASK_USER.equals(xtr.getLocalName())) {
+            UserTaskXMLConverter userTaskConverter=(UserTaskXMLConverter)converter;
+            for (            String formType : userTaskFormTypes) {
+              userTaskConverter.addFormType(formType);
+            }
+          }
+ else           if (startEventFormTypes != null && ELEMENT_EVENT_START.equals(xtr.getLocalName())) {
+            StartEventXMLConverter startEventConverter=(StartEventXMLConverter)converter;
+            for (            String formType : startEventFormTypes) {
+              startEventConverter.addFormType(formType);
+            }
+          }
+          converter.convertToBpmnModel(xtr,model,activeProcess,activeSubProcessList);
         }
       }
     }

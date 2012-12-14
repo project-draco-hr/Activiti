@@ -1,0 +1,25 @@
+{
+  Artifact foundArtifact=null;
+  for (  Process process : processes) {
+    foundArtifact=process.getArtifact(id);
+    if (foundArtifact != null) {
+      break;
+    }
+  }
+  if (foundArtifact == null) {
+    for (    Process process : processes) {
+      for (      FlowElement flowElement : process.getFlowElements()) {
+        if (flowElement instanceof SubProcess) {
+          foundArtifact=getArtifactInSubProcess(id,(SubProcess)flowElement);
+          if (foundArtifact != null) {
+            break;
+          }
+        }
+      }
+      if (foundArtifact != null) {
+        break;
+      }
+    }
+  }
+  return foundArtifact;
+}

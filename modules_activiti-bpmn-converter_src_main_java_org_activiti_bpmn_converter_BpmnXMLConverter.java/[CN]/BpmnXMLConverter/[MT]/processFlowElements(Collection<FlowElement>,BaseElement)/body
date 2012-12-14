@@ -2,18 +2,18 @@
   for (  FlowElement flowElement : flowElementList) {
     if (flowElement instanceof SequenceFlow) {
       SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
-      FlowElement sourceElement=getFlowElementFromScope(sequenceFlow.getSourceRef(),parentScope);
-      if (sourceElement != null) {
-        sourceElement.getOutgoingFlows().add(sequenceFlow);
+      FlowNode sourceNode=getFlowNodeFromScope(sequenceFlow.getSourceRef(),parentScope);
+      if (sourceNode != null) {
+        sourceNode.getOutgoingFlows().add(sequenceFlow);
       }
-      FlowElement targetElement=getFlowElementFromScope(sequenceFlow.getTargetRef(),parentScope);
-      if (targetElement != null) {
-        targetElement.getIncomingFlows().add(sequenceFlow);
+      FlowNode targetNode=getFlowNodeFromScope(sequenceFlow.getTargetRef(),parentScope);
+      if (targetNode != null) {
+        targetNode.getIncomingFlows().add(sequenceFlow);
       }
     }
  else     if (flowElement instanceof BoundaryEvent) {
       BoundaryEvent boundaryEvent=(BoundaryEvent)flowElement;
-      FlowElement attachedToElement=getFlowElementFromScope(boundaryEvent.getAttachedToRefId(),parentScope);
+      FlowElement attachedToElement=getFlowNodeFromScope(boundaryEvent.getAttachedToRefId(),parentScope);
       if (attachedToElement != null) {
         boundaryEvent.setAttachedToRef((Activity)attachedToElement);
         ((Activity)attachedToElement).getBoundaryEvents().add(boundaryEvent);
