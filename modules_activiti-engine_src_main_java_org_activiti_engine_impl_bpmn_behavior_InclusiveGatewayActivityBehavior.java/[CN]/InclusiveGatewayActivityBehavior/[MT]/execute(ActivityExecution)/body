@@ -3,8 +3,8 @@
   lockConcurrentRoot(execution);
   PvmActivity activity=execution.getActivity();
   if (!activeConcurrentExecutionsExist(execution)) {
-    if (log.isLoggable(Level.FINE)) {
-      log.fine("inclusive gateway '" + activity.getId() + "' activates");
+    if (log.isDebugEnabled()) {
+      log.debug("inclusive gateway '{}' activates",activity.getId());
     }
     List<ActivityExecution> joinedExecutions=execution.findInactiveConcurrentExecutions(activity);
     String defaultSequenceFlow=(String)execution.getActivity().getProperty("default");
@@ -36,8 +36,8 @@
     }
   }
  else {
-    if (log.isLoggable(Level.FINE)) {
-      log.fine("Inclusive gateway '" + activity.getId() + "' does not activate");
+    if (log.isDebugEnabled()) {
+      log.debug("Inclusive gateway '{}' does not activate",activity.getId());
     }
   }
 }

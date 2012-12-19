@@ -4,7 +4,7 @@
   Throwable throwable=null;
   if (classLoader != null) {
     try {
-      LOG.finest("Trying to load class with custom classloader: " + className);
+      LOG.trace("Trying to load class with custom classloader: {}",className);
       clazz=Class.forName(className,true,classLoader);
     }
  catch (    Throwable t) {
@@ -13,7 +13,7 @@
   }
   if (clazz == null) {
     try {
-      LOG.finest("Trying to load class with current thread context classloader: " + className);
+      LOG.trace("Trying to load class with current thread context classloader: {}",className);
       clazz=Class.forName(className,true,Thread.currentThread().getContextClassLoader());
     }
  catch (    Throwable t) {
@@ -23,7 +23,7 @@
     }
     if (clazz == null) {
       try {
-        LOG.finest("Trying to load class with local classloader: " + className);
+        LOG.trace("Trying to load class with local classloader: {}",className);
         clazz=Class.forName(className,true,ReflectUtil.class.getClassLoader());
       }
  catch (      Throwable t) {

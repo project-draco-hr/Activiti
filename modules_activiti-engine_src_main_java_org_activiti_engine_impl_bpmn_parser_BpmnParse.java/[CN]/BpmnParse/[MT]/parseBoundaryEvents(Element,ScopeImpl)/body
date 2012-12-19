@@ -5,8 +5,8 @@
       addError("AttachedToRef is required when using a timerEventDefinition",boundaryEventElement);
     }
     String id=boundaryEventElement.attribute("id");
-    if (LOGGER.isLoggable(Level.FINE)) {
-      LOGGER.fine("Parsing boundary event " + id);
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Parsing boundary event {}",id);
     }
     ActivityImpl parentActivity=scopeElement.findActivity(attachedToRef);
     if (parentActivity == null) {

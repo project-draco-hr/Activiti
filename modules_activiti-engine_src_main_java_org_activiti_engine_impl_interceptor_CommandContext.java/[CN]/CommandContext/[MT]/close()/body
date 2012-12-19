@@ -19,14 +19,12 @@
           exception(exception);
         }
         if (exception != null) {
-          Level loggingLevel=Level.SEVERE;
-          if (exception instanceof JobNotFoundException) {
-            loggingLevel=Level.INFO;
+          if (exception instanceof JobNotFoundException || exception instanceof ActivitiTaskAlreadyClaimedException) {
+            log.info("Error while closing command context",exception);
           }
- else           if (exception instanceof ActivitiTaskAlreadyClaimedException) {
-            loggingLevel=Level.INFO;
+ else {
+            log.error("Error while closing command context",exception);
           }
-          log.log(loggingLevel,"Error while closing command context",exception);
           transactionContext.rollback();
         }
       }

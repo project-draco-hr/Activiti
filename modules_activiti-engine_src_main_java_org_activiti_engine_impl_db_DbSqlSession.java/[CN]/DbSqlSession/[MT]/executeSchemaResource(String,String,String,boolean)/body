@@ -4,7 +4,7 @@
     inputStream=ReflectUtil.getResourceAsStream(resourceName);
     if (inputStream == null) {
       if (isOptional) {
-        log.fine("no schema resource " + resourceName + " for "+ operation);
+        log.debug("no schema resource {} for {}",resourceName,operation);
       }
  else {
         throw new ActivitiException("resource '" + resourceName + "' is not available");

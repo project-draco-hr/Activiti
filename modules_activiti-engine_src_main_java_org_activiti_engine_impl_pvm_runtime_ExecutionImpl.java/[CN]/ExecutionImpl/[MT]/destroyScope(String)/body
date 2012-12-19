@@ -1,7 +1,5 @@
 {
-  if (log.isLoggable(Level.FINE)) {
-    log.fine("performing destroy scope behavior for execution " + this);
-  }
+  log.debug("performing destroy scope behavior for execution {}",this);
   List<InterpretableExecution> executions=new ArrayList<InterpretableExecution>(getExecutions());
   for (  InterpretableExecution childExecution : executions) {
     if (childExecution.getSubProcessInstance() != null) {

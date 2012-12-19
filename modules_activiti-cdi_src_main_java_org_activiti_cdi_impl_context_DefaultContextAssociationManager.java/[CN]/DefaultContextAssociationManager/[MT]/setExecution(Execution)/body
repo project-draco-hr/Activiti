@@ -10,8 +10,8 @@
   if (associatedExecution != null && !associatedExecution.getId().equals(execution.getId())) {
     throw new ActivitiCdiException("Cannot associate " + execution + ", already associated with "+ associatedExecution+ ". Disassociate first!");
   }
-  if (log.isLoggable(Level.FINE)) {
-    log.fine("Associating " + execution + " (@"+ scopedAssociation.getClass().getAnnotations()[0].annotationType().getSimpleName()+ ")");
+  if (log.isTraceEnabled()) {
+    log.trace("Associating {} (@{})",execution,scopedAssociation.getClass().getAnnotations()[0].annotationType().getSimpleName());
   }
   scopedAssociation.setExecution(execution);
 }

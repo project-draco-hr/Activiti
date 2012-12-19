@@ -8,8 +8,8 @@
   processDefinition.setProperty(PROPERTYNAME_DOCUMENTATION,parseDocumentation(processElement));
   processDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
   processDefinition.setDeploymentId(deployment.getId());
-  if (LOGGER.isLoggable(Level.FINE)) {
-    LOGGER.fine("Parsing process " + processDefinition.getKey());
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Parsing process {}",processDefinition.getKey());
   }
   parseScope(processElement,processDefinition);
   parseLaneSets(processElement,processDefinition);

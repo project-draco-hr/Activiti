@@ -2,7 +2,7 @@
   ProxyFactory proxyFactoryBean=new ProxyFactory(ProcessInstance.class,new MethodInterceptor(){
     public Object invoke(    MethodInvocation methodInvocation) throws Throwable {
       String methodName=methodInvocation.getMethod().getName();
-      logger.info("method invocation for " + methodName + ".");
+      logger.info("method invocation for {}.",methodName);
       if (methodName.equals("toString"))       return "SharedProcessInstance";
       ProcessInstance processInstance=Context.getExecutionContext().getProcessInstance();
       Method method=methodInvocation.getMethod();

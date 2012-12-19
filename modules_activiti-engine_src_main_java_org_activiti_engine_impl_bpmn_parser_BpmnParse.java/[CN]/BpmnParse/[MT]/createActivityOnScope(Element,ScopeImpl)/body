@@ -1,7 +1,7 @@
 {
   String id=activityElement.attribute("id");
-  if (LOGGER.isLoggable(Level.FINE)) {
-    LOGGER.fine("Parsing activity " + id);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Parsing activity {}",id);
   }
   ActivityImpl activity=scopeElement.createActivity(id);
   activity.setProperty("name",activityElement.attribute("name"));

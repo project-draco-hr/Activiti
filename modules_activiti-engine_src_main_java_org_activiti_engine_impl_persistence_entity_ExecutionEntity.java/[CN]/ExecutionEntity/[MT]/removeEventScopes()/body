@@ -2,7 +2,7 @@
   List<InterpretableExecution> childExecutions=new ArrayList<InterpretableExecution>(getExecutions());
   for (  InterpretableExecution childExecution : childExecutions) {
     if (childExecution.isEventScope()) {
-      log.fine("removing eventScope " + childExecution);
+      log.debug("removing eventScope {}",childExecution);
       childExecution.destroy();
       childExecution.remove();
     }

@@ -4,12 +4,12 @@
     connection=dataSource.getConnection();
     DatabaseMetaData databaseMetaData=connection.getMetaData();
     String databaseProductName=databaseMetaData.getDatabaseProductName();
-    log.fine("database product name: '" + databaseProductName + "'");
+    log.debug("database product name: '{}'",databaseProductName);
     databaseType=databaseTypeMappings.getProperty(databaseProductName);
     if (databaseType == null) {
       throw new ActivitiException("couldn't deduct database type from database product name '" + databaseProductName + "'");
     }
-    log.fine("using database type: " + databaseType);
+    log.debug("using database type: {}",databaseType);
   }
  catch (  SQLException e) {
     e.printStackTrace();

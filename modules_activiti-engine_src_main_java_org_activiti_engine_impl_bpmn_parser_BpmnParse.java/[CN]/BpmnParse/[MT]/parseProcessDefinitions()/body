@@ -5,11 +5,11 @@
     if (isExecutableStr != null) {
       if (!Boolean.parseBoolean(isExecutableStr)) {
         isExecutable=false;
-        LOGGER.info("Ignoring non-executable process with id='" + processElement.attribute("id") + "'. Set the attribute isExecutable=\"true\" to deploy this process.");
+        LOGGER.info("Ignoring non-executable process with id='{}'. Set the attribute isExecutable=\"true\" to deploy this process.",processElement.attribute("id"));
       }
     }
  else {
-      LOGGER.info("Process with id='" + processElement.attribute("id") + "' has no attribute isExecutable. Assuming it is executable. Better set the attribute explicitely, especially to be compatible with future engine versions which might change the default behavior.");
+      LOGGER.info("Process with id='{}' has no attribute isExecutable. Assuming it is executable. Better set the attribute explicitely, especially to be compatible with future engine versions which might change the default behavior.",processElement.attribute("id"));
     }
     if (isExecutable) {
       processDefinitions.add(parseProcess(processElement));

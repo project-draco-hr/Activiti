@@ -1,11 +1,5 @@
 {
-  if (LOGGER.isLoggable(Level.FINE)) {
-    StringBuilder strb=new StringBuilder();
-    strb.append("Multi-instance '" + execution.getActivity() + "' "+ custom+ ". ");
-    strb.append("Details: loopCounter=" + loopCounter + ", ");
-    strb.append("nrOrCompletedInstances=" + nrOfCompletedInstances + ", ");
-    strb.append("nrOfActiveInstances=" + nrOfActiveInstances + ", ");
-    strb.append("nrOfInstances=" + nrOfInstances);
-    LOGGER.fine(strb.toString());
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Multi-instance '{}' {}. Details: loopCounter={}, nrOrCompletedInstances={},nrOfActiveInstances={},nrOfInstances={}",execution.getActivity(),custom,loopCounter,nrOfCompletedInstances,nrOfActiveInstances,nrOfInstances);
   }
 }

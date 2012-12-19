@@ -4,7 +4,7 @@
     protected boolean removeEldestEntry(    java.util.Map.Entry<String,T> eldest){
       boolean removeEldest=size() > limit;
       if (removeEldest) {
-        logger.finer("Cache limit is reached, " + eldest.getKey() + " will be evicted");
+        logger.trace("Cache limit is reached, {} will be evicted",eldest.getKey());
       }
       return removeEldest;
     }

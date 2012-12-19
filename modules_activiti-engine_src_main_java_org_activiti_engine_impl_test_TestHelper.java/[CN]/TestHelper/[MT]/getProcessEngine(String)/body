@@ -1,9 +1,9 @@
 {
   ProcessEngine processEngine=processEngines.get(configurationResource);
   if (processEngine == null) {
-    log.fine("==== BUILDING PROCESS ENGINE ========================================================================");
+    log.debug("==== BUILDING PROCESS ENGINE ========================================================================");
     processEngine=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(configurationResource).buildProcessEngine();
-    log.fine("==== PROCESS ENGINE CREATED =========================================================================");
+    log.debug("==== PROCESS ENGINE CREATED =========================================================================");
     processEngines.put(configurationResource,processEngine);
   }
   return processEngine;

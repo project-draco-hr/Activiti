@@ -5,8 +5,8 @@
       Context.setExecutionContext(execution);
       while (!nextOperations.isEmpty()) {
         AtomicOperation currentOperation=nextOperations.removeFirst();
-        if (log.isLoggable(Level.FINEST)) {
-          log.finest("AtomicOperation: " + currentOperation + " on "+ this);
+        if (log.isTraceEnabled()) {
+          log.trace("AtomicOperation: {} on {}",currentOperation,this);
         }
         currentOperation.execute(execution);
       }

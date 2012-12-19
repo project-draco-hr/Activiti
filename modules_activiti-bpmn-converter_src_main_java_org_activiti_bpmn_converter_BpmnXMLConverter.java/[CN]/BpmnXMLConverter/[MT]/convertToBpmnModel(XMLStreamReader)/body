@@ -8,7 +8,7 @@
         xtr.next();
       }
  catch (      Exception e) {
-        LOGGER.log(Level.SEVERE,"Error reading XML document",e);
+        LOGGER.error("Error reading XML document",e);
         return model;
       }
       if (xtr.isEndElement() && ELEMENT_SUBPROCESS.equalsIgnoreCase(xtr.getLocalName())) {
@@ -107,7 +107,7 @@
     }
   }
  catch (  Exception e) {
-    LOGGER.log(Level.SEVERE,"Error processing BPMN document",e);
+    LOGGER.error("Error processing BPMN document",e);
   }
   return model;
 }

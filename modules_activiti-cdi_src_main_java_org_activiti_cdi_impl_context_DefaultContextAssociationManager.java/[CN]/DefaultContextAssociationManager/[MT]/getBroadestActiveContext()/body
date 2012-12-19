@@ -9,7 +9,7 @@
       return scopeType;
     }
  catch (    ContextNotActiveException e) {
-      log.finest("Context " + scopeAnnotation.annotationType() + " not active.");
+      log.trace("Context {} not active.",scopeAnnotation.annotationType());
     }
   }
   throw new ActivitiException("Could not determine an active context to associate the current process instance / task instance with.");
