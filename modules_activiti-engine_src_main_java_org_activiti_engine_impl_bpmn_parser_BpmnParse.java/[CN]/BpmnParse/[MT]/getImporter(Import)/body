@@ -1,0 +1,20 @@
+{
+  if (this.importers.containsKey(theImport.getImportType())) {
+    return this.importers.get(theImport.getImportType());
+  }
+ else {
+    if (theImport.getImportType().equals("http://schemas.xmlsoap.org/wsdl/")) {
+      Class<?> wsdlImporterClass;
+      try {
+        wsdlImporterClass=Class.forName("org.activiti.engine.impl.webservice.CxfWSDLImporter",true,Thread.currentThread().getContextClassLoader());
+        XMLImporter newInstance=(XMLImporter)wsdlImporterClass.newInstance();
+        this.importers.put(theImport.getImportType(),newInstance);
+        return newInstance;
+      }
+ catch (      Exception e) {
+        bpmnModel.addProblem("Could not find importer for type " + theImport.getImportType(),"import");
+      }
+    }
+    return null;
+  }
+}

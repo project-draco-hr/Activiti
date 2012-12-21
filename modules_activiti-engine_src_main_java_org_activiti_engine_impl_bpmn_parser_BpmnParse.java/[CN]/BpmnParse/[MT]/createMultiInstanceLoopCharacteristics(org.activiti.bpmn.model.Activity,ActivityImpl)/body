@@ -1,0 +1,42 @@
+{
+  MultiInstanceActivityBehavior miActivityBehavior=null;
+  MultiInstanceLoopCharacteristics loopCharacteristics=modelActivity.getLoopCharacteristics();
+  if (loopCharacteristics == null) {
+    return;
+  }
+  if (loopCharacteristics.isSequential()) {
+    miActivityBehavior=new SequentialMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+  }
+ else {
+    miActivityBehavior=new ParallelMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+  }
+  activity.setScope(true);
+  activity.setProperty("multiInstance",loopCharacteristics.isSequential() ? "sequential" : "parallel");
+  activity.setActivityBehavior(miActivityBehavior);
+  if (StringUtils.isNotEmpty(loopCharacteristics.getLoopCardinality())) {
+    miActivityBehavior.setLoopCardinalityExpression(expressionManager.createExpression(loopCharacteristics.getLoopCardinality()));
+  }
+  if (StringUtils.isNotEmpty(loopCharacteristics.getCompletionCondition())) {
+    miActivityBehavior.setCompletionConditionExpression(expressionManager.createExpression(loopCharacteristics.getCompletionCondition()));
+  }
+  if (StringUtils.isNotEmpty(loopCharacteristics.getInputDataItem())) {
+    if (loopCharacteristics.getInputDataItem().contains("{")) {
+      miActivityBehavior.setCollectionExpression(expressionManager.createExpression(loopCharacteristics.getInputDataItem()));
+    }
+ else {
+      miActivityBehavior.setCollectionVariable(loopCharacteristics.getInputDataItem());
+    }
+  }
+  if (StringUtils.isNotEmpty(loopCharacteristics.getElementVariable())) {
+    miActivityBehavior.setCollectionElementVariable(loopCharacteristics.getElementVariable());
+  }
+  if (miActivityBehavior.getLoopCardinalityExpression() == null && miActivityBehavior.getCollectionExpression() == null && miActivityBehavior.getCollectionVariable() == null) {
+    bpmnModel.addProblem("Either loopCardinality or loopDataInputRef/activiti:collection must been set.",modelActivity.getId());
+  }
+  if (miActivityBehavior.getCollectionExpression() == null && miActivityBehavior.getCollectionVariable() == null && miActivityBehavior.getCollectionElementVariable() != null) {
+    bpmnModel.addProblem("LoopDataInputRef/activiti:collection must be set when using inputDataItem or activiti:elementVariable.",modelActivity.getId());
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseMultiInstanceLoopCharacteristics(modelActivity,loopCharacteristics,activity);
+  }
+}

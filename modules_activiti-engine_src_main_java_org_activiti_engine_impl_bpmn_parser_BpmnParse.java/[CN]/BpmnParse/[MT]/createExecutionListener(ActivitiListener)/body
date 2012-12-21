@@ -1,0 +1,13 @@
+{
+  ExecutionListener executionListener=null;
+  if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(activitiListener.getImplementationType())) {
+    executionListener=new ClassDelegate(activitiListener.getImplementation(),createFieldDeclarations(activitiListener.getFieldExtensions()));
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(activitiListener.getImplementationType())) {
+    executionListener=new ExpressionExecutionListener(expressionManager.createExpression(activitiListener.getImplementation()));
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(activitiListener.getImplementationType())) {
+    executionListener=new DelegateExpressionExecutionListener(expressionManager.createExpression(activitiListener.getImplementation()),createFieldDeclarations(activitiListener.getFieldExtensions()));
+  }
+  return executionListener;
+}

@@ -1,0 +1,20 @@
+{
+  AbstractFormType formType=null;
+  if ("date".equals(formProperty.getType()) && StringUtils.isNotEmpty(formProperty.getDatePattern())) {
+    formType=new DateFormType(formProperty.getDatePattern());
+  }
+ else   if ("enum".equals(formProperty.getType())) {
+    Map<String,String> values=new LinkedHashMap<String,String>();
+    for (    FormValue formValue : formProperty.getFormValues()) {
+      values.put(formValue.getId(),formValue.getName());
+    }
+    formType=new EnumFormType(values);
+  }
+ else   if (StringUtils.isNotEmpty(formProperty.getType())) {
+    formType=formTypes.get(formProperty.getType());
+    if (formType == null) {
+      throw new ActivitiException("unknown type '" + formProperty.getType() + "' "+ formProperty.getId());
+    }
+  }
+  return formType;
+}

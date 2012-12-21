@@ -1,0 +1,9 @@
+{
+  if (processDefinition.getInitial() != null) {
+    if (startEvent.getId().equals(processDefinition.getInitial().getId())) {
+      StartFormHandler startFormHandler=new DefaultStartFormHandler();
+      startFormHandler.parseConfiguration(startEvent.getFormProperties(),startEvent.getFormKey(),deployment,processDefinition);
+      processDefinition.setStartFormHandler(startFormHandler);
+    }
+  }
+}

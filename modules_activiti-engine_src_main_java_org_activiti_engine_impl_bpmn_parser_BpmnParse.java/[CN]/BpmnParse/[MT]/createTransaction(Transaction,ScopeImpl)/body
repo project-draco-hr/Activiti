@@ -1,0 +1,17 @@
+{
+  ActivityImpl activity=createActivityOnScope(transaction,ELEMENT_TRANSACTION,scope);
+  activity.setAsync(transaction.isAsynchronous());
+  activity.setExclusive(!transaction.isNotExclusive());
+  activity.setScope(true);
+  activity.setActivityBehavior(new TransactionActivityBehavior());
+  processFlowElements(transaction.getFlowElements(),activity);
+  processArtifacts(transaction.getArtifacts(),activity);
+  if (transaction.getIoSpecification() != null) {
+    IOSpecification ioSpecification=createIOSpecification(transaction.getIoSpecification());
+    activity.setIoSpecification(ioSpecification);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseTransaction(transaction,scope,activity);
+  }
+  return activity;
+}

@@ -19,6 +19,17 @@
         writeDefaultAttribute(ATTRIBUTE_FORM_TYPE,property.getType(),xtw);
         writeDefaultAttribute(ATTRIBUTE_FORM_EXPRESSION,property.getExpression(),xtw);
         writeDefaultAttribute(ATTRIBUTE_FORM_VARIABLE,property.getVariable(),xtw);
+        writeDefaultAttribute(ATTRIBUTE_FORM_DEFAULT,property.getDefaultExpression(),xtw);
+        writeDefaultAttribute(ATTRIBUTE_FORM_DATEPATTERN,property.getDatePattern(),xtw);
+        if (property.isReadable() == false) {
+          writeDefaultAttribute(ATTRIBUTE_FORM_READABLE,ATTRIBUTE_VALUE_FALSE,xtw);
+        }
+        if (property.isWriteable() == false) {
+          writeDefaultAttribute(ATTRIBUTE_FORM_WRITABLE,ATTRIBUTE_VALUE_FALSE,xtw);
+        }
+        if (property.isRequired()) {
+          writeDefaultAttribute(ATTRIBUTE_FORM_REQUIRED,ATTRIBUTE_VALUE_TRUE,xtw);
+        }
         xtw.writeEndElement();
       }
     }

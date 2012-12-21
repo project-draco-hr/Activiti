@@ -1,0 +1,16 @@
+{
+  sequenceFlows=new HashMap<String,TransitionImpl>();
+  for (  Process process : bpmnModel.getProcesses()) {
+    if (process.isExecutable() == false) {
+      LOGGER.info("Ignoring non-executable process with id='" + process.getId() + "'. Set the attribute isExecutable=\"true\" to deploy this process.");
+    }
+ else {
+      processDefinitions.add(transformProcess(process));
+    }
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+  }
+  if (processDefinitions.size() > 0) {
+    processDI();
+  }
+}

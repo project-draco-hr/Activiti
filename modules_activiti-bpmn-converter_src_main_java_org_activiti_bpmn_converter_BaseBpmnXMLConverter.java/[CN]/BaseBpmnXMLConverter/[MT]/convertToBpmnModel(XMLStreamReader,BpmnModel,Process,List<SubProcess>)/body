@@ -6,6 +6,7 @@
   boolean async=parseAsync(xtr);
   boolean notExclusive=parseNotExclusive(xtr);
   String defaultFlow=xtr.getAttributeValue(null,"default");
+  boolean isForCompensation=parseForCompensation(xtr);
   BaseElement parsedElement=convertXMLToElement(xtr);
   if (parsedElement instanceof Artifact) {
     Artifact currentArtifact=(Artifact)parsedElement;
@@ -26,6 +27,7 @@
       Activity activity=(Activity)currentFlowElement;
       activity.setAsynchronous(async);
       activity.setNotExclusive(notExclusive);
+      activity.setForCompensation(isForCompensation);
       if (StringUtils.isNotEmpty(defaultFlow)) {
         activity.setDefaultFlow(defaultFlow);
       }

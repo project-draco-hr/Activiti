@@ -1,0 +1,31 @@
+{
+  ProcessDefinitionEntity processDefinition=new ProcessDefinitionEntity();
+  processDefinition.setKey(process.getId());
+  processDefinition.setName(process.getName());
+  processDefinition.setCategory(process.getTargetNamespace());
+  processDefinition.setDescription(process.getDocumentation());
+  processDefinition.setProperty(PROPERTYNAME_DOCUMENTATION,process.getDocumentation());
+  processDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
+  processDefinition.setDeploymentId(deployment.getId());
+  createExecutionListenersOnScope(process.getExecutionListeners(),processDefinition);
+  for (  String candidateUser : process.getCandidateStarterUsers()) {
+    processDefinition.addCandidateStarterUserIdExpression(expressionManager.createExpression(candidateUser));
+  }
+  for (  String candidateGroup : process.getCandidateStarterGroups()) {
+    processDefinition.addCandidateStarterGroupIdExpression(expressionManager.createExpression(candidateGroup));
+  }
+  if (LOGGER.isLoggable(Level.FINE)) {
+    LOGGER.fine("Parsing process " + processDefinition.getKey());
+  }
+  processFlowElements(process.getFlowElements(),processDefinition);
+  processArtifacts(process.getArtifacts(),processDefinition);
+  if (process.getIoSpecification() != null) {
+    IOSpecification ioSpecification=createIOSpecification(process.getIoSpecification());
+    processDefinition.setIoSpecification(ioSpecification);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseProcess(process,processDefinition);
+  }
+  validateActivities(processDefinition.getActivities());
+  return processDefinition;
+}

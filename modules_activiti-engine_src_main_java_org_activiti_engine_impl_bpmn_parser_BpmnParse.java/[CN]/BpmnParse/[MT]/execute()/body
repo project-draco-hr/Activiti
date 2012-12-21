@@ -1,19 +1,26 @@
 {
-  super.execute();
+  BpmnXMLConverter converter=new BpmnXMLConverter();
+  XMLInputFactory xif=XMLInputFactory.newInstance();
   try {
-    parseRootElement();
+    InputStreamReader in=new InputStreamReader(streamSource.getInputStream(),"UTF-8");
+    XMLStreamReader xtr=xif.createXMLStreamReader(in);
+    bpmnModel=converter.convertToBpmnModel(xtr);
+    createImports();
+    createItemDefinitions();
+    createMessages();
+    createOperations();
+    transformProcessDefinitions();
   }
  catch (  Exception e) {
-    LOGGER.log(Level.SEVERE,"Unknown exception",e);
-    throw new ActivitiException("Error while parsing process: " + e.getMessage(),e);
+    throw new ActivitiException("Error parsing XML",e);
   }
- finally {
-    if (hasWarnings()) {
-      logWarnings();
+  if (bpmnModel.getProblems().size() > 0) {
+    StringBuilder problemBuilder=new StringBuilder();
+    for (    Problem error : bpmnModel.getProblems()) {
+      problemBuilder.append(error.toString());
+      problemBuilder.append("\n");
     }
-    if (hasErrors()) {
-      throwActivitiExceptionForErrors();
-    }
+    throw new ActivitiException("Errors while parsing:\n" + problemBuilder.toString());
   }
   return this;
 }

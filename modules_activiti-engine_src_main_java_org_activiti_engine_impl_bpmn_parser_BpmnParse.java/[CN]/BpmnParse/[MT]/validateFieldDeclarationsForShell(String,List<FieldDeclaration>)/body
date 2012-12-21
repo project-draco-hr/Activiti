@@ -1,0 +1,15 @@
+{
+  boolean shellCommandDefined=false;
+  for (  FieldDeclaration fieldDeclaration : fieldDeclarations) {
+    String fieldName=fieldDeclaration.getName();
+    FixedValue fieldFixedValue=(FixedValue)fieldDeclaration.getValue();
+    String fieldValue=fieldFixedValue.getExpressionText();
+    shellCommandDefined|=fieldName.equals("command");
+    if ((fieldName.equals("wait") || fieldName.equals("redirectError") || fieldName.equals("cleanEnv")) && !fieldValue.toLowerCase().equals("true") && !fieldValue.toLowerCase().equals("false")) {
+      bpmnModel.addProblem("undefined value for shell " + fieldName + " parameter :"+ fieldValue.toString()+ ".",taskId);
+    }
+  }
+  if (!shellCommandDefined) {
+    bpmnModel.addProblem("No shell command is defined on the shell activity",taskId);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  if (LOGGER.isLoggable(Level.FINE)) {
+    LOGGER.fine("Parsing activity " + flowElement.getId());
+  }
+  ActivityImpl activity=scopeElement.createActivity(flowElement.getId());
+  activity.setProperty("name",flowElement.getName());
+  activity.setProperty("documentation",flowElement.getDocumentation());
+  if (flowElement instanceof Activity) {
+    Activity modelActivity=(Activity)flowElement;
+    activity.setProperty("default",modelActivity.getDefaultFlow());
+    if (modelActivity.isForCompensation()) {
+      activity.setProperty(PROPERTYNAME_IS_FOR_COMPENSATION,true);
+    }
+  }
+ else   if (flowElement instanceof Gateway) {
+    activity.setProperty("default",((Gateway)flowElement).getDefaultFlow());
+  }
+  activity.setProperty("type",xmlLocalName);
+  return activity;
+}

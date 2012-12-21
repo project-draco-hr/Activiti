@@ -1,0 +1,13 @@
+{
+  activity.setProperty("type","cancelBoundaryCatch");
+  ActivityImpl parent=(ActivityImpl)activity.getParent();
+  if (!parent.getProperty("type").equals("transaction")) {
+    bpmnModel.addProblem("boundary event with cancelEventDefinition only supported on transaction subprocesses.",activity.getId());
+  }
+  for (  ActivityImpl child : parent.getActivities()) {
+    if (child.getProperty("type").equals("cancelBoundaryCatch") && child != activity) {
+      bpmnModel.addProblem("multiple boundary events with cancelEventDefinition not supported on same transaction subprocess.",activity.getId());
+    }
+  }
+  return new CancelBoundaryEventActivityBehavior();
+}
