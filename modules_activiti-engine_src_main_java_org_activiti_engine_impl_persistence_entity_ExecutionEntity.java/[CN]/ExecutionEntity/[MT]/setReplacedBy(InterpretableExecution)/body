@@ -22,7 +22,7 @@
   for (  EventSubscriptionEntity subscriptionEntity : eventSubscriptions) {
     subscriptionEntity.setExecution((ExecutionEntity)replacedBy);
   }
-  List<VariableInstanceEntity> variables=(List)commandContext.getVariableInstanceManager().findVariableInstancesByExecutionId(id);
+  List<VariableInstanceEntity> variables=(List)commandContext.getVariableInstanceEntityManager().findVariableInstancesByExecutionId(id);
   for (  VariableInstanceEntity variable : variables) {
     variable.setExecutionId(replacedBy.getId());
   }

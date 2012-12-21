@@ -1,7 +1,7 @@
 {
   ExecutionEntity execution=null;
   if (executionId != null) {
-    execution=commandContext.getExecutionManager().findExecutionById(executionId);
+    execution=commandContext.getExecutionEntityManager().findExecutionById(executionId);
   }
   Map<String,JobHandler> jobHandlers=Context.getProcessEngineConfiguration().getJobHandlers();
   JobHandler jobHandler=jobHandlers.get(jobHandlerType);

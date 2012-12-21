@@ -23,9 +23,9 @@
       otherConcurrentExecutions.add(this);
     }
   }
-  if (log.isLoggable(Level.FINE)) {
-    log.fine("inactive concurrent executions in '" + activity + "': "+ inactiveConcurrentExecutionsInActivity);
-    log.fine("other concurrent executions: " + otherConcurrentExecutions);
+  if (log.isDebugEnabled()) {
+    log.debug("inactive concurrent executions in '{}': {}",activity,inactiveConcurrentExecutionsInActivity);
+    log.debug("other concurrent executions: {}",otherConcurrentExecutions);
   }
   return inactiveConcurrentExecutionsInActivity;
 }

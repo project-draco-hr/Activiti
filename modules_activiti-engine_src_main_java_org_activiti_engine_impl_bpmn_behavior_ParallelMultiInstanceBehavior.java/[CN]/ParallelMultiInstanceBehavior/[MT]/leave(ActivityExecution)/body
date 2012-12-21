@@ -24,8 +24,8 @@
       }
     }
     for (    ExecutionEntity executionToRemove : executionsToRemove) {
-      if (LOGGER.isLoggable(Level.FINE)) {
-        LOGGER.fine("Execution " + executionToRemove + " still active, "+ "but multi-instance is completed. Removing this execution.");
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("Execution {} still active, but multi-instance is completed. Removing this execution.",executionToRemove);
       }
       executionToRemove.inactivate();
       executionToRemove.deleteCascade("multi-instance completed");

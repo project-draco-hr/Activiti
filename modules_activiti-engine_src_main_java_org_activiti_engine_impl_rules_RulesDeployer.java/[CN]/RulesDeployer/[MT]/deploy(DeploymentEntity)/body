@@ -1,9 +1,9 @@
 {
   KnowledgeBuilder knowledgeBuilder=null;
-  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
+  DeploymentManager deploymentManager=Context.getProcessEngineConfiguration().getDeploymentManager();
   Map<String,ResourceEntity> resources=deployment.getResources();
   for (  String resourceName : resources.keySet()) {
-    log.info("Processing resource " + resourceName);
+    log.info("Processing resource {}",resourceName);
     if (resourceName.endsWith(".drl")) {
       if (knowledgeBuilder == null) {
         knowledgeBuilder=KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -16,6 +16,6 @@
   }
   if (knowledgeBuilder != null) {
     KnowledgeBase knowledgeBase=knowledgeBuilder.newKnowledgeBase();
-    deploymentCache.addKnowledgeBase(deployment.getId(),knowledgeBase);
+    deploymentManager.getKnowledgeBaseCache().add(deployment.getId(),knowledgeBase);
   }
 }

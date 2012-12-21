@@ -1,0 +1,11 @@
+{
+  if (processDefinitionId == null) {
+    throw new ActivitiException("Invalid process definition id : null");
+  }
+  ProcessDefinitionEntity processDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findLatestProcessDefinitionById(processDefinitionId);
+  if (processDefinition == null) {
+    throw new ActivitiException("no deployed process definition found with id '" + processDefinitionId + "'");
+  }
+  processDefinition=resolveProcessDefinition(processDefinition);
+  return processDefinition;
+}

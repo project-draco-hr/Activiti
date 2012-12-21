@@ -1,0 +1,7 @@
+{
+  List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl(Context.getCommandContext()).deploymentId(deploymentId).list();
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    processDefinitionCache.remove(processDefinition.getId());
+  }
+  Context.getCommandContext().getDeploymentEntityManager().deleteDeployment(deploymentId,cascade);
+}

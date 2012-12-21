@@ -3,10 +3,10 @@
     throw new ActivitiException("user is null");
   }
   if (user.getRevision() == 0) {
-    commandContext.getUserManager().insertUser(user);
+    commandContext.getUserEntityManager().insertUser(user);
   }
  else {
-    commandContext.getUserManager().updateUser(user);
+    commandContext.getUserEntityManager().updateUser(user);
   }
   return null;
 }

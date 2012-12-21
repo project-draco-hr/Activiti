@@ -2,6 +2,6 @@
   if (deploymentId == null) {
     throw new ActivitiException("deploymentId is null");
   }
-  commandContext.getDeploymentManager().deleteDeployment(deploymentId,cascade);
+  Context.getProcessEngineConfiguration().getDeploymentManager().removeDeployment(deploymentId,cascade);
   return null;
 }

@@ -15,7 +15,7 @@
         ds.setParameter("Content-Disposition","attachment; filename=" + filename);
       }
  catch (      Exception e) {
-        LOGGER.log(Level.SEVERE,"failed to export model to BPMN XML",e);
+        LOGGER.error("failed to export model to BPMN XML",e);
         ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.PROCESS_TOXML_FAILED,e);
       }
       return ds;

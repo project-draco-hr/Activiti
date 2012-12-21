@@ -1,0 +1,6 @@
+{
+  List<TimerEntity> timers=Context.getCommandContext().getJobEntityManager().findTimersByExecutionId(execution.getId());
+  for (  TimerEntity timer : timers) {
+    timer.delete();
+  }
+}

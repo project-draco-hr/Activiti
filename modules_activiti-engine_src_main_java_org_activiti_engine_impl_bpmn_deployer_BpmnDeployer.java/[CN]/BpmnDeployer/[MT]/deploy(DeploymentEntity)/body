@@ -1,9 +1,9 @@
 {
-  LOG.fine("Processing deployment " + deployment.getName());
+  LOG.debug("Processing deployment {}",deployment.getName());
   List<ProcessDefinitionEntity> processDefinitions=new ArrayList<ProcessDefinitionEntity>();
   Map<String,ResourceEntity> resources=deployment.getResources();
   for (  String resourceName : resources.keySet()) {
-    LOG.info("Processing resource " + resourceName);
+    LOG.info("Processing resource {}",resourceName);
     if (isBpmnResource(resourceName)) {
       ResourceEntity resource=resources.get(resourceName);
       byte[] bytes=resource.getBytes();
@@ -23,7 +23,7 @@
               createResource(diagramResourceName,diagramBytes,deployment);
             }
  catch (            Throwable t) {
-              LOG.log(Level.WARNING,"Error while generating process diagram, image will not be stored in repository",t);
+              LOG.warn("Error while generating process diagram, image will not be stored in repository",t);
             }
           }
         }
@@ -40,8 +40,7 @@
     keyList.add(processDefinition.getKey());
   }
   CommandContext commandContext=Context.getCommandContext();
-  ProcessDefinitionManager processDefinitionManager=commandContext.getProcessDefinitionManager();
-  DeploymentCache deploymentCache=Context.getProcessEngineConfiguration().getDeploymentCache();
+  ProcessDefinitionEntityManager processDefinitionManager=commandContext.getProcessDefinitionEntityManager();
   DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
   for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
     if (deployment.isNew()) {
@@ -66,7 +65,6 @@
       removeObsoleteMessageEventSubscriptions(processDefinition,latestProcessDefinition);
       addMessageEventSubscriptions(processDefinition);
       dbSqlSession.insert(processDefinition);
-      deploymentCache.addProcessDefinition(processDefinition);
       addAuthorizations(processDefinition);
     }
  else {
@@ -76,10 +74,9 @@
       processDefinition.setId(persistedProcessDefinition.getId());
       processDefinition.setVersion(persistedProcessDefinition.getVersion());
       processDefinition.setSuspensionState(persistedProcessDefinition.getSuspensionState());
-      deploymentCache.addProcessDefinition(processDefinition);
       addAuthorizations(processDefinition);
     }
-    Context.getProcessEngineConfiguration().getDeploymentCache().addProcessDefinition(processDefinition);
+    Context.getProcessEngineConfiguration().getDeploymentManager().getProcessDefinitionCache().add(processDefinition.getId(),processDefinition);
     deployment.addDeployedArtifact(processDefinition);
   }
 }

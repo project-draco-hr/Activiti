@@ -2,7 +2,7 @@
   Set<String> result=new HashSet<String>();
   URL processFileUrl=getClass().getClassLoader().getResource(PROCESSES_FILE_NAME);
   if (processFileUrl == null) {
-    logger.fine("No '" + PROCESSES_FILE_NAME + "'-file provided.");
+    logger.debug("No '{}'-file provided.",PROCESSES_FILE_NAME);
     return result;
   }
   try {
@@ -22,7 +22,7 @@
     }
   }
  catch (  Exception e) {
-    logger.log(Level.SEVERE,"could not parse file " + PROCESSES_FILE_NAME + "'. "+ e.getMessage(),e);
+    logger.error("could not parse file '{}'. {}",PROCESSES_FILE_NAME,e.getMessage(),e);
   }
   return result;
 }

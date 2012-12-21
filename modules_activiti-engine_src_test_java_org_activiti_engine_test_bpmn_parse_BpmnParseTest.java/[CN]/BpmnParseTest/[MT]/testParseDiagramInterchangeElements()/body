@@ -2,7 +2,7 @@
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
   ProcessDefinitionEntity processDefinitionEntity=commandExecutor.execute(new Command<ProcessDefinitionEntity>(){
     public ProcessDefinitionEntity execute(    CommandContext commandContext){
-      return Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedLatestProcessDefinitionByKey("myProcess");
+      return Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedLatestProcessDefinitionByKey("myProcess");
     }
   }
 );

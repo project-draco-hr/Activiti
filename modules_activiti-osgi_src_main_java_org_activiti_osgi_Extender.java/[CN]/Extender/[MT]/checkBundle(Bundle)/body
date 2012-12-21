@@ -1,5 +1,5 @@
 {
-  LOGGER.log(Level.FINE,"Scanning bundle {} for activiti process",bundle.getSymbolicName());
+  LOGGER.debug("Scanning bundle {} for activiti process",bundle.getSymbolicName());
   try {
     List<URL> pathList=new ArrayList<URL>();
     String activitiHeader=(String)bundle.getHeaders().get(BUNDLE_ACTIVITI_HEADER);
@@ -33,7 +33,7 @@
       }
     }
     if (!pathList.isEmpty()) {
-      LOGGER.log(Level.FINE,"Found activiti process in bundle " + bundle.getSymbolicName() + " with paths: "+ pathList);
+      LOGGER.debug("Found activiti process in bundle {} with paths: {}",bundle.getSymbolicName(),pathList);
       ProcessEngine engine=(ProcessEngine)engineServiceTracker.waitForService(timeout);
       if (engine == null) {
         throw new IllegalStateException("Unable to find a ProcessEngine service");
@@ -57,10 +57,10 @@
       builder.deploy();
     }
  else {
-      LOGGER.log(Level.FINE,"No activiti process found in bundle {}",bundle.getSymbolicName());
+      LOGGER.debug("No activiti process found in bundle {}",bundle.getSymbolicName());
     }
   }
  catch (  Throwable t) {
-    LOGGER.log(Level.SEVERE,"Unable to deploy activiti bundle",t);
+    LOGGER.error("Unable to deploy activiti bundle",t);
   }
 }

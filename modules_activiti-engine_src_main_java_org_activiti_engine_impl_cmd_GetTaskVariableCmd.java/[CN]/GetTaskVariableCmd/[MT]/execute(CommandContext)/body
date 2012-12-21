@@ -5,7 +5,7 @@
   if (variableName == null) {
     throw new ActivitiException("variableName is null");
   }
-  TaskEntity task=Context.getCommandContext().getTaskManager().findTaskById(taskId);
+  TaskEntity task=Context.getCommandContext().getTaskEntityManager().findTaskById(taskId);
   if (task == null) {
     throw new ActivitiException("task " + taskId + " doesn't exist");
   }

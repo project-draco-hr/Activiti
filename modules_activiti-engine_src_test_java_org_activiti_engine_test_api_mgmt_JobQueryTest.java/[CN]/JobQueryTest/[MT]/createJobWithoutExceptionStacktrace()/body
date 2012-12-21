@@ -2,7 +2,7 @@
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
   commandExecutor.execute(new Command<Void>(){
     public Void execute(    CommandContext commandContext){
-      JobManager jobManager=commandContext.getJobManager();
+      JobEntityManager jobManager=commandContext.getJobEntityManager();
       timerEntity=new TimerEntity();
       timerEntity.setLockOwner(UUID.randomUUID().toString());
       timerEntity.setDuedate(new Date());

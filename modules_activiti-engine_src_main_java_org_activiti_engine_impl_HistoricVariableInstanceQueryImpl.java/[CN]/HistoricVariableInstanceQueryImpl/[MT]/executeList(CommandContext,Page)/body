@@ -1,7 +1,7 @@
 {
   checkQueryOk();
   ensureVariablesInitialized();
-  List<HistoricVariableInstance> historicVariableInstances=commandContext.getHistoricVariableInstanceManager().findHistoricVariableInstancesByQueryCriteria(this,page);
+  List<HistoricVariableInstance> historicVariableInstances=commandContext.getHistoricVariableInstanceEntityManager().findHistoricVariableInstancesByQueryCriteria(this,page);
   if (historicVariableInstances != null) {
     for (    HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
       if (historicVariableInstance instanceof HistoricVariableInstanceEntity) {

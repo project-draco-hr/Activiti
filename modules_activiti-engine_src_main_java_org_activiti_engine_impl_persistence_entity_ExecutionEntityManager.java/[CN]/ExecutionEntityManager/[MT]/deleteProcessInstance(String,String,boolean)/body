@@ -1,0 +1,12 @@
+{
+  ExecutionEntity execution=findExecutionById(processInstanceId);
+  if (execution == null) {
+    throw new ActivitiException("No process instance found for id '" + processInstanceId + "'");
+  }
+  CommandContext commandContext=Context.getCommandContext();
+  commandContext.getTaskEntityManager().deleteTasksByProcessInstanceId(processInstanceId,deleteReason,cascade);
+  execution.deleteCascade(deleteReason);
+  if (cascade) {
+    commandContext.getHistoricProcessInstanceEntityManager().deleteHistoricProcessInstanceById(processInstanceId);
+  }
+}

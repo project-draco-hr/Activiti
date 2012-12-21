@@ -1,5 +1,5 @@
 {
-  ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedProcessDefinitionById(processDefinitionId);
+  ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
   String deploymentId=processDefinition.getDeploymentId();
   String resourceName=processDefinition.getResourceName();
   InputStream processModelStream=new GetDeploymentResourceCmd(deploymentId,resourceName).execute(commandContext);

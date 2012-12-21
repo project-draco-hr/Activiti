@@ -1,27 +1,24 @@
 {
-  LogUtil.resetThreadIndents();
-  ThreadLogMode oldThreadRenderingMode=LogUtil.setThreadLogMode(threadRenderingMode);
-  if (log.isLoggable(Level.FINE)) {
+  if (log.isDebugEnabled()) {
     if (isEmptyLinesEnabled) {
-      log.fine(EMPTY_LINE);
+      log.debug(EMPTY_LINE);
     }
-    log.fine("#### START " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName()+ " ###########################################################");
+    log.debug("#### START {}.{} ###########################################################",this.getClass().getSimpleName(),getName());
   }
   try {
     super.runTest();
   }
  catch (  AssertionFailedError e) {
-    log.severe(EMPTY_LINE);
-    log.log(Level.SEVERE,"ASSERTION FAILED: " + e,e);
+    log.error(EMPTY_LINE);
+    log.error("ASSERTION FAILED: {}",e,e);
     throw e;
   }
 catch (  Throwable e) {
-    log.severe(EMPTY_LINE);
-    log.log(Level.SEVERE,"EXCEPTION: " + e,e);
+    log.error(EMPTY_LINE);
+    log.error("EXCEPTION: {}",e,e);
     throw e;
   }
  finally {
-    log.fine("#### END " + ClassNameUtil.getClassNameWithoutPackage(this) + "."+ getName()+ " #############################################################");
-    LogUtil.setThreadLogMode(oldThreadRenderingMode);
+    log.debug("#### END {}.{} #############################################################",this.getClass().getSimpleName(),getName());
   }
 }

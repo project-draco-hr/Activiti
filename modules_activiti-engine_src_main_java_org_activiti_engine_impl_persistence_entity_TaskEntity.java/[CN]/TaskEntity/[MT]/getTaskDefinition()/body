@@ -1,6 +1,6 @@
 {
   if (taskDefinition == null && taskDefinitionKey != null) {
-    ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedProcessDefinitionById(processDefinitionId);
+    ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
     taskDefinition=processDefinition.getTaskDefinitions().get(taskDefinitionKey);
   }
   return taskDefinition;

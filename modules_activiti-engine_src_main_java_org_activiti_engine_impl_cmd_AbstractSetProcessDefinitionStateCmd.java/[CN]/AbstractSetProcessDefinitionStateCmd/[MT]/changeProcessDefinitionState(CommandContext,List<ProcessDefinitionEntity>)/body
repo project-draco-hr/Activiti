@@ -1,7 +1,7 @@
 {
   for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
     SuspensionStateUtil.setSuspensionState(processDefinition,getProcessDefinitionSuspensionState());
-    Context.getProcessEngineConfiguration().getDeploymentCache().removeProcessDefinition(processDefinition.getId());
+    Context.getProcessEngineConfiguration().getDeploymentManager().getProcessDefinitionCache().remove(processDefinition.getId());
     if (includeProcessInstances) {
       int currentStartIndex=0;
       List<ProcessInstance> processInstances=fetchProcessInstancesPage(commandContext,processDefinition,currentStartIndex);

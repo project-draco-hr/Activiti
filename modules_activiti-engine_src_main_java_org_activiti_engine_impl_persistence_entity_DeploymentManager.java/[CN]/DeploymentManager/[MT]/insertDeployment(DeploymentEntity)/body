@@ -1,8 +1,0 @@
-{
-  getDbSqlSession().insert(deployment);
-  for (  ResourceEntity resource : deployment.getResources().values()) {
-    resource.setDeploymentId(deployment.getId());
-    getResourceManager().insertResource(resource);
-  }
-  Context.getProcessEngineConfiguration().getDeploymentCache().deploy(deployment);
-}

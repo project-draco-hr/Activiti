@@ -6,8 +6,8 @@
   if (scopedAssociation.getExecution() == null) {
     throw new ActivitiException("Cannot dissasociate execution, no " + scopedAssociation.getClass().getAnnotations()[0].annotationType().getSimpleName() + " execution associated. ");
   }
-  if (log.isLoggable(Level.FINE)) {
-    log.fine("Disassociating");
+  if (log.isTraceEnabled()) {
+    log.trace("Disassociating");
   }
   scopedAssociation.setExecution(null);
   scopedAssociation.setTask(null);

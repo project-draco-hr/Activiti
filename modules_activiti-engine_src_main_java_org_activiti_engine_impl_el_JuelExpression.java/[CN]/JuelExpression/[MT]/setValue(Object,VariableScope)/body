@@ -1,5 +1,5 @@
 {
-  ELContext elContext=expressionManager.getElContext(variableScope);
+  ELContext elContext=Context.getProcessEngineConfiguration().getExpressionManager().getElContext(variableScope);
   try {
     ExpressionSetInvocation invocation=new ExpressionSetInvocation(valueExpression,elContext,value);
     Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(invocation);

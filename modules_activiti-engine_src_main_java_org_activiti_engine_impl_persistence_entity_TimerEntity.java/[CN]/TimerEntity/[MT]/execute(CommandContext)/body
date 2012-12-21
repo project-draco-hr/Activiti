@@ -1,8 +1,8 @@
 {
   super.execute(commandContext);
   if (repeat == null) {
-    if (log.isLoggable(Level.FINE)) {
-      log.fine("Timer " + getId() + " fired. Deleting timer.");
+    if (log.isDebugEnabled()) {
+      log.debug("Timer {} fired. Deleting timer.",getId());
     }
     delete();
   }
@@ -12,7 +12,7 @@
     if (newTimer != null) {
       TimerEntity te=new TimerEntity(this);
       te.setDuedate(newTimer);
-      Context.getCommandContext().getJobManager().schedule(te);
+      Context.getCommandContext().getJobEntityManager().schedule(te);
     }
   }
 }

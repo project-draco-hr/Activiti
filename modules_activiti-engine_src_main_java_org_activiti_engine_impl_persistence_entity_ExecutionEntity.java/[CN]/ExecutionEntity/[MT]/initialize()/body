@@ -1,5 +1,5 @@
 {
-  log.fine("initializing " + this);
+  log.debug("initializing {}",this);
   ScopeImpl scope=getScope();
   ensureParentInitialized();
   List<VariableDeclaration> variableDeclarations=(List<VariableDeclaration>)scope.getProperty(BpmnParse.PROPERTYNAME_VARIABLE_DECLARATIONS);
@@ -17,7 +17,7 @@
   if (timerDeclarations != null) {
     for (    TimerDeclarationImpl timerDeclaration : timerDeclarations) {
       TimerEntity timer=timerDeclaration.prepareTimerEntity(this);
-      Context.getCommandContext().getJobManager().schedule(timer);
+      Context.getCommandContext().getJobEntityManager().schedule(timer);
     }
   }
   List<EventSubscriptionDeclaration> eventSubscriptionDeclarations=(List<EventSubscriptionDeclaration>)scope.getProperty(BpmnParse.PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION);

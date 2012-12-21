@@ -1,0 +1,13 @@
+{
+  TaskEntity task=Context.getCommandContext().getTaskEntityManager().findTaskById(taskId);
+  if (task != null) {
+    if (task.getExecutionId() != null) {
+      throw new ActivitiException("The task cannot be deleted because is part of a running process");
+    }
+    String reason=(deleteReason == null || deleteReason.length() == 0) ? TaskEntity.DELETE_REASON_DELETED : deleteReason;
+    deleteTask(task,reason,cascade);
+  }
+ else   if (cascade) {
+    Context.getCommandContext().getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstanceById(taskId);
+  }
+}

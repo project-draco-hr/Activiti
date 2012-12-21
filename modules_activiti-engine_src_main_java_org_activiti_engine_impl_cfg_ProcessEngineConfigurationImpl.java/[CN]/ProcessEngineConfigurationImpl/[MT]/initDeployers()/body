@@ -9,7 +9,7 @@
       this.deployers.addAll(customPostDeployers);
     }
   }
-  if (deploymentCache == null) {
+  if (deploymentManager == null) {
     List<Deployer> deployers=new ArrayList<Deployer>();
     if (customPreDeployers != null) {
       deployers.addAll(customPreDeployers);
@@ -18,7 +18,25 @@
     if (customPostDeployers != null) {
       deployers.addAll(customPostDeployers);
     }
-    deploymentCache=new DeploymentCache();
-    deploymentCache.setDeployers(deployers);
+    deploymentManager=new DeploymentManager();
+    deploymentManager.setDeployers(deployers);
+    if (processDefinitionCache == null) {
+      if (processDefinitionCacheLimit <= 0) {
+        processDefinitionCache=new DefaultDeploymentCache<ProcessDefinitionEntity>();
+      }
+ else {
+        processDefinitionCache=new DefaultDeploymentCache<ProcessDefinitionEntity>(processDefinitionCacheLimit);
+      }
+    }
+    if (knowledgeBaseCache == null) {
+      if (knowledgeBaseCacheLimit <= 0) {
+        knowledgeBaseCache=new DefaultDeploymentCache<Object>();
+      }
+ else {
+        knowledgeBaseCache=new DefaultDeploymentCache<Object>(knowledgeBaseCacheLimit);
+      }
+    }
+    deploymentManager.setProcessDefinitionCache(processDefinitionCache);
+    deploymentManager.setKnowledgeBaseCache(knowledgeBaseCache);
   }
 }

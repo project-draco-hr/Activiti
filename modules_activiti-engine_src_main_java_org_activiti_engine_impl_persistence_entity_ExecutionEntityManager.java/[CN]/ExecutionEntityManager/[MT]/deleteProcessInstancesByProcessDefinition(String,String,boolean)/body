@@ -1,0 +1,9 @@
+{
+  List<String> processInstanceIds=getDbSqlSession().selectList("selectProcessInstanceIdsByProcessDefinitionId",processDefinitionId);
+  for (  String processInstanceId : processInstanceIds) {
+    deleteProcessInstance(processInstanceId,deleteReason,cascade);
+  }
+  if (cascade) {
+    Context.getCommandContext().getHistoricProcessInstanceEntityManager().deleteHistoricProcessInstanceByProcessDefinitionId(processDefinitionId);
+  }
+}

@@ -1,6 +1,6 @@
 {
-  if (log.isLoggable(Level.FINE)) {
-    log.fine("Leaving activity '" + execution.getActivity().getId() + "'");
+  if (log.isDebugEnabled()) {
+    log.debug("Leaving activity '{}'",execution.getActivity().getId());
   }
   String defaultSequenceFlow=(String)execution.getActivity().getProperty("default");
   List<PvmTransition> transitionsToTake=new ArrayList<PvmTransition>();
@@ -43,8 +43,8 @@
         parentExecution.signal("compensationDone",null);
       }
  else {
-        if (log.isLoggable(Level.FINE)) {
-          log.fine("No outgoing sequence flow found for " + execution.getActivity().getId() + ". Ending execution.");
+        if (log.isDebugEnabled()) {
+          log.debug("No outgoing sequence flow found for {}. Ending execution.",execution.getActivity().getId());
         }
         execution.end();
         if (throwExceptionIfExecutionStuck) {

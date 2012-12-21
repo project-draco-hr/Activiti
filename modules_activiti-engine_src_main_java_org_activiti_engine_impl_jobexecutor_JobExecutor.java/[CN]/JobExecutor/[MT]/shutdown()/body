@@ -2,7 +2,7 @@
   if (!isActive) {
     return;
   }
-  log.info("Shutting down the JobExecutor[" + getClass().getName() + "].");
+  log.info("Shutting down the JobExecutor[{}].",getClass().getName());
   acquireJobsRunnable.stop();
   stopExecutingJobs();
   ensureCleanup();

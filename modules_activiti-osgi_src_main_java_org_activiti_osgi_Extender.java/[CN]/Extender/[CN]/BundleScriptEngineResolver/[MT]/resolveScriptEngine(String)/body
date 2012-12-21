@@ -20,15 +20,15 @@
   finally {
           Thread.currentThread().setContextClassLoader(old);
         }
-        LOGGER.finest("Resolved ScriptEngineFactory: " + engine + " for expected name: "+ name);
+        LOGGER.trace("Resolved ScriptEngineFactory: {} for expected name: {}",engine,name);
         return engine;
       }
     }
-    LOGGER.fine("ScriptEngineFactory: " + factory.getEngineName() + " does not match expected name: "+ name);
+    LOGGER.debug("ScriptEngineFactory: {} does not match expected name: {}",factory.getEngineName(),name);
     return null;
   }
  catch (  Exception e) {
-    LOGGER.log(Level.WARNING,"Cannot create ScriptEngineFactory: " + e.getClass().getName(),e);
+    LOGGER.warn("Cannot create ScriptEngineFactory: {}",e.getClass().getName(),e);
     return null;
   }
 }

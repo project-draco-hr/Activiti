@@ -14,8 +14,8 @@
   for (  String candidateGroup : process.getCandidateStarterGroups()) {
     processDefinition.addCandidateStarterGroupIdExpression(expressionManager.createExpression(candidateGroup));
   }
-  if (LOGGER.isLoggable(Level.FINE)) {
-    LOGGER.fine("Parsing process " + processDefinition.getKey());
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Parsing process {}",processDefinition.getKey());
   }
   processFlowElements(process.getFlowElements(),processDefinition);
   processArtifacts(process.getArtifacts(),processDefinition);

@@ -3,20 +3,20 @@
   if (repositoryService == null) {
     initializeServices();
   }
-  log.severe(EMPTY_LINE);
+  log.error(EMPTY_LINE);
   try {
     deploymentId=TestHelper.annotationDeploymentSetUp(processEngine,getClass(),getName());
     super.runBare();
   }
  catch (  AssertionFailedError e) {
-    log.severe(EMPTY_LINE);
-    log.log(Level.SEVERE,"ASSERTION FAILED: " + e,e);
+    log.error(EMPTY_LINE);
+    log.error("ASSERTION FAILED: {}",e,e);
     exception=e;
     throw e;
   }
 catch (  Throwable e) {
-    log.severe(EMPTY_LINE);
-    log.log(Level.SEVERE,"EXCEPTION: " + e,e);
+    log.error(EMPTY_LINE);
+    log.error("EXCEPTION: {}",e,e);
     exception=e;
     throw e;
   }

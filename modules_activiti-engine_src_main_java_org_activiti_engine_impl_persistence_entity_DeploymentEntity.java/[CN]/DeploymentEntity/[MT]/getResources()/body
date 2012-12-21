@@ -1,6 +1,6 @@
 {
   if (resources == null && id != null) {
-    List<ResourceEntity> resourcesList=Context.getCommandContext().getResourceManager().findResourcesByDeploymentId(id);
+    List<ResourceEntity> resourcesList=Context.getCommandContext().getResourceEntityManager().findResourcesByDeploymentId(id);
     resources=new HashMap<String,ResourceEntity>();
     for (    ResourceEntity resource : resourcesList) {
       resources.put(resource.getName(),resource);

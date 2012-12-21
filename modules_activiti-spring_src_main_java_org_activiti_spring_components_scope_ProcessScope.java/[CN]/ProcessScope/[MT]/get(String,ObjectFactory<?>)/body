@@ -1,7 +1,7 @@
 {
   ExecutionEntity executionEntity=null;
   try {
-    logger.fine("returning scoped object having beanName '" + name + "' for conversation ID '"+ this.getConversationId()+ "'. ");
+    logger.debug("returning scoped object having beanName '{}' for conversation ID '{}'.",name,this.getConversationId());
     ProcessInstance processInstance=Context.getExecutionContext().getProcessInstance();
     executionEntity=(ExecutionEntity)processInstance;
     Object scopedObject=executionEntity.getVariable(name);
@@ -10,18 +10,18 @@
       if (scopedObject instanceof ScopedObject) {
         ScopedObject sc=(ScopedObject)scopedObject;
         scopedObject=sc.getTargetObject();
-        logger.fine("de-referencing " + ScopedObject.class.getName() + "#targetObject before persisting variable");
+        logger.debug("de-referencing {}#targetObject before persisting variable",ScopedObject.class.getName());
       }
       persistVariable(name,scopedObject);
     }
     return createDirtyCheckingProxy(name,scopedObject);
   }
  catch (  Throwable th) {
-    logger.warning("couldn't return value from process scope! " + ExceptionUtils.getFullStackTrace(th));
+    logger.warn("couldn't return value from process scope! {}",ExceptionUtils.getFullStackTrace(th));
   }
  finally {
     if (executionEntity != null) {
-      logger.fine("set variable '" + name + "' on executionEntity# "+ executionEntity.getId());
+      logger.debug("set variable '{}' on executionEntity#{}",name,executionEntity.getId());
     }
   }
   return null;

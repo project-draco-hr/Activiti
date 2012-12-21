@@ -4,7 +4,7 @@
     for (    String tableName : getTablesPresentInDatabase()) {
       tableCount.put(tableName,getTableCount(tableName));
     }
-    log.fine("Number of rows per activiti table: " + tableCount);
+    log.debug("Number of rows per activiti table: {}",tableCount);
   }
  catch (  Exception e) {
     throw new ActivitiException("couldn't get table counts",e);

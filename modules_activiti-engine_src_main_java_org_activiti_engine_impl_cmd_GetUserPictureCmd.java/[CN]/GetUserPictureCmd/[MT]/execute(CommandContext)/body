@@ -2,7 +2,7 @@
   if (userId == null) {
     throw new ActivitiException("userId is null");
   }
-  UserEntity user=(UserEntity)commandContext.getUserManager().findUserById(userId);
+  UserEntity user=(UserEntity)commandContext.getUserEntityManager().findUserById(userId);
   if (user == null) {
     throw new ActivitiException("user " + userId + " doesn't exist");
   }

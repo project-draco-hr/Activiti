@@ -1,5 +1,5 @@
 {
-  log.fine("verifying that db is clean after test");
+  log.debug("verifying that db is clean after test");
   Map<String,Long> tableCounts=processEngine.getManagementService().getTableCount();
   StringBuilder outputMessage=new StringBuilder();
   for (  String tableName : tableCounts.keySet()) {
@@ -12,8 +12,8 @@
   }
   if (outputMessage.length() > 0) {
     outputMessage.insert(0,"DB NOT CLEAN: \n");
-    log.severe(EMPTY_LINE);
-    log.severe(outputMessage.toString());
+    log.error(EMPTY_LINE);
+    log.error(outputMessage.toString());
     ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutorTxRequired().execute(new Command<Object>(){
       public Object execute(      CommandContext commandContext){
         DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);

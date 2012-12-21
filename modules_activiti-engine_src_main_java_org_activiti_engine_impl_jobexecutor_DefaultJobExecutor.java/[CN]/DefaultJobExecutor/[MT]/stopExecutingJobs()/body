@@ -3,11 +3,11 @@
   threadPoolExecutor.shutdown();
   try {
     if (!threadPoolExecutor.awaitTermination(60L,TimeUnit.SECONDS)) {
-      log.log(Level.WARNING,"Timeout during shutdown of job executor. " + "The current running jobs could not end within 60 seconds after shutdown operation.");
+      log.warn("Timeout during shutdown of job executor. " + "The current running jobs could not end within 60 seconds after shutdown operation.");
     }
   }
  catch (  InterruptedException e) {
-    log.log(Level.WARNING,"Interrupted while shutting down the job executor. ",e);
+    log.warn("Interrupted while shutting down the job executor. ",e);
   }
   threadPoolExecutor=null;
 }

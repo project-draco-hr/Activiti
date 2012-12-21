@@ -6,7 +6,7 @@
     DatabaseMetaData databaseMetaData=connection.getMetaData();
     ResultSet tables=null;
     try {
-      log.fine("retrieving activiti tables from jdbc metadata");
+      log.debug("retrieving activiti tables from jdbc metadata");
       String databaseTablePrefix=getDbSqlSession().getDbSqlSessionFactory().getDatabaseTablePrefix();
       String tableNameFilter=databaseTablePrefix + "ACT_%";
       if ("postgres".equals(getDbSqlSession().getDbSqlSessionFactory().getDatabaseType())) {
@@ -20,7 +20,7 @@
         String tableName=tables.getString("TABLE_NAME");
         tableName=tableName.toUpperCase();
         tableNames.add(tableName);
-        log.fine("  retrieved activiti table name " + tableName);
+        log.debug("  retrieved activiti table name {}",tableName);
       }
     }
   finally {

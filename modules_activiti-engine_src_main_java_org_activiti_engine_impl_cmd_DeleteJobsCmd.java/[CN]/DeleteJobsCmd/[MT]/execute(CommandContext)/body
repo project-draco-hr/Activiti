@@ -1,7 +1,7 @@
 {
   JobEntity jobToDelete=null;
   for (  String jobId : jobIds) {
-    jobToDelete=Context.getCommandContext().getJobManager().findJobById(jobId);
+    jobToDelete=Context.getCommandContext().getJobEntityManager().findJobById(jobId);
     if (jobToDelete != null) {
       jobToDelete.delete();
     }

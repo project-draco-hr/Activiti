@@ -5,9 +5,7 @@
   userCache=new HashMap<String,User>();
   keyCache=new HashMap<String,List<String>>();
   while (usersAdded < nrOfUsers) {
-    if (LOGGER.isLoggable(Level.INFO)) {
-      LOGGER.info("Caching users " + usersAdded + " to "+ (usersAdded + 25));
-    }
+    LOGGER.info("Caching users {} to {}",usersAdded,usersAdded + 25);
     List<User> users=identityService.createUserQuery().listPage((int)usersAdded,25);
     for (    User user : users) {
       addTrieItem(user);

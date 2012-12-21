@@ -3,7 +3,7 @@
   if (statement != null) {
     return statement;
   }
-  statement=prefix + ClassNameUtil.getClassNameWithoutPackage(persistentObjectClass);
+  statement=prefix + persistentObjectClass.getSimpleName();
   statement=statement.substring(0,statement.length() - 6);
   cachedStatements.put(persistentObjectClass,statement);
   return statement;

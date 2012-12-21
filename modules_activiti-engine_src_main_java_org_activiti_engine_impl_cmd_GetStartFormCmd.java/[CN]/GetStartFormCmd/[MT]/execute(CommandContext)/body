@@ -1,5 +1,5 @@
 {
-  ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentCache().findDeployedProcessDefinitionById(processDefinitionId);
+  ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
   if (processDefinition == null) {
     throw new ActivitiException("No process definition found for id '" + processDefinitionId + "'");
   }
