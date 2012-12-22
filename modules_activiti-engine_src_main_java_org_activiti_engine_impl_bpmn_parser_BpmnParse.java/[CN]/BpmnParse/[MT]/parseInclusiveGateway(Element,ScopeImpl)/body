@@ -1,9 +1,0 @@
-{
-  ActivityImpl activity=createActivityOnScope(inclusiveGwElement,scope);
-  activity.setActivityBehavior(new InclusiveGatewayActivityBehavior());
-  parseExecutionListenersOnScope(inclusiveGwElement,activity);
-  for (  BpmnParseListener parseListener : parseListeners) {
-    parseListener.parseInclusiveGateway(inclusiveGwElement,scope,activity);
-  }
-  return activity;
-}

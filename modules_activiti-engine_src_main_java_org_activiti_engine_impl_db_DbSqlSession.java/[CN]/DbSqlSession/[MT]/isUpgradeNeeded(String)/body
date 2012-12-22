@@ -8,7 +8,7 @@
     throw new ActivitiException("Version of activiti database (" + versionInDatabase + ") is more recent than the engine ("+ ProcessEngine.VERSION+ ")");
   }
  else   if (cleanDbVersion.compareTo(cleanEngineVersion) == 0) {
-    log.warning("Engine-version is the same, but not an exact match: " + versionInDatabase + " vs. "+ ProcessEngine.VERSION+ ". Not performing database-upgrade.");
+    log.warn("Engine-version is the same, but not an exact match: {} vs. {}. Not performing database-upgrade.",versionInDatabase,ProcessEngine.VERSION);
     return false;
   }
   return true;

@@ -9,14 +9,14 @@
   }
   Deployment deploymentAnnotation=method.getAnnotation(Deployment.class);
   if (deploymentAnnotation != null) {
-    log.fine("annotation @Deployment creates deployment for " + ClassNameUtil.getClassNameWithoutPackage(testClass) + "."+ methodName);
+    log.debug("annotation @Deployment creates deployment for {}.{}",testClass.getSimpleName(),methodName);
     String[] resources=deploymentAnnotation.resources();
     if (resources.length == 0) {
       String name=method.getName();
       String resource=getBpmnProcessDefinitionResource(testClass,name);
       resources=new String[]{resource};
     }
-    DeploymentBuilder deploymentBuilder=processEngine.getRepositoryService().createDeployment().name(ClassNameUtil.getClassNameWithoutPackage(testClass) + "." + methodName);
+    DeploymentBuilder deploymentBuilder=processEngine.getRepositoryService().createDeployment().name(testClass.getSimpleName() + "." + methodName);
     for (    String resource : resources) {
       deploymentBuilder.addClasspathResource(resource);
     }

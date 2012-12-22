@@ -6,10 +6,10 @@
   int nbrOfExecutionsToJoin=execution.getActivity().getIncomingTransitions().size();
   int nbrOfExecutionsJoined=joinedExecutions.size();
   if (nbrOfExecutionsJoined == nbrOfExecutionsToJoin) {
-    log.fine("parallel gateway '" + activity.getId() + "' activates: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");
+    log.debug("parallel gateway '{}' activates: {} of {} joined",activity.getId(),nbrOfExecutionsJoined,nbrOfExecutionsToJoin);
     execution.takeAll(outgoingTransitions,joinedExecutions);
   }
- else   if (log.isLoggable(Level.FINE)) {
-    log.fine("parallel gateway '" + activity.getId() + "' does not activate: "+ nbrOfExecutionsJoined+ " of "+ nbrOfExecutionsToJoin+ " joined");
+ else   if (log.isDebugEnabled()) {
+    log.debug("parallel gateway '{}' does not activate: {} of {} joined",activity.getId(),nbrOfExecutionsJoined,nbrOfExecutionsToJoin);
   }
 }

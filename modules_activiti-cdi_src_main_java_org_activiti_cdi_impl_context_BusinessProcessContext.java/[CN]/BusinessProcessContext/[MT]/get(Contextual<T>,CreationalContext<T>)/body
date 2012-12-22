@@ -4,23 +4,23 @@
   BusinessProcess businessProcess=getBusinessProcess();
   Object variable=businessProcess.getVariable(variableName);
   if (variable != null) {
-    if (logger.isLoggable(Level.FINE)) {
+    if (logger.isDebugEnabled()) {
       if (businessProcess.isAssociated()) {
-        logger.fine("Getting instance of bean '" + variableName + "' from Execution["+ businessProcess.getExecutionId()+ "].");
+        logger.debug("Getting instance of bean '{}' from Execution[{}]",variableName,businessProcess.getExecutionId());
       }
  else {
-        logger.fine("Getting instance of bean '" + variableName + "' from transient bean store");
+        logger.debug("Getting instance of bean '{}' from transient bean store",variableName);
       }
     }
     return (T)variable;
   }
  else {
-    if (logger.isLoggable(Level.FINE)) {
+    if (logger.isDebugEnabled()) {
       if (businessProcess.isAssociated()) {
-        logger.fine("Creating instance of bean '" + variableName + "' in business process context representing Execution["+ businessProcess.getExecutionId()+ "].");
+        logger.debug("Creating instance of bean '{}' in business process context representing Execution[{}]",variableName,businessProcess.getExecutionId());
       }
  else {
-        logger.fine("Creating instance of bean '" + variableName + "' in transient bean store");
+        logger.debug("Creating instance of bean '{}' in transient bean store",variableName);
       }
     }
     T beanInstance=bean.create(arg1);

@@ -1,0 +1,23 @@
+{
+  for (  Interface interfaceObject : bpmnModel.getInterfaces()) {
+    BpmnInterface bpmnInterface=new BpmnInterface(interfaceObject.getId(),interfaceObject.getName());
+    bpmnInterface.setImplementation(this.interfaceImplementations.get(interfaceObject.getImplementationRef()));
+    for (    org.activiti.bpmn.model.Operation operationObject : interfaceObject.getOperations()) {
+      if (!this.messages.containsKey(operationObject.getInMessageRef())) {
+        bpmnModel.addProblem(operationObject.getInMessageRef() + " does not exist",operationObject.getId());
+      }
+ else {
+        MessageDefinition inMessage=this.messages.get(operationObject.getInMessageRef());
+        Operation operation=new Operation(operationObject.getId(),operationObject.getName(),bpmnInterface,inMessage);
+        operation.setImplementation(this.operationImplementations.get(operationObject.getImplementationRef()));
+        if (StringUtils.isNotEmpty(operationObject.getOutMessageRef())) {
+          if (this.messages.containsKey(operationObject.getOutMessageRef())) {
+            MessageDefinition outMessage=this.messages.get(operationObject.getOutMessageRef());
+            operation.setOutMessage(outMessage);
+          }
+        }
+        operations.put(operation.getId(),operation);
+      }
+    }
+  }
+}

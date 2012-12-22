@@ -13,14 +13,14 @@
       repositoryService.addModelEditorSourceExtra(model.getId(),IOUtils.toByteArray(svgStream));
     }
  catch (    Exception e) {
-      LOGGER.log(Level.WARNING,"Failed to read SVG",e);
+      LOGGER.warn("Failed to read SVG",e);
     }
     try {
       InputStream editorJsonStream=this.getClass().getClassLoader().getResourceAsStream(jsonFile);
       repositoryService.addModelEditorSource(model.getId(),IOUtils.toByteArray(editorJsonStream));
     }
  catch (    Exception e) {
-      LOGGER.log(Level.WARNING,"Failed to read editor JSON",e);
+      LOGGER.warn("Failed to read editor JSON",e);
     }
   }
 }

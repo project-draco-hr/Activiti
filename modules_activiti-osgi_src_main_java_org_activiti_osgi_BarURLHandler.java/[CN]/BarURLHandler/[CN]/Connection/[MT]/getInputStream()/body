@@ -7,14 +7,14 @@
         BarTransformer.transform(barXmlURL,pout);
       }
  catch (      Exception e) {
-        LOGGER.log(Level.WARNING,"Bundle cannot be generated");
+        LOGGER.warn("Bundle cannot be generated");
       }
  finally {
         try {
           pout.close();
         }
  catch (        IOException ignore) {
-          LOGGER.log(Level.SEVERE,"Bundle cannot be generated",ignore);
+          LOGGER.error("Bundle cannot be generated",ignore);
         }
       }
     }

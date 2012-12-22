@@ -12,8 +12,8 @@
           reachable=isReachable(concurrentExecution.getActivity(),activity,new HashSet<PvmActivity>());
         }
         if (reachable) {
-          if (log.isLoggable(Level.FINE)) {
-            log.fine("an active concurrent execution found: '" + concurrentExecution.getActivity());
+          if (log.isDebugEnabled()) {
+            log.debug("an active concurrent execution found: '{}'",concurrentExecution.getActivity());
           }
           return true;
         }
@@ -21,8 +21,8 @@
     }
   }
  else   if (execution.isActive()) {
-    if (log.isLoggable(Level.FINE)) {
-      log.fine("an active concurrent execution found: '" + execution.getActivity());
+    if (log.isDebugEnabled()) {
+      log.debug("an active concurrent execution found: '{}'",execution.getActivity());
     }
     return true;
   }

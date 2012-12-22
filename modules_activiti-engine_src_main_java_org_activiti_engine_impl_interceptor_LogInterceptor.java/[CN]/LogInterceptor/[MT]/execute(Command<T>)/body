@@ -1,14 +1,14 @@
 {
-  if (!log.isLoggable(Level.FINE)) {
+  if (!log.isDebugEnabled()) {
     return next.execute(command);
   }
-  log.fine("                                                                                                    ");
-  log.fine("--- starting " + ClassNameUtil.getClassNameWithoutPackage(command) + " --------------------------------------------------------");
+  log.debug("                                                                                                    ");
+  log.debug("--- starting {} --------------------------------------------------------",command.getClass().getSimpleName());
   try {
     return next.execute(command);
   }
   finally {
-    log.fine("--- " + ClassNameUtil.getClassNameWithoutPackage(command) + " finished --------------------------------------------------------");
-    log.fine("                                                                                                    ");
+    log.debug("--- {} finished --------------------------------------------------------",command.getClass().getSimpleName());
+    log.debug("                                                                                                    ");
   }
 }

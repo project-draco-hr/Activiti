@@ -1,0 +1,58 @@
+{
+  ActivityImpl activity=createActivityOnScope(serviceTask,ELEMENT_TASK_SERVICE,scope);
+  activity.setAsync(serviceTask.isAsynchronous());
+  activity.setExclusive(!serviceTask.isNotExclusive());
+  if (StringUtils.isNotEmpty(serviceTask.getType())) {
+    if (serviceTask.getType().equalsIgnoreCase("mail")) {
+      createEmailServiceTask(activity,serviceTask.getId(),createFieldDeclarations(serviceTask.getFieldExtensions()));
+    }
+ else     if (serviceTask.getType().equalsIgnoreCase("mule")) {
+      createMuleServiceTask(activity,serviceTask.getId(),createFieldDeclarations(serviceTask.getFieldExtensions()));
+    }
+ else     if (serviceTask.getType().equalsIgnoreCase("shell")) {
+      createShellServiceTask(activity,serviceTask.getId(),createFieldDeclarations(serviceTask.getFieldExtensions()));
+    }
+ else {
+      bpmnModel.addProblem("Invalid usage of type attribute: '" + serviceTask.getType() + "'.",serviceTask.getId());
+    }
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(serviceTask.getImplementationType())) {
+    activity.setActivityBehavior(new ClassDelegate(serviceTask.getImplementation(),createFieldDeclarations(serviceTask.getFieldExtensions())));
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(serviceTask.getImplementationType())) {
+    activity.setActivityBehavior(new ServiceTaskDelegateExpressionActivityBehavior(expressionManager.createExpression(serviceTask.getImplementation()),createFieldDeclarations(serviceTask.getFieldExtensions())));
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(serviceTask.getImplementationType())) {
+    activity.setActivityBehavior(new ServiceTaskExpressionActivityBehavior(expressionManager.createExpression(serviceTask.getImplementation()),serviceTask.getResultVariableName()));
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(serviceTask.getImplementationType()) && StringUtils.isNotEmpty(serviceTask.getOperationRef())) {
+    if (!this.operations.containsKey(serviceTask.getOperationRef())) {
+      bpmnModel.addProblem(serviceTask.getOperationRef() + " does not exist",serviceTask.getId());
+    }
+ else {
+      Operation operation=this.operations.get(serviceTask.getOperationRef());
+      WebServiceActivityBehavior webServiceActivityBehavior=new WebServiceActivityBehavior(operation);
+      if (serviceTask.getIoSpecification() != null) {
+        IOSpecification ioSpecification=this.createIOSpecification(serviceTask.getIoSpecification());
+        webServiceActivityBehavior.setIoSpecification(ioSpecification);
+      }
+      for (      DataAssociation dataAssociationElement : serviceTask.getDataInputAssociations()) {
+        AbstractDataAssociation dataAssociation=this.createDataInputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataInputAssociation(dataAssociation);
+      }
+      for (      DataAssociation dataAssociationElement : serviceTask.getDataOutputAssociations()) {
+        AbstractDataAssociation dataAssociation=this.createDataOutputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataOutputAssociation(dataAssociation);
+      }
+      activity.setActivityBehavior(webServiceActivityBehavior);
+    }
+  }
+ else {
+    bpmnModel.addProblem("One of the attributes 'class', 'delegateExpression', 'type', 'operation', or 'expression' is mandatory on serviceTask.",serviceTask.getId());
+  }
+  createExecutionListenersOnScope(serviceTask.getExecutionListeners(),activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseServiceTask(serviceTask,scope,activity);
+  }
+  return activity;
+}

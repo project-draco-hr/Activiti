@@ -1,0 +1,32 @@
+{
+  Process process=null;
+  if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
+    String processId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+    process=new Process();
+    process.setId(processId);
+    process.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
+    if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,TARGET_NAMESPACE_ATTRIBUTE))) {
+      process.setTargetNamespace(xtr.getAttributeValue(null,TARGET_NAMESPACE_ATTRIBUTE));
+    }
+ else {
+      process.setTargetNamespace(model.getTargetNamespace());
+    }
+    if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_PROCESS_EXECUTABLE))) {
+      process.setExecutable(Boolean.parseBoolean(xtr.getAttributeValue(null,ATTRIBUTE_PROCESS_EXECUTABLE)));
+    }
+    String candidateUsersString=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_PROCESS_CANDIDATE_USERS);
+    if (StringUtils.isNotEmpty(candidateUsersString)) {
+      List<String> candidateUsers=BpmnXMLUtil.parseDelimitedList(candidateUsersString);
+      process.setCandidateStarterUsers(candidateUsers);
+    }
+    String candidateGroupsString=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_PROCESS_CANDIDATE_GROUPS);
+    if (StringUtils.isNotEmpty(candidateGroupsString)) {
+      List<String> candidateGroups=BpmnXMLUtil.parseDelimitedList(candidateGroupsString);
+      process.setCandidateStarterGroups(candidateGroups);
+    }
+    if (process.isExecutable()) {
+      model.getProcesses().add(process);
+    }
+  }
+  return process;
+}

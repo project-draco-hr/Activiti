@@ -1,0 +1,32 @@
+{
+  TaskFormHandler taskFormHandler=new DefaultTaskFormHandler();
+  taskFormHandler.parseConfiguration(userTask.getFormProperties(),userTask.getFormKey(),deployment,processDefinition);
+  TaskDefinition taskDefinition=new TaskDefinition(taskFormHandler);
+  taskDefinition.setKey(taskDefinitionKey);
+  processDefinition.getTaskDefinitions().put(taskDefinitionKey,taskDefinition);
+  if (StringUtils.isNotEmpty(userTask.getName())) {
+    taskDefinition.setNameExpression(expressionManager.createExpression(userTask.getName()));
+  }
+  if (StringUtils.isNotEmpty(userTask.getDocumentation())) {
+    taskDefinition.setDescriptionExpression(expressionManager.createExpression(userTask.getDocumentation()));
+  }
+  if (StringUtils.isNotEmpty(userTask.getAssignee())) {
+    taskDefinition.setAssigneeExpression(expressionManager.createExpression(userTask.getAssignee()));
+  }
+  for (  String candidateUser : userTask.getCandidateUsers()) {
+    taskDefinition.addCandidateUserIdExpression(expressionManager.createExpression(candidateUser));
+  }
+  for (  String candidateGroup : userTask.getCandidateGroups()) {
+    taskDefinition.addCandidateGroupIdExpression(expressionManager.createExpression(candidateGroup));
+  }
+  for (  ActivitiListener taskListener : userTask.getTaskListeners()) {
+    taskDefinition.addTaskListener(taskListener.getEvent(),createTaskListener(taskListener,userTask.getId()));
+  }
+  if (StringUtils.isNotEmpty(userTask.getDueDate())) {
+    taskDefinition.setDueDateExpression(expressionManager.createExpression(userTask.getDueDate()));
+  }
+  if (StringUtils.isNotEmpty(userTask.getPriority())) {
+    taskDefinition.setPriorityExpression(expressionManager.createExpression(userTask.getPriority()));
+  }
+  return taskDefinition;
+}

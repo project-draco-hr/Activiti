@@ -1,16 +1,15 @@
 {
-  LOG.fine("Processing deployment " + deployment.getName());
+  LOG.debug("Processing deployment {}",deployment.getName());
   List<ProcessDefinitionEntity> processDefinitions=new ArrayList<ProcessDefinitionEntity>();
   Map<String,ResourceEntity> resources=deployment.getResources();
   for (  String resourceName : resources.keySet()) {
-    LOG.info("Processing resource " + resourceName);
+    LOG.info("Processing resource {}",resourceName);
     if (isBpmnResource(resourceName)) {
       ResourceEntity resource=resources.get(resourceName);
       byte[] bytes=resource.getBytes();
       ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
       BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).deployment(deployment).name(resourceName);
       if (!deployment.isValidatingSchema()) {
-        bpmnParse.setSchemaResource(null);
       }
       bpmnParse.execute();
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
@@ -24,7 +23,7 @@
               createResource(diagramResourceName,diagramBytes,deployment);
             }
  catch (            Throwable t) {
-              LOG.log(Level.WARNING,"Error while generating process diagram, image will not be stored in repository",t);
+              LOG.warn("Error while generating process diagram, image will not be stored in repository",t);
             }
           }
         }

@@ -1,0 +1,22 @@
+{
+  nestedActivity.setProperty("type","intermediateMessageCatch");
+  if (bpmnModel.containsMessageId(messageEventDefinition.getMessageRef())) {
+    String messageName=bpmnModel.getMessage(messageEventDefinition.getMessageRef()).getName();
+    if (StringUtils.isEmpty(messageName)) {
+      bpmnModel.addProblem("messageName is required for a message event",nestedActivity.getId());
+    }
+    messageEventDefinition.setMessageRef(messageName);
+  }
+  EventSubscriptionDeclaration messageDefinition=new EventSubscriptionDeclaration(messageEventDefinition.getMessageRef(),"message");
+  if (isAfterEventBasedGateway) {
+    messageDefinition.setActivityId(nestedActivity.getId());
+    addEventSubscriptionDeclaration(messageDefinition,nestedActivity.getParent());
+  }
+ else {
+    nestedActivity.setScope(true);
+    addEventSubscriptionDeclaration(messageDefinition,nestedActivity);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseIntermediateMessageCatchEventDefinition(messageEventDefinition,nestedActivity);
+  }
+}

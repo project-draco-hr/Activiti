@@ -1,0 +1,23 @@
+{
+  if (bpmnModel.getArtifact(association.getSourceRef()) != null || bpmnModel.getArtifact(association.getTargetRef()) != null) {
+    return;
+  }
+  ActivityImpl sourceActivity=parentScope.findActivity(association.getSourceRef());
+  ActivityImpl targetActivity=parentScope.findActivity(association.getTargetRef());
+  if (sourceActivity == null) {
+  }
+ else   if (targetActivity == null) {
+  }
+ else {
+    if (sourceActivity != null && sourceActivity.getProperty("type").equals("compensationBoundaryCatch")) {
+      Object isForCompensation=targetActivity.getProperty(PROPERTYNAME_IS_FOR_COMPENSATION);
+      if (isForCompensation == null || !(Boolean)isForCompensation) {
+        bpmnModel.addProblem("compensation boundary catch must be connected to element with isForCompensation=true",association.getId());
+      }
+ else {
+        ActivityImpl compensatedActivity=sourceActivity.getParentActivity();
+        compensatedActivity.setProperty(PROPERTYNAME_COMPENSATION_HANDLER_ID,targetActivity.getId());
+      }
+    }
+  }
+}

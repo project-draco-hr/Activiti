@@ -1,0 +1,46 @@
+{
+  ActivityImpl activity=createActivityOnScope(sendTask,ELEMENT_TASK_SEND,scope);
+  activity.setAsync(sendTask.isAsynchronous());
+  activity.setExclusive(!sendTask.isNotExclusive());
+  if (StringUtils.isNotEmpty(sendTask.getType())) {
+    if (sendTask.getType().equalsIgnoreCase("mail")) {
+      createEmailServiceTask(activity,sendTask.getId(),createFieldDeclarations(sendTask.getFieldExtensions()));
+    }
+ else     if (sendTask.getType().equalsIgnoreCase("mule")) {
+      createMuleServiceTask(activity,sendTask.getId(),createFieldDeclarations(sendTask.getFieldExtensions()));
+    }
+ else {
+      bpmnModel.addProblem("Invalid usage of type attribute: '" + sendTask.getType() + "'.",sendTask.getId());
+    }
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(sendTask.getImplementationType()) && StringUtils.isNotEmpty(sendTask.getOperationRef())) {
+    if (!this.operations.containsKey(sendTask.getOperationRef())) {
+      bpmnModel.addProblem(sendTask.getOperationRef() + " does not exist",sendTask.getId());
+    }
+ else {
+      Operation operation=this.operations.get(sendTask.getOperationRef());
+      WebServiceActivityBehavior webServiceActivityBehavior=new WebServiceActivityBehavior(operation);
+      if (sendTask.getIoSpecification() != null) {
+        IOSpecification ioSpecification=this.createIOSpecification(sendTask.getIoSpecification());
+        webServiceActivityBehavior.setIoSpecification(ioSpecification);
+      }
+      for (      DataAssociation dataAssociationElement : sendTask.getDataInputAssociations()) {
+        AbstractDataAssociation dataAssociation=this.createDataInputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataInputAssociation(dataAssociation);
+      }
+      for (      DataAssociation dataAssociationElement : sendTask.getDataOutputAssociations()) {
+        AbstractDataAssociation dataAssociation=this.createDataOutputAssociation(dataAssociationElement);
+        webServiceActivityBehavior.addDataOutputAssociation(dataAssociation);
+      }
+      activity.setActivityBehavior(webServiceActivityBehavior);
+    }
+  }
+ else {
+    bpmnModel.addProblem("One of the attributes 'type' or 'operation' is mandatory on sendTask.",sendTask.getId());
+  }
+  createExecutionListenersOnScope(sendTask.getExecutionListeners(),activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseSendTask(sendTask,scope,activity);
+  }
+  return activity;
+}

@@ -1,3 +1,10 @@
 {
-  return artifactMap.get(id);
+  Artifact foundArtifact=null;
+  for (  Artifact artifact : artifactList) {
+    if (id.equals(artifact.getId())) {
+      foundArtifact=artifact;
+      break;
+    }
+  }
+  return foundArtifact;
 }

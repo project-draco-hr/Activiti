@@ -10,11 +10,11 @@
     execution.signal(null,null);
   }
  catch (  RuntimeException e) {
-    log.log(Level.SEVERE,"exception during timer execution",e);
+    log.error("exception during timer execution",e);
     throw e;
   }
 catch (  Exception e) {
-    log.log(Level.SEVERE,"exception during timer execution",e);
+    log.error("exception during timer execution",e);
     throw new ActivitiException("exception during timer execution: " + e.getMessage(),e);
   }
 }

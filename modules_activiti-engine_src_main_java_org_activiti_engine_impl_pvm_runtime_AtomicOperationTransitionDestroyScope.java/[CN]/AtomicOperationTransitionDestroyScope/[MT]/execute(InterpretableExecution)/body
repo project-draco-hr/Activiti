@@ -6,7 +6,7 @@
     if (execution.isConcurrent() && !execution.isScope()) {
       InterpretableExecution concurrentRoot=(InterpretableExecution)execution.getParent();
       parentScopeInstance=(InterpretableExecution)execution.getParent().getParent();
-      log.fine("moving concurrent " + execution + " one scope up under "+ parentScopeInstance);
+      log.debug("moving concurrent {} one scope up under {}",execution,parentScopeInstance);
       List<InterpretableExecution> parentScopeInstanceExecutions=(List<InterpretableExecution>)parentScopeInstance.getExecutions();
       List<InterpretableExecution> concurrentRootExecutions=(List<InterpretableExecution>)concurrentRoot.getExecutions();
       if (parentScopeInstanceExecutions.size() == 1) {
@@ -23,7 +23,7 @@
           lastConcurrent.setConcurrent(false);
         }
  else {
-          log.fine("merging last concurrent " + lastConcurrent + " into concurrent root "+ concurrentRoot);
+          log.debug("merging last concurrent {} into concurrent root {}",lastConcurrent,concurrentRoot);
           concurrentRoot.setActivity((ActivityImpl)lastConcurrent.getActivity());
           concurrentRoot.setActive(lastConcurrent.isActive());
           lastConcurrent.setReplacedBy(concurrentRoot);
@@ -32,7 +32,7 @@
       }
     }
  else     if (execution.isConcurrent() && execution.isScope()) {
-      log.fine("scoped concurrent " + execution + " becomes concurrent and remains under "+ execution.getParent());
+      log.debug("scoped concurrent {} becomes concurrent and remains under {}",execution,execution.getParent());
       execution.destroy();
       propagatingExecution=execution;
     }
@@ -41,7 +41,7 @@
       propagatingExecution.setActivity((ActivityImpl)execution.getActivity());
       propagatingExecution.setTransition(execution.getTransition());
       propagatingExecution.setActive(true);
-      log.fine("destroy scope: scoped " + execution + " continues as parent scope "+ propagatingExecution);
+      log.debug("destroy scope: scoped {} continues as parent scope {}",execution,propagatingExecution);
       execution.destroy();
       execution.remove();
     }

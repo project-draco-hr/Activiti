@@ -1,0 +1,9 @@
+{
+  if (parentElement instanceof Event == false)   return;
+  CompensateEventDefinition eventDefinition=new CompensateEventDefinition();
+  eventDefinition.setActivityRef(xtr.getAttributeValue(null,ATTRIBUTE_COMPENSATE_ACTIVITYREF));
+  if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION))) {
+    eventDefinition.setWaitForCompletion(Boolean.parseBoolean(xtr.getAttributeValue(null,ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION)));
+  }
+  ((Event)parentElement).getEventDefinitions().add(eventDefinition);
+}

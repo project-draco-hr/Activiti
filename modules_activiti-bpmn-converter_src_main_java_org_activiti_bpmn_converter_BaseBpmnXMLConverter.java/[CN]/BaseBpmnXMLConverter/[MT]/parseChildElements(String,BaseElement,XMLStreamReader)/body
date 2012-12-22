@@ -5,20 +5,15 @@
     childParsers.putAll(childElementParsers);
   }
   boolean readyWithChildElements=false;
-  try {
-    while (readyWithChildElements == false && xtr.hasNext()) {
-      xtr.next();
-      if (xtr.isStartElement()) {
-        if (childParsers.containsKey(xtr.getLocalName())) {
-          childParsers.get(xtr.getLocalName()).parseChildElement(xtr,parentElement);
-        }
-      }
- else       if (xtr.isEndElement() && elementName.equalsIgnoreCase(xtr.getLocalName())) {
-        readyWithChildElements=true;
+  while (readyWithChildElements == false && xtr.hasNext()) {
+    xtr.next();
+    if (xtr.isStartElement()) {
+      if (childParsers.containsKey(xtr.getLocalName())) {
+        childParsers.get(xtr.getLocalName()).parseChildElement(xtr,parentElement,model);
       }
     }
-  }
- catch (  Exception e) {
-    LOGGER.log(Level.WARNING,"Error parsing child elements for " + elementName,e);
+ else     if (xtr.isEndElement() && elementName.equalsIgnoreCase(xtr.getLocalName())) {
+      readyWithChildElements=true;
+    }
   }
 }

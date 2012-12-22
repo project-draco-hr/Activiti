@@ -14,7 +14,7 @@
     repositoryService.addModelEditorSourceExtra(model.getId(),modelForm.getFirstValue("svg_xml").getBytes("utf-8"));
   }
  catch (  Exception e) {
-    LOGGER.log(Level.SEVERE,"Error saving model",e);
+    LOGGER.error("Error saving model",e);
     setStatus(Status.SERVER_ERROR_INTERNAL);
   }
 }

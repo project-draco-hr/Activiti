@@ -13,11 +13,10 @@
               PreparedStatement preparedStatement=connection.prepareStatement(cleanStatement);
               preparedStatement.execute();
               connection.commit();
-              log.info("executed [" + cleanStatement + "] successfully");
+              log.info("executed [{}] successfully",cleanStatement);
             }
  catch (            Exception e) {
-              log.info("ERROR WHILE EXECUTING [" + cleanStatement + "]:");
-              e.printStackTrace();
+              log.info("ERROR WHILE EXECUTING [{}]:",cleanStatement,e);
               connection.rollback();
             }
           }

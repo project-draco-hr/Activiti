@@ -1,0 +1,22 @@
+{
+  signalActivity.setProperty("type","intermediateSignalCatch");
+  if (bpmnModel.containsSignalId(signalEventDefinition.getSignalRef())) {
+    String signalName=bpmnModel.getSignal(signalEventDefinition.getSignalRef()).getName();
+    if (StringUtils.isEmpty(signalName)) {
+      bpmnModel.addProblem("signalName is required for a signal event",signalActivity.getId());
+    }
+    signalEventDefinition.setSignalRef(signalName);
+  }
+  EventSubscriptionDeclaration signalDefinition=new EventSubscriptionDeclaration(signalEventDefinition.getSignalRef(),"signal");
+  if (isAfterEventBasedGateway) {
+    signalDefinition.setActivityId(signalActivity.getId());
+    addEventSubscriptionDeclaration(signalDefinition,signalActivity.getParent());
+  }
+ else {
+    signalActivity.setScope(true);
+    addEventSubscriptionDeclaration(signalDefinition,signalActivity);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseIntermediateSignalCatchEventDefinition(signalEventDefinition,signalActivity);
+  }
+}

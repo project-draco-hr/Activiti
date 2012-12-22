@@ -3,7 +3,7 @@
   int failedAttempts=0;
   do {
     if (failedAttempts > 0) {
-      log.info("Waiting for " + waitTime + "ms before retrying the command.");
+      log.info("Waiting for {}ms before retrying the command.",waitTime);
       waitBeforeRetry(waitTime);
       waitTime*=waitIncreaseFactor;
     }
@@ -11,7 +11,7 @@
       return next.execute(command);
     }
  catch (    ActivitiOptimisticLockingException e) {
-      log.log(Level.INFO,"Caught optimistic locking exception: " + e);
+      log.info("Caught optimistic locking exception: " + e);
     }
     failedAttempts++;
   }

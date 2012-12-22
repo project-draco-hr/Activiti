@@ -2,18 +2,18 @@
   removeUnnecessaryOperations();
   flushDeserializedObjects();
   List<PersistentObject> updatedObjects=getUpdatedObjects();
-  if (log.isLoggable(Level.FINE)) {
-    log.fine("flush summary:");
+  if (log.isDebugEnabled()) {
+    log.debug("flush summary:");
     for (    PersistentObject insertedObject : insertedObjects) {
-      log.fine("  insert " + toString(insertedObject));
+      log.debug("  insert {}",toString(insertedObject));
     }
     for (    PersistentObject updatedObject : updatedObjects) {
-      log.fine("  update " + toString(updatedObject));
+      log.debug("  update {}",toString(updatedObject));
     }
     for (    Object deleteOperation : deleteOperations) {
-      log.fine("  " + deleteOperation);
+      log.debug("  {}",deleteOperation);
     }
-    log.fine("now executing flush...");
+    log.debug("now executing flush...");
   }
   flushInserts();
   flushUpdates(updatedObjects);

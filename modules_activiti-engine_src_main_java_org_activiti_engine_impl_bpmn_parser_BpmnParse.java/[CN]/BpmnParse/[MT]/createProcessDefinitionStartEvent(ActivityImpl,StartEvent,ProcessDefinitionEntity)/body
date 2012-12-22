@@ -1,0 +1,27 @@
+{
+  if (StringUtils.isNotEmpty(startEvent.getInitiator())) {
+    processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,startEvent.getInitiator());
+  }
+  startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+  if (startEvent.getEventDefinitions().size() > 0) {
+    EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
+    if (eventDefinition instanceof TimerEventDefinition) {
+      createTimerStartEventDefinition((TimerEventDefinition)eventDefinition,startEventActivity,processDefinition);
+    }
+ else     if (eventDefinition instanceof MessageEventDefinition) {
+      MessageEventDefinition messageDefinition=(MessageEventDefinition)eventDefinition;
+      if (bpmnModel.containsMessageId(messageDefinition.getMessageRef())) {
+        String messageName=bpmnModel.getMessage(messageDefinition.getMessageRef()).getName();
+        if (StringUtils.isEmpty(messageName)) {
+          bpmnModel.addProblem("messageName is required for a message event",startEvent.getId());
+        }
+        messageDefinition.setMessageRef(messageName);
+      }
+      EventSubscriptionDeclaration eventSubscription=new EventSubscriptionDeclaration(messageDefinition.getMessageRef(),"message");
+      startEventActivity.setProperty("type","messageStartEvent");
+      eventSubscription.setActivityId(startEventActivity.getId());
+      eventSubscription.setStartEvent(true);
+      addEventSubscriptionDeclaration(eventSubscription,processDefinition);
+    }
+  }
+}

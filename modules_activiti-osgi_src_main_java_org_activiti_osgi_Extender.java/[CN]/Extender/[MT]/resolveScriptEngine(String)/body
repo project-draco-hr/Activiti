@@ -4,12 +4,12 @@
     LOGGER.info("No OSGi script engine resolvers available!");
     return null;
   }
-  LOGGER.fine("Found " + refs.length + " OSGi ScriptEngineResolver services");
+  LOGGER.debug("Found {} OSGi ScriptEngineResolver services",refs.length);
   for (  ServiceReference ref : refs) {
     ScriptEngineResolver resolver=(ScriptEngineResolver)context.getService(ref);
     ScriptEngine engine=resolver.resolveScriptEngine(scriptEngineName);
     context.ungetService(ref);
-    LOGGER.fine("OSGi resolver " + resolver + " produced "+ scriptEngineName+ " engine "+ engine);
+    LOGGER.debug("OSGi resolver {} produced {} engine {}",resolver,scriptEngineName,engine);
     if (engine != null) {
       return engine;
     }

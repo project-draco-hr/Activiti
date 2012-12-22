@@ -5,8 +5,8 @@
       throw new ActivitiException("completionCondition '" + completionConditionExpression.getExpressionText() + "' does not evaluate to a boolean value");
     }
     Boolean booleanValue=(Boolean)value;
-    if (LOGGER.isLoggable(Level.FINE)) {
-      LOGGER.fine("Completion condition of multi-instance satisfied: " + booleanValue);
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Completion condition of multi-instance satisfied: {}",booleanValue);
     }
     return booleanValue;
   }

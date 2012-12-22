@@ -6,15 +6,15 @@
       new StartProcessInstanceCmd(configuration,null,null,null).execute(commandContext);
     }
  else {
-      log.log(Level.FINE,"ignoring timer of suspended process definition " + processDefinition.getName());
+      log.debug("ignoring timer of suspended process definition {}",processDefinition.getName());
     }
   }
  catch (  RuntimeException e) {
-    log.log(Level.SEVERE,"exception during timer execution",e);
+    log.error("exception during timer execution",e);
     throw e;
   }
 catch (  Exception e) {
-    log.log(Level.SEVERE,"exception during timer execution",e);
+    log.error("exception during timer execution",e);
     throw new ActivitiException("exception during timer execution: " + e.getMessage(),e);
   }
 }

@@ -8,7 +8,7 @@
         processEngine.close();
       }
  catch (      Exception e) {
-        log.log(Level.SEVERE,"exception while closing " + (processEngineName == null ? "the default process engine" : "process engine " + processEngineName),e);
+        log.error("exception while closing {}",(processEngineName == null ? "the default process engine" : "process engine " + processEngineName),e);
       }
     }
     processEngineInfosByName.clear();

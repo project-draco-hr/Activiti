@@ -1,0 +1,25 @@
+{
+  if (parentElement instanceof Event == false)   return;
+  MessageEventDefinition eventDefinition=new MessageEventDefinition();
+  eventDefinition.setMessageRef(xtr.getAttributeValue(null,"messageRef"));
+  if (StringUtils.isEmpty(eventDefinition.getMessageRef())) {
+    model.addProblem("attribute 'messageRef' is required",xtr);
+  }
+ else {
+    int indexOfP=eventDefinition.getMessageRef().indexOf(':');
+    if (indexOfP != -1) {
+      String prefix=eventDefinition.getMessageRef().substring(0,indexOfP);
+      String resolvedNamespace=model.getNamespace(prefix);
+      eventDefinition.setMessageRef(resolvedNamespace + ":" + eventDefinition.getMessageRef().substring(indexOfP + 1));
+    }
+ else {
+      eventDefinition.setMessageRef(model.getTargetNamespace() + ":" + eventDefinition.getMessageRef());
+    }
+    if (model.containsMessageId(eventDefinition.getMessageRef()) == false) {
+      model.addProblem("Invalid 'messageRef': no message with id '" + eventDefinition.getMessageRef() + "' found.",xtr);
+    }
+ else {
+      ((Event)parentElement).getEventDefinitions().add(eventDefinition);
+    }
+  }
+}

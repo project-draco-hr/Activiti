@@ -1,0 +1,15 @@
+{
+  String procDefId=repositoryService.createProcessDefinitionQuery().singleResult().getId();
+  ProcessDefinition processDefinition=((RepositoryServiceImpl)repositoryService).getProcessDefinition(procDefId);
+  try {
+    ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    new ObjectOutputStream(baos).writeObject(processDefinition);
+    byte[] bytes=baos.toByteArray();
+    assertTrue(bytes.length > 0);
+    System.out.println("-----> " + bytes.length);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+    fail();
+  }
+}

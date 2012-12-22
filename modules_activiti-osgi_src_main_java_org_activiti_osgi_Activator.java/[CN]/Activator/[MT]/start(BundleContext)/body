@@ -6,8 +6,8 @@
     callbacks.add(new Service(context,new String[]{ArtifactUrlTransformer.class.getName(),ArtifactListener.class.getName()},new BarDeploymentListener(),null));
   }
  catch (  NoClassDefFoundError e) {
-    LOGGER.log(Level.WARNING,"FileInstall package is not available, disabling fileinstall support");
-    LOGGER.log(Level.FINE,"FileInstall package is not available, disabling fileinstall support",e);
+    LOGGER.warn("FileInstall package is not available, disabling fileinstall support");
+    LOGGER.debug("FileInstall package is not available, disabling fileinstall support",e);
   }
   callbacks.add(new Tracker(new Extender(context)));
 }

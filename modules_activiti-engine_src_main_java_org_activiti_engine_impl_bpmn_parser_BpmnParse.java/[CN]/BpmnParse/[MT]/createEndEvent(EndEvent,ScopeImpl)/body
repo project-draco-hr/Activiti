@@ -1,0 +1,38 @@
+{
+  ActivityImpl activity=createActivityOnScope(endEvent,ELEMENT_EVENT_END,scope);
+  EventDefinition eventDefinition=null;
+  if (endEvent.getEventDefinitions().size() > 0) {
+    eventDefinition=endEvent.getEventDefinitions().get(0);
+  }
+  if (eventDefinition instanceof org.activiti.bpmn.model.ErrorEventDefinition) {
+    org.activiti.bpmn.model.ErrorEventDefinition errorDefinition=(org.activiti.bpmn.model.ErrorEventDefinition)eventDefinition;
+    if (bpmnModel.containsErrorRef(errorDefinition.getErrorCode())) {
+      String errorCode=bpmnModel.getErrors().get(errorDefinition.getErrorCode());
+      if (StringUtils.isEmpty(errorCode)) {
+        bpmnModel.addProblem("errorCode is required for an error event",errorDefinition.getId());
+      }
+      activity.setProperty("type","errorEndEvent");
+      errorDefinition.setErrorCode(errorCode);
+    }
+    activity.setActivityBehavior(new ErrorEndEventActivityBehavior(errorDefinition.getErrorCode()));
+  }
+ else   if (eventDefinition instanceof CancelEventDefinition) {
+    if (scope.getProperty("type") == null || !scope.getProperty("type").equals("transaction")) {
+      bpmnModel.addProblem("end event with cancelEventDefinition only supported inside transaction subprocess",endEvent.getId());
+    }
+ else {
+      activity.setProperty("type","cancelEndEvent");
+      activity.setActivityBehavior(new CancelEndEventActivityBehavior());
+    }
+  }
+ else   if (eventDefinition instanceof TerminateEventDefinition) {
+    activity.setActivityBehavior(new TerminateEndEventActivityBehavior());
+  }
+ else   if (eventDefinition == null) {
+    activity.setActivityBehavior(new NoneEndEventActivityBehavior());
+  }
+  createExecutionListenersOnScope(endEvent.getExecutionListeners(),activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseEndEvent(endEvent,scope,activity);
+  }
+}

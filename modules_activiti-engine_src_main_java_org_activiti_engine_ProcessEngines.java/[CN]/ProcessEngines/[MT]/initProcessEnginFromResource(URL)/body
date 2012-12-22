@@ -11,16 +11,16 @@
   }
   String resourceUrlString=resourceUrl.toString();
   try {
-    log.info("initializing process engine for resource " + resourceUrl);
+    log.info("initializing process engine for resource {}",resourceUrl);
     ProcessEngine processEngine=buildProcessEngine(resourceUrl);
     String processEngineName=processEngine.getName();
-    log.info("initialised process engine " + processEngineName);
+    log.info("initialised process engine {}",processEngineName);
     processEngineInfo=new ProcessEngineInfoImpl(processEngineName,resourceUrlString,null);
     processEngines.put(processEngineName,processEngine);
     processEngineInfosByName.put(processEngineName,processEngineInfo);
   }
  catch (  Throwable e) {
-    log.log(Level.SEVERE,"Exception while initializing process engine :" + e.getMessage(),e);
+    log.error("Exception while initializing process engine: {}",e.getMessage(),e);
     processEngineInfo=new ProcessEngineInfoImpl(null,resourceUrlString,getExceptionString(e));
   }
   processEngineInfosByResourceUrl.put(resourceUrlString,processEngineInfo);
