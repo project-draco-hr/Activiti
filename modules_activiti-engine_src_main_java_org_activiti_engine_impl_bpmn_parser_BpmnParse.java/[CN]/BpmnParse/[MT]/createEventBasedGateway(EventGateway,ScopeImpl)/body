@@ -1,0 +1,16 @@
+{
+  ActivityImpl activity=createActivityOnScope(gateway,ELEMENT_GATEWAY_EVENT,scope);
+  activity.setActivityBehavior(new EventBasedGatewayActivityBehavior());
+  activity.setScope(true);
+  createExecutionListenersOnScope(gateway.getExecutionListeners(),activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseEventBasedGateway(gateway,scope,activity);
+  }
+  for (  SequenceFlow sequenceFlow : gateway.getOutgoingFlows()) {
+    FlowElement flowElement=bpmnModel.getFlowElement(sequenceFlow.getTargetRef());
+    if (flowElement != null && flowElement instanceof IntermediateCatchEvent == false) {
+      bpmnModel.addProblem("Event based gateway can only be connected to elements of type intermediateCatchEvent.",flowElement.getId());
+    }
+  }
+  return activity;
+}

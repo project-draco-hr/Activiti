@@ -1,0 +1,16 @@
+{
+  TaskListener taskListener=null;
+  if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(activitiListener.getImplementationType())) {
+    taskListener=new ClassDelegate(activitiListener.getImplementation(),createFieldDeclarations(activitiListener.getFieldExtensions()));
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(activitiListener.getImplementationType())) {
+    taskListener=new ExpressionTaskListener(expressionManager.createExpression(activitiListener.getImplementation()));
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(activitiListener.getImplementationType())) {
+    taskListener=new DelegateExpressionTaskListener(expressionManager.createExpression(activitiListener.getImplementation()),createFieldDeclarations(activitiListener.getFieldExtensions()));
+  }
+ else {
+    bpmnModel.addProblem("Element 'class', 'expression' or 'delegateExpression' is mandatory on taskListener for task",taskId);
+  }
+  return taskListener;
+}

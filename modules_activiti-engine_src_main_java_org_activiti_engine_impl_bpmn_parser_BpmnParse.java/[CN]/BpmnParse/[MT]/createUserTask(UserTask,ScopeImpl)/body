@@ -1,0 +1,13 @@
+{
+  ActivityImpl activity=createActivityOnScope(userTask,ELEMENT_TASK_USER,scope);
+  activity.setAsync(userTask.isAsynchronous());
+  activity.setExclusive(!userTask.isNotExclusive());
+  TaskDefinition taskDefinition=parseTaskDefinition(userTask,userTask.getId(),(ProcessDefinitionEntity)scope.getProcessDefinition());
+  UserTaskActivityBehavior userTaskActivity=new UserTaskActivityBehavior(taskDefinition);
+  activity.setActivityBehavior(userTaskActivity);
+  createExecutionListenersOnScope(userTask.getExecutionListeners(),activity);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseUserTask(userTask,scope,activity);
+  }
+  return activity;
+}

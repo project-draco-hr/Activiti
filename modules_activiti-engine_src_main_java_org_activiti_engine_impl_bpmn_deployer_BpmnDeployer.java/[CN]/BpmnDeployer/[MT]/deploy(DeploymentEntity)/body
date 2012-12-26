@@ -10,7 +10,6 @@
       ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
       BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).deployment(deployment).name(resourceName);
       if (!deployment.isValidatingSchema()) {
-        bpmnParse.setSchemaResource(null);
       }
       bpmnParse.execute();
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {

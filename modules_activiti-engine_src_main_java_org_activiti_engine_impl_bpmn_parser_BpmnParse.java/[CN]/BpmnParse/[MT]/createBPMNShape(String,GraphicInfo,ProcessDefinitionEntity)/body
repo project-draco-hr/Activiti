@@ -1,0 +1,15 @@
+{
+  ActivityImpl activity=processDefinition.findActivity(key);
+  if (activity != null) {
+    createDIBounds(graphicInfo,activity);
+  }
+ else {
+    org.activiti.engine.impl.pvm.process.Lane lane=processDefinition.getLaneForId(key);
+    if (lane != null) {
+      createDIBounds(graphicInfo,lane);
+    }
+ else {
+      bpmnModel.addProblem("Invalid reference in 'bpmnElement' attribute, activity " + key + " not found",key);
+    }
+  }
+}

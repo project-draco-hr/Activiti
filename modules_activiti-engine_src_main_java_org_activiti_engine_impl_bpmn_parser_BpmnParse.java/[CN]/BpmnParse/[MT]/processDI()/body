@@ -1,0 +1,21 @@
+{
+  if (bpmnModel.getLocationMap().size() > 0) {
+    for (    Process process : bpmnModel.getProcesses()) {
+      if (process.isExecutable() == false)       continue;
+      ProcessDefinitionEntity processDefinition=getProcessDefinition(process.getId());
+      if (processDefinition != null) {
+        processDefinition.setGraphicalNotationDefined(true);
+        for (        String shapeId : bpmnModel.getLocationMap().keySet()) {
+          if (process.getFlowElement(shapeId) != null) {
+            createBPMNShape(shapeId,bpmnModel.getGraphicInfo(shapeId),processDefinition);
+          }
+        }
+        for (        String edgeId : bpmnModel.getFlowLocationMap().keySet()) {
+          if (process.getFlowElement(edgeId) != null) {
+            createBPMNEdge(edgeId,bpmnModel.getFlowLocationGraphicInfo(edgeId));
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  FlowElement flowElement=model.getMainProcess().getFlowElement("task");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof UserTask);
+  assertEquals("task",flowElement.getId());
+  List<Problem> problems=model.getProblems();
+  assertNotNull(problems);
+  assertEquals(1,problems.size());
+  System.out.println(problems.get(0));
+}

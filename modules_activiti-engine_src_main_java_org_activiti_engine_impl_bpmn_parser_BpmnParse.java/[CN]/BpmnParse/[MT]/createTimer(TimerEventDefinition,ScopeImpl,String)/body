@@ -1,0 +1,23 @@
+{
+  TimerDeclarationType type=null;
+  Expression expression=null;
+  if (StringUtils.isNotEmpty(timerEventDefinition.getTimeDate())) {
+    type=TimerDeclarationType.DATE;
+    expression=expressionManager.createExpression(timerEventDefinition.getTimeDate());
+  }
+ else   if (StringUtils.isNotEmpty(timerEventDefinition.getTimeCycle())) {
+    type=TimerDeclarationType.CYCLE;
+    expression=expressionManager.createExpression(timerEventDefinition.getTimeCycle());
+  }
+ else   if (StringUtils.isNotEmpty(timerEventDefinition.getTimeDuration())) {
+    type=TimerDeclarationType.DURATION;
+    expression=expressionManager.createExpression(timerEventDefinition.getTimeDuration());
+  }
+  if (expression == null) {
+    bpmnModel.addProblem("Timer needs configuration (either timeDate, timeCycle or timeDuration is needed).",timerActivity.getId());
+  }
+  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(expression,type,jobHandlerType);
+  timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
+  timerDeclaration.setExclusive(true);
+  return timerDeclaration;
+}

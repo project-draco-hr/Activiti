@@ -1,0 +1,14 @@
+{
+  timerActivity.setProperty("type","intermediateTimer");
+  TimerDeclarationImpl timerDeclaration=createTimer(timerEventDefinition,timerActivity,TimerCatchIntermediateEventJobHandler.TYPE);
+  if (isAfterEventBasedGateway) {
+    addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
+  }
+ else {
+    addTimerDeclaration(timerActivity,timerDeclaration);
+    timerActivity.setScope(true);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseIntermediateTimerEventDefinition(timerEventDefinition,timerActivity);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (StringUtils.isNotEmpty(dataAssociationElement.getSourceRef())) {
+    return new MessageImplicitDataOutputAssociation(dataAssociationElement.getTargetRef(),dataAssociationElement.getSourceRef());
+  }
+ else {
+    Expression transformation=this.expressionManager.createExpression(dataAssociationElement.getTransformation());
+    AbstractDataAssociation dataOutputAssociation=new TransformationDataOutputAssociation(null,dataAssociationElement.getTargetRef(),transformation);
+    return dataOutputAssociation;
+  }
+}

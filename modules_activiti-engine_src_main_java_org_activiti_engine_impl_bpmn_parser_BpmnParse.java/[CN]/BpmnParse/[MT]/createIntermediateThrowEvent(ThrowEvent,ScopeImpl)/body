@@ -1,0 +1,38 @@
+{
+  ActivityImpl nestedActivityImpl=createActivityOnScope(intermediateEvent,ELEMENT_EVENT_THROW,scopeElement);
+  ActivityBehavior activityBehavior=null;
+  EventDefinition eventDefinition=null;
+  if (intermediateEvent.getEventDefinitions().size() > 0) {
+    eventDefinition=intermediateEvent.getEventDefinitions().get(0);
+  }
+  if (eventDefinition instanceof SignalEventDefinition) {
+    SignalEventDefinition signalEventDefinition=(SignalEventDefinition)eventDefinition;
+    if (bpmnModel.containsSignalId(signalEventDefinition.getSignalRef())) {
+      String signalName=bpmnModel.getSignal(signalEventDefinition.getSignalRef()).getName();
+      if (StringUtils.isEmpty(signalName)) {
+        bpmnModel.addProblem("signalName is required for a signal event",intermediateEvent.getId());
+      }
+      signalEventDefinition.setSignalRef(signalName);
+    }
+    nestedActivityImpl.setProperty("type","intermediateSignalThrow");
+    EventSubscriptionDeclaration signalDefinition=new EventSubscriptionDeclaration(signalEventDefinition.getSignalRef(),"signal");
+    signalDefinition.setAsync(signalEventDefinition.isAsync());
+    activityBehavior=new IntermediateThrowSignalEventActivityBehavior(signalDefinition);
+  }
+ else   if (eventDefinition instanceof org.activiti.bpmn.model.CompensateEventDefinition) {
+    CompensateEventDefinition compensateEventDefinition=createCompensateEventDefinition((org.activiti.bpmn.model.CompensateEventDefinition)eventDefinition,scopeElement);
+    activityBehavior=new IntermediateThrowCompensationEventActivityBehavior(compensateEventDefinition);
+  }
+ else   if (eventDefinition == null) {
+    activityBehavior=new IntermediateThrowNoneEventActivityBehavior();
+  }
+ else {
+    bpmnModel.addProblem("Unsupported intermediate throw event type " + eventDefinition,intermediateEvent.getId());
+  }
+  nestedActivityImpl.setActivityBehavior(activityBehavior);
+  createExecutionListenersOnScope(intermediateEvent.getExecutionListeners(),nestedActivityImpl);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseIntermediateThrowEvent(intermediateEvent,scopeElement,nestedActivityImpl);
+  }
+  return nestedActivityImpl;
+}

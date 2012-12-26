@@ -1,0 +1,11 @@
+{
+  for (  Import theImport : bpmnModel.getImports()) {
+    XMLImporter importer=this.getImporter(theImport);
+    if (importer == null) {
+      bpmnModel.addProblem("Could not import item of type " + theImport.getImportType(),"import");
+    }
+ else {
+      importer.importFrom(theImport,this);
+    }
+  }
+}

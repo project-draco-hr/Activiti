@@ -1,4 +1,7 @@
 {
-  super.sourceResource(resource,classLoader);
+  if (name == null) {
+    name(resource);
+  }
+  setStreamSource(new ResourceStreamSource(resource,classLoader));
   return this;
 }

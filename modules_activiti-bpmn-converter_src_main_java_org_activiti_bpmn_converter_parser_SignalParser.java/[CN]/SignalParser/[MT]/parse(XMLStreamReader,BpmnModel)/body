@@ -1,0 +1,18 @@
+{
+  String signalId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+  String signalName=xtr.getAttributeValue(null,ATTRIBUTE_NAME);
+  if (StringUtils.isEmpty(signalId)) {
+    model.addProblem("signal must have an id",xtr);
+  }
+ else   if (StringUtils.isEmpty(signalName)) {
+    model.addProblem("signal with id '" + signalId + "' has no name",xtr);
+  }
+ else {
+    for (    Signal signal : model.getSignals()) {
+      if (signal.getName().equals(signalName)) {
+        model.addProblem("duplicate signal name",xtr);
+      }
+    }
+    model.addSignal(signalId,signalName);
+  }
+}

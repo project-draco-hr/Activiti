@@ -1,4 +1,7 @@
 {
-  super.sourceUrl(url);
+  if (name == null) {
+    name(url.toString());
+  }
+  setStreamSource(new UrlStreamSource(url));
   return this;
 }

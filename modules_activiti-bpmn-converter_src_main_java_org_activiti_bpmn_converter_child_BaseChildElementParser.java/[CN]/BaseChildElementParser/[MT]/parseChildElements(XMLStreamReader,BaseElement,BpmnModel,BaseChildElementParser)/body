@@ -1,0 +1,15 @@
+{
+  this.parentElement=parentElement;
+  boolean readyWithChildElements=false;
+  while (readyWithChildElements == false && xtr.hasNext()) {
+    xtr.next();
+    if (xtr.isStartElement()) {
+      if (parser.getElementName().equals(xtr.getLocalName())) {
+        parser.parseChildElement(xtr,parentElement,model);
+      }
+    }
+ else     if (xtr.isEndElement() && getElementName().equalsIgnoreCase(xtr.getLocalName())) {
+      readyWithChildElements=true;
+    }
+  }
+}

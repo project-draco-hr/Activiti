@@ -1,0 +1,22 @@
+{
+  IOSpecification ioSpecification=new IOSpecification();
+  for (  DataSpec dataInputElement : specificationModel.getDataInputs()) {
+    ItemDefinition itemDefinition=this.itemDefinitions.get(dataInputElement.getItemSubjectRef());
+    Data dataInput=new Data(this.targetNamespace + ":" + dataInputElement.getId(),dataInputElement.getId(),itemDefinition);
+    ioSpecification.addInput(dataInput);
+  }
+  for (  DataSpec dataOutputElement : specificationModel.getDataOutputs()) {
+    ItemDefinition itemDefinition=this.itemDefinitions.get(dataOutputElement.getItemSubjectRef());
+    Data dataOutput=new Data(this.targetNamespace + ":" + dataOutputElement.getId(),dataOutputElement.getId(),itemDefinition);
+    ioSpecification.addOutput(dataOutput);
+  }
+  for (  String dataInputRef : specificationModel.getDataInputRefs()) {
+    DataRef dataRef=new DataRef(dataInputRef);
+    ioSpecification.addInputRef(dataRef);
+  }
+  for (  String dataOutputRef : specificationModel.getDataOutputRefs()) {
+    DataRef dataRef=new DataRef(dataOutputRef);
+    ioSpecification.addOutputRef(dataRef);
+  }
+  return ioSpecification;
+}

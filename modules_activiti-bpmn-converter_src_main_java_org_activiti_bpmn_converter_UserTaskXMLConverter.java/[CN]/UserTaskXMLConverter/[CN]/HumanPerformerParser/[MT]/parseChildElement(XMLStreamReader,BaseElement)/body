@@ -1,9 +1,0 @@
-{
-  String resourceElement=XMLStreamReaderUtil.moveDown(xtr);
-  if (StringUtils.isNotEmpty(resourceElement) && "resourceAssignmentExpression".equals(resourceElement)) {
-    String expression=XMLStreamReaderUtil.moveDown(xtr);
-    if (StringUtils.isNotEmpty(expression) && "formalExpression".equals(expression)) {
-      ((UserTask)parentElement).setAssignee(xtr.getElementText());
-    }
-  }
-}

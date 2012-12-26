@@ -1,0 +1,22 @@
+{
+  ActivityImpl activity=createActivityOnScope(subProcess,ELEMENT_SUBPROCESS,scope);
+  activity.setAsync(subProcess.isAsynchronous());
+  activity.setExclusive(!subProcess.isNotExclusive());
+  boolean triggeredByEvent=false;
+  if (subProcess instanceof EventSubProcess) {
+    triggeredByEvent=true;
+  }
+  activity.setProperty("triggeredByEvent",triggeredByEvent);
+  activity.setScope(!triggeredByEvent);
+  activity.setActivityBehavior(new SubProcessActivityBehavior());
+  processFlowElements(subProcess.getFlowElements(),activity);
+  processArtifacts(subProcess.getArtifacts(),activity);
+  if (subProcess.getIoSpecification() != null) {
+    IOSpecification ioSpecification=createIOSpecification(subProcess.getIoSpecification());
+    activity.setIoSpecification(ioSpecification);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseSubProcess(subProcess,scope,activity);
+  }
+  return activity;
+}

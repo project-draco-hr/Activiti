@@ -1,0 +1,28 @@
+{
+  this.deploymentId=deployment.getId();
+  ExpressionManager expressionManager=Context.getProcessEngineConfiguration().getExpressionManager();
+  if (StringUtils.isNotEmpty(formKey)) {
+    this.formKey=expressionManager.createExpression(formKey);
+  }
+  FormTypes formTypes=Context.getProcessEngineConfiguration().getFormTypes();
+  for (  org.activiti.bpmn.model.FormProperty formProperty : formProperties) {
+    FormPropertyHandler formPropertyHandler=new FormPropertyHandler();
+    formPropertyHandler.setId(formProperty.getId());
+    formPropertyHandler.setName(formProperty.getName());
+    AbstractFormType type=formTypes.parseFormPropertyType(formProperty);
+    formPropertyHandler.setType(type);
+    formPropertyHandler.setRequired(formProperty.isRequired());
+    formPropertyHandler.setReadable(formProperty.isReadable());
+    formPropertyHandler.setWritable(formProperty.isWriteable());
+    formPropertyHandler.setVariableName(formProperty.getVariable());
+    if (StringUtils.isNotEmpty(formProperty.getExpression())) {
+      Expression expression=expressionManager.createExpression(formProperty.getExpression());
+      formPropertyHandler.setVariableExpression(expression);
+    }
+    if (StringUtils.isNotEmpty(formProperty.getDefaultExpression())) {
+      Expression defaultExpression=expressionManager.createExpression(formProperty.getDefaultExpression());
+      formPropertyHandler.setDefaultExpression(defaultExpression);
+    }
+    formPropertyHandlers.add(formPropertyHandler);
+  }
+}

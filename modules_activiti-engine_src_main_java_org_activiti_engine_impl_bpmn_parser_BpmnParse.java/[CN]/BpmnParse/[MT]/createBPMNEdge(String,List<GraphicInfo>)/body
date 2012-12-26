@@ -1,0 +1,17 @@
+{
+  FlowElement flowElement=bpmnModel.getFlowElement(key);
+  if (flowElement != null && sequenceFlows.containsKey(key)) {
+    TransitionImpl sequenceFlow=sequenceFlows.get(key);
+    List<Integer> waypoints=new ArrayList<Integer>();
+    for (    GraphicInfo waypointInfo : graphicList) {
+      waypoints.add((int)waypointInfo.x);
+      waypoints.add((int)waypointInfo.y);
+    }
+    sequenceFlow.setWaypoints(waypoints);
+  }
+ else   if (bpmnModel.getArtifact(key) != null) {
+  }
+ else {
+    bpmnModel.addProblem("Invalid reference in 'bpmnElement' attribute, sequenceFlow " + key + " not found",key);
+  }
+}

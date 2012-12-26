@@ -1,0 +1,14 @@
+{
+  timerActivity.setProperty("type","boundaryTimer");
+  TimerDeclarationImpl timerDeclaration=createTimer(timerEventDefinition,timerActivity,TimerExecuteNestedActivityJobHandler.TYPE);
+  if (interrupting) {
+    timerDeclaration.setInterruptingTimer(true);
+  }
+  addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
+  if (timerActivity.getParent() instanceof ActivityImpl) {
+    ((ActivityImpl)timerActivity.getParent()).setScope(true);
+  }
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseBoundaryTimerEventDefinition(timerEventDefinition,interrupting,timerActivity);
+  }
+}

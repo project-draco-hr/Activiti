@@ -3,7 +3,7 @@
   String name=propertyElement.attribute("name");
   if (name == null) {
     if (id == null) {
-      addError("Invalid property usage on line " + propertyElement.getLine() + ": no id or name specified.",propertyElement);
+      bpmnModel.addProblem("Invalid property usage on line " + propertyElement.getLine() + ": no id or name specified.",activity.getId());
     }
  else {
       name=id;
@@ -18,8 +18,7 @@
       type=structure.getId();
     }
  else {
-      addError("Invalid itemDefinition reference: " + itemSubjectRef + " not found",propertyElement);
+      bpmnModel.addProblem("Invalid itemDefinition reference: " + itemSubjectRef + " not found",activity.getId());
     }
   }
-  parsePropertyCustomExtensions(activity,propertyElement,name,type);
 }

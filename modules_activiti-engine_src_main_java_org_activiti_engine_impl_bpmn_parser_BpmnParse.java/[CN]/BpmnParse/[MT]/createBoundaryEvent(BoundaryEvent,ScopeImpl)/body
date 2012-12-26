@@ -1,0 +1,61 @@
+{
+  ActivityImpl parentActivity=scopeElement.findActivity(boundaryEvent.getAttachedToRefId());
+  if (parentActivity == null) {
+    bpmnModel.addProblem("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event",boundaryEvent.getId());
+    return;
+  }
+  ActivityImpl nestedActivity=createActivityOnScope(boundaryEvent,ELEMENT_EVENT_BOUNDARY,parentActivity);
+  EventDefinition eventDefinition=null;
+  if (boundaryEvent.getEventDefinitions().size() > 0) {
+    eventDefinition=boundaryEvent.getEventDefinitions().get(0);
+  }
+  boolean interrupting=boundaryEvent.isCancelActivity();
+  ActivityBehavior behavior=null;
+  if (eventDefinition instanceof TimerEventDefinition) {
+    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    createBoundaryTimerEventDefinition((TimerEventDefinition)eventDefinition,interrupting,nestedActivity);
+  }
+ else   if (eventDefinition instanceof org.activiti.bpmn.model.ErrorEventDefinition) {
+    interrupting=true;
+    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    org.activiti.bpmn.model.ErrorEventDefinition modelErrorEvent=(org.activiti.bpmn.model.ErrorEventDefinition)eventDefinition;
+    if (bpmnModel.containsErrorRef(modelErrorEvent.getErrorCode())) {
+      String errorCode=bpmnModel.getErrors().get(modelErrorEvent.getErrorCode());
+      if (StringUtils.isEmpty(errorCode)) {
+        bpmnModel.addProblem("errorCode is required for an error event",boundaryEvent.getId());
+      }
+      modelErrorEvent.setErrorCode(errorCode);
+    }
+    createBoundaryErrorEventDefinition(modelErrorEvent,interrupting,parentActivity,nestedActivity);
+  }
+ else   if (eventDefinition instanceof SignalEventDefinition) {
+    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    createBoundarySignalEventDefinition((SignalEventDefinition)eventDefinition,interrupting,nestedActivity);
+  }
+ else   if (eventDefinition instanceof CancelEventDefinition) {
+    behavior=createBoundaryCancelEventDefinition((CancelEventDefinition)eventDefinition,nestedActivity);
+  }
+ else   if (eventDefinition instanceof org.activiti.bpmn.model.CompensateEventDefinition) {
+    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    createCatchCompensateEventDefinition((org.activiti.bpmn.model.CompensateEventDefinition)eventDefinition,nestedActivity);
+  }
+ else   if (eventDefinition instanceof MessageEventDefinition) {
+    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    MessageEventDefinition modelMessageEvent=(MessageEventDefinition)eventDefinition;
+    if (bpmnModel.containsMessageId(modelMessageEvent.getMessageRef())) {
+      String messageName=bpmnModel.getMessage(modelMessageEvent.getMessageRef()).getName();
+      if (StringUtils.isEmpty(messageName)) {
+        bpmnModel.addProblem("messageName is required for a message event",boundaryEvent.getId());
+      }
+      modelMessageEvent.setMessageRef(messageName);
+    }
+    createBoundaryMessageEventDefinition((MessageEventDefinition)eventDefinition,interrupting,nestedActivity);
+  }
+ else {
+    bpmnModel.addProblem("Unsupported boundary event type",boundaryEvent.getId());
+  }
+  nestedActivity.setActivityBehavior(behavior);
+  for (  BpmnParseListener parseListener : parseListeners) {
+    parseListener.parseBoundaryEvent(boundaryEvent,scopeElement,nestedActivity);
+  }
+}

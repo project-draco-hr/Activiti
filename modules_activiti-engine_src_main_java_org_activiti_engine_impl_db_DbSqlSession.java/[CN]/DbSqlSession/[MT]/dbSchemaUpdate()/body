@@ -5,7 +5,7 @@
   if (isEngineTablePresent()) {
     PropertyEntity dbVersionProperty=selectById(PropertyEntity.class,"schema.version");
     dbVersion=dbVersionProperty.getValue();
-    isUpgradeNeeded=!ProcessEngine.VERSION.equals(dbVersion);
+    isUpgradeNeeded=isUpgradeNeeded(dbVersion);
     if (isUpgradeNeeded) {
       dbVersionProperty.setValue(ProcessEngine.VERSION);
       PropertyEntity dbHistoryProperty;
