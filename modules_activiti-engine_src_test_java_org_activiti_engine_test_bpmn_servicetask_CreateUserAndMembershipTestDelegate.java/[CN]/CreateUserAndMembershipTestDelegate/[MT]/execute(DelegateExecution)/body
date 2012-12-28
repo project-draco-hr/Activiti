@@ -1,0 +1,12 @@
+{
+  IdentityService identityService=execution.getEngineServices().getIdentityService();
+  String username="Kermit";
+  User user=identityService.newUser(username);
+  user.setPassword("123");
+  user.setFirstName("Manually");
+  user.setLastName("created");
+  identityService.saveUser(user);
+  Group group=identityService.newGroup("admin");
+  identityService.saveGroup(group);
+  identityService.createMembership(username,"admin");
+}

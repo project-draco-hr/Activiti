@@ -1,0 +1,11 @@
+{
+  runtimeService.startProcessInstanceByKey("multipleServiceInvocations");
+  User user=identityService.createUserQuery().singleResult();
+  assertEquals("Kermit",user.getId());
+  Group group=identityService.createGroupQuery().groupMember(user.getId()).singleResult();
+  assertNotNull(group);
+  assertEquals("admin",group.getId());
+  identityService.deleteUser("Kermit");
+  identityService.deleteGroup("admin");
+  identityService.deleteMembership("Kermit","admin");
+}
