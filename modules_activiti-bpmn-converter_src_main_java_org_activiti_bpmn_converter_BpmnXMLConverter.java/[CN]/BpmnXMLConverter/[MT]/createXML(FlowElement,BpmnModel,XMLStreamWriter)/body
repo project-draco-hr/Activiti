@@ -18,10 +18,10 @@
       xtw.writeEndElement();
     }
     for (    FlowElement subElement : subProcess.getFlowElements()) {
-      createXML(subElement,xtw);
+      createXML(subElement,model,xtw);
     }
     for (    Artifact artifact : subProcess.getArtifacts()) {
-      createXML(artifact,xtw);
+      createXML(artifact,model,xtw);
     }
     xtw.writeEndElement();
   }
@@ -30,6 +30,6 @@
     if (converter == null) {
       throw new XMLException("No converter for " + flowElement.getClass() + " found");
     }
-    converter.newInstance().convertToXML(xtw,flowElement);
+    converter.newInstance().convertToXML(xtw,flowElement,model);
   }
 }
