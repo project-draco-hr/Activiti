@@ -4,9 +4,6 @@
   if (StringUtils.isNotEmpty(process.getName())) {
     xtw.writeAttribute(ATTRIBUTE_NAME,process.getName());
   }
-  if (StringUtils.isNotEmpty(process.getTargetNamespace())) {
-    xtw.writeAttribute(TARGET_NAMESPACE_ATTRIBUTE,process.getTargetNamespace());
-  }
   xtw.writeAttribute(ATTRIBUTE_PROCESS_EXECUTABLE,ATTRIBUTE_VALUE_TRUE);
   if (process.getCandidateStarterUsers().size() > 0) {
     xtw.writeAttribute(ACTIVITI_EXTENSIONS_PREFIX,ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_PROCESS_CANDIDATE_USERS,BpmnXMLUtil.convertToDelimitedString(process.getCandidateStarterUsers()));

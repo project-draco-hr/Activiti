@@ -2,7 +2,7 @@
   ProcessDefinitionEntity processDefinition=new ProcessDefinitionEntity();
   processDefinition.setKey(process.getId());
   processDefinition.setName(process.getName());
-  processDefinition.setCategory(process.getTargetNamespace());
+  processDefinition.setCategory(bpmnModel.getTargetNamespace());
   processDefinition.setDescription(process.getDocumentation());
   processDefinition.setProperty(PROPERTYNAME_DOCUMENTATION,process.getDocumentation());
   processDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
