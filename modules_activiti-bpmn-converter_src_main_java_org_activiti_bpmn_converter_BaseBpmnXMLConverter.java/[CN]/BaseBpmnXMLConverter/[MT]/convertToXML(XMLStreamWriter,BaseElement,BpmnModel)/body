@@ -26,9 +26,11 @@
     }
   }
   writeAdditionalChildElements(baseElement,xtw);
-  didWriteExtensionStartElement=writeListeners(baseElement,xtw);
-  if (didWriteExtensionStartElement) {
-    xtw.writeEndElement();
+  if (baseElement instanceof SequenceFlow == false) {
+    didWriteExtensionStartElement=writeListeners(baseElement,xtw);
+    if (didWriteExtensionStartElement) {
+      xtw.writeEndElement();
+    }
   }
   if (baseElement instanceof Activity) {
     Activity activity=(Activity)baseElement;
