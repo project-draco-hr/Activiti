@@ -1,6 +1,6 @@
 {
   ActivityImpl activity=createActivityOnScope(gateway,ELEMENT_GATEWAY_INCLUSIVE,scope);
-  activity.setActivityBehavior(new InclusiveGatewayActivityBehavior());
+  activity.setActivityBehavior(activityBehaviorFactory.createInclusiveGatewayActivityBehavior(gateway));
   createExecutionListenersOnScope(gateway.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseInclusiveGateway(gateway,scope,activity);

@@ -2,7 +2,7 @@
   if (StringUtils.isNotEmpty(startEvent.getInitiator())) {
     processDefinition.setProperty(PROPERTYNAME_INITIATOR_VARIABLE_NAME,startEvent.getInitiator());
   }
-  startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+  startEventActivity.setActivityBehavior(activityBehaviorFactory.createNoneStartEventActivityBehavior(startEvent));
   if (startEvent.getEventDefinitions().size() > 0) {
     EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
     if (eventDefinition instanceof TimerEventDefinition) {

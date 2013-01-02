@@ -1,6 +1,6 @@
 {
   ActivityImpl activity=createActivityOnScope(manualTask,ELEMENT_TASK_MANUAL,scope);
-  activity.setActivityBehavior(new ManualTaskActivityBehavior());
+  activity.setActivityBehavior(activityBehaviorFactory.createManualTaskActivityBehavior(manualTask));
   activity.setAsync(manualTask.isAsynchronous());
   activity.setExclusive(!manualTask.isNotExclusive());
   createExecutionListenersOnScope(manualTask.getExecutionListeners(),activity);

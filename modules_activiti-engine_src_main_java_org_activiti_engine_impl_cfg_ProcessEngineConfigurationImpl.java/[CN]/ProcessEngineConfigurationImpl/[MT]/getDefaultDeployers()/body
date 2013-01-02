@@ -6,7 +6,21 @@
   if (bpmnParseFactory == null) {
     bpmnParseFactory=new DefaultBpmnParseFactory();
   }
-  BpmnParser bpmnParser=new BpmnParser(expressionManager,bpmnParseFactory);
+  if (activityBehaviorFactory == null) {
+    DefaultActivityBehaviorFactory defaultActivityBehaviorFactory=new DefaultActivityBehaviorFactory();
+    defaultActivityBehaviorFactory.setExpressionManager(expressionManager);
+    activityBehaviorFactory=defaultActivityBehaviorFactory;
+  }
+  if (listenerFactory == null) {
+    DefaultListenerFactory defaultListenerFactory=new DefaultListenerFactory();
+    defaultListenerFactory.setExpressionManager(expressionManager);
+    listenerFactory=defaultListenerFactory;
+  }
+  BpmnParser bpmnParser=new BpmnParser();
+  bpmnParser.setExpressionManager(expressionManager);
+  bpmnParser.setBpmnParseFactory(bpmnParseFactory);
+  bpmnParser.setActivityBehaviorFactory(activityBehaviorFactory);
+  bpmnParser.setListenerFactory(listenerFactory);
   if (preParseListeners != null) {
     bpmnParser.getParseListeners().addAll(preParseListeners);
   }

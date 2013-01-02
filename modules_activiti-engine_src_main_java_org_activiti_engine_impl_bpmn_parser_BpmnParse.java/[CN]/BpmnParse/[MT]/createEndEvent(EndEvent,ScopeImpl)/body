@@ -14,7 +14,7 @@
       activity.setProperty("type","errorEndEvent");
       errorDefinition.setErrorCode(errorCode);
     }
-    activity.setActivityBehavior(new ErrorEndEventActivityBehavior(errorDefinition.getErrorCode()));
+    activity.setActivityBehavior(activityBehaviorFactory.createErrorEndEventActivityBehavior(endEvent,errorDefinition));
   }
  else   if (eventDefinition instanceof CancelEventDefinition) {
     if (scope.getProperty("type") == null || !scope.getProperty("type").equals("transaction")) {
@@ -22,14 +22,14 @@
     }
  else {
       activity.setProperty("type","cancelEndEvent");
-      activity.setActivityBehavior(new CancelEndEventActivityBehavior());
+      activity.setActivityBehavior(activityBehaviorFactory.createCancelEndEventActivityBehavior(endEvent));
     }
   }
  else   if (eventDefinition instanceof TerminateEventDefinition) {
-    activity.setActivityBehavior(new TerminateEndEventActivityBehavior());
+    activity.setActivityBehavior(activityBehaviorFactory.createTerminateEndEventActivityBehavior(endEvent));
   }
  else   if (eventDefinition == null) {
-    activity.setActivityBehavior(new NoneEndEventActivityBehavior());
+    activity.setActivityBehavior(activityBehaviorFactory.createNoneEndEventActivityBehavior(endEvent));
   }
   createExecutionListenersOnScope(endEvent.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {

@@ -2,7 +2,7 @@
   Object triggeredByEvent=scope.getProperty("triggeredByEvent");
   boolean isTriggeredByEvent=triggeredByEvent != null && ((Boolean)triggeredByEvent == true);
   if (isTriggeredByEvent) {
-    EventSubProcessStartEventActivityBehavior activityBehavior=new EventSubProcessStartEventActivityBehavior(startEventActivity.getId());
+    EventSubProcessStartEventActivityBehavior activityBehavior=activityBehaviorFactory.createEventSubProcessStartEventActivityBehavior(startEvent,startEventActivity.getId());
     startEventActivity.setActivityBehavior(activityBehavior);
     ScopeImpl catchingScope=((ActivityImpl)scope).getParent();
     if (startEvent.getEventDefinitions().size() > 0) {
@@ -63,7 +63,7 @@
     }
     if (scope.getProperty(PROPERTYNAME_INITIAL) == null) {
       scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
-      startEventActivity.setActivityBehavior(new NoneStartEventActivityBehavior());
+      startEventActivity.setActivityBehavior(activityBehaviorFactory.createNoneStartEventActivityBehavior(startEvent));
     }
  else {
       bpmnModel.addProblem("multiple start events not supported for subprocess",scope.getId());

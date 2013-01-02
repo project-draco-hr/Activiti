@@ -4,34 +4,36 @@
   activity.setExclusive(!serviceTask.isNotExclusive());
   if (StringUtils.isNotEmpty(serviceTask.getType())) {
     if (serviceTask.getType().equalsIgnoreCase("mail")) {
-      createEmailServiceTask(activity,serviceTask.getId(),createFieldDeclarations(serviceTask.getFieldExtensions()));
+      validateFieldDeclarationsForEmail(serviceTask.getId(),serviceTask.getFieldExtensions());
+      activity.setActivityBehavior(activityBehaviorFactory.createMailActivityBehavior(serviceTask));
     }
  else     if (serviceTask.getType().equalsIgnoreCase("mule")) {
-      createMuleServiceTask(activity,serviceTask.getId(),createFieldDeclarations(serviceTask.getFieldExtensions()));
+      activity.setActivityBehavior(activityBehaviorFactory.createMuleActivityBehavior(serviceTask,bpmnModel));
     }
  else     if (serviceTask.getType().equalsIgnoreCase("shell")) {
-      createShellServiceTask(activity,serviceTask.getId(),createFieldDeclarations(serviceTask.getFieldExtensions()));
+      validateFieldDeclarationsForShell(serviceTask.getId(),serviceTask.getFieldExtensions());
+      activity.setActivityBehavior(activityBehaviorFactory.createShellActivityBehavior(serviceTask));
     }
  else {
       bpmnModel.addProblem("Invalid usage of type attribute: '" + serviceTask.getType() + "'.",serviceTask.getId());
     }
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(serviceTask.getImplementationType())) {
-    activity.setActivityBehavior(new ClassDelegate(serviceTask.getImplementation(),createFieldDeclarations(serviceTask.getFieldExtensions())));
+    activity.setActivityBehavior(activityBehaviorFactory.createClassDelegateServiceTask(serviceTask));
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(serviceTask.getImplementationType())) {
-    activity.setActivityBehavior(new ServiceTaskDelegateExpressionActivityBehavior(expressionManager.createExpression(serviceTask.getImplementation()),createFieldDeclarations(serviceTask.getFieldExtensions())));
+    activity.setActivityBehavior(activityBehaviorFactory.createServiceTaskDelegateExpressionActivityBehavior(serviceTask));
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(serviceTask.getImplementationType())) {
-    activity.setActivityBehavior(new ServiceTaskExpressionActivityBehavior(expressionManager.createExpression(serviceTask.getImplementation()),serviceTask.getResultVariableName()));
+    activity.setActivityBehavior(activityBehaviorFactory.createServiceTaskExpressionActivityBehavior(serviceTask));
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(serviceTask.getImplementationType()) && StringUtils.isNotEmpty(serviceTask.getOperationRef())) {
     if (!this.operations.containsKey(serviceTask.getOperationRef())) {
       bpmnModel.addProblem(serviceTask.getOperationRef() + " does not exist",serviceTask.getId());
     }
  else {
-      Operation operation=this.operations.get(serviceTask.getOperationRef());
-      WebServiceActivityBehavior webServiceActivityBehavior=new WebServiceActivityBehavior(operation);
+      WebServiceActivityBehavior webServiceActivityBehavior=activityBehaviorFactory.createWebServiceActivityBehavior(serviceTask);
+      webServiceActivityBehavior.setOperation(this.operations.get(serviceTask.getOperationRef()));
       if (serviceTask.getIoSpecification() != null) {
         IOSpecification ioSpecification=this.createIOSpecification(serviceTask.getIoSpecification());
         webServiceActivityBehavior.setIoSpecification(ioSpecification);

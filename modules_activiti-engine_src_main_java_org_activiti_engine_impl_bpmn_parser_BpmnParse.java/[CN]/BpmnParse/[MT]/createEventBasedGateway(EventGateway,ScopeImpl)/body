@@ -1,6 +1,6 @@
 {
   ActivityImpl activity=createActivityOnScope(gateway,ELEMENT_GATEWAY_EVENT,scope);
-  activity.setActivityBehavior(new EventBasedGatewayActivityBehavior());
+  activity.setActivityBehavior(activityBehaviorFactory.createEventBasedGatewayActivityBehavior(gateway));
   activity.setScope(true);
   createExecutionListenersOnScope(gateway.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {

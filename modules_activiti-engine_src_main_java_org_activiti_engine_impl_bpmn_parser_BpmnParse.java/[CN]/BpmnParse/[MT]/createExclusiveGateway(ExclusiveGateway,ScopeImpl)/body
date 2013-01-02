@@ -1,6 +1,6 @@
 {
   ActivityImpl activity=createActivityOnScope(gateway,ELEMENT_GATEWAY_EXCLUSIVE,scope);
-  activity.setActivityBehavior(new ExclusiveGatewayActivityBehavior());
+  activity.setActivityBehavior(activityBehaviorFactory.createExclusiveGatewayActivityBehavior(gateway));
   createExecutionListenersOnScope(gateway.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseExclusiveGateway(gateway,scope,activity);

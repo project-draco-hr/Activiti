@@ -26,7 +26,7 @@
  else {
       nestedActivity=createActivityOnScope(event,ELEMENT_EVENT_CATCH,scopeElement);
     }
-    nestedActivity.setActivityBehavior(new IntermediateCatchEventActivitiBehaviour());
+    nestedActivity.setActivityBehavior(activityBehaviorFactory.createIntermediateCatchEvent(event));
     if (eventDefinition instanceof TimerEventDefinition) {
       createIntermediateTimerEventDefinition((TimerEventDefinition)eventDefinition,nestedActivity,isAfterEventBasedGateway);
     }
