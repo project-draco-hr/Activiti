@@ -9,7 +9,11 @@
     try {
       while (areJobsAvailable && !task.isTimeLimitExceeded()) {
         Thread.sleep(intervalMillis);
-        areJobsAvailable=areJobsAvailable();
+        try {
+          areJobsAvailable=areJobsAvailable();
+        }
+ catch (        Throwable t) {
+        }
       }
     }
  catch (    InterruptedException e) {
