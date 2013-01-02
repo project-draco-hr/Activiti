@@ -7,7 +7,7 @@
  else   if (destinationActivity == null) {
     throw new ActivitiException("Invalid destination '" + sequenceFlow.getTargetRef() + "' of sequence flow '"+ sequenceFlow.getId()+ "'");
   }
- else   if (!(sourceActivity.getActivityBehavior() instanceof EventBasedGatewayActivityBehavior) && destinationActivity.getActivityBehavior() instanceof IntermediateCatchEventActivitiBehaviour && (destinationActivity.getParentActivity() != null)&& (destinationActivity.getParentActivity().getActivityBehavior() instanceof EventBasedGatewayActivityBehavior)) {
+ else   if (!(sourceActivity.getActivityBehavior() instanceof EventBasedGatewayActivityBehavior) && destinationActivity.getActivityBehavior() instanceof IntermediateCatchEventActivityBehavior && (destinationActivity.getParentActivity() != null)&& (destinationActivity.getParentActivity().getActivityBehavior() instanceof EventBasedGatewayActivityBehavior)) {
     bpmnModel.addProblem("Invalid incoming sequenceflow " + sequenceFlow.getId() + " for intermediateCatchEvent with id '"+ destinationActivity.getId()+ "' connected to an event-based gateway.",sequenceFlow.getId());
   }
  else {
