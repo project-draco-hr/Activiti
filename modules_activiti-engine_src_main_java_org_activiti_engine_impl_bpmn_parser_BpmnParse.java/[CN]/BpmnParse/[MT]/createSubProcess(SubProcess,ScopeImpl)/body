@@ -9,7 +9,7 @@
   activity.setProperty("triggeredByEvent",triggeredByEvent);
   activity.setScope(!triggeredByEvent);
   activity.setActivityBehavior(new SubProcessActivityBehavior());
-  processFlowElements(subProcess.getFlowElements(),activity);
+  processFlowElements(subProcess.getFlowElements(),activity,subProcess);
   processArtifacts(subProcess.getArtifacts(),activity);
   if (subProcess.getIoSpecification() != null) {
     IOSpecification ioSpecification=createIOSpecification(subProcess.getIoSpecification());

@@ -13,6 +13,8 @@
         model.addProblem("duplicate signal name",xtr);
       }
     }
-    model.addSignal(signalId,signalName);
+    Signal signal=new Signal(signalId,signalName);
+    BpmnXMLUtil.addXMLLocation(signal,xtr);
+    model.addSignal(signal);
   }
 }

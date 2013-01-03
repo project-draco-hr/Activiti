@@ -9,7 +9,7 @@
   for (  SequenceFlow sequenceFlow : gateway.getOutgoingFlows()) {
     FlowElement flowElement=bpmnModel.getFlowElement(sequenceFlow.getTargetRef());
     if (flowElement != null && flowElement instanceof IntermediateCatchEvent == false) {
-      bpmnModel.addProblem("Event based gateway can only be connected to elements of type intermediateCatchEvent.",flowElement.getId());
+      bpmnModel.addProblem("Event based gateway can only be connected to elements of type intermediateCatchEvent.",flowElement);
     }
   }
   return activity;

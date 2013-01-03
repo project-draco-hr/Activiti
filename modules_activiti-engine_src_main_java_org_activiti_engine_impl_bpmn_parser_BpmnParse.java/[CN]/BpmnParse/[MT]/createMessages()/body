@@ -3,7 +3,7 @@
     MessageDefinition messageDefinition=new MessageDefinition(messageElement.getId(),name);
     if (StringUtils.isNotEmpty(messageElement.getItemRef())) {
       if (!this.itemDefinitions.containsKey(messageElement.getItemRef())) {
-        bpmnModel.addProblem(messageElement.getItemRef() + " does not exist",messageElement.getId());
+        bpmnModel.addProblem(messageElement.getItemRef() + " does not exist",messageElement);
       }
  else {
         ItemDefinition itemDefinition=this.itemDefinitions.get(messageElement.getItemRef());

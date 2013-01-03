@@ -4,14 +4,21 @@
     TransitionImpl sequenceFlow=sequenceFlows.get(key);
     List<Integer> waypoints=new ArrayList<Integer>();
     for (    GraphicInfo waypointInfo : graphicList) {
-      waypoints.add((int)waypointInfo.x);
-      waypoints.add((int)waypointInfo.y);
+      waypoints.add((int)waypointInfo.getX());
+      waypoints.add((int)waypointInfo.getY());
     }
     sequenceFlow.setWaypoints(waypoints);
   }
  else   if (bpmnModel.getArtifact(key) != null) {
   }
  else {
-    bpmnModel.addProblem("Invalid reference in 'bpmnElement' attribute, sequenceFlow " + key + " not found",key);
+    GraphicInfo graphicInfo=null;
+    if (graphicList != null && graphicList.size() > 0) {
+      graphicInfo=graphicList.get(0);
+    }
+ else {
+      graphicInfo=new GraphicInfo();
+    }
+    bpmnModel.addProblem("Invalid reference in 'bpmnElement' attribute, sequenceFlow " + key + " not found",graphicInfo);
   }
 }

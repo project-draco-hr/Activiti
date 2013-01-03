@@ -1,7 +1,7 @@
 {
   ActivityImpl parentActivity=scopeElement.findActivity(boundaryEvent.getAttachedToRefId());
   if (parentActivity == null) {
-    bpmnModel.addProblem("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event",boundaryEvent.getId());
+    bpmnModel.addProblem("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event",boundaryEvent);
     return;
   }
   ActivityImpl nestedActivity=createActivityOnScope(boundaryEvent,ELEMENT_EVENT_BOUNDARY,parentActivity);
@@ -22,7 +22,7 @@
     if (bpmnModel.containsErrorRef(modelErrorEvent.getErrorCode())) {
       String errorCode=bpmnModel.getErrors().get(modelErrorEvent.getErrorCode());
       if (StringUtils.isEmpty(errorCode)) {
-        bpmnModel.addProblem("errorCode is required for an error event",boundaryEvent.getId());
+        bpmnModel.addProblem("errorCode is required for an error event",boundaryEvent);
       }
       modelErrorEvent.setErrorCode(errorCode);
     }
@@ -45,14 +45,14 @@
     if (bpmnModel.containsMessageId(modelMessageEvent.getMessageRef())) {
       String messageName=bpmnModel.getMessage(modelMessageEvent.getMessageRef()).getName();
       if (StringUtils.isEmpty(messageName)) {
-        bpmnModel.addProblem("messageName is required for a message event",boundaryEvent.getId());
+        bpmnModel.addProblem("messageName is required for a message event",boundaryEvent);
       }
       modelMessageEvent.setMessageRef(messageName);
     }
     createBoundaryMessageEventDefinition((MessageEventDefinition)eventDefinition,interrupting,nestedActivity);
   }
  else {
-    bpmnModel.addProblem("Unsupported boundary event type",boundaryEvent.getId());
+    bpmnModel.addProblem("Unsupported boundary event type",boundaryEvent);
   }
   nestedActivity.setActivityBehavior(behavior);
   for (  BpmnParseListener parseListener : parseListeners) {

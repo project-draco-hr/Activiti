@@ -3,18 +3,18 @@
   if (bpmnModel.containsSignalId(signalEventDefinition.getSignalRef())) {
     String signalName=bpmnModel.getSignal(signalEventDefinition.getSignalRef()).getName();
     if (StringUtils.isEmpty(signalName)) {
-      bpmnModel.addProblem("signalName is required for a signal event",signalActivity.getId());
+      bpmnModel.addProblem("signalName is required for a signal event",signalEventDefinition);
     }
     signalEventDefinition.setSignalRef(signalName);
   }
   EventSubscriptionDeclaration signalDefinition=new EventSubscriptionDeclaration(signalEventDefinition.getSignalRef(),"signal");
   if (isAfterEventBasedGateway) {
     signalDefinition.setActivityId(signalActivity.getId());
-    addEventSubscriptionDeclaration(signalDefinition,signalActivity.getParent());
+    addEventSubscriptionDeclaration(signalDefinition,signalEventDefinition,signalActivity.getParent());
   }
  else {
     signalActivity.setScope(true);
-    addEventSubscriptionDeclaration(signalDefinition,signalActivity);
+    addEventSubscriptionDeclaration(signalDefinition,signalEventDefinition,signalActivity);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseIntermediateSignalCatchEventDefinition(signalEventDefinition,signalActivity);

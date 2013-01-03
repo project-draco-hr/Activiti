@@ -9,7 +9,7 @@
     if (bpmnModel.containsErrorRef(errorDefinition.getErrorCode())) {
       String errorCode=bpmnModel.getErrors().get(errorDefinition.getErrorCode());
       if (StringUtils.isEmpty(errorCode)) {
-        bpmnModel.addProblem("errorCode is required for an error event",errorDefinition.getId());
+        bpmnModel.addProblem("errorCode is required for an error event",errorDefinition);
       }
       activity.setProperty("type","errorEndEvent");
       errorDefinition.setErrorCode(errorCode);
@@ -18,7 +18,7 @@
   }
  else   if (eventDefinition instanceof CancelEventDefinition) {
     if (scope.getProperty("type") == null || !scope.getProperty("type").equals("transaction")) {
-      bpmnModel.addProblem("end event with cancelEventDefinition only supported inside transaction subprocess",endEvent.getId());
+      bpmnModel.addProblem("end event with cancelEventDefinition only supported inside transaction subprocess",endEvent);
     }
  else {
       activity.setProperty("type","cancelEndEvent");

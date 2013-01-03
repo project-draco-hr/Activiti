@@ -1,6 +1,6 @@
 {
   if (StringUtils.isEmpty(dataAssociationElement.getTargetRef())) {
-    bpmnModel.addProblem("targetRef is required","dataInput");
+    bpmnModel.addProblem("targetRef is required",dataAssociationElement);
   }
   if (dataAssociationElement.getAssignments().isEmpty()) {
     return new MessageImplicitDataInputAssociation(dataAssociationElement.getSourceRef(),dataAssociationElement.getTargetRef());

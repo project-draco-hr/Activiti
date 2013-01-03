@@ -1,6 +1,7 @@
 {
   if (parentElement instanceof ActivitiListener == false && parentElement instanceof ServiceTask == false && parentElement instanceof SendTask == false)   return;
   FieldExtension extension=new FieldExtension();
+  BpmnXMLUtil.addXMLLocation(extension,xtr);
   extension.setFieldName(xtr.getAttributeValue(null,ATTRIBUTE_FIELD_NAME));
   if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_FIELD_STRING))) {
     extension.setStringValue(xtr.getAttributeValue(null,ATTRIBUTE_FIELD_STRING));

@@ -5,7 +5,7 @@
     eventDefinition=event.getEventDefinitions().get(0);
   }
   if (eventDefinition == null) {
-    bpmnModel.addProblem("No event definition for intermediate catch event " + event.getId(),event.getId());
+    bpmnModel.addProblem("No event definition for intermediate catch event " + event.getId(),event);
     nestedActivity=createActivityOnScope(event,ELEMENT_EVENT_CATCH,scopeElement);
   }
  else {
@@ -37,7 +37,7 @@
       createIntermediateMessageEventDefinition((MessageEventDefinition)eventDefinition,nestedActivity,isAfterEventBasedGateway);
     }
  else {
-      bpmnModel.addProblem("Unsupported intermediate catch event type.",event.getId());
+      bpmnModel.addProblem("Unsupported intermediate catch event type.",event);
     }
   }
   createExecutionListenersOnScope(event.getExecutionListeners(),nestedActivity);

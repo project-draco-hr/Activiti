@@ -6,12 +6,12 @@
       if (processDefinition != null) {
         processDefinition.setGraphicalNotationDefined(true);
         for (        String shapeId : bpmnModel.getLocationMap().keySet()) {
-          if (process.getFlowElement(shapeId) != null) {
+          if (processDefinition.findActivity(shapeId) != null) {
             createBPMNShape(shapeId,bpmnModel.getGraphicInfo(shapeId),processDefinition);
           }
         }
         for (        String edgeId : bpmnModel.getFlowLocationMap().keySet()) {
-          if (process.getFlowElement(edgeId) != null) {
+          if (bpmnModel.getFlowElement(edgeId) != null) {
             createBPMNEdge(edgeId,bpmnModel.getFlowLocationGraphicInfo(edgeId));
           }
         }

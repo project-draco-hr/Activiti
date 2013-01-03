@@ -31,10 +31,10 @@
     miActivityBehavior.setCollectionElementVariable(loopCharacteristics.getElementVariable());
   }
   if (miActivityBehavior.getLoopCardinalityExpression() == null && miActivityBehavior.getCollectionExpression() == null && miActivityBehavior.getCollectionVariable() == null) {
-    bpmnModel.addProblem("Either loopCardinality or loopDataInputRef/activiti:collection must been set.",modelActivity.getId());
+    bpmnModel.addProblem("Either loopCardinality or loopDataInputRef/activiti:collection must been set.",loopCharacteristics);
   }
   if (miActivityBehavior.getCollectionExpression() == null && miActivityBehavior.getCollectionVariable() == null && miActivityBehavior.getCollectionElementVariable() != null) {
-    bpmnModel.addProblem("LoopDataInputRef/activiti:collection must be set when using inputDataItem or activiti:elementVariable.",modelActivity.getId());
+    bpmnModel.addProblem("LoopDataInputRef/activiti:collection must be set when using inputDataItem or activiti:elementVariable.",loopCharacteristics);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseMultiInstanceLoopCharacteristics(modelActivity,loopCharacteristics,activity);

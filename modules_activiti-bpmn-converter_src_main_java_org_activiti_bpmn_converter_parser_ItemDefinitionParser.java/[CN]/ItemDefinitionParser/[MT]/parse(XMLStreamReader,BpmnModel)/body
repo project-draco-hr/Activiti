@@ -5,6 +5,7 @@
     if (StringUtils.isNotEmpty(structureRef)) {
       ItemDefinition item=new ItemDefinition();
       item.setId(itemDefinitionId);
+      BpmnXMLUtil.addXMLLocation(item,xtr);
       int indexOfP=structureRef.indexOf(':');
       if (indexOfP != -1) {
         String prefix=structureRef.substring(0,indexOfP);

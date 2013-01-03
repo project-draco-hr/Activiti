@@ -1,5 +1,6 @@
 {
   BusinessRuleTask businessRuleTask=new BusinessRuleTask();
+  BpmnXMLUtil.addXMLLocation(businessRuleTask,xtr);
   businessRuleTask.setInputVariables(parseDelimitedList(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_RULE_VARIABLES_INPUT)));
   businessRuleTask.setRuleNames(parseDelimitedList(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_RULE_RULES)));
   businessRuleTask.setResultVariableName(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_RULE_RESULT_VARIABLE));

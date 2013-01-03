@@ -6,11 +6,11 @@
         GraphicInfo graphicInfo=new GraphicInfo();
         JsonNode boundsNode=jsonChildNode.get(EDITOR_BOUNDS);
         ObjectNode upperLeftNode=(ObjectNode)boundsNode.get(EDITOR_BOUNDS_UPPER_LEFT);
-        graphicInfo.x=upperLeftNode.get(EDITOR_BOUNDS_X).asDouble() + parentX;
-        graphicInfo.y=upperLeftNode.get(EDITOR_BOUNDS_Y).asDouble() + parentY;
+        graphicInfo.setX(upperLeftNode.get(EDITOR_BOUNDS_X).asDouble() + parentX);
+        graphicInfo.setY(upperLeftNode.get(EDITOR_BOUNDS_Y).asDouble() + parentY);
         ObjectNode lowerRightNode=(ObjectNode)boundsNode.get(EDITOR_BOUNDS_LOWER_RIGHT);
-        graphicInfo.width=lowerRightNode.get(EDITOR_BOUNDS_X).asDouble() - graphicInfo.x + parentX;
-        graphicInfo.height=lowerRightNode.get(EDITOR_BOUNDS_Y).asDouble() - graphicInfo.y + parentY;
+        graphicInfo.setWidth(lowerRightNode.get(EDITOR_BOUNDS_X).asDouble() - graphicInfo.getX() + parentX);
+        graphicInfo.setHeight(lowerRightNode.get(EDITOR_BOUNDS_Y).asDouble() - graphicInfo.getY() + parentY);
         String childShapeId=jsonChildNode.get(EDITOR_SHAPE_ID).asText();
         bpmnModel.addGraphicInfo(BpmnJsonConverterUtil.getElementId(jsonChildNode),graphicInfo);
         shapeMap.put(childShapeId,jsonChildNode);
@@ -23,7 +23,7 @@
             }
           }
         }
-        readShapeDI(jsonChildNode,graphicInfo.x,graphicInfo.y,shapeMap,sourceRefMap,bpmnModel);
+        readShapeDI(jsonChildNode,graphicInfo.getX(),graphicInfo.getY(),shapeMap,sourceRefMap,bpmnModel);
       }
     }
   }
