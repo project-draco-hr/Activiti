@@ -1,0 +1,7 @@
+{
+  String language=scriptTask.getScriptFormat();
+  if (language == null) {
+    language=ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE;
+  }
+  return new ScriptTaskActivityBehavior(scriptTask.getScript(),language,scriptTask.getResultVariable());
+}

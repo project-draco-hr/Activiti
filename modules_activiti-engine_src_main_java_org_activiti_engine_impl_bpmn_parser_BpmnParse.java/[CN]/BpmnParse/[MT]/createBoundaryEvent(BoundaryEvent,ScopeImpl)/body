@@ -12,12 +12,12 @@
   boolean interrupting=boundaryEvent.isCancelActivity();
   ActivityBehavior behavior=null;
   if (eventDefinition instanceof TimerEventDefinition) {
-    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    behavior=activityBehaviorFactory.createBoundaryEventActivityBehavior(boundaryEvent,interrupting,nestedActivity);
     createBoundaryTimerEventDefinition((TimerEventDefinition)eventDefinition,interrupting,nestedActivity);
   }
  else   if (eventDefinition instanceof org.activiti.bpmn.model.ErrorEventDefinition) {
     interrupting=true;
-    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    behavior=activityBehaviorFactory.createBoundaryEventActivityBehavior(boundaryEvent,interrupting,nestedActivity);
     org.activiti.bpmn.model.ErrorEventDefinition modelErrorEvent=(org.activiti.bpmn.model.ErrorEventDefinition)eventDefinition;
     if (bpmnModel.containsErrorRef(modelErrorEvent.getErrorCode())) {
       String errorCode=bpmnModel.getErrors().get(modelErrorEvent.getErrorCode());
@@ -29,18 +29,18 @@
     createBoundaryErrorEventDefinition(modelErrorEvent,interrupting,parentActivity,nestedActivity);
   }
  else   if (eventDefinition instanceof SignalEventDefinition) {
-    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    behavior=activityBehaviorFactory.createBoundaryEventActivityBehavior(boundaryEvent,interrupting,nestedActivity);
     createBoundarySignalEventDefinition((SignalEventDefinition)eventDefinition,interrupting,nestedActivity);
   }
  else   if (eventDefinition instanceof CancelEventDefinition) {
     behavior=createBoundaryCancelEventDefinition((CancelEventDefinition)eventDefinition,nestedActivity);
   }
  else   if (eventDefinition instanceof org.activiti.bpmn.model.CompensateEventDefinition) {
-    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    behavior=activityBehaviorFactory.createBoundaryEventActivityBehavior(boundaryEvent,interrupting,nestedActivity);
     createCatchCompensateEventDefinition((org.activiti.bpmn.model.CompensateEventDefinition)eventDefinition,nestedActivity);
   }
  else   if (eventDefinition instanceof MessageEventDefinition) {
-    behavior=new BoundaryEventActivityBehavior(interrupting,nestedActivity.getId());
+    behavior=activityBehaviorFactory.createBoundaryEventActivityBehavior(boundaryEvent,interrupting,nestedActivity);
     MessageEventDefinition modelMessageEvent=(MessageEventDefinition)eventDefinition;
     if (bpmnModel.containsMessageId(modelMessageEvent.getMessageRef())) {
       String messageName=bpmnModel.getMessage(modelMessageEvent.getMessageRef()).getName();

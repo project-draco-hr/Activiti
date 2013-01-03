@@ -1,12 +1,8 @@
 {
   ActivityImpl activity=createActivityOnScope(scriptTask,ELEMENT_TASK_SCRIPT,scope);
-  String language=scriptTask.getScriptFormat();
-  if (language == null) {
-    language=ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE;
-  }
   activity.setAsync(scriptTask.isAsynchronous());
   activity.setExclusive(!scriptTask.isNotExclusive());
-  activity.setActivityBehavior(new ScriptTaskActivityBehavior(scriptTask.getScript(),language,scriptTask.getResultVariable()));
+  activity.setActivityBehavior(activityBehaviorFactory.createScriptTaskActivityBehavior(scriptTask));
   createExecutionListenersOnScope(scriptTask.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseScriptTask(scriptTask,scope,activity);

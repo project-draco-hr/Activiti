@@ -5,10 +5,10 @@
     return;
   }
   if (loopCharacteristics.isSequential()) {
-    miActivityBehavior=new SequentialMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+    miActivityBehavior=activityBehaviorFactory.createSequentialMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
   }
  else {
-    miActivityBehavior=new ParallelMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+    miActivityBehavior=activityBehaviorFactory.createParallelMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
   }
   activity.setScope(true);
   activity.setProperty("multiInstance",loopCharacteristics.isSequential() ? "sequential" : "parallel");

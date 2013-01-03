@@ -17,14 +17,14 @@
     nestedActivityImpl.setProperty("type","intermediateSignalThrow");
     EventSubscriptionDeclaration signalDefinition=new EventSubscriptionDeclaration(signalEventDefinition.getSignalRef(),"signal");
     signalDefinition.setAsync(signalEventDefinition.isAsync());
-    activityBehavior=new IntermediateThrowSignalEventActivityBehavior(signalDefinition);
+    activityBehavior=activityBehaviorFactory.createIntermediateThrowSignalEventActivityBehavior(intermediateEvent,signalDefinition);
   }
  else   if (eventDefinition instanceof org.activiti.bpmn.model.CompensateEventDefinition) {
     CompensateEventDefinition compensateEventDefinition=createCompensateEventDefinition((org.activiti.bpmn.model.CompensateEventDefinition)eventDefinition,scopeElement);
-    activityBehavior=new IntermediateThrowCompensationEventActivityBehavior(compensateEventDefinition);
+    activityBehavior=activityBehaviorFactory.createIntermediateThrowCompensationEventActivityBehavior(intermediateEvent,compensateEventDefinition);
   }
  else   if (eventDefinition == null) {
-    activityBehavior=new IntermediateThrowNoneEventActivityBehavior();
+    activityBehavior=activityBehaviorFactory.createIntermediateThrowNoneEventActivityBehavior(intermediateEvent);
   }
  else {
     bpmnModel.addProblem("Unsupported intermediate throw event type " + eventDefinition,intermediateEvent);

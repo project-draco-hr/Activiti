@@ -4,10 +4,11 @@
   activity.setExclusive(!sendTask.isNotExclusive());
   if (StringUtils.isNotEmpty(sendTask.getType())) {
     if (sendTask.getType().equalsIgnoreCase("mail")) {
-      createEmailServiceTask(activity,sendTask,createFieldDeclarations(sendTask.getFieldExtensions()));
+      validateFieldDeclarationsForEmail(sendTask,sendTask.getFieldExtensions());
+      activity.setActivityBehavior(activityBehaviorFactory.createMailActivityBehavior(sendTask));
     }
  else     if (sendTask.getType().equalsIgnoreCase("mule")) {
-      createMuleServiceTask(activity,sendTask,createFieldDeclarations(sendTask.getFieldExtensions()));
+      activity.setActivityBehavior(activityBehaviorFactory.createMuleActivityBehavior(sendTask,bpmnModel));
     }
  else {
       bpmnModel.addProblem("Invalid usage of type attribute: '" + sendTask.getType() + "'.",sendTask);
@@ -18,8 +19,9 @@
       bpmnModel.addProblem(sendTask.getOperationRef() + " does not exist",sendTask);
     }
  else {
+      WebServiceActivityBehavior webServiceActivityBehavior=activityBehaviorFactory.createWebServiceActivityBehavior(sendTask);
       Operation operation=this.operations.get(sendTask.getOperationRef());
-      WebServiceActivityBehavior webServiceActivityBehavior=new WebServiceActivityBehavior(operation);
+      webServiceActivityBehavior.setOperation(operation);
       if (sendTask.getIoSpecification() != null) {
         IOSpecification ioSpecification=this.createIOSpecification(sendTask.getIoSpecification());
         webServiceActivityBehavior.setIoSpecification(ioSpecification);

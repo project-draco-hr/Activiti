@@ -1,9 +1,0 @@
-{
-  try {
-    Class<?> theClass=Class.forName("org.activiti.mule.MuleSendActivitiBehavior");
-    activity.setActivityBehavior((ActivityBehavior)ClassDelegate.instantiateDelegate(theClass,fieldDeclarations));
-  }
- catch (  ClassNotFoundException e) {
-    bpmnModel.addProblem("Could not find org.activiti.mule.MuleSendActivitiBehavior",task);
-  }
-}

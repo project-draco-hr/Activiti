@@ -2,21 +2,7 @@
   ActivityImpl activity=createActivityOnScope(businessRuleTask,ELEMENT_TASK_BUSINESSRULE,scope);
   activity.setAsync(businessRuleTask.isAsynchronous());
   activity.setExclusive(!businessRuleTask.isNotExclusive());
-  BusinessRuleTaskActivityBehavior ruleActivity=new BusinessRuleTaskActivityBehavior();
-  activity.setActivityBehavior(ruleActivity);
-  for (  String ruleVariableInputObject : businessRuleTask.getInputVariables()) {
-    ruleActivity.addRuleVariableInputIdExpression(expressionManager.createExpression(ruleVariableInputObject.trim()));
-  }
-  for (  String rule : businessRuleTask.getRuleNames()) {
-    ruleActivity.addRuleIdExpression(expressionManager.createExpression(rule.trim()));
-  }
-  ruleActivity.setExclude(businessRuleTask.isExclude());
-  if (StringUtils.isNotEmpty(businessRuleTask.getResultVariableName())) {
-    ruleActivity.setResultVariable(businessRuleTask.getResultVariableName());
-  }
- else {
-    ruleActivity.setResultVariable("org.activiti.engine.rules.OUTPUT");
-  }
+  activity.setActivityBehavior(activityBehaviorFactory.createBusinessRuleTaskActivityBehavior(businessRuleTask));
   createExecutionListenersOnScope(businessRuleTask.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseBusinessRuleTask(businessRuleTask,scope,activity);
