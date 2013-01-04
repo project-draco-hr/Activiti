@@ -1,0 +1,11 @@
+{
+  String[] assignees=new String[]{"kermit","gonzo","mispiggy"};
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").addHumanStep("first task",assignees[0]).addHumanStep("second step",assignees[1]).addHumanStep("third step",assignees[2]);
+  activitiRule.getRuntimeService().startProcessInstanceByKey(convertAndDeploy(workflowDefinition));
+  for (  String assignee : assignees) {
+    Task task=activitiRule.getTaskService().createTaskQuery().singleResult();
+    assertEquals(assignee,task.getAssignee());
+    activitiRule.getTaskService().complete(task.getId());
+  }
+  assertEquals(0,activitiRule.getRuntimeService().createProcessInstanceQuery().count());
+}

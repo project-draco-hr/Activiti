@@ -1,0 +1,19 @@
+{
+  this.outgoingSequenceFlowMapping=new HashMap<String,List<SequenceFlow>>();
+  this.incomingSequenceFlowMapping=new HashMap<String,List<SequenceFlow>>();
+  for (  FlowElement flowElement : flowElements) {
+    if (flowElement instanceof SequenceFlow) {
+      SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
+      String srcId=sequenceFlow.getSourceRef();
+      String targetId=sequenceFlow.getTargetRef();
+      if (outgoingSequenceFlowMapping.get(srcId) == null) {
+        outgoingSequenceFlowMapping.put(srcId,new ArrayList<SequenceFlow>());
+      }
+      outgoingSequenceFlowMapping.get(srcId).add(sequenceFlow);
+      if (incomingSequenceFlowMapping.get(targetId) == null) {
+        incomingSequenceFlowMapping.put(targetId,new ArrayList<SequenceFlow>());
+      }
+      incomingSequenceFlowMapping.get(targetId).add(sequenceFlow);
+    }
+  }
+}

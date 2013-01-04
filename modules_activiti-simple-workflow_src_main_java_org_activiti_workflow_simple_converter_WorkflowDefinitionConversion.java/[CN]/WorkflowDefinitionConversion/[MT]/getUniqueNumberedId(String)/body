@@ -1,0 +1,12 @@
+{
+  Integer index=incrementalIdMapping.get(baseName);
+  if (index == null) {
+    index=1;
+    incrementalIdMapping.put(baseName,index);
+  }
+ else {
+    index=index + 1;
+    incrementalIdMapping.put(baseName,index);
+  }
+  return baseName + index;
+}

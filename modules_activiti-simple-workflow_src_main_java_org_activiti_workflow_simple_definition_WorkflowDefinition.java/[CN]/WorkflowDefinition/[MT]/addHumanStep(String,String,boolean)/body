@@ -1,0 +1,13 @@
+{
+  HumanStepDefinition humanStepDefinition=new HumanStepDefinition();
+  if (name != null) {
+    humanStepDefinition.setName(name);
+  }
+  if (assignee != null) {
+    humanStepDefinition.setAssignee(assignee);
+  }
+  humanStepDefinition.setAssigneeInitiator(initiator);
+  humanStepDefinition.setStartWithPrevious(currentParallelBlock != null);
+  addStep(humanStepDefinition);
+  return this;
+}

@@ -1,0 +1,12 @@
+{
+  WorkflowDefinition workflowDefinition=conversion.getWorkflowDefinition();
+  Process process=conversion.getProcess();
+  process.setId(generateProcessId(workflowDefinition));
+  process.setName(workflowDefinition.getName());
+  process.setDocumentation(workflowDefinition.getDescription());
+  conversion.setProcess(process);
+  StartEvent startEvent=new StartEvent();
+  startEvent.setId(START_EVENT_ID);
+  process.addFlowElement(startEvent);
+  conversion.setLastActivityId(startEvent.getId());
+}

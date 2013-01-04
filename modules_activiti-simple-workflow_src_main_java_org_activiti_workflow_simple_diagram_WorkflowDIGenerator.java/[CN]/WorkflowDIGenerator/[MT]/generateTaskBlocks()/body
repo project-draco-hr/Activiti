@@ -1,0 +1,15 @@
+{
+  allStepBlocks=new ArrayList<BlockOfSteps>();
+  List<StepDefinition> workflowSteps=workflowDefinition.getSteps();
+  for (int i=0; i < workflowSteps.size(); i++) {
+    StepDefinition stepDefinition=workflowSteps.get(i);
+    if (stepDefinition.isStartWithPrevious() && (i != 0)) {
+      allStepBlocks.get(allStepBlocks.size() - 1).addStep(stepDefinition);
+    }
+ else {
+      BlockOfSteps blockOfSteps=new BlockOfSteps();
+      blockOfSteps.addStep(stepDefinition);
+      allStepBlocks.add(blockOfSteps);
+    }
+  }
+}

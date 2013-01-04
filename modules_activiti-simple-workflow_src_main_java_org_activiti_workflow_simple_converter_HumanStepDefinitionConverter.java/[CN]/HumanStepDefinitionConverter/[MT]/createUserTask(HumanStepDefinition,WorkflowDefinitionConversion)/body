@@ -1,0 +1,19 @@
+{
+  UserTask userTask=new UserTask();
+  userTask.setId(conversion.getUniqueNumberedId(USER_TASK_PREFIX));
+  userTask.setName(humanStepDefinition.getName());
+  userTask.setDocumentation(humanStepDefinition.getDescription());
+  if (humanStepDefinition.isAssigneeInitiator()) {
+    userTask.setAssignee(INITIATOR_ASSIGNEE_EXPRESSION);
+  }
+ else   if (humanStepDefinition.getAssignee() != null) {
+    userTask.setAssignee(humanStepDefinition.getAssignee());
+  }
+  if (humanStepDefinition.getCandidateUsers() != null && humanStepDefinition.getCandidateUsers().size() > 0) {
+    userTask.setCandidateUsers(humanStepDefinition.getCandidateUsers());
+  }
+  if (humanStepDefinition.getCandidateGroups() != null && humanStepDefinition.getCandidateGroups().size() > 0) {
+    userTask.setCandidateGroups(humanStepDefinition.getCandidateGroups());
+  }
+  return userTask;
+}

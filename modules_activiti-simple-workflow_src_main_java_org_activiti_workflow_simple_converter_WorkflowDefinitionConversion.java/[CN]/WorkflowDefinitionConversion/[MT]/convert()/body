@@ -1,0 +1,21 @@
+{
+  if (workflowDefinition == null) {
+    throw new ActivitiException("Cannot start conversion: need to set a WorkflowDefinition first!");
+  }
+  this.incrementalIdMapping=new HashMap<String,Integer>();
+  this.additionalArtifacts=new HashMap<String,Object>();
+  bpmnModel=new BpmnModel();
+  process=new Process();
+  bpmnModel.addProcess(process);
+  for (  WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
+    conversionListener.beforeStepsConversion(this);
+  }
+  for (  StepDefinition step : workflowDefinition.getSteps()) {
+    conversionFactory.getStepConverterFor(step).convertStepDefinition(step,this);
+  }
+  for (  WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
+    conversionListener.afterStepsConversion(this);
+  }
+  WorkflowDIGenerator workflowDIGenerator=new WorkflowDIGenerator(workflowDefinition,bpmnModel);
+  workflowDIGenerator.generateDI();
+}

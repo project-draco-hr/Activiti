@@ -1,0 +1,9 @@
+{
+  conversionFactory=new WorkflowDefinitionConversionFactory();
+  List<StepDefinitionConverter> stepConverters=new ArrayList<StepDefinitionConverter>();
+  stepConverters.add(new HumanStepDefinitionConverter());
+  conversionFactory.setStepDefinitionConverters(stepConverters);
+  List<WorkflowDefinitionConversionListener> conversionListeners=new ArrayList<WorkflowDefinitionConversionListener>();
+  conversionListeners.add(new DefaultWorkflowDefinitionConversionListener());
+  conversionFactory.setWorkflowDefinitionConversionListeners(conversionListeners);
+}
