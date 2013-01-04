@@ -1,0 +1,10 @@
+{
+  HttpServletRequest req=(HttpServletRequest)request;
+  String path=req.getRequestURI().substring(req.getContextPath().length());
+  if (path.startsWith("/ui") || path.startsWith("/VAADIN") || path.startsWith("/api")|| path.startsWith("/editor")|| path.startsWith("/explorer")|| path.startsWith("/libs")|| path.startsWith("/service")) {
+    chain.doFilter(request,response);
+  }
+ else {
+    request.getRequestDispatcher("/ui" + path).forward(request,response);
+  }
+}
