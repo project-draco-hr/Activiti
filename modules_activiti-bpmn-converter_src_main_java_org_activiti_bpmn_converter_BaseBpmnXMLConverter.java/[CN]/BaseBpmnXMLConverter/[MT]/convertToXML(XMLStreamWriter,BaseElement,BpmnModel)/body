@@ -25,13 +25,12 @@
       xtw.writeEndElement();
     }
   }
-  writeAdditionalChildElements(baseElement,xtw);
-  if (baseElement instanceof SequenceFlow == false) {
-    didWriteExtensionStartElement=writeListeners(baseElement,xtw);
-    if (didWriteExtensionStartElement) {
-      xtw.writeEndElement();
-    }
+  writeExtensionChildElements(baseElement,xtw);
+  didWriteExtensionStartElement=writeListeners(baseElement,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
   }
+  writeAdditionalChildElements(baseElement,xtw);
   if (baseElement instanceof Activity) {
     Activity activity=(Activity)baseElement;
     if (activity.getLoopCharacteristics() != null) {
