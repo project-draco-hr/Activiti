@@ -2,7 +2,7 @@
   messageActivity.setProperty("type","boundaryMessage");
   EventSubscriptionDeclaration messageDefinition=new EventSubscriptionDeclaration(messageEventDefinition.getMessageRef(),"message");
   messageDefinition.setActivityId(messageActivity.getId());
-  addEventSubscriptionDeclaration(messageDefinition,messageActivity.getParent());
+  addEventSubscriptionDeclaration(messageDefinition,messageEventDefinition,messageActivity.getParent());
   if (messageActivity.getParent() instanceof ActivityImpl) {
     ((ActivityImpl)messageActivity.getParent()).setScope(true);
   }

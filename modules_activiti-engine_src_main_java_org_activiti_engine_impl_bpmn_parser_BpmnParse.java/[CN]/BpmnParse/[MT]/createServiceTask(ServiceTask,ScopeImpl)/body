@@ -4,18 +4,18 @@
   activity.setExclusive(!serviceTask.isNotExclusive());
   if (StringUtils.isNotEmpty(serviceTask.getType())) {
     if (serviceTask.getType().equalsIgnoreCase("mail")) {
-      validateFieldDeclarationsForEmail(serviceTask.getId(),serviceTask.getFieldExtensions());
+      validateFieldDeclarationsForEmail(serviceTask,serviceTask.getFieldExtensions());
       activity.setActivityBehavior(activityBehaviorFactory.createMailActivityBehavior(serviceTask));
     }
  else     if (serviceTask.getType().equalsIgnoreCase("mule")) {
       activity.setActivityBehavior(activityBehaviorFactory.createMuleActivityBehavior(serviceTask,bpmnModel));
     }
  else     if (serviceTask.getType().equalsIgnoreCase("shell")) {
-      validateFieldDeclarationsForShell(serviceTask.getId(),serviceTask.getFieldExtensions());
+      validateFieldDeclarationsForShell(serviceTask,serviceTask.getFieldExtensions());
       activity.setActivityBehavior(activityBehaviorFactory.createShellActivityBehavior(serviceTask));
     }
  else {
-      bpmnModel.addProblem("Invalid usage of type attribute: '" + serviceTask.getType() + "'.",serviceTask.getId());
+      bpmnModel.addProblem("Invalid usage of type attribute: '" + serviceTask.getType() + "'.",serviceTask);
     }
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(serviceTask.getImplementationType())) {
@@ -29,7 +29,7 @@
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(serviceTask.getImplementationType()) && StringUtils.isNotEmpty(serviceTask.getOperationRef())) {
     if (!this.operations.containsKey(serviceTask.getOperationRef())) {
-      bpmnModel.addProblem(serviceTask.getOperationRef() + " does not exist",serviceTask.getId());
+      bpmnModel.addProblem(serviceTask.getOperationRef() + " does not exist",serviceTask);
     }
  else {
       WebServiceActivityBehavior webServiceActivityBehavior=activityBehaviorFactory.createWebServiceActivityBehavior(serviceTask);
@@ -50,7 +50,7 @@
     }
   }
  else {
-    bpmnModel.addProblem("One of the attributes 'class', 'delegateExpression', 'type', 'operation', or 'expression' is mandatory on serviceTask.",serviceTask.getId());
+    bpmnModel.addProblem("One of the attributes 'class', 'delegateExpression', 'type', 'operation', or 'expression' is mandatory on serviceTask.",serviceTask);
   }
   createExecutionListenersOnScope(serviceTask.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {

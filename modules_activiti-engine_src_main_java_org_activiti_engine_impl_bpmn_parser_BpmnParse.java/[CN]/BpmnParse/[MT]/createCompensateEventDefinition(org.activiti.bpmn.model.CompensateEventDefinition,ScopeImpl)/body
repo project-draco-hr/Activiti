@@ -1,7 +1,7 @@
 {
   if (StringUtils.isNotEmpty(eventDefinition.getActivityRef())) {
     if (scopeElement.findActivity(eventDefinition.getActivityRef()) == null) {
-      bpmnModel.addProblem("Invalid attribute value for 'activityRef': no activity with id '" + eventDefinition.getActivityRef() + "' in current scope "+ scopeElement.getId(),scopeElement.getId());
+      bpmnModel.addProblem("Invalid attribute value for 'activityRef': no activity with id '" + eventDefinition.getActivityRef() + "' in current scope "+ scopeElement.getId(),eventDefinition);
     }
   }
   CompensateEventDefinition compensateEventDefinition=new CompensateEventDefinition();

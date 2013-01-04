@@ -1,5 +1,5 @@
 {
-  List<HistoricTaskInstance> taskList=ActivitiUtil.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().list();
+  List<HistoricTaskInstance> taskList=ActivitiUtil.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByHistoricTaskInstanceStartTime().asc().list();
   if (taskList != null && taskList.size() > 0) {
     ArrayNode tasksJSON=new ObjectMapper().createArrayNode();
     responseJSON.put("tasks",tasksJSON);
@@ -12,6 +12,12 @@
       }
  else {
         taskJSON.putNull("taskName");
+      }
+      if (historicTaskInstance.getDescription() != null) {
+        taskJSON.put("description",historicTaskInstance.getDescription());
+      }
+ else {
+        taskJSON.putNull("description");
       }
       if (historicTaskInstance.getOwner() != null) {
         taskJSON.put("owner",historicTaskInstance.getOwner());
@@ -26,6 +32,12 @@
         taskJSON.putNull("assignee");
       }
       taskJSON.put("startTime",RequestUtil.dateToString(historicTaskInstance.getStartTime()));
+      if (historicTaskInstance.getDueDate() != null) {
+        taskJSON.put("dueDate",RequestUtil.dateToString(historicTaskInstance.getDueDate()));
+      }
+ else {
+        taskJSON.putNull("dueDate");
+      }
       if (historicTaskInstance.getEndTime() == null) {
         taskJSON.put("completed",false);
       }

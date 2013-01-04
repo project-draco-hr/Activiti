@@ -4,19 +4,19 @@
   activity.setExclusive(!sendTask.isNotExclusive());
   if (StringUtils.isNotEmpty(sendTask.getType())) {
     if (sendTask.getType().equalsIgnoreCase("mail")) {
-      validateFieldDeclarationsForEmail(sendTask.getId(),sendTask.getFieldExtensions());
+      validateFieldDeclarationsForEmail(sendTask,sendTask.getFieldExtensions());
       activity.setActivityBehavior(activityBehaviorFactory.createMailActivityBehavior(sendTask));
     }
  else     if (sendTask.getType().equalsIgnoreCase("mule")) {
       activity.setActivityBehavior(activityBehaviorFactory.createMuleActivityBehavior(sendTask,bpmnModel));
     }
  else {
-      bpmnModel.addProblem("Invalid usage of type attribute: '" + sendTask.getType() + "'.",sendTask.getId());
+      bpmnModel.addProblem("Invalid usage of type attribute: '" + sendTask.getType() + "'.",sendTask);
     }
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(sendTask.getImplementationType()) && StringUtils.isNotEmpty(sendTask.getOperationRef())) {
     if (!this.operations.containsKey(sendTask.getOperationRef())) {
-      bpmnModel.addProblem(sendTask.getOperationRef() + " does not exist",sendTask.getId());
+      bpmnModel.addProblem(sendTask.getOperationRef() + " does not exist",sendTask);
     }
  else {
       WebServiceActivityBehavior webServiceActivityBehavior=activityBehaviorFactory.createWebServiceActivityBehavior(sendTask);
@@ -38,7 +38,7 @@
     }
   }
  else {
-    bpmnModel.addProblem("One of the attributes 'type' or 'operation' is mandatory on sendTask.",sendTask.getId());
+    bpmnModel.addProblem("One of the attributes 'type' or 'operation' is mandatory on sendTask.",sendTask);
   }
   createExecutionListenersOnScope(sendTask.getExecutionListeners(),activity);
   for (  BpmnParseListener parseListener : parseListeners) {

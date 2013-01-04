@@ -1,6 +1,7 @@
 {
   if (parentElement instanceof Activity == false)   return;
   MultiInstanceLoopCharacteristics multiInstanceDef=new MultiInstanceLoopCharacteristics();
+  BpmnXMLUtil.addXMLLocation(multiInstanceDef,xtr);
   if (xtr.getAttributeValue(null,ATTRIBUTE_MULTIINSTANCE_SEQUENTIAL) != null) {
     multiInstanceDef.setSequential(Boolean.valueOf(xtr.getAttributeValue(null,ATTRIBUTE_MULTIINSTANCE_SEQUENTIAL)));
   }

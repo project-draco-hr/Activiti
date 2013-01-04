@@ -1,5 +1,6 @@
 {
   listener=new ActivitiListener();
+  BpmnXMLUtil.addXMLLocation(listener,xtr);
   if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_CLASS))) {
     listener.setImplementation(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_CLASS));
     listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);

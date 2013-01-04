@@ -4,7 +4,7 @@
   activity.setExclusive(!transaction.isNotExclusive());
   activity.setScope(true);
   activity.setActivityBehavior(activityBehaviorFactory.createTransactionActivityBehavior(transaction));
-  processFlowElements(transaction.getFlowElements(),activity);
+  processFlowElements(transaction.getFlowElements(),activity,transaction);
   processArtifacts(transaction.getArtifacts(),activity);
   if (transaction.getIoSpecification() != null) {
     IOSpecification ioSpecification=createIOSpecification(transaction.getIoSpecification());

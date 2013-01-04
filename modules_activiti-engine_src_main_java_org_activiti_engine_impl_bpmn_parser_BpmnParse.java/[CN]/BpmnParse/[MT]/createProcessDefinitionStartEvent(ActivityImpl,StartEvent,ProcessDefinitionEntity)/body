@@ -13,7 +13,7 @@
       if (bpmnModel.containsMessageId(messageDefinition.getMessageRef())) {
         String messageName=bpmnModel.getMessage(messageDefinition.getMessageRef()).getName();
         if (StringUtils.isEmpty(messageName)) {
-          bpmnModel.addProblem("messageName is required for a message event",startEvent.getId());
+          bpmnModel.addProblem("messageName is required for a message event",startEvent);
         }
         messageDefinition.setMessageRef(messageName);
       }
@@ -21,7 +21,7 @@
       startEventActivity.setProperty("type","messageStartEvent");
       eventSubscription.setActivityId(startEventActivity.getId());
       eventSubscription.setStartEvent(true);
-      addEventSubscriptionDeclaration(eventSubscription,processDefinition);
+      addEventSubscriptionDeclaration(eventSubscription,messageDefinition,processDefinition);
     }
   }
 }

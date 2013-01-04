@@ -4,7 +4,7 @@
     bpmnInterface.setImplementation(this.interfaceImplementations.get(interfaceObject.getImplementationRef()));
     for (    org.activiti.bpmn.model.Operation operationObject : interfaceObject.getOperations()) {
       if (!this.messages.containsKey(operationObject.getInMessageRef())) {
-        bpmnModel.addProblem(operationObject.getInMessageRef() + " does not exist",operationObject.getId());
+        bpmnModel.addProblem(operationObject.getInMessageRef() + " does not exist",operationObject);
       }
  else {
         MessageDefinition inMessage=this.messages.get(operationObject.getInMessageRef());

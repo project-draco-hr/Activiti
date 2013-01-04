@@ -1,0 +1,72 @@
+{
+  Object triggeredByEvent=scope.getProperty("triggeredByEvent");
+  boolean isTriggeredByEvent=triggeredByEvent != null && ((Boolean)triggeredByEvent == true);
+  if (isTriggeredByEvent) {
+    EventSubProcessStartEventActivityBehavior activityBehavior=activityBehaviorFactory.createEventSubProcessStartEventActivityBehavior(startEvent,startEventActivity.getId());
+    startEventActivity.setActivityBehavior(activityBehavior);
+    ScopeImpl catchingScope=((ActivityImpl)scope).getParent();
+    if (startEvent.getEventDefinitions().size() > 0) {
+      EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
+      if (eventDefinition instanceof org.activiti.bpmn.model.ErrorEventDefinition) {
+        if (scope.getProperty(PROPERTYNAME_INITIAL) == null) {
+          scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
+          org.activiti.bpmn.model.ErrorEventDefinition modelErrorEvent=(org.activiti.bpmn.model.ErrorEventDefinition)eventDefinition;
+          if (bpmnModel.containsErrorRef(modelErrorEvent.getErrorCode())) {
+            String errorCode=bpmnModel.getErrors().get(modelErrorEvent.getErrorCode());
+            if (StringUtils.isEmpty(errorCode)) {
+              bpmnModel.addProblem("errorCode is required for an error event",startEvent);
+            }
+            modelErrorEvent.setErrorCode(errorCode);
+          }
+          createErrorStartEventDefinition(modelErrorEvent,startEventActivity,catchingScope);
+        }
+ else {
+          bpmnModel.addProblem("multiple start events not supported for subprocess",subProcess);
+        }
+      }
+ else       if (eventDefinition instanceof MessageEventDefinition) {
+        MessageEventDefinition messageDefinition=(MessageEventDefinition)eventDefinition;
+        if (bpmnModel.containsMessageId(messageDefinition.getMessageRef())) {
+          String messageName=bpmnModel.getMessage(messageDefinition.getMessageRef()).getName();
+          if (StringUtils.isEmpty(messageName)) {
+            bpmnModel.addProblem("messageName is required for a message event",startEvent);
+          }
+          messageDefinition.setMessageRef(messageName);
+        }
+        EventSubscriptionDeclaration eventSubscriptionDeclaration=new EventSubscriptionDeclaration(messageDefinition.getMessageRef(),"message");
+        eventSubscriptionDeclaration.setActivityId(startEventActivity.getId());
+        eventSubscriptionDeclaration.setStartEvent(false);
+        addEventSubscriptionDeclaration(eventSubscriptionDeclaration,messageDefinition,catchingScope);
+      }
+ else       if (eventDefinition instanceof SignalEventDefinition) {
+        SignalEventDefinition signalDefinition=(SignalEventDefinition)eventDefinition;
+        if (bpmnModel.containsSignalId(signalDefinition.getSignalRef())) {
+          String signalName=bpmnModel.getSignal(signalDefinition.getSignalRef()).getName();
+          if (StringUtils.isEmpty(signalName)) {
+            bpmnModel.addProblem("signalName is required for a signal event",startEvent);
+          }
+          signalDefinition.setSignalRef(signalName);
+        }
+        EventSubscriptionDeclaration eventSubscriptionDeclaration=new EventSubscriptionDeclaration(signalDefinition.getSignalRef(),"signal");
+        eventSubscriptionDeclaration.setActivityId(startEventActivity.getId());
+        eventSubscriptionDeclaration.setStartEvent(false);
+        addEventSubscriptionDeclaration(eventSubscriptionDeclaration,signalDefinition,catchingScope);
+      }
+ else {
+        bpmnModel.addProblem("start event of event subprocess must be of type 'error', 'message' or 'signal' ",startEvent);
+      }
+    }
+  }
+ else {
+    if (startEvent.getEventDefinitions().size() > 0) {
+      bpmnModel.addProblem("event definitions only allowed on start event if subprocess is an event subprocess",startEvent);
+    }
+    if (scope.getProperty(PROPERTYNAME_INITIAL) == null) {
+      scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
+      startEventActivity.setActivityBehavior(activityBehaviorFactory.createNoneStartEventActivityBehavior(startEvent));
+    }
+ else {
+      bpmnModel.addProblem("multiple start events not supported for subprocess",subProcess);
+    }
+  }
+}

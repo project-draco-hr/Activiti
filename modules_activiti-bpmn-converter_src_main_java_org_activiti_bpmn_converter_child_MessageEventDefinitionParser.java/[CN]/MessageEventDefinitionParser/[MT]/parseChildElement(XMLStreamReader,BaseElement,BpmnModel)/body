@@ -1,6 +1,7 @@
 {
   if (parentElement instanceof Event == false)   return;
   MessageEventDefinition eventDefinition=new MessageEventDefinition();
+  BpmnXMLUtil.addXMLLocation(eventDefinition,xtr);
   eventDefinition.setMessageRef(xtr.getAttributeValue(null,ATTRIBUTE_MESSAGE_REF));
   if (StringUtils.isEmpty(eventDefinition.getMessageRef())) {
     model.addProblem("attribute 'messageRef' is required",xtr);

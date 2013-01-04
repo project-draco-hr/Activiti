@@ -1,5 +1,6 @@
 {
   Interface interfaceObject=new Interface();
+  BpmnXMLUtil.addXMLLocation(interfaceObject,xtr);
   interfaceObject.setId(model.getTargetNamespace() + ":" + xtr.getAttributeValue(null,ATTRIBUTE_ID));
   interfaceObject.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
   interfaceObject.setImplementationRef(parseMessageRef(xtr.getAttributeValue(null,ATTRIBUTE_IMPLEMENTATION_REF),model));
@@ -10,6 +11,7 @@
       xtr.next();
       if (xtr.isStartElement() && ELEMENT_OPERATION.equals(xtr.getLocalName())) {
         operation=new Operation();
+        BpmnXMLUtil.addXMLLocation(operation,xtr);
         operation.setId(model.getTargetNamespace() + ":" + xtr.getAttributeValue(null,ATTRIBUTE_ID));
         operation.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
         operation.setImplementationRef(parseMessageRef(xtr.getAttributeValue(null,ATTRIBUTE_IMPLEMENTATION_REF),model));

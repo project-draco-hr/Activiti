@@ -31,7 +31,7 @@
   if (model.getPools().size() > 0) {
     for (    Pool pool : model.getPools()) {
       GraphicInfo graphicInfo=model.getGraphicInfo(pool.getId());
-      ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,graphicInfo.x + graphicInfo.width,graphicInfo.y + graphicInfo.height,graphicInfo.x,graphicInfo.y);
+      ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,graphicInfo.getX() + graphicInfo.getWidth(),graphicInfo.getY() + graphicInfo.getHeight(),graphicInfo.getX(),graphicInfo.getY());
       shapesArrayNode.add(poolNode);
       ObjectNode poolPropertiesNode=objectMapper.createObjectNode();
       poolPropertiesNode.put(PROPERTY_OVERRIDE_ID,pool.getId());
@@ -45,7 +45,7 @@
       if (process != null) {
         for (        Lane lane : process.getLanes()) {
           GraphicInfo laneGraphicInfo=model.getGraphicInfo(lane.getId());
-          ObjectNode laneNode=BpmnJsonConverterUtil.createChildShape(lane.getId(),STENCIL_LANE,laneGraphicInfo.x + laneGraphicInfo.width,laneGraphicInfo.y + laneGraphicInfo.height,laneGraphicInfo.x,laneGraphicInfo.y);
+          ObjectNode laneNode=BpmnJsonConverterUtil.createChildShape(lane.getId(),STENCIL_LANE,laneGraphicInfo.getX() + laneGraphicInfo.getWidth(),laneGraphicInfo.getY() + laneGraphicInfo.getHeight(),laneGraphicInfo.getX(),laneGraphicInfo.getY());
           laneShapesArrayNode.add(laneNode);
           ObjectNode lanePropertiesNode=objectMapper.createObjectNode();
           lanePropertiesNode.put(PROPERTY_OVERRIDE_ID,lane.getId());
@@ -60,7 +60,7 @@
               Class<? extends BaseBpmnJsonConverter> converter=convertersToJsonMap.get(flowElement.getClass());
               if (converter != null) {
                 try {
-                  converter.newInstance().convertToJson(flowElement,this,model,elementShapesArrayNode,laneGraphicInfo.x,laneGraphicInfo.y);
+                  converter.newInstance().convertToJson(flowElement,this,model,elementShapesArrayNode,laneGraphicInfo.getX(),laneGraphicInfo.getY());
                 }
  catch (                Exception e) {
                   LOGGER.error("Error converting {}",flowElement,e);

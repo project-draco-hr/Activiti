@@ -3,18 +3,18 @@
   if (bpmnModel.containsMessageId(messageEventDefinition.getMessageRef())) {
     String messageName=bpmnModel.getMessage(messageEventDefinition.getMessageRef()).getName();
     if (StringUtils.isEmpty(messageName)) {
-      bpmnModel.addProblem("messageName is required for a message event",nestedActivity.getId());
+      bpmnModel.addProblem("messageName is required for a message event",messageEventDefinition);
     }
     messageEventDefinition.setMessageRef(messageName);
   }
   EventSubscriptionDeclaration messageDefinition=new EventSubscriptionDeclaration(messageEventDefinition.getMessageRef(),"message");
   if (isAfterEventBasedGateway) {
     messageDefinition.setActivityId(nestedActivity.getId());
-    addEventSubscriptionDeclaration(messageDefinition,nestedActivity.getParent());
+    addEventSubscriptionDeclaration(messageDefinition,messageEventDefinition,nestedActivity.getParent());
   }
  else {
     nestedActivity.setScope(true);
-    addEventSubscriptionDeclaration(messageDefinition,nestedActivity);
+    addEventSubscriptionDeclaration(messageDefinition,messageEventDefinition,nestedActivity);
   }
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseIntermediateMessageCatchEventDefinition(messageEventDefinition,nestedActivity);

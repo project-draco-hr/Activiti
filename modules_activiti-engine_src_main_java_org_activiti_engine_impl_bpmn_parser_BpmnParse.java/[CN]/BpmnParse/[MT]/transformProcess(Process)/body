@@ -17,7 +17,7 @@
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug("Parsing process {}",processDefinition.getKey());
   }
-  processFlowElements(process.getFlowElements(),processDefinition);
+  processFlowElements(process.getFlowElements(),processDefinition,null);
   processArtifacts(process.getArtifacts(),processDefinition);
   if (process.getIoSpecification() != null) {
     IOSpecification ioSpecification=createIOSpecification(process.getIoSpecification());
@@ -26,6 +26,5 @@
   for (  BpmnParseListener parseListener : parseListeners) {
     parseListener.parseProcess(process,processDefinition);
   }
-  validateActivities(processDefinition.getActivities());
   return processDefinition;
 }

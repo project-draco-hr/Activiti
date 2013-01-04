@@ -10,7 +10,7 @@
     if (bpmnModel.containsSignalId(signalEventDefinition.getSignalRef())) {
       String signalName=bpmnModel.getSignal(signalEventDefinition.getSignalRef()).getName();
       if (StringUtils.isEmpty(signalName)) {
-        bpmnModel.addProblem("signalName is required for a signal event",intermediateEvent.getId());
+        bpmnModel.addProblem("signalName is required for a signal event",intermediateEvent);
       }
       signalEventDefinition.setSignalRef(signalName);
     }
@@ -27,7 +27,7 @@
     activityBehavior=activityBehaviorFactory.createIntermediateThrowNoneEventActivityBehavior(intermediateEvent);
   }
  else {
-    bpmnModel.addProblem("Unsupported intermediate throw event type " + eventDefinition,intermediateEvent.getId());
+    bpmnModel.addProblem("Unsupported intermediate throw event type " + eventDefinition,intermediateEvent);
   }
   nestedActivityImpl.setActivityBehavior(activityBehavior);
   createExecutionListenersOnScope(intermediateEvent.getExecutionListeners(),nestedActivityImpl);
