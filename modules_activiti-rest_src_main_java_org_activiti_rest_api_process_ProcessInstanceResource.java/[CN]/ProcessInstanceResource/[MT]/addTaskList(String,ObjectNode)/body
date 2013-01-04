@@ -1,5 +1,5 @@
 {
-  List<HistoricTaskInstance> taskList=ActivitiUtil.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().list();
+  List<HistoricTaskInstance> taskList=ActivitiUtil.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByHistoricTaskInstanceStartTime().asc().list();
   if (taskList != null && taskList.size() > 0) {
     ArrayNode tasksJSON=new ObjectMapper().createArrayNode();
     responseJSON.put("tasks",tasksJSON);
