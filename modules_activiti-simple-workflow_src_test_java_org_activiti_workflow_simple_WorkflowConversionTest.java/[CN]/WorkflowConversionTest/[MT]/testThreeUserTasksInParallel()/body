@@ -1,0 +1,15 @@
+{
+  TaskService taskService=activitiRule.getTaskService();
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").inParallel().addHumanStep("first task","kermit").addHumanStep("second step","gonzo").addHumanStep("thrid task","mispiggy").endParallel().addHumanStep("Task in between","kermit").inParallel().addHumanStep("fourth task","gonzo").addHumanStep("fifth step","gonzo").endParallel();
+  activitiRule.getRuntimeService().startProcessInstanceByKey(convertAndDeploy(workflowDefinition));
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("gonzo").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("mispiggy").count());
+  for (  Task task : taskService.createTaskQuery().list()) {
+    activitiRule.getTaskService().complete(task.getId());
+  }
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("Task in between",task.getName());
+  taskService.complete(task.getId());
+  assertEquals(2,taskService.createTaskQuery().taskAssignee("gonzo").count());
+}

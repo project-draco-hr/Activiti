@@ -10,9 +10,7 @@
   for (  WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
     conversionListener.beforeStepsConversion(this);
   }
-  for (  StepDefinition step : workflowDefinition.getSteps()) {
-    conversionFactory.getStepConverterFor(step).convertStepDefinition(step,this);
-  }
+  convertSteps(workflowDefinition.getSteps());
   for (  WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
     conversionListener.afterStepsConversion(this);
   }

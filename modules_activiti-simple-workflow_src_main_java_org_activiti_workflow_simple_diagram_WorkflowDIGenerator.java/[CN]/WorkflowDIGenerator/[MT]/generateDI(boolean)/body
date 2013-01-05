@@ -3,19 +3,18 @@
   bpmnModel.getFlowLocationMap().clear();
   bpmnModel.getLocationMap().clear();
   process=bpmnModel.getProcesses().get(0);
-  generateTaskBlocks();
+  generateSequenceflowMappings();
+  calculateMaximumSizes();
   this.startX=0;
-  this.startY=calculateMaximumHeight() / 2 + 10;
+  this.startY=maxiumHeight / 2 + 10;
   this.currentWidth=0;
   if (generateImage) {
-    int width=calculateMaximumWidth() + 50;
-    int height=calculateMaximumHeight() + 50;
+    int width=maximumWidth + 50;
+    int height=maxiumHeight + 50;
     processDiagramCanvas=new ProcessDiagramCanvas(width,height);
   }
-  Collection<FlowElement> flowElements=process.getFlowElements();
-  generateSequenceflowMappings(flowElements);
   this.handledElements=new HashSet<String>();
-  for (  FlowElement flowElement : flowElements) {
+  for (  FlowElement flowElement : process.getFlowElements()) {
     if (!handledElements.contains(flowElement.getId())) {
       if (flowElement instanceof StartEvent) {
         drawStartEvent(flowElement,startX,startY,EVENT_WIDTH,EVENT_WIDTH,generateImage);
