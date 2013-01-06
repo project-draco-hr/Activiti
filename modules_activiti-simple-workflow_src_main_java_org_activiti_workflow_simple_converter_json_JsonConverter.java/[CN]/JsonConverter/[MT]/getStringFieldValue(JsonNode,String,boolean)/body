@@ -1,0 +1,14 @@
+{
+  if (json.has(field)) {
+    JsonNode fieldNode=json.get(field);
+    return fieldNode.getTextValue();
+  }
+ else {
+    if (mandatory) {
+      throw new ActivitiException("Could not convert json: " + field + " is mandatory on "+ json.toString());
+    }
+ else {
+      return null;
+    }
+  }
+}

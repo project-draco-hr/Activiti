@@ -2,16 +2,6 @@
   WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(workflowDefinition);
   conversion.convert();
   log.info("Converted process : " + conversion.getbpm20Xml());
-  InputStream is=conversion.getWorkflowDiagramImage();
-  try {
-    flow(is,new FileOutputStream("temp" + UUID.randomUUID().toString() + ".png"),new byte[1024]);
-  }
- catch (  FileNotFoundException e) {
-    e.printStackTrace();
-  }
-catch (  IOException e) {
-    e.printStackTrace();
-  }
   deployProcessDefinition(conversion);
   return getDeployedProcessKey();
 }
