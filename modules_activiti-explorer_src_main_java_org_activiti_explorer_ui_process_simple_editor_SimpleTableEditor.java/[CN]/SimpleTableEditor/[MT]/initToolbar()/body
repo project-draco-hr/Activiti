@@ -1,0 +1,22 @@
+{
+  toolBar=new ToolBar();
+  toolBar.addToolbarEntry(KEY_EDITOR,ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_EDITOR_TITLE),new ToolbarCommand(){
+    public void toolBarItemSelected(){
+      if (diagram != null) {
+        diagram.setVisible(false);
+        editorGrid.setVisible(true);
+        toolBar.setActiveEntry(KEY_EDITOR);
+      }
+    }
+  }
+);
+  toolBar.addToolbarEntry(KEY_PREVIEW,ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_EDITOR_BPMN_PREVIEW),new ToolbarCommand(){
+    public void toolBarItemSelected(){
+      editorGrid.setVisible(false);
+      showDiagram();
+      toolBar.setActiveEntry(KEY_PREVIEW);
+    }
+  }
+);
+  return toolBar;
+}

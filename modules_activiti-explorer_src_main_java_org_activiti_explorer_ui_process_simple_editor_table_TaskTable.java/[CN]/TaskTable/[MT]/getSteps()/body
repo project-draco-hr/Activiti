@@ -1,0 +1,13 @@
+{
+  List<HumanStepDefinition> steps=new ArrayList<HumanStepDefinition>();
+  for (  Object itemId : getItemIds()) {
+    Item item=getItem(itemId);
+    HumanStepDefinition humanStepDefinition=new HumanStepDefinition();
+    humanStepDefinition.setName((String)item.getItemProperty("name").getValue());
+    humanStepDefinition.setAssignee((String)item.getItemProperty("assignee").getValue());
+    humanStepDefinition.setDescription((String)((TextField)item.getItemProperty("description").getValue()).getValue());
+    humanStepDefinition.setForm(taskFormModel.getForm(itemId));
+    steps.add(humanStepDefinition);
+  }
+  return steps;
+}

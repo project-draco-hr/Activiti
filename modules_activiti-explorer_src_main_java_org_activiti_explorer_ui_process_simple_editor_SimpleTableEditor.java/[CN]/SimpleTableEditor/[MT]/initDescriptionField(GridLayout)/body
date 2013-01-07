@@ -1,0 +1,12 @@
+{
+  descriptionField=new TextField();
+  descriptionField.setRows(4);
+  descriptionField.setColumns(35);
+  descriptionField.addStyleName(ExplorerLayout.STYLE_TEXTAREA_NO_RESIZE);
+  layout.addComponent(new Label(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_EDITOR_DESCRIPTION)));
+  layout.addComponent(descriptionField);
+  if (description != null) {
+    descriptionField.setValue(description);
+    description=null;
+  }
+}

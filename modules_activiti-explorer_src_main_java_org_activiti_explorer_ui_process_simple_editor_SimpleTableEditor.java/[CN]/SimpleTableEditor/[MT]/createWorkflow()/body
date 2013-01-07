@@ -1,0 +1,9 @@
+{
+  WorkflowDefinition workflow=new WorkflowDefinition();
+  workflow.setName((String)nameField.getValue());
+  workflow.setDescription((String)descriptionField.getValue());
+  for (  HumanStepDefinition step : taskTable.getSteps()) {
+    workflow.addStep(step);
+  }
+  return workflow;
+}
