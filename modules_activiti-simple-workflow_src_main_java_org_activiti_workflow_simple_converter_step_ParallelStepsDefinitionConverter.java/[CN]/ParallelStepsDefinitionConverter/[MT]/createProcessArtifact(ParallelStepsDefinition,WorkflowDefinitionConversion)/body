@@ -1,0 +1,15 @@
+{
+  ParallelGateway forkGateway=createParallelGateway(conversion);
+  addSequenceFlow(conversion,conversion.getLastActivityId(),forkGateway.getId());
+  conversion.setLastActivityId(forkGateway.getId());
+  conversion.setUpdateLastActivityEnabled(false);
+  conversion.convertSteps(parallelStepsDefinition.getSteps());
+  conversion.setUpdateLastActivityEnabled(true);
+  ParallelGateway joinGateway=createParallelGateway(conversion);
+  conversion.setLastActivityId(joinGateway.getId());
+  List<FlowElement> successorsOfFork=BpmnModelUtil.findSucessorFlowElementsFor(conversion.getProcess(),forkGateway);
+  for (  FlowElement successorOfFork : successorsOfFork) {
+    addSequenceFlow(conversion,successorOfFork.getId(),joinGateway.getId());
+  }
+  return forkGateway;
+}

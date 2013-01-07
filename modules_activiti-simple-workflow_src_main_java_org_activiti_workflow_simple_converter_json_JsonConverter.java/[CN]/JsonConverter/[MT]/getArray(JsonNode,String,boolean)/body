@@ -1,0 +1,19 @@
+{
+  if (json.has(arrayName)) {
+    JsonNode arrayJsonNode=json.get(arrayName);
+    if (arrayJsonNode.isArray()) {
+      return (ArrayNode)arrayJsonNode;
+    }
+ else {
+      throw new ActivitiException("Could not convert json: " + arrayName + " should be an array, but it isn't");
+    }
+  }
+ else {
+    if (mandatory) {
+      throw new ActivitiException("Could not convert json: " + arrayName + " is mandatory on "+ json.toString());
+    }
+ else {
+      return null;
+    }
+  }
+}

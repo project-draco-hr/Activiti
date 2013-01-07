@@ -1,0 +1,9 @@
+{
+  if (conversion.isSequenceflowGenerationEnabled() && addSequenceFlow) {
+    addSequenceFlow(conversion,conversion.getLastActivityId(),flowElement.getId());
+  }
+  conversion.getProcess().addFlowElement(flowElement);
+  if (conversion.isUpdateLastActivityEnabled()) {
+    conversion.setLastActivityId(flowElement.getId());
+  }
+}

@@ -1,0 +1,7 @@
+{
+  WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(workflowDefinition);
+  conversion.convert();
+  log.info("Converted process : " + conversion.getbpm20Xml());
+  deployProcessDefinition(conversion);
+  return getDeployedProcessKey();
+}

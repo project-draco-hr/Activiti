@@ -8,7 +8,7 @@
   Table taskTable=new Table();
   taskTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_TASK_LIST);
   taskTable.setWidth(100,UNITS_PERCENTAGE);
-  List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByHistoricActivityInstanceStartTime().desc().list();
+  List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByHistoricTaskInstanceStartTime().desc().list();
   if (tasks.size() > 0) {
     taskTable.addContainerProperty("finished",Component.class,null,"",null,Table.ALIGN_CENTER);
     taskTable.setColumnWidth("finished",22);

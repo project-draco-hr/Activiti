@@ -1,0 +1,11 @@
+{
+  Process process=conversion.getProcess();
+  EndEvent endEvent=new EndEvent();
+  endEvent.setId(END_EVENT_ID);
+  process.addFlowElement(endEvent);
+  SequenceFlow sequenceFlow=new SequenceFlow();
+  sequenceFlow.setId(conversion.getUniqueNumberedId(ConversionConstants.DEFAULT_SEQUENCEFLOW_PREFIX));
+  sequenceFlow.setSourceRef(conversion.getLastActivityId());
+  sequenceFlow.setTargetRef(END_EVENT_ID);
+  process.addFlowElement(sequenceFlow);
+}

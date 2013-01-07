@@ -1,0 +1,37 @@
+{
+  bpmnModel.getLocationMap().clear();
+  bpmnModel.getFlowLocationMap().clear();
+  bpmnModel.getLocationMap().clear();
+  process=bpmnModel.getProcesses().get(0);
+  generateSequenceflowMappings();
+  calculateMaximumSizes();
+  this.startX=0;
+  this.startY=maxiumHeight / 2 + 10;
+  this.currentWidth=0;
+  if (generateImage) {
+    int width=maximumWidth + 50;
+    int height=maxiumHeight + 50;
+    processDiagramCanvas=new ProcessDiagramCanvas(width,height);
+  }
+  this.handledElements=new HashSet<String>();
+  for (  FlowElement flowElement : process.getFlowElements()) {
+    if (!handledElements.contains(flowElement.getId())) {
+      if (flowElement instanceof StartEvent) {
+        drawStartEvent(flowElement,startX,startY,EVENT_WIDTH,EVENT_WIDTH,generateImage);
+      }
+ else       if (flowElement instanceof EndEvent) {
+        drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),generateImage,currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
+        drawEndEvent(flowElement,currentWidth,startY,EVENT_WIDTH,EVENT_WIDTH,generateImage);
+      }
+ else       if (flowElement instanceof ParallelGateway && outgoingSequenceFlowMapping.get(flowElement.getId()).size() > 1) {
+        ParallelGateway parallelGateway=(ParallelGateway)flowElement;
+        drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),generateImage,currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
+        drawParallelBlock(currentWidth,startY - EVENT_WIDTH / 2,parallelGateway,generateImage);
+      }
+ else       if (flowElement instanceof Task) {
+        drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),generateImage,currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
+        drawTask(flowElement,currentWidth,startY - ((TASK_HEIGHT - EVENT_WIDTH) / 2),TASK_WIDTH,TASK_HEIGHT,generateImage);
+      }
+    }
+  }
+}

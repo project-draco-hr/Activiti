@@ -1,0 +1,18 @@
+{
+  super.initUi();
+  grid.setColumnExpandRatio(0,0f);
+  mainLayout=new DetailPanel();
+  setDetailComponent(mainLayout);
+  editorGrid=new GridLayout(2,7);
+  editorGrid.setSizeFull();
+  editorGrid.setMargin(true);
+  editorGrid.setColumnExpandRatio(0,1.0f);
+  editorGrid.setColumnExpandRatio(1,9.0f);
+  editorGrid.setSpacing(true);
+  mainLayout.addComponent(editorGrid);
+  initNameField(editorGrid);
+  initDescriptionField(editorGrid);
+  initTaskTable(editorGrid);
+  initButtons(editorGrid);
+  toolBar.setActiveEntry(KEY_EDITOR);
+}

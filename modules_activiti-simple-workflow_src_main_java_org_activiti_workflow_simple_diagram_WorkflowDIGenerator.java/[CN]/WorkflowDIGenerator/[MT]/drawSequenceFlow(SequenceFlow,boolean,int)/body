@@ -1,0 +1,30 @@
+{
+  int minX=Integer.MAX_VALUE;
+  int maxX=0;
+  for (int i=2; i < waypoints.length; i+=2) {
+    if (generateImage) {
+      if (i < waypoints.length - 2) {
+        processDiagramCanvas.drawSequenceflowWithoutArrow(waypoints[i - 2],waypoints[i - 1],waypoints[i],waypoints[i + 1],false);
+      }
+ else {
+        processDiagramCanvas.drawSequenceflow(waypoints[i - 2],waypoints[i - 1],waypoints[i],waypoints[i + 1],false);
+      }
+    }
+    if (waypoints[i - 2] < minX || waypoints[i] < minX) {
+      minX=Math.min(waypoints[i - 2],waypoints[i]);
+    }
+    if (waypoints[i - 2] > maxX || waypoints[i] > maxX) {
+      maxX=Math.max(waypoints[i - 2],waypoints[i]);
+    }
+  }
+  currentWidth+=maxX - minX;
+  List<GraphicInfo> graphicInfoForWaypoints=new ArrayList<GraphicInfo>();
+  for (int i=0; i < waypoints.length; i+=2) {
+    GraphicInfo graphicInfo=new GraphicInfo();
+    graphicInfo.setElement(sequenceFlow);
+    graphicInfo.setX(waypoints[i]);
+    graphicInfo.setY(waypoints[i + 1]);
+    graphicInfoForWaypoints.add(graphicInfo);
+  }
+  bpmnModel.addFlowGraphicInfoList(sequenceFlow.getId(),graphicInfoForWaypoints);
+}
