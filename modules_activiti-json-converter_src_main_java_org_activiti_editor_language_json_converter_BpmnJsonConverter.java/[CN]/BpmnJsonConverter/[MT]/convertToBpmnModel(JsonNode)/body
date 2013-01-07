@@ -73,8 +73,13 @@
       }
     }
   }
+  Map<String,SequenceFlow> flowSourceMap=new HashMap<String,SequenceFlow>();
+  Map<String,SequenceFlow> flowTargetMap=new HashMap<String,SequenceFlow>();
   for (  Process process : bpmnModel.getProcesses()) {
-    fillAttachedToRef(process,process.getFlowElements());
+    addAllSequenceFlows(process.getFlowElements(),flowSourceMap,flowTargetMap);
+  }
+  for (  Process process : bpmnModel.getProcesses()) {
+    postProcessElements(process,process.getFlowElements(),flowSourceMap,flowTargetMap);
   }
   return bpmnModel;
 }
