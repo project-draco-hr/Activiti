@@ -6,12 +6,9 @@
   repositoryService.saveModel(model);
   WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
   conversion.convert();
-  BpmnXMLConverter bpmnXMLConverter=new BpmnXMLConverter();
-  System.out.println("IN --- > " + new String(bpmnXMLConverter.convertToXML(conversion.getBpmnModel())));
   try {
     BpmnJsonConverter bpmnJsonConverter=new BpmnJsonConverter();
     ObjectNode json=bpmnJsonConverter.convertToJson(conversion.getBpmnModel());
-    System.out.println("JSON ---> " + json.toString());
     repositoryService.addModelEditorSource(model.getId(),json.toString().getBytes("utf-8"));
     repositoryService.addModelEditorSourceExtra(model.getId(),IOUtils.toByteArray(conversion.getWorkflowDiagramImage()));
   }
