@@ -15,31 +15,20 @@
   }
   this.handledElements=new HashSet<String>();
   for (  FlowElement flowElement : process.getFlowElements()) {
-    System.out.println("Handling " + flowElement.getId());
-    System.out.println("Handled elements contains");
-    for (    String element : handledElements) {
-      System.out.println("----> " + element);
-    }
-    System.out.println("Contains ? " + handledElements.contains(flowElement.getId()));
     if (!handledElements.contains(flowElement.getId())) {
-      System.out.println("Must draw it now");
       if (flowElement instanceof StartEvent) {
-        System.out.println("A");
         drawStartEvent(flowElement,startX,startY,EVENT_WIDTH,EVENT_WIDTH,generateImage);
       }
  else       if (flowElement instanceof EndEvent) {
-        System.out.println("B");
         drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),generateImage,currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
         drawEndEvent(flowElement,currentWidth,startY,EVENT_WIDTH,EVENT_WIDTH,generateImage);
       }
  else       if (flowElement instanceof ParallelGateway && outgoingSequenceFlowMapping.get(flowElement.getId()).size() > 1) {
-        System.out.println("C");
         ParallelGateway parallelGateway=(ParallelGateway)flowElement;
         drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),generateImage,currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
         drawParallelBlock(currentWidth,startY - EVENT_WIDTH / 2,parallelGateway,generateImage);
       }
  else       if (flowElement instanceof Task) {
-        System.out.println("Drawing task " + flowElement.getId());
         drawSequenceFlow(incomingSequenceFlowMapping.get(flowElement.getId()).get(0),generateImage,currentWidth,startY + EVENT_WIDTH / 2,currentWidth + SEQUENCE_FLOW_WIDTH,startY + EVENT_WIDTH / 2);
         drawTask(flowElement,currentWidth,startY - ((TASK_HEIGHT - EVENT_WIDTH) / 2),TASK_WIDTH,TASK_HEIGHT,generateImage);
       }
