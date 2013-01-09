@@ -3,11 +3,21 @@
   for (  Object itemId : getItemIds()) {
     Item item=getItem(itemId);
     HumanStepDefinition humanStepDefinition=new HumanStepDefinition();
-    humanStepDefinition.setName((String)item.getItemProperty("name").getValue());
-    humanStepDefinition.setAssignee((String)item.getItemProperty("assignee").getValue());
-    humanStepDefinition.setDescription((String)((TextField)item.getItemProperty("description").getValue()).getValue());
-    humanStepDefinition.setStartsWithPrevious((boolean)((CheckBox)item.getItemProperty("startWithPrevious").getValue()).booleanValue());
+    humanStepDefinition.setName((String)item.getItemProperty(ID_NAME).getValue());
+    humanStepDefinition.setAssignee((String)item.getItemProperty(ID_ASSIGNEE).getValue());
+    String groups=(String)item.getItemProperty("groups").getValue();
+    List<String> candidateGroups=new ArrayList<String>();
+    if (groups != null && groups.length() > 0) {
+      for (      String group : groups.split(",")) {
+        candidateGroups.add(group.trim());
+      }
+    }
+    humanStepDefinition.setCandidateGroups(candidateGroups);
+    humanStepDefinition.setDescription((String)((TextField)item.getItemProperty(ID_DESCRIPTION).getValue()).getValue());
+    humanStepDefinition.setStartsWithPrevious((boolean)((CheckBox)item.getItemProperty(ID_START_WITH_PREVIOUS).getValue()).booleanValue());
     humanStepDefinition.setForm(taskFormModel.getForm(itemId));
+    FormDefinition formDefinition=taskFormModel.getForm(itemId);
+    humanStepDefinition.setForm(formDefinition);
     steps.add(humanStepDefinition);
   }
   return steps;

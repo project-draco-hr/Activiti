@@ -7,19 +7,19 @@
     newItemId=addItemAfter(previousTaskItemId);
   }
   Item newItem=getItem(newItemId);
-  newItem.getItemProperty("name").setValue(taskName == null ? "my task" : taskName);
-  newItem.getItemProperty("assignee").setValue(taskAssignee == null ? "" : taskAssignee);
-  newItem.getItemProperty("groups").setValue(taskGroups == null ? "" : taskGroups);
+  newItem.getItemProperty(ID_NAME).setValue(taskName == null ? "my task" : taskName);
+  newItem.getItemProperty(ID_ASSIGNEE).setValue(taskAssignee == null ? "" : taskAssignee);
+  newItem.getItemProperty(ID_GROUPS).setValue(taskGroups == null ? "" : taskGroups);
   TextField descriptionTextField=new TextField();
   descriptionTextField.setColumns(16);
   descriptionTextField.setRows(1);
   if (taskDescription != null) {
     descriptionTextField.setValue(taskDescription);
   }
-  newItem.getItemProperty("description").setValue(descriptionTextField);
-  CheckBox startWithPreviousCheckBox=new CheckBox("start with previous");
+  newItem.getItemProperty(ID_DESCRIPTION).setValue(descriptionTextField);
+  CheckBox startWithPreviousCheckBox=new CheckBox(i18nManager.getMessage(Messages.PROCESS_EDITOR_TASK_START_WITH_PREVIOUS));
   startWithPreviousCheckBox.setValue(startWithPrevious == null ? false : startWithPrevious);
-  newItem.getItemProperty("startWithPrevious").setValue(startWithPreviousCheckBox);
-  newItem.getItemProperty("actions").setValue(generateActionButtons(newItemId));
+  newItem.getItemProperty(ID_START_WITH_PREVIOUS).setValue(startWithPreviousCheckBox);
+  newItem.getItemProperty(ID_ACTIONS).setValue(generateActionButtons(newItemId));
   return newItemId;
 }
