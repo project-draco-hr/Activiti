@@ -23,11 +23,11 @@
       formProperty.setId(propertyDefinition.getPropertyName());
       formProperty.setName(propertyDefinition.getPropertyName());
       formProperty.setRequired(propertyDefinition.isRequired());
-      String type="string";
-      if ("number".equals(propertyDefinition.getType())) {
+      String type=DefaultFormPropertyTypes.TEXT;
+      if (DefaultFormPropertyTypes.NUMBER.equals(propertyDefinition.getType())) {
         type="long";
       }
- else       if ("date".equals(propertyDefinition.getType())) {
+ else       if (DefaultFormPropertyTypes.DATE.equals(propertyDefinition.getType())) {
         type="date";
       }
       formProperty.setType(type);
