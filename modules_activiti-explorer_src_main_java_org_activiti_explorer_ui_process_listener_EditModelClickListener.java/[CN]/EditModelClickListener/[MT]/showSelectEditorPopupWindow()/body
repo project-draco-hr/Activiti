@@ -1,0 +1,44 @@
+{
+  final PopupWindow selectEditorPopupWindow=new PopupWindow();
+  selectEditorPopupWindow.setModal(true);
+  selectEditorPopupWindow.setResizable(false);
+  selectEditorPopupWindow.setWidth("350px");
+  selectEditorPopupWindow.setHeight("250px");
+  selectEditorPopupWindow.addStyleName(Reindeer.PANEL_LIGHT);
+  selectEditorPopupWindow.center();
+  final SelectEditorComponent selectEditorComponent=new SelectEditorComponent(false);
+  selectEditorComponent.getModelerDescriptionLabel().setValue(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_EDITOR_CONVERSION_WARNING_MODELER));
+  selectEditorComponent.getModelerDescriptionLabel().addStyleName(ExplorerLayout.STYLE_LABEL_RED);
+  selectEditorComponent.preferTableDrivenEditor();
+  selectEditorPopupWindow.getContent().addComponent(selectEditorComponent);
+  selectEditorComponent.setEditorSelectedListener(new EditorSelectedListener(){
+    public void editorSelectionChanged(){
+      try {
+        WorkflowDefinition workflowDefinition=loadWorkflowDefinition();
+        if (selectEditorComponent.isModelerPreferred()) {
+          WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
+          conversion.convert();
+          RepositoryService repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+          model.setCategory(null);
+          repositoryService.saveModel(model);
+          BpmnJsonConverter bpmnJsonConverter=new BpmnJsonConverter();
+          ObjectNode json=bpmnJsonConverter.convertToJson(conversion.getBpmnModel());
+          repositoryService.addModelEditorSource(model.getId(),json.toString().getBytes("utf-8"));
+          showModeler();
+        }
+ else {
+          ExplorerApp.get().getViewManager().showSimpleTableProcessEditor(model.getId(),workflowDefinition);
+        }
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+        ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.PROCESS_EDITOR_LOADING_ERROR,e);
+      }
+ finally {
+        ExplorerApp.get().getMainWindow().removeWindow(selectEditorPopupWindow);
+      }
+    }
+  }
+);
+  ExplorerApp.get().getViewManager().showPopupWindow(selectEditorPopupWindow);
+}

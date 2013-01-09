@@ -15,12 +15,9 @@
   Label editorLabel=new Label(i18nManager.getMessage(Messages.PROCESS_EDITOR_CHOICE));
   formLayout.addComponent(editorLabel);
   formLayout.setComponentAlignment(editorLabel,Alignment.MIDDLE_LEFT);
-  VerticalLayout editorsLayout=new VerticalLayout();
-  formLayout.addComponent(editorsLayout);
-  createModelerEditorChoice(editorsLayout);
-  createTableDrivenEditorChoice(editorsLayout);
+  selectEditorComponent=new SelectEditorComponent();
+  formLayout.addComponent(selectEditorComponent);
   addComponent(formLayout);
-  preferModeler();
   Label emptySpace=new Label("&nbsp;",Label.CONTENT_XHTML);
   addComponent(emptySpace);
 }
