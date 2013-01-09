@@ -1,0 +1,40 @@
+{
+  HumanStepDefinition humanStepDefinition=new HumanStepDefinition();
+  String name=getStringFieldValue(humanStepJson,HUMAN_STEP_NAME,false);
+  if (name != null) {
+    humanStepDefinition.setName(name);
+  }
+  String description=getStringFieldValue(humanStepJson,HUMAN_STEP_DESCRIPTION,false);
+  if (description != null) {
+    humanStepDefinition.setDescription(description);
+  }
+  String assignee=getStringFieldValue(humanStepJson,HUMAN_STEP_ASSIGNEE,false);
+  if (assignee != null) {
+    humanStepDefinition.setAssignee(assignee);
+  }
+  ArrayNode groupArray=getArray(humanStepJson,HUMAN_STEP_GROUPS,false);
+  if (groupArray != null && groupArray.size() > 0) {
+    List<String> groups=new ArrayList<String>();
+    Iterator<JsonNode> groupIterator=groupArray.iterator();
+    while (groupIterator.hasNext()) {
+      JsonNode groupNode=groupIterator.next();
+      groups.add(groupNode.getTextValue());
+    }
+    humanStepDefinition.setCandidateGroups(groups);
+  }
+  ArrayNode formPropertyArray=getArray(humanStepJson,FORM,false);
+  if (formPropertyArray != null) {
+    Iterator<JsonNode> formProperyIterator=formPropertyArray.iterator();
+    FormDefinition formDefinition=new FormDefinition();
+    while (formProperyIterator.hasNext()) {
+      JsonNode formPropertyJsonNode=formProperyIterator.next();
+      FormPropertyDefinition propertyDefinition=new FormPropertyDefinition();
+      propertyDefinition.setPropertyName(getStringFieldValue(formPropertyJsonNode,FORM_PROPERTY_NAME,true));
+      propertyDefinition.setType(getStringFieldValue(formPropertyJsonNode,FORM_PROPERTY_TYPE,true));
+      propertyDefinition.setRequired(getBooleanValue(formPropertyJsonNode,FORM_PROPERTY_MANDATORY,false,false));
+      formDefinition.addFormProperty(propertyDefinition);
+    }
+    humanStepDefinition.setForm(formDefinition);
+  }
+  return humanStepDefinition;
+}

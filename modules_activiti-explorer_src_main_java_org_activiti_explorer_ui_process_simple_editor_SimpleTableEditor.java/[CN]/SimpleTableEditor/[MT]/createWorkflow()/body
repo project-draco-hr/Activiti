@@ -1,7 +1,10 @@
 {
   WorkflowDefinition workflow=new WorkflowDefinition();
   workflow.setName((String)nameField.getValue());
-  workflow.setDescription((String)descriptionField.getValue());
+  String description=(String)descriptionField.getValue();
+  if (description != null && description.length() > 0) {
+    workflow.setDescription(description);
+  }
   List<HumanStepDefinition> steps=taskTable.getSteps();
   for (int i=0; i < steps.size(); i++) {
     HumanStepDefinition currentStep=steps.get(i);

@@ -1,3 +1,15 @@
 {
-  ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString().replace("/ui","") + "service/editor?id=" + modelId));
+  if (SimpleTableEditorConstants.TABLE_EDITOR_CATEGORY.equals(model.getCategory())) {
+    try {
+      WorkflowDefinition workflowDefinition=loadWorkflowDefinition();
+      ExplorerApp.get().getViewManager().showSimpleTableProcessEditor(model.getId(),workflowDefinition);
+    }
+ catch (    Exception e) {
+      e.printStackTrace();
+      ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.PROCESS_EDITOR_LOADING_ERROR,e);
+    }
+  }
+ else {
+    ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString().replace("/ui","") + "service/editor?id=" + model.getId()));
+  }
 }
