@@ -8,8 +8,17 @@
   }
 ;
   StreamResource imageresource=new StreamResource(streamSource,UUID.randomUUID() + ".png",ExplorerApp.get());
-  diagram=new Embedded("",imageresource);
+  Embedded diagram=new Embedded("",imageresource);
   diagram.setType(Embedded.TYPE_IMAGE);
   diagram.setSizeUndefined();
-  mainLayout.addComponent(diagram);
+  imagePanel=new Panel();
+  imagePanel.setScrollable(true);
+  imagePanel.addStyleName(Reindeer.PANEL_LIGHT);
+  imagePanel.setWidth(100,UNITS_PERCENTAGE);
+  imagePanel.setHeight("100%");
+  mainLayout.addComponent(imagePanel);
+  HorizontalLayout panelLayout=new HorizontalLayout();
+  panelLayout.setSizeUndefined();
+  imagePanel.setContent(panelLayout);
+  imagePanel.addComponent(diagram);
 }

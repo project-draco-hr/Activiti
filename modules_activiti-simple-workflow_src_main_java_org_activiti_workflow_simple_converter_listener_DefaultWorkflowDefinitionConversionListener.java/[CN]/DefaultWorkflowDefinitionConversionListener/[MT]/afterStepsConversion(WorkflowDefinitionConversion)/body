@@ -8,4 +8,15 @@
   sequenceFlow.setSourceRef(conversion.getLastActivityId());
   sequenceFlow.setTargetRef(END_EVENT_ID);
   process.addFlowElement(sequenceFlow);
+  SequenceFlowMapping sequenceFlowMapping=generateSequenceflowMappings(process);
+  for (  FlowNode flowNode : BpmnModelUtil.findFlowElementsOfType(process,FlowNode.class)) {
+    List<SequenceFlow> incomingSequenceFlow=sequenceFlowMapping.getIncomingSequenceFlowMapping().get(flowNode.getId());
+    if (incomingSequenceFlow != null) {
+      flowNode.setIncomingFlows(incomingSequenceFlow);
+    }
+    List<SequenceFlow> outgoingSequenceFlow=sequenceFlowMapping.getOutgoingSequenceFlowMapping().get(flowNode.getId());
+    if (outgoingSequenceFlow != null) {
+      flowNode.setOutgoingFlows(outgoingSequenceFlow);
+    }
+  }
 }

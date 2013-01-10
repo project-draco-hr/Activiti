@@ -1,9 +1,30 @@
 {
   WorkflowDefinition workflow=new WorkflowDefinition();
   workflow.setName((String)nameField.getValue());
-  workflow.setDescription((String)descriptionField.getValue());
-  for (  HumanStepDefinition step : taskTable.getSteps()) {
-    workflow.addStep(step);
+  String description=(String)descriptionField.getValue();
+  if (description != null && description.length() > 0) {
+    workflow.setDescription(description);
+  }
+  List<HumanStepDefinition> steps=taskTable.getSteps();
+  for (int i=0; i < steps.size(); i++) {
+    HumanStepDefinition currentStep=steps.get(i);
+    int nextIndex=i + 1;
+    ParallelStepsDefinition parallelStepsDefinition=null;
+    while (nextIndex < steps.size() && steps.get(nextIndex).isStartsWithPrevious()) {
+      if (parallelStepsDefinition == null) {
+        parallelStepsDefinition=new ParallelStepsDefinition();
+        parallelStepsDefinition.addStep(currentStep);
+      }
+      parallelStepsDefinition.addStep(steps.get(nextIndex));
+      nextIndex++;
+    }
+    if (parallelStepsDefinition != null) {
+      workflow.addStep(parallelStepsDefinition);
+      i=nextIndex - 1;
+    }
+ else {
+      workflow.addStep(currentStep);
+    }
   }
   return workflow;
 }

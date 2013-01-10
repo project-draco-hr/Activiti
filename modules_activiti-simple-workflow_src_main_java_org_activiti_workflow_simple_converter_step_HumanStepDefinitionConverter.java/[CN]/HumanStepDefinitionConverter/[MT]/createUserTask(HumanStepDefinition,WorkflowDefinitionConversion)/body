@@ -15,5 +15,23 @@
   if (humanStepDefinition.getCandidateGroups() != null && humanStepDefinition.getCandidateGroups().size() > 0) {
     userTask.setCandidateGroups(humanStepDefinition.getCandidateGroups());
   }
+  if (humanStepDefinition.getForm() != null) {
+    FormDefinition formDefinition=humanStepDefinition.getForm();
+    for (    FormPropertyDefinition propertyDefinition : formDefinition.getFormProperties()) {
+      FormProperty formProperty=new FormProperty();
+      formProperty.setId(propertyDefinition.getPropertyName());
+      formProperty.setName(propertyDefinition.getPropertyName());
+      formProperty.setRequired(propertyDefinition.isRequired());
+      String type=DefaultFormPropertyTypes.TEXT;
+      if (DefaultFormPropertyTypes.NUMBER.equals(propertyDefinition.getType())) {
+        type="long";
+      }
+ else       if (DefaultFormPropertyTypes.DATE.equals(propertyDefinition.getType())) {
+        type="date";
+      }
+      formProperty.setType(type);
+      userTask.getFormProperties().add(formProperty);
+    }
+  }
   return userTask;
 }

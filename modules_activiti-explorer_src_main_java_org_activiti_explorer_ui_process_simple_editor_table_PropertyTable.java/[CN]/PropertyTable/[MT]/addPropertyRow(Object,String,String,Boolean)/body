@@ -7,8 +7,8 @@
     newItemId=addItemAfter(itemId);
   }
   Item newItem=getItem(newItemId);
-  newItem.getItemProperty("property").setValue(propertyName == null ? "My Property" : propertyName);
-  ComboBox typeComboBox=new ComboBox("types",Arrays.asList("text","number","date"));
+  newItem.getItemProperty(ID_PROPERTY_NAME).setValue(propertyName == null ? DEFAULT_PROPERTY_NAME : propertyName);
+  ComboBox typeComboBox=new ComboBox("",Arrays.asList(i18nManager.getMessage(Messages.PROCESS_EDITOR_PROPERTY_TYPE_TEXT),i18nManager.getMessage(Messages.PROCESS_EDITOR_PROPERTY_TYPE_NUMBER),i18nManager.getMessage(Messages.PROCESS_EDITOR_PROPERTY_TYPE_DATE)));
   typeComboBox.setNullSelectionAllowed(false);
   if (propertyType == null) {
     typeComboBox.setValue(typeComboBox.getItemIds().iterator().next());
@@ -16,10 +16,10 @@
  else {
     typeComboBox.setValue(propertyType);
   }
-  newItem.getItemProperty("type").setValue(typeComboBox);
+  newItem.getItemProperty(ID_PROPERTY_TYPE).setValue(typeComboBox);
   CheckBox requiredCheckBox=new CheckBox();
   requiredCheckBox.setValue(required == null ? false : required);
-  newItem.getItemProperty("required").setValue(requiredCheckBox);
+  newItem.getItemProperty(ID_PROPERTY_REQUIRED).setValue(requiredCheckBox);
   HorizontalLayout actionButtons=new HorizontalLayout();
   Button deleteRowButton=new Button("-");
   deleteRowButton.setData(newItemId);
@@ -29,5 +29,5 @@
   addRowButton.setData(newItemId);
   addRowButton.addListener(new AddPropertyClickListener(this));
   actionButtons.addComponent(addRowButton);
-  newItem.getItemProperty("actions").setValue(actionButtons);
+  newItem.getItemProperty(ID_PROPERTY_ACTIONS).setValue(actionButtons);
 }

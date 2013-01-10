@@ -1,0 +1,14 @@
+{
+  ParallelStepsDefinition parallelStepsDefinition=new ParallelStepsDefinition();
+  Iterator<JsonNode> stepIterator=stepArray.iterator();
+  while (stepIterator.hasNext()) {
+    convertAndAddStepDefinition(parallelStepsDefinition,stepIterator.next());
+  }
+  for (int i=0; i < parallelStepsDefinition.getSteps().size(); i++) {
+    StepDefinition stepDefinition=parallelStepsDefinition.getSteps().get(i);
+    if (i > 0 && stepDefinition instanceof AbstractNamedStepDefinition) {
+      ((AbstractNamedStepDefinition)stepDefinition).setStartsWithPrevious(true);
+    }
+  }
+  return parallelStepsDefinition;
+}

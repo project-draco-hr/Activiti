@@ -1,0 +1,10 @@
+{
+  LOG.info("--------------------- Callback for engine end");
+  if (dataSource != null) {
+    LOG.info("--------------------- Closing datasource");
+    dataSource.close();
+  }
+  if (transactionManager != null) {
+    transactionManager.shutdown();
+  }
+}
