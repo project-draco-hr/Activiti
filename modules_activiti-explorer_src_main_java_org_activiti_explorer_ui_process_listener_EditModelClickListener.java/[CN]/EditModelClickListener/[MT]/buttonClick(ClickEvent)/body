@@ -1,3 +1,8 @@
 {
-  ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString().replace("/ui","") + "service/editor?id=" + modelId));
+  if (SimpleTableEditorConstants.TABLE_EDITOR_CATEGORY.equals(model.getCategory())) {
+    showSelectEditorPopupWindow();
+  }
+ else {
+    showModeler();
+  }
 }

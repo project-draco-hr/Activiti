@@ -7,13 +7,17 @@
   bpmnModel=new BpmnModel();
   process=new Process();
   bpmnModel.addProcess(process);
-  for (  WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
-    conversionListener.beforeStepsConversion(this);
+  if (conversionFactory.getWorkflowDefinitionConversionListeners() != null) {
+    for (    WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
+      conversionListener.beforeStepsConversion(this);
+    }
   }
   convertSteps(workflowDefinition.getSteps());
-  for (  WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
-    conversionListener.afterStepsConversion(this);
+  if (conversionFactory.getWorkflowDefinitionConversionListeners() != null) {
+    for (    WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
+      conversionListener.afterStepsConversion(this);
+    }
   }
-  WorkflowDIGenerator workflowDIGenerator=new WorkflowDIGenerator(workflowDefinition,bpmnModel);
+  WorkflowDIGenerator workflowDIGenerator=new WorkflowDIGenerator(bpmnModel);
   workflowDIGenerator.generateDI();
 }

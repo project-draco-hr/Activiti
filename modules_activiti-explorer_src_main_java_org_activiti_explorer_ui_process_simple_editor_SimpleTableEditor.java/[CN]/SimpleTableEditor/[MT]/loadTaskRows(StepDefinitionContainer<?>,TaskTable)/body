@@ -1,0 +1,11 @@
+{
+  for (  StepDefinition stepDefinition : container.getSteps()) {
+    if (stepDefinition instanceof HumanStepDefinition) {
+      HumanStepDefinition humanStepDefinition=(HumanStepDefinition)stepDefinition;
+      taskTable.addTaskRow(humanStepDefinition);
+    }
+ else     if (stepDefinition instanceof StepDefinitionContainer<?>) {
+      loadTaskRows((StepDefinitionContainer<?>)stepDefinition,taskTable);
+    }
+  }
+}

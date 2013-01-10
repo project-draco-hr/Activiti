@@ -1,0 +1,11 @@
+{
+  nameField=new TextField();
+  nameField.setWriteThrough(true);
+  nameField.setImmediate(true);
+  layout.addComponent(new Label(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_EDITOR_NAME)));
+  layout.addComponent(nameField);
+  if (workflowName != null) {
+    nameField.setValue(workflowName);
+    workflowName=null;
+  }
+}

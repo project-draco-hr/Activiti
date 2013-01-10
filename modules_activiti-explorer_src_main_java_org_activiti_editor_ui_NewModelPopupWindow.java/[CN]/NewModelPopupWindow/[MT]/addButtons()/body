@@ -1,15 +1,6 @@
 {
-  Button cancelButton=new Button(i18nManager.getMessage(Messages.BUTTON_CANCEL));
-  cancelButton.addStyleName(Reindeer.BUTTON_SMALL);
-  cancelButton.addListener(new ClickListener(){
-    private static final long serialVersionUID=1L;
-    public void buttonClick(    ClickEvent event){
-      close();
-    }
-  }
-);
   Button createButton=new Button(i18nManager.getMessage(Messages.PROCESS_NEW_POPUP_CREATE_BUTTON));
-  createButton.addStyleName(Reindeer.BUTTON_SMALL);
+  createButton.setWidth("200px");
   createButton.addListener(new ClickListener(){
     private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
@@ -17,7 +8,7 @@
         nameTextField.setComponentError(new UserError("The name field is required."));
         return;
       }
-      if (modelerPreffered) {
+      if (selectEditorComponent.isModelerPreferred()) {
         try {
           ObjectMapper objectMapper=new ObjectMapper();
           ObjectNode editorNode=objectMapper.createObjectNode();
@@ -51,14 +42,15 @@
         }
       }
  else {
+        close();
+        ExplorerApp.get().getViewManager().showSimpleTableProcessEditor((String)nameTextField.getValue(),(String)descriptionTextArea.getValue());
       }
     }
   }
 );
   HorizontalLayout buttonLayout=new HorizontalLayout();
   buttonLayout.setSpacing(true);
-  buttonLayout.addComponent(cancelButton);
   buttonLayout.addComponent(createButton);
   addComponent(buttonLayout);
-  windowLayout.setComponentAlignment(buttonLayout,Alignment.BOTTOM_RIGHT);
+  windowLayout.setComponentAlignment(buttonLayout,Alignment.MIDDLE_CENTER);
 }

@@ -1,0 +1,11 @@
+{
+  taskTable=new TaskTable();
+  if (workflowDefinition != null) {
+    loadTaskRows(workflowDefinition,taskTable);
+  }
+ else {
+    taskTable.addDefaultTaskRow();
+  }
+  layout.addComponent(new Label(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_EDITOR_TASKS)));
+  layout.addComponent(taskTable);
+}

@@ -1,0 +1,24 @@
+{
+  final Button saveButton=new Button(ExplorerApp.get().getI18nManager().getMessage(Messages.PROCESS_EDITOR_SAVE));
+  saveButton.setEnabled(nameField.getValue() != null && !"".equals((String)nameField.getValue()));
+  toolBar.addButton(saveButton);
+  saveButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      save();
+    }
+  }
+);
+  nameField.addListener(new ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      if (nameField.getValue() != null && !"".equals((String)nameField.getValue())) {
+        saveButton.setEnabled(true);
+      }
+ else {
+        saveButton.setEnabled(false);
+      }
+    }
+  }
+);
+}

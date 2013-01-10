@@ -1,0 +1,31 @@
+{
+  ObjectNode humanStepNode=objectMapper.createObjectNode();
+  humanStepNode.put(HUMAN_STEP_NAME,humanStepDefinition.getName());
+  humanStepNode.put(STEP_TYPE,STEP_TYPE_HUMAN_STEP);
+  if (humanStepDefinition.getDescription() != null) {
+    humanStepNode.put(HUMAN_STEP_DESCRIPTION,humanStepDefinition.getDescription());
+  }
+  if (humanStepDefinition.getAssignee() != null) {
+    humanStepNode.put(HUMAN_STEP_ASSIGNEE,humanStepDefinition.getAssignee());
+  }
+  if (humanStepDefinition.getCandidateGroups() != null && humanStepDefinition.getCandidateGroups().size() > 0) {
+    ArrayNode groups=humanStepNode.putArray(HUMAN_STEP_GROUPS);
+    for (    String group : humanStepDefinition.getCandidateGroups()) {
+      groups.add(group);
+    }
+  }
+  if (humanStepDefinition.getForm() != null) {
+    FormDefinition formDefinition=humanStepDefinition.getForm();
+    ArrayNode form=humanStepNode.putArray(FORM);
+    if (formDefinition.getFormProperties() != null && formDefinition.getFormProperties().size() > 0) {
+      for (      FormPropertyDefinition propertyDefinition : formDefinition.getFormProperties()) {
+        ObjectNode formPropertyNode=objectMapper.createObjectNode();
+        formPropertyNode.put(FORM_PROPERTY_NAME,propertyDefinition.getPropertyName());
+        formPropertyNode.put(FORM_PROPERTY_TYPE,propertyDefinition.getType());
+        formPropertyNode.put(FORM_PROPERTY_MANDATORY,propertyDefinition.isRequired());
+        form.add(formPropertyNode);
+      }
+    }
+  }
+  return humanStepNode;
+}

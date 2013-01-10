@@ -1,0 +1,13 @@
+{
+  ObjectMapper objectMapper=new ObjectMapper();
+  ObjectNode json=objectMapper.createObjectNode();
+  json.put(WORKFLOW_NAME,workflowDefinition.getName());
+  if (workflowDefinition.getDescription() != null) {
+    json.put(WORKFLOW_DESCRIPTION,workflowDefinition.getDescription());
+  }
+  ArrayNode steps=json.putArray(WORKFLOW_STEPS);
+  for (  JsonNode stepNode : convertToJson(objectMapper,workflowDefinition.getSteps())) {
+    steps.add(stepNode);
+  }
+  return json;
+}

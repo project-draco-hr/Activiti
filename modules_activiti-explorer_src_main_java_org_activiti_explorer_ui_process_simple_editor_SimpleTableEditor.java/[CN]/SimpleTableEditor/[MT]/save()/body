@@ -1,0 +1,26 @@
+{
+  WorkflowDefinition workflowDefinition=createWorkflow();
+  RepositoryService repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
+  Model model=null;
+  if (modelId == null) {
+    model=repositoryService.newModel();
+  }
+ else {
+    model=repositoryService.getModel(modelId);
+  }
+  model.setName(workflowDefinition.getName());
+  model.setCategory(SimpleTableEditorConstants.TABLE_EDITOR_CATEGORY);
+  repositoryService.saveModel(model);
+  WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
+  conversion.convert();
+  try {
+    JsonConverter jsonConverter=new JsonConverter();
+    ObjectNode json=jsonConverter.convertToJson(workflowDefinition);
+    repositoryService.addModelEditorSource(model.getId(),json.toString().getBytes("utf-8"));
+    repositoryService.addModelEditorSourceExtra(model.getId(),IOUtils.toByteArray(conversion.getWorkflowDiagramImage()));
+  }
+ catch (  IOException e) {
+    logger.warn("Could not generate process image. Image is not stored and will not be shown.",e);
+  }
+  ExplorerApp.get().getViewManager().showEditorProcessDefinitionPage(model.getId());
+}

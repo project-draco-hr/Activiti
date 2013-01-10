@@ -1,0 +1,11 @@
+{
+  FormDefinition form=formModel.getForm(taskItemId);
+  if (form == null) {
+    propertyTable.addPropertyRow();
+  }
+ else {
+    for (    FormPropertyDefinition property : form.getFormProperties()) {
+      propertyTable.addPropertyRow(property.getPropertyName(),property.getType(),property.isRequired());
+    }
+  }
+}

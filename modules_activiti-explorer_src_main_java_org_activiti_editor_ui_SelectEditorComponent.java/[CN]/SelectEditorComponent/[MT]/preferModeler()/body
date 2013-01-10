@@ -1,0 +1,14 @@
+{
+  if (!modelerPreferred) {
+    modelerPreferred=true;
+    if (enableHighlightWhenClicked) {
+      selectEditor(modelerLayout);
+      deselectEditor(tableEditorLayout);
+      modelerLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+      tableEditorLabel.removeStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
+    }
+  }
+  if (editorSelectedListener != null) {
+    editorSelectedListener.editorSelectionChanged();
+  }
+}

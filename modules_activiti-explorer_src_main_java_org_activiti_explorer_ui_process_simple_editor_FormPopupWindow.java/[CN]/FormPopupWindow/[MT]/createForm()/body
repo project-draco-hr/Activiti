@@ -1,0 +1,11 @@
+{
+  FormDefinition formDefinition=new FormDefinition();
+  for (  Object itemId : propertyTable.getItemIds()) {
+    FormPropertyDefinition formPropertyDefinition=new FormPropertyDefinition();
+    formPropertyDefinition.setPropertyName((String)propertyTable.getItem(itemId).getItemProperty(PropertyTable.ID_PROPERTY_NAME).getValue());
+    formPropertyDefinition.setType((String)((ComboBox)propertyTable.getItem(itemId).getItemProperty(PropertyTable.ID_PROPERTY_TYPE).getValue()).getValue());
+    formPropertyDefinition.setRequired((Boolean)((CheckBox)propertyTable.getItem(itemId).getItemProperty(PropertyTable.ID_PROPERTY_REQUIRED).getValue()).getValue());
+    formDefinition.addFormProperty(formPropertyDefinition);
+  }
+  return formDefinition;
+}

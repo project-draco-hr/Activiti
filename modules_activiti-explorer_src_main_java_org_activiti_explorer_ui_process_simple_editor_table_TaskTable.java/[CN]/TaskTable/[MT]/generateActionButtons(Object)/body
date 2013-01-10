@@ -1,0 +1,17 @@
+{
+  HorizontalLayout actionButtons=new HorizontalLayout();
+  FormDefinition form=taskFormModel.getForm(taskItemId);
+  Button formButton=new Button(form == null ? i18nManager.getMessage(Messages.PROCESS_EDITOR_TASK_FORM_CREATE) : i18nManager.getMessage(Messages.PROCESS_EDITOR_TASK_FORM_EDIT));
+  formButton.addListener(new ShowFormClickListener(taskFormModel,taskItemId));
+  formButton.setData(taskItemId);
+  actionButtons.addComponent(formButton);
+  Button deleteTaskButton=new Button("-");
+  deleteTaskButton.setData(taskItemId);
+  deleteTaskButton.addListener(new DeleteTaskClickListener(this));
+  actionButtons.addComponent(deleteTaskButton);
+  Button addTaskButton=new Button("+");
+  addTaskButton.setData(taskItemId);
+  addTaskButton.addListener(new AddTaskClickListener(this));
+  actionButtons.addComponent(addTaskButton);
+  return actionButtons;
+}

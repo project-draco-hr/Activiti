@@ -1,0 +1,11 @@
+{
+  if (stepJsonNode.isArray()) {
+    stepDefinitionContainerToAddTo.addStep(convertToParallelStepsDefinition((ArrayNode)stepJsonNode));
+  }
+ else {
+    String type=getStringFieldValue(stepJsonNode,STEP_TYPE,true);
+    if (STEP_TYPE_HUMAN_STEP.equals(type)) {
+      stepDefinitionContainerToAddTo.addStep(convertToHumanStepDefinition(stepJsonNode));
+    }
+  }
+}
