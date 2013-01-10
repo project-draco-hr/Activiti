@@ -24,4 +24,7 @@
   if ((jobExecutor != null) && (jobExecutor.isAutoActivate())) {
     jobExecutor.start();
   }
+  if (processEngineConfiguration.getProcessEngineLifecycleListener() != null) {
+    processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineBuilt(this);
+  }
 }
