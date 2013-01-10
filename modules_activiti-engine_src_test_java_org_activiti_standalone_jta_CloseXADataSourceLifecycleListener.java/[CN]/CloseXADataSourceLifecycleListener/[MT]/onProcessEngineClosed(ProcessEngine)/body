@@ -4,4 +4,7 @@
     LOG.info("--------------------- Closing datasource");
     dataSource.close();
   }
+  if (transactionManager != null) {
+    transactionManager.shutdown();
+  }
 }
