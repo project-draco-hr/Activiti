@@ -7,14 +7,14 @@
   bpmnModel=new BpmnModel();
   process=new Process();
   bpmnModel.addProcess(process);
-  if (conversionFactory.getWorkflowDefinitionConversionListeners() != null) {
-    for (    WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
+  if (conversionFactory.getAllWorkflowDefinitionConversionListeners() != null) {
+    for (    WorkflowDefinitionConversionListener conversionListener : conversionFactory.getAllWorkflowDefinitionConversionListeners()) {
       conversionListener.beforeStepsConversion(this);
     }
   }
   convertSteps(workflowDefinition.getSteps());
-  if (conversionFactory.getWorkflowDefinitionConversionListeners() != null) {
-    for (    WorkflowDefinitionConversionListener conversionListener : conversionFactory.getWorkflowDefinitionConversionListeners()) {
+  if (conversionFactory.getAllWorkflowDefinitionConversionListeners() != null) {
+    for (    WorkflowDefinitionConversionListener conversionListener : conversionFactory.getAllWorkflowDefinitionConversionListeners()) {
       conversionListener.afterStepsConversion(this);
     }
   }

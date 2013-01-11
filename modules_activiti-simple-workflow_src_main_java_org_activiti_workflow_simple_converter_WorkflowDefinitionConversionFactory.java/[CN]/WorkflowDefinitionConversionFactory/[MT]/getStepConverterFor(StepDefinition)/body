@@ -1,5 +1,11 @@
 {
-  final StepDefinitionConverter converter=stepConverters.get(definition.getClass());
+  StepDefinitionConverter converter=null;
+  if (stepConverters != null) {
+    converter=stepConverters.get(definition.getClass());
+  }
+  if (converter == null && defaultStepConverters != null) {
+    converter=defaultStepConverters.get(definition.getClass());
+  }
   if (converter == null) {
     throw new IllegalArgumentException("No converter found for step: " + definition.getClass());
   }
