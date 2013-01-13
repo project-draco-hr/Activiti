@@ -2,6 +2,12 @@
   ObjectMapper objectMapper=new ObjectMapper();
   ObjectNode json=objectMapper.createObjectNode();
   json.put(WORKFLOW_NAME,workflowDefinition.getName());
+  if (workflowDefinition.getId() != null) {
+    json.put(WORKFLOW_ID,workflowDefinition.getId());
+  }
+  if (workflowDefinition.getKey() != null) {
+    json.put(WORKFLOW_KEY,workflowDefinition.getKey());
+  }
   if (workflowDefinition.getDescription() != null) {
     json.put(WORKFLOW_DESCRIPTION,workflowDefinition.getDescription());
   }
