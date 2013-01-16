@@ -5,11 +5,9 @@
   for (  TaskEntity task : getTasks()) {
     task.setExecutionId(replacedBy.getId());
     task.setExecution(this.replacedBy);
-    Collection<VariableInstanceEntity> variables=new ArrayList<VariableInstanceEntity>();
-    variables.addAll(task.getVariableInstances().values());
-    task.deleteVariablesInstanceForLeavingScope();
+    List<VariableInstanceEntity> variables=(List)commandContext.getVariableInstanceEntityManager().findVariableInstancesByTaskId(task.getId());
     for (    VariableInstanceEntity variable : variables) {
-      task.setVariableLocal(variable.getName(),variable.getValue());
+      variable.setExecution(this.replacedBy);
     }
     this.replacedBy.addTask(task);
   }

@@ -1,6 +1,8 @@
 {
   WorkflowDefinition workflowDefinition=new WorkflowDefinition();
   workflowDefinition.setName(getStringFieldValue(json,WORKFLOW_NAME,true));
+  workflowDefinition.setKey(getStringFieldValue(json,WORKFLOW_KEY,false));
+  workflowDefinition.setId(getStringFieldValue(json,WORKFLOW_ID,false));
   String description=getStringFieldValue(json,WORKFLOW_DESCRIPTION,false);
   if (description != null) {
     workflowDefinition.setDescription(description);

@@ -93,11 +93,11 @@
  else       if (ELEMENT_DI_EDGE.equals(xtr.getLocalName())) {
         new BpmnEdgeParser().parse(xtr,model);
       }
- else       if (ELEMENT_EXECUTION_LISTENER.equals(xtr.getLocalName())) {
+ else       if (activeSubProcessList.size() == 0 && ELEMENT_EXECUTION_LISTENER.equals(xtr.getLocalName())) {
         new ExecutionListenerParser().parseChildElement(xtr,activeProcess,model);
       }
  else {
-        if (activeSubProcessList.size() > 0 && ELEMENT_EXTENSIONS.equalsIgnoreCase(xtr.getLocalName())) {
+        if (activeSubProcessList.size() > 0 && ELEMENT_EXECUTION_LISTENER.equalsIgnoreCase(xtr.getLocalName())) {
           new ExecutionListenerParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1),model);
         }
  else         if (activeSubProcessList.size() > 0 && ELEMENT_MULTIINSTANCE.equalsIgnoreCase(xtr.getLocalName())) {

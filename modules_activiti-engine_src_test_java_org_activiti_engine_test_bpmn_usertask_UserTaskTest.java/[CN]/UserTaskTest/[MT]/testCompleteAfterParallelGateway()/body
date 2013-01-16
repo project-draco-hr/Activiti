@@ -1,11 +1,9 @@
 {
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("ForkProcess");
-  List<Execution> executions=runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).list();
-  Set<String> executionIds=new HashSet<String>();
-  for (  Execution execution : executions)   executionIds.add(execution.getId());
-  List<Task> tasks=taskService.createTaskQuery().taskDefinitionKey("SimpleUser").list();
-  List<Task> selectedTasks=new ArrayList<Task>();
-  for (  Task t : tasks)   if (executionIds.contains(t.getExecutionId()))   selectedTasks.add(t);
-  assertEquals(selectedTasks.size(),1);
-  taskService.complete(selectedTasks.get(0).getId());
+  runtimeService.startProcessInstanceByKey("ForkProcess");
+  List<Task> taskList=taskService.createTaskQuery().list();
+  assertNotNull(taskList);
+  assertEquals(2,taskList.size());
+  Task task=taskService.createTaskQuery().taskDefinitionKey("SimpleUser").singleResult();
+  assertNotNull(task);
+  taskService.complete(task.getId());
 }

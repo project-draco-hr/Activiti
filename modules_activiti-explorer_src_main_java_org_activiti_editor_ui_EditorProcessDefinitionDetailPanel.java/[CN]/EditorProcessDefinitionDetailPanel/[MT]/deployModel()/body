@@ -1,13 +1,23 @@
 {
   try {
     ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
-    BpmnModel model=new BpmnJsonConverter().convertToBpmnModel(modelNode);
-    byte[] bpmnBytes=new BpmnXMLConverter().convertToXML(model);
+    byte[] bpmnBytes=null;
+    if (SimpleTableEditorConstants.TABLE_EDITOR_CATEGORY.equals(modelData.getCategory())) {
+      JsonConverter jsonConverter=new JsonConverter();
+      WorkflowDefinition workflowDefinition=jsonConverter.convertFromJson(modelNode);
+      WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
+      bpmnBytes=conversion.getbpm20Xml().getBytes("utf-8");
+    }
+ else {
+      BpmnModel model=new BpmnJsonConverter().convertToBpmnModel(modelNode);
+      bpmnBytes=new BpmnXMLConverter().convertToXML(model);
+    }
     String processName=modelData.getName() + ".bpmn20.xml";
     Deployment deployment=repositoryService.createDeployment().name(modelData.getName()).addString(processName,new String(bpmnBytes)).deploy();
     ExplorerApp.get().getViewManager().showDeploymentPage(deployment.getId());
   }
  catch (  Exception e) {
+    e.printStackTrace();
     ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.PROCESS_TOXML_FAILED,e);
   }
 }

@@ -17,6 +17,11 @@
       xtw.writeCharacters(subProcess.getDocumentation());
       xtw.writeEndElement();
     }
+    boolean wroteListener=ActivitiListenerExport.writeListeners(subProcess,false,xtw);
+    if (wroteListener) {
+      xtw.writeEndElement();
+    }
+    MultiInstanceExport.writeMultiInstance(subProcess,xtw);
     for (    FlowElement subElement : subProcess.getFlowElements()) {
       createXML(subElement,model,xtw);
     }
