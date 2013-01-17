@@ -1,11 +1,6 @@
 {
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("InclusiveGateway");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("InclusiveGatewayAfterCall");
   assertNotNull(processInstance.getId());
-  System.out.println("id " + processInstance.getId() + " "+ processInstance.getProcessDefinitionId());
-  List<Task> tasks=taskService.createTaskQuery().list();
-  for (  Task task : tasks) {
-    System.out.println("task " + task.getName());
-  }
   assertEquals(3,taskService.createTaskQuery().count());
   Task taskA=taskService.createTaskQuery().taskName("Task A").singleResult();
   assertNotNull(taskA);
@@ -15,4 +10,11 @@
   assertNotNull(taskB);
   taskService.complete(taskB.getId());
   assertEquals(1,taskService.createTaskQuery().count());
+  Task taskC=taskService.createTaskQuery().taskName("Task C").singleResult();
+  assertNotNull(taskC);
+  taskService.complete(taskC.getId());
+  assertEquals(1,taskService.createTaskQuery().count());
+  Task taskD=taskService.createTaskQuery().taskName("Task D").singleResult();
+  assertNotNull(taskD);
+  assertEquals("Task D",taskD.getName());
 }
