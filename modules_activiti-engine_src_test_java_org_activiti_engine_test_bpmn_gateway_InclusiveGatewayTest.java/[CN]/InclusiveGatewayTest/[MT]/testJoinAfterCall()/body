@@ -1,7 +1,6 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("InclusiveGateway");
   assertNotNull(processInstance.getId());
-  System.out.println("id " + processInstance.getId() + " "+ processInstance.getProcessDefinitionId());
   List<Task> tasks=taskService.createTaskQuery().list();
   for (  Task task : tasks) {
     System.out.println("task " + task.getName());
