@@ -1,9 +1,13 @@
 {
   List<ActivityExecution> executionlist=new ArrayList<ActivityExecution>();
   List<? extends ActivityExecution> subExecutions=parent.getExecutions();
-  if (subExecutions.size() == 0)   executionlist.add(parent);
- else   for (  ActivityExecution concurrentExecution : subExecutions) {
-    executionlist.addAll(getLeaveExecutions(concurrentExecution));
+  if (subExecutions.size() == 0) {
+    executionlist.add(parent);
+  }
+ else {
+    for (    ActivityExecution concurrentExecution : subExecutions) {
+      executionlist.addAll(getLeaveExecutions(concurrentExecution));
+    }
   }
   return executionlist;
 }

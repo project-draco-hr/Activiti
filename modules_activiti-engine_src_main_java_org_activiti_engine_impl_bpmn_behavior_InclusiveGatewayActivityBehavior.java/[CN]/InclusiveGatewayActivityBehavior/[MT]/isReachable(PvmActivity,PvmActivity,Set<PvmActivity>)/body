@@ -1,7 +1,9 @@
 {
   if (srcActivity.getOutgoingTransitions().size() == 0) {
     visitedActivities.add(srcActivity);
-    if (srcActivity.getParent() == null || !(srcActivity.getParent() instanceof PvmActivity))     return false;
+    if (srcActivity.getParent() == null || !(srcActivity.getParent() instanceof PvmActivity)) {
+      return false;
+    }
     srcActivity=(PvmActivity)srcActivity.getParent();
   }
   if (srcActivity.equals(targetActivity)) {
