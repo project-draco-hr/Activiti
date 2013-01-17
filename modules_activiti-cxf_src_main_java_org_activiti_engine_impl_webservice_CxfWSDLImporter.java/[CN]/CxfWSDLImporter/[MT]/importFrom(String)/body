@@ -5,6 +5,7 @@
   this.wsdlLocation=url;
   try {
     Bus bus=BusFactory.getDefaultBus();
+    DynamicClientFactory.newInstance(bus).createClient(url);
     WSDLManager wsdlManager=bus.getExtension(WSDLManager.class);
     Definition def=wsdlManager.getDefinition(url);
     WSDLServiceBuilder builder=new WSDLServiceBuilder(bus);
