@@ -1,29 +1,3 @@
 {
-  if (isHistoryEnabled()) {
-    String authenticatedUserId=Authentication.getAuthenticatedUserId();
-    CommentEntity comment=new CommentEntity();
-    comment.setUserId(authenticatedUserId);
-    comment.setType(CommentEntity.TYPE_EVENT);
-    comment.setTime(ClockUtil.getCurrentTime());
-    comment.setTaskId(taskId);
-    if (userId != null) {
-      if (create) {
-        comment.setAction(Event.ACTION_ADD_USER_LINK);
-      }
- else {
-        comment.setAction(Event.ACTION_DELETE_USER_LINK);
-      }
-      comment.setMessage(new String[]{userId,type});
-    }
- else {
-      if (create) {
-        comment.setAction(Event.ACTION_ADD_GROUP_LINK);
-      }
- else {
-        comment.setAction(Event.ACTION_DELETE_GROUP_LINK);
-      }
-      comment.setMessage(new String[]{groupId,type});
-    }
-    getSession(CommentEntityManager.class).insert(comment);
-  }
+  createIdentityLinkComment(taskId,userId,groupId,type,create,false);
 }
