@@ -1,8 +1,11 @@
 {
-  Object oldValue=null;
-  if (!UNSTORED_KEYS.contains(name)) {
-    oldValue=variableScope.getVariable(name);
-    variableScope.setVariable(name,value);
+  if (storeScriptVariables) {
+    Object oldValue=null;
+    if (!UNSTORED_KEYS.contains(name)) {
+      oldValue=variableScope.getVariable(name);
+      variableScope.setVariable(name,value);
+      return oldValue;
+    }
   }
-  return oldValue;
+  return defaultBindings.put(name,value);
 }

@@ -2,7 +2,7 @@
   ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
   boolean noErrors=true;
   try {
-    Object result=scriptingEngines.evaluate(script,language,execution);
+    Object result=scriptingEngines.evaluate(script,language,execution,storeScriptVariables);
     if (resultVariable != null) {
       execution.setVariable(resultVariable,result);
     }
