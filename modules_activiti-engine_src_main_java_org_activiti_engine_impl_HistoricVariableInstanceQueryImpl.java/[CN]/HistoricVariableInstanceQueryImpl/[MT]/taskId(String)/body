@@ -2,6 +2,9 @@
   if (taskId == null) {
     throw new ActivitiException("taskId is null");
   }
+  if (excludeTaskRelated) {
+    throw new ActivitiException("Cannot use taskId together with excludeTaskVariables");
+  }
   this.taskId=taskId;
   return this;
 }
