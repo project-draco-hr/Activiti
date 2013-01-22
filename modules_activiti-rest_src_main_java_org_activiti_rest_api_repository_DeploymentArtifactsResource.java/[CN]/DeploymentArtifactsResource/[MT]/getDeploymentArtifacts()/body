@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   String deploymentId=(String)getRequest().getAttributes().get("deploymentId");
   if (deploymentId == null) {
-    throw new ActivitiException("No deployment id provided");
+    throw new ActivitiIllegalArgumentException("No deployment id provided");
   }
   Deployment deployment=ActivitiUtil.getRepositoryService().createDeploymentQuery().deploymentId(deploymentId).singleResult();
   List<String> resourceList=ActivitiUtil.getRepositoryService().getDeploymentResourceNames(deploymentId);

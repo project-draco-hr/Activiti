@@ -1,7 +1,7 @@
 {
   Date duedate=timer.getDuedate();
   if (duedate == null) {
-    throw new ActivitiException("duedate is null");
+    throw new ActivitiIllegalArgumentException("duedate is null");
   }
   timer.insert();
   JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();

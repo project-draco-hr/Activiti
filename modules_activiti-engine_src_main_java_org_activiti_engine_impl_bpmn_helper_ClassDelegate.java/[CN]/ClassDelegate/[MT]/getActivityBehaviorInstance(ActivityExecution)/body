@@ -7,6 +7,6 @@
     return determineBehaviour(new ServiceTaskJavaDelegateActivityBehavior((JavaDelegate)delegateInstance),execution);
   }
  else {
-    throw new ActivitiException(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegate.class.getName()+ " nor "+ ActivityBehavior.class.getName());
+    throw new ActivitiIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegate.class.getName()+ " nor "+ ActivityBehavior.class.getName());
   }
 }

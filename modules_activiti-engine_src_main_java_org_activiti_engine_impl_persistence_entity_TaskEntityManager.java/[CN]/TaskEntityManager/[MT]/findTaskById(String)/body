@@ -1,6 +1,6 @@
 {
   if (id == null) {
-    throw new ActivitiException("Invalid task id : null");
+    throw new ActivitiIllegalArgumentException("Invalid task id : null");
   }
   return (TaskEntity)getDbSqlSession().selectById(TaskEntity.class,id);
 }

@@ -5,8 +5,9 @@
     taskService.addGroupIdentityLink("unexistingTaskId",user.getId(),IdentityLinkType.CANDIDATE);
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiObjectNotFoundException ae) {
     assertTextPresent("Cannot find task with id unexistingTaskId",ae.getMessage());
+    assertEquals(Task.class,ae.getObjectClass());
   }
   identityService.deleteUser(user.getId());
 }

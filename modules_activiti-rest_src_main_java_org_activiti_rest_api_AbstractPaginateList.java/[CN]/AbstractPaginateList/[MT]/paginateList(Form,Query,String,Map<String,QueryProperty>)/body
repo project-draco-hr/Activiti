@@ -12,7 +12,7 @@
   if (sort != null && properties.size() > 0) {
     QueryProperty qp=properties.get(sort);
     if (qp == null) {
-      throw new ActivitiException("Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
+      throw new ActivitiIllegalArgumentException("Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
     }
     ((AbstractQuery)query).orderBy(qp);
     if (order.equals("asc")) {
@@ -22,7 +22,7 @@
       query.desc();
     }
  else {
-      throw new ActivitiException("Value for param 'order' is not valid : '" + order + "', must be 'asc' or 'desc'");
+      throw new ActivitiIllegalArgumentException("Value for param 'order' is not valid : '" + order + "', must be 'asc' or 'desc'");
     }
   }
   List list=processList(query.listPage(start,size));

@@ -15,21 +15,21 @@
     historyService.createHistoricVariableInstanceQuery().taskId(null).singleResult();
     fail("Exception expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertEquals("taskId is null",ae.getMessage());
   }
   try {
     historyService.createHistoricVariableInstanceQuery().taskId("123").excludeTaskVariables().singleResult();
     fail("Exception expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertEquals("Cannot use taskId together with excludeTaskVariables",ae.getMessage());
   }
   try {
     historyService.createHistoricVariableInstanceQuery().excludeTaskVariables().taskId("123").singleResult();
     fail("Exception expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertEquals("Cannot use taskId together with excludeTaskVariables",ae.getMessage());
   }
 }

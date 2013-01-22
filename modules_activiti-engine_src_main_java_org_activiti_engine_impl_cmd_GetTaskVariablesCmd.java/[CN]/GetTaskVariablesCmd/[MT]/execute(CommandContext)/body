@@ -1,10 +1,10 @@
 {
   if (taskId == null) {
-    throw new ActivitiException("taskId is null");
+    throw new ActivitiIllegalArgumentException("taskId is null");
   }
   TaskEntity task=Context.getCommandContext().getTaskEntityManager().findTaskById(taskId);
   if (task == null) {
-    throw new ActivitiException("task " + taskId + " doesn't exist");
+    throw new ActivitiObjectNotFoundException("task " + taskId + " doesn't exist",Task.class);
   }
   Map<String,Object> taskVariables;
   if (isLocal) {

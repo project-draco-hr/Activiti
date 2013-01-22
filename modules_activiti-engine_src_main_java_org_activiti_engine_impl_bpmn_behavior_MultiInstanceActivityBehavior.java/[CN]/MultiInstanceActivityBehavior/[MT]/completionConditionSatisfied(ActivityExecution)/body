@@ -2,7 +2,7 @@
   if (completionConditionExpression != null) {
     Object value=completionConditionExpression.getValue(execution);
     if (!(value instanceof Boolean)) {
-      throw new ActivitiException("completionCondition '" + completionConditionExpression.getExpressionText() + "' does not evaluate to a boolean value");
+      throw new ActivitiIllegalArgumentException("completionCondition '" + completionConditionExpression.getExpressionText() + "' does not evaluate to a boolean value");
     }
     Boolean booleanValue=(Boolean)value;
     if (LOGGER.isDebugEnabled()) {

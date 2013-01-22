@@ -3,7 +3,8 @@
     taskService.complete("unexistingtask");
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiObjectNotFoundException ae) {
     assertTextPresent("Cannot find task with id unexistingtask",ae.getMessage());
+    assertEquals(Task.class,ae.getObjectClass());
   }
 }

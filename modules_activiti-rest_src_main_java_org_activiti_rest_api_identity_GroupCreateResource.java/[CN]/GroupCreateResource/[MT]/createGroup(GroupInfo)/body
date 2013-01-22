@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   IdentityService identityService=ActivitiUtil.getIdentityService();
   if (groupInfo == null || groupInfo.getId() == null) {
-    throw new ActivitiException("No group id supplied");
+    throw new ActivitiIllegalArgumentException("No group id supplied");
   }
   if (groupInfo.getName() == null || groupInfo.getName().equals(""))   groupInfo.setName(groupInfo.getId());
   if (identityService.createGroupQuery().groupId(groupInfo.getId()).count() == 0) {

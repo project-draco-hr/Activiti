@@ -1,7 +1,7 @@
 {
   ProcessDefinitionEntity processDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findLatestProcessDefinitionByKey(processDefinitionKey);
   if (processDefinition == null) {
-    throw new ActivitiException("no processes deployed with key '" + processDefinitionKey + "'");
+    throw new ActivitiObjectNotFoundException("no processes deployed with key '" + processDefinitionKey + "'",ProcessDefinition.class);
   }
   processDefinition=resolveProcessDefinition(processDefinition);
   return processDefinition;

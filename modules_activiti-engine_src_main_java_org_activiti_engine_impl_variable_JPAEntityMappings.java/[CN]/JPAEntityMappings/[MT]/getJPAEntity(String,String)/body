@@ -3,7 +3,7 @@
   entityClass=ReflectUtil.loadClass(className);
   EntityMetaData metaData=getEntityMetaData(entityClass);
   if (metaData == null) {
-    throw new ActivitiException("Class is not a JPA-entity: " + className);
+    throw new ActivitiIllegalArgumentException("Class is not a JPA-entity: " + className);
   }
   Object primaryKey=createId(metaData,idString);
   return findEntity(entityClass,primaryKey);

@@ -2,7 +2,7 @@
   ObjectNode responseJSON=new ObjectMapper().createObjectNode();
   String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
   if (processInstanceId == null) {
-    throw new ActivitiException("No process instance is provided");
+    throw new ActivitiIllegalArgumentException("No process instance is provided");
   }
   try {
     if (authenticate() == false)     return null;

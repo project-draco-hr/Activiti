@@ -1,6 +1,6 @@
 {
   if (value == null) {
-    throw new ActivitiException("Value of primary key for JPA-Entity cannot be null");
+    throw new ActivitiIllegalArgumentException("Value of primary key for JPA-Entity cannot be null");
   }
   if (value instanceof java.util.Date) {
     return "" + ((java.util.Date)value).getTime();
@@ -12,6 +12,6 @@
     return value.toString();
   }
  else {
-    throw new ActivitiException("Unsupported Primary key type for JPA-Entity: " + value.getClass().getName());
+    throw new ActivitiIllegalArgumentException("Unsupported Primary key type for JPA-Entity: " + value.getClass().getName());
   }
 }

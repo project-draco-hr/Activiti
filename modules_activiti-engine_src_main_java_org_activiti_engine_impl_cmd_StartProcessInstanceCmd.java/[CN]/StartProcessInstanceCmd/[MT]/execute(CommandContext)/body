@@ -4,17 +4,17 @@
   if (processDefinitionId != null) {
     processDefinition=deploymentCache.findDeployedProcessDefinitionById(processDefinitionId);
     if (processDefinition == null) {
-      throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
+      throw new ActivitiObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'",ProcessDefinition.class);
     }
   }
  else   if (processDefinitionKey != null) {
     processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
     if (processDefinition == null) {
-      throw new ActivitiException("No process definition found for key '" + processDefinitionKey + "'");
+      throw new ActivitiObjectNotFoundException("No process definition found for key '" + processDefinitionKey + "'",ProcessDefinition.class);
     }
   }
  else {
-    throw new ActivitiException("processDefinitionKey and processDefinitionId are null");
+    throw new ActivitiIllegalArgumentException("processDefinitionKey and processDefinitionId are null");
   }
   if (processDefinition.isSuspended()) {
     throw new ActivitiException("Cannot start process instance. Process definition " + processDefinition.getName() + " (id = "+ processDefinition.getId()+ ") is suspended");

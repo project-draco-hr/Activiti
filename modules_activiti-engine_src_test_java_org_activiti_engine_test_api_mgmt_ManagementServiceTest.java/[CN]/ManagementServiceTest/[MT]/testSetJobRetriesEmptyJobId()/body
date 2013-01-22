@@ -3,7 +3,7 @@
     managementService.setJobRetries("",5);
     fail("ActivitiException expected");
   }
- catch (  ActivitiException re) {
+ catch (  ActivitiIllegalArgumentException re) {
     assertTextPresent("The job id is mandatory, but '' has been provided.",re.getMessage());
   }
 }

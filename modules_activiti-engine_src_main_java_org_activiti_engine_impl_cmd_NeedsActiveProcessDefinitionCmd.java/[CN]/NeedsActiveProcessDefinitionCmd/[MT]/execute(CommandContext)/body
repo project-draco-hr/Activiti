@@ -1,7 +1,7 @@
 {
   ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
   if (processDefinition == null) {
-    throw new ActivitiException("No process definition found for id = '" + processDefinitionId + "'");
+    throw new ActivitiObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'",ProcessDefinition.class);
   }
   if (processDefinition.isSuspended()) {
     throw new ActivitiException("Cannot execute operation because process definition '" + processDefinition.getName() + "' (id="+ processDefinition.getId()+ ") is supended");

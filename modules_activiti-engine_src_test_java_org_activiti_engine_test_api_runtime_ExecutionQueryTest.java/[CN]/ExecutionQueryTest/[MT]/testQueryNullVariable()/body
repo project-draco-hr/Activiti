@@ -30,35 +30,35 @@
     runtimeService.createExecutionQuery().variableValueGreaterThan("nullVar",null);
     fail("Excetion expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Booleans and null cannot be used in 'greater than' condition",ae.getMessage());
   }
   try {
     runtimeService.createExecutionQuery().variableValueGreaterThanOrEqual("nullVar",null);
     fail("Excetion expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Booleans and null cannot be used in 'greater than or equal' condition",ae.getMessage());
   }
   try {
     runtimeService.createExecutionQuery().variableValueLessThan("nullVar",null);
     fail("Excetion expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Booleans and null cannot be used in 'less than' condition",ae.getMessage());
   }
   try {
     runtimeService.createExecutionQuery().variableValueLessThanOrEqual("nullVar",null);
     fail("Excetion expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Booleans and null cannot be used in 'less than or equal' condition",ae.getMessage());
   }
   try {
     runtimeService.createExecutionQuery().variableValueLike("nullVar",null);
     fail("Excetion expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Only string values can be used with 'like' condition",ae.getMessage());
   }
   runtimeService.deleteProcessInstance(processInstance1.getId(),"test");

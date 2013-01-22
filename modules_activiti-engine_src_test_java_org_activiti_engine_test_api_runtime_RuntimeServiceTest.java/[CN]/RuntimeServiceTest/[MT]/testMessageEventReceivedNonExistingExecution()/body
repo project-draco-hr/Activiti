@@ -3,6 +3,7 @@
     runtimeService.messageEventReceived("alert","nonexistingExecution");
     fail("exeception expected");
   }
- catch (  ActivitiException e) {
+ catch (  ActivitiObjectNotFoundException ae) {
+    assertEquals(Execution.class,ae.getObjectClass());
   }
 }

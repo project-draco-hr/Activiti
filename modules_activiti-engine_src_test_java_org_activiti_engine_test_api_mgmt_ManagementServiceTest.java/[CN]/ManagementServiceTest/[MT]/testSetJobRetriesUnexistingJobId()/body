@@ -3,7 +3,8 @@
     managementService.setJobRetries("unexistingjob",5);
     fail("ActivitiException expected");
   }
- catch (  ActivitiException re) {
+ catch (  ActivitiObjectNotFoundException re) {
     assertTextPresent("No job found with id 'unexistingjob'.",re.getMessage());
+    assertEquals(Job.class,re.getObjectClass());
   }
 }
