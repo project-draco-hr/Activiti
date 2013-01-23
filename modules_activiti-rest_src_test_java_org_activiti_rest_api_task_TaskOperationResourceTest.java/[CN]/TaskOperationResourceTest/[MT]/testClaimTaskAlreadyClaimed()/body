@@ -1,0 +1,16 @@
+{
+  runtimeService.startProcessInstanceByKey("simpleProcess");
+  Task task=taskService.createTaskQuery().singleResult();
+  assertNotNull(task);
+  assertEquals("WaitTask",task.getName());
+  assertNull(task.getAssignee());
+  taskService.claim(task.getId(),"gonzo");
+  ClientResource client=getAuthenticatedClient("task/" + task.getId() + "/claim");
+  try {
+    client.put(null);
+    fail("Exception expected");
+  }
+ catch (  ResourceException re) {
+    assertEquals(Status.SERVER_ERROR_INTERNAL.getCode(),re.getStatus().getCode());
+  }
+}

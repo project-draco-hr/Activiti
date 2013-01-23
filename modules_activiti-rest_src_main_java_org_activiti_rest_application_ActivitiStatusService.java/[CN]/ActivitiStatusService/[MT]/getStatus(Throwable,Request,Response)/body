@@ -1,0 +1,20 @@
+{
+  Status status=null;
+  if (throwable instanceof ActivitiObjectNotFoundException) {
+    status=new Status(Status.CLIENT_ERROR_NOT_FOUND.getCode(),throwable.getMessage(),null,null);
+  }
+ else   if (throwable instanceof ActivitiIllegalArgumentException) {
+    status=new Status(Status.CLIENT_ERROR_BAD_REQUEST.getCode(),throwable.getMessage(),null,null);
+  }
+ else   if (throwable instanceof ActivitiOptimisticLockingException) {
+    status=new Status(Status.CLIENT_ERROR_CONFLICT.getCode(),throwable.getMessage(),null,null);
+  }
+ else   if (throwable instanceof ResourceException) {
+    ResourceException re=(ResourceException)throwable;
+    status=re.getStatus();
+  }
+ else {
+    status=new Status(Status.SERVER_ERROR_INTERNAL.getCode(),throwable.getMessage(),null,null);
+  }
+  return status;
+}

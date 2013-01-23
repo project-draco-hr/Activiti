@@ -17,7 +17,7 @@
     identityService.saveGroup(group);
   }
  else {
-    throw new ActivitiException("group id must be unique");
+    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT,"group id must be unique");
   }
   return new StateResponse().setSuccess(true);
 }
