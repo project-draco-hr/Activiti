@@ -1,7 +1,11 @@
 {
   String translatedTypeName=referenceColumn.getTypeName();
   if ("NVARCHAR2".equals(translatedTypeName)) {
-    translatedTypeName=translatedTypeName + "(" + referenceColumn.getColumnSize()+ ")";
+    int columnSize=referenceColumn.getColumnSize();
+    if (columnSize > 2000) {
+      columnSize=2000;
+    }
+    translatedTypeName=translatedTypeName + "(" + columnSize+ ")";
   }
  else   if ("BINARY_FLOAT".equals(translatedTypeName) || "BINARY_DOUBLE".equals(translatedTypeName)) {
   }
