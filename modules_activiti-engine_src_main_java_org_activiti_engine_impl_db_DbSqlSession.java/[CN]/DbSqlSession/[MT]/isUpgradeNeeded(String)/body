@@ -10,7 +10,7 @@
   String[] cleanEngineVersionSplitted=cleanEngineVersion.split("\\.");
   int engineMajorVersion=Integer.valueOf(cleanEngineVersionSplitted[0]);
   int engineMinorVersion=Integer.valueOf(cleanEngineVersionSplitted[1]);
-  if ((dbMajorVersion > engineMajorVersion) || ((dbMajorVersion <= engineMajorVersion) && (dbMinorVersion > engineMinorVersion))) {
+  if ((dbMajorVersion > engineMajorVersion) || ((dbMajorVersion == engineMajorVersion) && (dbMinorVersion > engineMinorVersion))) {
     throw new ActivitiException("Version of activiti database (" + versionInDatabase + ") is more recent than the engine ("+ ProcessEngine.VERSION+ ")");
   }
  else   if (cleanDbVersion.compareTo(cleanEngineVersion) == 0) {
