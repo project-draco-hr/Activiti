@@ -25,21 +25,5 @@
  else {
     dbSchemaCreateEngine();
   }
-  if (isHistoryTablePresent()) {
-    if (isUpgradeNeeded) {
-      dbSchemaUpgrade("history",dbVersion);
-    }
-  }
- else   if (dbSqlSessionFactory.isDbHistoryUsed()) {
-    dbSchemaCreateHistory();
-  }
-  if (isIdentityTablePresent()) {
-    if (isUpgradeNeeded) {
-      dbSchemaUpgrade("identity",dbVersion);
-    }
-  }
- else   if (dbSqlSessionFactory.isDbIdentityUsed()) {
-    dbSchemaCreateIdentity();
-  }
   return feedback;
 }
