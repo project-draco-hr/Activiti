@@ -1,10 +1,10 @@
 {
   if (jobId == null) {
-    throw new ActivitiException("jobId is null");
+    throw new ActivitiIllegalArgumentException("jobId is null");
   }
   JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
   if (job == null) {
-    throw new ActivitiException("No job found with id " + jobId);
+    throw new ActivitiObjectNotFoundException("No job found with id " + jobId,Job.class);
   }
   return job.getExceptionStacktrace();
 }

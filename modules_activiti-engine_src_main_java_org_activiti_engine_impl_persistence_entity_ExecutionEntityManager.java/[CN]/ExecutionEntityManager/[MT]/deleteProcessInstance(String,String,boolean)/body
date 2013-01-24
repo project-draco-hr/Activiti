@@ -1,7 +1,7 @@
 {
   ExecutionEntity execution=findExecutionById(processInstanceId);
   if (execution == null) {
-    throw new ActivitiException("No process instance found for id '" + processInstanceId + "'");
+    throw new ActivitiObjectNotFoundException("No process instance found for id '" + processInstanceId + "'",ProcessInstance.class);
   }
   CommandContext commandContext=Context.getCommandContext();
   commandContext.getTaskEntityManager().deleteTasksByProcessInstanceId(processInstanceId,deleteReason,cascade);

@@ -4,7 +4,7 @@
     runtimeService.setVariable(processInstance.getId(),null,"variableValue");
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("variableName is null",ae.getMessage());
   }
 }

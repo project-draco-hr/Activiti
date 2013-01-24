@@ -3,7 +3,7 @@
     runtimeService.setVariable(null,"variableName","variableValue");
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("executionId is null",ae.getMessage());
   }
 }

@@ -3,14 +3,14 @@
     formService.getStartFormKey(null);
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("The process definition id is mandatory, but 'null' has been provided.",ae.getMessage());
   }
   try {
     formService.getStartFormKey("");
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("The process definition id is mandatory, but '' has been provided.",ae.getMessage());
   }
 }

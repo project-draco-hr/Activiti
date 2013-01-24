@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   String searchText=(String)getQuery().getValues("searchText");
   if (searchText == null) {
-    throw new ActivitiException("No searchText provided");
+    throw new ActivitiIllegalArgumentException("No searchText provided");
   }
   searchText="%" + searchText + "%";
   List<User> firstNameMatchList=ActivitiUtil.getIdentityService().createUserQuery().userFirstNameLike(searchText).list();

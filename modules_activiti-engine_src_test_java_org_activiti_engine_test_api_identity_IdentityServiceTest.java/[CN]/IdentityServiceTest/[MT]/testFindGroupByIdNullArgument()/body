@@ -3,7 +3,7 @@
     identityService.createGroupQuery().groupId(null).singleResult();
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("id is null",ae.getMessage());
   }
 }

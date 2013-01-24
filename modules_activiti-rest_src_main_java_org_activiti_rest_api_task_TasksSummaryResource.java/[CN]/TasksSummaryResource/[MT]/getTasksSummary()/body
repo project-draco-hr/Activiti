@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   String user=getQuery().getValues("user");
   if (user == null) {
-    throw new ActivitiException("No user provided");
+    throw new ActivitiIllegalArgumentException("No user provided");
   }
   TaskService ts=ActivitiUtil.getTaskService();
   GroupQuery query=ActivitiUtil.getIdentityService().createGroupQuery().groupMember(user).groupType("assignment");

@@ -19,8 +19,19 @@
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
   for (  ProcessDefinition processDefinition : processDefinitions) {
     List<Job> timerStartJobs=Context.getCommandContext().getJobEntityManager().findJobsByConfiguration(TimerStartEventJobHandler.TYPE,processDefinition.getKey());
-    for (    Job job : timerStartJobs) {
-      ((JobEntity)job).delete();
+    if (timerStartJobs != null && timerStartJobs.size() > 0) {
+      long nrOfVersions=new ProcessDefinitionQueryImpl(Context.getCommandContext()).processDefinitionKey(processDefinition.getKey()).count();
+      long nrOfProcessDefinitionsWithSameKey=0;
+      for (      ProcessDefinition p : processDefinitions) {
+        if (!p.getId().equals(processDefinition) && p.getKey().equals(processDefinition)) {
+          nrOfProcessDefinitionsWithSameKey++;
+        }
+      }
+      if (nrOfVersions - nrOfProcessDefinitionsWithSameKey <= 1) {
+        for (        Job job : timerStartJobs) {
+          ((JobEntity)job).delete();
+        }
+      }
     }
     List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionEntityManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,processDefinition.getId());
     for (    EventSubscriptionEntity eventSubscriptionEntity : findEventSubscriptionsByConfiguration) {

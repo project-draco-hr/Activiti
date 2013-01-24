@@ -6,7 +6,7 @@
  else {
     ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(executionId);
     if (execution == null) {
-      throw new ActivitiException("Cannot find execution with id '" + executionId + "'");
+      throw new ActivitiObjectNotFoundException("Cannot find execution with id '" + executionId + "'",Execution.class);
     }
     if (execution.isSuspended()) {
       throw new ActivitiException("Cannot throw signal event '" + eventName + "' because execution '"+ executionId+ "' is suspended");

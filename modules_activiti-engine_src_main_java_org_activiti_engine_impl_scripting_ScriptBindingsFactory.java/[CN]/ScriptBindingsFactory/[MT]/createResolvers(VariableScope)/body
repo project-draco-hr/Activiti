@@ -1,0 +1,10 @@
+{
+  List<Resolver> scriptResolvers=new ArrayList<Resolver>();
+  for (  ResolverFactory scriptResolverFactory : resolverFactories) {
+    Resolver resolver=scriptResolverFactory.createResolver(variableScope);
+    if (resolver != null) {
+      scriptResolvers.add(resolver);
+    }
+  }
+  return scriptResolvers;
+}

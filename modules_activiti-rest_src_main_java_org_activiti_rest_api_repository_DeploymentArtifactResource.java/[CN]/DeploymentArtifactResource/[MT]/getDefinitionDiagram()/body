@@ -3,15 +3,12 @@
   String deploymentId=(String)getRequest().getAttributes().get("deploymentId");
   String resourceName=(String)getRequest().getAttributes().get("resourceName");
   if (deploymentId == null) {
-    throw new ActivitiException("No deployment id provided");
+    throw new ActivitiIllegalArgumentException("No deployment id provided");
   }
   if (resourceName == null) {
-    throw new ActivitiException("No resource name provided");
+    throw new ActivitiIllegalArgumentException("No resource name provided");
   }
   final InputStream resourceStream=ActivitiUtil.getRepositoryService().getResourceAsStream(deploymentId,resourceName);
-  if (resourceStream == null) {
-    throw new ActivitiException("No resource with name " + resourceName + " could be found");
-  }
   MediaType mediaType=null;
   String lowerResourceName=resourceName.toLowerCase();
   if (lowerResourceName.endsWith("png")) {

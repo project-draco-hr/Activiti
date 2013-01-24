@@ -1,0 +1,10 @@
+{
+  ClientResource client=getAuthenticatedClient("login");
+  try {
+    client.post(null);
+    fail("Exception expected");
+  }
+ catch (  ResourceException re) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,re.getStatus());
+  }
+}

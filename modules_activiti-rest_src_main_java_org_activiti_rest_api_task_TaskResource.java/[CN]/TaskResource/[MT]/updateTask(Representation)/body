@@ -3,7 +3,7 @@
   String taskId=(String)getRequest().getAttributes().get("taskId");
   Task task=ActivitiUtil.getTaskService().createTaskQuery().taskId(taskId).singleResult();
   if (task == null) {
-    throw new ActivitiException("Task not found for id " + taskId);
+    throw new ActivitiObjectNotFoundException("Task not found for id " + taskId,Task.class);
   }
   try {
     String taskParams=entity.getText();
@@ -38,6 +38,9 @@
     return response;
   }
  catch (  Exception e) {
+    if (e instanceof ActivitiException) {
+      throw (ActivitiException)e;
+    }
     throw new ActivitiException("Failed to update task " + taskId,e);
   }
 }

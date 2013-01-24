@@ -1,7 +1,7 @@
 {
   ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
   if (processDefinition == null) {
-    throw new ActivitiException("No process definition found for id '" + processDefinitionId + "'");
+    throw new ActivitiObjectNotFoundException("No process definition found for id '" + processDefinitionId + "'",ProcessDefinition.class);
   }
   StartFormHandler startFormHandler=processDefinition.getStartFormHandler();
   if (startFormHandler == null) {

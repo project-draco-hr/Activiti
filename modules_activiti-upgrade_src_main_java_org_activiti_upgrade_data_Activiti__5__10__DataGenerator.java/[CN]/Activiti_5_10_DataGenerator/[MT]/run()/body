@@ -1,8 +1,0 @@
-{
-  processEngine.getRepositoryService().createDeployment().name("verifyProcessDefinitionDescription").addClasspathResource("org/activiti/upgrade/test/VerifyProcessDefinitionDescriptionTest.bpmn20.xml").deploy();
-  Deployment deployment=processEngine.getRepositoryService().createDeployment().name(Activiti_5_10_DataGenerator.class.getName()).addClasspathResource("org/activiti/upgrade/test/SuspendAndActivateUpgradeTest.bpmn20.xml").deploy();
-  ProcessDefinition processDefinition=processEngine.getRepositoryService().createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
-  for (int i=0; i < NR_OF_INSTANCES_FOR_SUSPENSION; i++) {
-    processEngine.getRuntimeService().startProcessInstanceById(processDefinition.getId());
-  }
-}

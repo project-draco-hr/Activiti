@@ -28,7 +28,7 @@
     taskQuery.taskCandidateGroup(candidateGroupId);
   }
  else {
-    throw new ActivitiException("Tasks must be filtered with 'assignee', 'owner', 'involved', 'candidate' or 'candidate-group'");
+    throw new ActivitiIllegalArgumentException("Tasks must be filtered with 'assignee', 'owner', 'involved', 'candidate' or 'candidate-group'");
   }
   if (strPriority != null) {
     taskQuery.taskPriority(RequestUtil.parseToInteger(strPriority));

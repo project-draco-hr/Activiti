@@ -3,7 +3,7 @@
     taskService.addCandidateGroup("taskId",null);
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("userId and groupId cannot both be null",ae.getMessage());
   }
 }

@@ -1,7 +1,7 @@
 {
   int spaceIndex=singleUnitQuantity.indexOf(" ");
   if (spaceIndex == -1 || singleUnitQuantity.length() < spaceIndex + 1) {
-    throw new ActivitiException("invalid duedate format: " + singleUnitQuantity);
+    throw new ActivitiIllegalArgumentException("invalid duedate format: " + singleUnitQuantity);
   }
   String quantityText=singleUnitQuantity.substring(0,spaceIndex);
   Integer quantity=new Integer(quantityText);

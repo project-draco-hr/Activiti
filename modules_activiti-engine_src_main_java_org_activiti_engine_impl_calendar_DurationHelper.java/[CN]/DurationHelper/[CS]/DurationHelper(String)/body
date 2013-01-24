@@ -2,7 +2,7 @@
   List<String> expression=Arrays.asList(expressionS.split("/"));
   datatypeFactory=DatatypeFactory.newInstance();
   if (expression.size() > 3 || expression.isEmpty()) {
-    throw new ActivitiException("Cannot parse duration");
+    throw new ActivitiIllegalArgumentException("Cannot parse duration");
   }
   if (expression.get(0).startsWith("R")) {
     isRepeat=true;

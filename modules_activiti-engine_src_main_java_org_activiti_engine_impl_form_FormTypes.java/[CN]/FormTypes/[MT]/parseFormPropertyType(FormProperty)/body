@@ -13,7 +13,7 @@
  else   if (StringUtils.isNotEmpty(formProperty.getType())) {
     formType=formTypes.get(formProperty.getType());
     if (formType == null) {
-      throw new ActivitiException("unknown type '" + formProperty.getType() + "' "+ formProperty.getId());
+      throw new ActivitiIllegalArgumentException("unknown type '" + formProperty.getType() + "' "+ formProperty.getId());
     }
   }
   return formType;

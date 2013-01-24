@@ -25,6 +25,9 @@
       }
     }
  catch (    Exception e) {
+      if (e instanceof ActivitiException) {
+        throw (ActivitiException)e;
+      }
       throw new ActivitiException("Did not receive the operation parameters",e);
     }
     variables.remove("taskId");
@@ -43,7 +46,7 @@
     ActivitiUtil.getTaskService().setAssignee(taskId,userId);
   }
  else {
-    throw new ActivitiException("'" + operation + "' is not a valid operation");
+    throw new ActivitiIllegalArgumentException("'" + operation + "' is not a valid operation");
   }
   ObjectNode successNode=new ObjectMapper().createObjectNode();
   successNode.put("success",true);

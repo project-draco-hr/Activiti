@@ -2,7 +2,7 @@
   if (taskId != null) {
     TaskEntity task=Context.getCommandContext().getTaskEntityManager().findTaskById(taskId);
     if (task == null) {
-      throw new ActivitiException("Cannot find task with id " + taskId);
+      throw new ActivitiObjectNotFoundException("Cannot find task with id " + taskId,Task.class);
     }
     if (task.isSuspended()) {
       throw new ActivitiException("It is not allowed to add an attachment to a suspended task");
@@ -11,7 +11,7 @@
   if (processInstanceId != null) {
     ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(processInstanceId);
     if (execution == null) {
-      throw new ActivitiException("Process instance " + processInstanceId + " doesn't exist");
+      throw new ActivitiObjectNotFoundException("Process instance " + processInstanceId + " doesn't exist",ProcessInstance.class);
     }
     if (execution.isSuspended()) {
       throw new ActivitiException("It is not allowed to add an attachment to a suspended process instance");

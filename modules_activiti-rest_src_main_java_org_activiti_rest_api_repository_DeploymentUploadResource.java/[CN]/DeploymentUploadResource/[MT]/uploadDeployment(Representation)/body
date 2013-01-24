@@ -18,13 +18,16 @@
       deploymentBuilder.addZipInputStream(new ZipInputStream(uploadItem.getInputStream()));
     }
  else {
-      throw new ActivitiException("File must be of type .bpmn20.xml, .bpmn, .bar or .zip");
+      throw new ActivitiIllegalArgumentException("File must be of type .bpmn20.xml, .bpmn, .bar or .zip");
     }
     deploymentBuilder.name(fileName);
     Deployment deployment=deploymentBuilder.deploy();
     return new DeploymentResponse(deployment);
   }
  catch (  Exception e) {
+    if (e instanceof ActivitiException) {
+      throw (ActivitiException)e;
+    }
     throw new ActivitiException(e.getMessage(),e);
   }
 }

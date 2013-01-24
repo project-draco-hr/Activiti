@@ -2,15 +2,15 @@
   if (authenticate() == false)   return null;
   String groupId=(String)getRequest().getAttributes().get("groupId");
   if (groupId == null) {
-    throw new ActivitiException("No groupId provided");
+    throw new ActivitiIllegalArgumentException("No groupId provided");
   }
   if (userIds == null) {
-    throw new ActivitiException("No userIds provided");
+    throw new ActivitiIllegalArgumentException("No userIds provided");
   }
   IdentityService identityService=ActivitiUtil.getIdentityService();
-  if (identityService.createGroupQuery().groupId(groupId).singleResult() == null)   throw new ActivitiException("The user '" + groupId + "' does not exist.");
+  if (identityService.createGroupQuery().groupId(groupId).singleResult() == null)   throw new ActivitiObjectNotFoundException("The user '" + groupId + "' does not exist.",User.class);
   for (  String userId : userIds) {
-    if (identityService.createUserQuery().userId(userId).singleResult() == null)     throw new ActivitiException("User '" + userId + " does not exist.");
+    if (identityService.createUserQuery().userId(userId).singleResult() == null)     throw new ActivitiObjectNotFoundException("User '" + userId + " does not exist.",User.class);
   }
   for (  String userId : userIds) {
     if (identityService.createUserQuery().userId(userId).memberOfGroup(groupId).singleResult() == null)     identityService.createMembership(userId,groupId);

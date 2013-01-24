@@ -1,10 +1,10 @@
 {
   if (value == null) {
-    throw new ActivitiException("null value cannot be saved");
+    throw new ActivitiIllegalArgumentException("null value cannot be saved");
   }
   EntityMetaData metaData=getEntityMetaData(value.getClass());
   if (!metaData.isJPAEntity()) {
-    throw new ActivitiException("Object is not a JPA Entity: class='" + value.getClass() + "', "+ value);
+    throw new ActivitiIllegalArgumentException("Object is not a JPA Entity: class='" + value.getClass() + "', "+ value);
   }
   return metaData.getEntityClass().getName();
 }

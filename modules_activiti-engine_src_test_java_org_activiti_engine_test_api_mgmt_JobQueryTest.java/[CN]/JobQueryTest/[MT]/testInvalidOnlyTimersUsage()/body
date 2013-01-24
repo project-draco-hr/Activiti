@@ -3,7 +3,7 @@
     managementService.createJobQuery().timers().messages().list();
     fail();
   }
- catch (  ActivitiException e) {
+ catch (  ActivitiIllegalArgumentException e) {
     assertTextPresent("Cannot combine onlyTimers() with onlyMessages() in the same query",e.getMessage());
   }
 }

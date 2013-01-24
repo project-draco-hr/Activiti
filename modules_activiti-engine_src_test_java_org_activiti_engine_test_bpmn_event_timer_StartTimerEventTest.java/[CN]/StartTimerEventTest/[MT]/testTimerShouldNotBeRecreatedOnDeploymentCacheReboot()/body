@@ -1,0 +1,7 @@
+{
+  JobQuery jobQuery=managementService.createJobQuery();
+  assertEquals(1,jobQuery.count());
+  ((ProcessEngineConfigurationImpl)processEngineConfiguration).getProcessDefinitionCache().clear();
+  runtimeService.startProcessInstanceByKey("startTimer");
+  assertEquals(1,jobQuery.count());
+}

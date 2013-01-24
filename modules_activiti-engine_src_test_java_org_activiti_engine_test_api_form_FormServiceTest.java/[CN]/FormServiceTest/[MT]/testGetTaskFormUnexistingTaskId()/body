@@ -3,7 +3,8 @@
     formService.getRenderedTaskForm("unexistingtask");
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiObjectNotFoundException ae) {
     assertTextPresent("Task 'unexistingtask' not found",ae.getMessage());
+    assertEquals(Task.class,ae.getObjectClass());
   }
 }

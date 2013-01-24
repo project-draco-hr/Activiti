@@ -3,7 +3,7 @@
     taskService.setPriority(null,12345);
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("taskId is null",ae.getMessage());
   }
 }

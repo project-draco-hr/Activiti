@@ -5,7 +5,8 @@
   }
   String cleanString=matcher.group();
   try {
-    return Double.parseDouble(cleanString);
+    Double.parseDouble(cleanString);
+    return cleanString;
   }
  catch (  NumberFormatException nfe) {
     throw new ActivitiException("Illegal format for version: " + versionString);

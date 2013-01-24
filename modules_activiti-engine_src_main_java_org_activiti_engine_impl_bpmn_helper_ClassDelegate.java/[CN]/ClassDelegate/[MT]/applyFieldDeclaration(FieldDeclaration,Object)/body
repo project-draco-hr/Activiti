@@ -17,10 +17,10 @@ catch (    InvocationTargetException e) {
  else {
     Field field=ReflectUtil.getField(declaration.getName(),target);
     if (field == null) {
-      throw new ActivitiException("Field definition uses unexisting field '" + declaration.getName() + "' on class "+ target.getClass().getName());
+      throw new ActivitiIllegalArgumentException("Field definition uses unexisting field '" + declaration.getName() + "' on class "+ target.getClass().getName());
     }
     if (!fieldTypeCompatible(declaration,field)) {
-      throw new ActivitiException("Incompatible type set on field declaration '" + declaration.getName() + "' for class "+ target.getClass().getName()+ ". Declared value has type "+ declaration.getValue().getClass().getName()+ ", while expecting "+ field.getType().getName());
+      throw new ActivitiIllegalArgumentException("Incompatible type set on field declaration '" + declaration.getName() + "' for class "+ target.getClass().getName()+ ". Declared value has type "+ declaration.getValue().getClass().getName()+ ", while expecting "+ field.getType().getName());
     }
     ReflectUtil.setField(field,target,declaration.getValue());
   }

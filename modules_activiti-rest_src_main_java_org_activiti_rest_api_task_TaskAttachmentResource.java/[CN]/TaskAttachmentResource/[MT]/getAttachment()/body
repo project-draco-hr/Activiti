@@ -2,11 +2,11 @@
   if (authenticate() == false)   return null;
   String attachmentId=(String)getRequest().getAttributes().get("attachmentId");
   if (attachmentId == null) {
-    throw new ActivitiException("No attachment id provided");
+    throw new ActivitiIllegalArgumentException("No attachment id provided");
   }
   Attachment attachment=ActivitiUtil.getTaskService().getAttachment(attachmentId);
   if (attachment == null) {
-    throw new ActivitiException("No attachment found for " + attachmentId);
+    throw new ActivitiObjectNotFoundException("No attachment found for " + attachmentId,Attachment.class);
   }
   String contentType=attachment.getType();
   MediaType mediatType=MediaType.IMAGE_PNG;

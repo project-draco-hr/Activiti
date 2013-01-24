@@ -7,14 +7,14 @@
     runtimeService.createProcessInstanceQuery().variableValueEquals("bytesVar","test".getBytes()).list();
     fail("Expected exception");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Variables of type ByteArray cannot be used to query",ae.getMessage());
   }
   try {
     runtimeService.createProcessInstanceQuery().variableValueEquals("serializableVar",new DummySerializable()).list();
     fail("Expected exception");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Variables of type ByteArray cannot be used to query",ae.getMessage());
   }
   runtimeService.deleteProcessInstance(processInstance.getId(),"test");

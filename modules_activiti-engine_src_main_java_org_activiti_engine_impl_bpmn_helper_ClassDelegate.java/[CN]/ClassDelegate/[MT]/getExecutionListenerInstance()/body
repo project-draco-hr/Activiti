@@ -7,6 +7,6 @@
     return new ServiceTaskJavaDelegateActivityBehavior((JavaDelegate)delegateInstance);
   }
  else {
-    throw new ActivitiException(delegateInstance.getClass().getName() + " doesn't implement " + ExecutionListener.class+ " nor "+ JavaDelegate.class);
+    throw new ActivitiIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + ExecutionListener.class+ " nor "+ JavaDelegate.class);
   }
 }

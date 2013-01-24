@@ -1,13 +1,13 @@
 {
   if (jobId == null) {
-    throw new ActivitiException("jobId is null");
+    throw new ActivitiIllegalArgumentException("jobId is null");
   }
   if (log.isDebugEnabled()) {
     log.debug("Deleting job {}",jobId);
   }
   JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
   if (job == null) {
-    throw new ActivitiException("No job found with id '" + jobId + "'");
+    throw new ActivitiObjectNotFoundException("No job found with id '" + jobId + "'",Job.class);
   }
   if (job.getLockOwner() != null || job.getLockExpirationTime() != null) {
     throw new ActivitiException("Cannot delete job when the job is being executed. Try again later.");

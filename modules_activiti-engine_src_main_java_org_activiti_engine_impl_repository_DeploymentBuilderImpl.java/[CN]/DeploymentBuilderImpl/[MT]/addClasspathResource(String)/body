@@ -1,7 +1,7 @@
 {
   InputStream inputStream=ReflectUtil.getResourceAsStream(resource);
   if (inputStream == null) {
-    throw new ActivitiException("resource '" + resource + "' not found");
+    throw new ActivitiIllegalArgumentException("resource '" + resource + "' not found");
   }
   return addInputStream(resource,inputStream);
 }

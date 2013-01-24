@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   IdentityService identityService=ActivitiUtil.getIdentityService();
   if (userInfo == null || userInfo.getId() == null) {
-    throw new ActivitiException("No user id supplied");
+    throw new ActivitiIllegalArgumentException("No user id supplied");
   }
   if (identityService.createUserQuery().userId(userInfo.getId()).count() == 0) {
     User user=identityService.newUser(userInfo.getId());
@@ -13,7 +13,7 @@
     identityService.saveUser(user);
   }
  else {
-    throw new ActivitiException("user id must be unique");
+    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT,"user id must be unique");
   }
   return new StateResponse().setSuccess(true);
 }

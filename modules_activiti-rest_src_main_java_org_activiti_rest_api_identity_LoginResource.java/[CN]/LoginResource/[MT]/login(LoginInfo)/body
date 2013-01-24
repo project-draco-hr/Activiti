@@ -1,12 +1,12 @@
 {
   if (loginInfo == null) {
-    throw new ActivitiException("No login info supplied");
+    throw new ActivitiIllegalArgumentException("No login info supplied");
   }
   if (loginInfo.getUserId() == null) {
-    throw new ActivitiException("No user id supplied");
+    throw new ActivitiIllegalArgumentException("No user id supplied");
   }
   if (loginInfo.getPassword() == null) {
-    throw new ActivitiException("No password supplied");
+    throw new ActivitiIllegalArgumentException("No password supplied");
   }
   ProcessEngine pe=ActivitiUtil.getProcessEngine();
   if (pe != null) {
