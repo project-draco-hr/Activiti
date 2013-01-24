@@ -16,13 +16,5 @@
     throw new ActivitiException("Error creating Activiti tables",e);
   }
  finally {
-    if (connection != null) {
-      try {
-        connection.close();
-      }
- catch (      Exception e) {
-        log.error("Error closing connection for Activiti table create script",e);
-      }
-    }
   }
 }
