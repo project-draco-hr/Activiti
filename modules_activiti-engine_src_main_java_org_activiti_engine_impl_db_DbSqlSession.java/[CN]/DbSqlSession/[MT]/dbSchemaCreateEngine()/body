@@ -4,13 +4,25 @@
   ResourceAccessor threadClFO=new ClassLoaderResourceAccessor(contextClassLoader);
   ResourceAccessor clFO=new ClassLoaderResourceAccessor();
   ResourceAccessor fsFO=new FileSystemResourceAccessor();
+  JdbcConnection connection=null;
   try {
-    Database database=DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(sqlSession.getConnection()));
+    connection=new JdbcConnection(sqlSession.getConnection());
+    Database database=DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
     database.setDefaultSchemaName(this.connectionMetadataDefaultSchema);
     Liquibase liquibase=new Liquibase("org/activiti/db/liquibase/activiti-master.xml",new CompositeResourceAccessor(clFO,fsFO,threadClFO),database);
     liquibase.update("production");
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    throw new ActivitiException("Error creating Activiti tables",e);
+  }
+ finally {
+    if (connection != null) {
+      try {
+        connection.close();
+      }
+ catch (      Exception e) {
+        log.error("Error closing connection for Activiti table create script",e);
+      }
+    }
   }
 }
