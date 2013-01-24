@@ -1,6 +1,16 @@
 {
   DataType dataType=super.getDataType(columnTypeString,autoIncrement,dataTypeName,precision,additionalInformation);
-  if (dataType instanceof CustomType && columnTypeString.toUpperCase().equals("REAL")) {
+  if (dataType instanceof NVarcharType) {
+    try {
+      int intPrecision=Integer.valueOf(precision);
+      if (intPrecision > 2000) {
+        dataType.setFirstParameter("2000");
+      }
+    }
+ catch (    Exception e) {
+    }
+  }
+ else   if (dataType instanceof CustomType && columnTypeString.toUpperCase().equals("REAL")) {
     dataType=getFloatType();
   }
   return dataType;
