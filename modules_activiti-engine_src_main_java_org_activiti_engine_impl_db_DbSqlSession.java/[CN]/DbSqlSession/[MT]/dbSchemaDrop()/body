@@ -8,15 +8,14 @@
   try {
     connection=new JdbcConnection(sqlSession.getConnection());
     Database database=DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
+    log.debug("Dropping schema for " + database.getTypeName());
     database.setDefaultSchemaName(this.connectionMetadataDefaultSchema);
     Liquibase liquibase=new Liquibase("org/activiti/db/liquibase/activiti-master.xml",new CompositeResourceAccessor(clFO,fsFO,threadClFO),database);
     liquibase.dropAll();
+    log.debug("Successfully dropped schema for " + database.getTypeName());
   }
  catch (  Exception e) {
+    log.error("Error dropping Activiti tables",e);
     throw new ActivitiException("Error dropping Activiti tables",e);
-  }
- finally {
-    if (connection != null) {
-    }
   }
 }
