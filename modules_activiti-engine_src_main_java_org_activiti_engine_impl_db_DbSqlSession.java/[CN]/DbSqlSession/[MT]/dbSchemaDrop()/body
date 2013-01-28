@@ -1,16 +1,10 @@
 {
-  Thread currentThread=Thread.currentThread();
-  ClassLoader contextClassLoader=currentThread.getContextClassLoader();
-  ResourceAccessor threadClFO=new ClassLoaderResourceAccessor(contextClassLoader);
-  ResourceAccessor clFO=new ClassLoaderResourceAccessor();
-  ResourceAccessor fsFO=new FileSystemResourceAccessor();
-  JdbcConnection connection=null;
   try {
-    connection=new JdbcConnection(sqlSession.getConnection());
+    JdbcConnection connection=new JdbcConnection(sqlSession.getConnection());
     Database database=DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
-    log.debug("Dropping schema for " + database.getTypeName());
     database.setDefaultSchemaName(this.connectionMetadataDefaultSchema);
-    Liquibase liquibase=new Liquibase("org/activiti/db/liquibase/activiti-master.xml",new CompositeResourceAccessor(clFO,fsFO,threadClFO),database);
+    Liquibase liquibase=new Liquibase("org/activiti/db/liquibase/activiti-master.xml",new ClassLoaderResourceAccessor(),database);
+    log.debug("Dropping schema for " + database.getTypeName());
     liquibase.dropAll();
     log.debug("Successfully dropped schema for " + database.getTypeName());
   }
