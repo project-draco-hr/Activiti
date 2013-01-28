@@ -1,0 +1,8 @@
+{
+  DataType dataType=super.getDataType(columnTypeString,autoIncrement,dataTypeName,precision,additionalInformation);
+  if (dataType instanceof NVarcharType) {
+    dataType=new VarcharType();
+    dataType.setFirstParameter(precision);
+  }
+  return dataType;
+}
