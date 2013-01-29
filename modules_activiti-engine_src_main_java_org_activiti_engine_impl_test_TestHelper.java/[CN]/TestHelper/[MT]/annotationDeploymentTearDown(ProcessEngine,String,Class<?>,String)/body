@@ -1,6 +1,10 @@
 {
   log.debug("annotation @Deployment deletes deployment for {}.{}",testClass.getSimpleName(),methodName);
   if (deploymentId != null) {
-    processEngine.getRepositoryService().deleteDeployment(deploymentId,true);
+    try {
+      processEngine.getRepositoryService().deleteDeployment(deploymentId,true);
+    }
+ catch (    ActivitiObjectNotFoundException e) {
+    }
   }
 }
