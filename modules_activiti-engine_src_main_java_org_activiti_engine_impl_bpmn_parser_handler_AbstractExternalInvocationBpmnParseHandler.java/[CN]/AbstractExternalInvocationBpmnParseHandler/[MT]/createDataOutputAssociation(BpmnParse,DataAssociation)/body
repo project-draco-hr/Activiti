@@ -3,7 +3,7 @@
     return new MessageImplicitDataOutputAssociation(dataAssociationElement.getTargetRef(),dataAssociationElement.getSourceRef());
   }
  else {
-    Expression transformation=this.expressionManager.createExpression(dataAssociationElement.getTransformation());
+    Expression transformation=bpmnParse.getExpressionManager().createExpression(dataAssociationElement.getTransformation());
     AbstractDataAssociation dataOutputAssociation=new TransformationDataOutputAssociation(null,dataAssociationElement.getTargetRef(),transformation);
     return dataOutputAssociation;
   }

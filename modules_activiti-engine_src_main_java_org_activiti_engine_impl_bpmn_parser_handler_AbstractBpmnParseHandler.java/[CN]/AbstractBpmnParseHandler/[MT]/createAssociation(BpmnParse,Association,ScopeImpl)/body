@@ -1,4 +1,5 @@
 {
+  BpmnModel bpmnModel=bpmnParse.getBpmnModel();
   if (bpmnModel.getArtifact(association.getSourceRef()) != null || bpmnModel.getArtifact(association.getTargetRef()) != null) {
     return;
   }
@@ -16,7 +17,7 @@
       }
  else {
         ActivityImpl compensatedActivity=sourceActivity.getParentActivity();
-        compensatedActivity.setProperty(PROPERTYNAME_COMPENSATION_HANDLER_ID,targetActivity.getId());
+        compensatedActivity.setProperty(BpmnParse.PROPERTYNAME_COMPENSATION_HANDLER_ID,targetActivity.getId());
       }
     }
   }
