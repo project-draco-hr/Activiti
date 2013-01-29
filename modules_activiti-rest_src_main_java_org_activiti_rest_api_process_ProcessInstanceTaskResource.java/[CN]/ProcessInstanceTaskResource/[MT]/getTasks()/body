@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
   if (processInstanceId == null) {
-    throw new ActivitiException("No process instance id provided");
+    throw new ActivitiIllegalArgumentException("No process instance id provided");
   }
   TaskQuery taskQuery=ActivitiUtil.getTaskService().createTaskQuery().processInstanceId(processInstanceId);
   DataResponse dataResponse=new TasksPaginateList().paginateList(getQuery(),taskQuery,"id",properties);

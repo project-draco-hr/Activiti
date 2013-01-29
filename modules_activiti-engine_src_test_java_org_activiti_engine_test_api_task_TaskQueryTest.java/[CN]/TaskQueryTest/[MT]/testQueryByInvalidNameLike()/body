@@ -1,12 +1,12 @@
 {
-  TaskQuery query=taskService.createTaskQuery().taskName("1");
+  TaskQuery query=taskService.createTaskQuery().taskNameLike("1");
   assertNull(query.singleResult());
   assertEquals(0,query.list().size());
   assertEquals(0,query.count());
   try {
-    taskService.createTaskQuery().taskName(null).singleResult();
+    taskService.createTaskQuery().taskNameLike(null).singleResult();
     fail();
   }
- catch (  ActivitiException e) {
+ catch (  ActivitiIllegalArgumentException e) {
   }
 }

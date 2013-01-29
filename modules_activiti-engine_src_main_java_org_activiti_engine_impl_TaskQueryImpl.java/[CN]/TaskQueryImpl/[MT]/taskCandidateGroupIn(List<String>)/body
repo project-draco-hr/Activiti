@@ -1,15 +1,15 @@
 {
   if (candidateGroups == null) {
-    throw new ActivitiException("Candidate group list is null");
+    throw new ActivitiIllegalArgumentException("Candidate group list is null");
   }
   if (candidateGroups.size() == 0) {
-    throw new ActivitiException("Candidate group list is empty");
+    throw new ActivitiIllegalArgumentException("Candidate group list is empty");
   }
   if (candidateUser != null) {
-    throw new ActivitiException("Invalid query usage: cannot set both candidateGroupIn and candidateUser");
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateGroupIn and candidateUser");
   }
   if (candidateGroup != null) {
-    throw new ActivitiException("Invalid query usage: cannot set both candidateGroupIn and candidateGroup");
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateGroupIn and candidateGroup");
   }
   this.candidateGroups=candidateGroups;
   return this;

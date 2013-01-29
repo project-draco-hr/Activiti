@@ -4,7 +4,7 @@
   }
   ProcessDefinition definition=processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionName(string).singleResult();
   if (definition == null) {
-    throw new ActivitiException("No process definition found for name: " + string);
+    throw new ActivitiObjectNotFoundException("No process definition found for name: " + string,ProcessDefinition.class);
   }
   Map<String,Object> cachedVariables=getAndClearCachedVariables();
   cachedVariables.putAll(variables);

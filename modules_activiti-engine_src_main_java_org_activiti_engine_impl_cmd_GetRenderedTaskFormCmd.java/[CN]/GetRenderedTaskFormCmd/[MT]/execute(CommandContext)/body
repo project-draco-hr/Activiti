@@ -1,7 +1,7 @@
 {
   TaskEntity task=Context.getCommandContext().getTaskEntityManager().findTaskById(taskId);
   if (task == null) {
-    throw new ActivitiException("Task '" + taskId + "' not found");
+    throw new ActivitiObjectNotFoundException("Task '" + taskId + "' not found",Task.class);
   }
   if (task.getTaskDefinition() == null) {
     throw new ActivitiException("Task form definition for '" + taskId + "' not found");

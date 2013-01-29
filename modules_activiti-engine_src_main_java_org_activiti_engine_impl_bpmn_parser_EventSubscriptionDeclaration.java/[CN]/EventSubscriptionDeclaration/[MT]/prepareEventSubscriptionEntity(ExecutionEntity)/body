@@ -7,7 +7,7 @@
     eventSubscriptionEntity=new SignalEventSubscriptionEntity(execution);
   }
  else {
-    throw new ActivitiException("Found event definition of unknown type: " + eventType);
+    throw new ActivitiIllegalArgumentException("Found event definition of unknown type: " + eventType);
   }
   eventSubscriptionEntity.setEventName(eventName);
   if (activityId != null) {

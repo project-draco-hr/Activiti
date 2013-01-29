@@ -1,10 +1,10 @@
 {
   if (processInstanceId == null) {
-    throw new ActivitiException("processInstanceId is null");
+    throw new ActivitiIllegalArgumentException("processInstanceId is null");
   }
   HistoricProcessInstance instance=commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstance(processInstanceId);
   if (instance == null) {
-    throw new ActivitiException("No historic process instance found with id: " + processInstanceId);
+    throw new ActivitiObjectNotFoundException("No historic process instance found with id: " + processInstanceId,HistoricProcessInstance.class);
   }
   if (instance.getEndTime() == null) {
     throw new ActivitiException("Process instance is still running, cannot delete historic process instance: " + processInstanceId);

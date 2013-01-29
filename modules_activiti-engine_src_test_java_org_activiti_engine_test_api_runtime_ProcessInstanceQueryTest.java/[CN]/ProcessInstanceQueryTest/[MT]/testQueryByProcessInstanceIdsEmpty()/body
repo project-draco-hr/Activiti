@@ -3,7 +3,7 @@
     runtimeService.createProcessInstanceQuery().processInstanceIds(new HashSet<String>());
     fail("ActivitiException expected");
   }
- catch (  ActivitiException re) {
+ catch (  ActivitiIllegalArgumentException re) {
     assertTextPresent("Set of process instance ids is empty",re.getMessage());
   }
 }

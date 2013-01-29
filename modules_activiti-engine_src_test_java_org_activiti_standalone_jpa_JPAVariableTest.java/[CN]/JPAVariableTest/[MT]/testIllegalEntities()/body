@@ -16,7 +16,7 @@
     runtimeService.startProcessInstanceByKey("JPAVariableProcessExceptions",variables);
     fail("Exception expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("Value of primary key for JPA-Entity cannot be null",ae.getMessage());
   }
   variables=new HashMap<String,Object>();

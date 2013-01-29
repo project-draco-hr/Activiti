@@ -1,6 +1,6 @@
 {
   if (deploymentId == null) {
-    throw new ActivitiException("deploymentId is null");
+    throw new ActivitiIllegalArgumentException("deploymentId is null");
   }
   Context.getProcessEngineConfiguration().getDeploymentManager().removeDeployment(deploymentId,cascade);
   return null;

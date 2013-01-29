@@ -1,7 +1,7 @@
 {
   ProcessDefinitionEntity processDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findLatestProcessDefinitionById(processDefinitionId);
   if (processDefinition == null) {
-    throw new ActivitiException("Cannot find process definition with id " + processDefinitionId);
+    throw new ActivitiObjectNotFoundException("Cannot find process definition with id " + processDefinitionId,ProcessDefinition.class);
   }
   processDefinition.deleteIdentityLink(userId,groupId);
   return null;

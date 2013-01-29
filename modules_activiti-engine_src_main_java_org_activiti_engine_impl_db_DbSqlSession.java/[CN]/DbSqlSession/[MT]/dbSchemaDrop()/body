@@ -1,9 +1,17 @@
 {
-  executeMandatorySchemaResource("drop","engine");
-  if (dbSqlSessionFactory.isDbHistoryUsed()) {
-    executeMandatorySchemaResource("drop","history");
+  try {
+    JdbcConnection connection=new JdbcConnection(sqlSession.getConnection());
+    Database database=DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
+    database.setDefaultSchemaName(this.connectionMetadataDefaultSchema);
+    Liquibase liquibase=new Liquibase("org/activiti/db/liquibase/activiti-master.xml",new ClassLoaderResourceAccessor(),database);
+    liquibase.getDatabase().setDatabaseChangeLogLockTableName("ACT_" + liquibase.getDatabase().getDatabaseChangeLogLockTableName());
+    liquibase.getDatabase().setDatabaseChangeLogTableName("ACT_" + liquibase.getDatabase().getDatabaseChangeLogTableName());
+    log.debug("Dropping schema for " + database.getTypeName());
+    liquibase.dropAll();
+    log.debug("Successfully dropped schema for " + database.getTypeName());
   }
-  if (dbSqlSessionFactory.isDbIdentityUsed()) {
-    executeMandatorySchemaResource("drop","identity");
+ catch (  Exception e) {
+    log.error("Error dropping Activiti tables",e);
+    throw new ActivitiException("Error dropping Activiti tables",e);
   }
 }

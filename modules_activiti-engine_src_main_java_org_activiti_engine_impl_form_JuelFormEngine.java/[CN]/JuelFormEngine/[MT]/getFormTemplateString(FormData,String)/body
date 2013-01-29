@@ -2,7 +2,7 @@
   String deploymentId=formInstance.getDeploymentId();
   ResourceEntity resourceStream=Context.getCommandContext().getResourceEntityManager().findResourceByDeploymentIdAndResourceName(deploymentId,formKey);
   if (resourceStream == null) {
-    throw new ActivitiException("Form with formKey '" + formKey + "' does not exist");
+    throw new ActivitiObjectNotFoundException("Form with formKey '" + formKey + "' does not exist",String.class);
   }
   byte[] resourceBytes=resourceStream.getBytes();
   String encoding="UTF-8";

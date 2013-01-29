@@ -2,10 +2,10 @@
   ExecutionEntityManager executionManager=commandContext.getExecutionEntityManager();
   ExecutionEntity processInstance=executionManager.findExecutionById(processInstanceId);
   if (processInstance == null) {
-    throw new ActivitiException("No process instance found for id = '" + processInstanceId + "'.");
+    throw new ActivitiObjectNotFoundException("No process instance found for id = '" + processInstanceId + "'.",ProcessInstance.class);
   }
  else   if (!processInstance.isProcessInstance()) {
-    throw new ActivitiException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' "+ "points to a child execution of process instance "+ "'"+ processInstance.getProcessInstanceId()+ "'. "+ "Please invoke the "+ getClass().getSimpleName()+ " with a root execution id.");
+    throw new ActivitiIllegalArgumentException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' "+ "points to a child execution of process instance "+ "'"+ processInstance.getProcessInstanceId()+ "'. "+ "Please invoke the "+ getClass().getSimpleName()+ " with a root execution id.");
   }
   ProcessDefinitionImpl currentProcessDefinitionImpl=processInstance.getProcessDefinition();
   DeploymentManager deploymentCache=Context.getProcessEngineConfiguration().getDeploymentManager();

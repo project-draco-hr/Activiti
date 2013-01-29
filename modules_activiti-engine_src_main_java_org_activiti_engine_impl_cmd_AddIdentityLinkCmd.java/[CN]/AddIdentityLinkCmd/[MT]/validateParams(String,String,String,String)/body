@@ -1,18 +1,18 @@
 {
   if (taskId == null) {
-    throw new ActivitiException("taskId is null");
+    throw new ActivitiIllegalArgumentException("taskId is null");
   }
   if (type == null) {
-    throw new ActivitiException("type is required when adding a new task identity link");
+    throw new ActivitiIllegalArgumentException("type is required when adding a new task identity link");
   }
   if (IdentityLinkType.ASSIGNEE.equals(type)) {
     if (groupId != null) {
-      throw new ActivitiException("Incompatible usage: cannot use ASSIGNEE" + " together with a groupId");
+      throw new ActivitiIllegalArgumentException("Incompatible usage: cannot use ASSIGNEE" + " together with a groupId");
     }
   }
  else {
     if (userId == null && groupId == null) {
-      throw new ActivitiException("userId and groupId cannot both be null");
+      throw new ActivitiIllegalArgumentException("userId and groupId cannot both be null");
     }
   }
 }

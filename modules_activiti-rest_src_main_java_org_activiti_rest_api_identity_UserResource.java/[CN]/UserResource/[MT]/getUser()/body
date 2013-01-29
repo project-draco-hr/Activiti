@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   String userId=(String)getRequest().getAttributes().get("userId");
   if (userId == null) {
-    throw new ActivitiException("No userId provided");
+    throw new ActivitiIllegalArgumentException("No userId provided");
   }
   User user=ActivitiUtil.getIdentityService().createUserQuery().userId(userId).singleResult();
   UserInfo response=new UserInfo(user);

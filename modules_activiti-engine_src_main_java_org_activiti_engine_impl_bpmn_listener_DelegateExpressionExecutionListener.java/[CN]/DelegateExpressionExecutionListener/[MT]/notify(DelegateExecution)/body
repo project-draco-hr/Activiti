@@ -8,6 +8,6 @@
     Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation((JavaDelegate)delegate,execution));
   }
  else {
-    throw new ActivitiException("Delegate expression " + expression + " did not resolve to an implementation of "+ ExecutionListener.class+ " nor "+ JavaDelegate.class);
+    throw new ActivitiIllegalArgumentException("Delegate expression " + expression + " did not resolve to an implementation of "+ ExecutionListener.class+ " nor "+ JavaDelegate.class);
   }
 }

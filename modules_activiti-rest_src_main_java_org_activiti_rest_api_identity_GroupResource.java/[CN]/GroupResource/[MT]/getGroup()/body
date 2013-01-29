@@ -2,7 +2,7 @@
   if (authenticate() == false)   return null;
   String groupId=(String)getRequest().getAttributes().get("groupId");
   if (groupId == null) {
-    throw new ActivitiException("No groupId provided");
+    throw new ActivitiIllegalArgumentException("No groupId provided");
   }
   Group group=ActivitiUtil.getIdentityService().createGroupQuery().groupId(groupId).singleResult();
   return group;

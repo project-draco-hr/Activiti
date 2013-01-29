@@ -1,18 +1,17 @@
 {
   try {
     String dbVersion=getDbVersion();
-    if (!ProcessEngine.VERSION.equals(dbVersion)) {
+    Matcher matcher=CLEAN_VERSION_REGEX.matcher(ProcessEngine.VERSION);
+    if (!matcher.find()) {
+      throw new ActivitiException("Illegal format for version: " + ProcessEngine.VERSION);
+    }
+    String cleanString=matcher.group();
+    if (!cleanString.equals(dbVersion)) {
       throw new ActivitiWrongDbException(ProcessEngine.VERSION,dbVersion);
     }
     String errorMessage=null;
     if (!isEngineTablePresent()) {
       errorMessage=addMissingComponent(errorMessage,"engine");
-    }
-    if (dbSqlSessionFactory.isDbHistoryUsed() && !isHistoryTablePresent()) {
-      errorMessage=addMissingComponent(errorMessage,"history");
-    }
-    if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
-      errorMessage=addMissingComponent(errorMessage,"identity");
     }
     if (errorMessage != null) {
       throw new ActivitiException("Activiti database problem: " + errorMessage);

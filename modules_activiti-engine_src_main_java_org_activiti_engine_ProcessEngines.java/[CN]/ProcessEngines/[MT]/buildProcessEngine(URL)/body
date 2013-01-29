@@ -6,7 +6,7 @@
     return processEngineConfiguration.buildProcessEngine();
   }
  catch (  IOException e) {
-    throw new ActivitiException("couldn't open resource stream: " + e.getMessage(),e);
+    throw new ActivitiIllegalArgumentException("couldn't open resource stream: " + e.getMessage(),e);
   }
  finally {
     IoUtil.closeSilently(inputStream);

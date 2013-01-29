@@ -2,7 +2,7 @@
   Class<? extends FormType> clazz=formType.getClass();
   FormPropertyRenderer renderer=propertyRenderers.get(clazz);
   if (renderer == null) {
-    throw new ActivitiException("No property renderer found for type: " + formType.getName() + ", "+ formType.getClass());
+    throw new ActivitiIllegalArgumentException("No property renderer found for type: " + formType.getName() + ", "+ formType.getClass());
   }
   return renderer;
 }

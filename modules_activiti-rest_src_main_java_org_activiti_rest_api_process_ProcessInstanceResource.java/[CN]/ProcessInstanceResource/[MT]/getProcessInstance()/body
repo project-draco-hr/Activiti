@@ -3,7 +3,7 @@
   String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
   HistoricProcessInstance instance=ActivitiUtil.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
   if (instance == null) {
-    throw new ActivitiException("Process instance not found for id " + processInstanceId);
+    throw new ActivitiObjectNotFoundException("Process instance not found for id " + processInstanceId,ProcessInstance.class);
   }
   ObjectNode responseJSON=new ObjectMapper().createObjectNode();
   responseJSON.put("processInstanceId",instance.getId());

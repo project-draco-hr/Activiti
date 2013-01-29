@@ -20,14 +20,14 @@
     instance=historyService.createHistoricProcessInstanceQuery().variableValueEqualsIgnoreCase("upper",null).singleResult();
     fail("Exception expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertEquals("value is null",ae.getMessage());
   }
   try {
     instance=historyService.createHistoricProcessInstanceQuery().variableValueEqualsIgnoreCase(null,"abcdefg").singleResult();
     fail("Exception expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertEquals("name is null",ae.getMessage());
   }
 }

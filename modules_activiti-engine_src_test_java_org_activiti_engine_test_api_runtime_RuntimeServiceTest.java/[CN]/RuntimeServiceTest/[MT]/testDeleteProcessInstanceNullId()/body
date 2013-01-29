@@ -3,7 +3,7 @@
     runtimeService.deleteProcessInstance(null,"test null id delete");
     fail("ActivitiException expected");
   }
- catch (  ActivitiException ae) {
+ catch (  ActivitiIllegalArgumentException ae) {
     assertTextPresent("processInstanceId is null",ae.getMessage());
   }
 }
