@@ -1,0 +1,8 @@
+{
+  nestedErrorEventActivity.setProperty("type","boundaryError");
+  ScopeImpl catchingScope=nestedErrorEventActivity.getParent();
+  ((ActivityImpl)catchingScope).setScope(true);
+  org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition definition=new org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition(nestedErrorEventActivity.getId());
+  definition.setErrorCode(errorEventDefinition.getErrorCode());
+  addErrorEventDefinition(definition,catchingScope);
+}

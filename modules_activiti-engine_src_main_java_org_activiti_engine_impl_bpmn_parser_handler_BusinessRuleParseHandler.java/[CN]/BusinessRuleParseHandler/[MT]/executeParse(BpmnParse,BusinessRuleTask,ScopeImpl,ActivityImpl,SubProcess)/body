@@ -1,0 +1,7 @@
+{
+  ActivityImpl activity=createActivityOnScope(bpmnParse,businessRuleTask,BpmnXMLConstants.ELEMENT_TASK_BUSINESSRULE,scope);
+  activity.setAsync(businessRuleTask.isAsynchronous());
+  activity.setExclusive(!businessRuleTask.isNotExclusive());
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createBusinessRuleTaskActivityBehavior(businessRuleTask));
+  createExecutionListenersOnScope(bpmnParse,businessRuleTask.getExecutionListeners(),activity);
+}

@@ -1,0 +1,48 @@
+{
+  if (bpmnParse.getBpmnModel().containsMessageId(messageDefinition.getMessageRef())) {
+    String messageName=bpmnParse.getBpmnModel().getMessage(messageDefinition.getMessageRef()).getName();
+    if (StringUtils.isEmpty(messageName)) {
+      bpmnParse.getBpmnModel().addProblem("messageName is required for a message event",messageDefinition);
+    }
+    messageDefinition.setMessageRef(messageName);
+  }
+  EventSubscriptionDeclaration eventSubscription=new EventSubscriptionDeclaration(messageDefinition.getMessageRef(),"message");
+  if (bpmnParse.getCurrentFlowElement() instanceof StartEvent && subProcess != null) {
+    ScopeImpl catchingScope=((ActivityImpl)scope).getParent();
+    EventSubscriptionDeclaration eventSubscriptionDeclaration=new EventSubscriptionDeclaration(messageDefinition.getMessageRef(),"message");
+    eventSubscriptionDeclaration.setActivityId(activity.getId());
+    eventSubscriptionDeclaration.setStartEvent(false);
+    addEventSubscriptionDeclaration(bpmnParse,eventSubscriptionDeclaration,messageDefinition,catchingScope);
+  }
+ else   if (bpmnParse.getCurrentFlowElement() instanceof StartEvent) {
+    activity.setProperty("type","messageStartEvent");
+    eventSubscription.setStartEvent(true);
+    eventSubscription.setActivityId(activity.getId());
+    addEventSubscriptionDeclaration(bpmnParse,eventSubscription,messageDefinition,bpmnParse.getCurrentProcessDefinition());
+  }
+ else   if (bpmnParse.getCurrentFlowElement() instanceof IntermediateCatchEvent) {
+    activity.setProperty("type","intermediateMessageCatch");
+    if (getPrecedingEventBasedGateway(bpmnParse,(IntermediateCatchEvent)bpmnParse.getCurrentFlowElement()) != null) {
+      eventSubscription.setActivityId(activity.getId());
+      addEventSubscriptionDeclaration(bpmnParse,eventSubscription,messageDefinition,activity.getParent());
+    }
+ else {
+      activity.setScope(true);
+      addEventSubscriptionDeclaration(bpmnParse,eventSubscription,messageDefinition,activity);
+    }
+  }
+ else   if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
+    BoundaryEvent boundaryEvent=(BoundaryEvent)bpmnParse.getCurrentFlowElement();
+    boolean interrupting=boundaryEvent.isCancelActivity();
+    activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEventActivityBehavior(boundaryEvent,interrupting,activity));
+    activity.setProperty("type","boundaryMessage");
+    EventSubscriptionDeclaration eventSubscriptionDeclaration=new EventSubscriptionDeclaration(messageDefinition.getMessageRef(),"message");
+    eventSubscriptionDeclaration.setActivityId(activity.getId());
+    addEventSubscriptionDeclaration(bpmnParse,eventSubscriptionDeclaration,messageDefinition,activity.getParent());
+    if (activity.getParent() instanceof ActivityImpl) {
+      ((ActivityImpl)activity.getParent()).setScope(true);
+    }
+  }
+ else {
+  }
+}

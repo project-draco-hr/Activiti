@@ -21,13 +21,17 @@
   bpmnParser.setBpmnParseFactory(bpmnParseFactory);
   bpmnParser.setActivityBehaviorFactory(activityBehaviorFactory);
   bpmnParser.setListenerFactory(listenerFactory);
-  if (preParseListeners != null) {
-    bpmnParser.getParseListeners().addAll(preParseListeners);
+  List<BpmnParseHandler> parseHandlers=new ArrayList<BpmnParseHandler>();
+  if (getPreBpmnParseHandlers() != null) {
+    parseHandlers.addAll(getPreBpmnParseHandlers());
   }
-  bpmnParser.getParseListeners().addAll(getDefaultBPMNParseListeners());
-  if (postParseListeners != null) {
-    bpmnParser.getParseListeners().addAll(postParseListeners);
+  parseHandlers.addAll(getDefaultBpmnParseHandlers());
+  if (getPostBpmnParseHandlers() != null) {
+    parseHandlers.addAll(getPostBpmnParseHandlers());
   }
+  BpmnParseHandlers bpmnParseHandlers=new BpmnParseHandlers();
+  bpmnParseHandlers.addHandlers(parseHandlers);
+  bpmnParser.setBpmnParserHandlers(bpmnParseHandlers);
   bpmnDeployer.setBpmnParser(bpmnParser);
   defaultDeployers.add(bpmnDeployer);
   return defaultDeployers;

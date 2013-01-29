@@ -1,0 +1,8 @@
+{
+  org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition definition=new org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition(startEventActivity.getId());
+  if (StringUtils.isNotEmpty(errorEventDefinition.getErrorCode())) {
+    definition.setErrorCode(errorEventDefinition.getErrorCode());
+  }
+  definition.setPrecedence(10);
+  addErrorEventDefinition(definition,scope);
+}

@@ -1,0 +1,18 @@
+{
+  ActivityImpl activity=createActivityOnScope(bpmnParse,subProcess,BpmnXMLConstants.ELEMENT_SUBPROCESS,scope);
+  activity.setAsync(subProcess.isAsynchronous());
+  activity.setExclusive(!subProcess.isNotExclusive());
+  boolean triggeredByEvent=false;
+  if (subProcess instanceof EventSubProcess) {
+    triggeredByEvent=true;
+  }
+  activity.setProperty("triggeredByEvent",triggeredByEvent);
+  activity.setScope(!triggeredByEvent);
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createSubprocActivityBehavior(subProcess));
+  bpmnParse.processFlowElements(subProcess.getFlowElements(),activity,subProcess);
+  bpmnParse.processArtifacts(subProcess.getArtifacts(),activity);
+  if (subProcess.getIoSpecification() != null) {
+    IOSpecification ioSpecification=bpmnParse.createIOSpecification(subProcess.getIoSpecification());
+    activity.setIoSpecification(ioSpecification);
+  }
+}

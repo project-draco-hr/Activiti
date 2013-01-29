@@ -1,0 +1,13 @@
+{
+  if (element instanceof SequenceFlow) {
+    TransitionImpl transition=bpmnParse.getSequenceFlows().get(element.getId());
+    transition.addExecutionListener(new CdiExecutionListener(transition.getId()));
+  }
+ else {
+    ActivityImpl activity=scope.findActivity(element.getId());
+    if (activity != null) {
+      addStartEventListener(activity);
+      addEndEventListener(activity);
+    }
+  }
+}

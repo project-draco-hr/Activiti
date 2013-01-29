@@ -1,0 +1,7 @@
+{
+  ActivityImpl activity=createActivityOnScope(bpmnParse,manualTask,BpmnXMLConstants.ELEMENT_TASK_MANUAL,scope);
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createManualTaskActivityBehavior(manualTask));
+  activity.setAsync(manualTask.isAsynchronous());
+  activity.setExclusive(!manualTask.isNotExclusive());
+  createExecutionListenersOnScope(bpmnParse,manualTask.getExecutionListeners(),activity);
+}

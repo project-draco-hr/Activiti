@@ -1,77 +1,22 @@
 {
-  for (  FlowElement flowElement : flowElements) {
-    if (flowElement instanceof SequenceFlow)     continue;
-    ActivityImpl activity=null;
-    if (flowElement instanceof StartEvent) {
-      createStartEvent((StartEvent)flowElement,scope,subProcess);
-    }
- else     if (flowElement instanceof EndEvent) {
-      createEndEvent((EndEvent)flowElement,scope);
-    }
- else     if (flowElement instanceof ServiceTask) {
-      activity=createServiceTask((ServiceTask)flowElement,scope);
-    }
- else     if (flowElement instanceof UserTask) {
-      activity=createUserTask((UserTask)flowElement,scope);
-    }
- else     if (flowElement instanceof BusinessRuleTask) {
-      activity=createBusinessRuleTask((BusinessRuleTask)flowElement,scope);
-    }
- else     if (flowElement instanceof ScriptTask) {
-      activity=createScriptTask((ScriptTask)flowElement,scope);
-    }
- else     if (flowElement instanceof Transaction) {
-      activity=createTransaction((Transaction)flowElement,scope);
-    }
- else     if (flowElement instanceof SubProcess) {
-      activity=createSubProcess((SubProcess)flowElement,scope);
-    }
- else     if (flowElement instanceof CallActivity) {
-      activity=createCallActivity((CallActivity)flowElement,scope);
-    }
- else     if (flowElement instanceof ManualTask) {
-      activity=createManualTask((ManualTask)flowElement,scope);
-    }
- else     if (flowElement instanceof ReceiveTask) {
-      activity=createReceiveTask((ReceiveTask)flowElement,scope);
-    }
- else     if (flowElement instanceof SendTask) {
-      activity=createSendTask((SendTask)flowElement,scope);
-    }
- else     if (flowElement instanceof Task) {
-      activity=createTask((Task)flowElement,scope);
-    }
- else     if (flowElement instanceof EventGateway) {
-      activity=createEventBasedGateway((EventGateway)flowElement,scope);
-    }
- else     if (flowElement instanceof ExclusiveGateway) {
-      activity=createExclusiveGateway((ExclusiveGateway)flowElement,scope);
-    }
- else     if (flowElement instanceof InclusiveGateway) {
-      activity=createInclusiveGateway((InclusiveGateway)flowElement,scope);
-    }
- else     if (flowElement instanceof ParallelGateway) {
-      activity=createParallelGateway((ParallelGateway)flowElement,scope);
-    }
- else     if (flowElement instanceof IntermediateCatchEvent) {
-      activity=createIntermediateCatchEvent((IntermediateCatchEvent)flowElement,scope);
-    }
- else     if (flowElement instanceof ThrowEvent) {
-      activity=createIntermediateThrowEvent((ThrowEvent)flowElement,scope);
-    }
-    if (flowElement instanceof Activity) {
-      createMultiInstanceLoopCharacteristics((org.activiti.bpmn.model.Activity)flowElement,activity);
-    }
-  }
-  for (  FlowElement flowElement : flowElements) {
-    if (flowElement instanceof BoundaryEvent) {
-      createBoundaryEvent((BoundaryEvent)flowElement,scope);
-    }
-  }
+  List<SequenceFlow> sequenceFlowToParse=new ArrayList<SequenceFlow>();
+  List<BoundaryEvent> boundaryEventsToParse=new ArrayList<BoundaryEvent>();
   for (  FlowElement flowElement : flowElements) {
     if (flowElement instanceof SequenceFlow) {
-      createSequenceFlow((SequenceFlow)flowElement,scope);
+      sequenceFlowToParse.add((SequenceFlow)flowElement);
     }
+ else     if (flowElement instanceof BoundaryEvent) {
+      boundaryEventsToParse.add((BoundaryEvent)flowElement);
+    }
+ else {
+      bpmnParserHandlers.parse(this,flowElement,scope,null,subProcess);
+    }
+  }
+  for (  BoundaryEvent boundaryEvent : boundaryEventsToParse) {
+    bpmnParserHandlers.parse(this,boundaryEvent,scope,null,subProcess);
+  }
+  for (  SequenceFlow sequenceFlow : sequenceFlowToParse) {
+    bpmnParserHandlers.parse(this,sequenceFlow,scope,null,subProcess);
   }
   for (  FlowElement flowElement : flowElements) {
     if (flowElement instanceof ExclusiveGateway) {

@@ -1,0 +1,10 @@
+{
+  for (  Class<? extends BaseElement> type : bpmnParseHandler.getHandledTypes()) {
+    List<BpmnParseHandler> handlers=parseHandlers.get(type);
+    if (handlers == null) {
+      handlers=new ArrayList<BpmnParseHandler>();
+      parseHandlers.put(type,handlers);
+    }
+    handlers.add(bpmnParseHandler);
+  }
+}
