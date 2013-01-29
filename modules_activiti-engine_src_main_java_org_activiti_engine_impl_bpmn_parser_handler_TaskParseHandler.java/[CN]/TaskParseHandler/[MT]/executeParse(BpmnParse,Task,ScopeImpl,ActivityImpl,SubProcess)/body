@@ -1,7 +1,0 @@
-{
-  ActivityImpl activity=createActivityOnScope(bpmnParse,task,BpmnXMLConstants.ELEMENT_TASK,scope);
-  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createTaskActivityBehavior(task));
-  activity.setAsync(task.isAsynchronous());
-  activity.setExclusive(!task.isNotExclusive());
-  createExecutionListenersOnScope(bpmnParse,task.getExecutionListeners(),activity);
-}

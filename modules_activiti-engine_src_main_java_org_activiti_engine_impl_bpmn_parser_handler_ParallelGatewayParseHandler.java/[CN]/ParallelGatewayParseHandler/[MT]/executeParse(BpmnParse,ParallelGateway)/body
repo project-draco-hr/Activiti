@@ -1,0 +1,5 @@
+{
+  ActivityImpl activity=createActivityOnCurrentScope(bpmnParse,gateway,BpmnXMLConstants.ELEMENT_GATEWAY_PARALLEL);
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createParallelGatewayActivityBehavior(gateway));
+  createExecutionListenersOnScope(bpmnParse,gateway.getExecutionListeners(),activity);
+}

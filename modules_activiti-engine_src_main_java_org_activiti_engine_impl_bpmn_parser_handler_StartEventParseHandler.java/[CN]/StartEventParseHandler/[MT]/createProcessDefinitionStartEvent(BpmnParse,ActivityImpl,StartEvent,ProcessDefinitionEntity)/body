@@ -6,7 +6,7 @@
   if (startEvent.getEventDefinitions().size() > 0) {
     EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
     if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof MessageEventDefinition) {
-      bpmnParse.getBpmnParserHandlers().parse(bpmnParse,eventDefinition,processDefinition,startEventActivity,null);
+      bpmnParse.getBpmnParserHandlers().parse(bpmnParse,eventDefinition);
     }
  else {
       bpmnParse.getBpmnModel().addProblem("Unsupported event definition on start event",eventDefinition);

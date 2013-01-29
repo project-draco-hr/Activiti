@@ -1,0 +1,6 @@
+{
+  ActivityImpl activity=createActivityOnCurrentScope(bpmnParse,callActivity,BpmnXMLConstants.ELEMENT_CALL_ACTIVITY);
+  activity.setScope(true);
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createCallActivityBehavior(callActivity));
+  createExecutionListenersOnScope(bpmnParse,callActivity.getExecutionListeners(),activity);
+}

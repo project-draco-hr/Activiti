@@ -1,0 +1,13 @@
+{
+  ActivityImpl startEventActivity=createActivityOnCurrentScope(bpmnParse,startEvent,BpmnXMLConstants.ELEMENT_EVENT_START);
+  ScopeImpl scope=bpmnParse.getCurrentScope();
+  if (scope instanceof ProcessDefinitionEntity) {
+    createProcessDefinitionStartEvent(bpmnParse,startEventActivity,startEvent,(ProcessDefinitionEntity)scope);
+    selectInitial(bpmnParse,startEventActivity,startEvent,(ProcessDefinitionEntity)scope);
+    createStartFormHandlers(bpmnParse,startEvent,(ProcessDefinitionEntity)scope);
+  }
+ else {
+    createScopeStartEvent(bpmnParse,startEventActivity,startEvent);
+  }
+  createExecutionListenersOnScope(bpmnParse,startEvent.getExecutionListeners(),startEventActivity);
+}

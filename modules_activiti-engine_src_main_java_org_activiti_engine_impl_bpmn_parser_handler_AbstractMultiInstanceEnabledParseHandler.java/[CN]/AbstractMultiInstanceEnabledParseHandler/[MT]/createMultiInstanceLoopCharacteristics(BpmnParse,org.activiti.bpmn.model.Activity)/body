@@ -1,0 +1,42 @@
+{
+  MultiInstanceLoopCharacteristics loopCharacteristics=modelActivity.getLoopCharacteristics();
+  MultiInstanceActivityBehavior miActivityBehavior=null;
+  ActivityImpl activity=bpmnParse.getCurrentScope().findActivity(modelActivity.getId());
+  if (activity == null) {
+    bpmnParse.getBpmnModel().addProblem("Activity " + modelActivity.getId() + " needed for multi instance cannot bv found",modelActivity);
+  }
+  if (loopCharacteristics.isSequential()) {
+    miActivityBehavior=bpmnParse.getActivityBehaviorFactory().createSequentialMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+  }
+ else {
+    miActivityBehavior=bpmnParse.getActivityBehaviorFactory().createParallelMultiInstanceBehavior(activity,(AbstractBpmnActivityBehavior)activity.getActivityBehavior());
+  }
+  activity.setScope(true);
+  activity.setProperty("multiInstance",loopCharacteristics.isSequential() ? "sequential" : "parallel");
+  activity.setActivityBehavior(miActivityBehavior);
+  ExpressionManager expressionManager=bpmnParse.getExpressionManager();
+  BpmnModel bpmnModel=bpmnParse.getBpmnModel();
+  if (StringUtils.isNotEmpty(loopCharacteristics.getLoopCardinality())) {
+    miActivityBehavior.setLoopCardinalityExpression(expressionManager.createExpression(loopCharacteristics.getLoopCardinality()));
+  }
+  if (StringUtils.isNotEmpty(loopCharacteristics.getCompletionCondition())) {
+    miActivityBehavior.setCompletionConditionExpression(expressionManager.createExpression(loopCharacteristics.getCompletionCondition()));
+  }
+  if (StringUtils.isNotEmpty(loopCharacteristics.getInputDataItem())) {
+    if (loopCharacteristics.getInputDataItem().contains("{")) {
+      miActivityBehavior.setCollectionExpression(expressionManager.createExpression(loopCharacteristics.getInputDataItem()));
+    }
+ else {
+      miActivityBehavior.setCollectionVariable(loopCharacteristics.getInputDataItem());
+    }
+  }
+  if (StringUtils.isNotEmpty(loopCharacteristics.getElementVariable())) {
+    miActivityBehavior.setCollectionElementVariable(loopCharacteristics.getElementVariable());
+  }
+  if (miActivityBehavior.getLoopCardinalityExpression() == null && miActivityBehavior.getCollectionExpression() == null && miActivityBehavior.getCollectionVariable() == null) {
+    bpmnModel.addProblem("Either loopCardinality or loopDataInputRef/activiti:collection must been set.",loopCharacteristics);
+  }
+  if (miActivityBehavior.getCollectionExpression() == null && miActivityBehavior.getCollectionVariable() == null && miActivityBehavior.getCollectionElementVariable() != null) {
+    bpmnModel.addProblem("LoopDataInputRef/activiti:collection must be set when using inputDataItem or activiti:elementVariable.",loopCharacteristics);
+  }
+}

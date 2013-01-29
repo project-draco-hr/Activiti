@@ -1,0 +1,27 @@
+{
+  List<SequenceFlow> sequenceFlowToParse=new ArrayList<SequenceFlow>();
+  List<BoundaryEvent> boundaryEventsToParse=new ArrayList<BoundaryEvent>();
+  for (  FlowElement flowElement : flowElements) {
+    if (flowElement instanceof SequenceFlow) {
+      sequenceFlowToParse.add((SequenceFlow)flowElement);
+    }
+ else     if (flowElement instanceof BoundaryEvent) {
+      boundaryEventsToParse.add((BoundaryEvent)flowElement);
+    }
+ else {
+      bpmnParserHandlers.parse(this,flowElement);
+    }
+  }
+  for (  BoundaryEvent boundaryEvent : boundaryEventsToParse) {
+    bpmnParserHandlers.parse(this,boundaryEvent);
+  }
+  for (  SequenceFlow sequenceFlow : sequenceFlowToParse) {
+    bpmnParserHandlers.parse(this,sequenceFlow);
+  }
+  for (  FlowElement flowElement : flowElements) {
+    if (flowElement instanceof ExclusiveGateway) {
+      ActivityImpl gatewayActivity=getCurrentScope().findActivity(flowElement.getId());
+      validateExclusiveGateway(gatewayActivity,(ExclusiveGateway)flowElement);
+    }
+  }
+}

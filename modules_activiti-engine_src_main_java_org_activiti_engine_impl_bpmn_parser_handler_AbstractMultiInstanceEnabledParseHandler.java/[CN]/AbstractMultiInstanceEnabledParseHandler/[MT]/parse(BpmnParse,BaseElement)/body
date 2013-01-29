@@ -1,0 +1,6 @@
+{
+  super.parse(bpmnParse,element);
+  if (element instanceof Activity && ((Activity)element).getLoopCharacteristics() != null) {
+    createMultiInstanceLoopCharacteristics(bpmnParse,(Activity)element);
+  }
+}

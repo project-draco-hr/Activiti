@@ -1,0 +1,21 @@
+{
+  BpmnModel bpmnModel=bpmnParse.getBpmnModel();
+  ActivityImpl nestedActivityImpl=createActivityOnCurrentScope(bpmnParse,intermediateEvent,BpmnXMLConstants.ELEMENT_EVENT_THROW);
+  EventDefinition eventDefinition=null;
+  if (intermediateEvent.getEventDefinitions().size() > 0) {
+    eventDefinition=intermediateEvent.getEventDefinitions().get(0);
+  }
+  if (eventDefinition instanceof SignalEventDefinition) {
+    bpmnParse.getBpmnParserHandlers().parse(bpmnParse,eventDefinition);
+  }
+ else   if (eventDefinition instanceof org.activiti.bpmn.model.CompensateEventDefinition) {
+    bpmnParse.getBpmnParserHandlers().parse(bpmnParse,eventDefinition);
+  }
+ else   if (eventDefinition == null) {
+    nestedActivityImpl.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowNoneEventActivityBehavior(intermediateEvent));
+  }
+ else {
+    bpmnModel.addProblem("Unsupported intermediate throw event type " + eventDefinition,intermediateEvent);
+  }
+  createExecutionListenersOnScope(bpmnParse,intermediateEvent.getExecutionListeners(),nestedActivityImpl);
+}
