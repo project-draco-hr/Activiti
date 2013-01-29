@@ -1,0 +1,11 @@
+{
+  String eventBasedGatewayId=null;
+  for (  SequenceFlow sequenceFlow : event.getIncomingFlows()) {
+    FlowElement sourceElement=bpmnParse.getBpmnModel().getFlowElement(sequenceFlow.getSourceRef());
+    if (sourceElement instanceof EventGateway) {
+      eventBasedGatewayId=sourceElement.getId();
+      break;
+    }
+  }
+  return eventBasedGatewayId;
+}

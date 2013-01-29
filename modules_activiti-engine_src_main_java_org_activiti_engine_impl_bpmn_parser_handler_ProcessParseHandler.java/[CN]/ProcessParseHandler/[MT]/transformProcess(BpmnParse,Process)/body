@@ -1,0 +1,31 @@
+{
+  ProcessDefinitionEntity currentProcessDefinition=new ProcessDefinitionEntity();
+  bpmnParse.setCurrentProcessDefinition(currentProcessDefinition);
+  currentProcessDefinition.setKey(process.getId());
+  currentProcessDefinition.setName(process.getName());
+  currentProcessDefinition.setCategory(bpmnParse.getBpmnModel().getTargetNamespace());
+  currentProcessDefinition.setDescription(process.getDocumentation());
+  currentProcessDefinition.setProperty(PROPERTYNAME_DOCUMENTATION,process.getDocumentation());
+  currentProcessDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
+  currentProcessDefinition.setDeploymentId(bpmnParse.getDeployment().getId());
+  createExecutionListenersOnScope(bpmnParse,process.getExecutionListeners(),currentProcessDefinition);
+  ExpressionManager expressionManager=bpmnParse.getExpressionManager();
+  for (  String candidateUser : process.getCandidateStarterUsers()) {
+    currentProcessDefinition.addCandidateStarterUserIdExpression(expressionManager.createExpression(candidateUser));
+  }
+  for (  String candidateGroup : process.getCandidateStarterGroups()) {
+    currentProcessDefinition.addCandidateStarterGroupIdExpression(expressionManager.createExpression(candidateGroup));
+  }
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Parsing process {}",currentProcessDefinition.getKey());
+  }
+  bpmnParse.setCurrentScope(currentProcessDefinition);
+  bpmnParse.processFlowElements(process.getFlowElements());
+  bpmnParse.processArtifacts(process.getArtifacts(),currentProcessDefinition);
+  bpmnParse.removeCurrentScope();
+  if (process.getIoSpecification() != null) {
+    IOSpecification ioSpecification=bpmnParse.createIOSpecification(process.getIoSpecification());
+    currentProcessDefinition.setIoSpecification(ioSpecification);
+  }
+  return currentProcessDefinition;
+}

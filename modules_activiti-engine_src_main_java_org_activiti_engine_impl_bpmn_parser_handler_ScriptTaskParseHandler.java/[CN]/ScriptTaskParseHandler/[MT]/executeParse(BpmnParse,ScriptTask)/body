@@ -1,0 +1,6 @@
+{
+  ActivityImpl activity=createActivityOnCurrentScope(bpmnParse,scriptTask,BpmnXMLConstants.ELEMENT_TASK_SCRIPT);
+  activity.setAsync(scriptTask.isAsynchronous());
+  activity.setExclusive(!scriptTask.isNotExclusive());
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createScriptTaskActivityBehavior(scriptTask));
+}

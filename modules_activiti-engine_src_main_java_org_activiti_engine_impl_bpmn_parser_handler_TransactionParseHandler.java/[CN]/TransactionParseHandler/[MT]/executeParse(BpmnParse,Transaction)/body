@@ -1,0 +1,15 @@
+{
+  ActivityImpl activity=createActivityOnCurrentScope(bpmnParse,transaction,BpmnXMLConstants.ELEMENT_TRANSACTION);
+  activity.setAsync(transaction.isAsynchronous());
+  activity.setExclusive(!transaction.isNotExclusive());
+  activity.setScope(true);
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createTransactionActivityBehavior(transaction));
+  bpmnParse.setCurrentScope(activity);
+  bpmnParse.processFlowElements(transaction.getFlowElements());
+  bpmnParse.processArtifacts(transaction.getArtifacts(),activity);
+  bpmnParse.removeCurrentScope();
+  if (transaction.getIoSpecification() != null) {
+    IOSpecification ioSpecification=bpmnParse.createIOSpecification(transaction.getIoSpecification());
+    activity.setIoSpecification(ioSpecification);
+  }
+}

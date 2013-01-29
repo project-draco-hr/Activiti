@@ -1,0 +1,9 @@
+{
+  List<org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition> errorEventDefinitions=(List<org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition>)catchingScope.getProperty(PROPERTYNAME_ERROR_EVENT_DEFINITIONS);
+  if (errorEventDefinitions == null) {
+    errorEventDefinitions=new ArrayList<org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition>();
+    catchingScope.setProperty(PROPERTYNAME_ERROR_EVENT_DEFINITIONS,errorEventDefinitions);
+  }
+  errorEventDefinitions.add(errorEventDefinition);
+  Collections.sort(errorEventDefinitions,org.activiti.engine.impl.bpmn.parser.ErrorEventDefinition.comparator);
+}

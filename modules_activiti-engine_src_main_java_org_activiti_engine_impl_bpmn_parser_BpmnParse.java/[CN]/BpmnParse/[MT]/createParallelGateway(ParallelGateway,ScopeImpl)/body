@@ -1,9 +1,0 @@
-{
-  ActivityImpl activity=createActivityOnScope(gateway,ELEMENT_GATEWAY_PARALLEL,scope);
-  activity.setActivityBehavior(activityBehaviorFactory.createParallelGatewayActivityBehavior(gateway));
-  createExecutionListenersOnScope(gateway.getExecutionListeners(),activity);
-  for (  BpmnParseListener parseListener : parseListeners) {
-    parseListener.parseParallelGateway(gateway,scope,activity);
-  }
-  return activity;
-}

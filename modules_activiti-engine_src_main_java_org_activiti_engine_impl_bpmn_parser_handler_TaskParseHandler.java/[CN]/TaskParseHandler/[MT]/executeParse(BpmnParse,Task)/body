@@ -1,0 +1,6 @@
+{
+  ActivityImpl activity=createActivityOnCurrentScope(bpmnParse,task,BpmnXMLConstants.ELEMENT_TASK);
+  activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createTaskActivityBehavior(task));
+  activity.setAsync(task.isAsynchronous());
+  activity.setExclusive(!task.isNotExclusive());
+}

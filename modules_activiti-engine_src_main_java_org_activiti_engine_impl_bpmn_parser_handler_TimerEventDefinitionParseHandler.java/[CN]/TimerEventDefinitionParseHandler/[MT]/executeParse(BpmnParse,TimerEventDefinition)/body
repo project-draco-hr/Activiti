@@ -1,0 +1,40 @@
+{
+  ActivityImpl timerActivity=bpmnParse.getCurrentActivity();
+  if (bpmnParse.getCurrentFlowElement() instanceof StartEvent) {
+    ProcessDefinitionEntity processDefinition=bpmnParse.getCurrentProcessDefinition();
+    timerActivity.setProperty("type","startTimerEvent");
+    TimerDeclarationImpl timerDeclaration=createTimer(bpmnParse,timerEventDefinition,timerActivity,TimerStartEventJobHandler.TYPE);
+    timerDeclaration.setJobHandlerConfiguration(processDefinition.getKey());
+    List<TimerDeclarationImpl> timerDeclarations=(List<TimerDeclarationImpl>)processDefinition.getProperty(PROPERTYNAME_START_TIMER);
+    if (timerDeclarations == null) {
+      timerDeclarations=new ArrayList<TimerDeclarationImpl>();
+      processDefinition.setProperty(PROPERTYNAME_START_TIMER,timerDeclarations);
+    }
+    timerDeclarations.add(timerDeclaration);
+  }
+ else   if (bpmnParse.getCurrentFlowElement() instanceof IntermediateCatchEvent) {
+    timerActivity.setProperty("type","intermediateTimer");
+    TimerDeclarationImpl timerDeclaration=createTimer(bpmnParse,timerEventDefinition,timerActivity,TimerCatchIntermediateEventJobHandler.TYPE);
+    if (getPrecedingEventBasedGateway(bpmnParse,(IntermediateCatchEvent)bpmnParse.getCurrentFlowElement()) != null) {
+      addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
+    }
+ else {
+      addTimerDeclaration(timerActivity,timerDeclaration);
+      timerActivity.setScope(true);
+    }
+  }
+ else   if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
+    timerActivity.setProperty("type","boundaryTimer");
+    TimerDeclarationImpl timerDeclaration=createTimer(bpmnParse,timerEventDefinition,timerActivity,TimerExecuteNestedActivityJobHandler.TYPE);
+    BoundaryEvent boundaryEvent=(BoundaryEvent)bpmnParse.getCurrentFlowElement();
+    boolean interrupting=boundaryEvent.isCancelActivity();
+    if (interrupting) {
+      timerDeclaration.setInterruptingTimer(true);
+    }
+    addTimerDeclaration(timerActivity.getParent(),timerDeclaration);
+    if (timerActivity.getParent() instanceof ActivityImpl) {
+      ((ActivityImpl)timerActivity.getParent()).setScope(true);
+    }
+    timerActivity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEventActivityBehavior((BoundaryEvent)bpmnParse.getCurrentFlowElement(),interrupting,timerActivity));
+  }
+}

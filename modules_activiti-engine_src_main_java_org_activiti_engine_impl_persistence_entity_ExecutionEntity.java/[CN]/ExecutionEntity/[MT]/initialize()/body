@@ -2,12 +2,6 @@
   log.debug("initializing {}",this);
   ScopeImpl scope=getScope();
   ensureParentInitialized();
-  List<VariableDeclaration> variableDeclarations=(List<VariableDeclaration>)scope.getProperty(BpmnParse.PROPERTYNAME_VARIABLE_DECLARATIONS);
-  if (variableDeclarations != null) {
-    for (    VariableDeclaration variableDeclaration : variableDeclarations) {
-      variableDeclaration.initialize(this,parent);
-    }
-  }
   variableInstances=new HashMap<String,VariableInstanceEntity>();
   eventSubscriptions=new ArrayList<EventSubscriptionEntity>();
   jobs=new ArrayList<JobEntity>();
