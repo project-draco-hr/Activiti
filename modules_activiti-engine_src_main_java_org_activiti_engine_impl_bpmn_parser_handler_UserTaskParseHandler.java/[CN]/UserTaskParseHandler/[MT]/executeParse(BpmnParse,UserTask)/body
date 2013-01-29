@@ -5,5 +5,4 @@
   TaskDefinition taskDefinition=parseTaskDefinition(bpmnParse,userTask,userTask.getId(),(ProcessDefinitionEntity)bpmnParse.getCurrentScope().getProcessDefinition());
   activity.setProperty(PROPERTY_TASK_DEFINITION,taskDefinition);
   activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createUserTaskActivityBehavior(userTask,taskDefinition));
-  createExecutionListenersOnScope(bpmnParse,userTask.getExecutionListeners(),activity);
 }
