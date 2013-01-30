@@ -1,13 +1,13 @@
 {
   IOSpecification ioSpecification=new IOSpecification();
   for (  DataSpec dataInputElement : specificationModel.getDataInputs()) {
-    ItemDefinition itemDefinition=this.itemDefinitions.get(dataInputElement.getItemSubjectRef());
-    Data dataInput=new Data(this.targetNamespace + ":" + dataInputElement.getId(),dataInputElement.getId(),itemDefinition);
+    ItemDefinition itemDefinition=bpmnParse.getItemDefinitions().get(dataInputElement.getItemSubjectRef());
+    Data dataInput=new Data(bpmnParse.getTargetNamespace() + ":" + dataInputElement.getId(),dataInputElement.getId(),itemDefinition);
     ioSpecification.addInput(dataInput);
   }
   for (  DataSpec dataOutputElement : specificationModel.getDataOutputs()) {
-    ItemDefinition itemDefinition=this.itemDefinitions.get(dataOutputElement.getItemSubjectRef());
-    Data dataOutput=new Data(this.targetNamespace + ":" + dataOutputElement.getId(),dataOutputElement.getId(),itemDefinition);
+    ItemDefinition itemDefinition=bpmnParse.getItemDefinitions().get(dataOutputElement.getItemSubjectRef());
+    Data dataOutput=new Data(bpmnParse.getTargetNamespace() + ":" + dataOutputElement.getId(),dataOutputElement.getId(),itemDefinition);
     ioSpecification.addOutput(dataOutput);
   }
   for (  String dataInputRef : specificationModel.getDataInputRefs()) {

@@ -1,6 +1,6 @@
 {
   if (StringUtils.isEmpty(dataAssociationElement.getTargetRef())) {
-    bpmnModel.addProblem("targetRef is required",dataAssociationElement);
+    bpmnParse.getBpmnModel().addProblem("targetRef is required",dataAssociationElement);
   }
   if (dataAssociationElement.getAssignments().isEmpty()) {
     return new MessageImplicitDataInputAssociation(dataAssociationElement.getSourceRef(),dataAssociationElement.getTargetRef());
@@ -9,8 +9,8 @@
     SimpleDataInputAssociation dataAssociation=new SimpleDataInputAssociation(dataAssociationElement.getSourceRef(),dataAssociationElement.getTargetRef());
     for (    org.activiti.bpmn.model.Assignment assigmentElement : dataAssociationElement.getAssignments()) {
       if (StringUtils.isNotEmpty(assigmentElement.getFrom()) && StringUtils.isNotEmpty(assigmentElement.getTo())) {
-        Expression from=this.expressionManager.createExpression(assigmentElement.getFrom());
-        Expression to=this.expressionManager.createExpression(assigmentElement.getTo());
+        Expression from=bpmnParse.getExpressionManager().createExpression(assigmentElement.getFrom());
+        Expression to=bpmnParse.getExpressionManager().createExpression(assigmentElement.getTo());
         Assignment assignment=new Assignment(from,to);
         dataAssociation.addAssignment(assignment);
       }
