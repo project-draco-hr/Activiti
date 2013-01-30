@@ -9,14 +9,14 @@
       boundaryEventsToParse.add((BoundaryEvent)flowElement);
     }
  else {
-      bpmnParserHandlers.parse(this,flowElement);
+      bpmnParserHandlers.parseElement(this,flowElement);
     }
   }
   for (  BoundaryEvent boundaryEvent : boundaryEventsToParse) {
-    bpmnParserHandlers.parse(this,boundaryEvent);
+    bpmnParserHandlers.parseElement(this,boundaryEvent);
   }
   for (  SequenceFlow sequenceFlow : sequenceFlowToParse) {
-    bpmnParserHandlers.parse(this,sequenceFlow);
+    bpmnParserHandlers.parseElement(this,sequenceFlow);
   }
   for (  FlowElement flowElement : flowElements) {
     if (flowElement instanceof ExclusiveGateway) {

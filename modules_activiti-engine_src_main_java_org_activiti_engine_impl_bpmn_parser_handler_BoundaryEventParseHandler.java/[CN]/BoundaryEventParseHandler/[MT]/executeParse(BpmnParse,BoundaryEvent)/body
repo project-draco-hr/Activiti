@@ -12,7 +12,7 @@
     eventDefinition=boundaryEvent.getEventDefinitions().get(0);
   }
   if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof org.activiti.bpmn.model.ErrorEventDefinition || eventDefinition instanceof SignalEventDefinition|| eventDefinition instanceof CancelEventDefinition|| eventDefinition instanceof MessageEventDefinition|| eventDefinition instanceof org.activiti.bpmn.model.CompensateEventDefinition) {
-    bpmnParse.getBpmnParserHandlers().parse(bpmnParse,eventDefinition);
+    bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse,eventDefinition);
   }
  else {
     bpmnModel.addProblem("Unsupported boundary event type",boundaryEvent);
