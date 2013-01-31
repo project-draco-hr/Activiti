@@ -10,11 +10,11 @@
   Calendar oneHourLater=Calendar.getInstance();
   oneHourLater.setTime(dueDateCal.getTime());
   oneHourLater.add(Calendar.HOUR,1);
-  assertEquals(1,taskService.createTaskQuery().dueAfter(oneHourAgo.getTime()).count());
-  assertEquals(0,taskService.createTaskQuery().dueAfter(oneHourLater.getTime()).count());
+  assertEquals(1,taskService.createTaskQuery().processInstanceId(processInstance.getId()).dueAfter(oneHourAgo.getTime()).count());
+  assertEquals(0,taskService.createTaskQuery().processInstanceId(processInstance.getId()).dueAfter(oneHourLater.getTime()).count());
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   task.setDueDate(null);
   taskService.saveTask(task);
-  assertEquals(0,taskService.createTaskQuery().dueAfter(oneHourLater.getTime()).count());
-  assertEquals(0,taskService.createTaskQuery().dueAfter(oneHourAgo.getTime()).count());
+  assertEquals(0,taskService.createTaskQuery().processInstanceId(processInstance.getId()).dueAfter(oneHourLater.getTime()).count());
+  assertEquals(0,taskService.createTaskQuery().processInstanceId(processInstance.getId()).dueAfter(oneHourAgo.getTime()).count());
 }
