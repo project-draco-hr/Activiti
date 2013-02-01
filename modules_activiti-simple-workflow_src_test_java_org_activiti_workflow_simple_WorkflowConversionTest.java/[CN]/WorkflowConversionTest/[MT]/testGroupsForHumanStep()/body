@@ -1,0 +1,15 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").addHumanStepForGroup("step1","management","sales").addHumanStepForGroup("step1","sales");
+  activitiRule.getRuntimeService().startProcessInstanceByKey(convertAndDeploy(workflowDefinition));
+  TaskService taskService=activitiRule.getTaskService();
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroup("management").count());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroup("sales").count());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroupIn(Arrays.asList("management")).count());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroupIn(Arrays.asList("management","sales")).count());
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+  assertEquals(0,taskService.createTaskQuery().taskCandidateGroup("management").count());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroup("sales").count());
+  assertEquals(0,taskService.createTaskQuery().taskCandidateGroupIn(Arrays.asList("management")).count());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroupIn(Arrays.asList("sales")).count());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateGroupIn(Arrays.asList("management","sales")).count());
+}

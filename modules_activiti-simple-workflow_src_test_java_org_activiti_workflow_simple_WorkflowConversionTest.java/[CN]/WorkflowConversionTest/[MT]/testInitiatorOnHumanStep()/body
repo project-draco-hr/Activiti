@@ -1,0 +1,11 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").addHumanStep("step1","kermit").addHumanStepForWorkflowInitiator("step2");
+  activitiRule.getIdentityService().setAuthenticatedUserId("MrPink");
+  activitiRule.getRuntimeService().startProcessInstanceByKey(convertAndDeploy(workflowDefinition));
+  activitiRule.getIdentityService().setAuthenticatedUserId("null");
+  TaskService taskService=activitiRule.getTaskService();
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("MrPink").count());
+  assertEquals(0,taskService.createTaskQuery().taskAssignee("kermit").count());
+}
