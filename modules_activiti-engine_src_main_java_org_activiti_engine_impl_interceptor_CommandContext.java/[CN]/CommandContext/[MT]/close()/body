@@ -22,6 +22,9 @@
           if (exception instanceof JobNotFoundException || exception instanceof ActivitiTaskAlreadyClaimedException) {
             log.info("Error while closing command context",exception);
           }
+ else           if (exception instanceof ActivitiOptimisticLockingException) {
+            log.debug("Optimistic locking exception : " + exception);
+          }
  else {
             log.error("Error while closing command context",exception);
           }
