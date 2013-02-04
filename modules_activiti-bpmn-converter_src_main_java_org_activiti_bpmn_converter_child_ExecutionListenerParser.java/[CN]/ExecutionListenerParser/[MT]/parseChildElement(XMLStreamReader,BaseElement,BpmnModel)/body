@@ -1,9 +1,6 @@
 {
   super.parseChildElement(xtr,parentElement,model);
-  if (parentElement instanceof FlowElement) {
-    ((FlowElement)parentElement).getExecutionListeners().add(listener);
-  }
- else   if (parentElement instanceof Process) {
-    ((Process)parentElement).getExecutionListeners().add(listener);
+  if (parentElement instanceof HasExecutionListeners) {
+    ((HasExecutionListeners)parentElement).getExecutionListeners().add(listener);
   }
 }
