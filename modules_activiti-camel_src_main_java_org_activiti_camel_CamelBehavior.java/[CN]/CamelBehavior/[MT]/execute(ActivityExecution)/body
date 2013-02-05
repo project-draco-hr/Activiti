@@ -4,7 +4,7 @@
     throw new ActivitiException("Expecting a Spring process engine configuration for the Activiti Camel module");
   }
   SpringProcessEngineConfiguration springConfiguration=(SpringProcessEngineConfiguration)engineConfiguration;
-  String camelContextValue=this.getStringFromField(this.camelContext,execution);
+  String camelContextValue=getStringFromField(camelContext,execution);
   if (StringUtils.isEmpty(camelContextValue)) {
     camelContextValue=springConfiguration.getDefaultCamelContext();
   }
