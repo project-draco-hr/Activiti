@@ -7,18 +7,22 @@
     writeDefaultAttribute(ATTRIBUTE_NAME,((FlowElement)baseElement).getName(),xtw);
   }
   if (baseElement instanceof Activity) {
-    Activity activity=(Activity)baseElement;
+    final Activity activity=(Activity)baseElement;
     if (activity.isAsynchronous()) {
       writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS,ATTRIBUTE_VALUE_TRUE,xtw);
     }
     if (activity.isNotExclusive()) {
       writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_EXCLUSIVE,ATTRIBUTE_VALUE_FALSE,xtw);
     }
-    writeDefaultAttribute(ATTRIBUTE_ACTIVITY_DEFAULT,activity.getDefaultFlow(),xtw);
+    writeDefaultAttribute(ATTRIBUTE_DEFAULT,activity.getDefaultFlow(),xtw);
+  }
+  if (baseElement instanceof Gateway) {
+    final Gateway gateway=(Gateway)baseElement;
+    writeDefaultAttribute(ATTRIBUTE_DEFAULT,gateway.getDefaultFlow(),xtw);
   }
   writeAdditionalAttributes(baseElement,xtw);
   if (baseElement instanceof FlowElement) {
-    FlowElement flowElement=(FlowElement)baseElement;
+    final FlowElement flowElement=(FlowElement)baseElement;
     if (StringUtils.isNotEmpty(flowElement.getDocumentation())) {
       xtw.writeStartElement(ELEMENT_DOCUMENTATION);
       xtw.writeCharacters(flowElement.getDocumentation());
@@ -32,7 +36,7 @@
   }
   writeAdditionalChildElements(baseElement,xtw);
   if (baseElement instanceof Activity) {
-    Activity activity=(Activity)baseElement;
+    final Activity activity=(Activity)baseElement;
     MultiInstanceExport.writeMultiInstance(activity,xtw);
   }
   xtw.writeEndElement();
