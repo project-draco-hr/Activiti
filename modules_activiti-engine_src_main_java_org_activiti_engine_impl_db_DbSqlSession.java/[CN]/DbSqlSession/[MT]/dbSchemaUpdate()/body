@@ -1,28 +1,45 @@
 {
   String feedback=null;
+  String dbVersion=null;
+  boolean isUpgradeNeeded=false;
   if (isEngineTablePresent()) {
     PropertyEntity dbVersionProperty=selectById(PropertyEntity.class,"schema.version");
-    String dbVersion=dbVersionProperty.getValue();
-    if (dbVersion.endsWith("-SNAPSHOT")) {
-      dbVersion=dbVersion.substring(0,dbVersion.length() - "-SNAPSHOT".length());
+    dbVersion=dbVersionProperty.getValue();
+    isUpgradeNeeded=isUpgradeNeeded(dbVersion);
+    if (isUpgradeNeeded) {
+      dbVersionProperty.setValue(ProcessEngine.VERSION);
+      PropertyEntity dbHistoryProperty;
+      if ("5.0".equals(dbVersion)) {
+        dbHistoryProperty=new PropertyEntity("schema.history","create(5.0)");
+        insert(dbHistoryProperty);
+      }
+ else {
+        dbHistoryProperty=selectById(PropertyEntity.class,"schema.history");
+      }
+      String dbHistoryValue=dbHistoryProperty.getValue() + " upgrade(" + dbVersion+ "->"+ ProcessEngine.VERSION+ ")";
+      dbHistoryProperty.setValue(dbHistoryValue);
+      dbSchemaUpgrade("engine",dbVersion);
+      feedback="upgraded Activiti from " + dbVersion + " to "+ ProcessEngine.VERSION;
     }
-    try {
-      JdbcConnection connection=new JdbcConnection(sqlSession.getConnection());
-      Database database=DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
-      database.setDefaultSchemaName(this.connectionMetadataDefaultSchema);
-      database.setAutoCommit(false);
-      Liquibase liquibase=new Liquibase("org/activiti/db/liquibase/activiti-upgrade-" + dbVersion + ".xml",new ClassLoaderResourceAccessor(),database);
-      liquibase.getDatabase().setDatabaseChangeLogLockTableName("ACT_" + liquibase.getDatabase().getDatabaseChangeLogLockTableName());
-      liquibase.getDatabase().setDatabaseChangeLogTableName("ACT_" + liquibase.getDatabase().getDatabaseChangeLogTableName());
-      liquibase.update("production");
-    }
- catch (    Exception e) {
-      throw new ActivitiException("Error creating Activiti tables",e);
-    }
-    feedback="upgraded Activiti from " + dbVersion + " to "+ ProcessEngine.VERSION;
   }
  else {
     dbSchemaCreateEngine();
+  }
+  if (isHistoryTablePresent()) {
+    if (isUpgradeNeeded) {
+      dbSchemaUpgrade("history",dbVersion);
+    }
+  }
+ else   if (dbSqlSessionFactory.isDbHistoryUsed()) {
+    dbSchemaCreateHistory();
+  }
+  if (isIdentityTablePresent()) {
+    if (isUpgradeNeeded) {
+      dbSchemaUpgrade("identity",dbVersion);
+    }
+  }
+ else   if (dbSqlSessionFactory.isDbIdentityUsed()) {
+    dbSchemaCreateIdentity();
   }
   return feedback;
 }

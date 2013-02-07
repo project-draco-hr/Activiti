@@ -1,17 +1,18 @@
 {
   try {
     String dbVersion=getDbVersion();
-    Matcher matcher=CLEAN_VERSION_REGEX.matcher(ProcessEngine.VERSION);
-    if (!matcher.find()) {
-      throw new ActivitiException("Illegal format for version: " + ProcessEngine.VERSION);
-    }
-    String cleanString=matcher.group();
-    if (!cleanString.equals(dbVersion)) {
+    if (!ProcessEngine.VERSION.equals(dbVersion)) {
       throw new ActivitiWrongDbException(ProcessEngine.VERSION,dbVersion);
     }
     String errorMessage=null;
     if (!isEngineTablePresent()) {
       errorMessage=addMissingComponent(errorMessage,"engine");
+    }
+    if (dbSqlSessionFactory.isDbHistoryUsed() && !isHistoryTablePresent()) {
+      errorMessage=addMissingComponent(errorMessage,"history");
+    }
+    if (dbSqlSessionFactory.isDbIdentityUsed() && !isIdentityTablePresent()) {
+      errorMessage=addMissingComponent(errorMessage,"identity");
     }
     if (errorMessage != null) {
       throw new ActivitiException("Activiti database problem: " + errorMessage);
@@ -19,7 +20,7 @@
   }
  catch (  Exception e) {
     if (isMissingTablesException(e)) {
-      throw new ActivitiException("no activiti tables in db.  set <property name=\"databaseSchemaUpdate\" to value=\"true\" or value=\"create-drop\" (use create-drop for testing only!) in bean processEngineConfiguration in activiti.cfg.xml for automatic schema creation",e);
+      throw new ActivitiException("no activiti tables in db. set <property name=\"databaseSchemaUpdate\" to value=\"true\" or value=\"create-drop\" (use create-drop for testing only!) in bean processEngineConfiguration in activiti.cfg.xml for automatic schema creation",e);
     }
  else {
       if (e instanceof RuntimeException) {
