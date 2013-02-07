@@ -1,0 +1,7 @@
+{
+  Object ctx=springConfiguration.getApplicationContext().getBean(camelContext);
+  if (ctx == null || ctx instanceof CamelContext == false) {
+    throw new RuntimeException("Could not find camel context " + camelContext);
+  }
+  return (CamelContext)ctx;
+}
