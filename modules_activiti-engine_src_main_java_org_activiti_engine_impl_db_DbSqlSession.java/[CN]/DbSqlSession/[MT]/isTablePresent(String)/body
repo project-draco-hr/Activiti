@@ -18,7 +18,12 @@
       return tables.next();
     }
   finally {
-      tables.close();
+      try {
+        tables.close();
+      }
+ catch (      Exception e) {
+        log.error("Error closing meta data tables",e);
+      }
     }
   }
  catch (  Exception e) {
