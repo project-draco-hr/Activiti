@@ -6,7 +6,7 @@
   String id=repositoryService.createDeployment().addInputStream("StartTimerEventTest.testVersionUpgradeShouldCancelJobs.bpmn20.xml",new ByteArrayInputStream(process.getBytes())).deploy().getId();
   assertEquals(1,jobQuery.count());
   moveByMinutes(5);
-  waitForJobExecutorOnCondition(10000,100,new Callable<Boolean>(){
+  waitForJobExecutorOnCondition(10000,500,new Callable<Boolean>(){
     public Boolean call() throws Exception {
       ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().processDefinitionKey("startTimerEventExample").singleResult();
       if (processInstance != null) {
