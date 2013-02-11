@@ -1,4 +1,5 @@
 {
+  ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
   if (isEngineTablePresent()) {
     String dbVersion=getDbVersion();
     if (!ProcessEngine.VERSION.equals(dbVersion)) {
@@ -7,5 +8,11 @@
   }
  else {
     dbSchemaCreateEngine();
+  }
+  if (processEngineConfiguration.getHistoryLevel() != HistoryLevel.NONE) {
+    dbSchemaCreateHistory();
+  }
+  if (processEngineConfiguration.isDbIdentityUsed()) {
+    dbSchemaCreateIdentity();
   }
 }

@@ -10,7 +10,6 @@
       schema=dbSqlSessionFactory.getDatabaseSchema();
     }
     String databaseType=dbSqlSessionFactory.getDatabaseType();
-    log.debug("Looking for table " + tableName + " for database type "+ databaseType);
     if ("postgres".equals(databaseType)) {
       tableName=tableName.toLowerCase();
     }
@@ -19,7 +18,12 @@
       return tables.next();
     }
   finally {
-      tables.close();
+      try {
+        tables.close();
+      }
+ catch (      Exception e) {
+        log.error("Error closing meta data tables",e);
+      }
     }
   }
  catch (  Exception e) {
