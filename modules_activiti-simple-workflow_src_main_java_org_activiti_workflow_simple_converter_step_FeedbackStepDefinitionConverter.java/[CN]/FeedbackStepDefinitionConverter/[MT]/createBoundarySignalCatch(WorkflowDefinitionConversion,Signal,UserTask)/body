@@ -1,0 +1,11 @@
+{
+  BoundaryEvent boundarySignalCatch=new BoundaryEvent();
+  boundarySignalCatch.setId(conversion.getUniqueNumberedId(ConversionConstants.BOUNDARY_ID_PREFIX));
+  boundarySignalCatch.setAttachedToRefId(feedbackTask.getId());
+  boundarySignalCatch.setCancelActivity(true);
+  addFlowElement(conversion,boundarySignalCatch);
+  SignalEventDefinition signalCatchEventDefinition=new SignalEventDefinition();
+  signalCatchEventDefinition.setSignalRef(signal.getId());
+  boundarySignalCatch.addEventDefinition(signalCatchEventDefinition);
+  return boundarySignalCatch;
+}

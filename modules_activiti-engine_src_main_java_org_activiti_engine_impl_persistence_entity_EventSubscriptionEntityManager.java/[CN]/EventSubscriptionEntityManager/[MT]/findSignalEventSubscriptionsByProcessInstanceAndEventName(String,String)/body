@@ -1,0 +1,13 @@
+{
+  final String query="selectSignalEventSubscriptionsByProcessInstanceAndEventName";
+  Map<String,String> params=new HashMap<String,String>();
+  params.put("processInstanceId",processInstanceId);
+  params.put("eventName",eventName);
+  Set<SignalEventSubscriptionEntity> selectList=new HashSet<SignalEventSubscriptionEntity>(getDbSqlSession().selectList(query,params));
+  for (  SignalEventSubscriptionEntity entity : createdSignalSubscriptions) {
+    if (processInstanceId.equals(processInstanceId) && eventName.equals(entity.getEventName())) {
+      selectList.add(entity);
+    }
+  }
+  return new ArrayList<SignalEventSubscriptionEntity>(selectList);
+}

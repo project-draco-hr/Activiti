@@ -1,6 +1,6 @@
 {
   UserTask userTask=new UserTask();
-  userTask.setId(conversion.getUniqueNumberedId(USER_TASK_PREFIX));
+  userTask.setId(conversion.getUniqueNumberedId(ConversionConstants.USER_TASK_ID_PREFIX));
   userTask.setName(humanStepDefinition.getName());
   userTask.setDocumentation(humanStepDefinition.getDescription());
   if (humanStepDefinition.isAssigneeInitiator()) {
@@ -20,33 +20,7 @@
   }
   if (humanStepDefinition.getForm() != null) {
     FormDefinition formDefinition=humanStepDefinition.getForm();
-    for (    FormPropertyDefinition propertyDefinition : formDefinition.getFormProperties()) {
-      FormProperty formProperty=new FormProperty();
-      formProperty.setId(propertyDefinition.getPropertyName());
-      formProperty.setName(propertyDefinition.getPropertyName());
-      formProperty.setRequired(propertyDefinition.isRequired());
-      String type=DefaultFormPropertyTypes.TEXT;
-      if (DefaultFormPropertyTypes.NUMBER.equals(propertyDefinition.getType())) {
-        type="long";
-      }
- else       if (DefaultFormPropertyTypes.DATE.equals(propertyDefinition.getType())) {
-        type="date";
-      }
- else       if (DefaultFormPropertyTypes.LIST.equals(propertyDefinition.getType())) {
-        type="enum";
-        if (!propertyDefinition.getValues().isEmpty()) {
-          List<FormValue> formValues=new ArrayList<FormValue>(propertyDefinition.getValues().size());
-          for (          String formValueString : propertyDefinition.getValues()) {
-            FormValue formValue=new FormValue();
-            formValue.setId(formValueString);
-            formValue.setName(formValueString);
-            formValues.add(formValue);
-          }
-        }
-      }
-      formProperty.setType(type);
-      userTask.getFormProperties().add(formProperty);
-    }
+    userTask.setFormProperties(convertProperties(formDefinition));
   }
   return userTask;
 }

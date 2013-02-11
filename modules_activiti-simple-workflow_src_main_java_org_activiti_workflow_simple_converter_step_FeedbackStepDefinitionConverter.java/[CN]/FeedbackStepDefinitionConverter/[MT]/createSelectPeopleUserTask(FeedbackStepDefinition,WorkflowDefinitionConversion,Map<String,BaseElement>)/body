@@ -1,0 +1,15 @@
+{
+  UserTask selectPeopleUserTask=new UserTask();
+  selectPeopleUserTask.setId(conversion.getUniqueNumberedId(ConversionConstants.USER_TASK_ID_PREFIX));
+  selectPeopleUserTask.setName(getSelectPeopleTaskName());
+  selectPeopleUserTask.setAssignee(feedbackStepDefinition.getFeedbackInitiator());
+  addFlowElement(conversion,selectPeopleUserTask,true);
+  processElements.put(SELECT_PEOPLE_USER_TASK,selectPeopleUserTask);
+  FormProperty feedbackProvidersProperty=new FormProperty();
+  feedbackProvidersProperty.setId(VARIABLE_FEEDBACK_PROVIDERS);
+  feedbackProvidersProperty.setName("Who needs to provide feedback?");
+  feedbackProvidersProperty.setRequired(true);
+  feedbackProvidersProperty.setType(DefaultFormPropertyTypes.PEOPLE);
+  selectPeopleUserTask.setFormProperties(Arrays.asList(feedbackProvidersProperty));
+  return selectPeopleUserTask;
+}
