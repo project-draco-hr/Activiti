@@ -1,0 +1,22 @@
+{
+  Map<String,BaseElement> processElements=new HashMap<String,BaseElement>();
+  UserTask selectPeopleUserTask=createSelectPeopleUserTask(feedbackStepDefinition,conversion,processElements);
+  ParallelGateway fork=createForkParallelGateway(conversion,processElements);
+  addSequenceFlow(conversion,selectPeopleUserTask,fork);
+  UserTask gatherFeedbackUserTask=createGatherFeedbackUserTask(feedbackStepDefinition,conversion,processElements);
+  addSequenceFlow(conversion,fork,gatherFeedbackUserTask);
+  Signal signal=createSignalDeclaration();
+  ThrowEvent signalThrowEvent=createSignalThrow(conversion,signal);
+  addSequenceFlow(conversion,gatherFeedbackUserTask,signalThrowEvent);
+  UserTask feedbackTask=createFeedbackUserTask(feedbackStepDefinition,conversion,processElements);
+  addSequenceFlow(conversion,fork,feedbackTask);
+  BoundaryEvent boundarySignalCatch=createBoundarySignalCatch(conversion,signal,feedbackTask);
+  ExclusiveGateway mergingExclusiveGateway=createMergingExclusiveGateway(conversion);
+  addSequenceFlow(conversion,feedbackTask,mergingExclusiveGateway);
+  addSequenceFlow(conversion,boundarySignalCatch,mergingExclusiveGateway);
+  ParallelGateway join=createJoinParallelGateway(conversion,processElements);
+  addSequenceFlow(conversion,signalThrowEvent,join);
+  addSequenceFlow(conversion,mergingExclusiveGateway,join);
+  conversion.setLastActivityId(join.getId());
+  return processElements;
+}

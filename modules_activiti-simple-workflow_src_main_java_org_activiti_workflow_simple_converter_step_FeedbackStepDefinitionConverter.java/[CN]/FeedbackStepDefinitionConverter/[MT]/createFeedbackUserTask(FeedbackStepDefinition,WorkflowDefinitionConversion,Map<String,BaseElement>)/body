@@ -1,0 +1,13 @@
+{
+  UserTask feedbackTask=new UserTask();
+  feedbackTask.setId(conversion.getUniqueNumberedId(ConversionConstants.USER_TASK_ID_PREFIX));
+  feedbackTask.setName(feedbackStepDefinition.getName());
+  MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics=new MultiInstanceLoopCharacteristics();
+  multiInstanceLoopCharacteristics.setSequential(false);
+  multiInstanceLoopCharacteristics.setInputDataItem(VARIABLE_FEEDBACK_PROVIDERS);
+  multiInstanceLoopCharacteristics.setElementVariable(VARIABLE_FEEDBACK_PROVIDER);
+  feedbackTask.setLoopCharacteristics(multiInstanceLoopCharacteristics);
+  addFlowElement(conversion,feedbackTask);
+  processElements.put(FEEDBACK_USER_TASK,feedbackTask);
+  return feedbackTask;
+}

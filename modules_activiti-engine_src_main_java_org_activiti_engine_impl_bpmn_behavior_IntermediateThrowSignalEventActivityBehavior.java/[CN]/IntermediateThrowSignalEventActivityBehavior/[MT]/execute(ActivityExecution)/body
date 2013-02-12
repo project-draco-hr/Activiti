@@ -1,7 +1,13 @@
 {
   CommandContext commandContext=Context.getCommandContext();
-  List<SignalEventSubscriptionEntity> findSignalEventSubscriptionsByEventName=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(signalDefinition.getEventName());
-  for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : findSignalEventSubscriptionsByEventName) {
+  List<SignalEventSubscriptionEntity> subscriptionEntities=null;
+  if (processInstanceScope) {
+    subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByProcessInstanceAndEventName(execution.getProcessInstanceId(),signalDefinition.getEventName());
+  }
+ else {
+    subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(signalDefinition.getEventName());
+  }
+  for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : subscriptionEntities) {
     signalEventSubscriptionEntity.eventReceived(null,signalDefinition.isAsync());
   }
   leave(execution);

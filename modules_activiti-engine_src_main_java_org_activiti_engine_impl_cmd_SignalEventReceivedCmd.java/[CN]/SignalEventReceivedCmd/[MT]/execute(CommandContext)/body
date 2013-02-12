@@ -21,7 +21,9 @@
     payload=new HashMap<String,Object>(variables);
   }
   for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : signalEvents) {
-    signalEventSubscriptionEntity.eventReceived(payload,false);
+    if (signalEventSubscriptionEntity.isGlobalScoped()) {
+      signalEventSubscriptionEntity.eventReceived(payload,false);
+    }
   }
   return null;
 }
