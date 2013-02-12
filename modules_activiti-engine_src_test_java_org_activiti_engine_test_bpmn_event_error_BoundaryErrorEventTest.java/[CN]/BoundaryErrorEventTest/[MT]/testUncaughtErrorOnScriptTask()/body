@@ -1,0 +1,9 @@
+{
+  try {
+    String procId=runtimeService.startProcessInstanceByKey("uncaughtErrorOnScriptTask").getId();
+    assertProcessEnded(procId);
+  }
+ catch (  NullPointerException e) {
+    fail("The script throws error event with errorCode 'errorUncaught', but no catching boundary event was defined. Execution should simply be ended (none end event semantics).");
+  }
+}
