@@ -3,7 +3,7 @@
   Set<String> currentGroups=getCurrentGroups();
   int nrFound=0;
   int tries=0;
-  while (nrFound == 0) {
+  while (nrFound < count && tries < 5) {
     List<Group> groups=identityService.createGroupQuery().orderByGroupType().asc().orderByGroupId().asc().orderByGroupName().asc().listPage(start + (tries * count),count);
     for (    Group group : groups) {
       if (!currentGroups.contains(group.getId())) {
