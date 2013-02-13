@@ -1,0 +1,9 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").addFeedbackStep("Test feedback","kermit",Arrays.asList("gonzo","mispiggy","fozzie"));
+  activitiRule.getRuntimeService().startProcessInstanceById(convertAndDeploy(workflowDefinition));
+  assertEquals(4,taskService.createTaskQuery().count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("gonzo").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("mispiggy").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("fozzie").count());
+}

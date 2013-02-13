@@ -1,0 +1,11 @@
+{
+  List<GraphicInfo> graphicInfoForWaypoints=new ArrayList<GraphicInfo>();
+  for (int i=0; i < waypoints.length; i+=2) {
+    GraphicInfo graphicInfo=new GraphicInfo();
+    graphicInfo.setElement(sequenceFlow);
+    graphicInfo.setX(waypoints[i]);
+    graphicInfo.setY(waypoints[i + 1]);
+    graphicInfoForWaypoints.add(graphicInfo);
+  }
+  bpmnModel.addFlowGraphicInfoList(sequenceFlow.getId(),graphicInfoForWaypoints);
+}

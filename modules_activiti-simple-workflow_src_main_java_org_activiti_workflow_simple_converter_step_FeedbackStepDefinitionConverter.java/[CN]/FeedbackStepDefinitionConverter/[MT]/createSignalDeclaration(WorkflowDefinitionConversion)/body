@@ -1,8 +1,9 @@
 {
   Signal signal=new Signal();
-  String uniqueSignalId=UUID.randomUUID().toString();
+  String uniqueSignalId="signal-" + UUID.randomUUID().toString();
   signal.setId(uniqueSignalId);
   signal.setName(uniqueSignalId);
   signal.setScope(Signal.SCOPE_PROCESS_INSTANCE);
+  conversion.getBpmnModel().addSignal(signal);
   return signal;
 }
