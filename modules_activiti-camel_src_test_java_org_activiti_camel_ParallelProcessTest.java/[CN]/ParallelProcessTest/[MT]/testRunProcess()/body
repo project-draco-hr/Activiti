@@ -1,0 +1,5 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("parallelCamelProcess");
+  Thread.sleep(4000);
+  assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+}
