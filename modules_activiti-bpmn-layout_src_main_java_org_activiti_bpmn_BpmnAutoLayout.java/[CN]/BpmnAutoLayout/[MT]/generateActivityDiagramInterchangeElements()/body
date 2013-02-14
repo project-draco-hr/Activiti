@@ -3,5 +3,24 @@
     Object vertex=generatedVertices.get(flowElementId);
     mxCellState cellState=graph.getView().getState(vertex);
     createDiagramInterchangeInformation(handledFlowElements.get(flowElementId),(int)cellState.getX(),(int)cellState.getY(),(int)cellState.getWidth(),(int)cellState.getHeight());
+    if (handledFlowElements.get(flowElementId) instanceof SubProcess) {
+      SubProcess subProcess=(SubProcess)handledFlowElements.get(flowElementId);
+      double subProcessX=cellState.getX();
+      double subProcessY=cellState.getY();
+      for (      FlowElement subProcessElement : subProcess.getFlowElements()) {
+        if (subProcessElement instanceof SequenceFlow) {
+          List<GraphicInfo> graphicInfoList=bpmnModel.getFlowLocationGraphicInfo(subProcessElement.getId());
+          for (          GraphicInfo graphicInfo : graphicInfoList) {
+            graphicInfo.setX(graphicInfo.getX() + subProcessX);
+            graphicInfo.setY(graphicInfo.getY() + subProcessY);
+          }
+        }
+ else {
+          GraphicInfo graphicInfo=bpmnModel.getLocationMap().get(subProcessElement.getId());
+          graphicInfo.setX(graphicInfo.getX() + subProcessX);
+          graphicInfo.setY(graphicInfo.getY() + subProcessY);
+        }
+      }
+    }
   }
 }

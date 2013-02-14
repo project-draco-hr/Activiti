@@ -1,4 +1,8 @@
 {
   BpmnAutoLayout bpmnAutoLayout=new BpmnAutoLayout(bpmnModel);
   bpmnAutoLayout.layout((SubProcess)flowElement);
+  double subProcessWidth=bpmnAutoLayout.getGraph().getView().getGraphBounds().getWidth();
+  double subProcessHeight=bpmnAutoLayout.getGraph().getView().getGraphBounds().getHeight();
+  Object subProcessVertex=graph.insertVertex(cellParent,flowElement.getId(),"",0,0,subProcessWidth,subProcessHeight);
+  generatedVertices.put(flowElement.getId(),subProcessVertex);
 }
