@@ -2,11 +2,27 @@
   Hashtable<String,Object> edgeStyle=new Hashtable<String,Object>();
   edgeStyle.put(mxConstants.STYLE_ORTHOGONAL,true);
   edgeStyle.put(mxConstants.STYLE_EDGE,mxEdgeStyle.ElbowConnector);
+  edgeStyle.put(mxConstants.STYLE_ENTRY_X,0.0);
+  edgeStyle.put(mxConstants.STYLE_ENTRY_Y,0.5);
   graph.getStylesheet().putCellStyle(STYLE_SEQUENCEFLOW,edgeStyle);
-  for (  SequenceFlow sequenceFlow : sequenceFlows) {
+  Hashtable<String,Object> boundaryEdgeStyle=new Hashtable<String,Object>();
+  boundaryEdgeStyle.put(mxConstants.STYLE_EXIT_X,0.5);
+  boundaryEdgeStyle.put(mxConstants.STYLE_EXIT_Y,1.0);
+  boundaryEdgeStyle.put(mxConstants.STYLE_ENTRY_X,0.5);
+  boundaryEdgeStyle.put(mxConstants.STYLE_ENTRY_Y,1.0);
+  boundaryEdgeStyle.put(mxConstants.STYLE_EDGE,mxEdgeStyle.orthConnector);
+  graph.getStylesheet().putCellStyle(STYLE_BOUNDARY_SEQUENCEFLOW,boundaryEdgeStyle);
+  for (  SequenceFlow sequenceFlow : sequenceFlows.values()) {
     Object sourceVertex=generatedVertices.get(sequenceFlow.getSourceRef());
     Object targertVertex=generatedVertices.get(sequenceFlow.getTargetRef());
-    Object sequenceFlowEdge=graph.insertEdge(cellParent,sequenceFlow.getId(),"",sourceVertex,targertVertex,STYLE_SEQUENCEFLOW);
+    String style=null;
+    if (handledFlowElements.get(sequenceFlow.getSourceRef()) instanceof BoundaryEvent) {
+      style=STYLE_BOUNDARY_SEQUENCEFLOW;
+    }
+ else {
+      style=STYLE_SEQUENCEFLOW;
+    }
+    Object sequenceFlowEdge=graph.insertEdge(cellParent,sequenceFlow.getId(),"",sourceVertex,targertVertex,style);
     generatedEdges.put(sequenceFlow.getId(),sequenceFlowEdge);
   }
 }

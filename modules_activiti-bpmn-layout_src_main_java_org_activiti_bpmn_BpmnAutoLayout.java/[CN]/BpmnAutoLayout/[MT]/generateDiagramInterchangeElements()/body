@@ -1,20 +1,6 @@
 {
   bpmnModel.getLocationMap().clear();
   bpmnModel.getFlowLocationMap().clear();
-  for (  String flowElementId : generatedVertices.keySet()) {
-    Object vertex=generatedVertices.get(flowElementId);
-    mxGeometry geometry=graph.getCellGeometry(vertex);
-    createDiagramInterchangeInformation(handledFlowElements.get(flowElementId),(int)geometry.getX(),(int)geometry.getY(),(int)geometry.getWidth(),(int)geometry.getHeight());
-  }
-  for (  String sequenceFlowId : generatedEdges.keySet()) {
-    Object edge=generatedEdges.get(sequenceFlowId);
-    List<mxPoint> points=graph.getView().getState(edge).getAbsolutePoints();
-    int[] waypoints=new int[points.size() * 2];
-    int index=0;
-    for (    mxPoint point : points) {
-      waypoints[index++]=(int)point.getX();
-      waypoints[index++]=(int)point.getY();
-    }
-    createDiagramInterchangeInformation((SequenceFlow)handledFlowElements.get(sequenceFlowId),waypoints);
-  }
+  generateActivityDiagramInterchangeElements();
+  generateSequenceFlowDiagramInterchangeElements();
 }
