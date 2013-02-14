@@ -1,0 +1,9 @@
+{
+  if (!graph.getStylesheet().getStyles().containsKey(STYLE_EVENT)) {
+    Hashtable<String,Object> eventStyle=new Hashtable<String,Object>();
+    eventStyle.put(mxConstants.STYLE_SHAPE,mxConstants.SHAPE_ELLIPSE);
+    graph.getStylesheet().putCellStyle(STYLE_EVENT,eventStyle);
+  }
+  Object eventVertex=graph.insertVertex(cellParent,flowElement.getId(),"",0,0,eventSize,eventSize,STYLE_EVENT);
+  generatedVertices.put(flowElement.getId(),eventVertex);
+}

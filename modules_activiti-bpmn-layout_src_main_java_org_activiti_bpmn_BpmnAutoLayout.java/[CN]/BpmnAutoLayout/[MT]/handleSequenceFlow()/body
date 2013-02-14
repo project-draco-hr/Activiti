@@ -1,0 +1,12 @@
+{
+  Hashtable<String,Object> edgeStyle=new Hashtable<String,Object>();
+  edgeStyle.put(mxConstants.STYLE_ORTHOGONAL,true);
+  edgeStyle.put(mxConstants.STYLE_EDGE,mxEdgeStyle.ElbowConnector);
+  graph.getStylesheet().putCellStyle(STYLE_SEQUENCEFLOW,edgeStyle);
+  for (  SequenceFlow sequenceFlow : sequenceFlows) {
+    Object sourceVertex=generatedVertices.get(sequenceFlow.getSourceRef());
+    Object targertVertex=generatedVertices.get(sequenceFlow.getTargetRef());
+    Object sequenceFlowEdge=graph.insertEdge(cellParent,sequenceFlow.getId(),"",sourceVertex,targertVertex,STYLE_SEQUENCEFLOW);
+    generatedEdges.put(sequenceFlow.getId(),sequenceFlowEdge);
+  }
+}
