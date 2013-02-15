@@ -5,7 +5,7 @@
   addSequenceFlow(conversion,selectPeopleUserTask,fork);
   UserTask gatherFeedbackUserTask=createGatherFeedbackUserTask(feedbackStepDefinition,conversion,processElements);
   addSequenceFlow(conversion,fork,gatherFeedbackUserTask);
-  Signal signal=createSignalDeclaration();
+  Signal signal=createSignalDeclaration(conversion);
   ThrowEvent signalThrowEvent=createSignalThrow(conversion,signal);
   addSequenceFlow(conversion,gatherFeedbackUserTask,signalThrowEvent);
   UserTask feedbackTask=createFeedbackUserTask(feedbackStepDefinition,conversion,processElements);

@@ -1,0 +1,21 @@
+{
+  for (  BoundaryEvent boundaryEvent : boundaryEvents) {
+    mxGeometry geometry=new mxGeometry(0.8,1.0,eventSize,eventSize);
+    geometry.setOffset(new mxPoint(-(eventSize / 2),-(eventSize / 2)));
+    geometry.setRelative(true);
+    mxCell boundaryPort=new mxCell(null,geometry,"shape=ellipse;perimter=ellipsePerimeter");
+    boundaryPort.setVertex(true);
+    Object portParent=null;
+    if (boundaryEvent.getAttachedToRefId() != null) {
+      portParent=generatedVertices.get(boundaryEvent.getAttachedToRefId());
+    }
+ else     if (boundaryEvent.getAttachedToRef() != null) {
+      portParent=generatedVertices.get(boundaryEvent.getAttachedToRef().getId());
+    }
+ else {
+      throw new RuntimeException("Could not generate DI: boundaryEvent '" + boundaryEvent.getId() + "' has no attachedToRef");
+    }
+    graph.addCell(boundaryPort,portParent);
+    generatedVertices.put(boundaryEvent.getId(),boundaryPort);
+  }
+}

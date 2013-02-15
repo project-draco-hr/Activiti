@@ -1,0 +1,32 @@
+{
+  for (  String sequenceFlowId : generatedEdges.keySet()) {
+    Object edge=generatedEdges.get(sequenceFlowId);
+    List<mxPoint> points=graph.getView().getState(edge).getAbsolutePoints();
+    FlowElement sourceElement=handledFlowElements.get(sequenceFlows.get(sequenceFlowId).getSourceRef());
+    if (sourceElement instanceof Gateway && ((Gateway)sourceElement).getOutgoingFlows().size() > 1) {
+      mxPoint startPoint=points.get(0);
+      Object gatewayVertex=generatedVertices.get(sourceElement.getId());
+      mxCellState gatewayState=graph.getView().getState(gatewayVertex);
+      mxPoint northPoint=new mxPoint(gatewayState.getX() + (gatewayState.getWidth()) / 2,gatewayState.getY());
+      mxPoint southPoint=new mxPoint(gatewayState.getX() + (gatewayState.getWidth()) / 2,gatewayState.getY() + gatewayState.getHeight());
+      mxPoint eastPoint=new mxPoint(gatewayState.getX() + gatewayState.getWidth(),gatewayState.getY() + (gatewayState.getHeight()) / 2);
+      mxPoint westPoint=new mxPoint(gatewayState.getX(),gatewayState.getY() + (gatewayState.getHeight()) / 2);
+      double closestDistance=Double.MAX_VALUE;
+      mxPoint closestPoint=null;
+      for (      mxPoint rhombusPoint : Arrays.asList(northPoint,southPoint,eastPoint,westPoint)) {
+        double distance=euclidianDistance(startPoint,rhombusPoint);
+        if (distance < closestDistance) {
+          closestDistance=distance;
+          closestPoint=rhombusPoint;
+        }
+      }
+      startPoint.setX(closestPoint.getX());
+      startPoint.setY(closestPoint.getY());
+      if (points.size() > 1) {
+        mxPoint nextPoint=points.get(1);
+        nextPoint.setY(closestPoint.getY());
+      }
+    }
+    createDiagramInterchangeInformation((SequenceFlow)handledFlowElements.get(sequenceFlowId),optimizeEdgePoints(points));
+  }
+}

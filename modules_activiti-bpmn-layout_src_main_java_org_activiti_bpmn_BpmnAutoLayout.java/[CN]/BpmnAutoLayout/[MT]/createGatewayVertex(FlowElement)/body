@@ -1,0 +1,9 @@
+{
+  if (graph.getStylesheet().getStyles().containsKey(STYLE_GATEWAY)) {
+    Hashtable<String,Object> style=new Hashtable<String,Object>();
+    style.put(mxConstants.STYLE_SHAPE,mxConstants.SHAPE_RHOMBUS);
+    graph.getStylesheet().putCellStyle(STYLE_GATEWAY,style);
+  }
+  Object gatewayVertex=graph.insertVertex(cellParent,flowElement.getId(),"",0,0,gatewaySize,gatewaySize,STYLE_GATEWAY);
+  generatedVertices.put(flowElement.getId(),gatewayVertex);
+}

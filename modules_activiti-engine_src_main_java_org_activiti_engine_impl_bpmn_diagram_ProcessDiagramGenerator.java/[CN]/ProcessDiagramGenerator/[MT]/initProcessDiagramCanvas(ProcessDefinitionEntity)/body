@@ -10,7 +10,7 @@
     minY=pProc.getY();
     maxY=pProc.getY() + pProc.getHeight();
   }
-  for (  ActivityImpl activity : processDefinition.getActivities()) {
+  for (  ActivityImpl activity : gatherAllActivities(processDefinition)) {
     if (activity.getX() + activity.getWidth() > maxX) {
       maxX=activity.getX() + activity.getWidth();
     }
