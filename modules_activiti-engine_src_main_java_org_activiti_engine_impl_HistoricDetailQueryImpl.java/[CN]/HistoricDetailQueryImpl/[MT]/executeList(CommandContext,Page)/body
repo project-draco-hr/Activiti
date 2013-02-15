@@ -1,10 +1,16 @@
 {
   checkQueryOk();
   List<HistoricDetail> historicDetails=commandContext.getHistoricDetailEntityManager().findHistoricDetailsByQueryCriteria(this,page);
+  HistoricDetailVariableInstanceUpdateEntity varUpdate=null;
   if (historicDetails != null) {
     for (    HistoricDetail historicDetail : historicDetails) {
       if (historicDetail instanceof HistoricDetailVariableInstanceUpdateEntity) {
-        ((HistoricDetailVariableInstanceUpdateEntity)historicDetail).getByteArrayValue();
+        varUpdate=(HistoricDetailVariableInstanceUpdateEntity)historicDetail;
+        varUpdate.getByteArrayValue();
+        if (varUpdate.getVariableType() instanceof JPAEntityVariableType) {
+          varUpdate.setVariableType(HistoricJPAEntityVariableType.getSharedInstance());
+          varUpdate.getValue();
+        }
       }
     }
   }
