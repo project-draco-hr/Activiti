@@ -1,0 +1,10 @@
+{
+  String events=(String)delegateTask.getVariable("events");
+  if (events == null) {
+    events=delegateTask.getEventName();
+  }
+ else {
+    events=events + " - " + delegateTask.getEventName();
+  }
+  delegateTask.setVariable("events",events);
+}

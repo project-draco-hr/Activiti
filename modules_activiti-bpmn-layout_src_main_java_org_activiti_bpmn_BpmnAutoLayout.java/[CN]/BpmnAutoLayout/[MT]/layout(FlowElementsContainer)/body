@@ -1,0 +1,41 @@
+{
+  graph=new mxGraph();
+  cellParent=graph.getDefaultParent();
+  graph.getModel().beginUpdate();
+  handledFlowElements=new HashMap<String,FlowElement>();
+  generatedVertices=new HashMap<String,Object>();
+  generatedEdges=new HashMap<String,Object>();
+  sequenceFlows=new HashMap<String,SequenceFlow>();
+  boundaryEvents=new ArrayList<BoundaryEvent>();
+  for (  FlowElement flowElement : flowElementsContainer.getFlowElements()) {
+    if (flowElement instanceof SequenceFlow) {
+      handleSequenceFlow((SequenceFlow)flowElement);
+    }
+ else     if (flowElement instanceof Event) {
+      handleEvent(flowElement);
+    }
+ else     if (flowElement instanceof Gateway) {
+      createGatewayVertex(flowElement);
+    }
+ else     if (flowElement instanceof Task || flowElement instanceof CallActivity) {
+      handleActivity(flowElement);
+    }
+ else     if (flowElement instanceof SubProcess) {
+      handleSubProcess(flowElement);
+    }
+    handledFlowElements.put(flowElement.getId(),flowElement);
+  }
+  handleBoundaryEvents();
+  handleSequenceFlow();
+  CustomLayout layout=new CustomLayout(graph,SwingConstants.WEST);
+  layout.setIntraCellSpacing(100.0);
+  layout.setResizeParent(true);
+  layout.setFineTuning(true);
+  layout.setParentBorder(20);
+  layout.setMoveParent(true);
+  layout.setDisableEdgeStyle(false);
+  layout.setUseBoundingBox(true);
+  layout.execute(graph.getDefaultParent());
+  graph.getModel().endUpdate();
+  generateDiagramInterchangeElements();
+}

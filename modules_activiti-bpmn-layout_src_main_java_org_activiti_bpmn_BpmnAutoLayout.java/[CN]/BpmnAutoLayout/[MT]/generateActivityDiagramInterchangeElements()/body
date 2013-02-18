@@ -1,0 +1,28 @@
+{
+  for (  String flowElementId : generatedVertices.keySet()) {
+    Object vertex=generatedVertices.get(flowElementId);
+    mxCellState cellState=graph.getView().getState(vertex);
+    createDiagramInterchangeInformation(handledFlowElements.get(flowElementId),(int)cellState.getX(),(int)cellState.getY(),(int)cellState.getWidth(),(int)cellState.getHeight());
+    if (handledFlowElements.get(flowElementId) instanceof SubProcess) {
+      SubProcess subProcess=(SubProcess)handledFlowElements.get(flowElementId);
+      double subProcessX=cellState.getX();
+      double subProcessY=cellState.getY();
+      double translationX=subProcessX + subProcessMargin;
+      double translationY=subProcessY + subProcessMargin;
+      for (      FlowElement subProcessElement : subProcess.getFlowElements()) {
+        if (subProcessElement instanceof SequenceFlow) {
+          List<GraphicInfo> graphicInfoList=bpmnModel.getFlowLocationGraphicInfo(subProcessElement.getId());
+          for (          GraphicInfo graphicInfo : graphicInfoList) {
+            graphicInfo.setX(graphicInfo.getX() + translationX);
+            graphicInfo.setY(graphicInfo.getY() + translationY);
+          }
+        }
+ else {
+          GraphicInfo graphicInfo=bpmnModel.getLocationMap().get(subProcessElement.getId());
+          graphicInfo.setX(graphicInfo.getX() + translationX);
+          graphicInfo.setY(graphicInfo.getY() + translationY);
+        }
+      }
+    }
+  }
+}
