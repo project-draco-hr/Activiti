@@ -1,0 +1,10 @@
+{
+  initializeAuthentication();
+  Router router=new Router(getContext());
+  router.attachDefault(DefaultResource.class);
+  RestServicesInit.attachResources(router);
+  JsonpFilter jsonpFilter=new JsonpFilter(getContext());
+  jsonpFilter.setNext(router);
+  authenticator.setNext(jsonpFilter);
+  return authenticator;
+}

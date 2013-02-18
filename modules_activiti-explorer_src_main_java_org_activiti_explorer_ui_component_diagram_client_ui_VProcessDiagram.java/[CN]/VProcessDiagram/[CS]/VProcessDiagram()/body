@@ -1,0 +1,26 @@
+{
+  super();
+  DivElement element=Document.get().createDivElement();
+  setElement(element);
+  element.setClassName(CLASSNAME);
+  DivElement barElement=Document.get().createDivElement();
+  barElement.setId("pb1");
+  getElement().appendChild(barElement);
+  DivElement diagramElement=Document.get().createDivElement();
+  diagramElement.setId("overlayBox");
+  getElement().appendChild(diagramElement);
+  DivElement crumbsElement=Document.get().createDivElement();
+  crumbsElement.setId("diagramBreadCrumbs");
+  crumbsElement.setClassName("diagramBreadCrumbs");
+  crumbsElement.setAttribute("onmousedown","onmousedown");
+  crumbsElement.setAttribute("onselectstart","onmousedown");
+  diagramElement.appendChild(crumbsElement);
+  DivElement holderElement=Document.get().createDivElement();
+  holderElement.setId("diagramHolder");
+  holderElement.setClassName("diagramHolder");
+  diagramElement.appendChild(holderElement);
+  DivElement infoElement=Document.get().createDivElement();
+  infoElement.setId("diagramInfo");
+  infoElement.setClassName("diagram-info");
+  diagramElement.appendChild(infoElement);
+}

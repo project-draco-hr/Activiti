@@ -1,0 +1,11 @@
+{
+  List<ExecutionListener> listeners=activity.getExecutionListeners(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END);
+  for (  ExecutionListener executionListener : listeners) {
+    try {
+      Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation(executionListener,execution));
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Couldn't execute end listener",e);
+    }
+  }
+}
