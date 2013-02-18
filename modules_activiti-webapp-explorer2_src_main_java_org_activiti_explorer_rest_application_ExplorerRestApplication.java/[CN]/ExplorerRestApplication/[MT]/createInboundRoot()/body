@@ -1,0 +1,9 @@
+{
+  Router router=new Router(getContext());
+  router.attachDefault(DefaultResource.class);
+  ModelerServicesInit.attachResources(router);
+  DiagramServicesInit.attachResources(router);
+  JsonpFilter jsonpFilter=new JsonpFilter(getContext());
+  jsonpFilter.setNext(router);
+  return jsonpFilter;
+}

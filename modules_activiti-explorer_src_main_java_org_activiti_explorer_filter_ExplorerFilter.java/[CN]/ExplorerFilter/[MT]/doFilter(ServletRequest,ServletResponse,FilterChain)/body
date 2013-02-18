@@ -1,7 +1,15 @@
 {
   HttpServletRequest req=(HttpServletRequest)request;
   String path=req.getRequestURI().substring(req.getContextPath().length());
-  if (path.startsWith("/ui") || path.startsWith("/VAADIN") || path.startsWith("/api")|| path.startsWith("/editor")|| path.startsWith("/explorer")|| path.startsWith("/libs")|| path.startsWith("/service")) {
+  int indexSlash=path.indexOf("/",1);
+  String firstPart=null;
+  if (indexSlash > 0) {
+    firstPart=path.substring(0,indexSlash);
+  }
+ else {
+    firstPart=path;
+  }
+  if (ignoreList.contains(firstPart)) {
     chain.doFilter(request,response);
   }
  else {
