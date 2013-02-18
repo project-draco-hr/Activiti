@@ -1,12 +1,27 @@
 {
   BpmnXMLConverter converter=new BpmnXMLConverter();
   XMLInputFactory xif=XMLInputFactory.newInstance();
+  if (xif.isPropertySupported(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES)) {
+    xif.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES,false);
+  }
+  if (xif.isPropertySupported(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES)) {
+    xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,false);
+  }
+  if (xif.isPropertySupported(XMLInputFactory.SUPPORT_DTD)) {
+    xif.setProperty(XMLInputFactory.SUPPORT_DTD,false);
+  }
   InputStreamReader in=null;
   try {
-    converter.validateModel(streamSource.getInputStream());
-    streamSource.getInputStream().reset();
     in=new InputStreamReader(streamSource.getInputStream(),"UTF-8");
     XMLStreamReader xtr=xif.createXMLStreamReader(in);
+    try {
+      converter.validateModel(xtr);
+      in=new InputStreamReader(streamSource.getInputStream(),"UTF-8");
+      xtr=xif.createXMLStreamReader(in);
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Could not validate XML with BPMN 2.0 XSD",e);
+    }
     bpmnModel=converter.convertToBpmnModel(xtr);
     createImports();
     createItemDefinitions();
@@ -15,7 +30,12 @@
     transformProcessDefinitions();
   }
  catch (  Exception e) {
-    throw new ActivitiException("Error parsing XML",e);
+    if (e instanceof ActivitiException) {
+      throw (ActivitiException)e;
+    }
+ else {
+      throw new ActivitiException("Error parsing XML",e);
+    }
   }
  finally {
     try {

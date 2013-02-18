@@ -1,9 +1,0 @@
-{
-  List<String> deploymentIds=new ArrayList<String>();
-  deploymentIds.add(deployProcessString(("<definitions xmlns='http://www.omg.org/spec/BPMN/20100524/MODEL'" + "             targetNamespace='org.activiti.enginge.test.json'>" + "  <process id='LoanProcess' >"+ "    <startEvent id='theStart' />"+ "    <sequenceFlow id='flow1' sourceRef='theStart' targetRef='theTask' />"+ "    <userTask id='theTask' name='my task' />"+ "    <sequenceFlow id='flow2' sourceRef='theTask' targetRef='theEnd' />"+ "    <endEvent id='theEnd' />"+ "  </process>"+ " </definitions>")));
-  deploymentIds.add(deployProcessString(("<definitions xmlns='http://www.omg.org/spec/BPMN/20100524/MODEL'" + "             targetNamespace='org.activiti.enginge.test.json'>" + "  <process id='ExpenseNoteProcess' >"+ "    <startEvent id='theStart' />"+ "    <sequenceFlow id='flow1' sourceRef='theStart' targetRef='theTask' />"+ "    <userTask id='theTask' name='my task' />"+ "    <sequenceFlow id='flow2' sourceRef='theTask' targetRef='theEnd' />"+ "    <endEvent id='theEnd' />"+ "  </process>"+ "</definitions>")));
-  List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().list();
-  JsonListConverter<ProcessDefinition> jsonListConverter=new JsonListConverter<ProcessDefinition>(new JsonProcessDefinitionConverter());
-  System.out.println(jsonListConverter.toJson(processDefinitions,2));
-  deleteDeployments(deploymentIds);
-}

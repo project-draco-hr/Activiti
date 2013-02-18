@@ -1,0 +1,11 @@
+{
+  try {
+    String deploymentId=repositoryService.createDeployment().addString("test.bpmn20.xml",UNSAFE_XML).deploy().getId();
+    repositoryService.deleteDeployment(deploymentId,true);
+  }
+ catch (  Exception e) {
+  }
+ finally {
+    finished=true;
+  }
+}

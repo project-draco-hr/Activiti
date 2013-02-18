@@ -1,4 +1,13 @@
 {
   super.terminalError(event);
-  notificationManager.showErrorNotification(Messages.UNCAUGHT_EXCEPTION,event.getThrowable().getCause().getMessage());
+  Throwable exception=event.getThrowable().getCause();
+  int depth=0;
+  while (exception != null && depth < 20 && !(exception instanceof ActivitiException)) {
+    exception=exception.getCause();
+    depth++;
+  }
+  if (exception == null) {
+    exception=event.getThrowable().getCause();
+  }
+  notificationManager.showErrorNotification(Messages.UNCAUGHT_EXCEPTION,exception.getMessage());
 }

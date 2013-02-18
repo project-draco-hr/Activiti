@@ -1,6 +1,6 @@
 {
   try {
-    return url.openStream();
+    return new BufferedInputStream(url.openStream());
   }
  catch (  IOException e) {
     throw new ActivitiIllegalArgumentException("couldn't open url '" + url + "'",e);
