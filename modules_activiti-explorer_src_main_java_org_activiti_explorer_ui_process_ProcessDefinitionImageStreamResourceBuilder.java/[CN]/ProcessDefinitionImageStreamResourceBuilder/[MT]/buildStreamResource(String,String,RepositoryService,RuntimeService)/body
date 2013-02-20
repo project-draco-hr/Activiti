@@ -2,7 +2,8 @@
   StreamResource imageResource=null;
   ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processDefinitionId);
   if (processDefinition != null && processDefinition.isGraphicalNotationDefined()) {
-    InputStream definitionImageStream=ProcessDiagramGenerator.generateDiagram(processDefinition,"png",runtimeService.getActiveActivityIds(processInstanceId));
+    BpmnModel bpmnModel=repositoryService.getBpmnModel(processDefinitionId);
+    InputStream definitionImageStream=ProcessDiagramGenerator.generateDiagram(bpmnModel,"png",runtimeService.getActiveActivityIds(processInstanceId));
     StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
     String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());
     String fileName=processInstanceId + UUID.randomUUID() + "."+ imageExtension;

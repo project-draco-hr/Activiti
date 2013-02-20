@@ -1,0 +1,80 @@
+{
+  mxIGraphModel model=graph.getModel();
+  List<Object> roots=graph.findTreeRoots(parent,true,invert);
+  for (  Object root : roots) {
+    parent=model.getParent(root);
+    if (isBoundaryEvent(root)) {
+      parent=model.getParent(parent);
+    }
+    model.beginUpdate();
+    try {
+      TreeNode node=dfs(root,parent,null);
+      if (node != null) {
+        layout(node);
+        double x0=graph.getGridSize();
+        double y0=x0;
+        if (!moveTree || parent == graph.getDefaultParent() || parent == graph.getCurrentRoot()) {
+          mxGeometry g=model.getGeometry(root);
+          if (g.isRelative()) {
+            g=model.getGeometry(model.getParent(root));
+          }
+          if (g != null) {
+            x0=g.getX();
+            y0=g.getY();
+          }
+        }
+        mxRectangle bounds=null;
+        if (horizontal) {
+          bounds=horizontalLayout(node,x0,y0,null);
+        }
+ else {
+          bounds=verticalLayout(node,null,x0,y0,null);
+        }
+        if (bounds != null) {
+          double dx=0;
+          double dy=0;
+          if (bounds.getX() < 0) {
+            dx=Math.abs(x0 - bounds.getX());
+          }
+          if (bounds.getY() < 0) {
+            dy=Math.abs(y0 - bounds.getY());
+          }
+          if (parent != null) {
+            mxRectangle size=graph.getStartSize(parent);
+            dx+=size.getWidth();
+            dy+=size.getHeight();
+            if (resizeParent && !graph.isCellCollapsed(parent)) {
+              mxGeometry g=model.getGeometry(parent);
+              if (g != null) {
+                double width=bounds.getWidth() + size.getWidth() - bounds.getX() + 2 * x0;
+                double height=bounds.getHeight() + size.getHeight() - bounds.getY() + 2 * y0;
+                g=(mxGeometry)g.clone();
+                if (g.getWidth() > width) {
+                  dx+=(g.getWidth() - width) / 2;
+                }
+ else {
+                  g.setWidth(width);
+                }
+                if (g.getHeight() > height) {
+                  if (horizontal) {
+                    dy+=(g.getHeight() - height) / 2;
+                  }
+                }
+ else {
+                  g.setHeight(height);
+                }
+                model.setGeometry(parent,g);
+              }
+            }
+          }
+          if (model.getParent(node.cell) != graph.getCurrentRoot() && model.getParent(node.cell) != graph.getDefaultParent()) {
+            moveNode(node,dx,dy);
+          }
+        }
+      }
+    }
+  finally {
+      model.endUpdate();
+    }
+  }
+}

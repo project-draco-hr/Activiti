@@ -1,7 +1,7 @@
 {
   HashMap<String,List<SequenceFlow>> incomingSequenceFlowMapping=new HashMap<String,List<SequenceFlow>>();
   HashMap<String,List<SequenceFlow>> outgoingSequenceFlowMapping=new HashMap<String,List<SequenceFlow>>();
-  for (  FlowElement flowElement : BpmnModelUtil.findFlowElementsOfType(process,SequenceFlow.class)) {
+  for (  FlowElement flowElement : process.findFlowElementsOfType(SequenceFlow.class)) {
     SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
     String srcId=sequenceFlow.getSourceRef();
     String targetId=sequenceFlow.getTargetRef();

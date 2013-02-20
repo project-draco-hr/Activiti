@@ -1,0 +1,11 @@
+{
+  if (bytes == null) {
+    try {
+      bytes=getBytesFromInputStream(inputStream);
+    }
+ catch (    IOException e) {
+      throw new RuntimeException("Could not read from inputstream",e);
+    }
+  }
+  return new BufferedInputStream(new ByteArrayInputStream(bytes));
+}

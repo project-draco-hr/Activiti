@@ -5,7 +5,7 @@
   userTask.setDocumentation(humanStepDefinition.getDescription());
   if (humanStepDefinition.isAssigneeInitiator()) {
     userTask.setAssignee(getInitiatorExpression());
-    for (    StartEvent startEvent : BpmnModelUtil.findFlowElementsOfType(conversion.getProcess(),StartEvent.class)) {
+    for (    StartEvent startEvent : conversion.getProcess().findFlowElementsOfType(StartEvent.class)) {
       startEvent.setInitiator(getInitiatorVariable());
     }
   }

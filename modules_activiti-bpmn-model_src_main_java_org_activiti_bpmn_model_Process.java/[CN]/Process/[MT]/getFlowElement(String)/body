@@ -1,12 +1,7 @@
 {
-  FlowElement foundElement=null;
-  if (StringUtils.isNotEmpty(id)) {
-    for (    FlowElement element : flowElementList) {
-      if (id.equals(element.getId())) {
-        foundElement=element;
-        break;
-      }
-    }
+  FlowElement flowElement=flowElementMap.get(flowElementId);
+  if (flowElement == null) {
+    flowElement=findFlowElementInList(flowElementId);
   }
-  return foundElement;
+  return flowElement;
 }

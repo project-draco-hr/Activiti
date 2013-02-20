@@ -8,12 +8,10 @@
   }
   if (foundFlowElement == null) {
     for (    Process process : processes) {
-      for (      FlowElement flowElement : process.getFlowElements()) {
-        if (flowElement instanceof SubProcess) {
-          foundFlowElement=getFlowElementInSubProcess(id,(SubProcess)flowElement);
-          if (foundFlowElement != null) {
-            break;
-          }
+      for (      FlowElement flowElement : process.findFlowElementsOfType(SubProcess.class)) {
+        foundFlowElement=getFlowElementInSubProcess(id,(SubProcess)flowElement);
+        if (foundFlowElement != null) {
+          break;
         }
       }
       if (foundFlowElement != null) {
