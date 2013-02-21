@@ -35,19 +35,6 @@
     }
   }
   ArrayNode formPropertyArray=getArray(humanStepJson,FORM,false);
-  if (formPropertyArray != null) {
-    Iterator<JsonNode> formProperyIterator=formPropertyArray.iterator();
-    FormDefinition formDefinition=new FormDefinition();
-    while (formProperyIterator.hasNext()) {
-      JsonNode formPropertyJsonNode=formProperyIterator.next();
-      FormPropertyDefinition propertyDefinition=new FormPropertyDefinition();
-      propertyDefinition.setPropertyName(getStringFieldValue(formPropertyJsonNode,FORM_PROPERTY_NAME,true));
-      propertyDefinition.setType(getStringFieldValue(formPropertyJsonNode,FORM_PROPERTY_TYPE,true));
-      propertyDefinition.setRequired(getBooleanValue(formPropertyJsonNode,FORM_PROPERTY_MANDATORY,false,false));
-      propertyDefinition.setValues(getStringList(formPropertyJsonNode,FORM_PROPERTY_VALUES,false));
-      formDefinition.addFormProperty(propertyDefinition);
-    }
-    humanStepDefinition.setForm(formDefinition);
-  }
+  humanStepDefinition.setForm(convertToFormDefinition(formPropertyArray));
   return humanStepDefinition;
 }

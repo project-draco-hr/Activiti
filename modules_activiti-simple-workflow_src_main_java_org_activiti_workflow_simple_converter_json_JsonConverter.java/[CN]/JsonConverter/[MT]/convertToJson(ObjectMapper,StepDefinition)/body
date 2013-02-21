@@ -5,6 +5,9 @@
  else   if (stepDefinition instanceof HumanStepDefinition) {
     return convertToJson(objectMapper,(HumanStepDefinition)stepDefinition);
   }
+ else   if (stepDefinition instanceof FeedbackStepDefinition) {
+    return convertToJson(objectMapper,(FeedbackStepDefinition)stepDefinition);
+  }
  else {
     throw new ActivitiException("Unknown step definition type " + stepDefinition.getClass().getName() + ": cannot complete json conversion");
   }

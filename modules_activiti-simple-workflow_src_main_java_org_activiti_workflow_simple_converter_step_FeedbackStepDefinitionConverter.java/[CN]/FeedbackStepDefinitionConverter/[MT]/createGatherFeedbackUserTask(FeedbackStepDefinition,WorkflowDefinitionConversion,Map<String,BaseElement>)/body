@@ -1,7 +1,7 @@
 {
   UserTask gatherFeedbackUserTask=new UserTask();
   gatherFeedbackUserTask.setId(conversion.getUniqueNumberedId(ConversionConstants.USER_TASK_ID_PREFIX));
-  gatherFeedbackUserTask.setName(feedbackStepDefinition.getName());
+  gatherFeedbackUserTask.setName(getGatherFeedbackTaskName());
   gatherFeedbackUserTask.setAssignee(feedbackStepDefinition.getFeedbackInitiator());
   addFlowElement(conversion,gatherFeedbackUserTask);
   processElements.put(SELECT_PEOPLE_USER_TASK,gatherFeedbackUserTask);
