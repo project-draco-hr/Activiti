@@ -2,7 +2,9 @@
   FeedbackStepDefinition feedbackStepDefinition=new FeedbackStepDefinition();
   feedbackStepDefinition.setName(name);
   feedbackStepDefinition.setFeedbackInitiator(initiator);
-  feedbackStepDefinition.setFeedbackProviders(feedbackProviders);
+  if (feedbackProviders != null) {
+    feedbackStepDefinition.setFeedbackProviders(feedbackProviders);
+  }
   addStep(feedbackStepDefinition);
   return (T)this;
 }

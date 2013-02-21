@@ -2,6 +2,8 @@
   WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(workflowDefinition);
   conversion.convert();
   log.info("Converted process : " + conversion.getbpm20Xml());
+  long processDefinitionCount=activitiRule.getRepositoryService().createProcessDefinitionQuery().count();
   deployProcessDefinition(conversion);
+  assertEquals(processDefinitionCount + 1,activitiRule.getRepositoryService().createProcessDefinitionQuery().count());
   return getDeployedProcessKey();
 }

@@ -2,6 +2,7 @@
   UserTask feedbackTask=new UserTask();
   feedbackTask.setId(conversion.getUniqueNumberedId(ConversionConstants.USER_TASK_ID_PREFIX));
   feedbackTask.setName(feedbackStepDefinition.getName());
+  feedbackTask.setAssignee("${" + VARIABLE_FEEDBACK_PROVIDER + "}");
   MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics=new MultiInstanceLoopCharacteristics();
   multiInstanceLoopCharacteristics.setSequential(false);
   multiInstanceLoopCharacteristics.setInputDataItem(VARIABLE_FEEDBACK_PROVIDERS);
