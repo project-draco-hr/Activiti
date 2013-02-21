@@ -1,5 +1,7 @@
 {
-  String processInstanceId=runtimeService.startProcessInstanceByKey("HistoricTaskInstanceTest").getId();
+  Map<String,Object> varMap=new HashMap<String,Object>();
+  varMap.put("formKeyVar","expressionFormKey");
+  String processInstanceId=runtimeService.startProcessInstanceByKey("HistoricTaskInstanceTest",varMap).getId();
   SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
   Task runtimeTask=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
   runtimeTask.setPriority(1234);
@@ -17,6 +19,7 @@
   assertEquals(dueDate,historicTaskInstance.getDueDate());
   assertEquals("kermit",historicTaskInstance.getAssignee());
   assertEquals(taskDefinitionKey,historicTaskInstance.getTaskDefinitionKey());
+  assertEquals("expressionFormKey",historicTaskInstance.getFormKey());
   assertNull(historicTaskInstance.getEndTime());
   assertNull(historicTaskInstance.getDurationInMillis());
   assertNull(historicTaskInstance.getWorkTimeInMillis());
@@ -26,6 +29,7 @@
   historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
   assertNotNull(historicTaskInstance.getClaimTime());
   assertNull(historicTaskInstance.getWorkTimeInMillis());
+  assertEquals("expressionFormKey",historicTaskInstance.getFormKey());
   taskService.complete(taskId);
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().count());
   historicTaskInstance=historyService.createHistoricTaskInstanceQuery().singleResult();
@@ -37,6 +41,7 @@
   assertEquals("kermit",historicTaskInstance.getAssignee());
   assertEquals(TaskEntity.DELETE_REASON_COMPLETED,historicTaskInstance.getDeleteReason());
   assertEquals(taskDefinitionKey,historicTaskInstance.getTaskDefinitionKey());
+  assertEquals("expressionFormKey",historicTaskInstance.getFormKey());
   assertNotNull(historicTaskInstance.getEndTime());
   assertNotNull(historicTaskInstance.getDurationInMillis());
   assertNotNull(historicTaskInstance.getClaimTime());

@@ -1,0 +1,17 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
+    HistoricTaskInstanceEntity historicTaskInstance=getDbSqlSession().selectById(HistoricTaskInstanceEntity.class,task.getId());
+    if (historicTaskInstance != null) {
+      historicTaskInstance.setTaskDefinitionKey(taskDefinitionKey);
+      if (taskDefinitionKey != null) {
+        TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
+        if (taskFormHandler != null) {
+          TaskFormData formData=taskFormHandler.createTaskForm(task);
+          if (StringUtils.isNotEmpty(formData.getFormKey())) {
+            historicTaskInstance.setFormKey(formData.getFormKey());
+          }
+        }
+      }
+    }
+  }
+}
