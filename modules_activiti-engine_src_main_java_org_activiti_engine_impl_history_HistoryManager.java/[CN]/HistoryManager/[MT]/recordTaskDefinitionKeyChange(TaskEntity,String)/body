@@ -6,9 +6,11 @@
       if (taskDefinitionKey != null) {
         TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
         if (taskFormHandler != null) {
-          TaskFormData formData=taskFormHandler.createTaskForm(task);
-          if (StringUtils.isNotEmpty(formData.getFormKey())) {
-            historicTaskInstance.setFormKey(formData.getFormKey());
+          if (taskFormHandler.getFormKey() != null) {
+            Object formValue=taskFormHandler.getFormKey().getValue(task.getExecution());
+            if (formValue != null) {
+              historicTaskInstance.setFormKey(formValue.toString());
+            }
           }
         }
       }

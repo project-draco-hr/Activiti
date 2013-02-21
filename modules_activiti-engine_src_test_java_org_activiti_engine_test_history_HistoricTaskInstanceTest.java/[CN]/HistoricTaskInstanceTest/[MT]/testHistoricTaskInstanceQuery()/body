@@ -32,7 +32,7 @@
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().processDefinitionKey("HistoricTaskQueryTest").count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().processDefinitionKey("unexistingdefinitionkey").count());
   HistoricTaskInstance historicTask=historyService.createHistoricTaskInstanceQuery().processInstanceId(finishedInstance.getId()).singleResult();
-  assertEquals("formKeyTest",historicTask.getFormKey());
+  assertEquals("testFormKey",historicTask.getFormKey());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskAssignee("kermit").count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskAssignee("johndoe").count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%ermit").count());
