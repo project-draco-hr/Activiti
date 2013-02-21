@@ -1,6 +1,6 @@
 {
   List<FlowElement> successors=new ArrayList<FlowElement>();
-  for (  SequenceFlow sequenceFlow : findFlowElementsOfType(process,SequenceFlow.class)) {
+  for (  SequenceFlow sequenceFlow : process.findFlowElementsOfType(SequenceFlow.class)) {
     if (sequenceFlow.getSourceRef().equals(sourceFlowElement.getId())) {
       successors.add(process.getFlowElement(sequenceFlow.getTargetRef()));
     }

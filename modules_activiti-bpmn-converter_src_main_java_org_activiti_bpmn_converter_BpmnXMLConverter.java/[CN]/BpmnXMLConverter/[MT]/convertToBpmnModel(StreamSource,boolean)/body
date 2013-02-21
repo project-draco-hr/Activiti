@@ -1,0 +1,44 @@
+{
+  XMLInputFactory xif=XMLInputFactory.newInstance();
+  if (xif.isPropertySupported(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES)) {
+    xif.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES,false);
+  }
+  if (xif.isPropertySupported(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES)) {
+    xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,false);
+  }
+  if (xif.isPropertySupported(XMLInputFactory.SUPPORT_DTD)) {
+    xif.setProperty(XMLInputFactory.SUPPORT_DTD,false);
+  }
+  InputStreamReader in=null;
+  try {
+    in=new InputStreamReader(streamSource.getInputStream(),"UTF-8");
+    XMLStreamReader xtr=xif.createXMLStreamReader(in);
+    try {
+      if (validateSchema) {
+        validateModel(xtr);
+        in=new InputStreamReader(streamSource.getInputStream(),"UTF-8");
+        xtr=xif.createXMLStreamReader(in);
+      }
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Could not validate XML with BPMN 2.0 XSD",e);
+    }
+    return convertToBpmnModel(xtr);
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new RuntimeException("The bpmn 2.0 xml is not UTF8 encoded",e);
+  }
+catch (  XMLStreamException e) {
+    throw new RuntimeException("Error while reading the BPMN 2.0 XML",e);
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException e) {
+        LOGGER.info("Problem closing BPMN input stream",e);
+      }
+    }
+  }
+}

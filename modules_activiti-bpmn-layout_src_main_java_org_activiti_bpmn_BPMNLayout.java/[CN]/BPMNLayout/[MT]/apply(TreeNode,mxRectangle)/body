@@ -1,0 +1,15 @@
+{
+  mxRectangle g=graph.getModel().getGeometry(node.cell);
+  if (node.cell != null && g != null) {
+    if (isVertexMovable(node.cell)) {
+      g=setVertexLocation(node.cell,node.x,node.y);
+    }
+    if (bounds == null) {
+      bounds=new mxRectangle(g.getX(),g.getY(),g.getWidth(),g.getHeight());
+    }
+ else {
+      bounds=new mxRectangle(Math.min(bounds.getX(),g.getX()),Math.min(bounds.getY(),g.getY()),Math.max(bounds.getX() + bounds.getWidth(),g.getX() + g.getWidth()),Math.max(bounds.getY() + bounds.getHeight(),g.getY() + g.getHeight()));
+    }
+  }
+  return bounds;
+}

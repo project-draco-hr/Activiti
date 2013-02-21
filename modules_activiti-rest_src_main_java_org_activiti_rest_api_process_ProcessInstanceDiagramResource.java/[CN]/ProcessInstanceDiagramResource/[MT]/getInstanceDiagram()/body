@@ -9,7 +9,8 @@
   }
   ProcessDefinitionEntity pde=(ProcessDefinitionEntity)((RepositoryServiceImpl)ActivitiUtil.getRepositoryService()).getDeployedProcessDefinition(pi.getProcessDefinitionId());
   if (pde != null && pde.isGraphicalNotationDefined()) {
-    InputStream resource=ProcessDiagramGenerator.generateDiagram(pde,"png",ActivitiUtil.getRuntimeService().getActiveActivityIds(processInstanceId));
+    BpmnModel bpmnModel=ActivitiUtil.getRepositoryService().getBpmnModel(pde.getId());
+    InputStream resource=ProcessDiagramGenerator.generateDiagram(bpmnModel,"png",ActivitiUtil.getRuntimeService().getActiveActivityIds(processInstanceId));
     InputRepresentation output=new InputRepresentation(resource,MediaType.IMAGE_PNG);
     return output;
   }

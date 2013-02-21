@@ -9,7 +9,7 @@
   sequenceFlow.setTargetRef(END_EVENT_ID);
   process.addFlowElement(sequenceFlow);
   SequenceFlowMapping sequenceFlowMapping=generateSequenceflowMappings(process);
-  for (  FlowNode flowNode : BpmnModelUtil.findFlowElementsOfType(process,FlowNode.class)) {
+  for (  FlowNode flowNode : process.findFlowElementsOfType(FlowNode.class)) {
     List<SequenceFlow> incomingSequenceFlow=sequenceFlowMapping.getIncomingSequenceFlowMapping().get(flowNode.getId());
     if (incomingSequenceFlow != null) {
       flowNode.setIncomingFlows(incomingSequenceFlow);

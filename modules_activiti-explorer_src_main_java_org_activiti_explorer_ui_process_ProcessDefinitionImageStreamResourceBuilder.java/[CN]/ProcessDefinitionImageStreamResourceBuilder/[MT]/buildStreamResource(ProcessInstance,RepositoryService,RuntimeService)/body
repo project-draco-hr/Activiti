@@ -3,7 +3,8 @@
   ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
   if (processDefinition != null && processDefinition.isGraphicalNotationDefined()) {
     try {
-      InputStream definitionImageStream=ProcessDiagramGenerator.generateDiagram(processDefinition,"png",runtimeService.getActiveActivityIds(processInstance.getId()));
+      BpmnModel bpmnModel=repositoryService.getBpmnModel(processInstance.getId());
+      InputStream definitionImageStream=ProcessDiagramGenerator.generateDiagram(bpmnModel,"png",runtimeService.getActiveActivityIds(processInstance.getId()));
       if (definitionImageStream != null) {
         StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
         String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());

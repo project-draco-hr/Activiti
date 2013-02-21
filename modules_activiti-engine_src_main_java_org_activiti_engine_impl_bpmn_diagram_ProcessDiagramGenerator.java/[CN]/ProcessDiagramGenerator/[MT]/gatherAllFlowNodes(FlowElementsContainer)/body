@@ -1,0 +1,12 @@
+{
+  List<FlowNode> flowNodes=new ArrayList<FlowNode>();
+  for (  FlowElement flowElement : flowElementsContainer.getFlowElements()) {
+    if (flowElement instanceof FlowNode) {
+      flowNodes.add((FlowNode)flowElement);
+    }
+    if (flowElement instanceof FlowElementsContainer) {
+      flowNodes.addAll(gatherAllFlowNodes((FlowElementsContainer)flowElement));
+    }
+  }
+  return flowNodes;
+}
