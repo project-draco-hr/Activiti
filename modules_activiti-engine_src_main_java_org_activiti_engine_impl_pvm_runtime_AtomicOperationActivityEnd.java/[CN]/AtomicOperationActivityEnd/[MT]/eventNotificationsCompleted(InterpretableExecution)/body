@@ -28,9 +28,14 @@
       InterpretableExecution parentScopeExecution=(InterpretableExecution)execution.getParent();
       execution.destroy();
       execution.remove();
-      if (activity.getParent() == activity.getProcessDefinition() && activity.getOutgoingTransitions().isEmpty()) {
+      if (activity.getParent() == activity.getProcessDefinition()) {
         parentScopeExecution.setActivity(activity);
-        parentScopeExecution.end();
+        if (activity.getOutgoingTransitions().isEmpty()) {
+          parentScopeExecution.end();
+        }
+ else {
+          parentScopeExecution.performOperation(PROCESS_END);
+        }
       }
  else {
         parentScopeExecution.setActivity(parentActivity);
