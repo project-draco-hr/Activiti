@@ -1,6 +1,16 @@
 {
-  execution.setVariable("myVar",sentenceGenerator.getSentence());
+  log.info("Entering DelegateExpressionBean.execute()");
+  if (sentenceGenerator != null) {
+    execution.setVariable("myVar",sentenceGenerator.getSentence());
+  }
+ else {
+    execution.setVariable("myVar","SentenceGenerator is not injected by spring");
+  }
   if (someField != null) {
     execution.setVariable("fieldInjection",someField.getValue(execution));
   }
+ else {
+    execution.setVariable("fieldInjection","Field injection not working");
+  }
+  log.info("Leaving DelegateExpressionBean.execute()");
 }
