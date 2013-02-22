@@ -1,0 +1,22 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").addFeedbackStep("Test feedback","kermit");
+  activitiRule.getRuntimeService().startProcessInstanceByKey(convertAndDeploy(workflowDefinition));
+  assertEquals(1,taskService.createTaskQuery().count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  Task task=taskService.createTaskQuery().singleResult();
+  TaskService taskService=activitiRule.getTaskService();
+  taskService.complete(task.getId(),CollectionUtil.singletonMap(FeedbackStepDefinitionConverter.VARIABLE_FEEDBACK_PROVIDERS,Arrays.asList("gonzo","fozzie")));
+  assertEquals(3,taskService.createTaskQuery().count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("gonzo").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("fozzie").count());
+  for (  Task feedbackTask : taskService.createTaskQuery().list()) {
+    if (!feedbackTask.getAssignee().equals("kermit")) {
+      activitiRule.getTaskService().complete(feedbackTask.getId());
+    }
+  }
+  assertEquals(1,taskService.createTaskQuery().count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  activitiRule.getTaskService().complete(activitiRule.getTaskService().createTaskQuery().singleResult().getId());
+  assertEquals(0,activitiRule.getRuntimeService().createProcessInstanceQuery().count());
+}

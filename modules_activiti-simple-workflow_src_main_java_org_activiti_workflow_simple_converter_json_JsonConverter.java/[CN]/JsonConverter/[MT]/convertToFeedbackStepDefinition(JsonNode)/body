@@ -1,0 +1,7 @@
+{
+  FeedbackStepDefinition feedbackStepDefinition=new FeedbackStepDefinition();
+  feedbackStepDefinition.setFeedbackInitiator(getStringFieldValue(feedbackStepNode,FEEDBACK_STEP_INITIATOR,true));
+  ArrayNode formPropertyArray=getArray(feedbackStepNode,FORM,false);
+  feedbackStepDefinition.setFormDefinitionForFeedbackProviders(convertToFormDefinition(formPropertyArray));
+  return feedbackStepDefinition;
+}

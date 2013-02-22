@@ -15,17 +15,7 @@
     }
   }
   if (humanStepDefinition.getForm() != null) {
-    FormDefinition formDefinition=humanStepDefinition.getForm();
-    ArrayNode form=humanStepNode.putArray(FORM);
-    if (formDefinition.getFormProperties() != null && formDefinition.getFormProperties().size() > 0) {
-      for (      FormPropertyDefinition propertyDefinition : formDefinition.getFormProperties()) {
-        ObjectNode formPropertyNode=objectMapper.createObjectNode();
-        formPropertyNode.put(FORM_PROPERTY_NAME,propertyDefinition.getPropertyName());
-        formPropertyNode.put(FORM_PROPERTY_TYPE,propertyDefinition.getType());
-        formPropertyNode.put(FORM_PROPERTY_MANDATORY,propertyDefinition.isRequired());
-        form.add(formPropertyNode);
-      }
-    }
+    humanStepNode.put(FORM,convertFormToJson(objectMapper,humanStepDefinition.getForm()));
   }
   return humanStepNode;
 }
