@@ -1,0 +1,6 @@
+{
+  deployer.deploy("withAlternative");
+  Object lookup=ProgrammaticBeanLookup.lookup("testOnly");
+  assertThat(lookup.getClass().getName(),is(equalTo(AlternativeTestBean.class.getName())));
+  deployer.undeploy("withAlternative");
+}
