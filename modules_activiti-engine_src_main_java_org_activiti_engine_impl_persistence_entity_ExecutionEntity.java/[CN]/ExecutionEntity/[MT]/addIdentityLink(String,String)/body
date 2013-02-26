@@ -1,10 +1,8 @@
 {
   IdentityLinkEntity identityLinkEntity=IdentityLinkEntity.createAndInsert();
   getIdentityLinks().add(identityLinkEntity);
-  identityLinkEntity.setTask(this);
+  identityLinkEntity.setProcessInstance(this);
   identityLinkEntity.setUserId(userId);
-  identityLinkEntity.setGroupId(groupId);
   identityLinkEntity.setType(type);
-  getProcessInstance().involveUser(owner,IdentityLinkType.PARTICIPANT);
   return identityLinkEntity;
 }

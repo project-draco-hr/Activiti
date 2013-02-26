@@ -1,0 +1,7 @@
+{
+  ExecutionEntity processInstance=Context.getCommandContext().getExecutionEntityManager().findExecutionById(processInstanceId);
+  if (processInstance == null) {
+    throw new ActivitiObjectNotFoundException("Cannot find process definition with id " + processInstanceId,ExecutionEntity.class);
+  }
+  return (List)processInstance.getIdentityLinks();
+}

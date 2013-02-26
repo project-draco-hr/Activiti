@@ -1,5 +1,8 @@
 {
   fireEvent(TaskListener.EVENTNAME_COMPLETE);
+  if (Authentication.getAuthenticatedUserId() != null) {
+    getProcessInstance().involveUser(Authentication.getAuthenticatedUserId(),IdentityLinkType.PARTICIPANT);
+  }
   Context.getCommandContext().getTaskEntityManager().deleteTask(this,TaskEntity.DELETE_REASON_COMPLETED,false);
   if (executionId != null) {
     ExecutionEntity execution=getExecution();
