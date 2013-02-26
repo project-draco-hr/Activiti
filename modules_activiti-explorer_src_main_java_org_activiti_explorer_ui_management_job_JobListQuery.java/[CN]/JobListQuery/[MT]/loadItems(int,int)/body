@@ -1,5 +1,5 @@
 {
-  List<Job> jobs=repositoryService.createJobQuery().orderByJobDuedate().asc().orderByJobId().asc().list();
+  List<Job> jobs=managementService.createJobQuery().orderByJobDuedate().asc().orderByJobId().asc().list();
   List<Item> items=new ArrayList<Item>();
   for (  Job job : jobs) {
     items.add(new JobListItem(job));
