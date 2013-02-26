@@ -1,0 +1,10 @@
+{
+  assertEquals(0,repositoryService.createProcessDefinitionQuery().count());
+  try {
+    deployBean.deployProcesses();
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
+  assertEquals(0,repositoryService.createProcessDefinitionQuery().count());
+}
