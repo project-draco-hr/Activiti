@@ -1,0 +1,9 @@
+{
+  try {
+    identityService.setAuthenticatedUserId(userId);
+    return runtimeService.startProcessInstanceByKey(processId).getId();
+  }
+  finally {
+    identityService.setAuthenticatedUserId(null);
+  }
+}

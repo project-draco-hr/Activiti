@@ -1,0 +1,9 @@
+{
+  try {
+    identityService.setAuthenticatedUserId(userId);
+    taskService.complete(taskId);
+  }
+  finally {
+    identityService.setAuthenticatedUserId(null);
+  }
+}
