@@ -1,0 +1,6 @@
+{
+  String instanceId=startProcessAsUser("threeParallelTasks","user1");
+  assertInvolvement("user1",instanceId);
+  runtimeService.deleteProcessInstance(instanceId,"Testing instance removal");
+  assertNoInvolvement("user1");
+}
