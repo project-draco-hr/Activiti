@@ -1,0 +1,11 @@
+{
+  if (endpoint.isCopyVariablesToBodyAsMap()) {
+    copyVariablesToBodyAsMap(variables,exchange);
+  }
+ else   if (endpoint.isCopyCamelBodyToBody()) {
+    copyVariablesToBody(variables,exchange);
+  }
+ else {
+    copyVariablesToProperties(variables,exchange);
+  }
+}
