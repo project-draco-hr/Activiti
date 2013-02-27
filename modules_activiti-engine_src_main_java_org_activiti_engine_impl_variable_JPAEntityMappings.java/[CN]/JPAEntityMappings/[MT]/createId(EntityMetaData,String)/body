@@ -36,6 +36,9 @@
  else   if (type == BigInteger.class) {
     return new BigInteger(string);
   }
+ else   if (type == UUID.class) {
+    return UUID.fromString(string);
+  }
  else {
     throw new ActivitiIllegalArgumentException("Unsupported Primary key type for JPA-Entity: " + type.getName());
   }

@@ -1,0 +1,13 @@
+{
+  InputStream inputStream=null;
+  if (classLoader == null) {
+    inputStream=ReflectUtil.getResourceAsStream(resource);
+  }
+ else {
+    inputStream=classLoader.getResourceAsStream(resource);
+  }
+  if (inputStream == null) {
+    throw new ActivitiIllegalArgumentException("resource '" + resource + "' doesn't exist");
+  }
+  return new BufferedInputStream(inputStream);
+}
