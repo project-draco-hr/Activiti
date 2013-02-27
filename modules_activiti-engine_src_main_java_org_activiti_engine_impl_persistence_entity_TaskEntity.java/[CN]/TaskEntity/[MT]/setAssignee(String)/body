@@ -6,7 +6,7 @@
   CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
     commandContext.getHistoryManager().recordTaskAssigneeChange(id,assignee);
-    if (processInstanceId != null) {
+    if (assignee != null && processInstanceId != null) {
       getProcessInstance().involveUser(assignee,IdentityLinkType.PARTICIPANT);
     }
     fireEvent(TaskListener.EVENTNAME_ASSIGNMENT);
