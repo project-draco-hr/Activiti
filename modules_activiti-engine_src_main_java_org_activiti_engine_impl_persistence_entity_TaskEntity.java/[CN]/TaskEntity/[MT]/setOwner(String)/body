@@ -6,6 +6,8 @@
   CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
     commandContext.getHistoryManager().recordTaskOwnerChange(id,owner);
-    getProcessInstance().involveUser(owner,IdentityLinkType.PARTICIPANT);
+    if (processInstanceId != null) {
+      getProcessInstance().involveUser(owner,IdentityLinkType.PARTICIPANT);
+    }
   }
 }
