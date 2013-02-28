@@ -1,0 +1,24 @@
+{
+  reportTable=new Table();
+  reportListQuery=new ReportListQuery();
+  reportListContainer=new LazyLoadingContainer(reportListQuery);
+  reportTable.setContainerDataSource(reportListContainer);
+  reportTable.addContainerProperty("name",String.class,null);
+  reportTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
+  reportTable.addListener(new Property.ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    public void valueChange(    ValueChangeEvent event){
+      Item item=reportTable.getItem(event.getProperty().getValue());
+      if (item != null) {
+        String processDefinitionId=(String)item.getItemProperty("id").getValue();
+        setDetailComponent(new ReportDetailPanel(processDefinitionId,RunReportsPage.this));
+      }
+ else {
+        setDetailComponent(null);
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ActiveProcessDefinitionNavigator.ACTIVE_PROC_DEF_URI_PART));
+      }
+    }
+  }
+);
+  return reportTable;
+}

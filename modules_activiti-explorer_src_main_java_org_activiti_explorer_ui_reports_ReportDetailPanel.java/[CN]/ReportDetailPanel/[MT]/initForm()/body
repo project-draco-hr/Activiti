@@ -1,0 +1,23 @@
+{
+  final ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
+  StartFormData startFormData=processEngine.getFormService().getStartFormData(processDefinition.getId());
+  if (startFormData != null && ((startFormData.getFormProperties() != null && startFormData.getFormProperties().size() > 0) || startFormData.getFormKey() != null)) {
+    processDefinitionStartForm=new FormPropertiesForm();
+    processDefinitionStartForm.setFormProperties(startFormData.getFormProperties());
+    processDefinitionStartForm.setSubmitButtonCaption("Generate report");
+    processDefinitionStartForm.hideCancelButton();
+    processDefinitionStartForm.addListener(new FormPropertiesEventListener(){
+      private static final long serialVersionUID=1L;
+      protected void handleFormSubmit(      FormPropertiesEvent event){
+        processEngine.getFormService().submitStartFormData(processDefinition.getId(),event.getFormProperties());
+      }
+      protected void handleFormCancel(      FormPropertiesEvent event){
+      }
+    }
+);
+    detailContainer.addComponent(processDefinitionStartForm);
+  }
+ else {
+    ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinition.getId());
+  }
+}
