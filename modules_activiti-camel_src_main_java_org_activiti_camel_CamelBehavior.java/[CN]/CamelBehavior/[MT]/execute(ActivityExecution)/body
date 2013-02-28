@@ -1,15 +1,9 @@
 {
-  ProcessEngineConfiguration engineConfiguration=Context.getProcessEngineConfiguration();
-  if (engineConfiguration instanceof SpringProcessEngineConfiguration == false) {
-    throw new ActivitiException("Expecting a Spring process engine configuration for the Activiti Camel module");
-  }
-  SpringProcessEngineConfiguration springConfiguration=(SpringProcessEngineConfiguration)engineConfiguration;
-  String camelContextValue=getStringFromField(camelContext,execution);
-  if (StringUtils.isEmpty(camelContextValue)) {
-    camelContextValue=springConfiguration.getDefaultCamelContext();
-  }
-  ActivitiEndpoint endpoint=createEndpoint(execution,springConfiguration,camelContextValue);
-  Exchange exchange=createExchange(execution,endpoint,springConfiguration,camelContextValue);
+  setAppropriateCamelContext(execution);
+  ActivitiComponent component=camelContextObj.getComponent("activiti",ActivitiComponent.class);
+  modifyActivitiComponent(component);
+  ActivitiEndpoint endpoint=createEndpoint(execution);
+  Exchange exchange=createExchange(execution,endpoint);
   endpoint.process(exchange);
   execution.setVariables(ExchangeUtils.prepareVariables(exchange,endpoint));
   performDefaultOutgoingBehavior(execution);
