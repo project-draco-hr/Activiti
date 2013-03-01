@@ -1,0 +1,13 @@
+{
+  if (historicProcessInstance.getBusinessKey() != null && !historicProcessInstance.getBusinessKey().isEmpty()) {
+    if (Authentication.getAuthenticatedUserId() != null) {
+      return historicProcessInstance.getBusinessKey().replaceFirst(Authentication.getAuthenticatedUserId() + "\\_","");
+    }
+ else {
+      return historicProcessInstance.getBusinessKey();
+    }
+  }
+ else {
+    return DateFormat.getDateTimeInstance().format(historicProcessInstance.getEndTime());
+  }
+}
