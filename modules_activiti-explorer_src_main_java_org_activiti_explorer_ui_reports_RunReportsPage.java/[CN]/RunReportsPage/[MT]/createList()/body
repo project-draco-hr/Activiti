@@ -3,6 +3,8 @@
   reportListQuery=new ReportListQuery();
   reportListContainer=new LazyLoadingContainer(reportListQuery);
   reportTable.setContainerDataSource(reportListContainer);
+  reportTable.addGeneratedColumn("icon",new ThemeImageColumnGenerator(Images.REPORT_22));
+  reportTable.setColumnWidth("icon",22);
   reportTable.addContainerProperty("name",String.class,null);
   reportTable.setColumnHeaderMode(Table.COLUMN_HEADER_MODE_HIDDEN);
   reportTable.addListener(new Property.ValueChangeListener(){
