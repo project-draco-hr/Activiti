@@ -1,0 +1,21 @@
+{
+  GridLayout details=new GridLayout(2,2);
+  details.setWidth(100,UNITS_PERCENTAGE);
+  details.addStyleName(ExplorerLayout.STYLE_TITLE_BLOCK);
+  details.setSpacing(true);
+  details.setMargin(false,false,true,false);
+  details.setColumnExpandRatio(1,1.0f);
+  detailPanelLayout.addComponent(details);
+  Embedded image=new Embedded(null,Images.REPORT_50);
+  details.addComponent(image,0,0,0,1);
+  Label nameLabel=new Label(SavedReportListItem.getReportDisplayName(historicProcessInstance));
+  nameLabel.addStyleName(Reindeer.LABEL_H2);
+  details.addComponent(nameLabel,1,0);
+  HorizontalLayout propertiesLayout=new HorizontalLayout();
+  propertiesLayout.setSpacing(true);
+  details.addComponent(propertiesLayout);
+  String createLabel=i18nManager.getMessage(Messages.REPORTING_CREATE_TIME,new HumanTime(i18nManager).format(historicProcessInstance.getEndTime()));
+  Label versionLabel=new Label(createLabel);
+  versionLabel.addStyleName(ExplorerLayout.STYLE_PROCESS_HEADER_START_TIME);
+  propertiesLayout.addComponent(versionLabel);
+}

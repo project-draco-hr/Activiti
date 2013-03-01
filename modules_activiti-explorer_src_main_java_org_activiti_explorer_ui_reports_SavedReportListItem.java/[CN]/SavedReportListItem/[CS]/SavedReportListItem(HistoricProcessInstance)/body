@@ -1,0 +1,8 @@
+{
+  addItemProperty("id",new ObjectProperty<String>(historicProcessInstance.getId(),String.class));
+  addItemProperty("name",getNameProperty(historicProcessInstance));
+  if (historicProcessInstance.getEndTime() == null) {
+    throw new ActivitiIllegalArgumentException("The given process-instance is not ended yet");
+  }
+  addItemProperty("createTime",new ObjectProperty<Date>(historicProcessInstance.getEndTime(),Date.class));
+}

@@ -1,0 +1,8 @@
+{
+  List<HistoricProcessInstance> processInstances=createQuery().listPage(start,count);
+  List<Item> reportItems=new ArrayList<Item>();
+  for (  HistoricProcessInstance instance : processInstances) {
+    reportItems.add(new SavedReportListItem(instance));
+  }
+  return reportItems;
+}
