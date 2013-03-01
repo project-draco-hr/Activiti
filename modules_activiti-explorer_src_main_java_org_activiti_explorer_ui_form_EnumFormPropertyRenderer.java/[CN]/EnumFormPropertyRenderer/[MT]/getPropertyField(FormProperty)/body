@@ -3,14 +3,22 @@
   comboBox.setRequired(formProperty.isRequired());
   comboBox.setRequiredError(getMessage(Messages.FORM_FIELD_REQUIRED,getPropertyLabel(formProperty)));
   comboBox.setEnabled(formProperty.isWritable());
+  comboBox.setNullSelectionAllowed(false);
+  Object firstItemId=null;
   Map<String,String> values=(Map<String,String>)formProperty.getType().getInformation("values");
   if (values != null) {
     for (    Entry<String,String> enumEntry : values.entrySet()) {
       comboBox.addItem(enumEntry.getKey());
+      if (firstItemId == null) {
+        firstItemId=enumEntry.getKey();
+      }
       if (enumEntry.getValue() != null) {
         comboBox.setItemCaption(enumEntry.getKey(),enumEntry.getValue());
       }
     }
+  }
+  if (firstItemId != null) {
+    comboBox.select(firstItemId);
   }
   return comboBox;
 }

@@ -1,7 +1,7 @@
 {
   JsonNode jsonNode=convert(reportData);
-  String type=jsonNode.get("type").getTextValue();
   JsonNode dataNode=jsonNode.get("data");
+  String description=jsonNode.get("description").getTextValue();
   String[] names=new String[dataNode.size()];
   Number[] values=new Number[dataNode.size()];
   int index=0;
@@ -12,14 +12,32 @@
     values[index]=dataNode.get(field).getNumberValue();
     index++;
   }
+  String type=jsonNode.get("type").getTextValue();
+  DCharts chart=null;
   if (CHART_TYPE_BAR_CHART.equals(type)) {
     DataSeries dataSeries=new DataSeries().add((Object[])values);
     SeriesDefaults seriesDefaults=new SeriesDefaults().setRenderer(SeriesRenderers.BAR);
     Axes axes=new Axes().addAxis(new XYaxis().setRenderer(AxisRenderers.CATEGORY).setTicks(new Ticks().add((Object[])names)));
     Highlighter highlighter=new Highlighter().setShow(false);
     Options options=new Options().setSeriesDefaults(seriesDefaults).setAxes(axes).setHighlighter(highlighter);
-    DCharts chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
-    return chart;
+    options.setAnimate(true);
+    options.setAnimateReplot(true);
+    chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
   }
-  return null;
+ else   if (CHART_TYPE_PIE_CHART.equals(type)) {
+    DataSeries dataSeries=new DataSeries().newSeries();
+    for (int i=0; i < names.length; i++) {
+      dataSeries.add(names[i],values[i]);
+    }
+    SeriesDefaults seriesDefaults=new SeriesDefaults().setRenderer(SeriesRenderers.PIE);
+    Options options=new Options().setSeriesDefaults(seriesDefaults);
+    options.setAnimate(true);
+    options.setAnimateReplot(true);
+    Legend legend=new Legend().setShow(true).setPlacement(LegendPlacements.INSIDE);
+    options.setLegend(legend);
+    Highlighter highlighter=new Highlighter().setShow(true);
+    options.setHighlighter(highlighter);
+    chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
+  }
+  return new ChartComponent(description,chart);
 }
