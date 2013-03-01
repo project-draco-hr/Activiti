@@ -1,8 +1,3 @@
 {
   getDbSqlSession().delete(identityInfo);
-  if (IdentityInfoEntity.TYPE_USERACCOUNT.equals(identityInfo.getType())) {
-    for (    IdentityInfoEntity identityInfoDetail : findIdentityInfoDetails(identityInfo.getId())) {
-      getDbSqlSession().delete(identityInfoDetail);
-    }
-  }
 }
