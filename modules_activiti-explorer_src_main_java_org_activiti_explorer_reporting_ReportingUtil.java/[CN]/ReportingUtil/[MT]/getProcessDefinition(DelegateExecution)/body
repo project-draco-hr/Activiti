@@ -1,0 +1,9 @@
+{
+  ExecutionEntity executionEntity=(ExecutionEntity)delegateExecution;
+  if (executionEntity.getProcessDefinition() != null) {
+    return (ProcessDefinition)executionEntity.getProcessDefinition();
+  }
+ else {
+    return ProcessEngines.getDefaultProcessEngine().getRepositoryService().createProcessDefinitionQuery().processDefinitionId(delegateExecution.getProcessDefinitionId()).singleResult();
+  }
+}
