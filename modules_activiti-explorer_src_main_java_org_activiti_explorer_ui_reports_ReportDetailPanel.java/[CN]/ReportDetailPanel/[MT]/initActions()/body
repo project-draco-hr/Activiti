@@ -1,10 +1,13 @@
 {
-  Button saveButton=new Button(i18nManager.getMessage(Messages.BUTTON_SAVE));
+  final Button saveButton=new Button(i18nManager.getMessage(Messages.BUTTON_SAVE));
   saveButton.addListener(new ClickListener(){
     private static final long serialVersionUID=1L;
     public void buttonClick(    ClickEvent event){
-      ChangeProcessSuspensionStatePopupWindow popupWindow=new ChangeProcessSuspensionStatePopupWindow(processDefinition.getId(),parentPage,false);
-      ExplorerApp.get().getViewManager().showPopupWindow(popupWindow);
+      SaveReportPopupWindow saveReportPopupWindow=new SaveReportPopupWindow();
+      saveReportPopupWindow.setProcessDefinitionId(processDefinition.getId());
+      saveReportPopupWindow.setOriginalFormProperties(savedFormProperties);
+      saveReportPopupWindow.setComponentToDisableOnClose(saveButton);
+      ExplorerApp.get().getViewManager().showPopupWindow(saveReportPopupWindow);
     }
   }
 );

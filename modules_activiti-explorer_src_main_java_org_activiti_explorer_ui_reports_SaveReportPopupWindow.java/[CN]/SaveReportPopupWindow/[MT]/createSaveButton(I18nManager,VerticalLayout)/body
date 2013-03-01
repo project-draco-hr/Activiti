@@ -1,0 +1,39 @@
+{
+  layout.addComponent(new Label("&nbsp",Label.CONTENT_XHTML));
+  Button saveButton=new Button(i18nManager.getMessage(Messages.BUTTON_SAVE));
+  layout.addComponent(saveButton);
+  layout.setComponentAlignment(saveButton,Alignment.MIDDLE_CENTER);
+  saveButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      String reportName=null;
+      String error=null;
+      if (nameField.getValue() == null || ((String)nameField.getValue()).length() == 0) {
+        error=i18nManager.getMessage(Messages.REPORTING_SAVE_POPUP_NAME_EMPTY);
+      }
+ else {
+        reportName=ExplorerApp.get().getLoggedInUser().getId() + "_" + nameField.getValue();
+        if (reportName.length() > 255) {
+          error=i18nManager.getMessage(Messages.REPORTING_SAVE_POPUP_NAME_TOO_LONG);
+        }
+ else {
+          boolean nameUsed=ProcessEngines.getDefaultProcessEngine().getHistoryService().createHistoricProcessInstanceQuery().processInstanceBusinessKey(reportName).count() != 0;
+          if (nameUsed) {
+            error=i18nManager.getMessage(Messages.REPORTING_SAVE_POPUP_NAME_EXISTS);
+          }
+        }
+      }
+      if (originalFormProperties != null) {
+        startProcessInstanceWithFormProperties(reportName);
+      }
+ else {
+        startProcessInstance(reportName);
+      }
+      if (componentToDisableOnClose != null) {
+        componentToDisableOnClose.setEnabled(false);
+      }
+      close();
+    }
+  }
+);
+}

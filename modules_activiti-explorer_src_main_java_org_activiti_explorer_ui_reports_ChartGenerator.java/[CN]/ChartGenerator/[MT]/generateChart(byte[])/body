@@ -33,6 +33,10 @@
     Options options=new Options().setSeriesDefaults(seriesDefaults);
     options.setAnimate(true);
     options.setAnimateReplot(true);
+    Legend legend=new Legend().setShow(true).setPlacement(LegendPlacements.INSIDE);
+    options.setLegend(legend);
+    Highlighter highlighter=new Highlighter().setShow(true);
+    options.setHighlighter(highlighter);
     chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
   }
   return new ChartComponent(description,chart);

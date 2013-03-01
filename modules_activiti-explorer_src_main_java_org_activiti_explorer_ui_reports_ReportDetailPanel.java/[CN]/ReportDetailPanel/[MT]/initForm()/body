@@ -10,8 +10,8 @@
     processDefinitionStartForm.addListener(new FormPropertiesEventListener(){
       private static final long serialVersionUID=1L;
       protected void handleFormSubmit(      FormPropertiesEvent event){
-        ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
-        ProcessInstance processInstance=processEngine.getFormService().submitStartFormData(processDefinition.getId(),event.getFormProperties());
+        savedFormProperties=event.getFormProperties();
+        ProcessInstance processInstance=startProcessInstanceWithFormProperties(processDefinition.getId(),event.getFormProperties());
         generateReport(processInstance);
       }
       protected void handleFormCancel(      FormPropertiesEvent event){
@@ -20,7 +20,7 @@
 );
   }
  else {
-    ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinition.getId());
+    ProcessInstance processInstance=startProcessInstance(processDefinition.getId());
     generateReport(processInstance);
   }
 }
