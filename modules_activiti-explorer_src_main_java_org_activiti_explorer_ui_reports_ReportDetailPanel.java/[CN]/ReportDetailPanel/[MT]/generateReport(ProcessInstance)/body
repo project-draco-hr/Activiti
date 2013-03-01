@@ -1,0 +1,12 @@
+{
+  HistoricVariableInstance historicVariableInstance=ProcessEngines.getDefaultProcessEngine().getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("reportData").singleResult();
+  byte[] reportData=(byte[])historicVariableInstance.getValue();
+  ChartComponent chart=ChartGenerator.generateChart(reportData);
+  chart.setWidth(100,UNITS_PERCENTAGE);
+  chart.setHeight(100,UNITS_PERCENTAGE);
+  if (processDefinitionStartForm != null) {
+    detailContainer.removeComponent(processDefinitionStartForm);
+    processDefinitionStartForm=null;
+  }
+  detailContainer.addComponent(chart);
+}

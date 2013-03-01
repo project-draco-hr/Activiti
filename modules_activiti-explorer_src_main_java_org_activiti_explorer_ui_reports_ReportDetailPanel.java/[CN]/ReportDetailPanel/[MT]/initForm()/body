@@ -3,21 +3,24 @@
   StartFormData startFormData=processEngine.getFormService().getStartFormData(processDefinition.getId());
   if (startFormData != null && ((startFormData.getFormProperties() != null && startFormData.getFormProperties().size() > 0) || startFormData.getFormKey() != null)) {
     processDefinitionStartForm=new FormPropertiesForm();
+    detailContainer.addComponent(processDefinitionStartForm);
     processDefinitionStartForm.setFormProperties(startFormData.getFormProperties());
     processDefinitionStartForm.setSubmitButtonCaption("Generate report");
     processDefinitionStartForm.hideCancelButton();
     processDefinitionStartForm.addListener(new FormPropertiesEventListener(){
       private static final long serialVersionUID=1L;
       protected void handleFormSubmit(      FormPropertiesEvent event){
-        processEngine.getFormService().submitStartFormData(processDefinition.getId(),event.getFormProperties());
+        ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
+        ProcessInstance processInstance=processEngine.getFormService().submitStartFormData(processDefinition.getId(),event.getFormProperties());
+        generateReport(processInstance);
       }
       protected void handleFormCancel(      FormPropertiesEvent event){
       }
     }
 );
-    detailContainer.addComponent(processDefinitionStartForm);
   }
  else {
     ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinition.getId());
+    generateReport(processInstance);
   }
 }
