@@ -12,14 +12,7 @@
       protected void handleFormSubmit(      FormPropertiesEvent event){
         ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
         ProcessInstance processInstance=processEngine.getFormService().submitStartFormData(processDefinition.getId(),event.getFormProperties());
-        HistoricVariableInstance historicVariableInstance=processEngine.getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("reportData").singleResult();
-        byte[] reportData=(byte[])historicVariableInstance.getValue();
-        DCharts chart=ChartGenerator.generateChart(reportData);
-        chart.setWidth(500,UNITS_PIXELS);
-        chart.setHeight(500,UNITS_PIXELS);
-        detailContainer.removeComponent(processDefinitionStartForm);
-        detailContainer.addComponent(chart);
-        chart.show();
+        generateReport(processInstance);
       }
       protected void handleFormCancel(      FormPropertiesEvent event){
       }
@@ -28,5 +21,6 @@
   }
  else {
     ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceById(processDefinition.getId());
+    generateReport(processInstance);
   }
 }
