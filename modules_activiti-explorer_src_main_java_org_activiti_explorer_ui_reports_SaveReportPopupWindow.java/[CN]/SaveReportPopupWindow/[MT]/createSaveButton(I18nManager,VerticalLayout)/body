@@ -23,16 +23,25 @@
           }
         }
       }
-      if (originalFormProperties != null) {
-        startProcessInstanceWithFormProperties(reportName);
+      if (error != null) {
+        setHeight(185,UNITS_PIXELS);
+        layout.addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
+        Label errorLabel=new Label(error);
+        errorLabel.addStyleName(ExplorerLayout.STYLE_ERROR);
+        layout.addComponent(errorLabel);
       }
  else {
-        startProcessInstance(reportName);
+        if (originalFormProperties != null) {
+          startProcessInstanceWithFormProperties(reportName);
+        }
+ else {
+          startProcessInstance(reportName);
+        }
+        if (componentToDisableOnClose != null) {
+          componentToDisableOnClose.setEnabled(false);
+        }
+        close();
       }
-      if (componentToDisableOnClose != null) {
-        componentToDisableOnClose.setEnabled(false);
-      }
-      close();
     }
   }
 );

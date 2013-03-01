@@ -12,32 +12,11 @@
     values[index]=dataNode.get(field).getNumberValue();
     index++;
   }
-  String type=jsonNode.get("type").getTextValue();
-  DCharts chart=null;
-  if (CHART_TYPE_BAR_CHART.equals(type)) {
-    DataSeries dataSeries=new DataSeries().add((Object[])values);
-    SeriesDefaults seriesDefaults=new SeriesDefaults().setRenderer(SeriesRenderers.BAR);
-    Axes axes=new Axes().addAxis(new XYaxis().setRenderer(AxisRenderers.CATEGORY).setTicks(new Ticks().add((Object[])names)));
-    Highlighter highlighter=new Highlighter().setShow(false);
-    Options options=new Options().setSeriesDefaults(seriesDefaults).setAxes(axes).setHighlighter(highlighter);
-    options.setAnimate(true);
-    options.setAnimateReplot(true);
-    chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
+  if (names.length > 0) {
+    DCharts chart=createChart(jsonNode,names,values);
+    return new ChartComponent(description,chart);
   }
- else   if (CHART_TYPE_PIE_CHART.equals(type)) {
-    DataSeries dataSeries=new DataSeries().newSeries();
-    for (int i=0; i < names.length; i++) {
-      dataSeries.add(names[i],values[i]);
-    }
-    SeriesDefaults seriesDefaults=new SeriesDefaults().setRenderer(SeriesRenderers.PIE);
-    Options options=new Options().setSeriesDefaults(seriesDefaults);
-    options.setAnimate(true);
-    options.setAnimateReplot(true);
-    Legend legend=new Legend().setShow(true).setPlacement(LegendPlacements.INSIDE);
-    options.setLegend(legend);
-    Highlighter highlighter=new Highlighter().setShow(true);
-    options.setHighlighter(highlighter);
-    chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
+ else {
+    return new ChartComponent(description,ExplorerApp.get().getI18nManager().getMessage(Messages.REPORTING_ERROR_NOT_ENOUGH_DATA));
   }
-  return new ChartComponent(description,chart);
 }
