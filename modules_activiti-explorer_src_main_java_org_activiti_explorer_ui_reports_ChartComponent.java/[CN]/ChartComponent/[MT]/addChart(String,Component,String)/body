@@ -7,11 +7,12 @@
     addComponent(label);
     addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
   }
-  if (dCharts != null) {
-    dCharts.setWidth(600,UNITS_PIXELS);
-    dCharts.setHeight(500,UNITS_PIXELS);
-    addComponent(dCharts);
-    dCharts.show();
+  if (chart != null) {
+    if (chart instanceof DCharts) {
+      chart.setWidth(500,UNITS_PIXELS);
+      chart.setHeight(450,UNITS_PIXELS);
+    }
+    addComponent(chart);
   }
   if (errorMessage != null) {
     Label errorLabel=new Label(errorMessage);
