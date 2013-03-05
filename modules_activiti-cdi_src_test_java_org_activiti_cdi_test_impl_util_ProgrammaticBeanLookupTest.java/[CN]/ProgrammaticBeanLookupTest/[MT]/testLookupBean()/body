@@ -1,6 +1,6 @@
 {
   deployer.deploy("normal");
   Object lookup=ProgrammaticBeanLookup.lookup("testOnly");
-  assertThat(lookup.getClass(),is(TestBean.class.getClass()));
+  assertTrue(lookup.getClass().isAssignableFrom(TestBean.class));
   deployer.undeploy("normal");
 }

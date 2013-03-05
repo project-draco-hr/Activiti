@@ -10,10 +10,10 @@
     assertTextPresent("This is an exception thrown from scriptTask",re.getMessage());
   }
   timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
-  Assert.assertNotNull(timerJob);
-  Assert.assertNotNull(timerJob.getExceptionMessage());
+  assertNotNull(timerJob);
+  assertNotNull(timerJob.getExceptionMessage());
   assertTextPresent("This is an exception thrown from scriptTask",timerJob.getExceptionMessage());
   String exceptionStack=managementService.getJobExceptionStacktrace(timerJob.getId());
-  Assert.assertNotNull(exceptionStack);
+  assertNotNull(exceptionStack);
   assertTextPresent("This is an exception thrown from scriptTask",exceptionStack);
 }

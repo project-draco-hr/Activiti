@@ -1,0 +1,9 @@
+{
+  try {
+    ObjectMapper objectMapper=new ObjectMapper();
+    return objectMapper.readTree(jsonBytes);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Report dataset contains invalid json",e);
+  }
+}

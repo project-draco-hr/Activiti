@@ -1,0 +1,8 @@
+{
+  List<ProcessDefinition> processDefinitions=createQuery().listPage(start,count);
+  List<Item> reportItems=new ArrayList<Item>();
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    reportItems.add(new ReportListItem(processDefinition));
+  }
+  return reportItems;
+}

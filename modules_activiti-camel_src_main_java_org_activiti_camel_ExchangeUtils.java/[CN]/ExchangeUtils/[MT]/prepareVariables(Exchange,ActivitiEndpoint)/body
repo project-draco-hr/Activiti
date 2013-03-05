@@ -1,13 +1,23 @@
 {
-  Map<String,Object> ret=new HashMap<String,Object>();
   boolean shouldReadFromProperties=activitiEndpoint.isCopyVariablesFromProperties();
-  Map<?,?> m=shouldReadFromProperties ? exchange.getProperties() : exchange.getIn().getBody(Map.class);
-  if (m != null) {
-    for (    Map.Entry e : m.entrySet()) {
-      if (e.getKey() instanceof String) {
-        ret.put((String)e.getKey(),e.getValue());
+  Map<String,Object> camelVarMap=null;
+  if (shouldReadFromProperties) {
+    camelVarMap=exchange.getProperties();
+  }
+ else {
+    camelVarMap=new HashMap<String,Object>();
+    Object camelBody=exchange.getIn().getBody();
+    if (camelBody instanceof String) {
+      camelVarMap.put("camelBody",camelBody);
+    }
+ else     if (camelBody instanceof Map<?,?>) {
+      Map<?,?> camelBodyMap=(Map<?,?>)camelBody;
+      for (      @SuppressWarnings("rawtypes") Map.Entry e : camelBodyMap.entrySet()) {
+        if (e.getKey() instanceof String) {
+          camelVarMap.put((String)e.getKey(),e.getValue());
+        }
       }
     }
   }
-  return ret;
+  return camelVarMap;
 }
