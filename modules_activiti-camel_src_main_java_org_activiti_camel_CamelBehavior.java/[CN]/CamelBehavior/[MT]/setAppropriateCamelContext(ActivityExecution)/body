@@ -1,0 +1,24 @@
+{
+  if (springConfiguration == null) {
+    ProcessEngineConfiguration engineConfiguration=Context.getProcessEngineConfiguration();
+    try {
+      springConfiguration=(SpringProcessEngineConfiguration)engineConfiguration;
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Expecting a SpringProcessEngineConfiguration for the Activiti Camel module.",e);
+    }
+  }
+  String camelContextValue=getStringFromField(camelContext,execution);
+  if (StringUtils.isEmpty(camelContextValue) && camelContextObj != null) {
+  }
+ else {
+    if (StringUtils.isEmpty(camelContextValue) && camelContextObj == null) {
+      camelContextValue=springConfiguration.getDefaultCamelContext();
+    }
+    Object ctx=springConfiguration.getApplicationContext().getBean(camelContextValue);
+    if (ctx == null || ctx instanceof CamelContext == false) {
+      throw new ActivitiException("Could not find CamelContext named " + camelContextValue + ".");
+    }
+    camelContextObj=(CamelContext)ctx;
+  }
+}

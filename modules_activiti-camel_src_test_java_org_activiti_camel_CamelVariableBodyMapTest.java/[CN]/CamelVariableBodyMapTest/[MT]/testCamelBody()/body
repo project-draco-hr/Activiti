@@ -1,0 +1,11 @@
+{
+  Map<String,Object> varMap=new HashMap<String,Object>();
+  varMap.put("camelBody","hello world");
+  service1.expectedBodiesReceived(varMap);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("HelloCamel",varMap);
+  assertEquals("hello world",runtimeService.getVariable(processInstance.getId(),"camelBody"));
+  service1.assertIsSatisfied();
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("Hello Task",task.getName());
+  taskService.complete(task.getId());
+}

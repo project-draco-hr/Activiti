@@ -1,9 +1,0 @@
-{
-  Object value=execution.getVariableLocal(variableName);
-  ActivityExecution parent=execution.getParent();
-  while (value == null && parent != null) {
-    value=parent.getVariableLocal(variableName);
-    parent=parent.getParent();
-  }
-  return (Integer)value;
-}

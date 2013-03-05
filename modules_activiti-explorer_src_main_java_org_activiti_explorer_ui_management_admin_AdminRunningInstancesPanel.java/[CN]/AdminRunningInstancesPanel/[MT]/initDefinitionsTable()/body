@@ -13,6 +13,9 @@
       }
  else {
         ProcessDefinition definition=repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+        if (definition == null) {
+          continue;
+        }
         managementDefinition=new ManagementProcessDefinition();
         managementDefinition.processDefinition=definition;
         managementDefinition.runningInstances=new ArrayList<HistoricProcessInstance>();
