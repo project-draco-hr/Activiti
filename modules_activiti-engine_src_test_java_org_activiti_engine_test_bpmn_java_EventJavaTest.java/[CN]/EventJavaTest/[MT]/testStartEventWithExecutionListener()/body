@@ -29,7 +29,7 @@
   process.addFlowElement(endEvent);
   byte[] xml=new BpmnXMLConverter().convertToXML(bpmnModel);
   XMLInputFactory xif=XMLInputFactory.newInstance();
-  new BpmnXMLConverter().validateModel(xif.createXMLStreamReader(new ByteArrayInputStream(xml)));
+  new BpmnXMLConverter().validateModel(new InputStreamSource(new ByteArrayInputStream(xml)));
   Deployment deployment=repositoryService.createDeployment().name("test").addString("test.bpmn20.xml",new String(xml)).deploy();
   repositoryService.deleteDeployment(deployment.getId());
 }

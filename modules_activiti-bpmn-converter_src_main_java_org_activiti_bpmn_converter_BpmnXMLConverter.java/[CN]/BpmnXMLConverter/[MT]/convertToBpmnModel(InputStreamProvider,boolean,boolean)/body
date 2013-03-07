@@ -15,7 +15,12 @@
     XMLStreamReader xtr=xif.createXMLStreamReader(in);
     try {
       if (validateSchema) {
-        validateModel(xtr);
+        if (!enableSafeBpmnXml) {
+          validateModel(inputStreamProvider);
+        }
+ else {
+          validateModel(xtr);
+        }
         in=new InputStreamReader(inputStreamProvider.getInputStream(),"UTF-8");
         xtr=xif.createXMLStreamReader(in);
       }

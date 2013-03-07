@@ -1,7 +1,11 @@
 {
   try {
     BpmnXMLConverter converter=new BpmnXMLConverter();
-    bpmnModel=converter.convertToBpmnModel(streamSource,true);
+    boolean enableSafeBpmnXml=false;
+    if (Context.getProcessEngineConfiguration() != null) {
+      enableSafeBpmnXml=Context.getProcessEngineConfiguration().isEnableSafeBpmnXml();
+    }
+    bpmnModel=converter.convertToBpmnModel(streamSource,true,enableSafeBpmnXml);
     createImports();
     createItemDefinitions();
     createMessages();
