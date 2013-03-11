@@ -14,10 +14,11 @@
       if (item != null) {
         String processDefinitionId=(String)item.getItemProperty("id").getValue();
         setDetailComponent(new ReportDetailPanel(processDefinitionId,RunReportsPage.this));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ReportNavigator.REPORT_URI_PART,processDefinitionId));
       }
  else {
         setDetailComponent(null);
-        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ActiveProcessDefinitionNavigator.ACTIVE_PROC_DEF_URI_PART));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ReportNavigator.REPORT_URI_PART));
       }
     }
   }
