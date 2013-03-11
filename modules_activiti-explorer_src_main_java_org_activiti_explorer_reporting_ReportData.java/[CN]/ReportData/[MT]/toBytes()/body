@@ -1,0 +1,12 @@
+{
+  try {
+    ObjectMapper objectMapper=new ObjectMapper();
+    objectMapper.configure(SerializationConfig.Feature.FLUSH_AFTER_WRITE_VALUE,false);
+    objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES,false);
+    objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_PROPERTIES,false);
+    return objectMapper.writeValueAsBytes(this);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Could not convert report data to json",e);
+  }
+}
