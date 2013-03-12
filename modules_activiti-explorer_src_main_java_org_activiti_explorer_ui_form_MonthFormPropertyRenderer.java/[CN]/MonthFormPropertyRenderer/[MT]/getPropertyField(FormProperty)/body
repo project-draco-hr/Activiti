@@ -1,0 +1,15 @@
+{
+  ComboBox comboBox=new MonthCombobox(getPropertyLabel(formProperty));
+  comboBox.setRequired(formProperty.isRequired());
+  comboBox.setRequiredError(getMessage(Messages.FORM_FIELD_REQUIRED,getPropertyLabel(formProperty)));
+  comboBox.setEnabled(formProperty.isWritable());
+  I18nManager i18nManager=ExplorerApp.get().getI18nManager();
+  for (int i=0; i < 12; i++) {
+    comboBox.addItem(i);
+    comboBox.setItemCaption(i,i18nManager.getMessage(Messages.MONTH_PREFIX + i));
+  }
+  comboBox.setNullSelectionAllowed(false);
+  Calendar cal=Calendar.getInstance();
+  comboBox.select(cal.get(Calendar.MONTH));
+  return comboBox;
+}
