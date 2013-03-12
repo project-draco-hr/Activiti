@@ -7,13 +7,13 @@
     formProperty.setName(propertyDefinition.getPropertyName());
     formProperty.setRequired(propertyDefinition.isRequired());
     String type=null;
-    if (DefaultFormPropertyTypes.NUMBER.equalsIgnoreCase(propertyDefinition.getType())) {
+    if (DefaultFormPropertyTypes.NUMBER.equals(propertyDefinition.getType())) {
       type="long";
     }
- else     if (DefaultFormPropertyTypes.DATE.equalsIgnoreCase(propertyDefinition.getType())) {
+ else     if (DefaultFormPropertyTypes.DATE.equals(propertyDefinition.getType())) {
       type="date";
     }
- else     if (DefaultFormPropertyTypes.LIST.equalsIgnoreCase(propertyDefinition.getType())) {
+ else     if (DefaultFormPropertyTypes.LIST.equals(propertyDefinition.getType())) {
       type="enum";
       if (!propertyDefinition.getValues().isEmpty()) {
         List<FormValue> formValues=new ArrayList<FormValue>(propertyDefinition.getValues().size());
@@ -25,8 +25,8 @@
         }
       }
     }
- else     if (DefaultFormPropertyTypes.TEXT.equalsIgnoreCase(propertyDefinition.getType())) {
-      type="string";
+ else     if (DefaultFormPropertyTypes.TEXT.equals(propertyDefinition.getType())) {
+      type="text";
     }
  else {
       type=propertyDefinition.getType();

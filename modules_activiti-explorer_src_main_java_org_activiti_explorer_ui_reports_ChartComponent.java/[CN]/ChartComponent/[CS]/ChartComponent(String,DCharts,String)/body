@@ -1,0 +1,20 @@
+{
+  addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
+  addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
+  if (description != null) {
+    Label label=new Label(description);
+    label.addStyleName(Reindeer.LABEL_H2);
+    addComponent(label);
+    addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
+  }
+  if (dCharts != null) {
+    dCharts.setWidth(600,UNITS_PIXELS);
+    dCharts.setHeight(500,UNITS_PIXELS);
+    addComponent(dCharts);
+    dCharts.show();
+  }
+  if (errorMessage != null) {
+    Label errorLabel=new Label(errorMessage);
+    addComponent(errorLabel);
+  }
+}

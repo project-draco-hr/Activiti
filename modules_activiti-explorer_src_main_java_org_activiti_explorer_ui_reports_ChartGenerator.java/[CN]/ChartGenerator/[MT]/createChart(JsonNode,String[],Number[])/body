@@ -1,16 +1,6 @@
 {
-  String type=dataNode.get("type").getTextValue();
-  JsonNode xAxisNode=dataNode.get("xaxis");
-  String xAxis=null;
-  if (xAxisNode != null) {
-    xAxis=xAxisNode.getTextValue();
-  }
-  JsonNode yAxisNode=dataNode.get("yaxis");
-  String yAxis=null;
-  if (yAxisNode != null) {
-    yAxis=yAxisNode.getTextValue();
-  }
-  Component chart=null;
+  String type=jsonNode.get("type").getTextValue();
+  DCharts chart=null;
   if (CHART_TYPE_BAR_CHART.equals(type)) {
     DataSeries dataSeries=new DataSeries().add((Object[])values);
     SeriesDefaults seriesDefaults=new SeriesDefaults().setRenderer(SeriesRenderers.BAR);
@@ -35,39 +25,6 @@
     Highlighter highlighter=new Highlighter().setShow(true);
     options.setHighlighter(highlighter);
     chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
-  }
- else   if (CHART_TYPE_LINE_CHART.equals(type)) {
-    AxesDefaults axesDefaults=new AxesDefaults().setLabelRenderer(LabelRenderers.CANVAS);
-    Axes axes=new Axes().addAxis(new XYaxis().setLabel(xAxis != null ? xAxis : "").setMin(names[0]).setMax(names[values.length - 1]).setDrawMajorTickMarks(true)).addAxis(new XYaxis(XYaxes.Y).setLabel(yAxis != null ? yAxis : "").setDrawMajorTickMarks(true));
-    Options options=new Options().setAxesDefaults(axesDefaults).setAxes(axes);
-    DataSeries dataSeries=new DataSeries().newSeries();
-    for (int i=0; i < names.length; i++) {
-      dataSeries.add(names[i],values[i]);
-    }
-    Series series=new Series().addSeries(new XYseries().setShowLine(true).setMarkerOptions(new MarkerRenderer().setShadow(true).setSize(7).setStyle(MarkerStyles.CIRCLE)));
-    options.setSeries(series);
-    options.setAnimate(true);
-    options.setAnimateReplot(true);
-    Highlighter highlighter=new Highlighter().setShow(true);
-    options.setHighlighter(highlighter);
-    chart=new DCharts().setDataSeries(dataSeries).setOptions(options);
-  }
- else   if (CHART_TYPE_LIST.equals(type)) {
-    GridLayout grid=new GridLayout(2,names.length);
-    grid.setSpacing(true);
-    for (int i=0; i < names.length; i++) {
-      String name=names[i];
-      Label nameLabel=new Label(name);
-      nameLabel.addStyleName(ExplorerLayout.STYLE_LABEL_BOLD);
-      grid.addComponent(nameLabel,0,i);
-      Number value=values[i];
-      Label valueLabel=new Label(value + "");
-      grid.addComponent(valueLabel,1,i);
-    }
-    chart=grid;
-  }
-  if (chart instanceof DCharts) {
-    ((DCharts)chart).show();
   }
   return chart;
 }

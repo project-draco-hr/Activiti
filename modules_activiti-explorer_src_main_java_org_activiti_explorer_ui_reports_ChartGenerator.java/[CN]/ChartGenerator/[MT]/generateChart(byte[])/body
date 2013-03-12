@@ -1,49 +1,22 @@
 {
   JsonNode jsonNode=convert(reportData);
-  JsonNode titleNode=jsonNode.get("title");
-  String title=null;
-  if (titleNode != null) {
-    title=titleNode.getTextValue();
+  JsonNode dataNode=jsonNode.get("data");
+  String description=jsonNode.get("description").getTextValue();
+  String[] names=new String[dataNode.size()];
+  Number[] values=new Number[dataNode.size()];
+  int index=0;
+  Iterator<String> fieldIterator=dataNode.getFieldNames();
+  while (fieldIterator.hasNext()) {
+    String field=fieldIterator.next();
+    names[index]=field;
+    values[index]=dataNode.get(field).getNumberValue();
+    index++;
   }
-  ChartComponent chartComponent=new ChartComponent(title);
-  JsonNode datasetsNode=jsonNode.get("datasets");
-  if (datasetsNode.size() == 0) {
-    chartComponent.addChart(null,null,ExplorerApp.get().getI18nManager().getMessage(Messages.REPORTING_ERROR_NOT_ENOUGH_DATA));
-    return chartComponent;
+  if (names.length > 0) {
+    DCharts chart=createChart(jsonNode,names,values);
+    return new ChartComponent(description,chart);
   }
-  if (datasetsNode != null && datasetsNode.isArray()) {
-    Iterator<JsonNode> dataIterator=datasetsNode.iterator();
-    while (dataIterator.hasNext()) {
-      JsonNode datasetNode=dataIterator.next();
-      JsonNode descriptionNode=datasetNode.get("description");
-      String description=null;
-      if (descriptionNode != null) {
-        description=descriptionNode.getTextValue();
-      }
-      JsonNode dataNode=datasetNode.get("data");
-      if (dataNode == null || dataNode.size() == 0) {
-        chartComponent.addChart(description,null,ExplorerApp.get().getI18nManager().getMessage(Messages.REPORTING_ERROR_NOT_ENOUGH_DATA));
-      }
  else {
-        String[] names=new String[dataNode.size()];
-        Number[] values=new Number[dataNode.size()];
-        int index=0;
-        Iterator<String> fieldIterator=dataNode.getFieldNames();
-        while (fieldIterator.hasNext()) {
-          String field=fieldIterator.next();
-          names[index]=field;
-          values[index]=dataNode.get(field).getNumberValue();
-          index++;
-        }
-        if (names.length > 0) {
-          Component chart=createChart(datasetNode,names,values);
-          chartComponent.addChart(description,chart,null);
-        }
- else {
-          chartComponent.addChart(description,null,ExplorerApp.get().getI18nManager().getMessage(Messages.REPORTING_ERROR_NOT_ENOUGH_DATA));
-        }
-      }
-    }
+    return new ChartComponent(description,ExplorerApp.get().getI18nManager().getMessage(Messages.REPORTING_ERROR_NOT_ENOUGH_DATA));
   }
-  return chartComponent;
 }
