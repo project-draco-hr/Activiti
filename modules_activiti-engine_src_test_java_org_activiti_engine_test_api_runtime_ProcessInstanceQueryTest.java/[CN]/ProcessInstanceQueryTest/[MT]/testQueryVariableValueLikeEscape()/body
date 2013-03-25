@@ -1,0 +1,9 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  ProcessInstance processInstance1=runtimeService.startProcessInstanceByKey("oneTaskProcess",Collections.singletonMap("stringVar",(Object)"first%second"));
+  vars=new HashMap<String,Object>();
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess",Collections.singletonMap("stringVar",(Object)"firstsecond"));
+  ProcessInstance result=runtimeService.createProcessInstanceQuery().variableValueLike("stringVar","first\\%se%").singleResult();
+  assertNotNull(result);
+  assertEquals(processInstance1.getId(),result.getId());
+}
