@@ -1,0 +1,14 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testProcessInstanceComment");
+  taskService.addComment(null,processInstance.getId(),"Hello World");
+  List<Comment> comments=taskService.getProcessInstanceComments(processInstance.getId());
+  assertEquals(1,comments.size());
+  runtimeService.suspendProcessInstanceById(processInstance.getId());
+  try {
+    taskService.addComment(null,processInstance.getId(),"Hello World 2");
+  }
+ catch (  ActivitiException e) {
+    assertTextPresent("Cannot add a comment to a suspended execution",e.getMessage());
+  }
+  taskService.deleteComments(null,processInstance.getId());
+}
