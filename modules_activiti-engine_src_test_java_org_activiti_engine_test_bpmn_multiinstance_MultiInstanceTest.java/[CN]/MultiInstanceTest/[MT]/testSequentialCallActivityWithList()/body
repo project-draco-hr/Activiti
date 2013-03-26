@@ -11,13 +11,13 @@
   assertNotNull(task2);
   HashMap<String,Object> subVariables=new HashMap<String,Object>();
   subVariables.put("x","y");
-  completeTaskWithAct1591InMind(task1,subVariables);
-  completeTaskWithAct1591InMind(task2,subVariables);
+  taskService.complete(task1.getId(),subVariables);
+  taskService.complete(task2.getId(),subVariables);
   Task task3=taskService.createTaskQuery().processDefinitionKey("midProcess").singleResult();
   assertNotNull(task3);
-  completeTaskWithAct1591InMind(task3,null);
+  taskService.complete(task3.getId(),null);
   Task task4=taskService.createTaskQuery().processDefinitionKey("parentProcess").singleResult();
   assertNotNull(task4);
-  completeTaskWithAct1591InMind(task4,null);
+  taskService.complete(task4.getId(),null);
   assertProcessEnded(procId);
 }
