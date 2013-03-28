@@ -1,6 +1,8 @@
 {
   List<Deployer> defaultDeployers=new ArrayList<Deployer>();
-  BpmnDeployer bpmnDeployer=new BpmnDeployer();
+  if (bpmnDeployer == null) {
+    bpmnDeployer=new BpmnDeployer();
+  }
   bpmnDeployer.setExpressionManager(expressionManager);
   bpmnDeployer.setIdGenerator(idGenerator);
   if (bpmnParseFactory == null) {
@@ -16,7 +18,9 @@
     defaultListenerFactory.setExpressionManager(expressionManager);
     listenerFactory=defaultListenerFactory;
   }
-  BpmnParser bpmnParser=new BpmnParser();
+  if (bpmnParser == null) {
+    bpmnParser=new BpmnParser();
+  }
   bpmnParser.setExpressionManager(expressionManager);
   bpmnParser.setBpmnParseFactory(bpmnParseFactory);
   bpmnParser.setActivityBehaviorFactory(activityBehaviorFactory);
