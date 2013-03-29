@@ -1,7 +1,7 @@
 {
   List<DeploymentResponse> responseList=new ArrayList<DeploymentResponse>();
   for (  Object deployment : list) {
-    responseList.add(new DeploymentResponse((Deployment)deployment));
+    responseList.add(new DeploymentResponse((Deployment)deployment,resource.createFullResourceUrl(RestUrls.URL_DEPLOYMENT,((Deployment)deployment).getId())));
   }
   return responseList;
 }

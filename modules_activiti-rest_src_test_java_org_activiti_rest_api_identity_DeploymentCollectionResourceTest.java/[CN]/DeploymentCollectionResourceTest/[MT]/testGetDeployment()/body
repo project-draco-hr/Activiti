@@ -1,0 +1,66 @@
+{
+  try {
+    Calendar yesterday=Calendar.getInstance();
+    yesterday.add(Calendar.DAY_OF_MONTH,-1);
+    ClockUtil.setCurrentTime(yesterday.getTime());
+    Deployment firstDeployment=repositoryService.createDeployment().name("Deployment 1").category("DEF").addClasspathResource("org/activiti/rest/api/repository/oneTaskProcess.bpmn20.xml").deploy();
+    ClockUtil.setCurrentTime(Calendar.getInstance().getTime());
+    Deployment secondDeployment=repositoryService.createDeployment().name("Deployment 2").category("ABC").addClasspathResource("org/activiti/rest/api/repository/oneTaskProcess.bpmn20.xml").deploy();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION));
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+    assertEquals(2L,dataNode.size());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION) + "?deploymentName=Deployment 1");
+    response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    dataNode=objectMapper.readTree(response.getStream()).get("data");
+    assertEquals(1L,dataNode.size());
+    assertEquals(firstDeployment.getId(),dataNode.get(0).get("id").getTextValue());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION) + "?deploymentNameLike=%25ment 2");
+    response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    dataNode=objectMapper.readTree(response.getStream()).get("data");
+    assertEquals(1L,dataNode.size());
+    assertEquals(secondDeployment.getId(),dataNode.get(0).get("id").getTextValue());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION) + "?deploymentCategory=DEF");
+    response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    dataNode=objectMapper.readTree(response.getStream()).get("data");
+    assertEquals(1L,dataNode.size());
+    assertEquals(firstDeployment.getId(),dataNode.get(0).get("id").getTextValue());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION) + "?deploymentCategoryNotEquals=DEF");
+    response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    dataNode=objectMapper.readTree(response.getStream()).get("data");
+    assertEquals(1L,dataNode.size());
+    assertEquals(secondDeployment.getId(),dataNode.get(0).get("id").getTextValue());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION) + "?sort=name&order=asc");
+    response=client.get();
+    dataNode=objectMapper.readTree(response.getStream()).get("data");
+    assertEquals(2L,dataNode.size());
+    assertEquals(firstDeployment.getId(),dataNode.get(0).get("id").getTextValue());
+    assertEquals(secondDeployment.getId(),dataNode.get(1).get("id").getTextValue());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION) + "?sort=deployTime&order=asc");
+    response=client.get();
+    dataNode=objectMapper.readTree(response.getStream()).get("data");
+    assertEquals(2L,dataNode.size());
+    assertEquals(firstDeployment.getId(),dataNode.get(0).get("id").getTextValue());
+    assertEquals(secondDeployment.getId(),dataNode.get(1).get("id").getTextValue());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION) + "?sort=deployTime&order=asc&start=1&size=1");
+    response=client.get();
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    dataNode=responseNode.get("data");
+    assertEquals(1L,dataNode.size());
+    assertEquals(secondDeployment.getId(),dataNode.get(0).get("id").getTextValue());
+    assertEquals(2L,responseNode.get("total").getLongValue());
+    assertEquals(1L,responseNode.get("start").getLongValue());
+    assertEquals(1L,responseNode.get("size").getLongValue());
+  }
+  finally {
+    List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
+    for (    Deployment deployment : deployments) {
+      repositoryService.deleteDeployment(deployment.getId(),true);
+    }
+  }
+}
