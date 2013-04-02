@@ -1,6 +1,6 @@
 {
   if (authenticate() == false)   return null;
-  String deploymentId=(String)getRequest().getAttributes().get("deploymentId");
+  String deploymentId=getAttribute("deploymentId");
   if (deploymentId == null) {
     throw new ActivitiIllegalArgumentException("The deploymentId cannot be null");
   }

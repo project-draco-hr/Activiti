@@ -1,6 +1,6 @@
 {
   if (authenticate() == false)   return;
-  String deploymentId=(String)getRequest().getAttributes().get("deploymentId");
+  String deploymentId=getAttribute("deploymentId");
   Boolean cascade=RequestUtil.getBoolean(getQuery(),"cascade",false);
   if (cascade) {
     ActivitiUtil.getRepositoryService().deleteDeployment(deploymentId,true);
