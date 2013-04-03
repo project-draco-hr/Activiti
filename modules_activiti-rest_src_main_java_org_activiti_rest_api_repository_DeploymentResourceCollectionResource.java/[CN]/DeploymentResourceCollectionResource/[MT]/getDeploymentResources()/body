@@ -10,12 +10,9 @@
   }
   List<String> resourceList=ActivitiUtil.getRepositoryService().getDeploymentResourceNames(deploymentId);
   List<DeploymentResourceResponse> resposeList=new ArrayList<DeploymentResourceResponse>();
-  String resourceUrl=null;
-  String resourceContentUrl=null;
-  for (  String resource : resourceList) {
-    resourceUrl=createFullResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deploymentId,resource);
-    resourceContentUrl=createFullResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deploymentId,resource);
-    resposeList.add(new DeploymentResourceResponse(resource,resourceUrl,resourceContentUrl));
+  RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  for (  String resourceId : resourceList) {
+    resposeList.add(responseFactory.createDeploymentResourceResponse(this,deploymentId,resourceId));
   }
   return resposeList;
 }

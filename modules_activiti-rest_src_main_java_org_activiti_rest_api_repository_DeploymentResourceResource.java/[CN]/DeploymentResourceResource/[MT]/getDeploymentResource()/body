@@ -14,9 +14,7 @@
   }
   List<String> resourceList=ActivitiUtil.getRepositoryService().getDeploymentResourceNames(deploymentId);
   if (resourceList.contains(resourceId)) {
-    String resourceUrl=createFullResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deploymentId,resourceId);
-    String resourceContentUrl=createFullResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deploymentId,resourceId);
-    return new DeploymentResourceResponse(resourceId,resourceUrl,resourceContentUrl);
+    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createDeploymentResourceResponse(this,deploymentId,resourceId);
   }
  else {
     throw new ActivitiObjectNotFoundException("Could not find a resource with id '" + resourceId + "' in deployment '"+ deploymentId+ "'.",String.class);

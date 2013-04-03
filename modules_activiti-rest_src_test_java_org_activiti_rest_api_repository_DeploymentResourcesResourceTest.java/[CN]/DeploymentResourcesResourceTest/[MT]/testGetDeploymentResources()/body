@@ -17,6 +17,8 @@
     assertNotNull(txtNode);
     assertTrue(txtNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),"test.txt")));
     assertTrue(txtNode.get("contentUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deployment.getId(),"test.txt")));
+    assertTrue(txtNode.get("mediaType").isNull());
+    assertEquals("resource",txtNode.get("type").getTextValue());
   }
   finally {
     List<Deployment> deployments=repositoryService.createDeploymentQuery().list();

@@ -8,6 +8,5 @@
   if (deployment == null) {
     throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.",Deployment.class);
   }
-  DeploymentResponse response=new DeploymentResponse(deployment,createFullResourceUrl(RestUrls.URL_DEPLOYMENT,deploymentId));
-  return response;
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createDeploymentResponse(this,deployment);
 }
