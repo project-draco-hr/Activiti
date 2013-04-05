@@ -1,0 +1,16 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  repositoryService.suspendProcessDefinitionById(processDefinition.getId());
+  processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertTrue(processDefinition.isSuspended());
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("action","suspend");
+  try {
+    client.put(requestNode);
+    fail("Expected exception");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
+  }
+}
