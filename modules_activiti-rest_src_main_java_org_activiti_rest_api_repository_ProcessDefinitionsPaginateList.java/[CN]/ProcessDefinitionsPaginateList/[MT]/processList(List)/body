@@ -1,0 +1,8 @@
+{
+  List<ProcessDefinitionResponse> responseList=new ArrayList<ProcessDefinitionResponse>();
+  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  for (  Object deployment : list) {
+    responseList.add(restResponseFactory.createProcessDefinitionResponse(resource,(ProcessDefinition)deployment));
+  }
+  return responseList;
+}

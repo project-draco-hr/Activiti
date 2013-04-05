@@ -1,12 +1,3 @@
 {
-  String value=(String)getRequest().getAttributes().get(name);
-  if (value != null) {
-    try {
-      return URLDecoder.decode(value,"UTF-8");
-    }
- catch (    UnsupportedEncodingException uee) {
-      throw new IllegalStateException("JVM does not support UTF-8 encoding.",uee);
-    }
-  }
-  return null;
+  return decode((String)getRequest().getAttributes().get(name));
 }
