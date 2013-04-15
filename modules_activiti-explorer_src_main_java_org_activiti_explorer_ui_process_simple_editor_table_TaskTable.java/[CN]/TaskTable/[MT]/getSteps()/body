@@ -7,11 +7,11 @@
     if (name != null && name.length() > 0) {
       humanStepDefinition.setName(name);
     }
-    String assignee=(String)item.getItemProperty(ID_ASSIGNEE).getValue();
+    String assignee=(String)((ComboBox)item.getItemProperty(ID_ASSIGNEE).getValue()).getValue();
     if (assignee != null && assignee.length() > 0) {
       humanStepDefinition.setAssignee(assignee);
     }
-    String groups=(String)item.getItemProperty("groups").getValue();
+    String groups=(String)((ComboBox)item.getItemProperty("groups").getValue()).getValue();
     List<String> candidateGroups=new ArrayList<String>();
     if (groups != null && groups.length() > 0) {
       for (      String group : groups.split(",")) {
