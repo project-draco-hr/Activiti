@@ -2,7 +2,7 @@
   if (processDefinition.isSuspended()) {
     throw new ResourceException(Status.CLIENT_ERROR_CONFLICT,"Process definition with id '" + processDefinition.getId() + "'is already suspended");
   }
-  ActivitiUtil.getRepositoryService().suspendProcessDefinitionById(processDefinition.getId());
+  ActivitiUtil.getRepositoryService().suspendProcessDefinitionById(processDefinition.getId(),suspendInstances,date);
   ProcessDefinitionResponse response=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createProcessDefinitionResponse(this,processDefinition);
   response.setSuspended(true);
   return response;

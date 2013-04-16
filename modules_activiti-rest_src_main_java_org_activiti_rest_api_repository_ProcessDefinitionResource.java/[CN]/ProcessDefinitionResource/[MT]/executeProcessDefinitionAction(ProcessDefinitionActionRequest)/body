@@ -6,10 +6,10 @@
   ProcessDefinition processDefinition=getProcessDefinitionFromRequest();
   if (actionRequest.getAction() != null) {
     if ("suspend".equals(actionRequest.getAction())) {
-      return suspendProcessDefinition(processDefinition);
+      return suspendProcessDefinition(processDefinition,actionRequest.isIncludeProcessInstances(),actionRequest.getDate());
     }
  else     if ("activate".equals(actionRequest.getAction())) {
-      return activateProcessDefinition(processDefinition);
+      return activateProcessDefinition(processDefinition,actionRequest.isIncludeProcessInstances(),actionRequest.getDate());
     }
   }
   throw new ActivitiIllegalArgumentException("Invalid action: '" + actionRequest.getAction() + "', use 'suspend' or 'activate'.");
