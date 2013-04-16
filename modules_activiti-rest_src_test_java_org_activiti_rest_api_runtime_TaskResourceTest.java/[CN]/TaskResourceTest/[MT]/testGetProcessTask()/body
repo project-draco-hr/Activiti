@@ -1,0 +1,26 @@
+{
+  Calendar now=Calendar.getInstance();
+  ClockUtil.setCurrentTime(now.getTime());
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.setDueDate(task.getId(),now.getTime());
+  taskService.setOwner(task.getId(),"owner");
+  task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(task);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
+  Representation response=client.get();
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertEquals(task.getId(),responseNode.get("id").asText());
+  assertEquals(task.getAssignee(),responseNode.get("assignee").asText());
+  assertEquals(task.getOwner(),responseNode.get("owner").asText());
+  assertEquals(task.getDescription(),responseNode.get("description").asText());
+  assertEquals(task.getName(),responseNode.get("name").asText());
+  assertEquals(task.getDueDate(),getDateFromISOString(responseNode.get("dueDate").asText()));
+  assertEquals(task.getCreateTime(),getDateFromISOString(responseNode.get("createTime").asText()));
+  assertEquals(task.getPriority(),responseNode.get("priority").asInt());
+  assertTrue(responseNode.get("parentTask").isNull());
+  assertTrue(responseNode.get("delegationState").isNull());
+  assertTrue(responseNode.get("execution").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,task.getExecutionId())));
+  assertTrue(responseNode.get("processInstance").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,task.getProcessInstanceId())));
+  assertTrue(responseNode.get("processDefinition").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(task.getProcessDefinitionId()))));
+}
