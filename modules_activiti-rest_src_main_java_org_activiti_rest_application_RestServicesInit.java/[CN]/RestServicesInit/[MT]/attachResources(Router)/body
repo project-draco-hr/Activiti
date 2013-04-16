@@ -1,4 +1,11 @@
 {
+  router.attach("/repository/deployments",DeploymentCollectionResource.class);
+  router.attach("/repository/deployments/{deploymentId}",DeploymentResource.class);
+  router.attach("/repository/deployments/{deploymentId}/resources",DeploymentResourceCollectionResource.class);
+  router.attach("/repository/deployments/{deploymentId}/resources/{resourceId}",DeploymentResourceResource.class);
+  router.attach("/repository/deployments/{deploymentId}/resourcedata/{resourceId}",DeploymentResourceDataResource.class);
+  router.attach("/repository/process-definitions",ProcessDefinitionCollectionResource.class);
+  router.attach("/repository/process-definitions/{processDefinitionId}",ProcessDefinitionResource.class);
   router.attach("/process-engine",ProcessEngineResource.class);
   router.attach("/login",LoginResource.class);
   router.attach("/user",UserCreateResource.class);
