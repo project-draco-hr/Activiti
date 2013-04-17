@@ -1,31 +1,31 @@
 {
   try {
-    Task task=taskService.newTask();
-    taskService.saveTask(task);
+    Calendar now=Calendar.getInstance();
     Task parentTask=taskService.newTask();
     taskService.saveTask(parentTask);
+    Task task=taskService.newTask();
+    task.setParentTaskId(parentTask.getId());
+    task.setName("Task name");
+    task.setDescription("Description");
+    task.setAssignee("kermit");
+    task.setDelegationState(DelegationState.RESOLVED);
+    task.setDescription("Description");
+    task.setDueDate(now.getTime());
+    task.setOwner("owner");
+    task.setPriority(20);
+    taskService.saveTask(task);
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
     ObjectNode requestNode=objectMapper.createObjectNode();
-    Calendar dueDate=Calendar.getInstance();
-    String dueDateString=getISODateString(dueDate.getTime());
-    requestNode.put("name","New task name");
-    requestNode.put("description","New task description");
-    requestNode.put("assignee","assignee");
-    requestNode.put("owner","owner");
-    requestNode.put("priority",20);
-    requestNode.put("delegationState","resolved");
-    requestNode.put("dueDate",dueDateString);
-    requestNode.put("parentTaskId",parentTask.getId());
     client.put(requestNode);
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
-    assertEquals("New task name",task.getName());
-    assertEquals("New task description",task.getDescription());
-    assertEquals("assignee",task.getAssignee());
+    assertEquals("Task name",task.getName());
+    assertEquals("Description",task.getDescription());
+    assertEquals("kermit",task.getAssignee());
     assertEquals("owner",task.getOwner());
     assertEquals(20,task.getPriority());
     assertEquals(DelegationState.RESOLVED,task.getDelegationState());
-    assertEquals(dueDate.getTime(),task.getDueDate());
+    assertEquals(now.getTime(),task.getDueDate());
     assertEquals(parentTask.getId(),task.getParentTaskId());
   }
   finally {
