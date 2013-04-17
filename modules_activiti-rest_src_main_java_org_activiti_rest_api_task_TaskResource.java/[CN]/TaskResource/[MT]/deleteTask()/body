@@ -1,0 +1,13 @@
+{
+  Form query=getQuery();
+  Boolean cascadeHistory=getQueryParameterAsBoolean("cascadeHistory",query);
+  String deleteReason=getQueryParameter("deleteReason",query);
+  Task taskToDelete=getTaskFromRequest();
+  if (cascadeHistory != null) {
+    ActivitiUtil.getTaskService().deleteTask(taskToDelete.getId(),cascadeHistory);
+  }
+ else {
+    ActivitiUtil.getTaskService().deleteTask(taskToDelete.getId(),deleteReason);
+  }
+  getResponse().setStatus(Status.SUCCESS_NO_CONTENT);
+}

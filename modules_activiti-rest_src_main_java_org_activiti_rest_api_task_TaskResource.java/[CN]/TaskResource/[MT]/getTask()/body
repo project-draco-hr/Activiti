@@ -1,11 +1,3 @@
 {
-  String taskId=getAttribute("taskId");
-  if (taskId == null) {
-    throw new ActivitiIllegalArgumentException("The taskId cannot be null");
-  }
-  Task task=ActivitiUtil.getTaskService().createTaskQuery().taskId(taskId).singleResult();
-  if (task == null) {
-    throw new ActivitiObjectNotFoundException("Could not find a task with id '" + taskId + "'.",Task.class);
-  }
-  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createTaskReponse(this,task);
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createTaskReponse(this,getTaskFromRequest());
 }

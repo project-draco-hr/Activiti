@@ -17,6 +17,7 @@
     taskService.saveTask(task);
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
     Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
     assertEquals(task.getId(),responseNode.get("id").asText());
     assertEquals(task.getAssignee(),responseNode.get("assignee").asText());
@@ -35,10 +36,7 @@
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();
     for (    Task task : tasks) {
-      taskService.deleteTask(task.getId());
-      if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
-        historyService.deleteHistoricTaskInstance(task.getId());
-      }
+      taskService.deleteTask(task.getId(),true);
     }
   }
 }
