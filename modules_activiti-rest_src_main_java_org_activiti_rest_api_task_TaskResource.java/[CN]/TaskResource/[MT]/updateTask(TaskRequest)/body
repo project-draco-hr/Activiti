@@ -1,30 +1,9 @@
 {
+  if (taskRequest == null) {
+    throw new ResourceException(new Status(Status.CLIENT_ERROR_UNSUPPORTED_MEDIA_TYPE.getCode(),"A request body was expected when updating the task.",null,null));
+  }
   Task task=getTaskFromRequest();
-  if (taskRequest.isNameSet()) {
-    task.setName(taskRequest.getName());
-  }
-  if (taskRequest.isAssigneeSet()) {
-    task.setAssignee(taskRequest.getAssignee());
-  }
-  if (taskRequest.isDescriptionSet()) {
-    task.setDescription(taskRequest.getDescription());
-  }
-  if (taskRequest.isDuedateSet()) {
-    task.setDueDate(taskRequest.getDueDate());
-  }
-  if (taskRequest.isOwnerSet()) {
-    task.setOwner(taskRequest.getOwner());
-  }
-  if (taskRequest.isParentTaskIdSet()) {
-    task.setParentTaskId(taskRequest.getParentTaskId());
-  }
-  if (taskRequest.isPrioritySet()) {
-    task.setPriority(taskRequest.getPriority());
-  }
-  if (taskRequest.isDelegationStateSet()) {
-    DelegationState delegationState=getDelegationState(taskRequest.getDelegationState());
-    task.setDelegationState(delegationState);
-  }
+  populateTaskFromRequest(task,taskRequest);
   ActivitiUtil.getTaskService().saveTask(task);
   task=ActivitiUtil.getTaskService().createTaskQuery().taskId(task.getId()).singleResult();
   return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createTaskReponse(this,task);
