@@ -1,0 +1,5 @@
+{
+  from("activiti:ErrorHandling:NormalExecution").routeId("outbound").log(LoggingLevel.INFO,"Normal execution").to("seda:inbound");
+  from("activiti:ErrorHandling:ProvokeError").routeId("error").log(LoggingLevel.INFO,"Provoked error").beanRef("brokenService").to("seda:inbound");
+  from("activiti:ErrorHandling:HandleError").routeId("errorWithDlq").errorHandler(deadLetterChannel("seda:dlq")).log(LoggingLevel.INFO,"Provoked error").beanRef("brokenService").to("seda:inbound");
+}
