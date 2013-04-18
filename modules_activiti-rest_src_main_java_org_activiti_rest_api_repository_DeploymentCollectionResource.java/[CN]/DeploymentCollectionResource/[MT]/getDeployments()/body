@@ -1,0 +1,19 @@
+{
+  if (authenticate() == false)   return null;
+  DeploymentQuery deploymentQuery=ActivitiUtil.getRepositoryService().createDeploymentQuery();
+  Form query=getQuery();
+  if (getQuery().getNames().contains("name")) {
+    deploymentQuery.deploymentName(getQueryParameter("name",query));
+  }
+  if (getQuery().getNames().contains("nameLike")) {
+    deploymentQuery.deploymentNameLike(getQueryParameter("nameLike",query));
+  }
+  if (getQuery().getNames().contains("category")) {
+    deploymentQuery.deploymentCategory(getQueryParameter("category",query));
+  }
+  if (getQuery().getNames().contains("categoryNotEquals")) {
+    deploymentQuery.deploymentCategoryNotEquals(getQueryParameter("categoryNotEquals",query));
+  }
+  DataResponse response=new DeploymentsPaginateList(this).paginateList(getQuery(),deploymentQuery,"id",allowedSortProperties);
+  return response;
+}

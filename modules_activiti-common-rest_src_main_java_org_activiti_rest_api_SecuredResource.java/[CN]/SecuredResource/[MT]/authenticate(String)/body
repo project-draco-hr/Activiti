@@ -1,7 +1,7 @@
 {
   loggedInUser=((ActivitiRestApplication)getApplication()).authenticate(getRequest(),getResponse());
   if (loggedInUser == null) {
-    setStatus(Status.CLIENT_ERROR_FORBIDDEN,"Authentication is required");
+    setStatus(getAuthenticationFailureStatus(),"Authentication is required");
     return false;
   }
  else   if (group == null) {
@@ -21,7 +21,7 @@
       }
     }
     if (allowed == false) {
-      setStatus(Status.CLIENT_ERROR_FORBIDDEN,"User is not part of the group " + group);
+      setStatus(getAuthenticationFailureStatus(),"User is not part of the group " + group);
     }
     return allowed;
   }

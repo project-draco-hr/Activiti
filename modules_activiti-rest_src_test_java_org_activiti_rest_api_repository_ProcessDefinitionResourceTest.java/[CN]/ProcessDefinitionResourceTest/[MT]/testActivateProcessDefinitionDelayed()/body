@@ -1,0 +1,25 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  repositoryService.suspendProcessDefinitionById(processDefinition.getId());
+  processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertTrue(processDefinition.isSuspended());
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  Calendar cal=Calendar.getInstance();
+  cal.add(Calendar.HOUR,2);
+  DateTimeFormatter formatter=ISODateTimeFormat.dateTime();
+  String dateString=formatter.print(cal.getTimeInMillis());
+  requestNode.put("action","activate");
+  requestNode.put("date",dateString);
+  Representation response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertFalse(responseNode.get("suspended").getBooleanValue());
+  processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertTrue(processDefinition.isSuspended());
+  cal.add(Calendar.HOUR,1);
+  ClockUtil.setCurrentTime(cal.getTime());
+  waitForJobExecutorToProcessAllJobs(5000,100);
+  processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertFalse(processDefinition.isSuspended());
+}

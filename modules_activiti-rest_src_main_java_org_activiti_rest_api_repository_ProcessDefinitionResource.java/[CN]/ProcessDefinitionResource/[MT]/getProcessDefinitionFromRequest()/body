@@ -1,0 +1,11 @@
+{
+  String processDefinitionId=getAttribute("processDefinitionId");
+  if (processDefinitionId == null) {
+    throw new ActivitiIllegalArgumentException("The processDefinitionId cannot be null");
+  }
+  ProcessDefinition processDefinition=ActivitiUtil.getRepositoryService().createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+  if (processDefinition == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a process definition with id '" + processDefinitionId + "'.",ProcessDefinition.class);
+  }
+  return processDefinition;
+}

@@ -1,0 +1,42 @@
+{
+  try {
+    Calendar now=Calendar.getInstance();
+    ClockUtil.setCurrentTime(now.getTime());
+    Task parentTask=taskService.newTask();
+    taskService.saveTask(parentTask);
+    Task task=taskService.newTask();
+    task.setParentTaskId(parentTask.getId());
+    task.setName("Task name");
+    task.setDescription("Descriptions");
+    task.setAssignee("kermit");
+    task.setDelegationState(DelegationState.RESOLVED);
+    task.setDescription("Description");
+    task.setDueDate(now.getTime());
+    task.setOwner("owner");
+    task.setPriority(20);
+    taskService.saveTask(task);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertEquals(task.getId(),responseNode.get("id").asText());
+    assertEquals(task.getAssignee(),responseNode.get("assignee").asText());
+    assertEquals(task.getOwner(),responseNode.get("owner").asText());
+    assertEquals(task.getDescription(),responseNode.get("description").asText());
+    assertEquals(task.getName(),responseNode.get("name").asText());
+    assertEquals(task.getDueDate(),getDateFromISOString(responseNode.get("dueDate").asText()));
+    assertEquals(task.getCreateTime(),getDateFromISOString(responseNode.get("createTime").asText()));
+    assertEquals(task.getPriority(),responseNode.get("priority").asInt());
+    assertEquals("resolved",responseNode.get("delegationState").asText());
+    assertTrue(responseNode.get("execution").isNull());
+    assertTrue(responseNode.get("processInstance").isNull());
+    assertTrue(responseNode.get("processDefinition").isNull());
+    assertTrue(responseNode.get("parentTask").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,parentTask.getId())));
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}
