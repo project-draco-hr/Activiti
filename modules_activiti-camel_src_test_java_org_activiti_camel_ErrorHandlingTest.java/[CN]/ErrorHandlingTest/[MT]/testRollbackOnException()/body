@@ -1,0 +1,7 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("routing",Routing.PROVOKE_ERROR);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("ErrorHandling",variables);
+  assertEquals("No roll-back to previous wait state",1,runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).activityId(PREVIOUS_WAIT_STATE).count());
+  assertEquals("Process instance advanced to next wait state",0,runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).activityId(NEXT_WAIT_STATE).count());
+}

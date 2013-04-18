@@ -1,0 +1,10 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("routing",Routing.HANDLE_ERROR);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("ErrorHandling",variables);
+  Job job=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(job);
+  managementService.executeJob(job.getId());
+  Thread.sleep(WAIT);
+  assertEquals("Process instance did not reach next wait state",1,runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).activityId(NEXT_WAIT_STATE).count());
+}
