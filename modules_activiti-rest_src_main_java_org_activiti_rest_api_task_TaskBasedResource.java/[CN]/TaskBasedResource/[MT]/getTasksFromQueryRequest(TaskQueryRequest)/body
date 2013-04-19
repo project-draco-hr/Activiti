@@ -82,5 +82,8 @@
       taskQuery.suspended();
     }
   }
+  if (request.getTaskVariables() != null) {
+    processTaskvariables(taskQuery,request.getTaskVariables());
+  }
   return new TaskPaginateList(this).paginateList(query,taskQuery,"id",properties);
 }
