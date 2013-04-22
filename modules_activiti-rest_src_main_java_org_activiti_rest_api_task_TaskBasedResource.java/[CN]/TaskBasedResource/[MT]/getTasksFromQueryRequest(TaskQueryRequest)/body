@@ -83,7 +83,10 @@
     }
   }
   if (request.getTaskVariables() != null) {
-    processTaskvariables(taskQuery,request.getTaskVariables());
+    addTaskvariables(taskQuery,request.getTaskVariables());
+  }
+  if (request.getProcessVariables() != null) {
+    addProcessvariables(taskQuery,request.getProcessVariables());
   }
   return new TaskPaginateList(this).paginateList(query,taskQuery,"id",properties);
 }
