@@ -1,4 +1,7 @@
 {
+  if (!authenticate()) {
+    return;
+  }
   Form query=getQuery();
   Boolean cascadeHistory=getQueryParameterAsBoolean("cascadeHistory",query);
   String deleteReason=getQueryParameter("deleteReason",query);

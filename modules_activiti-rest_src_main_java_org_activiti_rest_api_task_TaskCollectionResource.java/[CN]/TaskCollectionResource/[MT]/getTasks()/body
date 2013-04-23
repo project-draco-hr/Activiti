@@ -1,4 +1,7 @@
 {
+  if (!authenticate()) {
+    return null;
+  }
   TaskQueryRequest request=new TaskQueryRequest();
   Form query=getQuery();
   if (query.getNames().contains("name")) {
