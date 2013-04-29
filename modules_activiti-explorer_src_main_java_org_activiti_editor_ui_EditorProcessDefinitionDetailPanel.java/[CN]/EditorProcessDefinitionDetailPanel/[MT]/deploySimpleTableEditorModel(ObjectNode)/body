@@ -1,0 +1,32 @@
+{
+  final DeployModelPopupWindow deployModelPopupWindow=new DeployModelPopupWindow(modelData);
+  deployModelPopupWindow.getDeployButton().addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      JsonConverter jsonConverter=new JsonConverter();
+      WorkflowDefinition workflowDefinition=jsonConverter.convertFromJson(modelNode);
+      modelData.setName(deployModelPopupWindow.getProcessName());
+      workflowDefinition.setName(deployModelPopupWindow.getProcessName());
+      WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
+      conversion.convert();
+      byte[] bpmnBytes=null;
+      try {
+        bpmnBytes=conversion.getbpm20Xml().getBytes("utf-8");
+        String processName=modelData.getName() + ".bpmn20.xml";
+        Deployment deployment=repositoryService.createDeployment().name(modelData.getName()).addString(processName,new String(bpmnBytes)).deploy();
+        if (deployModelPopupWindow.isGenerateReports()) {
+          ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+          ReportingUtil.generateTaskDurationReport(processDefinition.getId());
+        }
+        deployModelPopupWindow.closePopupWindow();
+        ExplorerApp.get().getViewManager().showDeploymentPage(deployment.getId());
+      }
+ catch (      UnsupportedEncodingException e) {
+        ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.PROCESS_TOXML_FAILED,e);
+        deployModelPopupWindow.closePopupWindow();
+      }
+    }
+  }
+);
+  deployModelPopupWindow.showPopupWindow();
+}

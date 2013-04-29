@@ -1,0 +1,27 @@
+{
+  setWidth(400,UNITS_PIXELS);
+  setModal(true);
+  setResizable(false);
+  addStyleName(Reindeer.PANEL_LIGHT);
+  layout=new GridLayout(2,2);
+  layout.setSpacing(true);
+  layout.setSizeFull();
+  layout.setMargin(false,false,true,false);
+  addComponent(layout);
+  I18nManager i18nManager=ExplorerApp.get().getI18nManager();
+  setCaption(i18nManager.getMessage(Messages.MODEL_DEPLOY_POPUP_CAPTION));
+  Label nameLabel=new Label(i18nManager.getMessage(Messages.MODEL_DEPLOY_NAME));
+  layout.addComponent(nameLabel,0,0);
+  processNameTextField=new TextField();
+  if (modelData.getName() != null) {
+    processNameTextField.setValue(modelData.getName());
+  }
+  processNameTextField.focus();
+  layout.addComponent(processNameTextField,1,0);
+  Label generateReportsLabel=new Label(i18nManager.getMessage(Messages.MODEL_DEPLOY_GENERATE_REPORTS));
+  layout.addComponent(generateReportsLabel,0,1);
+  generateReportsCheckBox=new CheckBox();
+  generateReportsCheckBox.setValue(true);
+  layout.addComponent(generateReportsCheckBox,1,1);
+  initButtons(i18nManager);
+}
