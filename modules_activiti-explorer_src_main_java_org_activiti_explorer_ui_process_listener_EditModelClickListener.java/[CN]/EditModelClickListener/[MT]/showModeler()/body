@@ -1,3 +1,5 @@
 {
-  ExplorerApp.get().getMainWindow().open(new ExternalResource(ExplorerApp.get().getURL().toString().replace("/ui","") + "service/editor?id=" + model.getId()));
+  URL explorerURL=ExplorerApp.get().getURL();
+  URL url=new URL(explorerURL.getProtocol(),explorerURL.getHost(),explorerURL.getPort(),explorerURL.getPath().replace("/ui","") + "service/editor?id=" + model.getId());
+  ExplorerApp.get().getMainWindow().open(new ExternalResource(url));
 }
