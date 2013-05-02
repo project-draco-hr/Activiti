@@ -1,20 +1,12 @@
 {
   try {
-    ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
-    byte[] bpmnBytes=null;
+    final ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
     if (SimpleTableEditorConstants.TABLE_EDITOR_CATEGORY.equals(modelData.getCategory())) {
-      JsonConverter jsonConverter=new JsonConverter();
-      WorkflowDefinition workflowDefinition=jsonConverter.convertFromJson(modelNode);
-      WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
-      bpmnBytes=conversion.getbpm20Xml().getBytes("utf-8");
+      deploySimpleTableEditorModel(modelNode);
     }
  else {
-      BpmnModel model=new BpmnJsonConverter().convertToBpmnModel(modelNode);
-      bpmnBytes=new BpmnXMLConverter().convertToXML(model);
+      deployModelerModel(modelNode);
     }
-    String processName=modelData.getName() + ".bpmn20.xml";
-    Deployment deployment=repositoryService.createDeployment().name(modelData.getName()).addString(processName,new String(bpmnBytes)).deploy();
-    ExplorerApp.get().getViewManager().showDeploymentPage(deployment.getId());
   }
  catch (  Exception e) {
     e.printStackTrace();
