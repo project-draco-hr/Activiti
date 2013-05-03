@@ -6,7 +6,7 @@
  else   if (throwable instanceof ActivitiIllegalArgumentException) {
     status=new Status(Status.CLIENT_ERROR_BAD_REQUEST.getCode(),throwable.getMessage(),null,null);
   }
- else   if (throwable instanceof ActivitiOptimisticLockingException) {
+ else   if (throwable instanceof ActivitiOptimisticLockingException || throwable instanceof ActivitiTaskAlreadyClaimedException) {
     status=new Status(Status.CLIENT_ERROR_CONFLICT.getCode(),throwable.getMessage(),null,null);
   }
  else   if (throwable instanceof ResourceException) {
