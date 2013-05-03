@@ -1,0 +1,21 @@
+{
+  Authentication.setAuthenticatedUserId(drivingUser);
+  boolean finishTask=false;
+  boolean tasksAvailable=false;
+  while (numberOfProcesses > 0 || tasksAvailable) {
+    if (numberOfProcesses > 0 && !finishTask) {
+      runtimeService.startProcessInstanceByKey("concurrentProcess",Collections.singletonMap("assignee",(Object)drivingUser));
+      finishTask=true;
+      if (numberOfProcesses == 0) {
+        tasksAvailable=taskService.createTaskQuery().taskAssignee(drivingUser).count() > 0;
+      }
+      numberOfProcesses=numberOfProcesses - 1;
+    }
+ else {
+      List<Task> taskToComplete=taskService.createTaskQuery().taskAssignee(drivingUser).listPage(0,1);
+      tasksAvailable=taskToComplete.size() > 0;
+      taskService.complete(taskToComplete.get(0).getId());
+      finishTask=false;
+    }
+  }
+}
