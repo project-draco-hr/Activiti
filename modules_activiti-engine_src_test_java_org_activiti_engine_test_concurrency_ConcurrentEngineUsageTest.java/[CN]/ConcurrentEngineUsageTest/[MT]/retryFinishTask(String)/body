@@ -1,0 +1,14 @@
+{
+  int retries=3;
+  boolean success=false;
+  while (retries > 0 && !success) {
+    try {
+      taskService.complete(taskId);
+      success=true;
+    }
+ catch (    PersistenceException pe) {
+      retries=retries - 1;
+      log.debug("Retrying task completion: " + pe.getMessage());
+    }
+  }
+}

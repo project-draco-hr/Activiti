@@ -4,7 +4,7 @@
   boolean tasksAvailable=false;
   while (numberOfProcesses > 0 || tasksAvailable) {
     if (numberOfProcesses > 0 && !finishTask) {
-      runtimeService.startProcessInstanceByKey("concurrentProcess",Collections.singletonMap("assignee",(Object)drivingUser));
+      retryStartProcess(drivingUser);
       finishTask=true;
       if (numberOfProcesses == 0) {
         tasksAvailable=taskService.createTaskQuery().taskAssignee(drivingUser).count() > 0;
@@ -14,7 +14,9 @@
  else {
       List<Task> taskToComplete=taskService.createTaskQuery().taskAssignee(drivingUser).listPage(0,1);
       tasksAvailable=taskToComplete.size() > 0;
-      taskService.complete(taskToComplete.get(0).getId());
+      if (tasksAvailable) {
+        retryFinishTask(taskToComplete.get(0).getId());
+      }
       finishTask=false;
     }
   }

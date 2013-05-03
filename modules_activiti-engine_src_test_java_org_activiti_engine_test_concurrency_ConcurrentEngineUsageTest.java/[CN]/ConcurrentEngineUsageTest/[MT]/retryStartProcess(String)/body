@@ -1,0 +1,14 @@
+{
+  int retries=3;
+  boolean success=false;
+  while (retries > 0 && !success) {
+    try {
+      runtimeService.startProcessInstanceByKey("concurrentProcess",Collections.singletonMap("assignee",(Object)runningUser));
+      success=true;
+    }
+ catch (    PersistenceException pe) {
+      log.debug("Retrying process start: " + pe.getMessage());
+      retries=retries - 1;
+    }
+  }
+}
