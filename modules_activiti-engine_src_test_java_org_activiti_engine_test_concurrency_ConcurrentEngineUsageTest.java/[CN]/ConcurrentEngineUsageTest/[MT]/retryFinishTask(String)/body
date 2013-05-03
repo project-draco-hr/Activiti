@@ -1,5 +1,6 @@
 {
-  int retries=3;
+  int retries=5;
+  int timeout=200;
   boolean success=false;
   while (retries > 0 && !success) {
     try {
@@ -9,6 +10,12 @@
  catch (    PersistenceException pe) {
       retries=retries - 1;
       log.debug("Retrying task completion: " + pe.getMessage());
+      try {
+        Thread.sleep(timeout);
+      }
+ catch (      InterruptedException ignore) {
+      }
+      timeout=timeout + 200;
     }
   }
 }

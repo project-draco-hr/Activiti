@@ -1,5 +1,6 @@
 {
-  int retries=3;
+  int retries=5;
+  int timeout=200;
   boolean success=false;
   while (retries > 0 && !success) {
     try {
@@ -7,8 +8,14 @@
       success=true;
     }
  catch (    PersistenceException pe) {
-      log.debug("Retrying process start: " + pe.getMessage());
       retries=retries - 1;
+      log.debug("Retrying process start: " + pe.getMessage());
+      try {
+        Thread.sleep(timeout);
+      }
+ catch (      InterruptedException ignore) {
+      }
+      timeout=timeout + 200;
     }
   }
 }
