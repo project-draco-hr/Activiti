@@ -1,0 +1,37 @@
+{
+  try {
+    Calendar now=Calendar.getInstance();
+    Task parentTask=taskService.newTask();
+    taskService.saveTask(parentTask);
+    Task task=taskService.newTask();
+    task.setParentTaskId(parentTask.getId());
+    task.setName("Task name");
+    task.setDescription("Description");
+    task.setAssignee("kermit");
+    task.setDelegationState(DelegationState.RESOLVED);
+    task.setDescription("Description");
+    task.setDueDate(now.getTime());
+    task.setOwner("owner");
+    task.setPriority(20);
+    taskService.saveTask(task);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    client.put(requestNode);
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+    assertEquals("Task name",task.getName());
+    assertEquals("Description",task.getDescription());
+    assertEquals("kermit",task.getAssignee());
+    assertEquals("owner",task.getOwner());
+    assertEquals(20,task.getPriority());
+    assertEquals(DelegationState.RESOLVED,task.getDelegationState());
+    assertEquals(now.getTime(),task.getDueDate());
+    assertEquals(parentTask.getId(),task.getParentTaskId());
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

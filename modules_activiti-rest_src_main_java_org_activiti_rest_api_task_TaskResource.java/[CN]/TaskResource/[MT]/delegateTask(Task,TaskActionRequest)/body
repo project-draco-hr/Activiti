@@ -1,0 +1,6 @@
+{
+  if (actionRequest.getAssignee() == null) {
+    throw new ActivitiIllegalArgumentException("An assignee is required when delegating a task.");
+  }
+  ActivitiUtil.getTaskService().delegateTask(task.getId(),actionRequest.getAssignee());
+}

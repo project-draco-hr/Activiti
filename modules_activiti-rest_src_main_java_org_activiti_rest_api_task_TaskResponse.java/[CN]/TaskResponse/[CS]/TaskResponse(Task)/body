@@ -1,16 +1,13 @@
 {
-  setAssignee(task.getAssignee());
-  setCreateTime(RequestUtil.dateToString(task.getCreateTime()));
-  setDelegationState(task.getDelegationState());
-  setDescription(task.getDescription());
-  setDueDate(RequestUtil.dateToString(task.getDueDate()));
-  setExecutionId(task.getExecutionId());
   setId(task.getId());
-  setName(task.getName());
   setOwner(task.getOwner());
-  setParentTaskId(task.getParentTaskId());
+  setAssignee(task.getAssignee());
+  setDelegationState(getDelegationStateString(task.getDelegationState()));
+  setName(task.getName());
+  setDescription(task.getDescription());
+  setCreateTime(task.getCreateTime());
+  setDueDate(task.getDueDate());
   setPriority(task.getPriority());
-  setProcessDefinitionId(task.getProcessDefinitionId());
-  setProcessInstanceId(task.getProcessInstanceId());
+  setSuspended(task.isSuspended());
   setTaskDefinitionKey(task.getTaskDefinitionKey());
 }

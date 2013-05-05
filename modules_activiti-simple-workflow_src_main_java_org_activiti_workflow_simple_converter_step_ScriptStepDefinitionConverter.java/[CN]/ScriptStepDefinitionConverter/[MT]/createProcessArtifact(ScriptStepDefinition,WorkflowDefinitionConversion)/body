@@ -1,0 +1,14 @@
+{
+  ScriptTask scriptTask=new ScriptTask();
+  scriptTask.setId(conversion.getUniqueNumberedId(ConversionConstants.SCRIPT_TASK_ID_PREFIX));
+  scriptTask.setName(stepDefinition.getName());
+  scriptTask.setScript(stepDefinition.getScript());
+  if (stepDefinition.getScriptLanguage() != null) {
+    scriptTask.setScriptFormat(stepDefinition.getScriptLanguage());
+  }
+ else {
+    scriptTask.setScriptFormat("JavaScript");
+  }
+  addFlowElement(conversion,scriptTask,true);
+  return scriptTask;
+}

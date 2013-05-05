@@ -1,0 +1,10 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("identityLinktest");
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
+  identityService.setAuthenticatedUserId("kermit");
+  task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
+  identityService.setAuthenticatedUserId(null);
+  assertProcessEnded(processInstance.getId());
+}

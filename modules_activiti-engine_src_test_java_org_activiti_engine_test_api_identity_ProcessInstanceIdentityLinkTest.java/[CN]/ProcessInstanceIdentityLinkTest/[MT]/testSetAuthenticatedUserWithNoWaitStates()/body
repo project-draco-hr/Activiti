@@ -1,0 +1,6 @@
+{
+  identityService.setAuthenticatedUserId("kermit");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("identityLinktest");
+  assertProcessEnded(processInstance.getId());
+  identityService.setAuthenticatedUserId(null);
+}

@@ -6,5 +6,12 @@
   JsonpFilter jsonpFilter=new JsonpFilter(getContext());
   jsonpFilter.setNext(router);
   authenticator.setNext(jsonpFilter);
+  List<ConverterHelper> registeredConverters=Engine.getInstance().getRegisteredConverters();
+  for (  ConverterHelper helper : registeredConverters) {
+    if (helper instanceof JacksonConverter) {
+      JacksonConverter jacksonConverter=(JacksonConverter)helper;
+      jacksonConverter.getObjectMapper().configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,false);
+    }
+  }
   return authenticator;
 }

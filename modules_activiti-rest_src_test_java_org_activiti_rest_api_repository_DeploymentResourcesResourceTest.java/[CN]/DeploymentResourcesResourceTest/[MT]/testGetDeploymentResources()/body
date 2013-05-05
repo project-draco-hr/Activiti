@@ -1,0 +1,29 @@
+{
+  try {
+    Deployment deployment=repositoryService.createDeployment().name("Deployment 1").addClasspathResource("org/activiti/rest/api/repository/oneTaskProcess.bpmn20.xml").addInputStream("test.txt",new ByteArrayInputStream("Test content".getBytes())).deploy();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCES,deployment.getId()));
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertTrue(responseNode.isArray());
+    assertEquals(2,responseNode.size());
+    JsonNode txtNode=null;
+    for (int i=0; i < responseNode.size(); i++) {
+      if ("test.txt".equals(responseNode.get(i).get("id").getTextValue())) {
+        txtNode=responseNode.get(i);
+        break;
+      }
+    }
+    assertNotNull(txtNode);
+    assertTrue(txtNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),"test.txt")));
+    assertTrue(txtNode.get("contentUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deployment.getId(),"test.txt")));
+    assertTrue(txtNode.get("mediaType").isNull());
+    assertEquals("resource",txtNode.get("type").getTextValue());
+  }
+  finally {
+    List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
+    for (    Deployment deployment : deployments) {
+      repositoryService.deleteDeployment(deployment.getId(),true);
+    }
+  }
+}

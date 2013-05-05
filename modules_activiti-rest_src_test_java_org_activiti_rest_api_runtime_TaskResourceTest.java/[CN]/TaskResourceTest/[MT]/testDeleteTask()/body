@@ -1,0 +1,49 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    String taskId=task.getId();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    client.delete();
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+    assertNull(task);
+    if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+      assertNotNull(historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult());
+    }
+    task=taskService.newTask();
+    taskService.saveTask(task);
+    taskId=task.getId();
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?cascadeHistory=true");
+    client.delete();
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+    assertNull(task);
+    if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+      assertNull(historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult());
+    }
+    task=taskService.newTask();
+    taskService.saveTask(task);
+    taskId=task.getId();
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?deleteReason=fortestingpurposes");
+    client.delete();
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+    assertNull(task);
+    if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+      HistoricTaskInstance instance=historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+      assertNotNull(instance);
+      assertEquals("fortestingpurposes",instance.getDeleteReason());
+    }
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+    List<HistoricTaskInstance> historicTasks=historyService.createHistoricTaskInstanceQuery().list();
+    for (    HistoricTaskInstance task : historicTasks) {
+      historyService.deleteHistoricTaskInstance(task.getId());
+    }
+  }
+}

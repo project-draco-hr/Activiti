@@ -33,6 +33,9 @@
         }
         pooledDataSource.setPoolPingConnectionsNotUsedFor(jdbcPingConnectionNotUsedFor);
       }
+      if (jdbcDefaultTransactionIsolationLevel > 0) {
+        pooledDataSource.setDefaultTransactionIsolationLevel(jdbcDefaultTransactionIsolationLevel);
+      }
       dataSource=pooledDataSource;
     }
     if (dataSource instanceof PooledDataSource) {

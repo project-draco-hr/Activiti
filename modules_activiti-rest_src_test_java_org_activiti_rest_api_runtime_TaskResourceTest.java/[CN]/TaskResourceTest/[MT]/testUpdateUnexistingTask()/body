@@ -1,0 +1,12 @@
+{
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,"unexistingtask"));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  try {
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
+  }
+}

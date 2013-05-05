@@ -1,0 +1,4 @@
+{
+  from("seda:inbound").routeId("inbound").bean(TimeConsumingService.class).log(LoggingLevel.INFO,"Returning result ...").to("activiti:ErrorHandling:ReceiveResult");
+  from("seda:dlq").routeId("dlq").log(LoggingLevel.INFO,"Error handled by camel ...");
+}

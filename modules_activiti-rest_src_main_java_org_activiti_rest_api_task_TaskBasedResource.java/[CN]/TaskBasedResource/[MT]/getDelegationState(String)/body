@@ -1,0 +1,15 @@
+{
+  DelegationState state=null;
+  if (delegationState != null) {
+    if (DelegationState.RESOLVED.name().toLowerCase().equals(delegationState)) {
+      return DelegationState.RESOLVED;
+    }
+ else     if (DelegationState.PENDING.name().toLowerCase().equals(delegationState)) {
+      return DelegationState.PENDING;
+    }
+ else {
+      throw new ActivitiIllegalArgumentException("Illegal value for delegationState: " + delegationState);
+    }
+  }
+  return state;
+}
