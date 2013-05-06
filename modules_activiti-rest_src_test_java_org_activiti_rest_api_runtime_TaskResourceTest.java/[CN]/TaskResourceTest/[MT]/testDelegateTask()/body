@@ -1,0 +1,39 @@
+{
+  try {
+    Task task=taskService.newTask();
+    task.setAssignee("initialAssignee");
+    taskService.saveTask(task);
+    String taskId=task.getId();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("action","delegate");
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("An assignee is required when delegating a task.",expected.getStatus().getDescription());
+    }
+    requestNode.put("assignee","newAssignee");
+    client.post(requestNode);
+    task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    assertNotNull(task);
+    assertEquals("newAssignee",task.getAssignee());
+    assertEquals("initialAssignee",task.getOwner());
+    assertEquals(DelegationState.PENDING,task.getDelegationState());
+    requestNode.put("assignee","anotherAssignee");
+    client.post(requestNode);
+    task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    assertNotNull(task);
+    assertEquals("anotherAssignee",task.getAssignee());
+    assertEquals("initialAssignee",task.getOwner());
+    assertEquals(DelegationState.PENDING,task.getDelegationState());
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  try {
+    Task task=taskService.newTask();
+    task.setAssignee("initialAssignee");
+    taskService.saveTask(task);
+    taskService.delegateTask(task.getId(),"anotherUser");
+    String taskId=task.getId();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("action","resolve");
+    client.post(requestNode);
+    task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    assertNotNull(task);
+    assertEquals("initialAssignee",task.getAssignee());
+    assertEquals("initialAssignee",task.getOwner());
+    assertEquals(DelegationState.RESOLVED,task.getDelegationState());
+    client.post(requestNode);
+    task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    assertNotNull(task);
+    assertEquals("initialAssignee",task.getAssignee());
+    assertEquals("initialAssignee",task.getOwner());
+    assertEquals(DelegationState.RESOLVED,task.getDelegationState());
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

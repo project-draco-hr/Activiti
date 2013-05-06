@@ -1,0 +1,38 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    String taskId=task.getId();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("action","complete");
+    client.post(requestNode);
+    task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    assertNull(task);
+    task=taskService.newTask();
+    taskService.saveTask(task);
+    taskId=task.getId();
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    requestNode=objectMapper.createObjectNode();
+    requestNode.put("action","complete");
+    requestNode.put("assignee","assigneeBeforeComplete");
+    client.post(requestNode);
+    task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    assertNull(task);
+    if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+      HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+      assertNotNull(historicTaskInstance);
+      assertEquals("assigneeBeforeComplete",historicTaskInstance.getAssignee());
+    }
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+    List<HistoricTaskInstance> historicTasks=historyService.createHistoricTaskInstanceQuery().list();
+    for (    HistoricTaskInstance task : historicTasks) {
+      historyService.deleteHistoricTaskInstance(task.getId());
+    }
+  }
+}
