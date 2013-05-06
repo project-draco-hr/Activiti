@@ -1,0 +1,24 @@
+{
+  try {
+    TestSerializableVariable originalSerializable=new TestSerializableVariable();
+    originalSerializable.setSomeField("This is some field");
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    taskService.setVariableLocal(task.getId(),"localTaskVariable",originalSerializable);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable"));
+    client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    ObjectInputStream stream=new ObjectInputStream(client.getResponse().getEntity().getStream());
+    Object readSerializable=stream.readObject();
+    assertNotNull(readSerializable);
+    assertTrue(readSerializable instanceof TestSerializableVariable);
+    assertEquals("This is some field",((TestSerializableVariable)readSerializable).getSomeField());
+    assertEquals(MediaType.APPLICATION_JAVA_OBJECT.getName(),getMediaType(client));
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

@@ -21,6 +21,9 @@
  else {
         restVar.setType(SERIALIZABLE_VARIABLE_TYPE);
       }
+      if (includeBinaryValue) {
+        restVar.setValue(value);
+      }
       if (taskId != null) {
         restVar.setValueUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,taskId,name));
       }

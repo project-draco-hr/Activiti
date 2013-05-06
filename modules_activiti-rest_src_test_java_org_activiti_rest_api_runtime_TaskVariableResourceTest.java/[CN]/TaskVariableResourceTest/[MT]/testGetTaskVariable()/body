@@ -51,6 +51,24 @@
       assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
       assertEquals("Invalid variable scope: 'illegal'",expected.getStatus().getDescription());
     }
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,"unexisting","sharedVariable"));
+    try {
+      response=client.get();
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("task unexisting doesn't exist",expected.getStatus().getDescription());
+    }
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,processTask.getId(),"unexistingVariable"));
+    try {
+      response=client.get();
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Task '" + processTask.getId() + "' doesn't have a variable with name: 'unexistingVariable'.",expected.getStatus().getDescription());
+    }
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();
