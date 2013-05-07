@@ -1,10 +1,11 @@
 {
   try {
-    ObjectNode requestNode=objectMapper.createObjectNode();
-    requestNode.put("name","existingVariable");
-    requestNode.put("value","simple string value");
-    requestNode.put("scope","local");
-    requestNode.put("type","string");
+    ArrayNode requestNode=objectMapper.createArrayNode();
+    ObjectNode variableNode=requestNode.addObject();
+    variableNode.put("name","existingVariable");
+    variableNode.put("value","simple string value");
+    variableNode.put("scope","local");
+    variableNode.put("type","string");
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,"unexisting"));
     try {
       client.post(requestNode);
@@ -26,10 +27,10 @@
       assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
       assertEquals("Variable 'existingVariable' is already present on task '" + task.getId() + "'.",expected.getStatus().getDescription());
     }
-    requestNode.put("name","myVariable");
-    requestNode.put("value","simple string value");
-    requestNode.put("scope","global");
-    requestNode.put("type","string");
+    variableNode.put("name","myVariable");
+    variableNode.put("value","simple string value");
+    variableNode.put("scope","global");
+    variableNode.put("type","string");
     client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     try {
       client.post(requestNode);
@@ -39,8 +40,8 @@
       assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
       assertEquals("Cannot set global variable 'myVariable' on task '" + task.getId() + "', task is not part of process.",expected.getStatus().getDescription());
     }
-    requestNode=objectMapper.createObjectNode();
-    requestNode.put("value","simple string value");
+    variableNode.removeAll();
+    variableNode.put("value","simple string value");
     client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     try {
       client.post(requestNode);
@@ -49,6 +50,25 @@
  catch (    ResourceException expected) {
       assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
       assertEquals("Variable name is required",expected.getStatus().getDescription());
+    }
+    requestNode.removeAll();
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("Request didn't cantain a list of variables to create.",expected.getStatus().getDescription());
+    }
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+    try {
+      client.post(objectMapper.createObjectNode());
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("Request didn't cantain a list of variables to create.",expected.getStatus().getDescription());
     }
   }
   finally {

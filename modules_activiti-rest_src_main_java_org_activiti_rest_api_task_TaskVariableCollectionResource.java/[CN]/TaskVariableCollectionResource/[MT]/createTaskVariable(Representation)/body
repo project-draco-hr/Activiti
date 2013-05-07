@@ -1,16 +1,26 @@
 {
   if (authenticate() == false)   return null;
   Task task=getTaskFromRequest();
+  Object result=null;
   if (MediaType.MULTIPART_FORM_DATA.isCompatible(representation.getMediaType())) {
-    return createBinaryVariable(representation,task);
+    result=createBinaryVariable(representation,task);
   }
  else {
     try {
-      RestVariable restVar=getConverterService().toObject(representation,RestVariable.class,this);
-      return createSimpleVariable(restVar,task);
+      List<RestVariable> variables=new ArrayList<RestVariable>();
+      result=variables;
+      RestVariable[] restVariables=getConverterService().toObject(representation,RestVariable[].class,this);
+      if (restVariables == null || restVariables.length == 0) {
+        throw new ActivitiIllegalArgumentException("Request didn't cantain a list of variables to create.");
+      }
+      for (      RestVariable var : restVariables) {
+        variables.add(createSimpleVariable(var,task));
+      }
     }
  catch (    IOException ioe) {
       throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,ioe);
     }
   }
+  setStatus(Status.SUCCESS_CREATED);
+  return result;
 }
