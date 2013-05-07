@@ -12,7 +12,7 @@
     }
  catch (    ResourceException expected) {
       assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("task unexisting doesn't exist",expected.getStatus().getDescription());
+      assertEquals("Could not find a task with id 'unexisting'.",expected.getStatus().getDescription());
     }
     Task task=taskService.newTask();
     taskService.saveTask(task);

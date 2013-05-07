@@ -3,7 +3,8 @@
   IOUtils.copy(fileStream,output);
   final int length=output.toByteArray().length;
   final InputStream stream=new ByteArrayInputStream(output.toByteArray());
-  MultipartRequestEntity entity=new MultipartRequestEntity(new Part[]{new FilePart(fileName,new PartSource(){
+  List<Part> parts=new ArrayList<Part>();
+  FilePart filePart=new FilePart(fileName,new PartSource(){
     @Override public long getLength(){
       return length;
     }
@@ -14,7 +15,14 @@
       return stream;
     }
   }
-)},new HttpMethodParams());
+);
+  parts.add(filePart);
+  if (additionalFormFields != null && !additionalFormFields.isEmpty()) {
+    for (    Entry<String,String> field : additionalFormFields.entrySet()) {
+      parts.add(new StringPart(field.getKey(),field.getValue()));
+    }
+  }
+  MultipartRequestEntity entity=new MultipartRequestEntity(parts.toArray(new Part[]{}),new HttpMethodParams());
   ByteArrayOutputStream os=new ByteArrayOutputStream();
   entity.writeRequest(os);
   setMediaType(new MediaType(entity.getContentType()));
