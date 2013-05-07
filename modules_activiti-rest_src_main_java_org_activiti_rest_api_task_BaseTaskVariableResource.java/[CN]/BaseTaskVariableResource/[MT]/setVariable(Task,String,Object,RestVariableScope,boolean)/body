@@ -1,6 +1,10 @@
 {
-  if (hasVariableOnScope(task,name,scope)) {
+  boolean hasVariable=hasVariableOnScope(task,name,scope);
+  if (isNew && hasVariable) {
     throw new ResourceException(new Status(Status.CLIENT_ERROR_CONFLICT.getCode(),"Variable '" + name + "' is already present on task '"+ task.getId()+ "'.",null,null));
+  }
+  if (!isNew && !hasVariable) {
+    throw new ResourceException(new Status(Status.CLIENT_ERROR_NOT_FOUND.getCode(),"Task '" + task.getId() + "' doesn't have a variable with name: '"+ name+ "'.",null,null));
   }
   if (scope == RestVariableScope.LOCAL) {
     ActivitiUtil.getTaskService().setVariableLocal(task.getId(),name,value);

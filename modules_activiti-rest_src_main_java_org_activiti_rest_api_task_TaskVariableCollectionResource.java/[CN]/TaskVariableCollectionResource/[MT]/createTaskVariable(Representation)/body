@@ -3,7 +3,7 @@
   Task task=getTaskFromRequest();
   Object result=null;
   if (MediaType.MULTIPART_FORM_DATA.isCompatible(representation.getMediaType())) {
-    result=createBinaryVariable(representation,task);
+    result=setBinaryVariable(representation,task,true);
   }
  else {
     try {
@@ -14,7 +14,7 @@
         throw new ActivitiIllegalArgumentException("Request didn't cantain a list of variables to create.");
       }
       for (      RestVariable var : restVariables) {
-        variables.add(createSimpleVariable(var,task));
+        variables.add(setSimpleVariable(var,task,true));
       }
     }
  catch (    IOException ioe) {

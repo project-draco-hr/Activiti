@@ -7,6 +7,6 @@
     scope=RestVariableScope.LOCAL;
   }
   Object actualVariableValue=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().getVariableValue(restVariable);
-  setVariable(task,restVariable.getName(),actualVariableValue,scope);
+  setVariable(task,restVariable.getName(),actualVariableValue,scope,isNew);
   return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariable(this,restVariable.getName(),actualVariableValue,scope,task.getId(),null,false);
 }
