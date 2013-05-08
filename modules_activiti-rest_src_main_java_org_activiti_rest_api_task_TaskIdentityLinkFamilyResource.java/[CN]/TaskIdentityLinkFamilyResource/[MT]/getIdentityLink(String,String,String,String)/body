@@ -1,0 +1,17 @@
+{
+  boolean isUser=family.equals(RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS);
+  List<IdentityLink> allLinks=ActivitiUtil.getTaskService().getIdentityLinksForTask(taskId);
+  for (  IdentityLink link : allLinks) {
+    boolean rightIdentity=false;
+    if (isUser) {
+      rightIdentity=identityId.equals(link.getUserId());
+    }
+ else {
+      rightIdentity=identityId.equals(link.getGroupId());
+    }
+    if (rightIdentity && link.getType().equals(type)) {
+      return link;
+    }
+  }
+  throw new ActivitiObjectNotFoundException("Could not find the requested identity link.",IdentityLink.class);
+}

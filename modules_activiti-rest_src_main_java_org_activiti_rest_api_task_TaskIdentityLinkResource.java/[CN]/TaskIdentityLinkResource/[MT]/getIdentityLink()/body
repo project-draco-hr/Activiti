@@ -1,0 +1,9 @@
+{
+  Task task=getTaskFromRequest();
+  String family=getAttribute("family");
+  String identityId=getAttribute("identityId");
+  String type=getAttribute("type");
+  validateIdentityLinkArguments(family,identityId,type);
+  IdentityLink link=getIdentityLink(family,identityId,type,task.getId());
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestIdentityLink(this,link);
+}
