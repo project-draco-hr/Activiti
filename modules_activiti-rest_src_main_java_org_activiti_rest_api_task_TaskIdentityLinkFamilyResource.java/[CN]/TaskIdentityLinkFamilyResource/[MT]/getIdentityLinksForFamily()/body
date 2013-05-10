@@ -1,4 +1,5 @@
 {
+  if (!authenticate())   return null;
   Task task=getTaskFromRequest();
   String family=getAttribute("family");
   if (family == null || (!RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS.equals(family) && !RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS.equals(family))) {
