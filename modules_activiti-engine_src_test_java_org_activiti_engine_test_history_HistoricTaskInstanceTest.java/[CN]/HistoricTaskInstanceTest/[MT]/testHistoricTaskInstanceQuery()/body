@@ -64,8 +64,8 @@
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDueBefore(anHourAgo.getTime()).count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskDueAfter(anHourAgo.getTime()).count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskDueAfter(anHourLater.getTime()).count());
-  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskStartDate(start.getTime()).count());
-  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskStartDate(anHourAgo.getTime()).count());
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().taskCreatedOn(start.getTime()).count());
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().taskCreatedOn(anHourAgo.getTime()).count());
   runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest");
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().finished().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().unfinished().count());
