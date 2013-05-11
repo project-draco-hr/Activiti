@@ -1,0 +1,34 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    taskService.addUserIdentityLink(task.getId(),"kermit","myType");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","kermit","myType"));
+    client.delete();
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","unexistingtype"));
+    try {
+      client.delete();
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Could not find the requested identity link.",expected.getStatus().getDescription());
+    }
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,"unexistingtask",RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType"));
+    try {
+      client.delete();
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

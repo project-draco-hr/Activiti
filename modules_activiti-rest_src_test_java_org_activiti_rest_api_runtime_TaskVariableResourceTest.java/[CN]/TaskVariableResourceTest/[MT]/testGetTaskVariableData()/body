@@ -1,0 +1,19 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    taskService.setVariableLocal(task.getId(),"localTaskVariable","This is a binary piece of text".getBytes());
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable"));
+    client.get(MediaType.TEXT_PLAIN);
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    String actualResponseBytesAsText=client.getResponse().getEntityAsText();
+    assertEquals("This is a binary piece of text",actualResponseBytesAsText);
+    assertEquals(MediaType.APPLICATION_OCTET_STREAM.getName(),getMediaType(client));
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

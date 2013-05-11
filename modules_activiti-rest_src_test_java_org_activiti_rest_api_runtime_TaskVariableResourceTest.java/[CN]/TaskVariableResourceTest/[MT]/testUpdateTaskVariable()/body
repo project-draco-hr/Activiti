@@ -1,0 +1,65 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",Collections.singletonMap("overlappingVariable",(Object)"processValue"));
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.setVariableLocal(task.getId(),"overlappingVariable","taskValue");
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("name","overlappingVariable");
+  requestNode.put("value","updatedLocalValue");
+  requestNode.put("type","string");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,task.getId(),"overlappingVariable"));
+  Representation response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("updatedLocalValue",responseNode.get("value").asText());
+  assertEquals("local",responseNode.get("scope").asText());
+  assertEquals("updatedLocalValue",taskService.getVariableLocal(task.getId(),"overlappingVariable"));
+  assertEquals("processValue",runtimeService.getVariable(task.getExecutionId(),"overlappingVariable"));
+  response.release();
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("name","overlappingVariable");
+  requestNode.put("value","updatedLocalValueOnceAgain");
+  requestNode.put("type","string");
+  requestNode.put("scope","local");
+  response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("updatedLocalValueOnceAgain",responseNode.get("value").asText());
+  assertEquals("local",responseNode.get("scope").asText());
+  assertEquals("updatedLocalValueOnceAgain",taskService.getVariableLocal(task.getId(),"overlappingVariable"));
+  assertEquals("processValue",runtimeService.getVariable(task.getExecutionId(),"overlappingVariable"));
+  response.release();
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("name","overlappingVariable");
+  requestNode.put("value","updatedInGlobalScope");
+  requestNode.put("type","string");
+  requestNode.put("scope","global");
+  response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("updatedInGlobalScope",responseNode.get("value").asText());
+  assertEquals("global",responseNode.get("scope").asText());
+  assertEquals("updatedLocalValueOnceAgain",taskService.getVariableLocal(task.getId(),"overlappingVariable"));
+  assertEquals("updatedInGlobalScope",runtimeService.getVariable(task.getExecutionId(),"overlappingVariable"));
+  try {
+    requestNode.put("name","unexistingVariable");
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Variable name in the body should be equal to the name used in the requested URL.",expected.getStatus().getDescription());
+  }
+  try {
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,task.getId(),"unexistingVariable"));
+    requestNode.put("name","unexistingVariable");
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Task '" + task.getId() + "' doesn't have a variable with name: 'unexistingVariable'.",expected.getStatus().getDescription());
+  }
+}

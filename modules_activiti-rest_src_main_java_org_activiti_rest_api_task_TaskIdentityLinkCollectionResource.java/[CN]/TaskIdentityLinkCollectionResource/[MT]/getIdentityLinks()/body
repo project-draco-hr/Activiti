@@ -1,0 +1,11 @@
+{
+  if (!authenticate())   return null;
+  List<RestIdentityLink> result=new ArrayList<RestIdentityLink>();
+  Task task=getTaskFromRequest();
+  List<IdentityLink> identityLinks=ActivitiUtil.getTaskService().getIdentityLinksForTask(task.getId());
+  RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  for (  IdentityLink link : identityLinks) {
+    result.add(responseFactory.createRestIdentityLink(this,link));
+  }
+  return result;
+}

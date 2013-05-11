@@ -1,14 +1,23 @@
 {
   CommentEntityManager commentManager=commandContext.getCommentEntityManager();
-  ArrayList<Comment> comments=new ArrayList<Comment>();
-  if (processInstanceId != null) {
-    comments.addAll(commentManager.findCommentsByProcessInstanceId(processInstanceId));
-  }
-  if (taskId != null) {
-    comments.addAll(commentManager.findCommentsByTaskId(taskId));
-  }
-  for (  Comment comment : comments) {
+  if (commentId != null) {
+    Comment comment=commentManager.findComment(commentId);
+    if (comment == null) {
+      throw new ActivitiObjectNotFoundException("Comment with id '" + commentId + "' doesn't exists.",Comment.class);
+    }
     commentManager.delete((CommentEntity)comment);
+  }
+ else {
+    ArrayList<Comment> comments=new ArrayList<Comment>();
+    if (processInstanceId != null) {
+      comments.addAll(commentManager.findCommentsByProcessInstanceId(processInstanceId));
+    }
+    if (taskId != null) {
+      comments.addAll(commentManager.findCommentsByTaskId(taskId));
+    }
+    for (    Comment comment : comments) {
+      commentManager.delete((CommentEntity)comment);
+    }
   }
   return null;
 }

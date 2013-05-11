@@ -1,0 +1,72 @@
+{
+  Calendar cal=Calendar.getInstance();
+  Map<String,Object> processVariables=new HashMap<String,Object>();
+  processVariables.put("stringProcVar","This is a ProcVariable");
+  processVariables.put("intProcVar",123);
+  processVariables.put("longProcVar",1234L);
+  processVariables.put("shortProcVar",(short)123);
+  processVariables.put("doubleProcVar",99.99);
+  processVariables.put("booleanProcVar",Boolean.TRUE);
+  processVariables.put("dateProcVar",cal.getTime());
+  processVariables.put("byteArrayProcVar","Some raw bytes".getBytes());
+  processVariables.put("overlappingVariable","process-value");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  Map<String,Object> taskVariables=new HashMap<String,Object>();
+  taskVariables.put("stringTaskVar","This is a TaskVariable");
+  taskVariables.put("intTaskVar",123);
+  taskVariables.put("longTaskVar",1234L);
+  taskVariables.put("shortTaskVar",(short)123);
+  taskVariables.put("doubleTaskVar",99.99);
+  taskVariables.put("booleanTaskVar",Boolean.TRUE);
+  taskVariables.put("dateTaskVar",cal.getTime());
+  taskVariables.put("byteArrayTaskVar","Some raw bytes".getBytes());
+  taskVariables.put("overlappingVariable","task-value");
+  taskService.setVariablesLocal(task.getId(),taskVariables);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(17,responseNode.size());
+  boolean foundOverlapping=false;
+  for (int i=0; i < responseNode.size(); i++) {
+    JsonNode var=responseNode.get(i);
+    if (var.get("name") != null && "overlappingVariable".equals(var.get("name").asText())) {
+      foundOverlapping=true;
+      assertEquals("task-value",var.get("value").asText());
+      assertEquals("local",var.get("scope").asText());
+      break;
+    }
+  }
+  assertTrue(foundOverlapping);
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()) + "?scope=local");
+  response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(9,responseNode.size());
+  for (int i=0; i < responseNode.size(); i++) {
+    JsonNode var=responseNode.get(i);
+    assertEquals("local",var.get("scope").asText());
+  }
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()) + "?scope=global");
+  response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(9,responseNode.size());
+  foundOverlapping=false;
+  for (int i=0; i < responseNode.size(); i++) {
+    JsonNode var=responseNode.get(i);
+    assertEquals("global",var.get("scope").asText());
+    if ("overlappingVariable".equals(var.get("name").asText())) {
+      foundOverlapping=true;
+      assertEquals("process-value",var.get("value").asText());
+    }
+  }
+  assertTrue(foundOverlapping);
+}

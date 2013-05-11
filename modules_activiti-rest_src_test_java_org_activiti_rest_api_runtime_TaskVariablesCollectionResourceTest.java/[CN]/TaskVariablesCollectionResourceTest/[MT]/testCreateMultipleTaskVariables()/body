@@ -1,0 +1,66 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    ArrayNode requestNode=objectMapper.createArrayNode();
+    ObjectNode stringVarNode=requestNode.addObject();
+    stringVarNode.put("name","stringVariable");
+    stringVarNode.put("value","simple string value");
+    stringVarNode.put("scope","local");
+    stringVarNode.put("type","string");
+    ObjectNode integerVarNode=requestNode.addObject();
+    integerVarNode.put("name","integerVariable");
+    integerVarNode.put("value",1234);
+    integerVarNode.put("scope","local");
+    integerVarNode.put("type","integer");
+    ObjectNode shortVarNode=requestNode.addObject();
+    shortVarNode.put("name","shortVariable");
+    shortVarNode.put("value",123);
+    shortVarNode.put("scope","local");
+    shortVarNode.put("type","short");
+    ObjectNode longVarNode=requestNode.addObject();
+    longVarNode.put("name","longVariable");
+    longVarNode.put("value",4567890L);
+    longVarNode.put("scope","local");
+    longVarNode.put("type","long");
+    ObjectNode doubleVarNode=requestNode.addObject();
+    doubleVarNode.put("name","doubleVariable");
+    doubleVarNode.put("value",123.456);
+    doubleVarNode.put("scope","local");
+    doubleVarNode.put("type","double");
+    ObjectNode booleanVarNode=requestNode.addObject();
+    booleanVarNode.put("name","booleanVariable");
+    booleanVarNode.put("value",Boolean.TRUE);
+    booleanVarNode.put("scope","local");
+    booleanVarNode.put("type","boolean");
+    Calendar varCal=Calendar.getInstance();
+    String isoString=getISODateString(varCal.getTime());
+    ObjectNode dateVarNode=requestNode.addObject();
+    dateVarNode.put("name","dateVariable");
+    dateVarNode.put("value",isoString);
+    dateVarNode.put("scope","local");
+    dateVarNode.put("type","date");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertTrue(responseNode.isArray());
+    assertEquals(7,responseNode.size());
+    Map<String,Object> taskVariables=taskService.getVariablesLocal(task.getId());
+    assertEquals(7,taskVariables.size());
+    assertEquals("simple string value",taskVariables.get("stringVariable"));
+    assertEquals(1234,taskVariables.get("integerVariable"));
+    assertEquals((short)123,taskVariables.get("shortVariable"));
+    assertEquals(4567890L,taskVariables.get("longVariable"));
+    assertEquals(123.456,taskVariables.get("doubleVariable"));
+    assertEquals(Boolean.TRUE,taskVariables.get("booleanVariable"));
+    assertEquals(varCal.getTime(),taskVariables.get("dateVariable"));
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}
