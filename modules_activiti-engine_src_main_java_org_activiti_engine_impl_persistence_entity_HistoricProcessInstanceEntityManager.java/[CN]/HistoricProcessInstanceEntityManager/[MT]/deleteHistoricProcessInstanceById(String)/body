@@ -6,6 +6,7 @@
     commandContext.getHistoricVariableInstanceEntityManager().deleteHistoricVariableInstanceByProcessInstanceId(historicProcessInstanceId);
     commandContext.getHistoricActivityInstanceEntityManager().deleteHistoricActivityInstancesByProcessInstanceId(historicProcessInstanceId);
     commandContext.getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstancesByProcessInstanceId(historicProcessInstanceId);
+    commandContext.getHistoricIdentityLinkEntityManager().deleteHistoricIdentityLinksByProcInstance(historicProcessInstanceId);
     getDbSqlSession().delete(historicProcessInstance);
   }
 }

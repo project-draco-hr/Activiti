@@ -1,0 +1,12 @@
+{
+  List<HistoricIdentityLinkEntity> identityLinks=findHistoricIdentityLinksByProcessInstanceId(processInstanceId);
+  for (  HistoricIdentityLinkEntity identityLink : identityLinks) {
+    deleteHistoricIdentityLink(identityLink);
+  }
+  List<HistoricIdentityLinkEntity> identityLinksFromCache=Context.getCommandContext().getDbSqlSession().findInCache(HistoricIdentityLinkEntity.class);
+  for (  HistoricIdentityLinkEntity identityLinkEntity : identityLinksFromCache) {
+    if (processInstanceId.equals(identityLinkEntity.getProcessInstanceId())) {
+      deleteHistoricIdentityLink(identityLinkEntity);
+    }
+  }
+}

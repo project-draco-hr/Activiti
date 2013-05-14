@@ -1,0 +1,6 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.AUDIT) && (identityLink.getProcessInstanceId() != null || identityLink.getTaskId() != null)) {
+    HistoricIdentityLinkEntity historicIdentityLinkEntity=new HistoricIdentityLinkEntity(identityLink);
+    getDbSqlSession().insert(historicIdentityLinkEntity);
+  }
+}

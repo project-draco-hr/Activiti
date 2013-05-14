@@ -1,0 +1,6 @@
+{
+  getDbSqlSession().delete(identityLink);
+  if (cascadeHistory) {
+    getHistoryManager().deleteHistoricIdentityLink(identityLink.getId());
+  }
+}
