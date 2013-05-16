@@ -4,13 +4,10 @@
   if (deleteStatement == null) {
     throw new ActivitiException("no delete statement for " + persistentObject.getClass() + " in the ibatis mapping files");
   }
-  if (log.isDebugEnabled()) {
-    log.debug("deleting: {}[{}]",persistentObject.getClass().getSimpleName(),persistentObject.getId());
-  }
   if (persistentObject instanceof HasRevision) {
     int nrOfRowsDeleted=sqlSession.delete(deleteStatement,persistentObject);
     if (nrOfRowsDeleted == 0) {
-      throw new ActivitiOptimisticLockingException(DbSqlSession.this.toString(persistentObject) + " was updated by another transaction concurrently");
+      throw new ActivitiOptimisticLockingException(persistentObject + " was updated by another transaction concurrently");
     }
   }
  else {
