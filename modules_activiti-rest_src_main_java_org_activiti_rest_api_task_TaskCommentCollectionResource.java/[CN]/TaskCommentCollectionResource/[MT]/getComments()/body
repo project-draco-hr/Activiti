@@ -1,6 +1,6 @@
 {
   if (!authenticate())   return null;
-  List<RestComment> result=new ArrayList<RestComment>();
+  List<CommentResponse> result=new ArrayList<CommentResponse>();
   RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   Task task=getTaskFromRequest();
   for (  Comment comment : ActivitiUtil.getTaskService().getTaskComments(task.getId())) {
