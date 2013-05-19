@@ -1,0 +1,20 @@
+{
+  Object value=null;
+  if (restVariable.getType() != null) {
+    RestVariableConverter converter=null;
+    for (    RestVariableConverter conv : variableConverters) {
+      if (conv.getRestTypeName().equals(restVariable.getType())) {
+        converter=conv;
+        break;
+      }
+    }
+    if (converter == null) {
+      throw new ActivitiIllegalArgumentException("Variable '" + restVariable.getName() + "' has unsupported type: '"+ restVariable.getType()+ "'.");
+    }
+    value=converter.getVariableValue(restVariable);
+  }
+ else {
+    value=restVariable.getValue();
+  }
+  return value;
+}

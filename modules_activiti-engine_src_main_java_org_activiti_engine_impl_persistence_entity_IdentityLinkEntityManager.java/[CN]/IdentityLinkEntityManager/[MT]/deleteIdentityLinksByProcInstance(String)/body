@@ -1,12 +1,12 @@
 {
   List<IdentityLinkEntity> identityLinks=findIdentityLinksByProcessInstanceId(processInstanceId);
   for (  IdentityLinkEntity identityLink : identityLinks) {
-    deleteIdentityLink(identityLink);
+    deleteIdentityLink(identityLink,false);
   }
   List<IdentityLinkEntity> identityLinksFromCache=Context.getCommandContext().getDbSqlSession().findInCache(IdentityLinkEntity.class);
   for (  IdentityLinkEntity identityLinkEntity : identityLinksFromCache) {
     if (processInstanceId.equals(identityLinkEntity.getProcessInstanceId())) {
-      deleteIdentityLink(identityLinkEntity);
+      deleteIdentityLink(identityLinkEntity,false);
     }
   }
 }

@@ -1,0 +1,13 @@
+{
+  if (scope != null) {
+    for (    RestVariableScope s : RestVariableScope.values()) {
+      if (s.name().equalsIgnoreCase(scope)) {
+        return s;
+      }
+    }
+    throw new ActivitiIllegalArgumentException("Invalid variable scope: '" + scope + "'");
+  }
+ else {
+    return null;
+  }
+}

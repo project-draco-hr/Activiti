@@ -2,6 +2,7 @@
   Calendar startTime=Calendar.getInstance();
   ClockUtil.setCurrentTime(startTime.getTime());
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess","businessKey123");
+  runtimeService.addUserIdentityLink(processInstance.getId(),"kermit","someType");
   Calendar hourAgo=Calendar.getInstance();
   hourAgo.add(Calendar.HOUR_OF_DAY,-1);
   Calendar hourFromNow=Calendar.getInstance();
@@ -30,4 +31,6 @@
   assertEquals(1,historyService.createHistoricProcessInstanceQuery().finishedBefore(hourFromNow.getTime()).count());
   assertEquals(1,historyService.createHistoricProcessInstanceQuery().finishedAfter(hourAgo.getTime()).count());
   assertEquals(0,historyService.createHistoricProcessInstanceQuery().finishedAfter(hourFromNow.getTime()).count());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().involvedUser("kermit").count());
+  assertEquals(0,historyService.createHistoricProcessInstanceQuery().involvedUser("gonzo").count());
 }

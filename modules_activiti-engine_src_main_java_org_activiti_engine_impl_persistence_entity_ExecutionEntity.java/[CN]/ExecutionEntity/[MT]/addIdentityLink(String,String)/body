@@ -1,8 +1,9 @@
 {
-  IdentityLinkEntity identityLinkEntity=IdentityLinkEntity.createAndInsert();
+  IdentityLinkEntity identityLinkEntity=new IdentityLinkEntity();
   getIdentityLinks().add(identityLinkEntity);
   identityLinkEntity.setProcessInstance(this);
   identityLinkEntity.setUserId(userId);
   identityLinkEntity.setType(type);
+  identityLinkEntity.insert();
   return identityLinkEntity;
 }

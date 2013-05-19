@@ -1,0 +1,11 @@
+{
+  if (status != null && status.isError()) {
+    RestError error=new RestError();
+    error.setStatusCode(status.getCode());
+    error.setErrorMessage(status.getName());
+    return new JacksonRepresentation<RestError>(error);
+  }
+ else {
+    return super.getRepresentation(status,request,response);
+  }
+}

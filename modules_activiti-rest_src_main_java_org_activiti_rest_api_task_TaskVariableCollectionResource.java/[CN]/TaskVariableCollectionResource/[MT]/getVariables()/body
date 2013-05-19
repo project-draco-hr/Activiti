@@ -1,0 +1,19 @@
+{
+  if (authenticate() == false)   return null;
+  List<RestVariable> result=new ArrayList<RestVariable>();
+  Map<String,RestVariable> variableMap=new HashMap<String,RestVariable>();
+  Task task=getTaskFromRequest();
+  RestVariableScope variableScope=RestVariable.getScopeFromString(getQueryParameter("scope",getQuery()));
+  if (variableScope == null) {
+    addLocalVariables(task,variableMap);
+    addGlobalVariables(task,variableMap);
+  }
+ else   if (variableScope == RestVariableScope.GLOBAL) {
+    addGlobalVariables(task,variableMap);
+  }
+ else   if (variableScope == RestVariableScope.LOCAL) {
+    addLocalVariables(task,variableMap);
+  }
+  result.addAll(variableMap.values());
+  return result;
+}
