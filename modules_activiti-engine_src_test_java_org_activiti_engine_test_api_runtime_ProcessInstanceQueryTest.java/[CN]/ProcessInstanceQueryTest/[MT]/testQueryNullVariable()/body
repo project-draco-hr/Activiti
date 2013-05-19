@@ -16,14 +16,14 @@
   ProcessInstance processInstance5=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
   ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValueEquals("nullVar",null);
   List<ProcessInstance> processInstances=query.list();
-  Assert.assertNotNull(processInstances);
-  Assert.assertEquals(1,processInstances.size());
-  Assert.assertEquals(processInstance1.getId(),processInstances.get(0).getId());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVar",null).count());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarLong",null).count());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarDouble",null).count());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarByte",null).count());
-  Assert.assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueEquals(null).count());
+  assertNotNull(processInstances);
+  assertEquals(1,processInstances.size());
+  assertEquals(processInstance1.getId(),processInstances.get(0).getId());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVar",null).count());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarLong",null).count());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarDouble",null).count());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueNotEquals("nullVarByte",null).count());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().variableValueEquals(null).count());
   try {
     runtimeService.createProcessInstanceQuery().variableValueGreaterThan("nullVar",null);
     fail("Excetion expected");
@@ -64,5 +64,5 @@
   runtimeService.deleteProcessInstance(processInstance3.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance4.getId(),"test");
   runtimeService.deleteProcessInstance(processInstance5.getId(),"test");
-  Assert.assertEquals(0,runtimeService.createProcessInstanceQuery().variableValueEquals(null).count());
+  assertEquals(0,runtimeService.createProcessInstanceQuery().variableValueEquals(null).count());
 }

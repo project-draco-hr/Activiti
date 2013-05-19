@@ -1,9 +1,10 @@
 {
+  JarFile jar=null;
   try {
     if (!artifact.getName().endsWith(".bar")) {
       return false;
     }
-    JarFile jar=new JarFile(artifact);
+    jar=new JarFile(artifact);
     Manifest m=jar.getManifest();
     if (m != null && m.getMainAttributes().getValue(new Attributes.Name(BUNDLE_SYMBOLICNAME)) != null && m.getMainAttributes().getValue(new Attributes.Name(BUNDLE_VERSION)) != null) {
       return false;
@@ -12,5 +13,15 @@
   }
  catch (  Exception e) {
     return false;
+  }
+ finally {
+    if (jar != null) {
+      try {
+        jar.close();
+      }
+ catch (      IOException e) {
+        LOGGER.error("Unable to close jar",e);
+      }
+    }
   }
 }

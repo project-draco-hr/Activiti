@@ -15,7 +15,7 @@
   details=historyService.createHistoricDetailQuery().formProperties().processInstanceId(processInstance.getId()).list();
   assertNotNull(details);
   assertEquals(2,details.size());
-  Assert.assertNotSame(details.get(0).getActivityInstanceId(),details.get(1).getActivityInstanceId());
+  assertNotSame(details.get(0).getActivityInstanceId(),details.get(1).getActivityInstanceId());
   HistoricActivityInstance historicActInst1=historyService.createHistoricActivityInstanceQuery().activityInstanceId(details.get(0).getActivityInstanceId()).singleResult();
   HistoricActivityInstance historicActInst2=historyService.createHistoricActivityInstanceQuery().activityInstanceId(details.get(1).getActivityInstanceId()).singleResult();
   assertEquals(historicActInst1.getActivityId(),historicActInst2.getActivityId());
