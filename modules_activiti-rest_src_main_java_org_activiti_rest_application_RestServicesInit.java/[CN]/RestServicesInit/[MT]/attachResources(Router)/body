@@ -18,6 +18,11 @@
   router.attach("/runtime/tasks/{taskId}/comments/{commentId}",TaskCommentResource.class);
   router.attach("/runtime/tasks/{taskId}/events",TaskEventCollectionResource.class);
   router.attach("/runtime/tasks/{taskId}/events/{eventId}",TaskEventResource.class);
+  router.attach("/runtime/tasks/{taskId}/attachments",TaskAttachmentCollectionResource.class);
+  router.attach("/runtime/tasks/{taskId}/attachments/{attachmentId}",TaskAttachmentResource.class);
+  router.attach("/runtime/tasks/{taskId}/attachments/{attachmentId}/content",TaskAttachmentContentResource.class);
+  router.attach("/runtime/process-instances/{processInstanceId}",ProcessInstanceResource.class);
+  router.attach("/runtime/process-instances",ProcessInstanceCollectionResource.class);
   router.attach("/query/tasks",TaskQueryResource.class);
   router.attach("/process-engine",ProcessEngineResource.class);
   router.attach("/login",LoginResource.class);
@@ -33,9 +38,9 @@
   router.attach("/group/{groupId}/users",GroupUsersResource.class);
   router.attach("/groups",GroupSearchResource.class);
   router.attach("/process-definitions",ProcessDefinitionsResource.class);
-  router.attach("/process-instances",ProcessInstancesResource.class);
+  router.attach("/process-instances",LegacyProcessInstancesResource.class);
   router.attach("/process-instance",StartProcessInstanceResource.class);
-  router.attach("/process-instance/{processInstanceId}",ProcessInstanceResource.class);
+  router.attach("/process-instance/{processInstanceId}",LegacyProcessInstanceResource.class);
   router.attach("/process-instance/{processInstanceId}/diagram",ProcessInstanceDiagramResource.class);
   router.attach("/process-instance/{processInstanceId}/tasks",ProcessInstanceTaskResource.class);
   router.attach("/process-instance/{processInstanceId}/signal",ProcessInstanceSignalExecutionResource.class);
@@ -52,7 +57,7 @@
   router.attach("/task/{taskId}/url",TaskUrlAddResource.class);
   router.attach("/task/{taskId}/{operation}",TaskOperationResource.class);
   router.attach("/history/{taskId}/form-properties",HistoricFormPropertiesResource.class);
-  router.attach("/attachment/{attachmentId}",TaskAttachmentResource.class);
+  router.attach("/attachment/{attachmentId}",LegacyTaskAttachmentResource.class);
   router.attach("/form/{taskId}/properties",TaskPropertiesResource.class);
   router.attach("/deployments",DeploymentsResource.class);
   router.attach("/deployment",DeploymentUploadResource.class);
