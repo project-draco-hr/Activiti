@@ -6,7 +6,7 @@
     throw new ActivitiIllegalArgumentException("EventId is required.");
   }
   Event event=ActivitiUtil.getTaskService().getEvent(eventId);
-  if (event == null) {
+  if (event == null || !task.getId().equals(event.getTaskId())) {
     throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have an event with id '"+ eventId+ "'.",Event.class);
   }
   return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createEventResponse(this,event);
