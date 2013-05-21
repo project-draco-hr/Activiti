@@ -21,6 +21,8 @@
   router.attach("/runtime/tasks/{taskId}/attachments",TaskAttachmentCollectionResource.class);
   router.attach("/runtime/tasks/{taskId}/attachments/{attachmentId}",TaskAttachmentResource.class);
   router.attach("/runtime/tasks/{taskId}/attachments/{attachmentId}/content",TaskAttachmentContentResource.class);
+  router.attach("/runtime/process-instances/{processInstanceId}",ProcessInstanceResource.class);
+  router.attach("/runtime/process-instances",ProcessInstanceCollectionResource.class);
   router.attach("/query/tasks",TaskQueryResource.class);
   router.attach("/process-engine",ProcessEngineResource.class);
   router.attach("/login",LoginResource.class);
@@ -36,9 +38,9 @@
   router.attach("/group/{groupId}/users",GroupUsersResource.class);
   router.attach("/groups",GroupSearchResource.class);
   router.attach("/process-definitions",ProcessDefinitionsResource.class);
-  router.attach("/process-instances",ProcessInstancesResource.class);
+  router.attach("/process-instances",LegacyProcessInstancesResource.class);
   router.attach("/process-instance",StartProcessInstanceResource.class);
-  router.attach("/process-instance/{processInstanceId}",ProcessInstanceResource.class);
+  router.attach("/process-instance/{processInstanceId}",LegacyProcessInstanceResource.class);
   router.attach("/process-instance/{processInstanceId}/diagram",ProcessInstanceDiagramResource.class);
   router.attach("/process-instance/{processInstanceId}/tasks",ProcessInstanceTaskResource.class);
   router.attach("/process-instance/{processInstanceId}/signal",ProcessInstanceSignalExecutionResource.class);

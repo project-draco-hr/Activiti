@@ -1,0 +1,11 @@
+{
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,"unexistingpi"));
+  try {
+    client.delete();
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Could not find a process instance with id 'unexistingpi'.",expected.getStatus().getDescription());
+  }
+}
