@@ -1,0 +1,13 @@
+{
+  if (!authenticate())   return null;
+  Task task=getTaskFromRequest();
+  String attachmentId=getAttribute("attachmentId");
+  if (attachmentId == null) {
+    throw new ActivitiIllegalArgumentException("AttachmentId is required.");
+  }
+  Attachment attachment=ActivitiUtil.getTaskService().getAttachment(attachmentId);
+  if (attachment == null || !task.getId().equals(attachment.getTaskId())) {
+    throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have an attachment with id '"+ attachmentId+ "'.",Comment.class);
+  }
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createAttachmentResponse(this,attachment);
+}

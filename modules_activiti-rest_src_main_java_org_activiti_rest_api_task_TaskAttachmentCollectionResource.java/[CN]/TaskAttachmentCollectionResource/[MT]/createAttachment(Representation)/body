@@ -1,0 +1,21 @@
+{
+  if (authenticate() == false)   return null;
+  AttachmentResponse result=null;
+  Task task=getTaskFromRequest();
+  try {
+    if (MediaType.MULTIPART_FORM_DATA.isCompatible(representation.getMediaType())) {
+      result=createBinaryAttachment(representation,task);
+    }
+ else {
+      result=createSimpleAttachment(representation,task);
+    }
+  }
+ catch (  IOException e) {
+    throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,e);
+  }
+catch (  FileUploadException e) {
+    throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,e);
+  }
+  setStatus(Status.SUCCESS_CREATED);
+  return result;
+}
