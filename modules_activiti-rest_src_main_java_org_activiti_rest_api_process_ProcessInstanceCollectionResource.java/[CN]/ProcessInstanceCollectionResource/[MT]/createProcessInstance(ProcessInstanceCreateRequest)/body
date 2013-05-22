@@ -1,0 +1,30 @@
+{
+  if (request.getProcessDefinitionId() == null && request.getProcessDefinitionKey() == null) {
+    throw new ActivitiIllegalArgumentException("Either processDefinitionId or processDefinitionKey is required.");
+  }
+  if (request.getProcessDefinitionId() != null && request.getProcessDefinitionKey() != null) {
+    throw new ActivitiIllegalArgumentException("Both processDefinitionId and processDefinitionKey are set, use only one.");
+  }
+  RestResponseFactory factory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  Map<String,Object> startVariables=null;
+  if (request.getVariables() != null) {
+    startVariables=new HashMap<String,Object>();
+    for (    RestVariable variable : request.getVariables()) {
+      startVariables.put(variable.getName(),factory.getVariableValue(variable));
+    }
+  }
+  try {
+    ProcessInstance instance=null;
+    if (request.getProcessDefinitionId() != null) {
+      instance=ActivitiUtil.getRuntimeService().startProcessInstanceById(request.getProcessDefinitionId(),request.getBusinessKey(),startVariables);
+    }
+ else {
+      instance=ActivitiUtil.getRuntimeService().startProcessInstanceByKey(request.getProcessDefinitionKey(),request.getBusinessKey(),startVariables);
+    }
+    setStatus(Status.SUCCESS_CREATED);
+    return factory.createProcessInstanceResponse(this,instance);
+  }
+ catch (  ActivitiObjectNotFoundException aonfe) {
+    throw new ActivitiIllegalArgumentException(aonfe.getMessage(),aonfe);
+  }
+}
