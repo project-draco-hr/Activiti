@@ -1,0 +1,23 @@
+{
+  if (authenticate() == false)   return;
+  Execution execution=getExecutionFromRequest();
+  String variableName=getAttribute("variableName");
+  if (variableName == null) {
+    throw new ActivitiIllegalArgumentException("The variableName cannot be null");
+  }
+  String scopeString=getQueryParameter("scope",getQuery());
+  RestVariableScope scope=RestVariableScope.LOCAL;
+  if (scopeString != null) {
+    scope=RestVariable.getScopeFromString(scopeString);
+  }
+  if (!hasVariableOnScope(execution,variableName,scope)) {
+    throw new ActivitiObjectNotFoundException("Execution '" + execution.getId() + "' doesn't have a variable '"+ variableName+ "' in scope "+ scope.name().toLowerCase(),VariableInstanceEntity.class);
+  }
+  if (scope == RestVariableScope.LOCAL) {
+    ActivitiUtil.getRuntimeService().removeVariableLocal(execution.getId(),variableName);
+  }
+ else {
+    ActivitiUtil.getRuntimeService().removeVariable(execution.getParentId(),variableName);
+  }
+  setStatus(Status.SUCCESS_NO_CONTENT);
+}

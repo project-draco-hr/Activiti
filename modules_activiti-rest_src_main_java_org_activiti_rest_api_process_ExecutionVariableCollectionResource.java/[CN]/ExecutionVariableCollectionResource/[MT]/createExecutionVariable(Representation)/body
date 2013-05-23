@@ -1,0 +1,26 @@
+{
+  if (authenticate() == false)   return null;
+  Execution execution=getExecutionFromRequest();
+  Object result=null;
+  if (MediaType.MULTIPART_FORM_DATA.isCompatible(representation.getMediaType())) {
+    result=setBinaryVariable(representation,execution,true);
+  }
+ else {
+    try {
+      List<RestVariable> variables=new ArrayList<RestVariable>();
+      result=variables;
+      RestVariable[] restVariables=getConverterService().toObject(representation,RestVariable[].class,this);
+      if (restVariables == null || restVariables.length == 0) {
+        throw new ActivitiIllegalArgumentException("Request didn't cantain a list of variables to create.");
+      }
+      for (      RestVariable var : restVariables) {
+        variables.add(setSimpleVariable(var,execution,true));
+      }
+    }
+ catch (    IOException ioe) {
+      throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,ioe);
+    }
+  }
+  setStatus(Status.SUCCESS_CREATED);
+  return result;
+}

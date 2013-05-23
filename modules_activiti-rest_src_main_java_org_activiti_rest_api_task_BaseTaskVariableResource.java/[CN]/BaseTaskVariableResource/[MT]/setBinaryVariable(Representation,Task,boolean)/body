@@ -51,7 +51,7 @@
       setVariable(task,variableName,value,scope,isNew);
       stream.close();
     }
-    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createBinaryRestVariable(this,variableName,scope,variableType,task.getId(),null);
+    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createBinaryRestVariable(this,variableName,scope,variableType,task.getId(),null,null);
   }
  catch (  FileUploadException fue) {
     throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,fue);

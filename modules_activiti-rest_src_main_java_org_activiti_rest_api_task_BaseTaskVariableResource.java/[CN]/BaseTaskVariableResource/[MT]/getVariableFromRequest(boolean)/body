@@ -11,8 +11,8 @@
   Object value=null;
   RestVariableScope variableScope=RestVariable.getScopeFromString(getQueryParameter("scope",getQuery()));
   if (variableScope == null) {
-    if (ActivitiUtil.getTaskService().hasVariable(taskId,variableName)) {
-      value=ActivitiUtil.getTaskService().getVariable(taskId,variableName);
+    if (ActivitiUtil.getTaskService().hasVariableLocal(taskId,variableName)) {
+      value=ActivitiUtil.getTaskService().getVariableLocal(taskId,variableName);
       variableScope=RestVariableScope.LOCAL;
       variableFound=true;
     }
@@ -42,6 +42,6 @@
     throw new ActivitiObjectNotFoundException("Task '" + taskId + "' doesn't have a variable with name: '"+ variableName+ "'.",VariableInstanceEntity.class);
   }
  else {
-    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariable(this,variableName,value,variableScope,taskId,null,includeBinary);
+    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariable(this,variableName,value,variableScope,taskId,null,null,includeBinary);
   }
 }

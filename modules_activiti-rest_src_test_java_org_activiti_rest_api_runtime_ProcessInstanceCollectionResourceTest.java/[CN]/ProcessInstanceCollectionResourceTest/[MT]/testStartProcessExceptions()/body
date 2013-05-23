@@ -7,8 +7,9 @@
   }
  catch (  ResourceException expected) {
     assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-    assertEquals("Either processDefinitionId or processDefinitionKey is required.",expected.getStatus().getDescription());
+    assertEquals("Either processDefinitionId, processDefinitionKey or message is required.",expected.getStatus().getDescription());
   }
+  client.release();
   requestNode=objectMapper.createObjectNode();
   requestNode.put("processDefinitionId","123");
   requestNode.put("processDefinitionKey","456");
@@ -18,8 +19,21 @@
   }
  catch (  ResourceException expected) {
     assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-    assertEquals("Both processDefinitionId and processDefinitionKey are set, use only one.",expected.getStatus().getDescription());
+    assertEquals("Only one of processDefinitionId, processDefinitionKey or message should be set.",expected.getStatus().getDescription());
   }
+  client.release();
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processDefinitionId","123");
+  requestNode.put("message","456");
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Only one of processDefinitionId, processDefinitionKey or message should be set.",expected.getStatus().getDescription());
+  }
+  client.release();
   requestNode=objectMapper.createObjectNode();
   requestNode.put("processDefinitionKey","123");
   try {
@@ -30,6 +44,7 @@
     assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
     assertEquals("no processes deployed with key '123'",expected.getStatus().getDescription());
   }
+  client.release();
   requestNode=objectMapper.createObjectNode();
   requestNode.put("processDefinitionId","123");
   try {
@@ -39,5 +54,16 @@
  catch (  ResourceException expected) {
     assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
     assertEquals("no deployed process definition found with id '123'",expected.getStatus().getDescription());
+  }
+  client.release();
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("message","unexistingmessage");
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Cannot start process instance by message: no subscription to message with name 'unexistingmessage' found.",expected.getStatus().getDescription());
   }
 }

@@ -1,0 +1,15 @@
+{
+  TestSerializableVariable originalSerializable=new TestSerializableVariable();
+  originalSerializable.setSomeField("This is some field");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  runtimeService.setVariableLocal(processInstance.getId(),"var",originalSerializable);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_DATA,processInstance.getId(),"var"));
+  client.get(MediaType.TEXT_PLAIN);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  ObjectInputStream stream=new ObjectInputStream(client.getResponse().getEntity().getStream());
+  Object readSerializable=stream.readObject();
+  assertNotNull(readSerializable);
+  assertTrue(readSerializable instanceof TestSerializableVariable);
+  assertEquals("This is some field",((TestSerializableVariable)readSerializable).getSomeField());
+  assertEquals(MediaType.APPLICATION_JAVA_OBJECT.getName(),getMediaType(client));
+}

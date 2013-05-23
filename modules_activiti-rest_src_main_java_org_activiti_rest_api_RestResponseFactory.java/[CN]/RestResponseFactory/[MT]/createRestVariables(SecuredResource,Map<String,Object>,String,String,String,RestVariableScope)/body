@@ -1,0 +1,7 @@
+{
+  List<RestVariable> result=new ArrayList<RestVariable>();
+  for (  Entry<String,Object> pair : variables.entrySet()) {
+    result.add(createRestVariable(securedResource,pair.getKey(),pair.getValue(),scope,taskId,executionId,processInstanceId,false));
+  }
+  return result;
+}
