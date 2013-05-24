@@ -1,6 +1,16 @@
 {
-  if (actionRequest.getAssignee() != null) {
-    ActivitiUtil.getTaskService().setAssignee(task.getId(),actionRequest.getAssignee());
+  if (actionRequest.getVariables() != null) {
+    Map<String,Object> variablesToSet=new HashMap<String,Object>();
+    for (    RestVariable var : actionRequest.getVariables()) {
+      if (var.getName() == null) {
+        throw new ActivitiIllegalArgumentException("Variable name is required");
+      }
+      Object actualVariableValue=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().getVariableValue(var);
+      variablesToSet.put(var.getName(),actualVariableValue);
+    }
+    ActivitiUtil.getTaskService().complete(task.getId(),variablesToSet);
   }
-  ActivitiUtil.getTaskService().complete(task.getId());
+ else {
+    ActivitiUtil.getTaskService().complete(task.getId());
+  }
 }
