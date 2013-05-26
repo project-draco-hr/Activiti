@@ -3,7 +3,7 @@
   for (  DeleteOperation deleteOperation : deletedObjectsCopy) {
     if (deleteOperation instanceof DeletePersistentObjectOperation) {
       PersistentObject deletedObject=((DeletePersistentObjectOperation)deleteOperation).getPersistentObject();
-      PersistentObject insertedObject=findInsertedObject(deletedObject.getClass(),deletedObject.getId());
+      PersistentObject insertedObject=findInsertedObject(deletedObject);
       if (insertedObject != null) {
         insertedObjects.remove(insertedObject);
         deleteOperations.remove(deleteOperation);

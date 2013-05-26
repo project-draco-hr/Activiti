@@ -2,7 +2,7 @@
   if (loadedObjects.isEmpty()) {
     return loadedObjects;
   }
-  if (!(PersistentObject.class.isAssignableFrom(loadedObjects.get(0).getClass()))) {
+  if (!(loadedObjects.get(0) instanceof PersistentObject)) {
     return loadedObjects;
   }
   List<PersistentObject> filteredObjects=new ArrayList<PersistentObject>(loadedObjects.size());

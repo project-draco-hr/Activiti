@@ -1,8 +1,8 @@
 {
   for (  DeleteOperation deleteOperation : deleteOperations) {
     if (deleteOperation instanceof DeletePersistentObjectOperation) {
-      DeletePersistentObjectOperation deletePersistentObjectOperation=(DeletePersistentObjectOperation)deleteOperation;
-      if (persistentObject.getId().equals(deletePersistentObjectOperation.getPersistentObject().getId()) && persistentObject.getClass().equals(deletePersistentObjectOperation.getPersistentObject().getClass())) {
+      PersistentObject deletedObject=((DeletePersistentObjectOperation)deleteOperation).getPersistentObject();
+      if (areEqual(persistentObject,deletedObject)) {
         log.debug("skipping redundant delete: {}",persistentObject);
         return;
       }

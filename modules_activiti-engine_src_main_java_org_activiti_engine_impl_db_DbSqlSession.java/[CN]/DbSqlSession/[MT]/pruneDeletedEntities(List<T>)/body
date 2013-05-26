@@ -3,8 +3,8 @@
   for (  T potentiallyDeleted : listToPrune) {
     for (    DeleteOperation deleteOperation : deleteOperations) {
       if (deleteOperation instanceof DeletePersistentObjectOperation) {
-        DeletePersistentObjectOperation deletePersistentObjectOperation=(DeletePersistentObjectOperation)deleteOperation;
-        if (potentiallyDeleted.getClass().equals(deletePersistentObjectOperation.getPersistentObject().getClass()) && potentiallyDeleted.getId().equals(deletePersistentObjectOperation.getPersistentObject().getId())) {
+        PersistentObject deletedObject=((DeletePersistentObjectOperation)deleteOperation).getPersistentObject();
+        if (areEqual(potentiallyDeleted,deletedObject)) {
           prunedList.remove(potentiallyDeleted);
         }
       }
