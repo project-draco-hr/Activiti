@@ -10,7 +10,7 @@
  else   if (targetActivity == null) {
   }
  else {
-    if (sourceActivity != null && sourceActivity.getProperty("type").equals("compensationBoundaryCatch")) {
+    if (sourceActivity.getProperty("type").equals("compensationBoundaryCatch")) {
       Object isForCompensation=targetActivity.getProperty(PROPERTYNAME_IS_FOR_COMPENSATION);
       if (isForCompensation == null || !(Boolean)isForCompensation) {
         bpmnModel.addProblem("compensation boundary catch must be connected to element with isForCompensation=true",association);
