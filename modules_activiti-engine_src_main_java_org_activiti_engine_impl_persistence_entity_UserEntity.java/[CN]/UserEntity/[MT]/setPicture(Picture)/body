@@ -1,14 +1,20 @@
 {
-  if (pictureByteArrayId != null) {
-    Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(pictureByteArrayId);
-  }
-  if (picture != null) {
-    pictureByteArray=new ByteArrayEntity(picture.getMimeType(),picture.getBytes());
-    Context.getCommandContext().getDbSqlSession().insert(pictureByteArray);
-    pictureByteArrayId=pictureByteArray.getId();
+  if (picture == null) {
+    if (pictureByteArrayId != null) {
+      Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(pictureByteArrayId);
+      pictureByteArrayId=null;
+      pictureByteArray=null;
+    }
   }
  else {
-    pictureByteArrayId=null;
-    pictureByteArray=null;
+    if (pictureByteArrayId == null) {
+      pictureByteArray=ByteArrayEntity.createAndInsert(picture.getMimeType(),picture.getBytes());
+      pictureByteArrayId=pictureByteArray.getId();
+    }
+ else {
+      ByteArrayEntity pictureByteArray=getPictureByteArrayEntity();
+      pictureByteArray.setName(picture.getMimeType());
+      pictureByteArray.setBytes(picture.getBytes());
+    }
   }
 }

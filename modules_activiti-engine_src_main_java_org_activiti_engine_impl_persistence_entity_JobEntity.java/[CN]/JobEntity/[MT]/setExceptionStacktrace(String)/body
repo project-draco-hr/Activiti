@@ -1,24 +1,19 @@
 {
-  byte[] exceptionBytes=null;
-  if (exception == null) {
-    exceptionBytes=null;
-  }
- else {
-    try {
-      exceptionBytes=exception.getBytes("UTF-8");
-    }
- catch (    UnsupportedEncodingException e) {
-      throw new ActivitiException("UTF-8 is not a supported encoding");
+  byte[] bytes=getUtf8Bytes(exception);
+  if (bytes == null) {
+    if (exceptionByteArrayId != null) {
+      Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(exceptionByteArrayId);
+      exceptionByteArrayId=null;
     }
   }
-  ByteArrayEntity byteArray=getExceptionByteArray();
-  if (byteArray == null) {
-    byteArray=new ByteArrayEntity("job.exceptionByteArray",exceptionBytes);
-    Context.getCommandContext().getDbSqlSession().insert(byteArray);
-    exceptionByteArrayId=byteArray.getId();
-    exceptionByteArray=byteArray;
-  }
  else {
-    byteArray.setBytes(exceptionBytes);
+    if (exceptionByteArrayId == null) {
+      exceptionByteArray=ByteArrayEntity.createAndInsert("job.exceptionByteArray",bytes);
+      exceptionByteArrayId=exceptionByteArray.getId();
+    }
+ else {
+      ByteArrayEntity byteArrayEntity=getExceptionByteArrayEntity();
+      byteArrayEntity.setBytes(bytes);
+    }
   }
 }

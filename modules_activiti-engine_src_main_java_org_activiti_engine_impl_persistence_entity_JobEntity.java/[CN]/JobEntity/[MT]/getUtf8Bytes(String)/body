@@ -1,0 +1,11 @@
+{
+  if (str == null) {
+    return null;
+  }
+  try {
+    return str.getBytes("UTF-8");
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new ActivitiException("UTF-8 is not a supported encoding");
+  }
+}

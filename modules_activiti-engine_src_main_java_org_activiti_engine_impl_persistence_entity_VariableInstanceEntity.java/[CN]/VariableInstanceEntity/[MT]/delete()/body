@@ -1,4 +1,6 @@
 {
   Context.getCommandContext().getDbSqlSession().delete(this);
-  deleteByteArrayValue();
+  if (byteArrayValueId != null) {
+    Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(byteArrayValueId);
+  }
 }
