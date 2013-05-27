@@ -9,20 +9,45 @@
     client.post(requestNode);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNull(task);
-    task=taskService.newTask();
-    taskService.saveTask(task);
+    ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+    task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
     taskId=task.getId();
     client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     requestNode=objectMapper.createObjectNode();
+    ArrayNode variablesNode=objectMapper.createArrayNode();
     requestNode.put("action","complete");
-    requestNode.put("assignee","assigneeBeforeComplete");
+    requestNode.put("variables",variablesNode);
+    ObjectNode var1=objectMapper.createObjectNode();
+    variablesNode.add(var1);
+    var1.put("name","var1");
+    var1.put("value","First value");
+    ObjectNode var2=objectMapper.createObjectNode();
+    variablesNode.add(var2);
+    var2.put("name","var2");
+    var2.put("value","Second value");
     client.post(requestNode);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
       HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
       assertNotNull(historicTaskInstance);
-      assertEquals("assigneeBeforeComplete",historicTaskInstance.getAssignee());
+      List<HistoricVariableInstance> updates=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).list();
+      assertNotNull(updates);
+      assertEquals(2,updates.size());
+      boolean foundFirst=false;
+      boolean foundSecond=false;
+      for (      HistoricVariableInstance var : updates) {
+        if (var.getVariableName().equals("var1")) {
+          assertEquals("First value",var.getValue());
+          foundFirst=true;
+        }
+ else         if (var.getVariableName().equals("var2")) {
+          assertEquals("Second value",var.getValue());
+          foundSecond=true;
+        }
+      }
+      assertTrue(foundFirst);
+      assertTrue(foundSecond);
     }
   }
   finally {
