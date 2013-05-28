@@ -51,7 +51,7 @@
       setVariable(execution,variableName,value,scope,isNew);
       stream.close();
     }
-    if (execution instanceof ProcessInstance) {
+    if (execution instanceof ProcessInstance && allowProcessInstanceUrl()) {
       return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createBinaryRestVariable(this,variableName,scope,variableType,null,null,execution.getId());
     }
  else {

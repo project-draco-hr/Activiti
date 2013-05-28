@@ -26,8 +26,14 @@
   router.attach("/runtime/process-instances/{processInstanceId}/variables",ProcessInstanceVariableCollectionResource.class);
   router.attach("/runtime/process-instances/{processInstanceId}/variables/{variableName}",ProcessInstanceVariableResource.class);
   router.attach("/runtime/process-instances/{processInstanceId}/variables/{variableName}/data",ProcessInstanceVariableDataResource.class);
+  router.attach("/runtime/executions",ExecutionCollectionResource.class);
+  router.attach("/runtime/executions/{executionId}",ExecutionResource.class);
+  router.attach("/runtime/executions/{executionId}/variables",ExecutionVariableCollectionResource.class);
+  router.attach("/runtime/executions/{executionId}/variables/{variableName}",ExecutionVariableResource.class);
+  router.attach("/runtime/executions/{executionId}/variables/{variableName}/data",ExecutionVariableDataResource.class);
   router.attach("/query/tasks",TaskQueryResource.class);
   router.attach("/query/process-instances",ProcessInstanceQueryResource.class);
+  router.attach("/query/executions",ExecutionQueryResource.class);
   router.attach("/process-engine",ProcessEngineResource.class);
   router.attach("/login",LoginResource.class);
   router.attach("/user",UserCreateResource.class);

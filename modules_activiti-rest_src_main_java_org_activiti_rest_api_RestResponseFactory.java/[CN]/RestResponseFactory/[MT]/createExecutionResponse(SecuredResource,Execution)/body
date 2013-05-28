@@ -1,0 +1,14 @@
+{
+  ExecutionResponse result=new ExecutionResponse();
+  result.setActivityId(execution.getActivityId());
+  result.setId(execution.getId());
+  result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_EXECUTION,execution.getId()));
+  result.setSuspended(execution.isSuspended());
+  if (execution.getParentId() != null) {
+    result.setParentUrl(securedResource.createFullResourceUrl(RestUrls.URL_EXECUTION,execution.getParentId()));
+  }
+  if (execution.getProcessInstanceId() != null) {
+    result.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,execution.getProcessInstanceId()));
+  }
+  return result;
+}

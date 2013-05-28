@@ -10,6 +10,11 @@
     ActivitiUtil.getRuntimeService().setVariableLocal(execution.getId(),name,value);
   }
  else {
-    ActivitiUtil.getRuntimeService().setVariable(execution.getId(),name,value);
+    if (execution.getParentId() != null) {
+      ActivitiUtil.getRuntimeService().setVariable(execution.getParentId(),name,value);
+    }
+ else {
+      ActivitiUtil.getRuntimeService().setVariable(execution.getId(),name,value);
+    }
   }
 }

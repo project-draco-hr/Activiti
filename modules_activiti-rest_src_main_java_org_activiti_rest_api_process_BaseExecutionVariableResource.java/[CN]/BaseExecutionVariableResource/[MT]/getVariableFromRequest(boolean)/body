@@ -34,7 +34,7 @@
       throw new ActivitiObjectNotFoundException("Could not find an execution with id '" + executionId + "'.",ProcessInstance.class);
     }
     if (execution.getParentId() != null) {
-      value=ActivitiUtil.getRuntimeService().getVariable(executionId,execution.getParentId());
+      value=ActivitiUtil.getRuntimeService().getVariable(execution.getParentId(),variableName);
       variableScope=RestVariableScope.GLOBAL;
       variableFound=true;
     }
