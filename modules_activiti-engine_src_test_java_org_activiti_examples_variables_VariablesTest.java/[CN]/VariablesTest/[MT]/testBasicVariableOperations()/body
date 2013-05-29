@@ -1,4 +1,5 @@
 {
+  processEngineConfiguration.getVariableTypes().addType(CustomVariableType.instance,0);
   Date now=new Date();
   List<String> serializable=new ArrayList<String>();
   serializable.add("one");
@@ -14,6 +15,8 @@
   variables.put("nullVar",null);
   variables.put("serializableVar",serializable);
   variables.put("bytesVar",bytes);
+  variables.put("customVar1",new CustomType(bytes));
+  variables.put("customVar2",new CustomType(null));
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("taskAssigneeProcess",variables);
   variables=runtimeService.getVariables(processInstance.getId());
   assertEquals(928374L,variables.get("longVar"));
@@ -24,7 +27,9 @@
   assertEquals(null,variables.get("nullVar"));
   assertEquals(serializable,variables.get("serializableVar"));
   assertTrue(Arrays.equals(bytes,(byte[])variables.get("bytesVar")));
-  assertEquals(8,variables.size());
+  assertEquals(new CustomType(bytes),variables.get("customVar1"));
+  assertEquals(new CustomType(null),variables.get("customVar2"));
+  assertEquals(10,variables.size());
   runtimeService.setVariable(processInstance.getId(),"longVar",null);
   runtimeService.setVariable(processInstance.getId(),"shortVar",null);
   runtimeService.setVariable(processInstance.getId(),"integerVar",null);
@@ -33,6 +38,8 @@
   runtimeService.setVariable(processInstance.getId(),"nullVar",null);
   runtimeService.setVariable(processInstance.getId(),"serializableVar",null);
   runtimeService.setVariable(processInstance.getId(),"bytesVar",null);
+  runtimeService.setVariable(processInstance.getId(),"customVar1",null);
+  runtimeService.setVariable(processInstance.getId(),"customVar2",null);
   variables=runtimeService.getVariables(processInstance.getId());
   assertEquals(null,variables.get("longVar"));
   assertEquals(null,variables.get("shortVar"));
@@ -42,7 +49,9 @@
   assertEquals(null,variables.get("nullVar"));
   assertEquals(null,variables.get("serializableVar"));
   assertEquals(null,variables.get("bytesVar"));
-  assertEquals(8,variables.size());
+  assertEquals(null,variables.get("customVar1"));
+  assertEquals(null,variables.get("customVar2"));
+  assertEquals(10,variables.size());
   runtimeService.setVariable(processInstance.getId(),"new var","hi");
   runtimeService.setVariable(processInstance.getId(),"longVar",9987L);
   runtimeService.setVariable(processInstance.getId(),"shortVar",(short)456);
@@ -51,6 +60,8 @@
   runtimeService.setVariable(processInstance.getId(),"dateVar",now);
   runtimeService.setVariable(processInstance.getId(),"serializableVar",serializable);
   runtimeService.setVariable(processInstance.getId(),"bytesVar",bytes);
+  runtimeService.setVariable(processInstance.getId(),"customVar1",new CustomType(bytes));
+  runtimeService.setVariable(processInstance.getId(),"customVar2",new CustomType(null));
   variables=runtimeService.getVariables(processInstance.getId());
   assertEquals("hi",variables.get("new var"));
   assertEquals(9987L,variables.get("longVar"));
@@ -61,7 +72,9 @@
   assertEquals(null,variables.get("nullVar"));
   assertEquals(serializable,variables.get("serializableVar"));
   assertTrue(Arrays.equals(bytes,(byte[])variables.get("bytesVar")));
-  assertEquals(9,variables.size());
+  assertEquals(new CustomType(bytes),variables.get("customVar1"));
+  assertEquals(new CustomType(null),variables.get("customVar2"));
+  assertEquals(11,variables.size());
   Collection<String> varFilter=new ArrayList<String>(2);
   varFilter.add("stringVar");
   varFilter.add("integerVar");
@@ -73,4 +86,6 @@
   Object newValue=runtimeService.getVariable(processInstance.getId(),"nullVar");
   assertNotNull(newValue);
   assertEquals("a value",newValue);
+  Task task=taskService.createTaskQuery().executionId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
 }

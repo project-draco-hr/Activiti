@@ -1,8 +1,0 @@
-{
-  processEngineConfiguration.getVariableTypes().addType(new CustomVariableType(),0);
-  Map<String,Object> variables=new HashMap<String,Object>();
-  variables.put("test","Hello World");
-  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("taskAssigneeProcess",variables);
-  variables=runtimeService.getVariables(processInstance.getId());
-  assertEquals("Hello World",variables.get("test"));
-}
