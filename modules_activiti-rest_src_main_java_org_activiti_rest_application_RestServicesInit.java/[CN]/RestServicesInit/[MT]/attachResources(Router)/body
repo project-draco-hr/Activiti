@@ -31,6 +31,8 @@
   router.attach("/runtime/executions/{executionId}/variables",ExecutionVariableCollectionResource.class);
   router.attach("/runtime/executions/{executionId}/variables/{variableName}",ExecutionVariableResource.class);
   router.attach("/runtime/executions/{executionId}/variables/{variableName}/data",ExecutionVariableDataResource.class);
+  router.attach("/management/tables",TableCollectionResource.class);
+  router.attach("/management/tables/{tableName}",TableResource.class);
   router.attach("/query/tasks",TaskQueryResource.class);
   router.attach("/query/process-instances",ProcessInstanceQueryResource.class);
   router.attach("/query/executions",ExecutionQueryResource.class);
@@ -76,11 +78,11 @@
   router.attach("/deployment/{deploymentId}/resources",DeploymentArtifactsResource.class);
   router.attach("/deployment/{deploymentId}/resource/{resourceName}",DeploymentArtifactResource.class);
   router.attach("/management/jobs",JobsResource.class);
-  router.attach("/management/job/{jobId}",JobResource.class);
+  router.attach("/management/job/{jobId}",LegacyJobResource.class);
   router.attach("/management/job/{jobId}/execute",JobExecuteResource.class);
   router.attach("/management/jobs/execute",JobsExecuteResource.class);
   router.attach("/management/tables",TablesResource.class);
-  router.attach("/management/table/{tableName}",TableResource.class);
-  router.attach("/management/table/{tableName}/data",TableDataResource.class);
+  router.attach("/management/table/{tableName}",LegacyTableResource.class);
+  router.attach("/management/table/{tableName}/data",LegacyTableDataResource.class);
   router.attach("/simple-workflow",SimpleWorkflowResource.class);
 }
