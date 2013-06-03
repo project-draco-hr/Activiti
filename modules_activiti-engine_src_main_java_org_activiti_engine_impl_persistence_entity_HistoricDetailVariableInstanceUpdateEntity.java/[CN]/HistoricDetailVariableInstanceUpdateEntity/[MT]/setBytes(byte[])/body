@@ -1,18 +1,3 @@
 {
-  if (bytes == null) {
-    if (byteArrayValueId != null) {
-      Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(byteArrayValueId);
-      byteArrayValueId=null;
-    }
-  }
- else {
-    if (byteArrayValueId == null) {
-      byteArrayValue=ByteArrayEntity.createAndInsert("var-",bytes);
-      byteArrayValueId=byteArrayValue.getId();
-    }
- else {
-      ByteArrayEntity byteArrayValue=getByteArrayEntity();
-      byteArrayValue.setBytes(bytes);
-    }
-  }
+  throw new UnsupportedOperationException("HistoricDetailVariableInstanceUpdateEntity is immutable");
 }
