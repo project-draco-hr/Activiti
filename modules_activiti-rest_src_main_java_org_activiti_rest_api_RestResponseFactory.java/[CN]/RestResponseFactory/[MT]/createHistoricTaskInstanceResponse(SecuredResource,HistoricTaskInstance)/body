@@ -1,0 +1,26 @@
+{
+  HistoricTaskInstanceResponse result=new HistoricTaskInstanceResponse();
+  result.setAssignee(taskInstance.getAssignee());
+  result.setClaimTime(taskInstance.getClaimTime());
+  result.setDeleteReason(taskInstance.getDeleteReason());
+  result.setDescription(taskInstance.getDescription());
+  result.setDueDate(taskInstance.getDueDate());
+  result.setDurationInMillis(taskInstance.getDurationInMillis());
+  result.setEndTime(taskInstance.getEndTime());
+  result.setExecutionId(taskInstance.getExecutionId());
+  result.setFormKey(taskInstance.getFormKey());
+  result.setId(taskInstance.getId());
+  result.setName(taskInstance.getName());
+  result.setOwner(taskInstance.getOwner());
+  result.setParentTaskId(taskInstance.getParentTaskId());
+  result.setPriority(taskInstance.getPriority());
+  result.setProcessDefinitionId(taskInstance.getProcessDefinitionId());
+  result.setProcessDefinitionUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_DEFINITION,taskInstance.getProcessDefinitionId()));
+  result.setProcessInstanceId(taskInstance.getProcessInstanceId());
+  result.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE,taskInstance.getProcessInstanceId()));
+  result.setStartTime(taskInstance.getStartTime());
+  result.setTaskDefinitionKey(taskInstance.getTaskDefinitionKey());
+  result.setWorkTimeInMillis(taskInstance.getWorkTimeInMillis());
+  result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_TASK_INSTANCE,taskInstance.getId()));
+  return result;
+}

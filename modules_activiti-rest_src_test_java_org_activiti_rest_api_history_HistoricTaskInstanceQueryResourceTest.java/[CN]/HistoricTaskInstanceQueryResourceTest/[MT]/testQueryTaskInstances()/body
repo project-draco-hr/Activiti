@@ -1,0 +1,36 @@
+{
+  HashMap<String,Object> processVariables=new HashMap<String,Object>();
+  processVariables.put("stringVar","Azerty");
+  processVariables.put("intVar",67890);
+  processVariables.put("booleanVar",false);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.setVariableLocal(task.getId(),"local","test");
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  Task task2=taskService.createTaskQuery().processInstanceId(processInstance2.getId()).singleResult();
+  System.out.println(historyService.createHistoricTaskInstanceQuery().processVariableValueEquals("stringVar","Azerty").list());
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_TASK_INSTANCE_QUERY);
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  ArrayNode variableArray=objectMapper.createArrayNode();
+  ObjectNode variableNode=objectMapper.createObjectNode();
+  variableArray.add(variableNode);
+  requestNode.put("processVariables",variableArray);
+  variableNode.put("name","stringVar");
+  variableNode.put("value","Azerty");
+  variableNode.put("operation","equals");
+  assertResultsPresentInDataResponse(url,requestNode,3,task.getId());
+  variableNode.put("name","local");
+  variableNode.put("value","test");
+  variableNode.put("operation","equals");
+  assertResultsPresentInDataResponse(url,requestNode,0);
+  requestNode=objectMapper.createObjectNode();
+  assertResultsPresentInDataResponse(url,requestNode,3,task.getId());
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processInstanceId",processInstance.getId());
+  assertResultsPresentInDataResponse(url,requestNode,2,task.getId());
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processInstanceId",processInstance2.getId());
+  assertResultsPresentInDataResponse(url,requestNode,1,task2.getId());
+}

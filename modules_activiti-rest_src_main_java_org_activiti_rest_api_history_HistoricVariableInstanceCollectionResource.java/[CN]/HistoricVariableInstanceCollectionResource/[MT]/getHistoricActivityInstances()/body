@@ -1,0 +1,24 @@
+{
+  if (!authenticate()) {
+    return null;
+  }
+  Form urlQuery=getQuery();
+  HistoricVariableInstanceQueryRequest query=new HistoricVariableInstanceQueryRequest();
+  if (getQueryParameter("excludeTaskVariables",urlQuery) != null) {
+    Boolean excludeTaskVariables=getQueryParameterAsBoolean("excludeTaskVariables",urlQuery);
+    query.setExcludeTaskVariables(excludeTaskVariables);
+  }
+  if (getQueryParameter("taskId",urlQuery) != null) {
+    query.setTaskId(getQueryParameter("taskId",urlQuery));
+  }
+  if (getQueryParameter("processInstanceId",urlQuery) != null) {
+    query.setProcessInstanceId(getQueryParameter("processInstanceId",urlQuery));
+  }
+  if (getQueryParameter("variableName",urlQuery) != null) {
+    query.setVariableName(getQueryParameter("variableName",urlQuery));
+  }
+  if (getQueryParameter("variableNameLike",urlQuery) != null) {
+    query.setVariableNameLike(getQueryParameter("variableNameLike",urlQuery));
+  }
+  return getQueryResponse(query,urlQuery);
+}
