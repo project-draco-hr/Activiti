@@ -1,0 +1,14 @@
+{
+  if (authenticate() == false)   return;
+  String jobId=getAttribute("jobId");
+  if (jobId == null) {
+    throw new ActivitiIllegalArgumentException("The jobId cannot be null");
+  }
+  try {
+    ActivitiUtil.getManagementService().deleteJob(jobId);
+  }
+ catch (  ActivitiObjectNotFoundException aonfe) {
+    throw new ActivitiObjectNotFoundException("Could not find a job with id '" + jobId + "'.",Job.class);
+  }
+  setStatus(Status.SUCCESS_NO_CONTENT);
+}
