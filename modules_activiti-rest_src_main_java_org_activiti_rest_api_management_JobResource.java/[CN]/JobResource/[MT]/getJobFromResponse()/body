@@ -1,0 +1,11 @@
+{
+  String jobId=getAttribute("jobId");
+  if (jobId == null) {
+    throw new ActivitiIllegalArgumentException("The jobId cannot be null");
+  }
+  Job job=ActivitiUtil.getManagementService().createJobQuery().jobId(jobId).singleResult();
+  if (job == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a job with id '" + jobId + "'.",Job.class);
+  }
+  return job;
+}
