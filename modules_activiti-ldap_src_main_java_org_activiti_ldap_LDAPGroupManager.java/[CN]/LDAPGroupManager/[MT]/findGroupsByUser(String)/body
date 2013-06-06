@@ -1,4 +1,10 @@
 {
+  if (ldapGroupCache != null) {
+    List<Group> groups=ldapGroupCache.get(userId);
+    if (groups != null) {
+      return groups;
+    }
+  }
   LDAPTemplate ldapTemplate=new LDAPTemplate(ldapConfigurator);
   return ldapTemplate.execute(new LDAPCallBack<List<Group>>(){
     public List<Group> executeInContext(    InitialDirContext initialDirContext){
@@ -21,6 +27,9 @@
           groups.add(group);
         }
         namingEnum.close();
+        if (ldapGroupCache != null) {
+          ldapGroupCache.add(userId,groups);
+        }
         return groups;
       }
  catch (      NamingException e) {
