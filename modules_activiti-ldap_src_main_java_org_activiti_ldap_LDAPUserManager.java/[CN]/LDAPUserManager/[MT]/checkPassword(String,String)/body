@@ -1,0 +1,44 @@
+{
+  try {
+    LDAPTemplate ldapTemplate=new LDAPTemplate(ldapConfigurator);
+    return ldapTemplate.execute(new LDAPCallBack<Boolean>(){
+      public Boolean executeInContext(      InitialDirContext initialDirContext){
+        if (initialDirContext == null) {
+          return false;
+        }
+        String userDn=null;
+        try {
+          String searchExpression=ldapConfigurator.getLdapQueryBuilder().buildQueryByUserId(ldapConfigurator,userId);
+          NamingEnumeration<?> namingEnum=initialDirContext.search(ldapConfigurator.getBaseDn(),searchExpression,createSearchControls());
+          while (namingEnum.hasMore()) {
+            SearchResult result=(SearchResult)namingEnum.next();
+            userDn=result.getNameInNamespace();
+          }
+          namingEnum.close();
+        }
+ catch (        NamingException ne) {
+          logger.info("Could not authenticate user " + userId + " : "+ ne.getMessage(),ne);
+          return false;
+        }
+        if (userDn != null) {
+          InitialDirContext verificationContext=null;
+          try {
+            verificationContext=LDAPConnectionUtil.createDirectoryContext(ldapConfigurator,userDn,password);
+          }
+ catch (          ActivitiException e) {
+          }
+          if (verificationContext != null) {
+            LDAPConnectionUtil.closeDirectoryContext(verificationContext);
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+);
+  }
+ catch (  ActivitiException e) {
+    logger.info("Could not authenticate user : " + e);
+    return false;
+  }
+}
