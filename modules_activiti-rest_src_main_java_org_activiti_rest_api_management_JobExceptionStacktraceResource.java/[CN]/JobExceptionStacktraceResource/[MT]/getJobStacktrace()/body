@@ -1,0 +1,9 @@
+{
+  if (authenticate() == false)   return null;
+  Job job=getJobFromResponse();
+  String stackTrace=ActivitiUtil.getManagementService().getJobExceptionStacktrace(job.getId());
+  if (stackTrace == null) {
+    throw new ActivitiObjectNotFoundException("Job with id '" + job.getId() + "' doesn't have an exception stacktrace.",String.class);
+  }
+  return new InputRepresentation(new ByteArrayInputStream(stackTrace.getBytes()),MediaType.TEXT_PLAIN);
+}
