@@ -1,0 +1,11 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  if (queryVariables != null) {
+    for (    VariableInstanceEntity variableInstance : queryVariables) {
+      if (variableInstance.getTaskId() != null) {
+        variables.put(variableInstance.getName(),variableInstance.getValue());
+      }
+    }
+  }
+  return variables;
+}

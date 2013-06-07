@@ -6,7 +6,7 @@
     }
     List<HistoricVariableInstanceEntity> cachedHistoricVariableInstances=getDbSqlSession().findInCache(HistoricVariableInstanceEntity.class);
     for (    HistoricVariableInstanceEntity historicProcessVariable : cachedHistoricVariableInstances) {
-      if (historicProcessVariable.getProcessInstanceId().equals(historicProcessInstanceId)) {
+      if (historicProcessInstanceId.equals(historicProcessVariable.getProcessInstanceId())) {
         historicProcessVariable.delete();
       }
     }
