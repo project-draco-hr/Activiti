@@ -1,0 +1,12 @@
+{
+  UserResponse response=new UserResponse();
+  response.setFirstName(user.getFirstName());
+  response.setLastName(user.getLastName());
+  response.setId(user.getId());
+  response.setEmail(user.getEmail());
+  response.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_USER,user.getId()));
+  if (incudePassword) {
+    response.setPassword(user.getPassword());
+  }
+  return response;
+}

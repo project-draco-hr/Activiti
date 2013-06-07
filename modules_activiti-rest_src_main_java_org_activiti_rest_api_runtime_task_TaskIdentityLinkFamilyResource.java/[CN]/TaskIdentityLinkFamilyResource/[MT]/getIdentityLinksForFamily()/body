@@ -6,7 +6,7 @@
     throw new ActivitiIllegalArgumentException("Identity link family should be 'users' or 'groups'.");
   }
   boolean isUser=family.equals(RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS);
-  List<RestIdentityLink> results=new ArrayList<RestIdentityLink>();
+  List<LegacyRestIdentityLink> results=new ArrayList<LegacyRestIdentityLink>();
   RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   List<IdentityLink> allLinks=ActivitiUtil.getTaskService().getIdentityLinksForTask(task.getId());
   for (  IdentityLink link : allLinks) {

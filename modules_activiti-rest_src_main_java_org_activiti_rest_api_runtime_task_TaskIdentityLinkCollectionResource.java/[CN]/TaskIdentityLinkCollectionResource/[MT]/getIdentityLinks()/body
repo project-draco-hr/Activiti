@@ -1,6 +1,6 @@
 {
   if (!authenticate())   return null;
-  List<RestIdentityLink> result=new ArrayList<RestIdentityLink>();
+  List<LegacyRestIdentityLink> result=new ArrayList<LegacyRestIdentityLink>();
   Task task=getTaskFromRequest();
   List<IdentityLink> identityLinks=ActivitiUtil.getTaskService().getIdentityLinksForTask(task.getId());
   RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();

@@ -1,0 +1,36 @@
+{
+  User savedUser=null;
+  try {
+    User newUser=identityService.newUser("testuser");
+    newUser.setFirstName("Fred");
+    newUser.setLastName("McDonald");
+    newUser.setEmail("no-reply@activiti.org");
+    identityService.saveUser(newUser);
+    savedUser=newUser;
+    ObjectNode taskUpdateRequest=objectMapper.createObjectNode();
+    taskUpdateRequest.put("firstName","Tijs");
+    taskUpdateRequest.put("lastName","Barrez");
+    taskUpdateRequest.put("email","no-reply@alfresco.org");
+    taskUpdateRequest.put("password","updatedpassword");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId()));
+    Representation response=client.put(taskUpdateRequest);
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("testuser",responseNode.get("id").getTextValue());
+    assertEquals("Tijs",responseNode.get("firstName").getTextValue());
+    assertEquals("Barrez",responseNode.get("lastName").getTextValue());
+    assertEquals("no-reply@alfresco.org",responseNode.get("email").getTextValue());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId())));
+    newUser=identityService.createUserQuery().userId(newUser.getId()).singleResult();
+    assertEquals("Barrez",newUser.getLastName());
+    assertEquals("Tijs",newUser.getFirstName());
+    assertEquals("no-reply@alfresco.org",newUser.getEmail());
+    assertEquals("updatedpassword",newUser.getPassword());
+  }
+  finally {
+    if (savedUser != null) {
+      identityService.deleteUser(savedUser.getId());
+    }
+  }
+}
