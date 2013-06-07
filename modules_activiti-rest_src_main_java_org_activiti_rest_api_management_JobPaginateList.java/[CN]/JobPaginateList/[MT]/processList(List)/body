@@ -1,0 +1,8 @@
+{
+  List<JobResponse> responseList=new ArrayList<JobResponse>();
+  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  for (  Object job : list) {
+    responseList.add(restResponseFactory.createJobResponse(resource,(Job)job));
+  }
+  return responseList;
+}
