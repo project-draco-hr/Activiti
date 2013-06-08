@@ -1,11 +1,8 @@
 {
-  byte[] bytes=null;
   ModelEntity model=findModelById(modelId);
-  if (model != null && model.getEditorSourceValueId() != null) {
-    ByteArrayEntity byteEntity=Context.getCommandContext().getDbSqlSession().selectById(ByteArrayEntity.class,model.getEditorSourceValueId());
-    if (byteEntity != null) {
-      bytes=byteEntity.getBytes();
-    }
+  if (model == null || model.getEditorSourceValueId() == null) {
+    return null;
   }
-  return bytes;
+  ByteArrayRef ref=new ByteArrayRef(model.getEditorSourceValueId());
+  return ref.getBytes();
 }
