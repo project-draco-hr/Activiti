@@ -1,9 +1,6 @@
 {
-  if (authenticate(SecuredResource.ADMIN) == false)   return null;
-  String jobId=(String)getRequest().getAttributes().get("jobId");
-  Job job=ActivitiUtil.getManagementService().createJobQuery().jobId(jobId).singleResult();
-  String stacktrace=ActivitiUtil.getManagementService().getJobExceptionStacktrace(jobId);
-  JobResponse response=new JobResponse(job);
-  response.setStacktrace(stacktrace);
+  if (authenticate() == false)   return null;
+  Job job=getJobFromResponse();
+  JobResponse response=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createJobResponse(this,job);
   return response;
 }

@@ -1,0 +1,26 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,task.getId()));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("message","This is a comment...");
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    List<Comment> commentsOnTask=taskService.getTaskComments(task.getId());
+    assertNotNull(commentsOnTask);
+    assertEquals(1,commentsOnTask.size());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("kermit",responseNode.get("author").getTextValue());
+    assertEquals("This is a comment...",responseNode.get("message").getTextValue());
+    assertEquals(commentsOnTask.get(0).getId(),responseNode.get("id").getTextValue());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),commentsOnTask.get(0).getId())));
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

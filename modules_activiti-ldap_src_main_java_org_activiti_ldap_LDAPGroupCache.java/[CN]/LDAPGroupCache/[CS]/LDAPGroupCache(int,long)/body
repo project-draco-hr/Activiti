@@ -1,0 +1,14 @@
+{
+  this.groupCache=new LinkedHashMap<String,LDAPGroupCache.LDAPGroupCacheEntry>(cacheSize + 1,0.75f,true){
+    private static final long serialVersionUID=5207574193173514579L;
+    protected boolean removeEldestEntry(    java.util.Map.Entry<String,LDAPGroupCacheEntry> eldest){
+      boolean removeEldest=size() > cacheSize;
+      if (removeEldest && ldapCacheListener != null) {
+        ldapCacheListener.cacheEviction(eldest.getKey());
+      }
+      return removeEldest;
+    }
+  }
+;
+  this.expirationTime=expirationTime;
+}

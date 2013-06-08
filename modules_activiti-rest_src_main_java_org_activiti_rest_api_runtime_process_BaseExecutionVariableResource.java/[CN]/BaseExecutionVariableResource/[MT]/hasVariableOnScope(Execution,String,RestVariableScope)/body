@@ -1,0 +1,14 @@
+{
+  boolean variableFound=false;
+  if (scope == RestVariableScope.GLOBAL) {
+    if (execution.getParentId() != null && ActivitiUtil.getRuntimeService().hasVariable(execution.getParentId(),variableName)) {
+      variableFound=true;
+    }
+  }
+ else   if (scope == RestVariableScope.LOCAL) {
+    if (ActivitiUtil.getRuntimeService().hasVariableLocal(execution.getId(),variableName)) {
+      variableFound=true;
+    }
+  }
+  return variableFound;
+}

@@ -1,0 +1,19 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne");
+  runtimeService.setVariableLocal(processInstance.getId(),"var","This is a binary piece of text".getBytes());
+  Execution childExecution=runtimeService.createExecutionQuery().parentId(processInstance.getId()).singleResult();
+  assertNotNull(childExecution);
+  runtimeService.setVariableLocal(childExecution.getId(),"var","This is a binary piece of text in the child execution".getBytes());
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,childExecution.getId(),"var"));
+  client.get(MediaType.TEXT_PLAIN);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  String actualResponseBytesAsText=client.getResponse().getEntityAsText();
+  assertEquals("This is a binary piece of text in the child execution",actualResponseBytesAsText);
+  assertEquals(MediaType.APPLICATION_OCTET_STREAM.getName(),getMediaType(client));
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,childExecution.getId(),"var") + "?scope=global");
+  client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  actualResponseBytesAsText=client.getResponse().getEntityAsText();
+  assertEquals("This is a binary piece of text",actualResponseBytesAsText);
+  assertEquals(MediaType.APPLICATION_OCTET_STREAM.getName(),getMediaType(client));
+}

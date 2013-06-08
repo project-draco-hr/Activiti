@@ -4,6 +4,9 @@
   if (Context.getProcessEngineConfiguration() != null) {
     this.activityFontName=Context.getProcessEngineConfiguration().getActivityFontName();
   }
+  if (Context.getProcessEngineConfiguration() != null) {
+    this.labelFontName=Context.getProcessEngineConfiguration().getLabelFontName();
+  }
   this.processDiagram=new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
   this.g=processDiagram.createGraphics();
   g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
@@ -11,4 +14,5 @@
   Font font=new Font(activityFontName,Font.BOLD,FONT_SIZE);
   g.setFont(font);
   this.fontMetrics=g.getFontMetrics();
+  LABEL_FONT=new Font(labelFontName,Font.ITALIC,10);
 }

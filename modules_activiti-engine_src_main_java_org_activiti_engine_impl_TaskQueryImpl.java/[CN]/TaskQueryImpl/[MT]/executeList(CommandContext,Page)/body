@@ -1,5 +1,10 @@
 {
   ensureVariablesInitialized();
   checkQueryOk();
-  return commandContext.getTaskEntityManager().findTasksByQueryCriteria(this);
+  if (includeTaskLocalVariables || includeProcessVariables) {
+    return commandContext.getTaskEntityManager().findTasksAndVariablesByQueryCriteria(this);
+  }
+ else {
+    return commandContext.getTaskEntityManager().findTasksByQueryCriteria(this);
+  }
 }

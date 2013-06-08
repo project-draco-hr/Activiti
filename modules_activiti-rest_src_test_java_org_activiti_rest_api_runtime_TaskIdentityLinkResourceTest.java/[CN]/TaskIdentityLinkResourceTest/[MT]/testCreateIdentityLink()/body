@@ -1,0 +1,80 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINKS_COLLECTION,task.getId()));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("user","kermit");
+    requestNode.put("type","myType");
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("kermit",responseNode.get("user").getTextValue());
+    assertEquals("myType",responseNode.get("type").getTextValue());
+    assertTrue(responseNode.get("group").isNull());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType")));
+    requestNode=objectMapper.createObjectNode();
+    requestNode.put("group","sales");
+    requestNode.put("type","myType");
+    client.release();
+    response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("sales",responseNode.get("group").getTextValue());
+    assertEquals("myType",responseNode.get("type").getTextValue());
+    assertTrue(responseNode.get("user").isNull());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS,"sales","myType")));
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINKS_COLLECTION,"unexistingtask"));
+    try {
+      client.post(null);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
+    }
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINKS_COLLECTION,task.getId()));
+    requestNode=objectMapper.createObjectNode();
+    requestNode.put("type","myType");
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("A group or a user is required to create an identity link.",expected.getStatus().getDescription());
+    }
+    requestNode=objectMapper.createObjectNode();
+    requestNode.put("type","myType");
+    requestNode.put("user","kermit");
+    requestNode.put("group","sales");
+    try {
+      client.release();
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("Only one of user or group can be used to create an identity link.",expected.getStatus().getDescription());
+    }
+    requestNode=objectMapper.createObjectNode();
+    requestNode.put("group","sales");
+    try {
+      client.release();
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("The identity link type is required.",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

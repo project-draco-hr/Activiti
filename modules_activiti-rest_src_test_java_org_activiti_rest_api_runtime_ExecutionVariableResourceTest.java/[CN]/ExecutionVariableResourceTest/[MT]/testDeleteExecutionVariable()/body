@@ -1,0 +1,27 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne",Collections.singletonMap("myVariable",(Object)"processValue"));
+  Execution childExecution=runtimeService.createExecutionQuery().parentId(processInstance.getId()).singleResult();
+  assertNotNull(childExecution);
+  runtimeService.setVariableLocal(childExecution.getId(),"myVariable","childValue");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVariable"));
+  Representation response=client.delete();
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  assertEquals(0L,response.getSize());
+  assertFalse(runtimeService.hasVariableLocal(childExecution.getId(),"myVariable"));
+  assertTrue(runtimeService.hasVariable(childExecution.getId(),"myVariable"));
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVariable") + "?scope=global");
+  response=client.delete();
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  assertEquals(0L,response.getSize());
+  assertFalse(runtimeService.hasVariableLocal(childExecution.getId(),"myVariable"));
+  assertFalse(runtimeService.hasVariable(childExecution.getId(),"myVariable"));
+  client.release();
+  try {
+    client.delete();
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Execution '" + childExecution.getId() + "' doesn't have a variable 'myVariable' in scope global",expected.getStatus().getDescription());
+  }
+}

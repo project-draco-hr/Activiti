@@ -1,0 +1,9 @@
+{
+  if (authenticate(SecuredResource.ADMIN) == false)   return null;
+  String jobId=(String)getRequest().getAttributes().get("jobId");
+  Job job=ActivitiUtil.getManagementService().createJobQuery().jobId(jobId).singleResult();
+  String stacktrace=ActivitiUtil.getManagementService().getJobExceptionStacktrace(jobId);
+  LegacyJobResponse response=new LegacyJobResponse(job);
+  response.setStacktrace(stacktrace);
+  return response;
+}

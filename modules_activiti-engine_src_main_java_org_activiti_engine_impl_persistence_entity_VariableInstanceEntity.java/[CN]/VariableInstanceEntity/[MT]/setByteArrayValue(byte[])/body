@@ -5,7 +5,7 @@
     Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(byteArrayValueId);
   }
   if (bytes != null) {
-    byteArrayValue=new ByteArrayEntity(bytes);
+    byteArrayValue=new ByteArrayEntity("var-" + name,bytes);
     Context.getCommandContext().getDbSqlSession().insert(byteArrayValue);
   }
   this.byteArrayValue=byteArrayValue;

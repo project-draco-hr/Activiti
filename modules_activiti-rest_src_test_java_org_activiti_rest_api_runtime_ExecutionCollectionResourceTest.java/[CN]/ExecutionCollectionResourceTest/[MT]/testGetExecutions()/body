@@ -1,0 +1,33 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey");
+  String id=processInstance.getId();
+  runtimeService.addUserIdentityLink(id,"kermit","whatever");
+  Execution childExecution=runtimeService.createExecutionQuery().activityId("processTask").singleResult();
+  assertNotNull(childExecution);
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION);
+  assertResultsPresentInDataResponse(url,id,childExecution.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?id=" + id;
+  assertResultsPresentInDataResponse(url,id);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?id=anotherId";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?processInstanceBusinessKey=myBusinessKey";
+  assertResultsPresentInDataResponse(url,id);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?processInstanceBusinessKey=anotherBusinessKey";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?processDefinitionKey=processOne";
+  assertResultsPresentInDataResponse(url,id,childExecution.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?processDefinitionKey=processTwo";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?processDefinitionId=" + processInstance.getProcessDefinitionId();
+  assertResultsPresentInDataResponse(url,id,childExecution.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?processDefinitionId=anotherId";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?parentId=" + id;
+  assertResultsPresentInDataResponse(url,childExecution.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?parentId=anotherId";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?activityId=processTask";
+  assertResultsPresentInDataResponse(url,childExecution.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?activityId=anotherId";
+  assertResultsPresentInDataResponse(url);
+}

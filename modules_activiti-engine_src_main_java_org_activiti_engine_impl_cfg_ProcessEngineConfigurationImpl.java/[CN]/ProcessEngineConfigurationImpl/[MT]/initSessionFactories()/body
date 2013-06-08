@@ -20,21 +20,22 @@
     addSessionFactory(new GenericManagerFactory(HistoricProcessInstanceEntityManager.class));
     addSessionFactory(new GenericManagerFactory(HistoricVariableInstanceEntityManager.class));
     addSessionFactory(new GenericManagerFactory(HistoricTaskInstanceEntityManager.class));
+    addSessionFactory(new GenericManagerFactory(HistoricIdentityLinkEntityManager.class));
     addSessionFactory(new GenericManagerFactory(IdentityInfoEntityManager.class));
     addSessionFactory(new GenericManagerFactory(IdentityLinkEntityManager.class));
     addSessionFactory(new GenericManagerFactory(JobEntityManager.class));
-    addSessionFactory(new GenericManagerFactory(GroupEntityManager.class));
-    addSessionFactory(new GenericManagerFactory(MembershipEntityManager.class));
     addSessionFactory(new GenericManagerFactory(ProcessDefinitionEntityManager.class));
     addSessionFactory(new GenericManagerFactory(PropertyEntityManager.class));
     addSessionFactory(new GenericManagerFactory(ResourceEntityManager.class));
     addSessionFactory(new GenericManagerFactory(ByteArrayEntityManager.class));
     addSessionFactory(new GenericManagerFactory(TableDataManager.class));
     addSessionFactory(new GenericManagerFactory(TaskEntityManager.class));
-    addSessionFactory(new GenericManagerFactory(UserEntityManager.class));
     addSessionFactory(new GenericManagerFactory(VariableInstanceEntityManager.class));
     addSessionFactory(new GenericManagerFactory(EventSubscriptionEntityManager.class));
     addSessionFactory(new GenericManagerFactory(HistoryManager.class));
+    addSessionFactory(new UserEntityManagerFactory());
+    addSessionFactory(new GroupEntityManagerFactory());
+    addSessionFactory(new MembershipEntityManagerFactory());
   }
   if (customSessionFactories != null) {
     for (    SessionFactory sessionFactory : customSessionFactories) {

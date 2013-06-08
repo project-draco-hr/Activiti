@@ -1,0 +1,29 @@
+{
+  ClientResource client=getAuthenticatedClient(url);
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  assertEquals(numberOfResultsExpected,dataNode.size());
+  if (variableName != null) {
+    boolean variableFound=false;
+    Iterator<JsonNode> it=dataNode.iterator();
+    while (it.hasNext()) {
+      JsonNode variableNode=it.next();
+      String name=variableNode.get("variableName").getTextValue();
+      if (variableName.equals(name)) {
+        variableFound=true;
+        if (variableValue instanceof Boolean) {
+          assertTrue("Variable value is not equal",variableNode.get("value").asBoolean() == (Boolean)variableValue);
+        }
+ else         if (variableValue instanceof Integer) {
+          assertTrue("Variable value is not equal",variableNode.get("value").asInt() == (Integer)variableValue);
+        }
+ else {
+          assertTrue("Variable value is not equal",variableNode.get("value").asText().equals((String)variableValue));
+        }
+      }
+    }
+    assertTrue("Variable " + variableName + " is missing",variableFound);
+  }
+  client.release();
+}

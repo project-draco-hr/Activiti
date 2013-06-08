@@ -1,0 +1,39 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    TestSerializableVariable serializable=new TestSerializableVariable();
+    serializable.setSomeField("some value");
+    ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+    ObjectOutputStream output=new ObjectOutputStream(buffer);
+    output.writeObject(serializable);
+    output.close();
+    InputStream binaryContent=new ByteArrayInputStream(buffer.toByteArray());
+    Map<String,String> additionalFields=new HashMap<String,String>();
+    additionalFields.put("name","serializableVariable");
+    additionalFields.put("type","serializable");
+    additionalFields.put("scope","local");
+    Representation uploadRepresentation=new HttpMultipartRepresentation("value",binaryContent,additionalFields);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+    Representation response=client.post(uploadRepresentation);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("serializableVariable",responseNode.get("name").asText());
+    assertTrue(responseNode.get("value").isNull());
+    assertEquals("local",responseNode.get("scope").asText());
+    assertEquals("serializable",responseNode.get("type").asText());
+    assertNotNull(responseNode.get("valueUrl").isNull());
+    assertTrue(responseNode.get("valueUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"serializableVariable")));
+    Object variableValue=taskService.getVariableLocal(task.getId(),"serializableVariable");
+    assertNotNull(variableValue);
+    assertTrue(variableValue instanceof TestSerializableVariable);
+    assertEquals("some value",((TestSerializableVariable)variableValue).getSomeField());
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

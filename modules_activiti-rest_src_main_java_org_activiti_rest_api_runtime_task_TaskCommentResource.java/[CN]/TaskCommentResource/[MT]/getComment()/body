@@ -1,0 +1,13 @@
+{
+  if (!authenticate())   return null;
+  Task task=getTaskFromRequest();
+  String commentId=getAttribute("commentId");
+  if (commentId == null) {
+    throw new ActivitiIllegalArgumentException("CommentId is required.");
+  }
+  Comment comment=ActivitiUtil.getTaskService().getComment(commentId);
+  if (comment == null || !task.getId().equals(comment.getTaskId())) {
+    throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have a comment with id '"+ commentId+ "'.",Comment.class);
+  }
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestComment(this,comment);
+}

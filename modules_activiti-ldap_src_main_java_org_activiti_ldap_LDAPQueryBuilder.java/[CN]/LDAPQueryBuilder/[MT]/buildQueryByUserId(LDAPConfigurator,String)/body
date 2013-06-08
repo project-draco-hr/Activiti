@@ -1,0 +1,10 @@
+{
+  String searchExpression=null;
+  if (ldapConfigurator.getQueryUserByUserId() != null) {
+    searchExpression=MessageFormat.format(ldapConfigurator.getQueryUserByUserId(),userId);
+  }
+ else {
+    searchExpression=userId;
+  }
+  return searchExpression;
+}

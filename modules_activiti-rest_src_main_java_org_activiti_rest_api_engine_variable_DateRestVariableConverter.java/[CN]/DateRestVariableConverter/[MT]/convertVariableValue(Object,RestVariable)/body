@@ -1,0 +1,11 @@
+{
+  if (variableValue != null) {
+    if (!(variableValue instanceof Date)) {
+      throw new ActivitiIllegalArgumentException("Converter can only convert booleans");
+    }
+    result.setValue(isoFormatter.format(variableValue));
+  }
+ else {
+    result.setValue(null);
+  }
+}

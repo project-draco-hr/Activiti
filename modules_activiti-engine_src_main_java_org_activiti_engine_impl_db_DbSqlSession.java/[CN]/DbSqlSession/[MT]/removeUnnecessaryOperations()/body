@@ -2,13 +2,13 @@
   List<DeleteOperation> deletedObjectsCopy=new ArrayList<DeleteOperation>(deleteOperations);
   for (  DeleteOperation deleteOperation : deletedObjectsCopy) {
     if (deleteOperation instanceof DeletePersistentObjectOperation) {
-      DeletePersistentObjectOperation deletePersistentObjectOperation=(DeletePersistentObjectOperation)deleteOperation;
-      PersistentObject insertedObject=findInsertedObject(deletePersistentObjectOperation.getPersistentObject().getClass(),deletePersistentObjectOperation.getPersistentObject().getId());
+      PersistentObject deletedObject=((DeletePersistentObjectOperation)deleteOperation).getPersistentObject();
+      PersistentObject insertedObject=findInsertedObject(deletedObject.getClass(),deletedObject.getId());
       if (insertedObject != null) {
         insertedObjects.remove(insertedObject);
         deleteOperations.remove(deleteOperation);
       }
-      cacheRemove(deletePersistentObjectOperation.getPersistentObject().getClass(),deletePersistentObjectOperation.getPersistentObject().getId());
+      cacheRemove(deletedObject.getClass(),deletedObject.getId());
     }
   }
   for (  PersistentObject insertedObject : insertedObjects) {

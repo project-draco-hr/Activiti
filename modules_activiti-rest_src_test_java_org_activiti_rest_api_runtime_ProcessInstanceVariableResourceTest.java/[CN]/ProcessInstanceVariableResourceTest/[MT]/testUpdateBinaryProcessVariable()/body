@@ -1,0 +1,24 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",Collections.singletonMap("overlappingVariable",(Object)"processValue"));
+  runtimeService.setVariableLocal(processInstance.getId(),"binaryVariable","Initial binary value".getBytes());
+  InputStream binaryContent=new ByteArrayInputStream("This is binary content".getBytes());
+  Map<String,String> additionalFields=new HashMap<String,String>();
+  additionalFields.put("name","binaryVariable");
+  additionalFields.put("type","binary");
+  Representation uploadRepresentation=new HttpMultipartRepresentation("value",binaryContent,additionalFields);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"binaryVariable"));
+  Representation response=client.put(uploadRepresentation);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("binaryVariable",responseNode.get("name").asText());
+  assertTrue(responseNode.get("value").isNull());
+  assertEquals("local",responseNode.get("scope").asText());
+  assertEquals("binary",responseNode.get("type").asText());
+  assertNotNull(responseNode.get("valueUrl").isNull());
+  assertTrue(responseNode.get("valueUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_DATA,processInstance.getId(),"binaryVariable")));
+  Object variableValue=runtimeService.getVariableLocal(processInstance.getId(),"binaryVariable");
+  assertNotNull(variableValue);
+  assertTrue(variableValue instanceof byte[]);
+  assertEquals("This is binary content",new String((byte[])variableValue));
+}

@@ -1,0 +1,20 @@
+{
+  if (executionId == null) {
+    throw new ActivitiIllegalArgumentException("executionId is null");
+  }
+  if (variableName == null) {
+    throw new ActivitiIllegalArgumentException("variableName is null");
+  }
+  ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(executionId);
+  if (execution == null) {
+    throw new ActivitiObjectNotFoundException("execution " + executionId + " doesn't exist",Execution.class);
+  }
+  boolean hasVariable=false;
+  if (isLocal) {
+    hasVariable=execution.hasVariableLocal(variableName);
+  }
+ else {
+    hasVariable=execution.hasVariable(variableName);
+  }
+  return hasVariable;
+}

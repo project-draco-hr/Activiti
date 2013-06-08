@@ -1,0 +1,33 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId()));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("name","Simple attachment");
+    requestNode.put("description","Simple attachment description");
+    requestNode.put("type","simpleType");
+    requestNode.put("externalUrl","http://activiti.org");
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    List<Attachment> attachments=taskService.getTaskAttachments(task.getId());
+    assertEquals(1,attachments.size());
+    Attachment urlAttachment=attachments.get(0);
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertEquals(urlAttachment.getId(),responseNode.get("id").getTextValue());
+    assertEquals("simpleType",responseNode.get("type").getTextValue());
+    assertEquals("Simple attachment",responseNode.get("name").getTextValue());
+    assertEquals("Simple attachment description",responseNode.get("description").getTextValue());
+    assertEquals("http://activiti.org",responseNode.get("externalUrl").getTextValue());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),urlAttachment.getId())));
+    assertTrue(responseNode.get("taskUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())));
+    assertTrue(responseNode.get("contentUrl").isNull());
+    assertTrue(responseNode.get("processInstanceUrl").isNull());
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}
