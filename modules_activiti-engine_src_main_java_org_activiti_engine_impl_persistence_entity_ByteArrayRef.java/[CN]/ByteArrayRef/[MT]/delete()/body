@@ -1,7 +1,13 @@
 {
   if (id != null) {
-    Context.getCommandContext().getByteArrayEntityManager().deleteByteArray(getEntity());
+    if (entity != null) {
+      Context.getCommandContext().getByteArrayEntityManager().deleteByteArray(entity);
+    }
+ else {
+      Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(id);
+    }
     id=null;
     entity=null;
+    name=null;
   }
 }
