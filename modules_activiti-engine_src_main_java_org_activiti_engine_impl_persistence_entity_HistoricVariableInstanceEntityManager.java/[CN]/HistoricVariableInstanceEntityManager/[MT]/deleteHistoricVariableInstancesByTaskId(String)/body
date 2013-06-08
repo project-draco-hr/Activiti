@@ -1,7 +1,6 @@
 {
   if (getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
-    HistoricVariableInstanceQueryImpl historicProcessVariableQuery=(HistoricVariableInstanceQueryImpl)new HistoricVariableInstanceQueryImpl().taskId(taskId);
-    List<HistoricVariableInstance> historicProcessVariables=historicProcessVariableQuery.list();
+    List<HistoricVariableInstance> historicProcessVariables=new HistoricVariableInstanceQueryImpl().taskId(taskId).list();
     for (    HistoricVariableInstance historicProcessVariable : historicProcessVariables) {
       ((HistoricVariableInstanceEntity)historicProcessVariable).delete();
     }
