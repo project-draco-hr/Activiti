@@ -1,10 +1,10 @@
 {
-  ByteArrayEntity byteArrayEntity=getExceptionByteArrayEntity();
-  if (byteArrayEntity == null) {
+  byte[] bytes=exceptionByteArrayRef.getBytes();
+  if (bytes == null) {
     return null;
   }
   try {
-    return new String(byteArrayEntity.getBytes(),"UTF-8");
+    return new String(bytes,"UTF-8");
   }
  catch (  UnsupportedEncodingException e) {
     throw new ActivitiException("UTF-8 is not a supported encoding");

@@ -1,8 +1,6 @@
 {
   Context.getCommandContext().getDbSqlSession().delete(this);
-  if (exceptionByteArrayId != null) {
-    Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(exceptionByteArrayId);
-  }
+  exceptionByteArrayRef.delete();
   if (executionId != null) {
     ExecutionEntity execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(executionId);
     execution.removeJob(this);
