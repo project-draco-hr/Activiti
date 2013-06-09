@@ -1,0 +1,17 @@
+{
+  ClientResource client=getAuthenticatedClient(url);
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  assertEquals(numberOfResultsExpected,dataNode.size());
+  if (expectedActivityIds != null) {
+    List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedActivityIds));
+    Iterator<JsonNode> it=dataNode.iterator();
+    while (it.hasNext()) {
+      String activityId=it.next().get("activityId").getTextValue();
+      toBeFound.remove(activityId);
+    }
+    assertTrue("Not all entries have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());
+  }
+  client.release();
+}

@@ -1,0 +1,11 @@
+{
+  HistoricVariableInstanceResponse result=new HistoricVariableInstanceResponse();
+  result.setId(variableInstance.getId());
+  result.setProcessInstanceId(variableInstance.getProcessInstanceId());
+  result.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE,variableInstance.getProcessInstanceId()));
+  result.setTaskId(variableInstance.getTaskId());
+  result.setValue(variableInstance.getValue());
+  result.setVariableName(variableInstance.getVariableName());
+  result.setVariableTypeName(variableInstance.getVariableTypeName());
+  return result;
+}

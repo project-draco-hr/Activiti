@@ -1,0 +1,15 @@
+{
+  if (processDefinitionId == null) {
+    throw new ActivitiIllegalArgumentException("Process definition id is null");
+  }
+  ProcessDefinitionEntity processDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findProcessDefinitionById(processDefinitionId);
+  if (processDefinition == null) {
+    throw new ActivitiObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'",ProcessDefinition.class);
+  }
+  processDefinition.setCategory(category);
+  DeploymentCache<ProcessDefinitionEntity> processDefinitionCache=Context.getProcessEngineConfiguration().getProcessDefinitionCache();
+  if (processDefinitionCache != null) {
+    processDefinitionCache.remove(processDefinitionId);
+  }
+  return null;
+}

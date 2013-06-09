@@ -10,8 +10,8 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
   ProcessInstanceQuery query=runtimeService.createProcessInstanceQuery().variableValueEquals("nullVar",null).variableValueEquals("stringVar","string").variableValueEquals("longVar",10L).variableValueEquals("doubleVar",1.2).variableValueEquals("integerVar",1234).variableValueEquals("booleanVar",true).variableValueEquals("shortVar",(short)123);
   List<ProcessInstance> processInstances=query.list();
-  Assert.assertNotNull(processInstances);
-  Assert.assertEquals(1,processInstances.size());
-  Assert.assertEquals(processInstance.getId(),processInstances.get(0).getId());
+  assertNotNull(processInstances);
+  assertEquals(1,processInstances.size());
+  assertEquals(processInstance.getId(),processInstances.get(0).getId());
   runtimeService.deleteProcessInstance(processInstance.getId(),"test");
 }

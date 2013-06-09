@@ -1,55 +1,42 @@
 {
-  if (authenticate(SecuredResource.ADMIN) == false)   return null;
-  String tableName=(String)getRequest().getAttributes().get("tableName");
-  int start=RequestUtil.getInteger(getQuery(),"start",0);
-  int size=RequestUtil.getInteger(getQuery(),"size",10);
-  String order=getQuery().getValues("order");
-  if (order == null) {
-    order="asc";
+  if (authenticate() == false)   return null;
+  String tableName=getAttribute("tableName");
+  if (tableName == null) {
+    throw new ActivitiIllegalArgumentException("The tableName cannot be null");
   }
-  String sort=getQuery().getValues("sort");
-  if (sort == null) {
-    TableMetaData tmd=ActivitiUtil.getManagementService().getTableMetaData(tableName);
-    List<String> columnNames=tmd.getColumnNames();
-    if (columnNames.size() > 0) {
-      sort=columnNames.get(0);
-    }
- else {
-      sort=null;
-    }
+  if (ActivitiUtil.getManagementService().getTableMetaData(tableName) == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a table with name '" + tableName + "'.",String.class);
   }
-  TablePageQuery query=ActivitiUtil.getManagementService().createTablePageQuery().tableName(tableName);
-  if (sort != null) {
-    if (order.equals("asc")) {
-      query.orderAsc(sort);
-    }
- else {
-      query.orderDesc(sort);
-    }
+  Form queryForm=getQuery();
+  String orderAsc=getQueryParameter("orderAscendingColumn",queryForm);
+  String orderDesc=getQueryParameter("orderDescendingColumn",queryForm);
+  if (orderAsc != null && orderDesc != null) {
+    throw new ActivitiIllegalArgumentException("Only one of 'orderAscendingColumn' or 'orderDescendingColumn' can be supplied.");
   }
-  TablePage tablePage=query.listPage(start,size);
-  ObjectNode responseJSON=new ObjectMapper().createObjectNode();
-  responseJSON.put("sort",sort);
-  responseJSON.put("order",order);
-  responseJSON.put("start",tablePage.getFirstResult());
-  responseJSON.put("size",tablePage.getSize());
-  responseJSON.put("total",tablePage.getTotal());
-  ArrayNode tableArray=new ObjectMapper().createArrayNode();
-  for (  Map<String,Object> row : tablePage.getRows()) {
-    ObjectNode columnJSON=new ObjectMapper().createObjectNode();
-    for (    String name : row.keySet()) {
-      if (row.get(name) instanceof byte[]) {
-        columnJSON.put(name,((byte[])row.get(name)).length);
-      }
- else       if (row.get(name) instanceof Date) {
-        columnJSON.put(name,RequestUtil.dateToString((Date)row.get(name)));
-      }
- else {
-        columnJSON.put(name,row.get(name).toString());
-      }
-    }
-    tableArray.add(columnJSON);
+  Integer start=getQueryParameterAsInt("start",queryForm);
+  if (start == null) {
+    start=0;
   }
-  responseJSON.put("data",tableArray);
-  return responseJSON;
+  Integer size=getQueryParameterAsInt("size",queryForm);
+  if (size == null) {
+    size=DEFAULT_RESULT_SIZE;
+  }
+  DataResponse response=new DataResponse();
+  TablePageQuery tablePageQuery=ActivitiUtil.getManagementService().createTablePageQuery().tableName(tableName);
+  if (orderAsc != null) {
+    tablePageQuery.orderAsc(orderAsc);
+    response.setOrder("asc");
+    response.setSort(orderAsc);
+  }
+  if (orderDesc != null) {
+    tablePageQuery.orderDesc(orderDesc);
+    response.setOrder("desc");
+    response.setSort(orderDesc);
+  }
+  TablePage listPage=tablePageQuery.listPage(start,size);
+  response.setSize(((Long)listPage.getSize()).intValue());
+  response.setStart(((Long)listPage.getFirstResult()).intValue());
+  response.setTotal(listPage.getTotal());
+  response.setData(listPage.getRows());
+  return response;
 }

@@ -1,0 +1,12 @@
+{
+  Map<String,Long> tableCounts=managementService.getTableCount();
+  String tableNameToGet=tableCounts.keySet().iterator().next();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,tableNameToGet));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals(tableNameToGet,responseNode.get("name").getTextValue());
+  assertEquals(((Long)tableCounts.get(responseNode.get("name").getTextValue())).longValue(),responseNode.get("count").getLongValue());
+  assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,tableNameToGet)));
+}
