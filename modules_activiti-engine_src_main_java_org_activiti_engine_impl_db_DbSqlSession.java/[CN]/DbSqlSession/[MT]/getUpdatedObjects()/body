@@ -3,7 +3,7 @@
   for (  Class<?> clazz : cachedObjects.keySet()) {
     Map<String,CachedObject> classCache=cachedObjects.get(clazz);
     for (    CachedObject cachedObject : classCache.values()) {
-      PersistentObject persistentObject=(PersistentObject)cachedObject.getPersistentObject();
+      PersistentObject persistentObject=cachedObject.getPersistentObject();
       if (!isPersistentObjectDeleted(persistentObject)) {
         Object originalState=cachedObject.getPersistentObjectState();
         if (!persistentObject.getPersistentState().equals(originalState)) {

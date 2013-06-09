@@ -2,11 +2,8 @@
   List<T> prunedList=new ArrayList<T>(listToPrune);
   for (  T potentiallyDeleted : listToPrune) {
     for (    DeleteOperation deleteOperation : deleteOperations) {
-      if (deleteOperation instanceof DeletePersistentObjectOperation) {
-        PersistentObject deletedObject=((DeletePersistentObjectOperation)deleteOperation).getPersistentObject();
-        if (areEqual(potentiallyDeleted,deletedObject)) {
-          prunedList.remove(potentiallyDeleted);
-        }
+      if (deleteOperation.sameIdentity(potentiallyDeleted)) {
+        prunedList.remove(potentiallyDeleted);
       }
     }
   }
