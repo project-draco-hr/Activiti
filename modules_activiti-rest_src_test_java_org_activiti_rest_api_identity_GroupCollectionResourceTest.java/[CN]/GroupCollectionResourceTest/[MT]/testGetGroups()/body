@@ -1,0 +1,38 @@
+{
+  List<Group> savedGroups=new ArrayList<Group>();
+  try {
+    Group group1=identityService.newGroup("testgroup1");
+    group1.setName("Test group");
+    group1.setType("Test type");
+    identityService.saveGroup(group1);
+    savedGroups.add(group1);
+    Group group2=identityService.newGroup("testgroup2");
+    group2.setName("Another group");
+    group2.setType("Another type");
+    identityService.saveGroup(group2);
+    savedGroups.add(group2);
+    Group group3=identityService.createGroupQuery().groupId("admin").singleResult();
+    assertNotNull(group3);
+    String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION);
+    assertResultsPresentInDataResponse(url,group1.getId(),group2.getId(),group3.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?name=Test group";
+    assertResultsPresentInDataResponse(url,group1.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?nameLike=" + encode("% group");
+    assertResultsPresentInDataResponse(url,group2.getId(),group1.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?type=Another type";
+    assertResultsPresentInDataResponse(url,group2.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?member=kermit";
+    assertResultsPresentInDataResponse(url,group3.getId());
+    String processDefinitionId=repositoryService.createProcessDefinitionQuery().processDefinitionKey("simpleProcess").singleResult().getId();
+    repositoryService.addCandidateStarterGroup(processDefinitionId,"admin");
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?potentialStarter=" + processDefinitionId;
+    assertResultsPresentInDataResponse(url,group3.getId());
+  }
+  finally {
+    if (savedGroups.size() > 0) {
+      for (      Group group : savedGroups) {
+        identityService.deleteGroup(group.getId());
+      }
+    }
+  }
+}
