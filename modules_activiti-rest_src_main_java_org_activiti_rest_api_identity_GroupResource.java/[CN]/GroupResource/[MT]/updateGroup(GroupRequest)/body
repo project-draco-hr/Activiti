@@ -1,0 +1,16 @@
+{
+  Group group=getGroupFromRequest();
+  if (request.getId() == null || request.getId().equals(group.getId())) {
+    if (request.isNameChanged()) {
+      group.setName(request.getName());
+    }
+    if (request.isTypeChanged()) {
+      group.setType(request.getType());
+    }
+    ActivitiUtil.getIdentityService().saveGroup(group);
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Key provided in request body doesn't match the key in the resource URL.");
+  }
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createGroupResponse(this,group);
+}
