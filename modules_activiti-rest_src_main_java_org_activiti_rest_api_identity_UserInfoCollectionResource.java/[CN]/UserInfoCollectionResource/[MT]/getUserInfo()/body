@@ -1,0 +1,10 @@
+{
+  if (!authenticate())   return null;
+  User user=getUserFromRequest();
+  RestResponseFactory factory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  List<UserInfoResponse> responses=new ArrayList<UserInfoResponse>();
+  for (  String key : ActivitiUtil.getIdentityService().getUserInfoKeys(user.getId())) {
+    responses.add(factory.createUserInfoResponse(this,key,null,user.getId()));
+  }
+  return responses;
+}

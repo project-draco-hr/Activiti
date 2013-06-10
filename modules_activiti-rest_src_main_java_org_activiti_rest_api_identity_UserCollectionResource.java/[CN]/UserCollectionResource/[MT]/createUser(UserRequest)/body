@@ -1,6 +1,6 @@
 {
   if (request.getId() == null) {
-    throw new ActivitiIllegalArgumentException("The id for the new user cannot be null");
+    throw new ActivitiIllegalArgumentException("Id cannot be null.");
   }
   if (ActivitiUtil.getIdentityService().createUserQuery().userId(request.getId()).count() > 0) {
     throw new ResourceException(Status.CLIENT_ERROR_CONFLICT.getCode(),"A user with id '" + request.getId() + "' already exists.",null,null);
@@ -11,5 +11,6 @@
   created.setLastName(request.getLastName());
   created.setPassword(request.getPassword());
   ActivitiUtil.getIdentityService().saveUser(created);
+  setStatus(Status.SUCCESS_CREATED);
   return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createUserResponse(this,created,true);
 }

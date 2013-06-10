@@ -1,0 +1,26 @@
+{
+  try {
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("id","testuser");
+    requestNode.put("firstName","Frederik");
+    requestNode.put("lastName","Heremans");
+    requestNode.put("email","no-reply@activiti.org");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_COLLECTION,"testuser"));
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("testuser",responseNode.get("id").getTextValue());
+    assertEquals("Frederik",responseNode.get("firstName").getTextValue());
+    assertEquals("Heremans",responseNode.get("lastName").getTextValue());
+    assertEquals("no-reply@activiti.org",responseNode.get("email").getTextValue());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,"testuser")));
+  }
+  finally {
+    try {
+      identityService.deleteUser("testuser");
+    }
+ catch (    Throwable t) {
+    }
+  }
+}
