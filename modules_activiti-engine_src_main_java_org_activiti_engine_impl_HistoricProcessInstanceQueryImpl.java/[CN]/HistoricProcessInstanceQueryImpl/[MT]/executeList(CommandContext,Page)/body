@@ -1,5 +1,10 @@
 {
   checkQueryOk();
   ensureVariablesInitialized();
-  return commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstancesByQueryCriteria(this,page);
+  if (includeProcessVariables) {
+    return commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstancesAndVariablesByQueryCriteria(this,page);
+  }
+ else {
+    return commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstancesByQueryCriteria(this,page);
+  }
 }

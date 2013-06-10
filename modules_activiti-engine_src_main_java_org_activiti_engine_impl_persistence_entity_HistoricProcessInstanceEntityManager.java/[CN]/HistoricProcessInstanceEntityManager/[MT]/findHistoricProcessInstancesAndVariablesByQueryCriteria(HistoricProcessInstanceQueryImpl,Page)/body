@@ -1,0 +1,6 @@
+{
+  if (getHistoryManager().isHistoryEnabled()) {
+    return getDbSqlSession().selectList("selectHistoricProcessInstancesWithVariablesByQueryCriteria",historicProcessInstanceQuery,page);
+  }
+  return Collections.EMPTY_LIST;
+}
