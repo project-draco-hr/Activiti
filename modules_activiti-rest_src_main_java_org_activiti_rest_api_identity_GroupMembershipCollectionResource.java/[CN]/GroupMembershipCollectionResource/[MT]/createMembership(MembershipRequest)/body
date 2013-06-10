@@ -1,0 +1,12 @@
+{
+  Group group=getGroupFromRequest();
+  if (memberShip.getUserId() == null) {
+    throw new ActivitiIllegalArgumentException("UserId cannot be null.");
+  }
+  if (ActivitiUtil.getIdentityService().createUserQuery().memberOfGroup(group.getId()).userId(memberShip.getUserId()).count() > 0) {
+    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT.getCode(),"User '" + memberShip.getUserId() + "' is already part of group '"+ group.getId()+ "'.",null,null);
+  }
+  ActivitiUtil.getIdentityService().createMembership(memberShip.getUserId(),group.getId());
+  setStatus(Status.SUCCESS_CREATED);
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createMembershipResponse(this,memberShip.getUserId(),group.getId());
+}

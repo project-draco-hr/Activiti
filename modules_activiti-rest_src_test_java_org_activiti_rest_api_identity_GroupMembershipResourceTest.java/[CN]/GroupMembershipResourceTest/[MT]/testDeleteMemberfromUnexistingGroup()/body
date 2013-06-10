@@ -1,0 +1,11 @@
+{
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,"unexisting","kermit"));
+  try {
+    client.delete();
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Could not find a group with id 'unexisting'.",expected.getStatus().getDescription());
+  }
+}

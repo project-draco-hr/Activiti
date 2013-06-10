@@ -1,0 +1,11 @@
+{
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP_COLLECTION,"admin"));
+  try {
+    client.post(objectMapper.createObjectNode());
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("UserId cannot be null.",expected.getStatus().getDescription());
+  }
+}
