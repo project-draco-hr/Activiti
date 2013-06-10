@@ -1,0 +1,15 @@
+{
+  if (!authenticate())   return null;
+  User user=getUserFromRequest();
+  String key=getValidKeyFromRequest(user);
+  if (request.getValue() == null) {
+    throw new ActivitiIllegalArgumentException("The value cannot be null.");
+  }
+  if (request.getKey() == null || key.equals(request.getKey())) {
+    ActivitiUtil.getIdentityService().setUserInfo(user.getId(),key,request.getValue());
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Key provided in request body doesn't match the key in the resource URL.");
+  }
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createUserInfoResponse(this,key,request.getValue(),user.getId());
+}

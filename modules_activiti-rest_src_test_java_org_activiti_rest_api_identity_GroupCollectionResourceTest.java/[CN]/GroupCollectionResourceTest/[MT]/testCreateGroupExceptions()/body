@@ -1,0 +1,24 @@
+{
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("name","Test group");
+  requestNode.put("type","Test type");
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Id cannot be null.",expected.getStatus().getDescription());
+  }
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("id","admin");
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
+    assertEquals("A group with id 'admin' already exists.",expected.getStatus().getDescription());
+  }
+}

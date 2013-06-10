@@ -1,0 +1,13 @@
+{
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("value","Updated value");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,"unexisting","key1"));
+  try {
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Could not find a user with id 'unexisting'.",expected.getStatus().getDescription());
+  }
+}
