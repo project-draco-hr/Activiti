@@ -1,0 +1,25 @@
+{
+  User savedUser=null;
+  try {
+    User newUser=identityService.newUser("testuser");
+    newUser.setFirstName("Fred");
+    newUser.setLastName("McDonald");
+    newUser.setEmail("no-reply@activiti.org");
+    identityService.saveUser(newUser);
+    savedUser=newUser;
+    MediaType mediaType=MediaType.IMAGE_PNG;
+    Picture thePicture=new Picture("this is the picture raw byte stream".getBytes(),mediaType.toString());
+    identityService.setUserPicture(newUser.getId(),thePicture);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_PICTURE,newUser.getId()));
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    assertEquals("this is the picture raw byte stream",response.getText());
+    String typeFromResponse=getMediaType(client);
+    assertEquals(mediaType.toString(),typeFromResponse);
+  }
+  finally {
+    if (savedUser != null) {
+      identityService.deleteUser(savedUser.getId());
+    }
+  }
+}
