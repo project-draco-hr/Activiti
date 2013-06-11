@@ -22,5 +22,17 @@
   result.setTaskDefinitionKey(taskInstance.getTaskDefinitionKey());
   result.setWorkTimeInMillis(taskInstance.getWorkTimeInMillis());
   result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_TASK_INSTANCE,taskInstance.getId()));
+  if (taskInstance.getProcessVariables() != null) {
+    Map<String,Object> variableMap=taskInstance.getProcessVariables();
+    for (    String name : variableMap.keySet()) {
+      result.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.GLOBAL,taskInstance.getId(),VARIABLE_HISTORY_TASK,false));
+    }
+  }
+  if (taskInstance.getTaskLocalVariables() != null) {
+    Map<String,Object> variableMap=taskInstance.getTaskLocalVariables();
+    for (    String name : variableMap.keySet()) {
+      result.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.LOCAL,taskInstance.getId(),VARIABLE_HISTORY_TASK,false));
+    }
+  }
   return result;
 }

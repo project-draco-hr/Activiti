@@ -14,6 +14,7 @@
     throw new ActivitiObjectNotFoundException("Historic detail '" + detailId + "' doesn't have a variable value.",VariableInstanceEntity.class);
   }
  else {
-    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariable(this,variableUpdate.getVariableName(),value,null,null,null,null,detailId,includeBinary);
+    RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+    return responseFactory.createRestVariable(this,variableUpdate.getVariableName(),value,null,detailId,RestResponseFactory.VARIABLE_HISTORY_DETAIL,includeBinary);
   }
 }

@@ -32,11 +32,14 @@
   router.attach("/runtime/executions/{executionId}/variables/{variableName}",ExecutionVariableResource.class);
   router.attach("/runtime/executions/{executionId}/variables/{variableName}/data",ExecutionVariableDataResource.class);
   router.attach("/history/historic-process-instances/{processInstanceId}",HistoricProcessInstanceResource.class);
+  router.attach("/history/historic-process-instances/{processInstanceId}/variables/{variableName}/data",HistoricProcessInstanceVariableDataResource.class);
   router.attach("/history/historic-process-instances",HistoricProcessInstanceCollectionResource.class);
   router.attach("/history/historic-task-instances/{taskId}",HistoricTaskInstanceResource.class);
+  router.attach("/history/historic-task-instances/{taskId}/variables/{variableName}/data",HistoricTaskInstanceVariableDataResource.class);
   router.attach("/history/historic-task-instances",HistoricTaskInstanceCollectionResource.class);
   router.attach("/history/historic-activity-instances",HistoricActivityInstanceCollectionResource.class);
   router.attach("/history/historic-variable-instances",HistoricVariableInstanceCollectionResource.class);
+  router.attach("/history/historic-variable-instances/{varInstanceId}/data",HistoricVariableInstanceDataResource.class);
   router.attach("/history/historic-detail",HistoricDetailCollectionResource.class);
   router.attach("/history/historic-detail/{detailId}/data",HistoricDetailDataResource.class);
   router.attach("/management/tables",TableCollectionResource.class);
