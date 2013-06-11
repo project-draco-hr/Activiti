@@ -8,7 +8,12 @@
         UserEntity user=new UserEntity();
         while (namingEnum.hasMore()) {
           SearchResult result=(SearchResult)namingEnum.next();
-          user.setId(userId);
+          if (ldapConfigurator.getUserIdAttribute() != null) {
+            user.setId(result.getAttributes().get(ldapConfigurator.getUserIdAttribute()).get().toString());
+          }
+ else {
+            user.setId(userId);
+          }
           if (ldapConfigurator.getUserFirstNameAttribute() != null) {
             user.setFirstName(result.getAttributes().get(ldapConfigurator.getUserFirstNameAttribute()).get().toString());
           }
