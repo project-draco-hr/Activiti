@@ -1,0 +1,58 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINKS_COLLECTION,processInstance.getId()));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("user","kermit");
+  requestNode.put("type","myType");
+  Representation response=client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("kermit",responseNode.get("user").getTextValue());
+  assertEquals("myType",responseNode.get("type").getTextValue());
+  assertTrue(responseNode.get("group").isNull());
+  assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"kermit","myType")));
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINKS_COLLECTION,"unexistingprocess"));
+  try {
+    client.post(null);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Could not find a process instance with id 'unexistingprocess'.",expected.getStatus().getDescription());
+  }
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINKS_COLLECTION,processInstance.getId()));
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("type","myType");
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("The user is required.",expected.getStatus().getDescription());
+  }
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("type","myType");
+  requestNode.put("group","sales");
+  try {
+    client.release();
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Only user identity links are supported on a process instance.",expected.getStatus().getDescription());
+  }
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("user","kermit");
+  try {
+    client.release();
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("The identity link type is required.",expected.getStatus().getDescription());
+  }
+}
