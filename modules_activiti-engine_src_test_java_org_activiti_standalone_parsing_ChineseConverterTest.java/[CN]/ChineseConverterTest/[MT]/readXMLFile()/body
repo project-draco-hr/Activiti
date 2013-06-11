@@ -1,8 +1,6 @@
 {
   InputStream xmlStream=this.getClass().getClassLoader().getResourceAsStream(getResource());
-  XMLInputFactory xif=XMLInputFactory.newInstance();
-  InputStreamReader in=new InputStreamReader(xmlStream,"UTF-8");
-  XMLStreamReader xtr=xif.createXMLStreamReader(in);
-  BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xtr);
+  StreamSource xmlSource=new InputStreamSource(xmlStream);
+  BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xmlSource,false,false,processEngineConfiguration.getXmlEncoding());
   return bpmnModel;
 }

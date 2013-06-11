@@ -4,8 +4,6 @@
   result.setProcessInstanceId(variableInstance.getProcessInstanceId());
   result.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE,variableInstance.getProcessInstanceId()));
   result.setTaskId(variableInstance.getTaskId());
-  result.setValue(variableInstance.getValue());
-  result.setVariableName(variableInstance.getVariableName());
-  result.setVariableTypeName(variableInstance.getVariableTypeName());
+  result.setVariable(createRestVariable(securedResource,variableInstance.getVariableName(),variableInstance.getValue(),null,variableInstance.getId(),VARIABLE_HISTORY_VARINSTANCE,false));
   return result;
 }

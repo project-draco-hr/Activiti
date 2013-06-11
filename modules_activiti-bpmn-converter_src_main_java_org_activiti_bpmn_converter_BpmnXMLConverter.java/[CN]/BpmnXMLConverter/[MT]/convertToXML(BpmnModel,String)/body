@@ -1,0 +1,36 @@
+{
+  try {
+    ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+    XMLOutputFactory xof=XMLOutputFactory.newInstance();
+    OutputStreamWriter out=new OutputStreamWriter(outputStream,encoding);
+    XMLStreamWriter writer=xof.createXMLStreamWriter(out);
+    XMLStreamWriter xtw=new IndentingXMLStreamWriter(writer);
+    DefinitionsRootExport.writeRootElement(model,xtw,encoding);
+    SignalAndMessageDefinitionExport.writeSignalsAndMessages(model,xtw);
+    PoolExport.writePools(model,xtw);
+    for (    Process process : model.getProcesses()) {
+      if (process.getFlowElements().size() == 0 && process.getLanes().size() == 0) {
+        continue;
+      }
+      ProcessExport.writeProcess(process,xtw);
+      for (      FlowElement flowElement : process.getFlowElements()) {
+        createXML(flowElement,model,xtw);
+      }
+      for (      Artifact artifact : process.getArtifacts()) {
+        createXML(artifact,model,xtw);
+      }
+      xtw.writeEndElement();
+    }
+    BPMNDIExport.writeBPMNDI(model,xtw);
+    xtw.writeEndElement();
+    xtw.writeEndDocument();
+    xtw.flush();
+    outputStream.close();
+    xtw.close();
+    return outputStream.toByteArray();
+  }
+ catch (  Exception e) {
+    LOGGER.error("Error writing BPMN XML",e);
+    throw new XMLException("Error writing BPMN XML",e);
+  }
+}

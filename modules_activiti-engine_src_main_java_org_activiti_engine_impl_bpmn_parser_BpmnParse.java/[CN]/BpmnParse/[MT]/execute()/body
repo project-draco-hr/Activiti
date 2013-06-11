@@ -2,10 +2,17 @@
   try {
     BpmnXMLConverter converter=new BpmnXMLConverter();
     boolean enableSafeBpmnXml=false;
+    String encoding=null;
     if (Context.getProcessEngineConfiguration() != null) {
       enableSafeBpmnXml=Context.getProcessEngineConfiguration().isEnableSafeBpmnXml();
+      encoding=Context.getProcessEngineConfiguration().getXmlEncoding();
     }
-    bpmnModel=converter.convertToBpmnModel(streamSource,true,enableSafeBpmnXml);
+    if (encoding != null) {
+      bpmnModel=converter.convertToBpmnModel(streamSource,true,enableSafeBpmnXml,encoding);
+    }
+ else {
+      bpmnModel=converter.convertToBpmnModel(streamSource,true,enableSafeBpmnXml);
+    }
     createImports();
     createItemDefinitions();
     createMessages();

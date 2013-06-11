@@ -8,5 +8,6 @@
   }
   Object actualVariableValue=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().getVariableValue(restVariable);
   setVariable(task,restVariable.getName(),actualVariableValue,scope,isNew);
-  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariable(this,restVariable.getName(),actualVariableValue,scope,task.getId(),null,null,null,false);
+  RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  return responseFactory.createRestVariable(this,restVariable.getName(),actualVariableValue,scope,task.getId(),RestResponseFactory.VARIABLE_TASK,false);
 }

@@ -13,5 +13,11 @@
   result.setStartUserId(processInstance.getStartUserId());
   result.setSuperProcessInstanceId(processInstance.getSuperProcessInstanceId());
   result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE,processInstance.getId()));
+  if (processInstance.getProcessVariables() != null) {
+    Map<String,Object> variableMap=processInstance.getProcessVariables();
+    for (    String name : variableMap.keySet()) {
+      result.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.GLOBAL,processInstance.getId(),VARIABLE_HISTORY_PROCESS,false));
+    }
+  }
   return result;
 }

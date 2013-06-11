@@ -1,0 +1,16 @@
+{
+  if (!authenticate())   return null;
+  ProcessInstance processInstance=getProcessInstanceFromRequest();
+  if (identityLink.getGroup() != null) {
+    throw new ActivitiIllegalArgumentException("Only user identity links are supported on a process instance.");
+  }
+  if (identityLink.getUser() == null) {
+    throw new ActivitiIllegalArgumentException("The user is required.");
+  }
+  if (identityLink.getType() == null) {
+    throw new ActivitiIllegalArgumentException("The identity link type is required.");
+  }
+  ActivitiUtil.getRuntimeService().addUserIdentityLink(processInstance.getId(),identityLink.getUser(),identityLink.getType());
+  setStatus(Status.SUCCESS_CREATED);
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestIdentityLink(this,identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),null,null,processInstance.getId());
+}
