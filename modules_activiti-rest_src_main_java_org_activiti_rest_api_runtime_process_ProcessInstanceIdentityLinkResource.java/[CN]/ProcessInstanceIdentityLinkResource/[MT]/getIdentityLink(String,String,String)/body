@@ -1,0 +1,9 @@
+{
+  List<IdentityLink> allLinks=ActivitiUtil.getRuntimeService().getIdentityLinksForProcessInstance(processInstanceId);
+  for (  IdentityLink link : allLinks) {
+    if (identityId.equals(link.getUserId()) && link.getType().equals(type)) {
+      return link;
+    }
+  }
+  throw new ActivitiObjectNotFoundException("Could not find the requested identity link.",IdentityLink.class);
+}

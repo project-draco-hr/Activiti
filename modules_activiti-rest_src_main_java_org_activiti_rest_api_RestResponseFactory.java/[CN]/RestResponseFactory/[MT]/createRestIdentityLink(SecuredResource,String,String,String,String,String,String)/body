@@ -13,8 +13,11 @@
   if (processDefinitionId != null) {
     result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinitionId,family,(userId != null ? userId : groupId)));
   }
- else {
+ else   if (taskId != null) {
     result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,taskId,family,(userId != null ? userId : groupId),type));
+  }
+ else {
+    result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstanceId,(userId != null ? userId : groupId),type));
   }
   return result;
 }
