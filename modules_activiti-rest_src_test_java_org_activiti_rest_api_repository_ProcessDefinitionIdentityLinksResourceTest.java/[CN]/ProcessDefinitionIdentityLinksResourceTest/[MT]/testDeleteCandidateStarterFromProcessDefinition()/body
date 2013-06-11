@@ -1,0 +1,18 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  repositoryService.addCandidateStarterGroup(processDefinition.getId(),"admin");
+  repositoryService.addCandidateStarterUser(processDefinition.getId(),"kermit");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"users","kermit"));
+  Representation response=client.delete();
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  assertEquals(0,response.getSize());
+  List<IdentityLink> remainingLinks=repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
+  assertEquals(1,remainingLinks.size());
+  assertEquals("admin",remainingLinks.get(0).getGroupId());
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"groups","admin"));
+  response=client.delete();
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  assertEquals(0,response.getSize());
+  remainingLinks=repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
+  assertEquals(0,remainingLinks.size());
+}

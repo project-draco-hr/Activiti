@@ -1,0 +1,20 @@
+{
+  RestIdentityLink result=new RestIdentityLink();
+  result.setUser(userId);
+  result.setGroup(groupId);
+  result.setType(type);
+  String family=null;
+  if (userId != null) {
+    family=RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS;
+  }
+ else {
+    family=RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS;
+  }
+  if (processDefinitionId != null) {
+    result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinitionId,family,(userId != null ? userId : groupId)));
+  }
+ else {
+    result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,taskId,family,(userId != null ? userId : groupId),type));
+  }
+  return result;
+}
