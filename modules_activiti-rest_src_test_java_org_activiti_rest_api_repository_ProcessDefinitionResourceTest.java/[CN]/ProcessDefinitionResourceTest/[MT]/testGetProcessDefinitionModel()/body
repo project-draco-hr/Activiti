@@ -1,0 +1,13 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_MODEL,processDefinition.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode resultNode=objectMapper.readTree(response.getReader());
+  assertNotNull(resultNode);
+  JsonNode processes=resultNode.get("processes");
+  assertNotNull(processes);
+  assertTrue(processes.isArray());
+  assertEquals(1,processes.size());
+  assertEquals("oneTaskProcess",processes.get(0).get("id").getTextValue());
+}

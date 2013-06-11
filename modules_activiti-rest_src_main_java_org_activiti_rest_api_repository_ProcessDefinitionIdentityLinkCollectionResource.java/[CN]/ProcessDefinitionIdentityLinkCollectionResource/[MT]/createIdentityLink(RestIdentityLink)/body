@@ -1,0 +1,19 @@
+{
+  if (!authenticate())   return null;
+  ProcessDefinition processDefinition=getProcessDefinitionFromRequest();
+  if (identityLink.getGroup() == null && identityLink.getUser() == null) {
+    throw new ActivitiIllegalArgumentException("A group or a user is required to create an identity link.");
+  }
+  if (identityLink.getGroup() != null && identityLink.getUser() != null) {
+    throw new ActivitiIllegalArgumentException("Only one of user or group can be used to create an identity link.");
+  }
+  if (identityLink.getGroup() != null) {
+    ActivitiUtil.getRepositoryService().addCandidateStarterGroup(processDefinition.getId(),identityLink.getGroup());
+  }
+ else {
+    ActivitiUtil.getRepositoryService().addCandidateStarterUser(processDefinition.getId(),identityLink.getUser());
+  }
+  identityLink.setType(IdentityLinkType.CANDIDATE);
+  setStatus(Status.SUCCESS_CREATED);
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestIdentityLink(this,identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),null,processDefinition.getId(),null);
+}

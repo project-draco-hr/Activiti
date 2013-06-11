@@ -42,6 +42,7 @@
     throw new ActivitiObjectNotFoundException("Task '" + taskId + "' doesn't have a variable with name: '"+ variableName+ "'.",VariableInstanceEntity.class);
   }
  else {
-    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariable(this,variableName,value,variableScope,taskId,null,null,null,includeBinary);
+    RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+    return responseFactory.createRestVariable(this,variableName,value,variableScope,taskId,RestResponseFactory.VARIABLE_TASK,includeBinary);
   }
 }

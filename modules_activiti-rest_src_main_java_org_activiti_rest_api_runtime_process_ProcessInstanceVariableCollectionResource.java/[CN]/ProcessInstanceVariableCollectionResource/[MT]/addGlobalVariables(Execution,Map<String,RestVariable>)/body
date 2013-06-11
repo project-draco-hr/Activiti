@@ -1,9 +1,2 @@
 {
-  Map<String,Object> rawVariables=ActivitiUtil.getRuntimeService().getVariables(execution.getId());
-  List<RestVariable> globalVariables=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariables(this,rawVariables,null,null,execution.getId(),RestVariableScope.GLOBAL);
-  for (  RestVariable var : globalVariables) {
-    if (!variableMap.containsKey(var.getName())) {
-      variableMap.put(var.getName(),var);
-    }
-  }
 }

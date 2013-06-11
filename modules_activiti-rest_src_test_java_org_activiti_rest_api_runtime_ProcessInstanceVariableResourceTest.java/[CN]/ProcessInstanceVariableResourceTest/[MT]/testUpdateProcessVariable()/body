@@ -1,6 +1,6 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",Collections.singletonMap("overlappingVariable",(Object)"processValue"));
-  runtimeService.setVariableLocal(processInstance.getId(),"myVar","value");
+  runtimeService.setVariable(processInstance.getId(),"myVar","value");
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("name","myVar");
   requestNode.put("value","updatedValue");
@@ -11,7 +11,6 @@
   JsonNode responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
   assertEquals("updatedValue",responseNode.get("value").asText());
-  assertEquals("local",responseNode.get("scope").asText());
   try {
     requestNode.put("name","unexistingVariable");
     client.put(requestNode);

@@ -1,0 +1,22 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  runtimeService.addUserIdentityLink(processInstance.getId(),"kermit","myType");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"kermit","myType"));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("kermit",responseNode.get("user").getTextValue());
+  assertEquals("myType",responseNode.get("type").getTextValue());
+  assertTrue(responseNode.get("group").isNull());
+  assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"kermit","myType")));
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,"unexistingprocess",RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType"));
+  try {
+    client.get();
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Could not find a process instance with id 'unexistingprocess'.",expected.getStatus().getDescription());
+  }
+}
