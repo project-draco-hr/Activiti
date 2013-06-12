@@ -1,0 +1,16 @@
+{
+  if (authenticate() == false)   return null;
+  ProcessEngineInfoResponse response=new ProcessEngineInfoResponse();
+  ProcessEngineInfo engineInfo=ActivitiUtil.getProcessEngineInfo();
+  if (engineInfo != null) {
+    response.setName(engineInfo.getName());
+    response.setResourceUrl(engineInfo.getResourceUrl());
+    response.setException(engineInfo.getException());
+  }
+ else {
+    ProcessEngine engine=ActivitiUtil.getProcessEngine();
+    response.setName(engine.getName());
+  }
+  response.setVersion(ProcessEngine.VERSION);
+  return response;
+}
