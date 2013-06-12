@@ -1,4 +1,10 @@
 {
+  try {
+    Thread.sleep(Long.MAX_VALUE);
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+  }
   assertTrue(identityService.checkPassword("kermit","pass"));
   assertFalse(identityService.checkPassword("kermit","blah"));
 }

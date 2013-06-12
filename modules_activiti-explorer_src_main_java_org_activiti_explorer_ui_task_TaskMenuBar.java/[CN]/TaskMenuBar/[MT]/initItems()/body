@@ -17,20 +17,18 @@
   }
 );
   tasksEntry.setCount(tasksCount);
-  List<Group> groups=identityService.createGroupQuery().groupMember(user.getId()).list();
+  List<Group> groups=user.getGroups();
   ToolbarPopupEntry queuedItem=addPopupEntry(ENTRY_QUEUED,(i18nManager.getMessage(Messages.TASK_MENU_QUEUED)));
   long queuedCount=0;
   for (  final Group group : groups) {
-    if (group.getType().equals("assignment")) {
-      long groupCount=new QueuedListQuery(group.getId()).size();
-      queuedItem.addMenuItem(group.getName() + " (" + groupCount+ ")",new ToolbarCommand(){
-        public void toolBarItemSelected(){
-          viewManager.showQueuedPage(group.getId());
-        }
+    long groupCount=new QueuedListQuery(group.getId()).size();
+    queuedItem.addMenuItem(group.getName() + " (" + groupCount+ ")",new ToolbarCommand(){
+      public void toolBarItemSelected(){
+        viewManager.showQueuedPage(group.getId());
       }
-);
-      queuedCount+=groupCount;
     }
+);
+    queuedCount+=groupCount;
   }
   queuedItem.setCount(queuedCount);
   long involvedCount=new InvolvedListQuery().size();

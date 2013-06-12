@@ -1,3 +1,8 @@
 {
-  throw new ActivitiException("LDAP group manager doesn't support querying");
+  if (query.getUserId() != null) {
+    return findGroupsByUser(query.getUserId());
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("This query is not supported by the LDAPGroupManager");
+  }
 }

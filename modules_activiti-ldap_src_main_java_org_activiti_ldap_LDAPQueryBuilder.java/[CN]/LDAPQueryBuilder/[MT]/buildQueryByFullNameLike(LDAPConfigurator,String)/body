@@ -1,0 +1,10 @@
+{
+  String searchExpression=null;
+  if (ldapConfigurator.getQueryUserByFullNameLike() != null) {
+    searchExpression=MessageFormat.format(ldapConfigurator.getQueryUserByFullNameLike(),ldapConfigurator.getUserFirstNameAttribute(),searchText,ldapConfigurator.getUserLastNameAttribute(),searchText);
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("No 'queryUserByFullNameLike' configured");
+  }
+  return searchExpression;
+}

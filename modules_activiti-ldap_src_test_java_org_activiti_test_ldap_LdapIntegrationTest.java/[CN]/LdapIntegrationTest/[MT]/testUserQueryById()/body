@@ -1,0 +1,12 @@
+{
+  List<User> users=identityService.createUserQuery().userId("kermit").list();
+  assertEquals(1,users.size());
+  User user=users.get(0);
+  assertEquals("kermit",user.getId());
+  assertEquals("Kermit",user.getFirstName());
+  assertEquals("The Frog",user.getLastName());
+  user=identityService.createUserQuery().userId("fozzie").singleResult();
+  assertEquals("fozzie",user.getId());
+  assertEquals("Fozzie",user.getFirstName());
+  assertEquals("Bear",user.getLastName());
+}
