@@ -1,3 +1,8 @@
 {
-  return ProcessEngines.getDefaultProcessEngine();
+  if (activitiProvider != null) {
+    return activitiProvider.getProcessEngine();
+  }
+ else {
+    return ProcessEngines.getDefaultProcessEngine();
+  }
 }
