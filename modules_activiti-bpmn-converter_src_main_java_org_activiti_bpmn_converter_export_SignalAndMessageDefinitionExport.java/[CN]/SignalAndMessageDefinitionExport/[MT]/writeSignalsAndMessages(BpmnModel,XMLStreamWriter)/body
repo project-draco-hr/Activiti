@@ -33,7 +33,7 @@
   for (  Message message : model.getMessages()) {
     xtw.writeStartElement(ELEMENT_MESSAGE);
     String messageId=message.getId();
-    if (messageId.startsWith(model.getTargetNamespace())) {
+    if (model.getTargetNamespace() != null && messageId.startsWith(model.getTargetNamespace())) {
       messageId=messageId.replace(model.getTargetNamespace(),"");
       messageId=messageId.replaceFirst(":","");
     }
