@@ -1,3 +1,35 @@
 {
-  throw new ActivitiException("LDAP user manager doesn't support querying");
+  if (query.getId() != null) {
+    List<User> result=new ArrayList<User>();
+    result.add(findUserById(query.getId()));
+    return result;
+  }
+ else   if (query.getFullNameLike() != null) {
+    LDAPTemplate ldapTemplate=new LDAPTemplate(ldapConfigurator);
+    return ldapTemplate.execute(new LDAPCallBack<List<User>>(){
+      public List<User> executeInContext(      InitialDirContext initialDirContext){
+        List<User> result=new ArrayList<User>();
+        try {
+          String searchExpression=ldapConfigurator.getLdapQueryBuilder().buildQueryByFullNameLike(ldapConfigurator,query.getFullNameLike());
+          NamingEnumeration<?> namingEnum=initialDirContext.search(ldapConfigurator.getBaseDn(),searchExpression,createSearchControls());
+          while (namingEnum.hasMore()) {
+            SearchResult searchResult=(SearchResult)namingEnum.next();
+            UserEntity user=new UserEntity();
+            mapSearchResultToUser(searchResult,user);
+            result.add(user);
+          }
+          namingEnum.close();
+        }
+ catch (        NamingException ne) {
+          logger.debug("Could not execute LDAP query: " + ne.getMessage(),ne);
+          return null;
+        }
+        return result;
+      }
+    }
+);
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Query is currently not supported by LDAPUserManager.");
+  }
 }
