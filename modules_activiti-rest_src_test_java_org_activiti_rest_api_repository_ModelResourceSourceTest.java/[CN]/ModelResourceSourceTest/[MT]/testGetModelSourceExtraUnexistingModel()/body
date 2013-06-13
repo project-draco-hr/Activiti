@@ -1,0 +1,11 @@
+{
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE_EXTRA,"unexisting"));
+  try {
+    client.get();
+    fail("404 expected, but was: " + client.getResponse().getStatus());
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,client.getResponse().getStatus());
+    assertEquals("Could not find a model with id 'unexisting'.",client.getResponse().getStatus().getDescription());
+  }
+}

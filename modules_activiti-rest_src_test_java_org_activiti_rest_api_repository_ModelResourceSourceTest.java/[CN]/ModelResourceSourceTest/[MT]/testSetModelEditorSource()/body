@@ -1,0 +1,21 @@
+{
+  Model model=null;
+  try {
+    model=repositoryService.newModel();
+    model.setName("Model name");
+    repositoryService.saveModel(model);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,model.getId()));
+    Representation response=client.put(new HttpMultipartRepresentation("sourcefile",new ByteArrayInputStream("This is the new editor source".getBytes())));
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    assertEquals(MediaType.APPLICATION_OCTET_STREAM,response.getMediaType());
+    assertEquals("This is the new editor source",response.getText());
+    assertEquals("This is the new editor source",new String(repositoryService.getModelEditorSource(model.getId())));
+  }
+  finally {
+    try {
+      repositoryService.deleteModel(model.getId());
+    }
+ catch (    Throwable ignore) {
+    }
+  }
+}
