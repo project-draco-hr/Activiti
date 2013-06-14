@@ -1,17 +1,29 @@
 {
   TaskResponse response=new TaskResponse(task);
-  response.setUrl(resourceContext.createFullResourceUrl(RestUrls.URL_TASK,task.getId()));
+  response.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK,task.getId()));
   if (response.getParentTaskId() != null) {
-    response.setParentTaskUrl(resourceContext.createFullResourceUrl(RestUrls.URL_TASK,response.getParentTaskId()));
+    response.setParentTaskUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK,response.getParentTaskId()));
   }
   if (response.getProcessDefinitionId() != null) {
-    response.setProcessDefinitionUrl(resourceContext.createFullResourceUrl(RestUrls.URL_PROCESS_DEFINITION,response.getProcessDefinitionId()));
+    response.setProcessDefinitionUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_DEFINITION,response.getProcessDefinitionId()));
   }
   if (response.getExecutionId() != null) {
-    response.setExecutionUrl(resourceContext.createFullResourceUrl(RestUrls.URL_EXECUTION,response.getExecutionId()));
+    response.setExecutionUrl(securedResource.createFullResourceUrl(RestUrls.URL_EXECUTION,response.getExecutionId()));
   }
   if (response.getProcessInstanceId() != null) {
-    response.setProcessInstanceUrl(resourceContext.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,response.getProcessInstanceId()));
+    response.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,response.getProcessInstanceId()));
+  }
+  if (task.getProcessVariables() != null) {
+    Map<String,Object> variableMap=task.getProcessVariables();
+    for (    String name : variableMap.keySet()) {
+      response.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.GLOBAL,task.getId(),VARIABLE_TASK,false));
+    }
+  }
+  if (task.getTaskLocalVariables() != null) {
+    Map<String,Object> variableMap=task.getTaskLocalVariables();
+    for (    String name : variableMap.keySet()) {
+      response.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.LOCAL,task.getId(),VARIABLE_TASK,false));
+    }
   }
   return response;
 }

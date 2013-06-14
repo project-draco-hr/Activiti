@@ -11,7 +11,8 @@
   response.setStartFormDefined(processDefinition.hasStartFormKey());
   ProcessDefinition deployedDefinition=ActivitiUtil.getRepositoryService().getProcessDefinition(processDefinition.getId());
   response.setGraphicalNotationDefined(((ProcessDefinitionEntity)deployedDefinition).isGraphicalNotationDefined());
-  response.setDeployment(resourceContext.createFullResourceUrl(RestUrls.URL_DEPLOYMENT,processDefinition.getDeploymentId()));
+  response.setDeploymentId(processDefinition.getDeploymentId());
+  response.setDeploymentUrl(resourceContext.createFullResourceUrl(RestUrls.URL_DEPLOYMENT,processDefinition.getDeploymentId()));
   response.setResource(resourceContext.createFullResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,processDefinition.getDeploymentId(),processDefinition.getResourceName()));
   if (processDefinition.getDiagramResourceName() != null) {
     response.setDiagramResource(resourceContext.createFullResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName()));
