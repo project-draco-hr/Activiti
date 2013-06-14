@@ -1,0 +1,86 @@
+{
+  Map<String,Object> variableMap=new HashMap<String,Object>();
+  variableMap.put("SpeakerName","John Doe");
+  Address address=new Address();
+  variableMap.put("address",address);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",variableMap);
+  String processInstanceId=processInstance.getId();
+  String processDefinitionId=processInstance.getProcessDefinitionId();
+  Task task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("taskId",task.getId());
+  ArrayNode propertyArray=objectMapper.createArrayNode();
+  requestNode.put("properties",propertyArray);
+  ObjectNode propNode=objectMapper.createObjectNode();
+  propNode.put("id","room");
+  propNode.put("value",123l);
+  propertyArray.add(propNode);
+  try {
+    client.post(requestNode);
+  }
+ catch (  Exception e) {
+    assertEquals(Status.SERVER_ERROR_INTERNAL,client.getResponse().getStatus());
+  }
+  propNode=objectMapper.createObjectNode();
+  propNode.put("id","street");
+  propNode.put("value","test");
+  propertyArray.add(propNode);
+  client.post(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+  assertNull(task);
+  processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+  assertNull(processInstance);
+  List<HistoricVariableInstance> variables=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).list();
+  Map<String,HistoricVariableInstance> historyMap=new HashMap<String,HistoricVariableInstance>();
+  for (  HistoricVariableInstance historicVariableInstance : variables) {
+    historyMap.put(historicVariableInstance.getVariableName(),historicVariableInstance);
+  }
+  assertEquals("123",historyMap.get("room").getValue());
+  assertEquals(processInstanceId,historyMap.get("room").getProcessInstanceId());
+  processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",variableMap);
+  processInstanceId=processInstance.getId();
+  task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+  requestNode.put("taskId",task.getId());
+  propNode=objectMapper.createObjectNode();
+  propNode.put("id","direction");
+  propNode.put("value","nowhere");
+  propertyArray.add(propNode);
+  try {
+    client.post(requestNode);
+  }
+ catch (  Exception e) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,client.getResponse().getStatus());
+  }
+  propNode.put("value","up");
+  client.post(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+  assertNull(task);
+  processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+  assertNull(processInstance);
+  variables=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).list();
+  historyMap.clear();
+  for (  HistoricVariableInstance historicVariableInstance : variables) {
+    historyMap.put(historicVariableInstance.getVariableName(),historicVariableInstance);
+  }
+  assertEquals("123",historyMap.get("room").getValue());
+  assertEquals(processInstanceId,historyMap.get("room").getProcessInstanceId());
+  assertEquals("up",historyMap.get("direction").getValue());
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processDefinitionId",processDefinitionId);
+  propertyArray=objectMapper.createArrayNode();
+  requestNode.put("properties",propertyArray);
+  propNode=objectMapper.createObjectNode();
+  propNode.put("id","number");
+  propNode.put("value",123);
+  propertyArray.add(propNode);
+  Representation response=client.post(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode.get("id").asText());
+  assertEquals(processDefinitionId,responseNode.get("processDefinitionId").asText());
+  task=taskService.createTaskQuery().processInstanceId(responseNode.get("id").asText()).singleResult();
+  assertNotNull(task);
+}

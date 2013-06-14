@@ -10,6 +10,10 @@
   router.attach("/repository/process-definitions/{processDefinitionId}/model",ProcessDefinitionModelResource.class);
   router.attach("/repository/process-definitions/{processDefinitionId}/identitylinks",ProcessDefinitionIdentityLinkCollectionResource.class);
   router.attach("/repository/process-definitions/{processDefinitionId}/identitylinks/{family}/{identityId}",ProcessDefinitionIdentityLinkResource.class);
+  router.attach("/repository/models",ModelCollectionResource.class);
+  router.attach("/repository/models/{modelId}",ModelResource.class);
+  router.attach("/repository/models/{modelId}/source",ModelSourceResource.class);
+  router.attach("/repository/models/{modelId}/source-extra",ModelSourceExtraResource.class);
   router.attach("/runtime/tasks",TaskCollectionResource.class);
   router.attach("/runtime/tasks/{taskId}",TaskResource.class);
   router.attach("/runtime/tasks/{taskId}/variables",TaskVariableCollectionResource.class);
@@ -58,6 +62,7 @@
   router.attach("/management/jobs/{jobId}/exception-stacktrace",JobExceptionStacktraceResource.class);
   router.attach("/management/properties",PropertiesCollectionResource.class);
   router.attach("/management/engine",ProcessEngineResource.class);
+  router.attach("/form/form-data",FormDataResource.class);
   router.attach("/identity/users",UserCollectionResource.class);
   router.attach("/identity/users/{userId}",UserResource.class);
   router.attach("/identity/users/{userId}/picture",UserPictureResource.class);
