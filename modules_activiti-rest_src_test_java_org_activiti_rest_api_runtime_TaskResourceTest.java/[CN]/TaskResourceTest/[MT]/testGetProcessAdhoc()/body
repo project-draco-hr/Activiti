@@ -28,10 +28,10 @@
     assertEquals(task.getCreateTime(),getDateFromISOString(responseNode.get("createTime").asText()));
     assertEquals(task.getPriority(),responseNode.get("priority").asInt());
     assertEquals("resolved",responseNode.get("delegationState").asText());
-    assertTrue(responseNode.get("execution").isNull());
-    assertTrue(responseNode.get("processInstance").isNull());
-    assertTrue(responseNode.get("processDefinition").isNull());
-    assertTrue(responseNode.get("parentTask").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,parentTask.getId())));
+    assertTrue(responseNode.get("executionId").isNull());
+    assertTrue(responseNode.get("processInstanceId").isNull());
+    assertTrue(responseNode.get("processDefinitionId").isNull());
+    assertTrue(responseNode.get("parentTaskUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,parentTask.getId())));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();
