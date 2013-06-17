@@ -36,6 +36,7 @@
   router.attach("/runtime/process-instances/{processInstanceId}/variables/{variableName}/data",ProcessInstanceVariableDataResource.class);
   router.attach("/runtime/process-instances/{processInstanceId}/identitylinks",ProcessInstanceIdentityLinkCollectionResource.class);
   router.attach("/runtime/process-instances/{processInstanceId}/identitylinks/users/{identityId}/{type}",ProcessInstanceIdentityLinkResource.class);
+  router.attach("/runtime/process-instances/{processInstanceId}/diagram",org.activiti.rest.api.runtime.process.ProcessInstanceDiagramResource.class);
   router.attach("/runtime/executions",ExecutionCollectionResource.class);
   router.attach("/runtime/executions/{executionId}",ExecutionResource.class);
   router.attach("/runtime/executions/{executionId}/activities",ExecutionActiveActivitiesCollectionResource.class);
@@ -43,9 +44,11 @@
   router.attach("/runtime/executions/{executionId}/variables/{variableName}",ExecutionVariableResource.class);
   router.attach("/runtime/executions/{executionId}/variables/{variableName}/data",ExecutionVariableDataResource.class);
   router.attach("/history/historic-process-instances/{processInstanceId}",HistoricProcessInstanceResource.class);
+  router.attach("/history/historic-process-instances/{processInstanceId}/identitylinks",HistoricProcessInstanceIdentityLinkCollectionResource.class);
   router.attach("/history/historic-process-instances/{processInstanceId}/variables/{variableName}/data",HistoricProcessInstanceVariableDataResource.class);
   router.attach("/history/historic-process-instances",HistoricProcessInstanceCollectionResource.class);
   router.attach("/history/historic-task-instances/{taskId}",HistoricTaskInstanceResource.class);
+  router.attach("/history/historic-task-instances/{taskId}/identitylinks",HistoricTaskInstanceIdentityLinkCollectionResource.class);
   router.attach("/history/historic-task-instances/{taskId}/variables/{variableName}/data",HistoricTaskInstanceVariableDataResource.class);
   router.attach("/history/historic-task-instances",HistoricTaskInstanceCollectionResource.class);
   router.attach("/history/historic-activity-instances",HistoricActivityInstanceCollectionResource.class);
