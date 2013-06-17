@@ -4,8 +4,8 @@
   router.attachDefault(DefaultResource.class);
   RestServicesInit.attachResources(router);
   JsonpFilter jsonpFilter=new JsonpFilter(getContext());
-  jsonpFilter.setNext(router);
   authenticator.setNext(jsonpFilter);
+  jsonpFilter.setNext(router);
   List<ConverterHelper> registeredConverters=Engine.getInstance().getRegisteredConverters();
   for (  ConverterHelper helper : registeredConverters) {
     if (helper instanceof JacksonConverter) {
