@@ -7,9 +7,7 @@
       throw new ActivitiIllegalArgumentException("Variable value is missing for variable: " + variable.getName());
     }
     boolean nameLess=variable.getName() == null;
-    Object actualValue=variable.getValue();
-    if (variable.getType() != null) {
-    }
+    Object actualValue=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().getVariableValue(variable);
     if (nameLess && variable.getVariableOperation() != QueryVariableOperation.EQUALS) {
       throw new ActivitiIllegalArgumentException("Value-only query (without a variable-name) is only supported when using 'equals' operation.");
     }

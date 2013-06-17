@@ -12,17 +12,7 @@
   List<String> resourceList=ActivitiUtil.getRepositoryService().getDeploymentResourceNames(deploymentId);
   if (resourceList.contains(resourceId)) {
     final InputStream resourceStream=ActivitiUtil.getRepositoryService().getResourceAsStream(deploymentId,resourceId);
-    MediaType mediaType=null;
-    String lowerResourceName=resourceId.toLowerCase();
-    if (lowerResourceName.endsWith("png")) {
-      mediaType=MediaType.IMAGE_PNG;
-    }
- else     if (lowerResourceName.endsWith("xml") || lowerResourceName.endsWith("bpmn")) {
-      mediaType=MediaType.TEXT_XML;
-    }
- else {
-      mediaType=MediaType.APPLICATION_ALL;
-    }
+    MediaType mediaType=getApplication(ActivitiRestServicesApplication.class).getMediaTypeResolver().resolveMediaType(resourceId);
     return new InputRepresentation(resourceStream,mediaType);
   }
  else {
