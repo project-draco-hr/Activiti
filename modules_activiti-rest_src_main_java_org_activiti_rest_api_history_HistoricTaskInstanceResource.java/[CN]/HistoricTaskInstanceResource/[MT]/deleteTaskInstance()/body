@@ -1,0 +1,10 @@
+{
+  if (!authenticate()) {
+    return;
+  }
+  String taskId=getAttribute("taskId");
+  if (taskId == null) {
+    throw new ActivitiIllegalArgumentException("The taskId cannot be null");
+  }
+  ActivitiUtil.getHistoryService().deleteHistoricTaskInstance(taskId);
+}
