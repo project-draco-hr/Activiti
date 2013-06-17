@@ -3,7 +3,12 @@
   relatedContentLayout.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
   addComponent(relatedContentLayout);
   initRelatedContentTitle();
-  List<Attachment> attachments=taskService.getTaskAttachments(historicTask.getId());
+  List<Attachment> attachments=new ArrayList<Attachment>();
+  attachments.addAll(taskService.getTaskAttachments(historicTask.getId()));
+  if (historicTask.getProcessInstanceId() != null) {
+    System.out.println("BIEP : " + taskService.getProcessInstanceAttachments(historicTask.getProcessInstanceId()).size());
+    attachments.addAll(taskService.getProcessInstanceAttachments(historicTask.getProcessInstanceId()));
+  }
   if (attachments.size() > 0) {
     Table table=initRelatedContentTable();
     populateRelatedContent(table,attachments);
