@@ -28,5 +28,8 @@
   if (getQueryParameter("subProcessInstanceId",urlQuery) != null) {
     queryRequest.setSubProcessInstanceId(getQueryParameter("subProcessInstanceId",urlQuery));
   }
+  if (getQueryParameter("excludeSubprocesses",urlQuery) != null) {
+    queryRequest.setExcludeSubprocesses(getQueryParameterAsBoolean("excludeSubprocesses",urlQuery));
+  }
   return getQueryResponse(queryRequest,urlQuery);
 }

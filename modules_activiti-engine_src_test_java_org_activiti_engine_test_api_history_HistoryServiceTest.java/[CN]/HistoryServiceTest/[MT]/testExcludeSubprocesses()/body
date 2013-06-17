@@ -1,0 +1,8 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("orderProcess");
+  HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().excludeSubprocesses(true).singleResult();
+  assertNotNull(historicProcessInstance);
+  assertEquals(pi.getId(),historicProcessInstance.getId());
+  List<HistoricProcessInstance> instanceList=historyService.createHistoricProcessInstanceQuery().excludeSubprocesses(false).list();
+  assertEquals(2,instanceList.size());
+}
