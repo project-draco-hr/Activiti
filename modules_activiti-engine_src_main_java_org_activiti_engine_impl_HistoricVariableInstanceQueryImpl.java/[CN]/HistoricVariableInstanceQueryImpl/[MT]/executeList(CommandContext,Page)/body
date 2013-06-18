@@ -2,11 +2,9 @@
   checkQueryOk();
   ensureVariablesInitialized();
   List<HistoricVariableInstance> historicVariableInstances=commandContext.getHistoricVariableInstanceEntityManager().findHistoricVariableInstancesByQueryCriteria(this,page);
-  if (historicVariableInstances != null) {
-    for (    HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
-      if (historicVariableInstance instanceof HistoricVariableInstanceEntity) {
-        ((HistoricVariableInstanceEntity)historicVariableInstance).getByteArrayValue();
-      }
+  for (  HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
+    if (historicVariableInstance instanceof HistoricVariableInstanceEntity) {
+      ((HistoricVariableInstanceEntity)historicVariableInstance).getBytes();
     }
   }
   return historicVariableInstances;

@@ -1,14 +1,11 @@
 {
   UserEntity user=findUserById(userId);
   if (user != null) {
-    if (user.getPictureByteArrayId() != null) {
-      getByteArrayManager().deleteByteArrayById(user.getPictureByteArrayId());
-    }
     List<IdentityInfoEntity> identityInfos=getDbSqlSession().selectList("selectIdentityInfoByUserId",userId);
     for (    IdentityInfoEntity identityInfo : identityInfos) {
       getIdentityInfoManager().deleteIdentityInfo(identityInfo);
     }
     getDbSqlSession().delete("deleteMembershipsByUserId",userId);
-    getDbSqlSession().delete(user);
+    user.delete();
   }
 }

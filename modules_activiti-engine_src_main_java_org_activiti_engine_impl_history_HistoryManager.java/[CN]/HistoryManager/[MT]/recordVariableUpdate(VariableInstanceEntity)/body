@@ -8,8 +8,7 @@
       historicProcessVariable.copyValue(variable);
     }
  else {
-      historicProcessVariable=new HistoricVariableInstanceEntity(variable);
-      getDbSqlSession().insert(historicProcessVariable);
+      HistoricVariableInstanceEntity.copyAndInsert(variable);
     }
   }
 }

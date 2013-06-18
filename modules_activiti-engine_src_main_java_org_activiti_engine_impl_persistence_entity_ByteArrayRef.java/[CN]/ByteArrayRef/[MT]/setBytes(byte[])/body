@@ -1,0 +1,12 @@
+{
+  if (id == null) {
+    if (bytes != null) {
+      entity=ByteArrayEntity.createAndInsert(name,bytes);
+      id=entity.getId();
+    }
+  }
+ else {
+    ensureInitialized();
+    entity.setBytes(bytes);
+  }
+}
