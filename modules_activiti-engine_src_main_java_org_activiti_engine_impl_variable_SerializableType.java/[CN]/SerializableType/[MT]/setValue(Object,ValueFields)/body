@@ -1,7 +1,7 @@
 {
   byte[] byteArray=serialize(value,valueFields);
   valueFields.setCachedValue(value);
-  if (valueFields.getByteArrayValue() == null) {
+  if (valueFields.getBytes() == null) {
     if (valueFields instanceof VariableInstanceEntity) {
       Context.getCommandContext().getDbSqlSession().addDeserializedObject(valueFields.getCachedValue(),byteArray,(VariableInstanceEntity)valueFields);
     }

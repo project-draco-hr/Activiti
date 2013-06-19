@@ -4,8 +4,8 @@
     ensureVariableInstancesInitialized();
     VariableInstanceEntity variableInstance=variableInstances.remove(variableName);
     if (variableInstance != null) {
-      variableInstance.delete();
       Context.getCommandContext().getHistoryManager().recordVariableUpdate(variableInstance);
+      variableInstance.delete();
     }
   }
 }
