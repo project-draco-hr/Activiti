@@ -3,16 +3,16 @@
     return null;
   }
   ByteArrayOutputStream baos=new ByteArrayOutputStream();
-  ObjectOutputStream ois=null;
+  ObjectOutputStream oos=null;
   try {
-    ois=createObjectOutputStream(baos);
-    ois.writeObject(value);
+    oos=createObjectOutputStream(baos);
+    oos.writeObject(value);
   }
  catch (  Exception e) {
     throw new ActivitiException("Couldn't serialize value '" + value + "' in variable '"+ valueFields.getName()+ "'",e);
   }
  finally {
-    IoUtil.closeSilently(ois);
+    IoUtil.closeSilently(oos);
   }
   return baos.toByteArray();
 }

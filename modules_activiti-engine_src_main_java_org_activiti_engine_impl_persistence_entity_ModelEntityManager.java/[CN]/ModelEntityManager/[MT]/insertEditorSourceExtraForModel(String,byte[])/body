@@ -1,16 +1,10 @@
 {
   ModelEntity model=findModelById(modelId);
   if (model != null) {
-    ByteArrayEntity byteArrayValue=null;
-    if (model.getEditorSourceExtraValueId() != null) {
-      Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(model.getEditorSourceExtraValueId());
-    }
-    if (modelSource != null) {
-      byteArrayValue=new ByteArrayEntity(modelSource);
-      Context.getCommandContext().getDbSqlSession().insert(byteArrayValue);
-    }
-    if (byteArrayValue != null) {
-      model.setEditorSourceExtraValueId(byteArrayValue.getId());
+    ByteArrayRef ref=new ByteArrayRef(model.getEditorSourceExtraValueId());
+    ref.setValue("source-extra",modelSource);
+    if (model.getEditorSourceExtraValueId() == null) {
+      model.setEditorSourceExtraValueId(ref.getId());
       updateModel(model);
     }
   }

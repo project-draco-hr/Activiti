@@ -1,8 +1,8 @@
 {
-  if (deserializedObject == variableInstanceEntity.getCachedValue()) {
+  if (deserializedObject == variableInstanceEntity.getCachedValue() && !variableInstanceEntity.isDeleted()) {
     byte[] bytes=SerializableType.serialize(deserializedObject,variableInstanceEntity);
     if (!Arrays.equals(originalBytes,bytes)) {
-      variableInstanceEntity.getByteArrayValue().setBytes(bytes);
+      variableInstanceEntity.setBytes(bytes);
     }
   }
 }

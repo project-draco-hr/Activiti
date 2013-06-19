@@ -1,9 +1,7 @@
 {
   for (  DeleteOperation deleteOperation : deleteOperations) {
-    if (deleteOperation instanceof DeletePersistentObjectOperation) {
-      if (((DeletePersistentObjectOperation)deleteOperation).getPersistentObject().equals(persistentObject)) {
-        return true;
-      }
+    if (deleteOperation.sameIdentity(persistentObject)) {
+      return true;
     }
   }
   return false;

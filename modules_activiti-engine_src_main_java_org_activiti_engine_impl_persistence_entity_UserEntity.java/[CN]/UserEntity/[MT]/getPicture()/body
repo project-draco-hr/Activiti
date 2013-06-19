@@ -1,11 +1,6 @@
 {
-  if (pictureByteArrayId == null) {
-    return null;
+  if (pictureByteArrayRef.getId() != null) {
+    return new Picture(pictureByteArrayRef.getBytes(),pictureByteArrayRef.getName());
   }
-  ByteArrayEntity pictureByteArray=getPictureByteArray();
-  Picture picture=null;
-  if (pictureByteArray != null) {
-    picture=new Picture(pictureByteArray.getBytes(),pictureByteArray.getName());
-  }
-  return picture;
+  return null;
 }
