@@ -1,3 +1,12 @@
 {
-  commandExecutor.execute(commandContext.getFailedJobCommandFactory().getCommand(jobId,exception));
+  try {
+    commandExecutor.execute(commandContext.getFailedJobCommandFactory().getCommand(jobId,exception));
+  }
+ catch (  Throwable t) {
+    log.log(Level.SEVERE,"Error while executing command when job is failed for job: '" + jobId + "'.",t);
+    if (t instanceof RuntimeException) {
+      throw (RuntimeException)t;
+    }
+    throw new RuntimeException(t);
+  }
 }
