@@ -25,14 +25,20 @@
   assertEquals(serializable,variables.get("serializableVar"));
   assertTrue(Arrays.equals(bytes,(byte[])variables.get("bytesVar")));
   assertEquals(8,variables.size());
+  String oldSerializableVarId=getVariableInstanceId(processInstance.getId(),"serializableVar");
+  String oldLongVar=getVariableInstanceId(processInstance.getId(),"longVar");
   Map<String,Object> newVariables=new HashMap<String,Object>();
   newVariables.put("serializableVar",(short)222);
   runtimeService.setVariables(processInstance.getId(),newVariables);
   variables=runtimeService.getVariables(processInstance.getId());
   assertEquals((short)222,variables.get("serializableVar"));
+  String newSerializableVarId=getVariableInstanceId(processInstance.getId(),"serializableVar");
+  assertEquals(oldSerializableVarId,newSerializableVarId);
   newVariables=new HashMap<String,Object>();
   newVariables.put("longVar",(short)123);
   runtimeService.setVariables(processInstance.getId(),newVariables);
   variables=runtimeService.getVariables(processInstance.getId());
   assertEquals((short)123,variables.get("longVar"));
+  String newLongVar=getVariableInstanceId(processInstance.getId(),"longVar");
+  assertEquals(oldLongVar,newLongVar);
 }
