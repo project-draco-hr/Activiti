@@ -1,0 +1,7 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("basicType",new DummySerializable());
+  runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  Task task=taskService.createTaskQuery().includeProcessVariables().singleResult();
+  assertNotNull(task.getProcessVariables());
+}
