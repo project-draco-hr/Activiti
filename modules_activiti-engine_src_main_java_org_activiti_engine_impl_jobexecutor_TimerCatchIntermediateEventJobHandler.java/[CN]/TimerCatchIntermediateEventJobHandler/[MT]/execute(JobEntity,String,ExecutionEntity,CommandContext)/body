@@ -10,11 +10,15 @@
     execution.signal(null,null);
   }
  catch (  RuntimeException e) {
+    LogMDC.putMDCExecution(execution);
     log.error("exception during timer execution",e);
+    LogMDC.clear();
     throw e;
   }
 catch (  Exception e) {
+    LogMDC.putMDCExecution(execution);
     log.error("exception during timer execution",e);
+    LogMDC.clear();
     throw new ActivitiException("exception during timer execution: " + e.getMessage(),e);
   }
 }
