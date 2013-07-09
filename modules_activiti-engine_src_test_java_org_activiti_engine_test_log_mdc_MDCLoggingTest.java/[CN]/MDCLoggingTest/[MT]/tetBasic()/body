@@ -1,0 +1,12 @@
+{
+  Assert.assertEquals("1","1");
+  PowerMockito.mockStatic(LoggerFactory.class);
+  ArgumentCaptor<org.apache.log4j.Logger> captor=ArgumentCaptor.forClass(org.apache.log4j.Logger.class);
+  Log4jLoggerAdapter logger=(Log4jLoggerAdapter)LoggerFactory.getLogger(String.class);
+  PowerMockito.verifyStatic();
+  LoggerFactory.getLogger(String.class);
+  System.out.println(captor.getValue());
+  logger.debug("test");
+  final Appender mockAppender=mock(Appender.class);
+  logger.error("Hello");
+}
