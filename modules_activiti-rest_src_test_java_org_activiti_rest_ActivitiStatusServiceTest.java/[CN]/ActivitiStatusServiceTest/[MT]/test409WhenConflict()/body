@@ -1,0 +1,8 @@
+{
+  Status status=statusService.getStatus(new ActivitiTaskAlreadyClaimedException("id","assignee"),null);
+  assertNotNull(status);
+  assertEquals(Status.CLIENT_ERROR_CONFLICT,status);
+  status=statusService.getStatus(new ActivitiOptimisticLockingException("testing"),null);
+  assertNotNull(status);
+  assertEquals(Status.CLIENT_ERROR_CONFLICT,status);
+}
