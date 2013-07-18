@@ -1,0 +1,11 @@
+{
+  String groupId=getAttribute("groupId");
+  if (groupId == null) {
+    throw new ActivitiIllegalArgumentException("The groupId cannot be null");
+  }
+  Group group=ActivitiUtil.getIdentityService().createGroupQuery().groupId(groupId).singleResult();
+  if (group == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a group with id '" + groupId + "'.",User.class);
+  }
+  return group;
+}

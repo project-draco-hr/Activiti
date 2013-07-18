@@ -1,14 +1,14 @@
 {
-  UserCache userCache=ExplorerApp.get().getUserCache();
-  User user=userCache.findUser(event.getUserId());
+  IdentityService identityService=ProcessEngines.getDefaultProcessEngine().getIdentityService();
+  User user=identityService.createUserQuery().userId(event.getUserId()).singleResult();
   String eventAuthor="<span class='" + ExplorerLayout.STYLE_TASK_EVENT_AUTHOR + "'>"+ user.getFirstName()+ " "+ user.getLastName()+ "</span> ";
   String text=null;
   if (Event.ACTION_ADD_USER_LINK.equals(event.getAction())) {
-    User involvedUser=userCache.findUser(event.getMessageParts().get(0));
+    User involvedUser=identityService.createUserQuery().userId(event.getMessageParts().get(0)).singleResult();
     text=i18nManager.getMessage(Messages.EVENT_ADD_USER_LINK,eventAuthor,involvedUser.getFirstName() + " " + involvedUser.getLastName(),event.getMessageParts().get(1));
   }
  else   if (Event.ACTION_DELETE_USER_LINK.equals(event.getAction())) {
-    User involvedUser=userCache.findUser(event.getMessageParts().get(0));
+    User involvedUser=identityService.createUserQuery().userId(event.getMessageParts().get(0)).singleResult();
     text=i18nManager.getMessage(Messages.EVENT_DELETE_USER_LINK,eventAuthor,involvedUser.getFirstName() + " " + involvedUser.getLastName(),event.getMessageParts().get(1));
   }
  else   if (Event.ACTION_ADD_GROUP_LINK.equals(event.getAction())) {

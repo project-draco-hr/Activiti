@@ -1,5 +1,10 @@
 {
   ensureVariablesInitialized();
   checkQueryOk();
-  return commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesByQueryCriteria(this,page);
+  if (includeTaskLocalVariables || includeProcessVariables) {
+    return commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesAndVariablesByQueryCriteria(this,page);
+  }
+ else {
+    return commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesByQueryCriteria(this,page);
+  }
 }

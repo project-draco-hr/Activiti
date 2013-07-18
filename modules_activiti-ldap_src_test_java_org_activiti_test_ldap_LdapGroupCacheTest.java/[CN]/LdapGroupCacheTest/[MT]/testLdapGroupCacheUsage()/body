@@ -1,0 +1,15 @@
+{
+  runtimeService.startProcessInstanceByKey("testLdapGroupCache");
+  assertEquals(1,taskService.createTaskQuery().taskCandidateUser("kermit").count());
+  assertEquals("kermit",cacheListener.getLastCacheMiss());
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateUser("pepe").count());
+  assertEquals("pepe",cacheListener.getLastCacheMiss());
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateUser("kermit").count());
+  assertEquals("kermit",cacheListener.getLastCacheHit());
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+  assertEquals(1,taskService.createTaskQuery().taskCandidateUser("fozzie").count());
+  assertEquals("fozzie",cacheListener.getLastCacheMiss());
+  assertEquals("pepe",cacheListener.getLastCacheEviction());
+}

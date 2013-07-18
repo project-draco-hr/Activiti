@@ -1,0 +1,96 @@
+{
+  if (!authenticate()) {
+    return null;
+  }
+  TaskQueryRequest request=new TaskQueryRequest();
+  Form query=getQuery();
+  Set<String> names=query.getNames();
+  if (names.contains("name")) {
+    request.setName(getQueryParameter("name",query));
+  }
+  if (names.contains("nameLike")) {
+    request.setNameLike(getQueryParameter("nameLike",query));
+  }
+  if (names.contains("description")) {
+    request.setDescription(getQueryParameter("description",query));
+  }
+  if (names.contains("descriptionLike")) {
+    request.setDescriptionLike(getQueryParameter("descriptionLike",query));
+  }
+  if (names.contains("priority")) {
+    request.setPriority(getQueryParameterAsInt("priority",query));
+  }
+  if (names.contains("minimumPriority")) {
+    request.setMinimumPriority(getQueryParameterAsInt("minimumPriority",query));
+  }
+  if (names.contains("maximumPriority")) {
+    request.setMaximumPriority(getQueryParameterAsInt("maximumPriority",query));
+  }
+  if (names.contains("assignee")) {
+    request.setAssignee(getQueryParameter("assignee",query));
+  }
+  if (names.contains("owner")) {
+    request.setOwner(getQueryParameter("owner",query));
+  }
+  if (names.contains("unassigned")) {
+    request.setUnassigned(getQueryParameterAsBoolean("unassigned",query));
+  }
+  if (names.contains("delegationState")) {
+    request.setDelegationState(getQueryParameter("delegationState",query));
+  }
+  if (names.contains("candidateUser")) {
+    request.setCandidateUser(getQueryParameter("candidateUser",query));
+  }
+  if (names.contains("involvedUser")) {
+    request.setInvolvedUser(getQueryParameter("involvedUser",query));
+  }
+  if (names.contains("candidateGroup")) {
+    request.setCandidateGroup(getQueryParameter("candidateGroup",query));
+  }
+  if (names.contains("processInstanceId")) {
+    request.setProcessInstanceId(getQueryParameter("processInstanceId",query));
+  }
+  if (names.contains("processInstanceBusinessKey")) {
+    request.setProcessInstanceBusinessKey(getQueryParameter("processInstanceBusinessKey",query));
+  }
+  if (names.contains("executionId")) {
+    request.setExecutionId(getQueryParameter("executionId",query));
+  }
+  if (names.contains("createdOn")) {
+    request.setCreatedOn(getQueryParameterAsDate("createdOn",query));
+  }
+  if (names.contains("createdBefore")) {
+    request.setCreatedBefore(getQueryParameterAsDate("createdBefore",query));
+  }
+  if (names.contains("createdAfter")) {
+    request.setCreatedAfter(getQueryParameterAsDate("createdAfter",query));
+  }
+  if (names.contains("excludeSubTasks")) {
+    request.setExcludeSubTasks(getQueryParameterAsBoolean("excludeSubTasks",query));
+  }
+  if (names.contains("taskDefinitionKey")) {
+    request.setTaskDefinitionKey(getQueryParameter("taskDefinitionKey",query));
+  }
+  if (names.contains("taskDefinitionKeyLike")) {
+    request.setTaskDefinitionKeyLike(getQueryParameter("taskDefinitionKeyLike",query));
+  }
+  if (names.contains("dueDate")) {
+    request.setDueDate(getQueryParameterAsDate("dueDate",query));
+  }
+  if (names.contains("dueBefore")) {
+    request.setDueBefore(getQueryParameterAsDate("dueBefore",query));
+  }
+  if (names.contains("dueAfter")) {
+    request.setDueAfter(getQueryParameterAsDate("dueAfter",query));
+  }
+  if (names.contains("active")) {
+    request.setActive(getQueryParameterAsBoolean("active",query));
+  }
+  if (names.contains("includeTaskLocalVariables")) {
+    request.setIncludeTaskLocalVariables(getQueryParameterAsBoolean("includeTaskLocalVariables",query));
+  }
+  if (names.contains("includeProcessVariables")) {
+    request.setIncludeProcessVariables(getQueryParameterAsBoolean("includeProcessVariables",query));
+  }
+  return getTasksFromQueryRequest(request);
+}

@@ -1,9 +1,0 @@
-{
-  if (authenticate() == false)   return null;
-  String groupId=(String)getRequest().getAttributes().get("groupId");
-  if (groupId == null) {
-    throw new ActivitiIllegalArgumentException("No groupId provided");
-  }
-  DataResponse dataResponse=new GroupUsersPaginateList().paginateList(getQuery(),ActivitiUtil.getIdentityService().createUserQuery().memberOfGroup(groupId),"id",properties);
-  return dataResponse;
-}

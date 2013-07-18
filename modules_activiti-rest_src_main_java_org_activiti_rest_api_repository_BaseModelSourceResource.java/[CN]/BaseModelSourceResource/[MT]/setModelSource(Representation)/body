@@ -1,0 +1,30 @@
+{
+  if (authenticate() == false)   return null;
+  Model model=getModelFromRequest();
+  if (!MediaType.MULTIPART_FORM_DATA.isCompatible(representation.getMediaType())) {
+    throw new ResourceException(Status.CLIENT_ERROR_UNSUPPORTED_MEDIA_TYPE.getCode(),"The request should be of type 'multipart/form-data'.",null,null);
+  }
+  RestletFileUpload upload=new RestletFileUpload(new DiskFileItemFactory());
+  try {
+    FileItem uploadItem=null;
+    List<FileItem> items=upload.parseRepresentation(representation);
+    for (    FileItem fileItem : items) {
+      uploadItem=fileItem;
+    }
+    if (uploadItem == null) {
+      throw new ActivitiIllegalArgumentException("No file content was found in request body.");
+    }
+    int size=((Long)uploadItem.getSize()).intValue();
+    ByteArrayOutputStream bytesOutput=new ByteArrayOutputStream(size);
+    IOUtils.copy(uploadItem.getInputStream(),bytesOutput);
+    byte[] byteArray=bytesOutput.toByteArray();
+    setModelSource(model,byteArray);
+    return new InputRepresentation(new ByteArrayInputStream(byteArray),MediaType.APPLICATION_OCTET_STREAM);
+  }
+ catch (  FileUploadException e) {
+    throw new ActivitiException("Error with uploaded file: " + e.getMessage(),e);
+  }
+catch (  IOException e) {
+    throw new ActivitiException("Error while reading uploaded file: " + e.getMessage(),e);
+  }
+}

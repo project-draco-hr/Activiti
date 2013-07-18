@@ -1,0 +1,8 @@
+{
+  super.setUp();
+  LDAPGroupManagerFactory ldapGroupManagerFactory=(LDAPGroupManagerFactory)processEngineConfiguration.getSessionFactories().get(GroupIdentityManager.class);
+  LDAPGroupCache ldapGroupCache=ldapGroupManagerFactory.getLdapGroupCache();
+  ldapGroupCache.clear();
+  cacheListener=new TestLDAPGroupCacheListener();
+  ldapGroupCache.setLdapCacheListener(cacheListener);
+}

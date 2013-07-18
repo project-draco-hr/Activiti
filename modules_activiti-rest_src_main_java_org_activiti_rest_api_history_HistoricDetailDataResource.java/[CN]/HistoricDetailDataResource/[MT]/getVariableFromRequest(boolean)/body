@@ -1,0 +1,20 @@
+{
+  String detailId=getAttribute("detailId");
+  if (detailId == null) {
+    throw new ActivitiIllegalArgumentException("The detailId cannot be null");
+  }
+  Object value=null;
+  HistoricVariableUpdate variableUpdate=null;
+  HistoricDetail detailObject=ActivitiUtil.getHistoryService().createHistoricDetailQuery().id(detailId).singleResult();
+  if (detailObject != null && detailObject instanceof HistoricVariableUpdate) {
+    variableUpdate=(HistoricVariableUpdate)detailObject;
+    value=variableUpdate.getValue();
+  }
+  if (value == null) {
+    throw new ActivitiObjectNotFoundException("Historic detail '" + detailId + "' doesn't have a variable value.",VariableInstanceEntity.class);
+  }
+ else {
+    RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+    return responseFactory.createRestVariable(this,variableUpdate.getVariableName(),value,null,detailId,RestResponseFactory.VARIABLE_HISTORY_DETAIL,includeBinary);
+  }
+}

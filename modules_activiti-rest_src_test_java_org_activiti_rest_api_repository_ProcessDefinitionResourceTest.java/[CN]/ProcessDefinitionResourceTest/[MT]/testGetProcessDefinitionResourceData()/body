@@ -1,0 +1,9 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_RESOURCE_CONTENT,processDefinition.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  String content=response.getText();
+  assertNotNull(content);
+  assertTrue(content.contains("The One Task Process"));
+}

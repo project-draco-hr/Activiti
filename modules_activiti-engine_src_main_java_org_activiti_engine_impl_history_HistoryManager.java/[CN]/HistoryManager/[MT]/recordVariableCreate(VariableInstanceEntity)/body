@@ -1,6 +1,5 @@
 {
   if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
-    HistoricVariableInstanceEntity historicVariableInstance=new HistoricVariableInstanceEntity(variable);
-    getDbSqlSession().insert(historicVariableInstance);
+    HistoricVariableInstanceEntity.copyAndInsert(variable);
   }
 }

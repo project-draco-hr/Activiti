@@ -6,7 +6,7 @@
   List<Execution> concurrentExecutions=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).list();
   assertEquals(3,concurrentExecutions.size());
   for (  Execution execution : concurrentExecutions) {
-    if (!((ExecutionEntity)execution).isProcessInstance()) {
+    if (!((ExecutionEntity)execution).isProcessInstanceType()) {
       runtimeService.setVariableLocal(execution.getId(),"x","child");
       runtimeService.setVariableLocal(execution.getId(),"xIgnoreCase","ChILD");
     }

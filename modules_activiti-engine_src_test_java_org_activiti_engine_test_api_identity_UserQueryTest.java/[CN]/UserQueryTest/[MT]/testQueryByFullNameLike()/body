@@ -1,0 +1,8 @@
+{
+  UserQuery query=identityService.createUserQuery().userFullNameLike("%erm%");
+  verifyQueryResults(query,1);
+  query=identityService.createUserQuery().userFullNameLike("%ea%");
+  verifyQueryResults(query,2);
+  query=identityService.createUserQuery().userFullNameLike("%e%");
+  verifyQueryResults(query,3);
+}

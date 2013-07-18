@@ -1,0 +1,11 @@
+{
+  String userId=getAttribute("userId");
+  if (userId == null) {
+    throw new ActivitiIllegalArgumentException("The userId cannot be null");
+  }
+  User user=ActivitiUtil.getIdentityService().createUserQuery().userId(userId).singleResult();
+  if (user == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a user with id '" + userId + "'.",User.class);
+  }
+  return user;
+}

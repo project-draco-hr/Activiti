@@ -1,0 +1,31 @@
+{
+  if (!authenticate()) {
+    return null;
+  }
+  if (submitRequest == null) {
+    throw new ResourceException(new Status(Status.CLIENT_ERROR_UNSUPPORTED_MEDIA_TYPE.getCode(),"A request body was expected when executing the form submit.",null,null));
+  }
+  if (submitRequest.getTaskId() == null && submitRequest.getProcessDefinitionId() == null) {
+    throw new ActivitiIllegalArgumentException("The taskId or processDefinitionId property has to be provided");
+  }
+  Map<String,String> propertyMap=new HashMap<String,String>();
+  if (submitRequest.getProperties() != null) {
+    for (    RestFormProperty formProperty : submitRequest.getProperties()) {
+      propertyMap.put(formProperty.getId(),formProperty.getValue());
+    }
+  }
+  if (submitRequest.getTaskId() != null) {
+    ActivitiUtil.getFormService().submitTaskFormData(submitRequest.getTaskId(),propertyMap);
+    return null;
+  }
+ else {
+    ProcessInstance processInstance=null;
+    if (submitRequest.getBusinessKey() != null) {
+      processInstance=ActivitiUtil.getFormService().submitStartFormData(submitRequest.getProcessDefinitionId(),submitRequest.getBusinessKey(),propertyMap);
+    }
+ else {
+      processInstance=ActivitiUtil.getFormService().submitStartFormData(submitRequest.getProcessDefinitionId(),propertyMap);
+    }
+    return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createProcessInstanceResponse(this,processInstance);
+  }
+}

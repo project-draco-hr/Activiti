@@ -1,0 +1,12 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("timerProcess");
+  Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(timerJob);
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("action","execute");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
+  Representation response=client.post(requestNode);
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  assertEquals(0L,response.getSize());
+  assertNull(managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult());
+}

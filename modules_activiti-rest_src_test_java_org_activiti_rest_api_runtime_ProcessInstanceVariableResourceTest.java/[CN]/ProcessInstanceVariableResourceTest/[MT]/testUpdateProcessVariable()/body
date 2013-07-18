@@ -1,0 +1,33 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",Collections.singletonMap("overlappingVariable",(Object)"processValue"));
+  runtimeService.setVariable(processInstance.getId(),"myVar","value");
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("name","myVar");
+  requestNode.put("value","updatedValue");
+  requestNode.put("type","string");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"myVar"));
+  Representation response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("updatedValue",responseNode.get("value").asText());
+  try {
+    requestNode.put("name","unexistingVariable");
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Variable name in the body should be equal to the name used in the requested URL.",expected.getStatus().getDescription());
+  }
+  try {
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"unexistingVariable"));
+    requestNode.put("name","unexistingVariable");
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Execution '" + processInstance.getId() + "' doesn't have a variable with name: 'unexistingVariable'.",expected.getStatus().getDescription());
+  }
+}

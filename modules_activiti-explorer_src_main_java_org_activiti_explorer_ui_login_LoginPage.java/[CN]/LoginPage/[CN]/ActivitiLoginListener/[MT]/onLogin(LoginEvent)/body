@@ -1,13 +1,18 @@
 {
-  String userName=event.getLoginParameter("username");
-  String password=event.getLoginParameter("password");
-  LoggedInUser loggedInUser=loginHandler.authenticate(userName,password);
-  if (loggedInUser != null) {
-    ExplorerApp.get().setUser(loggedInUser);
-    viewManager.showDefaultPage();
-  }
+  try {
+    String userName=event.getLoginParameter("username");
+    String password=event.getLoginParameter("password");
+    LoggedInUser loggedInUser=loginHandler.authenticate(userName,password);
+    if (loggedInUser != null) {
+      ExplorerApp.get().setUser(loggedInUser);
+      viewManager.showDefaultPage();
+    }
  else {
-    refreshUi();
-    notificationManager.showErrorNotification(Messages.LOGIN_FAILED_HEADER,i18nManager.getMessage(Messages.LOGIN_FAILED_INVALID));
+      refreshUi();
+      notificationManager.showErrorNotification(Messages.LOGIN_FAILED_HEADER,i18nManager.getMessage(Messages.LOGIN_FAILED_INVALID));
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
   }
 }

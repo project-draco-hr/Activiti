@@ -1,0 +1,32 @@
+{
+  Throwable exception=null;
+  if (totalTestCount == -1) {
+    totalTestCount=countTotalTests();
+  }
+  if (testCount == 0) {
+    beforeTestCase();
+  }
+  testCount++;
+  try {
+    super.runBare();
+  }
+ catch (  Throwable running) {
+    exception=running;
+  }
+  if (testCount == totalTestCount) {
+    totalTestCount=-1;
+    testCount=0;
+    if (!disableAfterTestCase) {
+      try {
+        afterTestCase();
+      }
+ catch (      Exception afterTestCase) {
+        if (exception == null)         exception=afterTestCase;
+      }
+    }
+ else {
+      disableAfterTestCase=false;
+    }
+  }
+  if (exception != null)   throw exception;
+}

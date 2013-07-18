@@ -1,10 +1,4 @@
 {
-  if (authenticate() == false)   return null;
-  String userId=(String)getRequest().getAttributes().get("userId");
-  if (userId == null) {
-    throw new ActivitiIllegalArgumentException("No userId provided");
-  }
-  User user=ActivitiUtil.getIdentityService().createUserQuery().userId(userId).singleResult();
-  UserInfo response=new UserInfo(user);
-  return response;
+  if (!authenticate())   return null;
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createUserResponse(this,getUserFromRequest(),false);
 }

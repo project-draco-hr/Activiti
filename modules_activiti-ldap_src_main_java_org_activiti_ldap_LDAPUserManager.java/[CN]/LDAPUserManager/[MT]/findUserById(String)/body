@@ -1,0 +1,23 @@
+{
+  LDAPTemplate ldapTemplate=new LDAPTemplate(ldapConfigurator);
+  return ldapTemplate.execute(new LDAPCallBack<UserEntity>(){
+    public UserEntity executeInContext(    InitialDirContext initialDirContext){
+      try {
+        String searchExpression=ldapConfigurator.getLdapQueryBuilder().buildQueryByUserId(ldapConfigurator,userId);
+        NamingEnumeration<?> namingEnum=initialDirContext.search(ldapConfigurator.getBaseDn(),searchExpression,createSearchControls());
+        UserEntity user=new UserEntity();
+        while (namingEnum.hasMore()) {
+          SearchResult result=(SearchResult)namingEnum.next();
+          mapSearchResultToUser(result,user);
+        }
+        namingEnum.close();
+        return user;
+      }
+ catch (      NamingException ne) {
+        logger.debug("Could not find user " + userId + " : "+ ne.getMessage(),ne);
+        return null;
+      }
+    }
+  }
+);
+}

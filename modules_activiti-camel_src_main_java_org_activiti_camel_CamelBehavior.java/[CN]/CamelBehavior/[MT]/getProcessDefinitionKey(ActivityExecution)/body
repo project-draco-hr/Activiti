@@ -1,7 +1,4 @@
 {
   PvmProcessDefinition processDefinition=execution.getActivity().getProcessDefinition();
-  if (processDefinition instanceof ProcessDefinitionEntity) {
-    return ((ProcessDefinitionEntity)processDefinition).getKey();
-  }
-  throw new ActivitiException("Unknown implementation of PvmProcessDefinition: " + processDefinition);
+  return processDefinition.getKey();
 }

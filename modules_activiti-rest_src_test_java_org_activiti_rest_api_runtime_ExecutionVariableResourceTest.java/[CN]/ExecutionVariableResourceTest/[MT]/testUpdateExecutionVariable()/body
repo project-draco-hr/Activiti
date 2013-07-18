@@ -1,0 +1,53 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne",Collections.singletonMap("overlappingVariable",(Object)"processValue"));
+  runtimeService.setVariableLocal(processInstance.getId(),"myVar","processValue");
+  Execution childExecution=runtimeService.createExecutionQuery().parentId(processInstance.getId()).singleResult();
+  assertNotNull(childExecution);
+  runtimeService.setVariableLocal(childExecution.getId(),"myVar","childValue");
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("name","myVar");
+  requestNode.put("value","updatedValue");
+  requestNode.put("type","string");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVar"));
+  Representation response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("updatedValue",responseNode.get("value").asText());
+  assertEquals("local",responseNode.get("scope").asText());
+  assertEquals("processValue",runtimeService.getVariable(processInstance.getId(),"myVar"));
+  assertEquals("updatedValue",runtimeService.getVariableLocal(childExecution.getId(),"myVar"));
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("name","myVar");
+  requestNode.put("value","updatedValueGlobal");
+  requestNode.put("type","string");
+  requestNode.put("scope","global");
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVar"));
+  response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("updatedValueGlobal",responseNode.get("value").asText());
+  assertEquals("global",responseNode.get("scope").asText());
+  assertEquals("updatedValueGlobal",runtimeService.getVariable(processInstance.getId(),"myVar"));
+  assertEquals("updatedValue",runtimeService.getVariableLocal(childExecution.getId(),"myVar"));
+  try {
+    requestNode.put("name","unexistingVariable");
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Variable name in the body should be equal to the name used in the requested URL.",expected.getStatus().getDescription());
+  }
+  try {
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"unexistingVariable"));
+    requestNode.put("name","unexistingVariable");
+    client.put(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Execution '" + childExecution.getId() + "' doesn't have a variable with name: 'unexistingVariable'.",expected.getStatus().getDescription());
+  }
+}

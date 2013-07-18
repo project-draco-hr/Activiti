@@ -1,0 +1,7 @@
+{
+  Map<String,Object> rawLocalvariables=ActivitiUtil.getRuntimeService().getVariablesLocal(execution.getId());
+  List<RestVariable> localVariables=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariables(this,rawLocalvariables,execution.getId(),RestResponseFactory.VARIABLE_EXECUTION,RestVariableScope.LOCAL);
+  for (  RestVariable var : localVariables) {
+    variableMap.put(var.getName(),var);
+  }
+}

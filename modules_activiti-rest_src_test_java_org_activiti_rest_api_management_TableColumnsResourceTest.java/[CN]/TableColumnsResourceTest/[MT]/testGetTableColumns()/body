@@ -1,0 +1,20 @@
+{
+  String tableName=managementService.getTableCount().keySet().iterator().next();
+  TableMetaData metaData=managementService.getTableMetaData(tableName);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_COLUMNS,tableName));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals(tableName,responseNode.get("tableName").getTextValue());
+  ArrayNode names=(ArrayNode)responseNode.get("columnNames");
+  ArrayNode types=(ArrayNode)responseNode.get("columnTypes");
+  assertNotNull(names);
+  assertNotNull(types);
+  assertEquals(metaData.getColumnNames().size(),names.size());
+  assertEquals(metaData.getColumnTypes().size(),types.size());
+  for (int i=0; i < names.size(); i++) {
+    assertEquals(names.get(i).getTextValue(),metaData.getColumnNames().get(i));
+    assertEquals(types.get(i).getTextValue(),metaData.getColumnTypes().get(i));
+  }
+}

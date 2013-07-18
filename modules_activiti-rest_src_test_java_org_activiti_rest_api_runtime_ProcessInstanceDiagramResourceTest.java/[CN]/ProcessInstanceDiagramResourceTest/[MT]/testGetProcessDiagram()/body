@@ -1,0 +1,7 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("simpleProcess");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_DIAGRAM,processInstance.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  assertTrue(response.isAvailable());
+}

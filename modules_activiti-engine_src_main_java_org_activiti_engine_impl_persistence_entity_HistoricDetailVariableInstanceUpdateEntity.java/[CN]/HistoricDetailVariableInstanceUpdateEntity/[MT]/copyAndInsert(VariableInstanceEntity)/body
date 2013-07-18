@@ -1,0 +1,20 @@
+{
+  HistoricDetailVariableInstanceUpdateEntity historicVariableUpdate=new HistoricDetailVariableInstanceUpdateEntity();
+  historicVariableUpdate.processInstanceId=variableInstance.getProcessInstanceId();
+  historicVariableUpdate.executionId=variableInstance.getExecutionId();
+  historicVariableUpdate.taskId=variableInstance.getTaskId();
+  historicVariableUpdate.time=ClockUtil.getCurrentTime();
+  historicVariableUpdate.revision=variableInstance.getRevision();
+  historicVariableUpdate.name=variableInstance.getName();
+  historicVariableUpdate.variableType=variableInstance.getType();
+  historicVariableUpdate.textValue=variableInstance.getTextValue();
+  historicVariableUpdate.textValue2=variableInstance.getTextValue2();
+  historicVariableUpdate.doubleValue=variableInstance.getDoubleValue();
+  historicVariableUpdate.longValue=variableInstance.getLongValue();
+  if (variableInstance.getBytes() != null) {
+    String byteArrayName="hist.detail.var-" + variableInstance.getName();
+    historicVariableUpdate.byteArrayRef.setValue(byteArrayName,variableInstance.getBytes());
+  }
+  Context.getCommandContext().getDbSqlSession().insert(historicVariableUpdate);
+  return historicVariableUpdate;
+}

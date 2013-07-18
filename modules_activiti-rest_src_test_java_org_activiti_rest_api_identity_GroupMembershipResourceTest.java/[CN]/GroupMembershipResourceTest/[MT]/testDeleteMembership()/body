@@ -1,0 +1,28 @@
+{
+  try {
+    Group testGroup=identityService.newGroup("testgroup");
+    testGroup.setName("Test group");
+    testGroup.setType("Test type");
+    identityService.saveGroup(testGroup);
+    User testUser=identityService.newUser("testuser");
+    identityService.saveUser(testUser);
+    identityService.createMembership("testuser","testgroup");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,"testgroup","testuser"));
+    Representation response=client.delete();
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    assertEquals(0,response.getSize());
+    assertNull(identityService.createUserQuery().memberOfGroup("testgroup").singleResult());
+  }
+  finally {
+    try {
+      identityService.deleteGroup("testgroup");
+    }
+ catch (    Throwable ignore) {
+    }
+    try {
+      identityService.deleteUser("testuser");
+    }
+ catch (    Throwable ignore) {
+    }
+  }
+}

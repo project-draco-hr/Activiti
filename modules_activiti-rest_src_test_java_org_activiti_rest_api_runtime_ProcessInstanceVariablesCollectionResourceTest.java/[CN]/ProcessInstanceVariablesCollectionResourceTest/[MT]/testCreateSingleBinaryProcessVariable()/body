@@ -1,0 +1,23 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  InputStream binaryContent=new ByteArrayInputStream("This is binary content".getBytes());
+  Map<String,String> additionalFields=new HashMap<String,String>();
+  additionalFields.put("name","binaryVariable");
+  additionalFields.put("type","binary");
+  Representation uploadRepresentation=new HttpMultipartRepresentation("value",binaryContent,additionalFields);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  Representation response=client.post(uploadRepresentation);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("binaryVariable",responseNode.get("name").asText());
+  assertTrue(responseNode.get("value").isNull());
+  assertEquals("local",responseNode.get("scope").asText());
+  assertEquals("binary",responseNode.get("type").asText());
+  assertFalse(responseNode.get("valueUrl").isNull());
+  assertTrue(responseNode.get("valueUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_DATA,processInstance.getId(),"binaryVariable")));
+  Object variableValue=runtimeService.getVariableLocal(processInstance.getId(),"binaryVariable");
+  assertNotNull(variableValue);
+  assertTrue(variableValue instanceof byte[]);
+  assertEquals("This is binary content",new String((byte[])variableValue));
+}

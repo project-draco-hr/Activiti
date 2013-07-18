@@ -1,0 +1,20 @@
+{
+  boolean hasVariable=hasVariableOnScope(execution,name,scope);
+  if (isNew && hasVariable) {
+    throw new ResourceException(new Status(Status.CLIENT_ERROR_CONFLICT.getCode(),"Variable '" + name + "' is already present on execution '"+ execution.getId()+ "'.",null,null));
+  }
+  if (!isNew && !hasVariable) {
+    throw new ResourceException(new Status(Status.CLIENT_ERROR_NOT_FOUND.getCode(),"Execution '" + execution.getId() + "' doesn't have a variable with name: '"+ name+ "'.",null,null));
+  }
+  if (scope == RestVariableScope.LOCAL) {
+    ActivitiUtil.getRuntimeService().setVariableLocal(execution.getId(),name,value);
+  }
+ else {
+    if (execution.getParentId() != null) {
+      ActivitiUtil.getRuntimeService().setVariable(execution.getParentId(),name,value);
+    }
+ else {
+      ActivitiUtil.getRuntimeService().setVariable(execution.getId(),name,value);
+    }
+  }
+}

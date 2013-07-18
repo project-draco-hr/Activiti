@@ -6,7 +6,7 @@
     for (    HistoricDetail historicDetail : historicDetails) {
       if (historicDetail instanceof HistoricDetailVariableInstanceUpdateEntity) {
         varUpdate=(HistoricDetailVariableInstanceUpdateEntity)historicDetail;
-        varUpdate.getByteArrayValue();
+        varUpdate.getBytes();
         if (varUpdate.getVariableType() instanceof JPAEntityVariableType) {
           varUpdate.setVariableType(HistoricJPAEntityVariableType.getSharedInstance());
           varUpdate.getValue();

@@ -1,0 +1,5 @@
+{
+  if (authenticate() == false)   return null;
+  ProcessDefinition processDefinition=getProcessDefinitionFromRequest();
+  return ActivitiUtil.getRepositoryService().getBpmnModel(processDefinition.getId());
+}

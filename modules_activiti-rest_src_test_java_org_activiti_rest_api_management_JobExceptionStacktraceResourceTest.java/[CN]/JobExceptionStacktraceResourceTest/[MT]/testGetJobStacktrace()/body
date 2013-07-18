@@ -1,0 +1,21 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("timerProcess",Collections.singletonMap("error",(Object)Boolean.TRUE));
+  Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(timerJob);
+  try {
+    managementService.executeJob(timerJob.getId());
+    fail();
+  }
+ catch (  ActivitiException expected) {
+  }
+  Calendar now=Calendar.getInstance();
+  now.set(Calendar.MILLISECOND,0);
+  ClockUtil.setCurrentTime(now.getTime());
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_EXCEPTION_STRACKTRACE,timerJob.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  String stack=response.getText();
+  assertNotNull(stack);
+  assertEquals(managementService.getJobExceptionStacktrace(timerJob.getId()),stack);
+  assertEquals(MediaType.TEXT_PLAIN.getName(),getMediaType(client));
+}

@@ -1,12 +1,11 @@
 {
   if (isHistoryLevelAtLeast(HistoryLevel.FULL)) {
-    HistoricDetailVariableInstanceUpdateEntity historicVariableUpdate=new HistoricDetailVariableInstanceUpdateEntity(variable);
+    HistoricDetailVariableInstanceUpdateEntity historicVariableUpdate=HistoricDetailVariableInstanceUpdateEntity.copyAndInsert(variable);
     if (useActivityId && sourceActivityExecution != null) {
       HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(sourceActivityExecution);
       if (historicActivityInstance != null) {
         historicVariableUpdate.setActivityInstanceId(historicActivityInstance.getId());
       }
     }
-    getDbSqlSession().insert(historicVariableUpdate);
   }
 }
