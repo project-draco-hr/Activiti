@@ -50,6 +50,10 @@
     if (processDocumentationNode != null && StringUtils.isNotEmpty(processDocumentationNode.asText())) {
       process.setDocumentation(processDocumentationNode.asText());
     }
+    JsonNode processExecutionListenerNode=modelNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_EXECUTION_LISTENERS);
+    if (processExecutionListenerNode != null && StringUtils.isNotEmpty(processExecutionListenerNode.asText())) {
+      process.setExecutionListeners(convertJsonToListeners(processExecutionListenerNode));
+    }
     processJsonElements(shapesArrayNode,modelNode,process,shapeMap);
   }
   Map<String,SubProcess> subShapesMap=new HashMap<String,SubProcess>();
