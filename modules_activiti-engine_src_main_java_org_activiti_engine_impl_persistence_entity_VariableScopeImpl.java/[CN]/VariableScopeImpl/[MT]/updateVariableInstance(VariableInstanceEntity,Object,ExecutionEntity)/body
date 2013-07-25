@@ -1,4 +1,11 @@
 {
+  if ((variableInstance != null) && (!variableInstance.getType().isAbleToStore(value))) {
+    VariableTypes variableTypes=Context.getProcessEngineConfiguration().getVariableTypes();
+    VariableType newType=variableTypes.findVariableType(value);
+    variableInstance.setValue(null);
+    variableInstance.setType(newType);
+    variableInstance.forceUpdate();
+  }
   variableInstance.setValue(value);
   Context.getCommandContext().getHistoryManager().recordHistoricDetailVariableCreate(variableInstance,sourceActivityExecution,isActivityIdUsedForDetails());
   Context.getCommandContext().getHistoryManager().recordVariableUpdate(variableInstance);

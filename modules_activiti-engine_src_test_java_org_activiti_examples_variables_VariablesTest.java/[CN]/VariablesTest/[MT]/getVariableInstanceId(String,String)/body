@@ -1,0 +1,3 @@
+{
+  return historyService.createNativeHistoricVariableInstanceQuery().sql("select id_ from act_ru_variable where EXECUTION_ID_=#{id} and NAME_=#{name}").parameter("id",executionId).parameter("name",name).singleResult().getId();
+}
