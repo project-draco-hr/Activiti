@@ -50,6 +50,10 @@
     if (processExecutableNode != null && StringUtils.isNotEmpty(processExecutableNode.asText())) {
       process.setExecutable(JsonConverterUtil.getPropertyValueAsBoolean(PROPERTY_PROCESS_EXECUTABLE,modelNode));
     }
+    JsonNode processExecutionListenerNode=modelNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_EXECUTION_LISTENERS);
+    if (processExecutionListenerNode != null && StringUtils.isNotEmpty(processExecutionListenerNode.asText())) {
+      process.setExecutionListeners(convertJsonToListeners(processExecutionListenerNode));
+    }
     processJsonElements(shapesArrayNode,modelNode,process,shapeMap);
   }
   Map<String,SubProcess> subShapesMap=new HashMap<String,SubProcess>();
