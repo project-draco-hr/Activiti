@@ -1,0 +1,6 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  runtimeService.addUserIdentityLink(processInstance.getId(),"kermit","type1");
+  runtimeService.addUserIdentityLink(processInstance.getId(),"kermit","type2");
+  assertEquals(1L,runtimeService.createProcessInstanceQuery().involvedUser("kermit").count());
+}

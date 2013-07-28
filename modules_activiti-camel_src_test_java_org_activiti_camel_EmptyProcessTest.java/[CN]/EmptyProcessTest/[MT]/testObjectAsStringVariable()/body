@@ -1,0 +1,10 @@
+{
+  CamelContext ctx=applicationContext.getBean(CamelContext.class);
+  ProducerTemplate tpl=ctx.createProducerTemplate();
+  Object expectedObj=new Long(99);
+  String instanceId=(String)tpl.requestBody("direct:startEmptyBodyAsString",expectedObj);
+  assertProcessEnded(instanceId);
+  HistoricVariableInstance var=processEngine.getHistoryService().createHistoricVariableInstanceQuery().variableName("camelBody").singleResult();
+  assertNotNull(var);
+  assertEquals(expectedObj.toString(),var.getValue());
+}
