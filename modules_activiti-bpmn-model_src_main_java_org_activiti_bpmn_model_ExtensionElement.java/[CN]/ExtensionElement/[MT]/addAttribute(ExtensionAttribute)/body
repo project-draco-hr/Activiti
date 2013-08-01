@@ -1,5 +1,10 @@
 {
   if (attribute != null && StringUtils.isNotEmpty(attribute.getName())) {
-    this.attributes.put(attribute.getName(),attribute);
+    List<ExtensionAttribute> attributeList=null;
+    if (this.attributes.containsKey(attribute.getName()) == false) {
+      attributeList=new ArrayList<ExtensionAttribute>();
+      this.attributes.put(attribute.getName(),attributeList);
+    }
+    this.attributes.get(attribute.getName()).add(attribute);
   }
 }

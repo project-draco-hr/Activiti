@@ -37,8 +37,10 @@
       didWriteExtensionStartElement=true;
     }
     Map<String,String> namespaceMap=new HashMap<String,String>();
-    for (    ExtensionElement extensionElement : baseElement.getExtensionElements().values()) {
-      writeExtensionElement(extensionElement,namespaceMap,xtw);
+    for (    List<ExtensionElement> extensionElements : baseElement.getExtensionElements().values()) {
+      for (      ExtensionElement extensionElement : extensionElements) {
+        writeExtensionElement(extensionElement,namespaceMap,xtw);
+      }
     }
   }
   if (didWriteExtensionStartElement) {
