@@ -1,9 +1,0 @@
-{
-  List<CommandInterceptor> defaultCommandInterceptorsTxRequiresNew=new ArrayList<CommandInterceptor>();
-  defaultCommandInterceptorsTxRequiresNew.add(new LogInterceptor());
-  defaultCommandInterceptorsTxRequiresNew.add(new SpringTransactionInterceptor(transactionManager,TransactionTemplate.PROPAGATION_REQUIRES_NEW));
-  CommandContextInterceptor commandContextInterceptor=new CommandContextInterceptor(commandContextFactory,this);
-  commandContextInterceptor.setContextReusePossible(false);
-  defaultCommandInterceptorsTxRequiresNew.add(commandContextInterceptor);
-  return defaultCommandInterceptorsTxRequiresNew;
-}

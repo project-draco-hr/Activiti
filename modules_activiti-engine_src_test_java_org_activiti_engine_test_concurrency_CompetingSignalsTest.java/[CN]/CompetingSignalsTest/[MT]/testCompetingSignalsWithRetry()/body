@@ -1,10 +1,10 @@
 {
   RuntimeServiceImpl runtimeServiceImpl=(RuntimeServiceImpl)runtimeService;
-  CommandExecutor before=runtimeServiceImpl.getCommandExecutor();
+  CommandExecutorImpl before=(CommandExecutorImpl)runtimeServiceImpl.getCommandExecutor();
   try {
     CommandInterceptor retryInterceptor=new RetryInterceptor();
-    retryInterceptor.setNext(before);
-    runtimeServiceImpl.setCommandExecutor(retryInterceptor);
+    retryInterceptor.setNext(before.getFirst());
+    runtimeServiceImpl.setCommandExecutor(new CommandExecutorImpl(before.getDefaultConfig(),retryInterceptor));
     ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("CompetingSignalsProcess");
     String processInstanceId=processInstance.getId();
     log.debug("test thread starts thread one");

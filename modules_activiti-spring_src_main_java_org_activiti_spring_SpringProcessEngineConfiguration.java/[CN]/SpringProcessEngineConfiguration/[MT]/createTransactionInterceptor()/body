@@ -1,0 +1,6 @@
+{
+  if (transactionManager == null) {
+    throw new ActivitiException("transactionManager is required property for SpringProcessEngineConfiguration, use " + StandaloneProcessEngineConfiguration.class.getName() + " otherwise");
+  }
+  return new SpringTransactionInterceptor(transactionManager);
+}

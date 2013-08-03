@@ -1,15 +1,13 @@
 {
   if (commandInterceptorsTxRequired == null) {
+    commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>();
     if (customPreCommandInterceptorsTxRequired != null) {
-      commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>(customPreCommandInterceptorsTxRequired);
+      commandInterceptorsTxRequired.addAll(customPreCommandInterceptorsTxRequired);
     }
- else {
-      commandInterceptorsTxRequired=new ArrayList<CommandInterceptor>();
-    }
-    commandInterceptorsTxRequired.addAll(getDefaultCommandInterceptorsTxRequired());
+    commandInterceptorsTxRequired.addAll(getDefaultCommandInterceptors());
     if (customPostCommandInterceptorsTxRequired != null) {
       commandInterceptorsTxRequired.addAll(customPostCommandInterceptorsTxRequired);
     }
-    commandInterceptorsTxRequired.add(actualCommandExecutor);
+    commandInterceptorsTxRequired.add(commandInvoker);
   }
 }
