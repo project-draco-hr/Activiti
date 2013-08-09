@@ -5,7 +5,7 @@
   ClockUtil.setCurrentTime(new Date(ClockUtil.getCurrentTime().getTime() + 7200000L));
   ProcessEngineImpl processEngineImpl=(ProcessEngineImpl)processEngine;
   AcquireJobsCmd acquireJobsCmd=new AcquireJobsCmd(processEngineImpl.getProcessEngineConfiguration().getJobExecutor());
-  CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutorTxRequired();
+  CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutor();
   commandExecutor.execute(acquireJobsCmd);
   try {
     managementService.deleteJob(timerJob.getId());

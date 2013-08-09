@@ -9,7 +9,7 @@
   Calendar tomorrow=Calendar.getInstance();
   tomorrow.add(Calendar.DAY_OF_YEAR,1);
   ClockUtil.setCurrentTime(tomorrow.getTime());
-  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
   List<TimerEntity> jobs=commandExecutor.execute(new GetUnlockedTimersByDuedateCmd(ClockUtil.getCurrentTime(),new Page(0,1)));
   assertEquals(1,jobs.size());
   runtimeService.suspendProcessInstanceById(procInst.getId());

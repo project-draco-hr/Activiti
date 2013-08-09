@@ -14,7 +14,7 @@
     outputMessage.insert(0,"DB NOT CLEAN: \n");
     log.error(EMPTY_LINE);
     log.error(outputMessage.toString());
-    ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutorTxRequired().execute(new Command<Object>(){
+    ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutor().execute(new Command<Object>(){
       public Object execute(      CommandContext commandContext){
         DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
         dbSqlSession.dbSchemaDrop();

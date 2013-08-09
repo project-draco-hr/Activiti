@@ -3,7 +3,7 @@
   assertEquals(2,taskService.createTaskQuery().count());
   org.activiti.engine.repository.Deployment deployment=repositoryService.createDeployment().addClasspathResource(TEST_PROCESS_WITH_PARALLEL_GATEWAY).deploy();
   assertEquals(2,repositoryService.createProcessDefinitionQuery().count());
-  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
   commandExecutor.execute(new SetProcessDefinitionVersionCmd(pi.getId(),2));
   ProcessDefinition newProcessDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionVersion(2).singleResult();
   List<Execution> executions=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).list();

@@ -1,6 +1,6 @@
 {
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("receiveTask");
-  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
   try {
     commandExecutor.execute(new SetProcessDefinitionVersionCmd(pi.getId(),23));
     fail("ActivitiException expected");

@@ -3,7 +3,7 @@
   if ((jobExecutor != null) && (jobExecutor.isActive())) {
     jobExecutor.shutdown();
   }
-  commandExecutor.execute(new SchemaOperationProcessEngineClose());
+  commandExecutor.execute(schemaCommandConfig,new SchemaOperationProcessEngineClose());
   if (processEngineConfiguration.getProcessEngineLifecycleListener() != null) {
     processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineClosed(this);
   }
