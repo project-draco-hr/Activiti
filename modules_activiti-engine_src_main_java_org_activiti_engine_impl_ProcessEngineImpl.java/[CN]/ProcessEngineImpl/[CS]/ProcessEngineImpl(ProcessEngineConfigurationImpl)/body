@@ -8,14 +8,11 @@
   this.taskService=processEngineConfiguration.getTaskService();
   this.formService=processEngineConfiguration.getFormService();
   this.managementService=processEngineConfiguration.getManagementService();
-  this.databaseSchemaUpdate=processEngineConfiguration.getDatabaseSchemaUpdate();
   this.jobExecutor=processEngineConfiguration.getJobExecutor();
-  this.defaultCommandConfig=processEngineConfiguration.getDefaultCommandConfig();
-  this.schemaCommandConfig=defaultCommandConfig.transactionNotSupported();
   this.commandExecutor=processEngineConfiguration.getCommandExecutor();
   this.sessionFactories=processEngineConfiguration.getSessionFactories();
   this.transactionContextFactory=processEngineConfiguration.getTransactionContextFactory();
-  commandExecutor.execute(schemaCommandConfig,new SchemaOperationsProcessEngineBuild());
+  commandExecutor.execute(processEngineConfiguration.getSchemaCommandConfig(),new SchemaOperationsProcessEngineBuild());
   if (name == null) {
     log.info("default activiti ProcessEngine created");
   }
