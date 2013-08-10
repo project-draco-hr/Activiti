@@ -1,4 +1,5 @@
 {
+  LOGGER.debug("Running command with propagation {}",config.getTransactionPropagation());
   TransactionTemplate transactionTemplate=new TransactionTemplate(transactionManager);
   transactionTemplate.setPropagationBehavior(getPropagation(config));
   T result=transactionTemplate.execute(new TransactionCallback<T>(){
