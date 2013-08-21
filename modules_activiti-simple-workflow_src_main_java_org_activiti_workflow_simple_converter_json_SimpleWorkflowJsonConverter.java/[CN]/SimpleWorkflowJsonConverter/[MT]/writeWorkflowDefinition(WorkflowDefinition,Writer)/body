@@ -1,0 +1,14 @@
+{
+  try {
+    getObjectMapper().writeValue(writer,definition);
+  }
+ catch (  JsonParseException e) {
+    throw wrapExceptionWrite(e);
+  }
+catch (  JsonMappingException e) {
+    throw wrapExceptionWrite(e);
+  }
+catch (  IOException e) {
+    throw wrapExceptionWrite(e);
+  }
+}

@@ -1,0 +1,64 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").addHumanStep("step1","fred").addHumanStepForGroup("step2",Collections.singletonList("group")).addHumanStepForWorkflowInitiator("step3");
+  HumanStepDefinition stepWithForm=new HumanStepDefinition();
+  stepWithForm.setName("step4");
+  stepWithForm.setDescription("Step description");
+  workflowDefinition.getSteps().add(stepWithForm);
+  FormDefinition formDefinition=new FormDefinition();
+  stepWithForm.setForm(formDefinition);
+  formDefinition.setFormKey("123");
+  TextPropertyDefinition textProp=new TextPropertyDefinition();
+  textProp.setMandatory(true);
+  textProp.setName("textProp");
+  textProp.setWritable(false);
+  formDefinition.addFormProperty(textProp);
+  NumberPropertyDefinition numberProp=new NumberPropertyDefinition();
+  numberProp.setMandatory(true);
+  numberProp.setName("numberProp");
+  numberProp.setWritable(false);
+  formDefinition.addFormProperty(numberProp);
+  ReferencePropertyDefinition reference=new ReferencePropertyDefinition();
+  reference.setMandatory(true);
+  reference.setName("referenceProp");
+  reference.setWritable(false);
+  reference.setType("referencedType");
+  formDefinition.addFormProperty(reference);
+  ListPropertyDefinition itemType=new ListPropertyDefinition();
+  itemType.setMandatory(true);
+  itemType.setName("referenceProp");
+  itemType.setWritable(false);
+  itemType.addEntry(new ListPropertyEntry("1","Item 1"));
+  itemType.addEntry(new ListPropertyEntry("2","Item 2"));
+  formDefinition.addFormProperty(itemType);
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  Writer writer=new OutputStreamWriter(baos);
+  converter.writeWorkflowDefinition(workflowDefinition,writer);
+  WorkflowDefinition parsedDefinition=converter.readWorkflowDefinition(baos.toByteArray());
+  assertEquals(workflowDefinition.getSteps().size(),parsedDefinition.getSteps().size());
+  int index=0;
+  for (  StepDefinition stepDefinition : parsedDefinition.getSteps()) {
+    assertTrue(stepDefinition instanceof HumanStepDefinition);
+    HumanStepDefinition humanStep=(HumanStepDefinition)stepDefinition;
+    HumanStepDefinition originalStep=(HumanStepDefinition)workflowDefinition.getSteps().get(index);
+    assertEquals(originalStep.getAssignee(),humanStep.getAssignee());
+    assertEquals(originalStep.getAssignmentType(),humanStep.getAssignmentType());
+    assertEquals(originalStep.getCandidateGroups(),humanStep.getCandidateGroups());
+    assertEquals(originalStep.getCandidateUsers(),humanStep.getCandidateUsers());
+    assertEquals(originalStep.getName(),humanStep.getName());
+    assertEquals(originalStep.getDescription(),humanStep.getDescription());
+    if (originalStep.getForm() != null) {
+      assertEquals(3,index);
+      assertEquals("123",humanStep.getForm().getFormKey());
+      assertEquals(originalStep.getForm().getFormProperties().size(),humanStep.getForm().getFormProperties().size());
+      for (int i=0; i < originalStep.getForm().getFormProperties().size(); i++) {
+        FormPropertyDefinition origDef=originalStep.getForm().getFormProperties().get(i);
+        FormPropertyDefinition parsedDef=humanStep.getForm().getFormProperties().get(i);
+        assertEquals(origDef.getName(),parsedDef.getName());
+        assertEquals(origDef.isMandatory(),parsedDef.isMandatory());
+        assertEquals(origDef.isWritable(),parsedDef.isWritable());
+        assertEquals(origDef.getClass(),parsedDef.getClass());
+      }
+    }
+    index++;
+  }
+}

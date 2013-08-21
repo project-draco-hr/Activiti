@@ -3,33 +3,31 @@
   for (  FormPropertyDefinition propertyDefinition : formDefinition.getFormProperties()) {
     FormProperty formProperty=new FormProperty();
     formProperties.add(formProperty);
-    formProperty.setId(propertyDefinition.getPropertyName());
-    formProperty.setName(propertyDefinition.getPropertyName());
-    formProperty.setRequired(propertyDefinition.isRequired());
+    formProperty.setId(propertyDefinition.getName());
+    formProperty.setName(propertyDefinition.getName());
+    formProperty.setRequired(propertyDefinition.isMandatory());
     String type=null;
-    if (DefaultFormPropertyTypes.NUMBER.equalsIgnoreCase(propertyDefinition.getType())) {
+    if (propertyDefinition instanceof NumberPropertyDefinition) {
       type="long";
     }
- else     if (DefaultFormPropertyTypes.DATE.equalsIgnoreCase(propertyDefinition.getType())) {
+ else     if (propertyDefinition instanceof DatePropertyDefinition) {
       type="date";
     }
- else     if (DefaultFormPropertyTypes.LIST.equalsIgnoreCase(propertyDefinition.getType())) {
+ else     if (propertyDefinition instanceof ListPropertyDefinition) {
       type="enum";
-      if (!propertyDefinition.getValues().isEmpty()) {
-        List<FormValue> formValues=new ArrayList<FormValue>(propertyDefinition.getValues().size());
-        for (        String formValueString : propertyDefinition.getValues()) {
+      ListPropertyDefinition listDefinition=(ListPropertyDefinition)propertyDefinition;
+      if (listDefinition.getEntries().size() > 0) {
+        List<FormValue> formValues=new ArrayList<FormValue>(listDefinition.getEntries().size());
+        for (        ListPropertyEntry entry : listDefinition.getEntries()) {
           FormValue formValue=new FormValue();
-          formValue.setId(formValueString);
-          formValue.setName(formValueString);
+          formValue.setId(entry.getValue());
+          formValue.setName(entry.getName());
           formValues.add(formValue);
         }
       }
     }
- else     if (DefaultFormPropertyTypes.TEXT.equalsIgnoreCase(propertyDefinition.getType())) {
-      type="string";
-    }
  else {
-      type=propertyDefinition.getType();
+      type="string";
     }
     formProperty.setType(type);
   }

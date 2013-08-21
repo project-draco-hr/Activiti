@@ -1,0 +1,15 @@
+{
+  if (objectMapper == null) {
+synchronized (this) {
+      if (objectMapper == null) {
+        objectMapper=new ObjectMapper();
+        objectMapper.registerSubtypes(ListPropertyDefinition.class,TextPropertyDefinition.class,ReferencePropertyDefinition.class,DatePropertyDefinition.class,NumberPropertyDefinition.class);
+        objectMapper.registerSubtypes(HumanStepDefinition.class,FeedbackStepDefinition.class,ParallelStepsDefinition.class,ScriptStepDefinition.class);
+        if (additionalModelClasses != null) {
+          objectMapper.registerSubtypes(additionalModelClasses.toArray(new Class<?>[]{}));
+        }
+      }
+    }
+  }
+  return objectMapper;
+}

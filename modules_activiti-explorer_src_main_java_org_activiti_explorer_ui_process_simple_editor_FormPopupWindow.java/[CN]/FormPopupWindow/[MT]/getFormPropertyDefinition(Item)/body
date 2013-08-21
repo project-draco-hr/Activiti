@@ -1,0 +1,16 @@
+{
+  String type=(String)((ComboBox)item.getItemProperty(PropertyTable.ID_PROPERTY_TYPE).getValue()).getValue();
+  FormPropertyDefinition result=null;
+  if (type.equals("number")) {
+    result=new NumberPropertyDefinition();
+  }
+ else   if (type.equals("date")) {
+    result=new DatePropertyDefinition();
+  }
+ else {
+    result=new TextPropertyDefinition();
+  }
+  result.setName((String)item.getItemProperty(PropertyTable.ID_PROPERTY_NAME).getValue());
+  result.setMandatory((Boolean)((CheckBox)item.getItemProperty(PropertyTable.ID_PROPERTY_REQUIRED).getValue()).getValue());
+  return result;
+}

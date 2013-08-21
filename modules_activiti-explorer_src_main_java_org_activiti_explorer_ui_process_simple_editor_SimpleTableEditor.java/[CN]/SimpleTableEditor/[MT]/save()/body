@@ -14,9 +14,9 @@
   WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
   conversion.convert();
   try {
-    JsonConverter jsonConverter=new JsonConverter();
-    ObjectNode json=jsonConverter.convertToJson(workflowDefinition);
-    repositoryService.addModelEditorSource(model.getId(),json.toString().getBytes("utf-8"));
+    ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    ExplorerApp.get().getSimpleWorkflowJsonConverter().writeWorkflowDefinition(workflowDefinition,new OutputStreamWriter(baos));
+    repositoryService.addModelEditorSource(model.getId(),baos.toByteArray());
     repositoryService.addModelEditorSourceExtra(model.getId(),IOUtils.toByteArray(conversion.getWorkflowDiagramImage()));
   }
  catch (  IOException e) {
