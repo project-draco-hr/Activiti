@@ -6,7 +6,8 @@
   ClientResource client=getAuthenticatedClient(url);
   Representation response=client.post(body);
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  JsonNode rootNode=objectMapper.readTree(response.getStream());
+  JsonNode dataNode=rootNode.get("data");
   assertEquals(numberOfResultsExpected,dataNode.size());
   if (expectedResourceIds != null) {
     List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedResourceIds));
