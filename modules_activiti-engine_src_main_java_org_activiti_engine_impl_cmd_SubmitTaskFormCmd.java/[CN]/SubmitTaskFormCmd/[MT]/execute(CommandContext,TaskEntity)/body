@@ -2,6 +2,8 @@
   commandContext.getHistoryManager().reportFormPropertiesSubmitted(task.getExecution(),properties,taskId);
   TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
   taskFormHandler.submitFormProperties(properties,task.getExecution());
-  task.complete();
+  if (completeTask) {
+    task.complete();
+  }
   return null;
 }
