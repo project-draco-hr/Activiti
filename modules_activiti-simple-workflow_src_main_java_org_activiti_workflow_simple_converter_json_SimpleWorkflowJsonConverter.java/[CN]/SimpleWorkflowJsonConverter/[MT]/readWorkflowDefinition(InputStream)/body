@@ -2,13 +2,7 @@
   try {
     return getObjectMapper().readValue(inputStream,WorkflowDefinition.class);
   }
- catch (  JsonParseException e) {
-    throw wrapExceptionRead(e);
-  }
-catch (  JsonMappingException e) {
-    throw wrapExceptionRead(e);
-  }
-catch (  IOException e) {
+ catch (  Exception e) {
     throw wrapExceptionRead(e);
   }
 }
