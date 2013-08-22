@@ -12,6 +12,7 @@
     throw e;
   }
 catch (  Exception e) {
+    LogMDC.putMDCExecution(execution);
     throw new PvmException("couldn't execute activity <" + activity.getProperty("type") + " id=\""+ activity.getId()+ "\" ...>: "+ e.getMessage(),e);
   }
 }
