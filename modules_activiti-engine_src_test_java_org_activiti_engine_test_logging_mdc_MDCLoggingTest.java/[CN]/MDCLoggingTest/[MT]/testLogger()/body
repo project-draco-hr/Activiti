@@ -2,6 +2,7 @@
   setCustomLogger();
   try {
     runtimeService.startProcessInstanceByKey("testLoggerProcess");
+    fail("Expected exception");
   }
  catch (  Exception e) {
   }
@@ -14,6 +15,7 @@
   restoreLoggers();
   try {
     runtimeService.startProcessInstanceByKey("testLoggerProcess");
+    fail("Expected exception");
   }
  catch (  Exception e) {
   }
