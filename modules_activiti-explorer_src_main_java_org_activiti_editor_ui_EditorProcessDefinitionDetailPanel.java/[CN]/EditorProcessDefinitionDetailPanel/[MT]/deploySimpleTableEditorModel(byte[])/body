@@ -10,7 +10,7 @@
       conversion.convert();
       byte[] bpmnBytes=null;
       try {
-        bpmnBytes=conversion.getbpm20Xml().getBytes("utf-8");
+        bpmnBytes=conversion.getBpmn20Xml().getBytes("utf-8");
         String processName=modelData.getName() + ".bpmn20.xml";
         Deployment deployment=repositoryService.createDeployment().name(modelData.getName()).addString(processName,new String(bpmnBytes)).deploy();
         if (deployModelPopupWindow.isGenerateReports()) {
