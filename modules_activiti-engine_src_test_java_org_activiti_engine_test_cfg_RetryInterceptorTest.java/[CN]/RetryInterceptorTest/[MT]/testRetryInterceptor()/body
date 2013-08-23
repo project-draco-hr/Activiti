@@ -1,8 +1,8 @@
 {
   RetryInterceptor retryInterceptor=new RetryInterceptor();
-  retryInterceptor.setNext(new CommandExecutorImpl());
+  retryInterceptor.setNext(new CommandInvoker());
   try {
-    retryInterceptor.execute(new CommandThrowingOptimisticLockingException());
+    retryInterceptor.execute(new CommandConfig(),new CommandThrowingOptimisticLockingException());
     fail("ActivitiException expected.");
   }
  catch (  ActivitiException e) {

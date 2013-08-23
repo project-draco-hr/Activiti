@@ -17,7 +17,7 @@
     job.execute(commandContext);
   }
  catch (  RuntimeException exception) {
-    CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutorTxRequiresNew();
+    CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutor();
     commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new FailedJobListener(commandExecutor,jobId,exception));
     throw exception;
   }

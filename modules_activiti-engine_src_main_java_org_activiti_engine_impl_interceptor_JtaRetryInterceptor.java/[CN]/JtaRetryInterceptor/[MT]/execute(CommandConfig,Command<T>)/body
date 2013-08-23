@@ -1,0 +1,9 @@
+{
+  if (calledInsideTransaction()) {
+    log.trace("Called inside transaction, skipping the retry interceptor.");
+    return next.execute(config,command);
+  }
+ else {
+    return super.execute(config,command);
+  }
+}

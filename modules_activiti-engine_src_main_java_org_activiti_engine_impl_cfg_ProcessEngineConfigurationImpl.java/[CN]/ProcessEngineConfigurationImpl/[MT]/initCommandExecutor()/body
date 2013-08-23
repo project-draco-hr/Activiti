@@ -1,0 +1,6 @@
+{
+  if (commandExecutor == null) {
+    CommandInterceptor first=initInterceptorChain(commandInterceptors);
+    commandExecutor=new CommandExecutorImpl(getDefaultCommandConfig(),first);
+  }
+}

@@ -3,7 +3,7 @@
   start.set(Calendar.MILLISECOND,0);
   ClockUtil.setCurrentTime(start.getTime());
   ProcessInstance finishedInstance=runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest","myBusinessKey");
-  ClockUtil.setCurrentTime(null);
+  ClockUtil.reset();
   Task task=taskService.createTaskQuery().processInstanceId(finishedInstance.getId()).singleResult();
   task.setPriority(1234);
   task.setOwner("fozzie");

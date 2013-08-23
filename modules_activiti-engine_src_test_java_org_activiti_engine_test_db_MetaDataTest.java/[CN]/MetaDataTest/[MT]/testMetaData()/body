@@ -1,5 +1,5 @@
 {
-  ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutorTxRequired().execute(new Command<Object>(){
+  ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutor().execute(new Command<Object>(){
     public Object execute(    CommandContext commandContext){
       try {
         SqlSession sqlSession=commandContext.getSession(DbSqlSession.class).getSqlSession();

@@ -1,0 +1,13 @@
+{
+  if (commandInterceptors == null) {
+    commandInterceptors=new ArrayList<CommandInterceptor>();
+    if (customPreCommandInterceptors != null) {
+      commandInterceptors.addAll(customPreCommandInterceptors);
+    }
+    commandInterceptors.addAll(getDefaultCommandInterceptors());
+    if (customPostCommandInterceptors != null) {
+      commandInterceptors.addAll(customPostCommandInterceptors);
+    }
+    commandInterceptors.add(commandInvoker);
+  }
+}
