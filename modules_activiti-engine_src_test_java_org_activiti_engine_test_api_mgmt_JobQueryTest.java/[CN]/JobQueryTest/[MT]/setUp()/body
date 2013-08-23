@@ -1,6 +1,6 @@
 {
   super.setUp();
-  this.commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  this.commandExecutor=processEngineConfiguration.getCommandExecutor();
   deploymentId=repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/mgmt/timerOnTask.bpmn20.xml").deploy().getId();
   Calendar startTime=Calendar.getInstance();
   startTime.set(Calendar.MILLISECOND,0);

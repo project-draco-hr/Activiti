@@ -1,5 +1,5 @@
 {
-  processEngineConfiguration.getCommandExecutorTxRequired().execute(new Command<Void>(){
+  processEngineConfiguration.getCommandExecutor().execute(new Command<Void>(){
     public Void execute(    CommandContext commandContext){
       final List<EventSubscriptionEntity> subscriptions=new EventSubscriptionQueryImpl(commandContext).list();
       for (      EventSubscriptionEntity eventSubscriptionEntity : subscriptions) {

@@ -1,9 +1,11 @@
 {
   try {
-    commandExecutor.execute(commandContext.getFailedJobCommandFactory().getCommand(jobId,exception));
+    CommandConfig commandConfig=commandExecutor.getDefaultConfig().transactionRequiresNew();
+    Command<Object> failedJobCommand=commandContext.getFailedJobCommandFactory().getCommand(jobId,exception);
+    commandExecutor.execute(commandConfig,failedJobCommand);
   }
  catch (  Throwable t) {
-    log.log(Level.SEVERE,"Error while executing command when job is failed for job: '" + jobId + "'.",t);
+    log.warn("Error while executing command when job is failed for job: '" + jobId + "'.",t);
     if (t instanceof RuntimeException) {
       throw (RuntimeException)t;
     }

@@ -16,8 +16,9 @@
     log.error(EMPTY_LINE);
     log.error(outputMessage.toString());
     log.info("dropping and recreating db");
-    CommandExecutor commandExecutor=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutorTxRequired();
-    commandExecutor.execute(new Command<Object>(){
+    CommandExecutor commandExecutor=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutor();
+    CommandConfig config=new CommandConfig().transactionNotSupported();
+    commandExecutor.execute(config,new Command<Object>(){
       public Object execute(      CommandContext commandContext){
         DbSqlSession session=commandContext.getSession(DbSqlSession.class);
         session.dbSchemaDrop();

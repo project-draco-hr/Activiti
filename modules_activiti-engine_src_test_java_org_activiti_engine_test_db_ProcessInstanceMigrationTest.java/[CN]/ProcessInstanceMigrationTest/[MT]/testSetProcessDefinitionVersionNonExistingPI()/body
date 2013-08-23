@@ -1,5 +1,5 @@
 {
-  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
   try {
     commandExecutor.execute(new SetProcessDefinitionVersionCmd("42",23));
     fail("ActivitiException expected");
