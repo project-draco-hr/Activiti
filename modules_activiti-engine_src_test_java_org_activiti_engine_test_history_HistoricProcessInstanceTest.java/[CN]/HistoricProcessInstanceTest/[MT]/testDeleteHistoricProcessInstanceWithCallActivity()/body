@@ -1,0 +1,9 @@
+{
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+    ProcessInstance pi=runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
+    runtimeService.deleteProcessInstance(pi.getId(),"testing");
+    assertEquals(2L,historyService.createHistoricProcessInstanceQuery().count());
+    historyService.deleteHistoricProcessInstance(pi.getId());
+    assertEquals(0L,historyService.createHistoricProcessInstanceQuery().count());
+  }
+}
