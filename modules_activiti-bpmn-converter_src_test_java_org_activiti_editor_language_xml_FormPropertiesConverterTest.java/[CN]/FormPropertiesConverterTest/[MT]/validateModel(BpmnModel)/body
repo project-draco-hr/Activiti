@@ -15,30 +15,29 @@
   UserTask userTask=(UserTask)userFlowElement;
   for (  FormProperty formProperty : userTask.getFormProperties()) {
     if (formProperty.getId().equals("duplicated")) {
-      checkFormProperty(formProperty,false,true,true);
+      assertEquals(false,formProperty.isRequired());
+      assertEquals(true,formProperty.isReadable());
+      assertEquals(true,formProperty.isWriteable());
     }
     if (formProperty.getId().equals("name")) {
-      checkFormProperty(formProperty,false,true,true);
+      assertEquals(false,formProperty.isRequired());
+      assertEquals(true,formProperty.isReadable());
+      assertEquals(true,formProperty.isWriteable());
     }
     if (formProperty.getId().equals("age")) {
-      checkFormProperty(formProperty,false,true,false);
+      assertEquals(false,formProperty.isRequired());
+      assertEquals(true,formProperty.isReadable());
+      assertEquals(false,formProperty.isWriteable());
     }
     if (formProperty.getId().equals("isMan")) {
-      checkFormProperty(formProperty,false,false,true);
+      assertEquals(false,formProperty.isRequired());
+      assertEquals(false,formProperty.isReadable());
+      assertEquals(true,formProperty.isWriteable());
     }
     if (formProperty.getId().equals("remove")) {
-      checkFormProperty(formProperty,true,true,true);
-    }
-    if (formProperty.getId().equals("testEnum")) {
-      checkFormProperty(formProperty,false,true,true);
-      List<Map<String,Object>> formValues=new ArrayList<Map<String,Object>>();
-      for (      FormValue formValue : formProperty.getFormValues()) {
-        Map<String,Object> formValueMap=new HashMap<String,Object>();
-        formValueMap.put("id",formValue.getId());
-        formValueMap.put("name",formValue.getName());
-        formValues.add(formValueMap);
-      }
-      checkFormPropertyFormValues(formValues);
+      assertEquals(true,formProperty.isRequired());
+      assertEquals(true,formProperty.isReadable());
+      assertEquals(true,formProperty.isWriteable());
     }
   }
 }
