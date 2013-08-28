@@ -1,0 +1,10 @@
+{
+  if (!(otherDefinition instanceof TextPropertyDefinition)) {
+    throw new SimpleWorkflowException("An instance of TextPropertyDefinition is required to set values");
+  }
+  TextPropertyDefinition textDefinition=(TextPropertyDefinition)otherDefinition;
+  setName(textDefinition.getName());
+  setMandatory(textDefinition.isMandatory());
+  setWritable(textDefinition.isWritable());
+  setMultiline(textDefinition.isMultiline());
+}

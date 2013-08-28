@@ -1,0 +1,19 @@
+{
+  if (!(otherDefinition instanceof ListPropertyDefinition)) {
+    throw new SimpleWorkflowException("An instance of ListPropertyDefinition is required to set values");
+  }
+  ListPropertyDefinition datePropertyDefinition=(ListPropertyDefinition)otherDefinition;
+  setName(datePropertyDefinition.getName());
+  setMandatory(datePropertyDefinition.isMandatory());
+  setWritable(datePropertyDefinition.isWritable());
+  if (entries == null) {
+    entries=new ArrayList<ListPropertyEntry>();
+  }
+  if (datePropertyDefinition.getEntries() != null) {
+    ListPropertyEntry newEntry=null;
+    for (    ListPropertyEntry entry : datePropertyDefinition.getEntries()) {
+      newEntry=new ListPropertyEntry(entry.getValue(),entry.getName());
+      entries.add(newEntry);
+    }
+  }
+}
