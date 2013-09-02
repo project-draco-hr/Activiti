@@ -20,7 +20,7 @@
   String userId=Authentication.getAuthenticatedUserId();
   CommentEntity comment=new CommentEntity();
   comment.setUserId(userId);
-  comment.setType(CommentEntity.TYPE_COMMENT);
+  comment.setType((type == null) ? CommentEntity.TYPE_COMMENT : type);
   comment.setTime(ClockUtil.getCurrentTime());
   comment.setTaskId(taskId);
   comment.setProcessInstanceId(processInstanceId);
