@@ -1,7 +1,9 @@
 {
   Paint originalPaint=g.getPaint();
   g.setPaint(new GradientPaint(x + 50,y,Color.white,x + 50,y + 50,TASK_BOX_COLOR));
-  RoundRectangle2D rect=new RoundRectangle2D.Double(x,y,width,height,20,20);
+  int arcR=20;
+  if (thickBorder)   arcR=8;
+  RoundRectangle2D rect=new RoundRectangle2D.Double(x,y,width,height,arcR,arcR);
   g.fill(rect);
   g.setPaint(originalPaint);
   if (thickBorder) {
@@ -14,6 +16,10 @@
     g.draw(rect);
   }
   if (name != null && name.length() > 0) {
-    drawMultilineText(name,x,y,width,height);
+    int boxWidth=width - (2 * TEXT_PADDING);
+    int boxHeight=height - ICON_SIZE - ICON_PADDING- ICON_PADDING- MARKER_WIDTH- 2- 2;
+    int boxX=x + width / 2 - boxWidth / 2;
+    int boxY=y + height / 2 - boxHeight / 2 + ICON_PADDING + ICON_PADDING - 2 - 2;
+    drawMultilineCentredText(name,boxX,boxY,boxWidth,boxHeight);
   }
 }
