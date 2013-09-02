@@ -24,29 +24,27 @@
     }
   }
   for (  SequenceFlow sequenceFlow : flowNode.getOutgoingFlows()) {
+    boolean highLighted=(highLightedFlows.contains(sequenceFlow.getId()));
+    boolean isDefault=sequenceFlow.getConditionExpression() == null && (flowNode instanceof Gateway);
+    boolean drawConditionalIndicator=sequenceFlow.getConditionExpression() != null && !(flowNode instanceof Gateway);
     List<GraphicInfo> graphicInfoList=bpmnModel.getFlowLocationGraphicInfo(sequenceFlow.getId());
-    boolean drawedLabel=false;
+    int xPoints[]=new int[graphicInfoList.size()];
+    int yPoints[]=new int[graphicInfoList.size()];
     for (int i=1; i < graphicInfoList.size(); i++) {
       GraphicInfo graphicInfo=graphicInfoList.get(i);
       GraphicInfo previousGraphicInfo=graphicInfoList.get(i - 1);
-      boolean highLighted=(highLightedFlows.contains(sequenceFlow.getId()));
-      boolean drawConditionalIndicator=(i == 1) && sequenceFlow.getConditionExpression() != null && !(flowNode instanceof Gateway);
-      if (i < graphicInfoList.size() - 1) {
-        processDiagramCanvas.drawSequenceflowWithoutArrow((int)previousGraphicInfo.getX(),(int)previousGraphicInfo.getY(),(int)graphicInfo.getX(),(int)graphicInfo.getY(),drawConditionalIndicator,highLighted);
+      if (i == 1) {
+        xPoints[0]=(int)previousGraphicInfo.getX();
+        yPoints[0]=(int)previousGraphicInfo.getY();
       }
- else {
-        processDiagramCanvas.drawSequenceflow((int)previousGraphicInfo.getX(),(int)previousGraphicInfo.getY(),(int)graphicInfo.getX(),(int)graphicInfo.getY(),drawConditionalIndicator,highLighted);
-        if (!drawedLabel) {
-          GraphicInfo labelGraphicInfo=bpmnModel.getLabelGraphicInfo(sequenceFlow.getId());
-          if (labelGraphicInfo != null) {
-            int middleX=(int)(((previousGraphicInfo.getX() + labelGraphicInfo.getX()) + (graphicInfo.getX() + labelGraphicInfo.getX())) / 2);
-            int middleY=(int)(((previousGraphicInfo.getY() + labelGraphicInfo.getY()) + (graphicInfo.getY() + labelGraphicInfo.getY())) / 2);
-            middleX+=15;
-            processDiagramCanvas.drawLabel(sequenceFlow.getName(),middleX,middleY,(int)labelGraphicInfo.getWidth(),(int)labelGraphicInfo.getHeight());
-            drawedLabel=true;
-          }
-        }
-      }
+      xPoints[i]=(int)graphicInfo.getX();
+      yPoints[i]=(int)graphicInfo.getY();
+    }
+    processDiagramCanvas.drawSequenceflow(xPoints,yPoints,drawConditionalIndicator,isDefault,highLighted);
+    GraphicInfo labelGraphicInfo=bpmnModel.getLabelGraphicInfo(sequenceFlow.getId());
+    if (labelGraphicInfo != null) {
+      GraphicInfo lineCenter=getLineCenter(graphicInfoList);
+      processDiagramCanvas.drawLabel(sequenceFlow.getName(),(int)lineCenter.getX() + 10,(int)(lineCenter.getY() - labelGraphicInfo.getHeight()),(int)labelGraphicInfo.getWidth(),(int)labelGraphicInfo.getHeight(),false);
     }
   }
   if (flowNode instanceof FlowElementsContainer) {
