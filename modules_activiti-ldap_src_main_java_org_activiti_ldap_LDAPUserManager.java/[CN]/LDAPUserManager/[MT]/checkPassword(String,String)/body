@@ -9,7 +9,8 @@
         String userDn=null;
         try {
           String searchExpression=ldapConfigurator.getLdapQueryBuilder().buildQueryByUserId(ldapConfigurator,userId);
-          NamingEnumeration<?> namingEnum=initialDirContext.search(ldapConfigurator.getBaseDn(),searchExpression,createSearchControls());
+          String baseDn=ldapConfigurator.getUserBaseDn() != null ? ldapConfigurator.getUserBaseDn() : ldapConfigurator.getBaseDn();
+          NamingEnumeration<?> namingEnum=initialDirContext.search(baseDn,searchExpression,createSearchControls());
           while (namingEnum.hasMore()) {
             SearchResult result=(SearchResult)namingEnum.next();
             userDn=result.getNameInNamespace();
