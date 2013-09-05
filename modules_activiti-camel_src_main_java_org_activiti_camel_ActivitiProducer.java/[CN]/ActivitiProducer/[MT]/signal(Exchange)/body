@@ -5,7 +5,7 @@
   boolean firstTime=true;
   long initialTime=System.currentTimeMillis();
   Execution execution=null;
-  while (firstTime || (activitiTimeout != null && (System.currentTimeMillis() - initialTime < activitiTimeout))) {
+  while (firstTime || (activitiTimeout != null && activitiTimeout != 0 && (System.currentTimeMillis() - initialTime < activitiTimeout))) {
     execution=runtimeService.createExecutionQuery().processDefinitionKey(processKey).processInstanceId(processInstanceId).activityId(activity).singleResult();
     try {
       Thread.sleep(timeRsolution);
