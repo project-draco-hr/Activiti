@@ -1,14 +1,12 @@
 {
   String processInstanceId=findProcessInstanceId(exchange);
-  Integer activitiTimeout=getPropertyWithDefault(exchange,ACTIVITI_TIMEOUT_PROPERTY,DEFAULT_TIMEOUT);
-  Integer timeRsolution=getPropertyWithDefault(exchange,ACTIVITI_TIMEOUT_RESOLUTION_PROPERTY,DEFAULT_TIMEOUT_RESOLUTION);
   boolean firstTime=true;
   long initialTime=System.currentTimeMillis();
   Execution execution=null;
-  while (firstTime || (activitiTimeout != null && activitiTimeout != 0 && (System.currentTimeMillis() - initialTime < activitiTimeout))) {
+  while (firstTime || (timeout > 0 && (System.currentTimeMillis() - initialTime < timeout))) {
     execution=runtimeService.createExecutionQuery().processDefinitionKey(processKey).processInstanceId(processInstanceId).activityId(activity).singleResult();
     try {
-      Thread.sleep(timeRsolution);
+      Thread.sleep(timeResolution);
     }
  catch (    InterruptedException e) {
       throw new RuntimeException("error occured while waiting for activiti=" + activity + " for processInstanceId="+ processInstanceId);
