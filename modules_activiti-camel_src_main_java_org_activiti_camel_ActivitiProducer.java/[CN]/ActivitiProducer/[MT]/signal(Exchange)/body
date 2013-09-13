@@ -12,7 +12,9 @@
       throw new RuntimeException("error occured while waiting for activiti=" + activity + " for processInstanceId="+ processInstanceId);
     }
     firstTime=false;
-    if (execution != null)     break;
+    if (execution != null) {
+      break;
+    }
   }
   if (execution == null) {
     throw new RuntimeException("Couldn't find activity " + activity + " for processId "+ processInstanceId+ " in defined timeout.");
