@@ -1,0 +1,10 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("asyncPingProcess");
+  List<Execution> executionList=runtimeService.createExecutionQuery().list();
+  assertEquals(1,executionList.size());
+  waitForJobExecutorToProcessAllJobs(3000,100);
+  Thread.sleep(8000);
+  executionList=runtimeService.createExecutionQuery().list();
+  assertEquals(0,executionList.size());
+  assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+}
