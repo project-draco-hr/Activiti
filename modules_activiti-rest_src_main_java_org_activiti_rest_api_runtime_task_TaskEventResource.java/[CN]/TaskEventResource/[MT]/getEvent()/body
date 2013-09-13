@@ -1,6 +1,6 @@
 {
   if (!authenticate())   return null;
-  Task task=getTaskFromRequest();
+  HistoricTaskInstance task=getHistoricTaskFromRequest();
   String eventId=getAttribute("eventId");
   if (eventId == null) {
     throw new ActivitiIllegalArgumentException("EventId is required.");
