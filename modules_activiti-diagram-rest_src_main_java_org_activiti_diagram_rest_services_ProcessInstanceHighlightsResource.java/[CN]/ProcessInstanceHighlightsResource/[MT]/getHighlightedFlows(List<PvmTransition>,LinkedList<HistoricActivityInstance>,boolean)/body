@@ -9,11 +9,9 @@
       if (isParallel) {
         highLightedFlowIds.add(pvmTransition.getId());
       }
- else {
-        if (earliestHisActInst == null || (earliestHisActInst.getId().compareTo(destHisActInst.getId()) > 0)) {
-          earliestTrans=pvmTransition;
-          earliestHisActInst=destHisActInst;
-        }
+ else       if (earliestHisActInst == null || (earliestHisActInst.getId().compareTo(destHisActInst.getId()) > 0)) {
+        earliestTrans=pvmTransition;
+        earliestHisActInst=destHisActInst;
       }
     }
   }

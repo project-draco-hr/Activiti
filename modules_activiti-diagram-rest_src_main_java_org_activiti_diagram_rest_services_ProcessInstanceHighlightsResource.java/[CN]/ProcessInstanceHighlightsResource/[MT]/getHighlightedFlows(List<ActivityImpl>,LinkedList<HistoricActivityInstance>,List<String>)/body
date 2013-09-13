@@ -19,18 +19,20 @@
   while (hisActInstList.size() > 0) {
     HistoricActivityInstance histActInst=hisActInstList.removeFirst();
     ActivityImpl activity=activityMap.get(histActInst.getActivityId());
-    boolean isParallel=false;
-    String type=histActInst.getActivityType();
-    if ("parallelGateway".equals(type) || "inclusiveGateway".equals(type)) {
-      isParallel=true;
+    if (activity != null) {
+      boolean isParallel=false;
+      String type=histActInst.getActivityType();
+      if ("parallelGateway".equals(type) || "inclusiveGateway".equals(type)) {
+        isParallel=true;
+      }
+ else       if ("subProcess".equals(histActInst.getActivityType())) {
+        getHighlightedFlows(activity.getActivities(),hisActInstList,highLightedFlows);
+      }
+      List<PvmTransition> allOutgoingTrans=new ArrayList<PvmTransition>();
+      allOutgoingTrans.addAll(activity.getOutgoingTransitions());
+      allOutgoingTrans.addAll(getBoundaryEventOutgoingTransitions(activity));
+      List<String> activityHighLightedFlowIds=getHighlightedFlows(allOutgoingTrans,hisActInstList,isParallel);
+      highLightedFlows.addAll(activityHighLightedFlowIds);
     }
- else     if ("subProcess".equals(histActInst.getActivityType())) {
-      getHighlightedFlows(activity.getActivities(),hisActInstList,highLightedFlows);
-    }
-    List<PvmTransition> allOutgoingTrans=new ArrayList<PvmTransition>();
-    allOutgoingTrans.addAll(activity.getOutgoingTransitions());
-    allOutgoingTrans.addAll(getBoundaryEventOutgoingTransitions(activity));
-    List<String> activityHighLightedFlowIds=getHighlightedFlows(allOutgoingTrans,hisActInstList,isParallel);
-    highLightedFlows.addAll(activityHighLightedFlowIds);
   }
 }
