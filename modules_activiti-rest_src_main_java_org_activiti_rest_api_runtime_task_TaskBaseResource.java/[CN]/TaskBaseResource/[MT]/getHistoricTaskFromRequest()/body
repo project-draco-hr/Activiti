@@ -1,0 +1,11 @@
+{
+  String taskId=getAttribute("taskId");
+  if (taskId == null) {
+    throw new ActivitiIllegalArgumentException("The taskId cannot be null");
+  }
+  HistoricTaskInstance task=ActivitiUtil.getHistoryService().createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+  if (task == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a task with id '" + taskId + "'.",Task.class);
+  }
+  return task;
+}

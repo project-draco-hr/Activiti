@@ -12,16 +12,17 @@
     processDefinition=(ProcessDefinitionEntity)repositoryService.getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
     responseJSON.put("processDefinitionId",processInstance.getProcessDefinitionId());
     List<String> highLightedActivities=runtimeService.getActiveActivityIds(processInstanceId);
+    System.out.println(highLightedActivities);
     List<String> highLightedFlows=getHighLightedFlows(processDefinition,processInstanceId);
-    for (    String activityId : highLightedActivities)     activitiesArray.add(activityId);
-    for (    String flow : highLightedFlows)     flowsArray.add(flow);
     for (    String activityId : highLightedActivities) {
-      Execution execution=runtimeService.createExecutionQuery().processInstanceId(processInstance.getProcessInstanceId()).activityId(activityId).singleResult();
-      ExecutionEntity executionEntity=(ExecutionEntity)execution;
-      executionEntity.getProcessDefinitionId();
+      activitiesArray.add(activityId);
+    }
+    for (    String flow : highLightedFlows) {
+      flowsArray.add(flow);
     }
   }
  catch (  Exception e) {
+    e.printStackTrace();
   }
   responseJSON.put("activities",activitiesArray);
   responseJSON.put("flows",flowsArray);
