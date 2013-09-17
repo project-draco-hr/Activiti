@@ -16,10 +16,10 @@
   try {
     job.execute(commandContext);
   }
- catch (  RuntimeException exception) {
+ catch (  Throwable exception) {
     CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutor();
     commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new FailedJobListener(commandExecutor,jobId,exception));
-    throw exception;
+    throw new ActivitiException("Job " + jobId + " failed",exception);
   }
  finally {
     if (jobExecutorContext != null) {
