@@ -39,6 +39,26 @@ taskQuery.taskVariableValueNotEqualsIgnoreCase(variable.getName(),(String)actual
 throw new ActivitiIllegalArgumentException("Only string variable values are supported when ignoring casing, but was: " + actualValue.getClass().getName());
 }
 break;
+case GREATER_THAN:
+taskQuery.taskVariableValueGreaterThan(variable.getName(),actualValue);
+break;
+case GREATER_THAN_OR_EQUALS:
+taskQuery.taskVariableValueGreaterThanOrEqual(variable.getName(),actualValue);
+break;
+case LESS_THAN:
+taskQuery.taskVariableValueLessThan(variable.getName(),actualValue);
+break;
+case LESS_THAN_OR_EQUALS:
+taskQuery.taskVariableValueLessThanOrEqual(variable.getName(),actualValue);
+break;
+case LIKE:
+if (actualValue instanceof String) {
+taskQuery.taskVariableValueLike(variable.getName(),(String)actualValue);
+}
+ else {
+throw new ActivitiIllegalArgumentException("Only string variable values are supported using like, but was: " + actualValue.getClass().getName());
+}
+break;
 default :
 throw new ActivitiIllegalArgumentException("Unsupported variable query operation: " + variable.getVariableOperation());
 }

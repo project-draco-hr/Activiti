@@ -14,10 +14,54 @@
     }
 switch (variable.getVariableOperation()) {
 case EQUALS:
-      taskInstanceQuery.taskVariableValueEquals(variable.getName(),actualValue);
+      if (nameLess) {
+        taskInstanceQuery.taskVariableValueEquals(actualValue);
+      }
+ else {
+        taskInstanceQuery.taskVariableValueEquals(variable.getName(),actualValue);
+      }
     break;
+case EQUALS_IGNORE_CASE:
+  if (actualValue instanceof String) {
+    taskInstanceQuery.taskVariableValueEqualsIgnoreCase(variable.getName(),(String)actualValue);
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Only string variable values are supported when ignoring casing, but was: " + actualValue.getClass().getName());
+  }
+break;
+case NOT_EQUALS:
+taskInstanceQuery.taskVariableValueNotEquals(variable.getName(),actualValue);
+break;
+case NOT_EQUALS_IGNORE_CASE:
+if (actualValue instanceof String) {
+taskInstanceQuery.taskVariableValueNotEqualsIgnoreCase(variable.getName(),(String)actualValue);
+}
+ else {
+throw new ActivitiIllegalArgumentException("Only string variable values are supported when ignoring casing, but was: " + actualValue.getClass().getName());
+}
+break;
+case GREATER_THAN:
+taskInstanceQuery.taskVariableValueGreaterThan(variable.getName(),actualValue);
+break;
+case GREATER_THAN_OR_EQUALS:
+taskInstanceQuery.taskVariableValueGreaterThanOrEqual(variable.getName(),actualValue);
+break;
+case LESS_THAN:
+taskInstanceQuery.taskVariableValueLessThan(variable.getName(),actualValue);
+break;
+case LESS_THAN_OR_EQUALS:
+taskInstanceQuery.taskVariableValueLessThanOrEqual(variable.getName(),actualValue);
+break;
+case LIKE:
+if (actualValue instanceof String) {
+taskInstanceQuery.taskVariableValueLike(variable.getName(),(String)actualValue);
+}
+ else {
+throw new ActivitiIllegalArgumentException("Only string variable values are supported using like, but was: " + actualValue.getClass().getName());
+}
+break;
 default :
-  throw new ActivitiIllegalArgumentException("Unsupported variable query operation: " + variable.getVariableOperation());
+throw new ActivitiIllegalArgumentException("Unsupported variable query operation: " + variable.getVariableOperation());
 }
 }
 }
