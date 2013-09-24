@@ -1,0 +1,22 @@
+{
+  if (!(otherDefinition instanceof WorkflowDefinition)) {
+    throw new SimpleWorkflowException("An instance of WorkflowDefinition is required to set values");
+  }
+  WorkflowDefinition definition=(WorkflowDefinition)otherDefinition;
+  setDescription(definition.getDescription());
+  setId(definition.getId());
+  setKey(definition.getKey());
+  setName(definition.getName());
+  if (definition.getStartFormDefinition() != null) {
+    setStartFormDefinition(definition.getStartFormDefinition().clone());
+  }
+ else {
+    setStartFormDefinition(null);
+  }
+  steps=new ArrayList<StepDefinition>();
+  if (definition.getSteps() != null && definition.getSteps().size() > 0) {
+    for (    StepDefinition stepDefinition : definition.getSteps()) {
+      steps.add(stepDefinition.clone());
+    }
+  }
+}

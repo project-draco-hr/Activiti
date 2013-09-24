@@ -1,0 +1,21 @@
+{
+  if (!(otherDefinition instanceof FeedbackStepDefinition)) {
+    throw new SimpleWorkflowException("An instance of FeedbackStepDefinition is required to set values");
+  }
+  FeedbackStepDefinition stepDefinition=(FeedbackStepDefinition)otherDefinition;
+  setDescription(stepDefinition.getDescription());
+  setDescriptionForFeedbackProviders(stepDefinition.getDescriptionForFeedbackProviders());
+  setFeedbackInitiator(stepDefinition.getFeedbackInitiator());
+  if (stepDefinition.getFeedbackProviders() != null && stepDefinition.getFeedbackProviders().size() > 0) {
+    setFeedbackProviders(new ArrayList<String>(stepDefinition.getFeedbackProviders()));
+  }
+  if (stepDefinition.getFormDefinitionForFeedbackProviders() != null) {
+    setFormDefinitionForFeedbackProviders(stepDefinition.getFormDefinitionForFeedbackProviders().clone());
+  }
+ else {
+    setFormDefinitionForFeedbackProviders(null);
+  }
+  setId(stepDefinition.getId());
+  setName(stepDefinition.getName());
+  setStartsWithPrevious(stepDefinition.isStartsWithPrevious());
+}
