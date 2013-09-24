@@ -6,7 +6,7 @@
   taskService.claim(task.getId(),user.getId());
   task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   assertEquals(user.getId(),task.getAssignee());
-  taskService.claim(task.getId(),null);
+  taskService.unclaim(task.getId());
   task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
   assertNull(task.getAssignee());
   taskService.deleteTask(task.getId(),true);
