@@ -1,0 +1,23 @@
+{
+  List<String> result=new ArrayList<String>();
+  int insideOffset=0;
+  int j=0;
+  boolean shouldContinue;
+  do {
+    j=st.indexOf(",",insideOffset);
+    j=j == -1 ? st.length() : j;
+    int isInside=isInsideExpression(j,st);
+    if (isInside != -1) {
+      insideOffset=isInside;
+      shouldContinue=insideOffset < st.length();
+      continue;
+    }
+    insideOffset=0;
+    String subStr=st.substring(0,j);
+    if (!subStr.isEmpty())     result.add(subStr);
+    shouldContinue=j < st.length();
+    if (j < st.length())     st=st.substring(j + 1);
+  }
+ while (shouldContinue);
+  return result;
+}
