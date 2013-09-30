@@ -30,7 +30,7 @@
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?executionId=" + timerJob.getExecutionId();
   assertResultsPresentInDataResponse(url,timerJob.getId());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?processDefinitionId=" + processInstance.getProcessDefinitionId();
-  assertResultsPresentInDataResponse(url,timerJob.getId());
+  assertResultsPresentInDataResponse(url,asyncJob.getId(),timerJob.getId());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?processDefinitionId=unexisting";
   assertResultsPresentInDataResponse(url);
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?withRetriesLeft=true";
