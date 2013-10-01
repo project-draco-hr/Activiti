@@ -1,6 +1,7 @@
 {
   Object delegate=expression.getValue(execution);
   if (delegate instanceof SignallableActivityBehavior) {
+    ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
     ((SignallableActivityBehavior)delegate).signal(execution,signalName,signalData);
   }
 }
