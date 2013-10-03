@@ -4,7 +4,12 @@
   }
   ResourceEntity resource=new ResourceEntity();
   resource.setName(resourceName);
-  resource.setBytes(text.getBytes());
+  try {
+    resource.setBytes(text.getBytes(DEFAULT_ENCODING));
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new ActivitiException("Unable to get process bytes.",e);
+  }
   deployment.addResource(resource);
   return this;
 }
