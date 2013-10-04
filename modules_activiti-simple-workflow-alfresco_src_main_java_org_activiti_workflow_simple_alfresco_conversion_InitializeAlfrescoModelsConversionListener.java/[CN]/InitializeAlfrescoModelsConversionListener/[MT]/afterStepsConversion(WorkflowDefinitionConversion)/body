@@ -1,0 +1,10 @@
+{
+  for (  FlowElement flowElement : conversion.getProcess().getFlowElements()) {
+    if (flowElement instanceof StartEvent) {
+      StartEvent startEvent=(StartEvent)flowElement;
+      if (startEvent.getFormKey() == null) {
+        startEvent.setFormKey(AlfrescoConversionConstants.DEFAULT_START_FORM_TYPE);
+      }
+    }
+  }
+}

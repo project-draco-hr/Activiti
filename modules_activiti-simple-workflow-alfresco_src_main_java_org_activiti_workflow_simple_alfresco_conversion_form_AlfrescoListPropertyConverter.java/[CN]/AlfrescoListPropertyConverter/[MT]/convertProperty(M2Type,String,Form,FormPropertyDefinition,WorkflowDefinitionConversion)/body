@@ -1,0 +1,30 @@
+{
+  ListPropertyDefinition dateDefinition=(ListPropertyDefinition)propertyDefinition;
+  String propertyName=AlfrescoConversionUtil.getQualifiedName(AlfrescoConversionUtil.getModelNamespacePrefix(conversion),dateDefinition.getName());
+  M2Property property=new M2Property();
+  property.setMandatory(new M2Mandatory(dateDefinition.isMandatory()));
+  property.setName(propertyName);
+  property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_TEXT);
+  if (dateDefinition.getEntries() != null && dateDefinition.getEntries().size() > 0) {
+    M2Constraint valueConstraint=new M2Constraint();
+    valueConstraint.setType(AlfrescoConversionConstants.CONTENT_MODEL_CONSTRAINT_TYPE_LIST);
+    valueConstraint.setName(propertyName + AlfrescoConversionConstants.CONTENT_MODEL_CONSTRAINT_TYPE_LIST);
+    List<String> values=new ArrayList<String>(dateDefinition.getEntries().size());
+    for (    ListPropertyEntry entry : dateDefinition.getEntries()) {
+      values.add(entry.getValue());
+    }
+    valueConstraint.getParameters().add(new M2NamedValue(AlfrescoConversionConstants.CONTENT_MODEL_CONSTRAINT_TYPE_LIST,null,values));
+    M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+    model.getConstraints().add(valueConstraint);
+    M2Constraint reference=new M2Constraint();
+    reference.setRef(valueConstraint.getName());
+    property.getConstraints().add(reference);
+  }
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField formField=form.getFormAppearance().addFormField(propertyName,property.getTitle(),formSet);
+  if (dateDefinition.isWritable()) {
+    FormFieldControl control=new FormFieldControl();
+    control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
+    formField.setControl(control);
+  }
+}

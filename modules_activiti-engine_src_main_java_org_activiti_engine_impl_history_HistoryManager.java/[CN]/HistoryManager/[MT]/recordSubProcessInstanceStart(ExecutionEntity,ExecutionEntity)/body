@@ -1,10 +1,27 @@
 {
   if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricProcessInstanceEntity historicProcessInstance=new HistoricProcessInstanceEntity((ExecutionEntity)subProcessInstance);
+    ActivityImpl initialActivity=subProcessInstance.getActivity();
+    if (historicProcessInstance.getStartActivityId() == null) {
+      historicProcessInstance.setStartActivityId(subProcessInstance.getProcessDefinition().getInitial().getId());
+      initialActivity=subProcessInstance.getProcessDefinition().getInitial();
+    }
     getDbSqlSession().insert(historicProcessInstance);
     HistoricActivityInstanceEntity activitiyInstance=findActivityInstance(parentExecution);
     if (activitiyInstance != null) {
       activitiyInstance.setCalledProcessInstanceId(subProcessInstance.getProcessInstanceId());
     }
+    IdGenerator idGenerator=Context.getProcessEngineConfiguration().getIdGenerator();
+    HistoricActivityInstanceEntity historicActivityInstance=new HistoricActivityInstanceEntity();
+    historicActivityInstance.setId(idGenerator.getNextId());
+    historicActivityInstance.setProcessDefinitionId(subProcessInstance.getProcessDefinitionId());
+    historicActivityInstance.setProcessInstanceId(subProcessInstance.getProcessInstanceId());
+    historicActivityInstance.setExecutionId(subProcessInstance.getId());
+    historicActivityInstance.setActivityId(initialActivity.getId());
+    historicActivityInstance.setActivityName((String)initialActivity.getProperty("name"));
+    historicActivityInstance.setActivityType((String)initialActivity.getProperty("type"));
+    Date now=ClockUtil.getCurrentTime();
+    historicActivityInstance.setStartTime(now);
+    getDbSqlSession().insert(historicActivityInstance);
   }
 }

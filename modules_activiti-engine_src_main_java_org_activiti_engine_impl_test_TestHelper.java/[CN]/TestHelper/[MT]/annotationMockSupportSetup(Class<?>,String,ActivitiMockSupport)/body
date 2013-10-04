@@ -1,0 +1,12 @@
+{
+  Method method=null;
+  try {
+    method=testClass.getDeclaredMethod(methodName,(Class<?>[])null);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("can't get method by reflection",e);
+  }
+  handleMockServiceTaskAnnotation(mockSupport,method);
+  handleMockServiceTasksAnnotation(mockSupport,method);
+  handleNoOpServiceTasksAnnotation(mockSupport,method);
+}

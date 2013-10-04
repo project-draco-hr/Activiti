@@ -1,0 +1,8 @@
+{
+  MockServiceTasks mockedServiceTasks=method.getAnnotation(MockServiceTasks.class);
+  if (mockedServiceTasks != null) {
+    for (    MockServiceTask mockedServiceTask : mockedServiceTasks.value()) {
+      handleMockServiceTaskAnnotation(mockSupport,mockedServiceTask);
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  NumberPropertyDefinition numberPropertyDefinition=(NumberPropertyDefinition)propertyDefinition;
+  String propertyName=AlfrescoConversionUtil.getQualifiedName(AlfrescoConversionUtil.getModelNamespacePrefix(conversion),numberPropertyDefinition.getName());
+  M2Property property=new M2Property();
+  property.setMandatory(new M2Mandatory(numberPropertyDefinition.isMandatory()));
+  property.setName(propertyName);
+  property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_DOUBLE);
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField formField=form.getFormAppearance().addFormField(propertyName,property.getTitle(),formSet);
+  if (numberPropertyDefinition.isWritable()) {
+    FormFieldControl control=new FormFieldControl();
+    control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
+    formField.setControl(control);
+  }
+ else {
+    FormFieldControl control=new FormFieldControl();
+    control.setTemplate(AlfrescoConversionConstants.FORM_NUMBER_TEMPLATE);
+    formField.setControl(control);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if (allServiceTasksNoOp || noOpServiceTaskIds.contains(serviceTask.getId()) || noOpServiceTaskClassNames.contains(serviceTask.getImplementation())) {
+    return createNoOpServiceTask(serviceTask);
+  }
+ else   if (serviceTask.getImplementation() != null && mockedClassDelegatesMapping.containsKey(serviceTask.getImplementation())) {
+    return new ClassDelegate(mockedClassDelegatesMapping.get(serviceTask.getImplementation()),createFieldDeclarations(serviceTask.getFieldExtensions()));
+  }
+  return wrappedActivityBehaviorFactory.createClassDelegateServiceTask(serviceTask);
+}
