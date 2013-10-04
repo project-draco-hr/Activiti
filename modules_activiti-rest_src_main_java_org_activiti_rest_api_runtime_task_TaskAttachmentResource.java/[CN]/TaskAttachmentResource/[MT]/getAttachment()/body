@@ -1,6 +1,6 @@
 {
   if (!authenticate())   return null;
-  Task task=getTaskFromRequest();
+  HistoricTaskInstance task=getHistoricTaskFromRequest();
   String attachmentId=getAttribute("attachmentId");
   if (attachmentId == null) {
     throw new ActivitiIllegalArgumentException("AttachmentId is required.");

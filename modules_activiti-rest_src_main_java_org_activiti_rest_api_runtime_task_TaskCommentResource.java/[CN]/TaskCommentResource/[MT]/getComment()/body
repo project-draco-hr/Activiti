@@ -1,6 +1,6 @@
 {
   if (!authenticate())   return null;
-  Task task=getTaskFromRequest();
+  HistoricTaskInstance task=getHistoricTaskFromRequest();
   String commentId=getAttribute("commentId");
   if (commentId == null) {
     throw new ActivitiIllegalArgumentException("CommentId is required.");

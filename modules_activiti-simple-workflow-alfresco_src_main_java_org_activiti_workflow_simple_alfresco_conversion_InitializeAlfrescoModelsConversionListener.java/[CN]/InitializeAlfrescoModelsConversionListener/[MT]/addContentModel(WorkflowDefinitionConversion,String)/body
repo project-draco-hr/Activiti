@@ -1,0 +1,11 @@
+{
+  M2Model model=new M2Model();
+  model.setName(AlfrescoConversionUtil.getQualifiedName(processId,AlfrescoConversionConstants.CONTENT_MODEL_UNQUALIFIED_NAME));
+  M2Namespace namespace=AlfrescoConversionUtil.createNamespace(processId);
+  model.getNamespaces().add(namespace);
+  model.getImports().add(AlfrescoConversionConstants.DICTIONARY_NAMESPACE);
+  model.getImports().add(AlfrescoConversionConstants.CONTENT_NAMESPACE);
+  model.getImports().add(AlfrescoConversionConstants.BPM_NAMESPACE);
+  AlfrescoConversionUtil.storeContentModel(model,conversion);
+  AlfrescoConversionUtil.storeModelNamespacePrefix(namespace.getPrefix(),conversion);
+}

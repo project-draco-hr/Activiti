@@ -56,6 +56,12 @@
     requestNode.put("assignee","gonzo");
     assertResultsPresentInDataResponse(url,requestNode,adhocTask.getId());
     requestNode.removeAll();
+    requestNode.put("ownerLike","owne%");
+    assertResultsPresentInDataResponse(url,requestNode,adhocTask.getId());
+    requestNode.removeAll();
+    requestNode.put("assigneeLike","%onzo");
+    assertResultsPresentInDataResponse(url,requestNode,adhocTask.getId());
+    requestNode.removeAll();
     requestNode.put("unassigned",true);
     assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
     requestNode.removeAll();
@@ -78,6 +84,21 @@
     assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
     requestNode.removeAll();
     requestNode.put("processInstanceBusinessKey","myBusinessKey");
+    assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
+    requestNode.removeAll();
+    requestNode.put("processInstanceBusinessKeyLike","myBusiness%");
+    assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
+    requestNode.removeAll();
+    requestNode.put("processDefinitionKey","oneTaskProcess");
+    assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
+    requestNode.removeAll();
+    requestNode.put("processDefinitionKeyLike","%TaskProcess");
+    assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
+    requestNode.removeAll();
+    requestNode.put("processDefinitionName","The One Task Process");
+    assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
+    requestNode.removeAll();
+    requestNode.put("processDefinitionNameLike","The One %");
     assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
     requestNode.removeAll();
     requestNode.put("createdOn",getISODateString(adhocTaskCreate.getTime()));
@@ -113,6 +134,13 @@
     requestNode.removeAll();
     requestNode.put("active",true);
     assertResultsPresentInDataResponse(url,requestNode,adhocTask.getId());
+    requestNode.removeAll();
+    requestNode.put("withoutDueDate",true);
+    assertResultsPresentInDataResponse(url,requestNode);
+    processTask=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    processTask.setDueDate(null);
+    taskService.saveTask(processTask);
+    assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

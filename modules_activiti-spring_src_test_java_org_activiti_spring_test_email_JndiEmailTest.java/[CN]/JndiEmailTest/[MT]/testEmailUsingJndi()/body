@@ -1,0 +1,5 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("EmailJndiProcess",variables);
+  assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+}

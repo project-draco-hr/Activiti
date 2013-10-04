@@ -1,0 +1,20 @@
+{
+  TextPropertyDefinition textDefinition=(TextPropertyDefinition)propertyDefinition;
+  String propertyName=AlfrescoConversionUtil.getQualifiedName(AlfrescoConversionUtil.getModelNamespacePrefix(conversion),textDefinition.getName());
+  M2Property property=new M2Property();
+  property.setMandatory(new M2Mandatory(textDefinition.isMandatory()));
+  property.setName(propertyName);
+  property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_TEXT);
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField formField=form.getFormAppearance().addFormField(propertyName,property.getTitle(),formSet);
+  if (textDefinition.isWritable()) {
+    FormFieldControl control=new FormFieldControl();
+    control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
+    formField.setControl(control);
+  }
+ else   if (textDefinition.isMultiline()) {
+    FormFieldControl control=new FormFieldControl();
+    control.setTemplate(AlfrescoConversionConstants.FORM_MULTILINE_TEXT_TEMPLATE);
+    formField.setControl(control);
+  }
+}

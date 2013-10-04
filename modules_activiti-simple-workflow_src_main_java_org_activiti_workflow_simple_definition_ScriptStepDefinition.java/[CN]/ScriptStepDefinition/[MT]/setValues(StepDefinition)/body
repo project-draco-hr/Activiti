@@ -1,0 +1,11 @@
+{
+  if (!(otherDefinition instanceof ScriptStepDefinition)) {
+    throw new SimpleWorkflowException("An instance of ScriptStepDefinition is required to set values");
+  }
+  ScriptStepDefinition stepDefinition=(ScriptStepDefinition)otherDefinition;
+  setId(stepDefinition.getId());
+  setName(stepDefinition.getName());
+  setScript(stepDefinition.getScript());
+  setScriptLanguage(stepDefinition.getScriptLanguage());
+  setStartsWithPrevious(stepDefinition.isStartsWithPrevious());
+}

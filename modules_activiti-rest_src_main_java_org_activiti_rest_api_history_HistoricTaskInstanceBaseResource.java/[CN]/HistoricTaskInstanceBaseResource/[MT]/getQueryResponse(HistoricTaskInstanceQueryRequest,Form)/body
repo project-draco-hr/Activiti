@@ -9,14 +9,23 @@
   if (queryRequest.getProcessBusinessKey() != null) {
     query.processInstanceBusinessKey(queryRequest.getProcessBusinessKey());
   }
+  if (queryRequest.getProcessBusinessKeyLike() != null) {
+    query.processInstanceBusinessKeyLike(queryRequest.getProcessBusinessKeyLike());
+  }
   if (queryRequest.getProcessDefinitionKey() != null) {
     query.processDefinitionKey(queryRequest.getProcessDefinitionKey());
+  }
+  if (queryRequest.getProcessDefinitionKeyLike() != null) {
+    query.processDefinitionKeyLike(queryRequest.getProcessDefinitionKeyLike());
   }
   if (queryRequest.getProcessDefinitionId() != null) {
     query.processDefinitionId(queryRequest.getProcessDefinitionId());
   }
   if (queryRequest.getProcessDefinitionName() != null) {
     query.processDefinitionName(queryRequest.getProcessDefinitionName());
+  }
+  if (queryRequest.getProcessDefinitionNameLike() != null) {
+    query.processDefinitionNameLike(queryRequest.getProcessDefinitionNameLike());
   }
   if (queryRequest.getExecutionId() != null) {
     query.executionId(queryRequest.getExecutionId());
@@ -35,6 +44,9 @@
   }
   if (queryRequest.getTaskDefinitionKey() != null) {
     query.taskDefinitionKey(queryRequest.getTaskDefinitionKey());
+  }
+  if (queryRequest.getTaskDefinitionKeyLike() != null) {
+    query.taskDefinitionKeyLike(queryRequest.getTaskDefinitionKeyLike());
   }
   if (queryRequest.getTaskDeleteReason() != null) {
     query.taskDeleteReason(queryRequest.getTaskDeleteReason());
@@ -56,6 +68,15 @@
   }
   if (queryRequest.getTaskInvolvedUser() != null) {
     query.taskInvolvedUser(queryRequest.getTaskInvolvedUser());
+  }
+  if (queryRequest.getTaskPriority() != null) {
+    query.taskPriority(queryRequest.getTaskPriority());
+  }
+  if (queryRequest.getTaskMinPriority() != null) {
+    query.taskMinPriority(queryRequest.getTaskMinPriority());
+  }
+  if (queryRequest.getTaskMaxPriority() != null) {
+    query.taskMaxPriority(queryRequest.getTaskMaxPriority());
   }
   if (queryRequest.getTaskPriority() != null) {
     query.taskPriority(queryRequest.getTaskPriority());
@@ -88,8 +109,35 @@
   if (queryRequest.getDueDateBefore() != null) {
     query.taskDueBefore(queryRequest.getDueDateBefore());
   }
+  if (queryRequest.getWithoutDueDate() != null && queryRequest.getWithoutDueDate()) {
+    query.withoutTaskDueDate();
+  }
   if (queryRequest.getTaskCreatedOn() != null) {
     query.taskCreatedOn(queryRequest.getTaskCreatedOn());
+  }
+  if (queryRequest.getTaskCreatedBefore() != null) {
+    query.taskCreatedBefore(queryRequest.getTaskCreatedBefore());
+  }
+  if (queryRequest.getTaskCreatedAfter() != null) {
+    query.taskCreatedAfter(queryRequest.getTaskCreatedAfter());
+  }
+  if (queryRequest.getTaskCreatedOn() != null) {
+    query.taskCreatedOn(queryRequest.getTaskCreatedOn());
+  }
+  if (queryRequest.getTaskCreatedBefore() != null) {
+    query.taskCreatedBefore(queryRequest.getTaskCreatedBefore());
+  }
+  if (queryRequest.getTaskCreatedAfter() != null) {
+    query.taskCreatedAfter(queryRequest.getTaskCreatedAfter());
+  }
+  if (queryRequest.getTaskCompletedOn() != null) {
+    query.taskCompletedOn(queryRequest.getTaskCompletedOn());
+  }
+  if (queryRequest.getTaskCompletedBefore() != null) {
+    query.taskCompletedBefore(queryRequest.getTaskCompletedBefore());
+  }
+  if (queryRequest.getTaskCompletedAfter() != null) {
+    query.taskCompletedAfter(queryRequest.getTaskCompletedAfter());
   }
   if (queryRequest.getIncludeTaskLocalVariables() != null) {
     if (queryRequest.getIncludeTaskLocalVariables()) {

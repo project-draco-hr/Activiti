@@ -1,0 +1,13 @@
+{
+  HumanStepDefinition humanStep=(HumanStepDefinition)stepDefinition;
+  validate(humanStep);
+  M2Type type=new M2Type();
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  M2Namespace modelNamespace=model.getNamespaces().get(0);
+  type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),humanStep.getId()));
+  type.setParentName(AlfrescoConversionConstants.DEFAULT_BASE_FORM_TYPE);
+  Module shareModule=AlfrescoConversionUtil.getModule(conversion);
+  Configuration configuration=shareModule.addConfiguration(AlfrescoConversionConstants.EVALUATOR_STRING_COMPARE,MessageFormat.format(AlfrescoConversionConstants.EVALUATOR_CONDITION_ACTIVITI,modelNamespace.getPrefix()));
+  Form formConfig=configuration.createForm();
+  formCreator.createForm(type,formConfig,humanStep.getForm(),conversion);
+}

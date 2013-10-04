@@ -9,5 +9,5 @@
   populateTaskFromRequest(task,taskRequest);
   ActivitiUtil.getTaskService().saveTask(task);
   task=ActivitiUtil.getTaskService().createTaskQuery().taskId(task.getId()).singleResult();
-  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createTaskReponse(this,task);
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createTaskResponse(this,task);
 }

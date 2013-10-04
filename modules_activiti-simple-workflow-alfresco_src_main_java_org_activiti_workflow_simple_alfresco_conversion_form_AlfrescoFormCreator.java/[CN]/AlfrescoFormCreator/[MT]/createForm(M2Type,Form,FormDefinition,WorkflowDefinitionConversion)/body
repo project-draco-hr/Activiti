@@ -1,0 +1,16 @@
+{
+  if (formDefinition.getFormGroups() != null) {
+    for (    FormPropertyGroup group : formDefinition.getFormGroups()) {
+      String groupId=AlfrescoConversionUtil.getValidIdString(group.getId());
+      FormSet formSet=formConfig.getFormAppearance().addFormSet(groupId,getAppearanceForGroup(group),group.getTitle(),getTemplateForGroup(group));
+      AlfrescoFormPropertyConverter converter=null;
+      for (      FormPropertyDefinition property : group.getFormPropertyDefinitions()) {
+        converter=propertyConverters.get(property.getClass());
+        if (converter == null) {
+          throw new AlfrescoSimpleWorkflowException("Unsupported property type: " + property.getClass().getName());
+        }
+        converter.convertProperty(contentType,formSet.getId(),formConfig,property,conversion);
+      }
+    }
+  }
+}
