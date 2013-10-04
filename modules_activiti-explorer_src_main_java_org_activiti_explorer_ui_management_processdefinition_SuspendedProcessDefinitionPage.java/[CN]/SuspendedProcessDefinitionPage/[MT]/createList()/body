@@ -12,11 +12,11 @@
       if (item != null) {
         String processDefinitionId=(String)item.getItemProperty("id").getValue();
         setDetailComponent(new SuspendedProcessDefinitionDetailPanel(processDefinitionId,SuspendedProcessDefinitionPage.this));
-        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ActiveProcessDefinitionNavigator.ACTIVE_PROC_DEF_URI_PART,processDefinitionId));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(SuspendedProcessDefinitionNavigator.SUSPENDED_PROC_DEF_URI_PART,processDefinitionId));
       }
  else {
         setDetailComponent(null);
-        ExplorerApp.get().setCurrentUriFragment(new UriFragment(ActiveProcessDefinitionNavigator.ACTIVE_PROC_DEF_URI_PART));
+        ExplorerApp.get().setCurrentUriFragment(new UriFragment(SuspendedProcessDefinitionNavigator.SUSPENDED_PROC_DEF_URI_PART));
       }
     }
   }
