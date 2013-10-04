@@ -1,0 +1,8 @@
+{
+  if (log.isDebugEnabled()) {
+    log.debug("updateProcessBusinessKeyInHistory : {}",processInstance.getId());
+  }
+  HistoricProcessInstanceEntity historicProcessInstance=getDbSqlSession().selectById(HistoricProcessInstanceEntity.class,processInstance.getId());
+  historicProcessInstance.setBusinessKey(processInstance.getProcessBusinessKey());
+  getDbSqlSession().update(historicProcessInstance);
+}
