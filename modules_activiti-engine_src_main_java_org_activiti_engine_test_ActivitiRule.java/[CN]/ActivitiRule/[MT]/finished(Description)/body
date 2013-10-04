@@ -6,5 +6,7 @@
     throw new ActivitiException("Programmatic error: could not instantiate " + description.getClassName(),e);
   }
   ClockUtil.reset();
-  TestHelper.annotationMockSupportTeardown(mockSupport);
+  if (mockSupport != null) {
+    TestHelper.annotationMockSupportTeardown(mockSupport);
+  }
 }
