@@ -1,0 +1,7 @@
+{
+  ProcessEngineConfigurationImpl processEngineConfiguration=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration();
+  ActivityBehaviorFactory existingActivityBehaviorFactory=processEngineConfiguration.getActivityBehaviorFactory();
+  this.testActivityBehaviorFactory=new TestActivityBehaviorFactory(existingActivityBehaviorFactory);
+  processEngineConfiguration.setActivityBehaviorFactory(testActivityBehaviorFactory);
+  processEngineConfiguration.getBpmnParser().setActivityBehaviorFactory(testActivityBehaviorFactory);
+}

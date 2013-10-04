@@ -1,0 +1,25 @@
+{
+  return new Statement(){
+    @Override public void evaluate() throws Throwable {
+      List<Throwable> errors=new ArrayList<Throwable>();
+      startingQuietly(description,errors);
+      try {
+        base.evaluate();
+        succeededQuietly(description,errors);
+      }
+ catch (      AssumptionViolatedException e) {
+        errors.add(e);
+        skippedQuietly(e,description,errors);
+      }
+catch (      Throwable t) {
+        errors.add(t);
+        failedQuietly(t,description,errors);
+      }
+ finally {
+        finishedQuietly(description,errors);
+      }
+      MultipleFailureException.assertEmpty(errors);
+    }
+  }
+;
+}

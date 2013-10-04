@@ -1,0 +1,20 @@
+{
+  if (processEngine == null) {
+    initializeProcessEngine();
+    initializeServices();
+    initializeMockSupport();
+  }
+  configureProcessEngine();
+  try {
+    TestHelper.annotationMockSupportSetup(Class.forName(description.getClassName()),description.getMethodName(),mockSupport);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new ActivitiException("Programmatic error: could not instantiate " + description.getClassName(),e);
+  }
+  try {
+    deploymentId=TestHelper.annotationDeploymentSetUp(processEngine,Class.forName(description.getClassName()),description.getMethodName());
+  }
+ catch (  ClassNotFoundException e) {
+    throw new ActivitiException("Programmatic error: could not instantiate " + description.getClassName(),e);
+  }
+}
