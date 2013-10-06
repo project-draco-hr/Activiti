@@ -7,10 +7,6 @@
     throw new ActivitiException("Execution with id '" + executionId + "' does not have a subscription to a message event with name '"+ messageName+ "'");
   }
   EventSubscriptionEntity eventSubscriptionEntity=eventSubscriptions.get(0);
-  HashMap<String,Object> payload=null;
-  if (processVariables != null) {
-    payload=new HashMap<String,Object>(processVariables);
-  }
-  eventSubscriptionEntity.eventReceived(payload,false);
+  eventSubscriptionEntity.eventReceived(payload,async);
   return null;
 }
