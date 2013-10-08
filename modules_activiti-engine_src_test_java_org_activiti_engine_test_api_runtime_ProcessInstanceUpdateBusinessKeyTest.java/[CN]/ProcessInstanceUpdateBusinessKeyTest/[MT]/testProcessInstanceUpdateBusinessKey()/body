@@ -1,0 +1,8 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  runtimeService.startProcessInstanceByKey(processDefinition.getKey());
+  ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
+  assertEquals("bzKey",processInstance.getBusinessKey());
+  HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().singleResult();
+  assertEquals("bzKey",historicProcessInstance.getBusinessKey());
+}
