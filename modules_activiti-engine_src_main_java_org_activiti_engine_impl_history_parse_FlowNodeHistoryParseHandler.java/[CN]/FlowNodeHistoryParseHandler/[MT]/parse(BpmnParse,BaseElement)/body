@@ -1,5 +1,11 @@
 {
   ActivityImpl activity=bpmnParse.getCurrentScope().findActivity(element.getId());
-  activity.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_START,ACTIVITY_INSTANCE_START_LISTENER,0);
-  activity.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END,ACTIVITI_INSTANCE_END_LISTENER);
+  if (element instanceof BoundaryEvent) {
+    activity.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END,ACTIVITY_INSTANCE_START_LISTENER,0);
+    activity.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END,ACTIVITI_INSTANCE_END_LISTENER,1);
+  }
+ else {
+    activity.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_START,ACTIVITY_INSTANCE_START_LISTENER,0);
+    activity.addExecutionListener(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END,ACTIVITI_INSTANCE_END_LISTENER);
+  }
 }
