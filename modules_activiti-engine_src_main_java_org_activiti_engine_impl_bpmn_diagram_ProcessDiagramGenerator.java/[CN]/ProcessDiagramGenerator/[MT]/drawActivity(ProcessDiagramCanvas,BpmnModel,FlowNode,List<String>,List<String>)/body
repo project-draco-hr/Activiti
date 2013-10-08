@@ -13,7 +13,7 @@
     }
     GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
     if (flowNode instanceof SubProcess) {
-      collapsed=!graphicInfo.isExpanded();
+      collapsed=graphicInfo.getExpanded() != null && graphicInfo.getExpanded() == false;
     }
  else     if (flowNode instanceof CallActivity) {
       collapsed=true;
