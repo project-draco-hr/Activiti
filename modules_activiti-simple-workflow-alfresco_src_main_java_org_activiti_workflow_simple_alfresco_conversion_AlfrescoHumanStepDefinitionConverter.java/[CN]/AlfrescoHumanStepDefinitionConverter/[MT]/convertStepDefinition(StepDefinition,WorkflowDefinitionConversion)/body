@@ -1,8 +1,13 @@
 {
+  super.convertStepDefinition(stepDefinition,conversion);
+  String userTaskId=conversion.getLastActivityId();
+  UserTask userTask=(UserTask)conversion.getProcess().getFlowElement(userTaskId);
+  userTask.getFormProperties().clear();
   HumanStepDefinition humanStep=(HumanStepDefinition)stepDefinition;
   validate(humanStep);
   M2Type type=new M2Type();
   M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  model.getTypes().add(type);
   M2Namespace modelNamespace=model.getNamespaces().get(0);
   type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),humanStep.getId()));
   type.setParentName(AlfrescoConversionConstants.DEFAULT_BASE_FORM_TYPE);

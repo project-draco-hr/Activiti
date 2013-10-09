@@ -1,5 +1,11 @@
 {
-  String processId=generateUniqueProcessId(conversion);
+  String processId=null;
+  if (conversion.getWorkflowDefinition().getId() != null) {
+    processId=AlfrescoConversionUtil.getValidIdString(conversion.getWorkflowDefinition().getId());
+  }
+ else {
+    processId=generateUniqueProcessId(conversion);
+  }
   addContentModel(conversion,processId);
   addModule(conversion,processId);
 }

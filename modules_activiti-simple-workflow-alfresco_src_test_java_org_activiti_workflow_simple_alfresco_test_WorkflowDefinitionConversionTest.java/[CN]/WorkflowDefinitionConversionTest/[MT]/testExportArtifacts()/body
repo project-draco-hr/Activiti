@@ -1,0 +1,24 @@
+{
+  WorkflowDefinition definition=new WorkflowDefinition();
+  HumanStepDefinition humanStep=new HumanStepDefinition();
+  humanStep.setAssignee("fred");
+  humanStep.setId("step 1");
+  FormDefinition form=new FormDefinition();
+  form.setFormKey("wf:activitiAdhoc");
+  humanStep.setForm(form);
+  definition.addStep(humanStep);
+  WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(definition);
+  conversion.convert();
+  ByteArrayOutputStream stream=new ByteArrayOutputStream();
+  conversionFactory.writeBpmnModel(stream,conversion);
+  byte[] byteArray=stream.toByteArray();
+  assertTrue(byteArray.length > 0);
+  stream=new ByteArrayOutputStream();
+  conversionFactory.writeContentModel(stream,conversion);
+  byteArray=stream.toByteArray();
+  assertTrue(byteArray.length > 0);
+  stream=new ByteArrayOutputStream();
+  conversionFactory.writeModule(stream,conversion);
+  byteArray=stream.toByteArray();
+  assertTrue(byteArray.length > 0);
+}

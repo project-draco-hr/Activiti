@@ -1,0 +1,11 @@
+{
+  Module module=AlfrescoConversionUtil.getModule(conversion);
+  try {
+    Marshaller marshaller=moduleContext.createMarshaller();
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
+    marshaller.marshal(module,out);
+  }
+ catch (  JAXBException jaxbe) {
+    throw new IOException(jaxbe);
+  }
+}

@@ -1,5 +1,18 @@
 {
   super();
-  workflowDefinitionConversionListeners.add(new InitializeAlfrescoModelsConversionListener());
+  bpmnConverter=new BpmnXMLConverter();
+  try {
+    contentModelContext=JAXBContext.newInstance(M2Model.class);
+  }
+ catch (  JAXBException jaxbe) {
+    throw new AlfrescoSimpleWorkflowException("Error while building JAXB-context for exporting content-model",jaxbe);
+  }
+  try {
+    moduleContext=JAXBContext.newInstance(Module.class);
+  }
+ catch (  JAXBException jaxbe) {
+    throw new AlfrescoSimpleWorkflowException("Error while building JAXB-context for exporting share-module",jaxbe);
+  }
+  defaultWorkflowDefinitionConversionListeners.add(new InitializeAlfrescoModelsConversionListener());
   defaultStepConverters.put(HumanStepDefinition.class,new AlfrescoHumanStepDefinitionConverter());
 }

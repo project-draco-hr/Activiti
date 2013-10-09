@@ -5,6 +5,7 @@
   property.setMandatory(new M2Mandatory(textDefinition.isMandatory()));
   property.setName(propertyName);
   property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_TEXT);
+  contentType.getProperties().add(property);
   form.getFormFieldVisibility().addShowFieldElement(propertyName);
   FormField formField=form.getFormAppearance().addFormField(propertyName,property.getTitle(),formSet);
   if (textDefinition.isWritable()) {
