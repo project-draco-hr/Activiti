@@ -1,0 +1,26 @@
+{
+  AlfrescoWorkflowDefinitionConversionFactory factory=new AlfrescoWorkflowDefinitionConversionFactory();
+  WorkflowDefinition definition=new WorkflowDefinition();
+  definition.setId("process");
+  HumanStepDefinition humanStep=new HumanStepDefinition();
+  humanStep.setId("step1");
+  humanStep.setAssignee("admin");
+  FormDefinition form=new FormDefinition();
+  humanStep.setForm(form);
+  FormPropertyGroup group=new FormPropertyGroup();
+  group.setId("group");
+  group.setTitle("My group");
+  humanStep.getForm().addFormPropertyGroup(group);
+  TextPropertyDefinition textProperty=new TextPropertyDefinition();
+  textProperty.setName("text");
+  textProperty.setMandatory(true);
+  group.addFormProperty(textProperty);
+  definition.addStep(humanStep);
+  WorkflowDefinitionConversion conversion=factory.createWorkflowDefinitionConversion(definition);
+  conversion.convert();
+  File repoFolder=new File("target/repo");
+  repoFolder.mkdir();
+  File shareFolder=new File("target/share");
+  shareFolder.mkdir();
+  factory.getArtifactExporter().exportArtifacts(conversion,repoFolder,shareFolder);
+}

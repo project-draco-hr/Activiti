@@ -10,15 +10,19 @@
   WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(definition);
   conversion.convert();
   ByteArrayOutputStream stream=new ByteArrayOutputStream();
-  conversionFactory.writeBpmnModel(stream,conversion);
+  conversionFactory.getArtifactExporter().writeBpmnModel(stream,conversion);
   byte[] byteArray=stream.toByteArray();
   assertTrue(byteArray.length > 0);
   stream=new ByteArrayOutputStream();
-  conversionFactory.writeContentModel(stream,conversion);
+  conversionFactory.getArtifactExporter().writeContentModel(stream,conversion);
   byteArray=stream.toByteArray();
   assertTrue(byteArray.length > 0);
   stream=new ByteArrayOutputStream();
-  conversionFactory.writeModule(stream,conversion);
+  conversionFactory.getArtifactExporter().writeShareConfig(stream,conversion,true);
+  byteArray=stream.toByteArray();
+  assertTrue(byteArray.length > 0);
+  stream=new ByteArrayOutputStream();
+  conversionFactory.getArtifactExporter().writeShareConfig(stream,conversion,false);
   byteArray=stream.toByteArray();
   assertTrue(byteArray.length > 0);
 }
