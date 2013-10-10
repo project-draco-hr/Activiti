@@ -1,6 +1,7 @@
 {
   AlfrescoWorkflowDefinitionConversionFactory factory=new AlfrescoWorkflowDefinitionConversionFactory();
   WorkflowDefinition definition=new WorkflowDefinition();
+  definition.setName("Custom workflow");
   definition.setId("process");
   HumanStepDefinition humanStep=new HumanStepDefinition();
   humanStep.setId("step1");
@@ -16,11 +17,34 @@
   textProperty.setMandatory(true);
   group.addFormProperty(textProperty);
   definition.addStep(humanStep);
+  FormDefinition startForm=new FormDefinition();
+  definition.setStartFormDefinition(startForm);
+  FormPropertyGroup startGroup=new FormPropertyGroup();
+  startGroup.setId("group");
+  startGroup.setTitle("My group");
+  startForm.addFormPropertyGroup(startGroup);
+  TextPropertyDefinition startTextProp=new TextPropertyDefinition();
+  startTextProp.setName("text");
+  startTextProp.setMandatory(true);
+  startGroup.addFormProperty(startTextProp);
+  ListPropertyDefinition listProp=new ListPropertyDefinition();
+  listProp.setName("Gender");
+  listProp.getEntries().add(new ListPropertyEntry("Man","m"));
+  listProp.getEntries().add(new ListPropertyEntry("Vrouw","v"));
+  startGroup.addFormProperty(listProp);
+  FormPropertyGroup anotherGroup=new FormPropertyGroup();
+  anotherGroup.setId("other");
+  anotherGroup.setTitle("Another group");
+  startForm.addFormPropertyGroup(anotherGroup);
+  DatePropertyDefinition dateProp=new DatePropertyDefinition();
+  dateProp.setName("Start date");
+  anotherGroup.addFormProperty(dateProp);
+  NumberPropertyDefinition numberProp=new NumberPropertyDefinition();
+  numberProp.setName("Amount");
+  anotherGroup.addFormProperty(numberProp);
   WorkflowDefinitionConversion conversion=factory.createWorkflowDefinitionConversion(definition);
   conversion.convert();
-  File repoFolder=new File("target/repo");
-  repoFolder.mkdir();
-  File shareFolder=new File("target/share");
-  shareFolder.mkdir();
+  File repoFolder=new File("/development/alfresco/projects/head/software/tomcat/shared/classes/alfresco/extension");
+  File shareFolder=new File("/development/alfresco/projects/head/software/tomcat-app/shared/classes/alfresco/web-extension");
   factory.getArtifactExporter().exportArtifacts(conversion,repoFolder,shareFolder);
 }

@@ -6,6 +6,7 @@
  else {
     processId=generateUniqueProcessId(conversion);
   }
-  addContentModel(conversion,processId);
+  M2Model model=addContentModel(conversion,processId);
   addModule(conversion,processId);
+  addAspectsForReusedProperties(conversion.getWorkflowDefinition(),model,processId);
 }
