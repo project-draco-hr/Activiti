@@ -1,0 +1,15 @@
+{
+  assertEquals(3,listeners.size());
+  ActivitiListener listener=(ActivitiListener)listeners.get(0);
+  assertTrue(ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(listener.getImplementationType()));
+  assertEquals("org.test.TestClass",listener.getImplementation());
+  assertEquals("start",listener.getEvent());
+  listener=(ActivitiListener)listeners.get(1);
+  assertTrue(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equals(listener.getImplementationType()));
+  assertEquals("${testExpression}",listener.getImplementation());
+  assertEquals("end",listener.getEvent());
+  listener=(ActivitiListener)listeners.get(2);
+  assertTrue(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(listener.getImplementationType()));
+  assertEquals("${delegateExpression}",listener.getImplementation());
+  assertEquals("start",listener.getEvent());
+}

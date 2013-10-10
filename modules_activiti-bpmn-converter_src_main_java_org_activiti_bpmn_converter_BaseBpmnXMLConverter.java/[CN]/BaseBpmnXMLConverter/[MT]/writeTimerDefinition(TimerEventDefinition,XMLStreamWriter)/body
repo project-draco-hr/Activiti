@@ -1,5 +1,9 @@
 {
   xtw.writeStartElement(ELEMENT_EVENT_TIMERDEFINITION);
+  boolean didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(timerDefinition,false,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
+  }
   if (StringUtils.isNotEmpty(timerDefinition.getTimeDate())) {
     xtw.writeStartElement(ATTRIBUTE_TIMER_DATE);
     xtw.writeCharacters(timerDefinition.getTimeDate());

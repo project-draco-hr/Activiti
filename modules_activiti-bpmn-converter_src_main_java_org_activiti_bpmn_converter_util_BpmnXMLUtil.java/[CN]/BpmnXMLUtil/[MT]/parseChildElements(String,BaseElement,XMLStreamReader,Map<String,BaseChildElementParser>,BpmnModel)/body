@@ -1,0 +1,31 @@
+{
+  if (childParsers == null) {
+    childParsers=new HashMap<String,BaseChildElementParser>();
+  }
+  childParsers.putAll(genericChildParserMap);
+  boolean inExtensionElements=false;
+  boolean readyWithChildElements=false;
+  while (readyWithChildElements == false && xtr.hasNext()) {
+    xtr.next();
+    if (xtr.isStartElement()) {
+      if (ELEMENT_EXTENSIONS.equals(xtr.getLocalName())) {
+        inExtensionElements=true;
+      }
+ else       if (childParsers.containsKey(xtr.getLocalName())) {
+        childParsers.get(xtr.getLocalName()).parseChildElement(xtr,parentElement,model);
+      }
+ else       if (inExtensionElements) {
+        ExtensionElement extensionElement=BpmnXMLUtil.parseExtensionElement(xtr);
+        parentElement.addExtensionElement(extensionElement);
+      }
+    }
+ else     if (xtr.isEndElement()) {
+      if (ELEMENT_EXTENSIONS.equals(xtr.getLocalName())) {
+        inExtensionElements=false;
+      }
+ else       if (elementName.equalsIgnoreCase(xtr.getLocalName())) {
+        readyWithChildElements=true;
+      }
+    }
+  }
+}
