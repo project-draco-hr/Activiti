@@ -5,8 +5,19 @@
   property.setMandatory(new M2Mandatory(numberPropertyDefinition.isMandatory()));
   property.setName(propertyName);
   property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_DOUBLE);
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  M2Aspect aspect=model.getAspect(propertyName);
+  if (aspect != null) {
+    if (aspect.getProperties().isEmpty()) {
+      aspect.getProperties().add(property);
+    }
+    contentType.getMandatoryAspects().add(propertyName);
+  }
+ else {
+    contentType.getProperties().add(property);
+  }
   form.getFormFieldVisibility().addShowFieldElement(propertyName);
-  FormField formField=form.getFormAppearance().addFormField(propertyName,property.getTitle(),formSet);
+  FormField formField=form.getFormAppearance().addFormField(propertyName,propertyDefinition.getName(),formSet);
   if (numberPropertyDefinition.isWritable()) {
     FormFieldControl control=new FormFieldControl();
     control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
@@ -17,5 +28,4 @@
     control.setTemplate(AlfrescoConversionConstants.FORM_NUMBER_TEMPLATE);
     formField.setControl(control);
   }
-  contentType.getProperties().add(property);
 }
