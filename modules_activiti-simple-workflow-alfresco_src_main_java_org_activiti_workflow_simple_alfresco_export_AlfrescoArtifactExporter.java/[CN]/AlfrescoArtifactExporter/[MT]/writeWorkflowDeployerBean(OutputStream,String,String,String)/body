@@ -1,0 +1,15 @@
+{
+  Beans beans=new Beans();
+  Bean workflowDeployer=new Bean(processId + WORKFLOW_DEPLOYER_NAME_SUFFIX,WORKFLOW_DEPLOYER_PARENT);
+  beans.getBeans().add(workflowDeployer);
+  BeanProperty modelsProperty=new BeanProperty(PROPERTY_MODELS);
+  modelsProperty.addListItem(EXTENSIONS_PATH_PREFIX + contentModelFileName);
+  workflowDeployer.getProperties().add(modelsProperty);
+  BeanProperty workflowProperty=new BeanProperty(PROPERTY_WORKFLOW_DEFINITIONS);
+  workflowProperty.addProp(new BeanPropertyProp(PROP_KEY_ENGINE_ID,PROP_ENGINE_ID));
+  workflowProperty.addProp(new BeanPropertyProp(PROP_KEY_MIME_TYPE,PROP_MIME_TYPE));
+  workflowProperty.addProp(new BeanPropertyProp(PROP_KEY_LOCATION,EXTENSIONS_PATH_PREFIX + processFileName));
+  workflowProperty.addProp(new BeanPropertyProp(PROP_KEY_REDEPLOY,Boolean.FALSE.toString()));
+  workflowDeployer.getProperties().add(workflowProperty);
+  writeBeans(out,beans);
+}

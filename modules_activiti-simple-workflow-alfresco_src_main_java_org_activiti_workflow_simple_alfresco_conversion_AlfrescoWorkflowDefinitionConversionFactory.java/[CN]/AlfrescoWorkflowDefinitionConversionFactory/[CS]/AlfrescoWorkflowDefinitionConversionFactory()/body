@@ -1,5 +1,6 @@
 {
   super();
-  workflowDefinitionConversionListeners.add(new InitializeAlfrescoModelsConversionListener());
+  artifactExporter=new AlfrescoArtifactExporter();
+  defaultWorkflowDefinitionConversionListeners.add(new InitializeAlfrescoModelsConversionListener());
   defaultStepConverters.put(HumanStepDefinition.class,new AlfrescoHumanStepDefinitionConverter());
 }

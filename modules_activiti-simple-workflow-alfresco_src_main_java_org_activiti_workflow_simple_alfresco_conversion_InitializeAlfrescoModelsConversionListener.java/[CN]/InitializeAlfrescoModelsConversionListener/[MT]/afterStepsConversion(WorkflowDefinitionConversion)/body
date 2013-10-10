@@ -3,7 +3,10 @@
     if (flowElement instanceof StartEvent) {
       StartEvent startEvent=(StartEvent)flowElement;
       if (startEvent.getFormKey() == null) {
-        startEvent.setFormKey(AlfrescoConversionConstants.DEFAULT_START_FORM_TYPE);
+        startEvent.setFormKey(DEFAULT_START_FORM_TYPE);
+        Module module=AlfrescoConversionUtil.getModule(conversion);
+        Configuration detailsForm=module.addConfiguration(EVALUATOR_STRING_COMPARE,MessageFormat.format(EVALUATOR_CONDITION_ACTIVITI,conversion.getProcess().getId()));
+        populateDefaultDetailFormConfig(detailsForm);
       }
     }
   }

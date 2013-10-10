@@ -1,3 +1,12 @@
 {
-  return workflowDefinition.getName().replace(" ","_");
+  String processId=null;
+  if (workflowDefinition.getId() != null) {
+    processId=workflowDefinition.getId();
+  }
+ else {
+    if (workflowDefinition.getName() != null) {
+      processId=workflowDefinition.getName().replace(" ","_");
+    }
+  }
+  return processId;
 }
