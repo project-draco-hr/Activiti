@@ -1,5 +1,5 @@
 {
-  xtw.writeStartDocument(encoding,"1.0");
+  xtw.writeStartDocument("UTF-8","1.0");
   xtw.writeStartElement(ELEMENT_DEFINITIONS);
   xtw.setDefaultNamespace(BPMN2_NAMESPACE);
   xtw.writeDefaultNamespace(BPMN2_NAMESPACE);
@@ -8,6 +8,9 @@
   xtw.writeNamespace(BPMNDI_PREFIX,BPMNDI_NAMESPACE);
   xtw.writeNamespace(OMGDC_PREFIX,OMGDC_NAMESPACE);
   xtw.writeNamespace(OMGDI_PREFIX,OMGDI_NAMESPACE);
+  for (  String prefix : model.getNamespaces().keySet()) {
+    if (!defaultNamespaces.contains(prefix))     xtw.writeNamespace(prefix,model.getNamespaces().get(prefix));
+  }
   xtw.writeAttribute(TYPE_LANGUAGE_ATTRIBUTE,SCHEMA_NAMESPACE);
   xtw.writeAttribute(EXPRESSION_LANGUAGE_ATTRIBUTE,XPATH_NAMESPACE);
   if (StringUtils.isNotEmpty(model.getTargetNamespace())) {

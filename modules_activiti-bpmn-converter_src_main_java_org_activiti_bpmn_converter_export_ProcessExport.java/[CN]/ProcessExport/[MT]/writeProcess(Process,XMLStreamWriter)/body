@@ -11,6 +11,7 @@
   if (process.getCandidateStarterGroups().size() > 0) {
     xtw.writeAttribute(ACTIVITI_EXTENSIONS_PREFIX,ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_PROCESS_CANDIDATE_GROUPS,BpmnXMLUtil.convertToDelimitedString(process.getCandidateStarterGroups()));
   }
+  BpmnXMLUtil.writeAttribute(process.getAttributes().values(),xtw,defaultAttributes);
   if (StringUtils.isNotEmpty(process.getDocumentation())) {
     xtw.writeStartElement(ELEMENT_DOCUMENTATION);
     xtw.writeCharacters(process.getDocumentation());

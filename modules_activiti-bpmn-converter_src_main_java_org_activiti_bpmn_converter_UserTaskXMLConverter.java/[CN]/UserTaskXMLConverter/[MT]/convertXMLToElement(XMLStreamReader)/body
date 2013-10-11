@@ -23,6 +23,7 @@
     String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEGROUPS);
     userTask.getCandidateGroups().addAll(parseDelimitedList(expression));
   }
+  BpmnXMLUtil.addCustomAttributes(xtr,userTask);
   parseChildElements(getXMLElementName(),userTask,xtr);
   return userTask;
 }
