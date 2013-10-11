@@ -24,15 +24,19 @@
   attributes=attributesMap.get("id");
   assertNotNull(attributes);
   assertEquals(1,attributes.size());
-  boolean testResult=false;
-  for (  ExtensionAttribute a : attributes) {
-    assertNotNull(a);
-    assertEquals("id",a.getName());
-    if (a.getValue().equals("test")) {
-      assertEquals("custom2",a.getNamespacePrefix());
-      assertEquals("http://custom2.org/bpmn",a.getNamespace());
-      testResult=true;
-    }
-  }
-  assertTrue(testResult);
+  ExtensionAttribute a=attributes.get(0);
+  assertNotNull(a);
+  assertEquals("id",a.getName());
+  assertEquals("test",a.getValue());
+  assertEquals("custom2",a.getNamespacePrefix());
+  assertEquals("http://custom2.org/bpmn",a.getNamespace());
+  attributes=attributesMap.get("attr");
+  assertNotNull(attributes);
+  assertEquals(1,attributes.size());
+  a=attributes.get(0);
+  assertNotNull(a);
+  assertEquals("attr",a.getName());
+  assertEquals("attrValue",a.getValue());
+  assertEquals("custom2",a.getNamespacePrefix());
+  assertEquals("http://custom2.org/bpmn",a.getNamespace());
 }
