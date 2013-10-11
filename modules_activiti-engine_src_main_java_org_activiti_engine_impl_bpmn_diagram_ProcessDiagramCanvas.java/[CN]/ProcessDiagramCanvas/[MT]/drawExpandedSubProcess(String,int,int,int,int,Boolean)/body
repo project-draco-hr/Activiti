@@ -1,5 +1,5 @@
 {
-  RoundRectangle2D rect=new RoundRectangle2D.Double(x,y,width,height,20,20);
+  RoundRectangle2D rect=new RoundRectangle2D.Double(x,y,width,height,8,8);
   if (isTriggeredByEvent) {
     Stroke originalStroke=g.getStroke();
     g.setStroke(EVENT_SUBPROCESS_STROKE);
@@ -7,6 +7,10 @@
     g.setStroke(originalStroke);
   }
  else {
+    Paint originalPaint=g.getPaint();
+    g.setPaint(SUBPROCESS_BOX_COLOR);
+    g.fill(rect);
+    g.setPaint(originalPaint);
     g.draw(rect);
   }
   String text=fitTextToWidth(name,width);
