@@ -11,10 +11,11 @@
           model.getTypes().add(type);
           M2Namespace modelNamespace=model.getNamespaces().get(0);
           type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),AlfrescoConversionConstants.START_TASK_SIMPLE_NAME));
-          type.setParentName(AlfrescoConversionConstants.DEFAULT_BASE_FORM_TYPE);
+          type.setParentName(AlfrescoConversionConstants.DEFAULT_START_FORM_TYPE);
           Module shareModule=AlfrescoConversionUtil.getModule(conversion);
           Configuration configuration=shareModule.addConfiguration(AlfrescoConversionConstants.EVALUATOR_TASK_TYPE,type.getName());
           Form formConfig=configuration.createForm();
+          formConfig.setStartForm(true);
           formCreator.createForm(type,formConfig,conversion.getWorkflowDefinition().getStartFormDefinition(),conversion);
           detailsForm.addForm(formConfig);
           startEvent.setFormKey(type.getName());

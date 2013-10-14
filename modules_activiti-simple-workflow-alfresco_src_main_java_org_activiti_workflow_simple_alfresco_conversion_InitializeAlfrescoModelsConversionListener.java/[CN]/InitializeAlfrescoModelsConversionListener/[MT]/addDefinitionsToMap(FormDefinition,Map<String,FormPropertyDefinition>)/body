@@ -4,12 +4,14 @@
     for (    FormPropertyGroup group : formDefinition.getFormGroups()) {
       if (group.getFormPropertyDefinitions() != null) {
         for (        FormPropertyDefinition def : group.getFormPropertyDefinitions()) {
-          finalPropertyName=AlfrescoConversionUtil.getValidIdString(def.getName());
-          if (definitionMap.containsKey(finalPropertyName)) {
-            definitionMap.put(finalPropertyName,def);
-          }
+          if (!(def instanceof ReferencePropertyDefinition)) {
+            finalPropertyName=AlfrescoConversionUtil.getValidIdString(def.getName());
+            if (definitionMap.containsKey(finalPropertyName)) {
+              definitionMap.put(finalPropertyName,def);
+            }
  else {
-            definitionMap.put(finalPropertyName,null);
+              definitionMap.put(finalPropertyName,null);
+            }
           }
         }
       }

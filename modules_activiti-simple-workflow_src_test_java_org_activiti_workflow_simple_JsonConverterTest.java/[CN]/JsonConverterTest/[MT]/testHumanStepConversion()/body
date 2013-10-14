@@ -12,6 +12,7 @@
   textProp.setName("textProp");
   textProp.setWritable(false);
   formDefinition.addFormProperty(textProp);
+  textProp.getParameters().put("custom-parameter","This is a test");
   NumberPropertyDefinition numberProp=new NumberPropertyDefinition();
   numberProp.setMandatory(true);
   numberProp.setName("numberProp");
@@ -57,6 +58,11 @@
         assertEquals(origDef.isMandatory(),parsedDef.isMandatory());
         assertEquals(origDef.isWritable(),parsedDef.isWritable());
         assertEquals(origDef.getClass(),parsedDef.getClass());
+        if (parsedDef instanceof TextPropertyDefinition) {
+          assertTrue(parsedDef.getParameters() != null);
+          assertEquals(1L,parsedDef.getParameters().size());
+          assertEquals("This is a test",parsedDef.getParameters().get("custom-parameter"));
+        }
       }
     }
     index++;
