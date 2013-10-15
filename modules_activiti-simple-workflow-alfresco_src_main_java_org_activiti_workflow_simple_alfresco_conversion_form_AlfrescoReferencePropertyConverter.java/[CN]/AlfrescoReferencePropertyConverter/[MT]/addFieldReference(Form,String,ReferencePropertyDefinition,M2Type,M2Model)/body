@@ -1,0 +1,17 @@
+{
+  if (form.isStartForm()) {
+    throw new AlfrescoSimpleWorkflowException("Field references cannot be used on start-forms");
+  }
+  String propertyName=AlfrescoConversionUtil.getQualifiedName(model.getNamespaces().get(0).getPrefix(),definition.getName());
+  if (model.getAspect(propertyName) == null) {
+    throw new AlfrescoSimpleWorkflowException("The property '" + definition.getName() + "' is not used in a from prior to this form: "+ contentType.getName()+ " - "+ propertyName);
+  }
+  contentType.getMandatoryAspects().add(propertyName);
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField field=new FormField();
+  form.getFormAppearance().addFormAppearanceElement(field);
+  field.setId(propertyName);
+  field.setLabelId(definition.getName());
+  field.setSet(formSet);
+  field.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE));
+}

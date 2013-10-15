@@ -1,7 +1,13 @@
 {
   if (formDefinition != null && formDefinition.getFormGroups() != null) {
     for (    FormPropertyGroup group : formDefinition.getFormGroups()) {
-      String groupId=AlfrescoConversionUtil.getValidIdString(group.getId());
+      String groupId=null;
+      if (group.getId() != null) {
+        groupId=AlfrescoConversionUtil.getValidIdString(group.getId());
+      }
+ else {
+        groupId=AlfrescoConversionUtil.getValidIdString(group.getTitle());
+      }
       FormSet formSet=formConfig.getFormAppearance().addFormSet(groupId,getAppearanceForGroup(group),group.getTitle(),getTemplateForGroup(group));
       AlfrescoFormPropertyConverter converter=null;
       for (      FormPropertyDefinition property : group.getFormPropertyDefinitions()) {

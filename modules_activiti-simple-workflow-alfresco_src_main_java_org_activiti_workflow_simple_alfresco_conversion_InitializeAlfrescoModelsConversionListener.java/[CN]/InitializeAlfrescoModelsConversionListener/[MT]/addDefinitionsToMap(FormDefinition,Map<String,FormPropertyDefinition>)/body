@@ -4,7 +4,7 @@
     for (    FormPropertyGroup group : formDefinition.getFormGroups()) {
       if (group.getFormPropertyDefinitions() != null) {
         for (        FormPropertyDefinition def : group.getFormPropertyDefinitions()) {
-          if (!(def instanceof ReferencePropertyDefinition)) {
+          if (isPropertyReuseCandidate(def)) {
             finalPropertyName=AlfrescoConversionUtil.getValidIdString(def.getName());
             if (definitionMap.containsKey(finalPropertyName)) {
               definitionMap.put(finalPropertyName,def);

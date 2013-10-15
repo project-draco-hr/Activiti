@@ -1,0 +1,13 @@
+{
+  if (listener == null) {
+    listener=new ActivitiListener();
+    listener.setEvent(event);
+    listener.setImplementationType(BpmnXMLConstants.ATTRIBUTE_LISTENER_CLASS);
+    listener.setImplementation(AlfrescoConversionConstants.CLASSNAME_SCRIPT_TASK_LISTENER);
+    FieldExtension scriptFieldElement=new FieldExtension();
+    scriptFieldElement.setFieldName(AlfrescoConversionConstants.SCRIPT_TASK_LISTENER_SCRIPT_FIELD_NAME);
+    scriptFieldElement.setStringValue(finalScript.toString());
+    listener.getFieldExtensions().add(scriptFieldElement);
+  }
+  return listener;
+}

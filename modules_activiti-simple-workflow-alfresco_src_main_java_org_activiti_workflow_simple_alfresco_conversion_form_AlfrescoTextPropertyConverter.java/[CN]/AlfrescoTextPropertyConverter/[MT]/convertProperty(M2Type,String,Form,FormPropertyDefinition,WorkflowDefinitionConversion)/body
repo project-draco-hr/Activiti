@@ -18,7 +18,7 @@
   }
   form.getFormFieldVisibility().addShowFieldElement(propertyName);
   FormField formField=form.getFormAppearance().addFormField(propertyName,propertyDefinition.getName(),formSet);
-  if (textDefinition.isWritable()) {
+  if (!textDefinition.isWritable()) {
     FormFieldControl control=new FormFieldControl();
     control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
     formField.setControl(control);

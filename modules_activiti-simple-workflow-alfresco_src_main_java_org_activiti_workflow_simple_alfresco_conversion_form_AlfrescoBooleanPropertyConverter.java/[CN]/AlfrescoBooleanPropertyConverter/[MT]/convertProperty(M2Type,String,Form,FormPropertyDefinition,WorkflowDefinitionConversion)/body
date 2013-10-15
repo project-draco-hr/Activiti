@@ -1,0 +1,26 @@
+{
+  BooleanPropertyDefinition dateDefinition=(BooleanPropertyDefinition)propertyDefinition;
+  String propertyName=AlfrescoConversionUtil.getQualifiedName(AlfrescoConversionUtil.getModelNamespacePrefix(conversion),dateDefinition.getName());
+  M2Property property=new M2Property();
+  property.setMandatory(new M2Mandatory(dateDefinition.isMandatory()));
+  property.setName(propertyName);
+  property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_BOOLEAN);
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  M2Aspect aspect=model.getAspect(propertyName);
+  if (aspect != null) {
+    if (aspect.getProperties().isEmpty()) {
+      aspect.getProperties().add(property);
+    }
+    contentType.getMandatoryAspects().add(propertyName);
+  }
+ else {
+    contentType.getProperties().add(property);
+  }
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField formField=form.getFormAppearance().addFormField(propertyName,dateDefinition.getName(),formSet);
+  if (!dateDefinition.isWritable()) {
+    FormFieldControl control=new FormFieldControl();
+    control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
+    formField.setControl(control);
+  }
+}
