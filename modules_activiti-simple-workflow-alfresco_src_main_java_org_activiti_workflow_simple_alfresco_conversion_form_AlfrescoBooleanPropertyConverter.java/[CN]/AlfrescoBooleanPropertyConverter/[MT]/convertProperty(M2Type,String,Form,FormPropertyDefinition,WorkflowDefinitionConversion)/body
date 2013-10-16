@@ -1,8 +1,8 @@
 {
-  BooleanPropertyDefinition dateDefinition=(BooleanPropertyDefinition)propertyDefinition;
-  String propertyName=AlfrescoConversionUtil.getQualifiedName(AlfrescoConversionUtil.getModelNamespacePrefix(conversion),dateDefinition.getName());
+  BooleanPropertyDefinition booleanDefinition=(BooleanPropertyDefinition)propertyDefinition;
+  String propertyName=getPropertyName(propertyDefinition,conversion);
   M2Property property=new M2Property();
-  property.setMandatory(new M2Mandatory(dateDefinition.isMandatory()));
+  property.setMandatory(new M2Mandatory(booleanDefinition.isMandatory()));
   property.setName(propertyName);
   property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_BOOLEAN);
   M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
@@ -17,10 +17,13 @@
     contentType.getProperties().add(property);
   }
   form.getFormFieldVisibility().addShowFieldElement(propertyName);
-  FormField formField=form.getFormAppearance().addFormField(propertyName,dateDefinition.getName(),formSet);
-  if (!dateDefinition.isWritable()) {
+  FormField formField=form.getFormAppearance().addFormField(propertyName,booleanDefinition.getName(),formSet);
+  if (!booleanDefinition.isWritable()) {
     FormFieldControl control=new FormFieldControl();
     control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
     formField.setControl(control);
+  }
+  if (!form.isStartForm()) {
+    addOutputProperty(propertyDefinition,propertyName,contentType.getName(),conversion);
   }
 }

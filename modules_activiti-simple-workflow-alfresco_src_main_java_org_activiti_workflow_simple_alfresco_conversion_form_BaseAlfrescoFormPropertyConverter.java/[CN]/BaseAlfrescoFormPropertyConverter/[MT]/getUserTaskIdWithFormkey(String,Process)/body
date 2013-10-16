@@ -1,0 +1,8 @@
+{
+  for (  FlowElement flowElement : process.getFlowElements()) {
+    if (flowElement instanceof UserTask && contentType.equals(((UserTask)flowElement).getFormKey())) {
+      return flowElement.getId();
+    }
+  }
+  return null;
+}
