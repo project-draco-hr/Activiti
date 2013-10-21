@@ -4,6 +4,7 @@
   }
   ParallelStepsDefinition definition=(ParallelStepsDefinition)otherDefinition;
   setId(definition.getId());
+  setParameters(new HashMap<String,Object>(otherDefinition.getParameters()));
   steps=new ArrayList<StepDefinition>();
   if (definition.getSteps() != null && definition.getSteps().size() > 0) {
     for (    StepDefinition stepDefinition : definition.getSteps()) {

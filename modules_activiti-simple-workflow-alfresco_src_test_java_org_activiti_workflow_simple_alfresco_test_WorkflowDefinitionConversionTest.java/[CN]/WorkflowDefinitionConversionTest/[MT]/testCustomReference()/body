@@ -1,0 +1,27 @@
+{
+  WorkflowDefinition definition=new WorkflowDefinition();
+  definition.setId("process");
+  HumanStepDefinition humanStep=new HumanStepDefinition();
+  humanStep.setId("step1");
+  FormDefinition form=new FormDefinition();
+  humanStep.setForm(form);
+  FormPropertyGroup group=new FormPropertyGroup();
+  group.setId("group");
+  group.setTitle("My group");
+  humanStep.getForm().addFormPropertyGroup(group);
+  ReferencePropertyDefinition textProperty=new ReferencePropertyDefinition();
+  textProperty.setName("person");
+  textProperty.setMandatory(true);
+  textProperty.setType("cm:person");
+  group.addFormProperty(textProperty);
+  definition.addStep(humanStep);
+  WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(definition);
+  conversion.convert();
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  assertNotNull(model);
+  M2Type type=model.getTypes().get(0);
+  assertNotNull(type);
+  M2ClassAssociation association=getAssociationFromType("person",type);
+  assertEquals("cm:person",association.getTarget().getClassName());
+  assertTrue(association.getTarget().isMandatory());
+}

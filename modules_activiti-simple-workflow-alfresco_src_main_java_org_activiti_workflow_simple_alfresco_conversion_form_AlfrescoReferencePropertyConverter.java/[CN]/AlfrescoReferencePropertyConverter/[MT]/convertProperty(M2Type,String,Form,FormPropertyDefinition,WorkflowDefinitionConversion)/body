@@ -13,8 +13,9 @@
     addWorkflowDescriptionReference(form,formSet);
   }
  else   if (AlfrescoConversionConstants.FORM_REFERENCE_FIELD.equals(referenceDefinition.getType())) {
-    addFieldReference(form,formSet,referenceDefinition,contentType,AlfrescoConversionUtil.getContentModel(conversion));
+    addFieldReference(form,formSet,referenceDefinition,contentType,conversion);
   }
  else {
+    addAssociation(form,formSet,referenceDefinition,contentType,conversion);
   }
 }

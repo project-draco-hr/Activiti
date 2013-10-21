@@ -2,7 +2,8 @@
   if (form.isStartForm()) {
     throw new AlfrescoSimpleWorkflowException("Field references cannot be used on start-forms");
   }
-  String propertyName=AlfrescoConversionUtil.getQualifiedName(model.getNamespaces().get(0).getPrefix(),definition.getName());
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  String propertyName=getPropertyName(definition,conversion);
   if (model.getAspect(propertyName) == null) {
     throw new AlfrescoSimpleWorkflowException("The property '" + definition.getName() + "' is not used in a from prior to this form: "+ contentType.getName()+ " - "+ propertyName);
   }

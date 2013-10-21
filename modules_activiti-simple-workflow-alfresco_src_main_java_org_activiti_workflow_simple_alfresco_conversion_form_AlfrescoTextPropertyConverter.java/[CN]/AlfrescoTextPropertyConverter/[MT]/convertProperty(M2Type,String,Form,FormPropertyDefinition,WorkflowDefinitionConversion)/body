@@ -1,6 +1,6 @@
 {
   TextPropertyDefinition textDefinition=(TextPropertyDefinition)propertyDefinition;
-  String propertyName=AlfrescoConversionUtil.getQualifiedName(AlfrescoConversionUtil.getModelNamespacePrefix(conversion),textDefinition.getName());
+  String propertyName=getPropertyName(textDefinition,conversion);
   M2Property property=new M2Property();
   property.setMandatory(new M2Mandatory(textDefinition.isMandatory()));
   property.setName(propertyName);
@@ -32,5 +32,8 @@
     FormFieldControl control=new FormFieldControl();
     control.setTemplate(AlfrescoConversionConstants.FORM_TEXT_TEMPLATE);
     formField.setControl(control);
+  }
+  if (!form.isStartForm()) {
+    addOutputProperty(propertyDefinition,propertyName,contentType.getName(),conversion);
   }
 }

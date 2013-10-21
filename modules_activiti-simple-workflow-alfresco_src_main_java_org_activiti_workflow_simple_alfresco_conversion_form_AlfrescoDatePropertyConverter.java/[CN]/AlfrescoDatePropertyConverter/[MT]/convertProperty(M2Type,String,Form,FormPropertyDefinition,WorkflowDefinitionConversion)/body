@@ -1,6 +1,6 @@
 {
   DatePropertyDefinition dateDefinition=(DatePropertyDefinition)propertyDefinition;
-  String propertyName=AlfrescoConversionUtil.getQualifiedName(AlfrescoConversionUtil.getModelNamespacePrefix(conversion),dateDefinition.getName());
+  String propertyName=getPropertyName(propertyDefinition,conversion);
   M2Property property=new M2Property();
   property.setMandatory(new M2Mandatory(dateDefinition.isMandatory()));
   property.setName(propertyName);
@@ -34,5 +34,8 @@
     FormFieldControl control=new FormFieldControl();
     control.setTemplate(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE);
     formField.setControl(control);
+  }
+  if (!form.isStartForm()) {
+    addOutputProperty(propertyDefinition,propertyName,contentType.getName(),conversion);
   }
 }
