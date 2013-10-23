@@ -1,0 +1,30 @@
+{
+  for (  FlowElement flowElement : flowElementList) {
+    if (flowElement instanceof BoundaryEvent) {
+      BoundaryEvent boundaryEvent=(BoundaryEvent)flowElement;
+      Activity activity=retrieveAttachedRefObject(boundaryEvent.getAttachedToRefId(),process.getFlowElements());
+      if (activity == null) {
+        LOGGER.warn("Boundary event " + boundaryEvent.getId() + " is not attached to any activity");
+      }
+ else {
+        boundaryEvent.setAttachedToRef(activity);
+        activity.getBoundaryEvents().add(boundaryEvent);
+      }
+    }
+ else     if (flowElement instanceof SubProcess) {
+      SubProcess subProcess=(SubProcess)flowElement;
+      postProcessElements(subProcess,subProcess.getFlowElements());
+    }
+ else     if (flowElement instanceof SequenceFlow) {
+      SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
+      FlowElement sourceFlowElement=process.getFlowElement(sequenceFlow.getSourceRef());
+      if (sourceFlowElement != null && sourceFlowElement instanceof FlowNode) {
+        ((FlowNode)sourceFlowElement).getOutgoingFlows().add(sequenceFlow);
+      }
+      FlowElement targerFlowElement=process.getFlowElement(sequenceFlow.getTargetRef());
+      if (targerFlowElement != null && targerFlowElement instanceof FlowNode) {
+        ((FlowNode)targerFlowElement).getIncomingFlows().add(sequenceFlow);
+      }
+    }
+  }
+}
