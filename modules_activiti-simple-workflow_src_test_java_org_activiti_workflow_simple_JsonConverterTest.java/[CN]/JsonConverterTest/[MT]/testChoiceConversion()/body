@@ -1,0 +1,24 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").inChoice().inList().addCondition("test","==","'hello'").addCondition("test2","==","'world'").addHumanStep("first task","kermit").endList().inList().addHumanStep("gonzo task","gonzo").endList().endChoice();
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  Writer writer=new OutputStreamWriter(baos);
+  converter.writeWorkflowDefinition(workflowDefinition,writer);
+  WorkflowDefinition parsedDefinition=converter.readWorkflowDefinition(baos.toByteArray());
+  assertEquals(workflowDefinition.getName(),parsedDefinition.getName());
+  assertEquals(workflowDefinition.getDescription(),parsedDefinition.getDescription());
+  ChoiceStepsDefinition choiceDef=null;
+  for (  StepDefinition step : parsedDefinition.getSteps()) {
+    if (step instanceof ChoiceStepsDefinition) {
+      choiceDef=(ChoiceStepsDefinition)step;
+    }
+  }
+  assertNotNull(choiceDef);
+  assertEquals(2,choiceDef.getStepList().size());
+  ListConditionStepDefinition<ChoiceStepsDefinition> listSteps=choiceDef.getStepList().get(0);
+  assertEquals(2,listSteps.getConditions().size());
+  assertEquals("test",listSteps.getConditions().get(0).getLeftOperand());
+  assertEquals("==",listSteps.getConditions().get(0).getOperator());
+  assertEquals("'hello'",listSteps.getConditions().get(0).getRightOperand());
+  listSteps=choiceDef.getStepList().get(1);
+  assertEquals(0,listSteps.getConditions().size());
+}
