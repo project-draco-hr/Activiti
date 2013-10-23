@@ -1,10 +1,10 @@
 {
   try {
-    final ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
     if (SimpleTableEditorConstants.TABLE_EDITOR_CATEGORY.equals(modelData.getCategory())) {
-      deploySimpleTableEditorModel(modelNode);
+      deploySimpleTableEditorModel(repositoryService.getModelEditorSource(modelData.getId()));
     }
  else {
+      final ObjectNode modelNode=(ObjectNode)new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
       deployModelerModel(modelNode);
     }
   }

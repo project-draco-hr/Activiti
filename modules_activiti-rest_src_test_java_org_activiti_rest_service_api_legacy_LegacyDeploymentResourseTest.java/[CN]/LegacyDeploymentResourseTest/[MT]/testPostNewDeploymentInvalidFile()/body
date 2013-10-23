@@ -1,0 +1,12 @@
+{
+  Representation uploadRepresentation=new HttpMultipartRepresentation("oneTaskProcess.invalidfile",ReflectUtil.getResourceAsStream("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml"));
+  ClientResource client=getAuthenticatedClient("deployment");
+  try {
+    client.post(uploadRepresentation);
+    fail("400 expected, but was: " + client.getResponse().getStatus());
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("File must be of type .bpmn20.xml, .bpmn, .bar or .zip",expected.getStatus().getDescription());
+  }
+}

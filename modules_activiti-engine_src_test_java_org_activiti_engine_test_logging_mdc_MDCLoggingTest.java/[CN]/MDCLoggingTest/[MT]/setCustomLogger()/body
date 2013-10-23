@@ -1,0 +1,15 @@
+{
+  String PATTERN="Modified Log *** ProcessDefinitionId=%X{mdcProcessDefinitionID} executionId=%X{mdcExecutionId} mdcProcessInstanceID=%X{mdcProcessInstanceID} mdcBusinessKey=%X{mdcBusinessKey} mdcTaskId=%X{mdcTaskId}  %m%n";
+  console.setLayout(new PatternLayout(PATTERN));
+  console.setThreshold(Level.INFO);
+  console.activateOptions();
+  console.setName("MemoryAppender");
+  appenders=new ArrayList<Appender>();
+  Enumeration<?> appendersEnum=Logger.getRootLogger().getAllAppenders();
+  while (appendersEnum.hasMoreElements()) {
+    Appender object=(Appender)appendersEnum.nextElement();
+    appenders.add(object);
+  }
+  removeAppenders();
+  Logger.getRootLogger().addAppender(console);
+}

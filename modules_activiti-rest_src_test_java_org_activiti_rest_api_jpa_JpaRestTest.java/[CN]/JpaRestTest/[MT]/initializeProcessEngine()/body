@@ -1,0 +1,18 @@
+{
+  ContextConfiguration contextConfiguration=getClass().getAnnotation(ContextConfiguration.class);
+  String[] value=contextConfiguration.value();
+  if (value == null) {
+    throw new ActivitiException("value is mandatory in ContextConfiguration");
+  }
+  if (value.length != 1) {
+    throw new ActivitiException("SpringActivitiTestCase requires exactly one value in annotation ContextConfiguration");
+  }
+  String configurationFile=value[0];
+  processEngine=cachedProcessEngines.get(configurationFile);
+  if (processEngine == null) {
+    processEngine=applicationContext.getBean(ProcessEngine.class);
+    cachedProcessEngines.put(configurationFile,processEngine);
+  }
+  ProcessEnginesRest.init();
+  ProcessEngines.registerProcessEngine(processEngine);
+}

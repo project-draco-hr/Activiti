@@ -1,0 +1,20 @@
+{
+  String fieldName=null;
+  if (form.isStartForm()) {
+    fieldName=AlfrescoConversionConstants.PROPERTY_WORKFLOW_DUE_DATE;
+  }
+ else {
+    fieldName=AlfrescoConversionConstants.PROPERTY_DUE_DATE;
+  }
+  form.getFormFieldVisibility().addShowFieldElement(fieldName);
+  FormField formField=form.getFormAppearance().addFormField(fieldName,AlfrescoConversionConstants.FORM_WORKFLOW_DUE_DATE_LABEL,formSet);
+  if (form.isStartForm() || writable) {
+    formField.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_DATE_TEMPLATE));
+    formField.getControl().getControlParameters().add(new FormFieldControlParameter(AlfrescoConversionConstants.FORM_DATE_PARAM_SHOW_TIME,Boolean.FALSE.toString()));
+    formField.getControl().getControlParameters().add(new FormFieldControlParameter(AlfrescoConversionConstants.FORM_DATE_PARAM_SUBMIT_TIME,Boolean.FALSE.toString()));
+  }
+ else {
+    formField.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE));
+  }
+  form.getFormAppearance().addFormAppearanceElement(formField);
+}

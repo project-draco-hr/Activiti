@@ -1,7 +1,4 @@
 {
   RepositoryService repositoryService=ProcessEngines.getDefaultProcessEngine().getRepositoryService();
-  ObjectMapper objectMapper=new ObjectMapper();
-  JsonNode jsonNode=objectMapper.readTree(repositoryService.getModelEditorSource(model.getId()));
-  JsonConverter jsonConverter=new JsonConverter();
-  return jsonConverter.convertFromJson(jsonNode);
+  return ExplorerApp.get().getSimpleWorkflowJsonConverter().readWorkflowDefinition(repositoryService.getModelEditorSource(model.getId()));
 }

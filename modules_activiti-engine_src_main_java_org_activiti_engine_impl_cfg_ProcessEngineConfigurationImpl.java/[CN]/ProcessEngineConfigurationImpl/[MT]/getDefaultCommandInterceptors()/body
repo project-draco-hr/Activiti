@@ -1,0 +1,10 @@
+{
+  List<CommandInterceptor> interceptors=new ArrayList<CommandInterceptor>();
+  interceptors.add(new LogInterceptor());
+  CommandInterceptor transactionInterceptor=createTransactionInterceptor();
+  if (transactionInterceptor != null) {
+    interceptors.add(transactionInterceptor);
+  }
+  interceptors.add(new CommandContextInterceptor(commandContextFactory,this));
+  return interceptors;
+}

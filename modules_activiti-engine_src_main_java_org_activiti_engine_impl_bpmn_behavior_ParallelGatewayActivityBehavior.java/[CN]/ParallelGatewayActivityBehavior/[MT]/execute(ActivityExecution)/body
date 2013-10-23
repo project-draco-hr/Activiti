@@ -6,6 +6,7 @@
   List<ActivityExecution> joinedExecutions=execution.findInactiveConcurrentExecutions(activity);
   int nbrOfExecutionsToJoin=execution.getActivity().getIncomingTransitions().size();
   int nbrOfExecutionsJoined=joinedExecutions.size();
+  Context.getCommandContext().getHistoryManager().recordActivityEnd((ExecutionEntity)execution);
   if (nbrOfExecutionsJoined == nbrOfExecutionsToJoin) {
     if (log.isDebugEnabled()) {
       log.debug("parallel gateway '{}' activates: {} of {} joined",activity.getId(),nbrOfExecutionsJoined,nbrOfExecutionsToJoin);

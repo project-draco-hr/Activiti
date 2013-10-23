@@ -10,6 +10,7 @@
     taskService.saveTask(task);
     ids.add(task.getId());
     taskService.setVariableLocal(task.getId(),"test","test");
+    taskService.setVariableLocal(task.getId(),"testBinary","This is a binary variable".getBytes());
     taskService.addCandidateUser(task.getId(),"kermit");
   }
   ClockUtil.setCurrentTime(sdf.parse("02/02/2002 02:02:02.000"));
@@ -20,6 +21,7 @@
   taskService.saveTask(task);
   taskService.setAssignee(task.getId(),"gonzo");
   taskService.setVariableLocal(task.getId(),"testVar","someVariable");
+  taskService.setVariableLocal(task.getId(),"testVarBinary","This is a binary variable".getBytes());
   taskService.setVariableLocal(task.getId(),"testVar2",123);
   ids.add(task.getId());
   return ids;

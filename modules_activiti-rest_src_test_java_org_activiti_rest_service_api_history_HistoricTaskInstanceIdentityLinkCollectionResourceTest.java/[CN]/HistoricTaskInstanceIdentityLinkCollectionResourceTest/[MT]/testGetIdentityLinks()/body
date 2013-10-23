@@ -1,0 +1,37 @@
+{
+  HashMap<String,Object> processVariables=new HashMap<String,Object>();
+  processVariables.put("stringVar","Azerty");
+  processVariables.put("intVar",67890);
+  processVariables.put("booleanVar",false);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.setOwner(task.getId(),"test");
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_TASK_INSTANCE_IDENTITY_LINKS,task.getId());
+  ClientResource client=getAuthenticatedClient(url);
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode linksArray=objectMapper.readTree(response.getStream());
+  assertEquals(2,linksArray.size());
+  Map<String,JsonNode> linksMap=new HashMap<String,JsonNode>();
+  for (  JsonNode linkNode : linksArray) {
+    linksMap.put(linkNode.get("type").asText(),linkNode);
+  }
+  JsonNode assigneeNode=linksMap.get("assignee");
+  assertNotNull(assigneeNode);
+  assertEquals("fozzie",assigneeNode.get("userId").asText());
+  assertTrue(assigneeNode.get("groupId").isNull());
+  assertEquals(task.getId(),assigneeNode.get("taskId").asText());
+  assertNotNull(assigneeNode.get("taskUrl").asText());
+  assertTrue(assigneeNode.get("processInstanceId").isNull());
+  assertTrue(assigneeNode.get("processInstanceUrl").isNull());
+  JsonNode ownerNode=linksMap.get("owner");
+  assertNotNull(ownerNode);
+  assertEquals("test",ownerNode.get("userId").asText());
+  assertTrue(ownerNode.get("groupId").isNull());
+  assertEquals(task.getId(),ownerNode.get("taskId").asText());
+  assertNotNull(ownerNode.get("taskUrl").asText());
+  assertTrue(ownerNode.get("processInstanceId").isNull());
+  assertTrue(ownerNode.get("processInstanceUrl").isNull());
+}

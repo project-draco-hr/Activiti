@@ -1,0 +1,11 @@
+{
+  if (!(otherDefinition instanceof ReferencePropertyDefinition)) {
+    throw new SimpleWorkflowException("An instance of ReferencePropertyDefinition is required to set values");
+  }
+  ReferencePropertyDefinition referenceDefinition=(ReferencePropertyDefinition)otherDefinition;
+  setName(referenceDefinition.getName());
+  setMandatory(referenceDefinition.isMandatory());
+  setWritable(referenceDefinition.isWritable());
+  setType(referenceDefinition.getType());
+  setParameters(otherDefinition.cloneParameters());
+}

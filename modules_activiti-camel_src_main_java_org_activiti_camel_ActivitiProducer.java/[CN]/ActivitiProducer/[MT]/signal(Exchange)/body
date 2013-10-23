@@ -1,8 +1,23 @@
 {
   String processInstanceId=findProcessInstanceId(exchange);
-  Execution execution=runtimeService.createExecutionQuery().processDefinitionKey(processKey).processInstanceId(processInstanceId).activityId(activity).singleResult();
+  boolean firstTime=true;
+  long initialTime=System.currentTimeMillis();
+  Execution execution=null;
+  while (firstTime || (timeout > 0 && (System.currentTimeMillis() - initialTime < timeout))) {
+    execution=runtimeService.createExecutionQuery().processDefinitionKey(processKey).processInstanceId(processInstanceId).activityId(activity).singleResult();
+    try {
+      Thread.sleep(timeResolution);
+    }
+ catch (    InterruptedException e) {
+      throw new RuntimeException("error occured while waiting for activiti=" + activity + " for processInstanceId="+ processInstanceId);
+    }
+    firstTime=false;
+    if (execution != null) {
+      break;
+    }
+  }
   if (execution == null) {
-    throw new RuntimeException("Couldn't find activity " + activity + " for processId "+ processInstanceId);
+    throw new RuntimeException("Couldn't find activity " + activity + " for processId "+ processInstanceId+ " in defined timeout.");
   }
   runtimeService.setVariables(execution.getId(),ExchangeUtils.prepareVariables(exchange,getActivitiEndpoint()));
   runtimeService.signal(execution.getId());

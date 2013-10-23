@@ -20,6 +20,9 @@
  else     if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(serviceTask.getImplementationType())) {
       propertiesNode.put(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION,serviceTask.getImplementation());
     }
+    if (StringUtils.isNotEmpty(serviceTask.getResultVariableName())) {
+      propertiesNode.put(PROPERTY_SERVICETASK_RESULT_VARIABLE,serviceTask.getResultVariableName());
+    }
     addFieldExtensions(serviceTask.getFieldExtensions(),propertiesNode);
   }
 }

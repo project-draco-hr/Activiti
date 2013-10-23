@@ -17,5 +17,9 @@
     }
   }
   writeDefaultAttribute(ATTRIBUTE_MESSAGE_REF,messageRef,xtw);
+  boolean didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(messageDefinition,false,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
+  }
   xtw.writeEndElement();
 }

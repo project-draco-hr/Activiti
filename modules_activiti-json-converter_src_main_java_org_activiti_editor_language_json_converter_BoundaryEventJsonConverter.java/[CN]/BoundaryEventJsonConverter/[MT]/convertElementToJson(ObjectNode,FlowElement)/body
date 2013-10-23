@@ -8,5 +8,8 @@
   dockNode.put(EDITOR_BOUNDS_Y,graphicInfo.getY() - parentGraphicInfo.getY());
   dockersArrayNode.add(dockNode);
   flowElementNode.put("dockers",dockersArrayNode);
+  if (boundaryEvent.isCancelActivity() == false) {
+    propertiesNode.put(PROPERTY_CANCEL_ACTIVITY,PROPERTY_VALUE_NO);
+  }
   addEventProperties(boundaryEvent,propertiesNode);
 }

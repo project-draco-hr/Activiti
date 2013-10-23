@@ -1,4 +1,4 @@
 {
   ProcessDefinition processDefinition=Context.getExecutionContext().getProcessDefinition();
-  return new CdiBusinessProcessEvent(activityId,transitionName,processDefinition,execution,type,new Date());
+  return new CdiBusinessProcessEvent(activityId,transitionName,processDefinition,execution,type,execution.getProcessInstanceId(),execution.getId(),new Date());
 }

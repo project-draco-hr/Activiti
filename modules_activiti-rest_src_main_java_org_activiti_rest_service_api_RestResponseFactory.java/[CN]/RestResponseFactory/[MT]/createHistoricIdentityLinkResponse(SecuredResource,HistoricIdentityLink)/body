@@ -1,0 +1,15 @@
+{
+  HistoricIdentityLinkResponse result=new HistoricIdentityLinkResponse();
+  result.setType(identityLink.getType());
+  result.setUserId(identityLink.getUserId());
+  result.setGroupId(identityLink.getGroupId());
+  result.setTaskId(identityLink.getTaskId());
+  if (StringUtils.isNotEmpty(identityLink.getTaskId())) {
+    result.setTaskUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_TASK_INSTANCE,identityLink.getTaskId()));
+  }
+  result.setProcessInstanceId(identityLink.getProcessInstanceId());
+  if (StringUtils.isNotEmpty(identityLink.getProcessInstanceId())) {
+    result.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE,identityLink.getProcessInstanceId()));
+  }
+  return result;
+}

@@ -1,0 +1,11 @@
+{
+  if (repositoryFolder == null || shareFolder == null) {
+    throw new AlfrescoSimpleWorkflowException("Both repositoryFolder and shareFolder are required.");
+  }
+  if (!repositoryFolder.exists()) {
+    throw new AlfrescoSimpleWorkflowException("The repository target folder does not exist: " + repositoryFolder.getAbsolutePath());
+  }
+  if (!shareFolder.exists()) {
+    throw new AlfrescoSimpleWorkflowException("The share target folder does not exist: " + shareFolder.getAbsolutePath());
+  }
+}

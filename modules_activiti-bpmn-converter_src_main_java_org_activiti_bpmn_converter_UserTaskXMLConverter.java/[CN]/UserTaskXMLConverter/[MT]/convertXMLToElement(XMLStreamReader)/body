@@ -13,6 +13,7 @@
   userTask.setDueDate(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_DUEDATE));
   userTask.setFormKey(formKey);
   userTask.setAssignee(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_ASSIGNEE));
+  userTask.setOwner(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_OWNER));
   userTask.setPriority(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_PRIORITY));
   if (StringUtils.isNotEmpty(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEUSERS))) {
     String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEUSERS);
@@ -22,6 +23,7 @@
     String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEGROUPS);
     userTask.getCandidateGroups().addAll(parseDelimitedList(expression));
   }
+  BpmnXMLUtil.addCustomAttributes(xtr,userTask,defaultAttributes);
   parseChildElements(getXMLElementName(),userTask,xtr);
   return userTask;
 }

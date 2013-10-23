@@ -2,7 +2,7 @@
   ProcessInstanceItem item=new ProcessInstanceItem();
   item.addItemProperty("id",new ObjectProperty<String>(processInstance.getId(),String.class));
   ProcessDefinition processDefinition=getProcessDefinition(processInstance.getProcessDefinitionId());
-  String itemName=getProcessDisplayName(processDefinition) + " (" + processInstance.getId()+ ")";
+  String itemName=getProcessDisplayName(processDefinition) + " (" + processInstance.getId()+ ")"+ (processInstance.getBusinessKey() != null ? processInstance.getBusinessKey() : "");
   item.addItemProperty("name",new ObjectProperty<String>(itemName,String.class));
   return item;
 }

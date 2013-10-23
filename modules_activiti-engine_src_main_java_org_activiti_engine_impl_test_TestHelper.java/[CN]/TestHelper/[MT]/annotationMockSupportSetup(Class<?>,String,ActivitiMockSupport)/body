@@ -1,0 +1,13 @@
+{
+  Method method=null;
+  try {
+    method=testClass.getDeclaredMethod(methodName,(Class<?>[])null);
+  }
+ catch (  Exception e) {
+    log.warn("Could not get method by reflection. This could happen if you are using @Parameters in combination with annotations.",e);
+    return;
+  }
+  handleMockServiceTaskAnnotation(mockSupport,method);
+  handleMockServiceTasksAnnotation(mockSupport,method);
+  handleNoOpServiceTasksAnnotation(mockSupport,method);
+}

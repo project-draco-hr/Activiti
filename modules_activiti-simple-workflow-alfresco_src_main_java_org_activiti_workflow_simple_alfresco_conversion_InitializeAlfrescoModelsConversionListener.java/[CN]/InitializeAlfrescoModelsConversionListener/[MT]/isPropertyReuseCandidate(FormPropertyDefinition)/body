@@ -1,0 +1,8 @@
+{
+  boolean valid=!(def instanceof ReferencePropertyDefinition);
+  if (!valid) {
+    ReferencePropertyDefinition reference=(ReferencePropertyDefinition)def;
+    valid=!IGNORED_REFERENCE_TYPES_REUSE.contains(reference.getType());
+  }
+  return valid;
+}

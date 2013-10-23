@@ -10,5 +10,5 @@
   conversion.getBpmnModel().setTargetNamespace("activiti-report");
   BpmnAutoLayout bpmnAutoLayout=new BpmnAutoLayout(conversion.getBpmnModel());
   bpmnAutoLayout.execute();
-  repositoryService.createDeployment().name(processDefinition.getName() + " - task duration report").addString(conversion.getProcess().getId() + ".bpmn20.xml",conversion.getbpm20Xml()).deploy();
+  repositoryService.createDeployment().name(processDefinition.getName() + " - task duration report").addString(conversion.getProcess().getId() + ".bpmn20.xml",conversion.getBpmn20Xml()).deploy();
 }

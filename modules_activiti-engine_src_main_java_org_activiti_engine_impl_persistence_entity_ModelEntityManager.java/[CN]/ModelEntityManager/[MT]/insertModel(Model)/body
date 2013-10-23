@@ -1,4 +1,5 @@
 {
-  ((ModelEntity)model).setCreateTime(new Date());
+  ((ModelEntity)model).setCreateTime(ClockUtil.getCurrentTime());
+  ((ModelEntity)model).setLastUpdateTime(ClockUtil.getCurrentTime());
   getDbSqlSession().insert((PersistentObject)model);
 }

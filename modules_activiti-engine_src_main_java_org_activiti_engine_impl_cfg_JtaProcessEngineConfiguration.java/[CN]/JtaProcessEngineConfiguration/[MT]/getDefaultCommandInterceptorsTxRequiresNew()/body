@@ -1,7 +1,0 @@
-{
-  List<CommandInterceptor> defaultCommandInterceptorsTxRequiresNew=new ArrayList<CommandInterceptor>();
-  defaultCommandInterceptorsTxRequiresNew.add(new LogInterceptor());
-  defaultCommandInterceptorsTxRequiresNew.add(new JtaTransactionInterceptor(transactionManager,true));
-  defaultCommandInterceptorsTxRequiresNew.add(new CommandContextInterceptor(commandContextFactory,this));
-  return defaultCommandInterceptorsTxRequiresNew;
-}

@@ -14,10 +14,10 @@
   WorkflowDefinitionConversion conversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(workflowDefinition);
   conversion.convert();
   try {
-    JsonConverter jsonConverter=new JsonConverter();
-    ObjectNode json=jsonConverter.convertToJson(workflowDefinition);
-    repositoryService.addModelEditorSource(model.getId(),json.toString().getBytes("utf-8"));
-    repositoryService.addModelEditorSourceExtra(model.getId(),IOUtils.toByteArray(conversion.getWorkflowDiagramImage()));
+    ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    ExplorerApp.get().getSimpleWorkflowJsonConverter().writeWorkflowDefinition(workflowDefinition,new OutputStreamWriter(baos));
+    repositoryService.addModelEditorSource(model.getId(),baos.toByteArray());
+    repositoryService.addModelEditorSourceExtra(model.getId(),IOUtils.toByteArray(ProcessDiagramGenerator.generatePngDiagram(conversion.getBpmnModel())));
   }
  catch (  IOException e) {
     logger.warn("Could not generate process image. Image is not stored and will not be shown.",e);

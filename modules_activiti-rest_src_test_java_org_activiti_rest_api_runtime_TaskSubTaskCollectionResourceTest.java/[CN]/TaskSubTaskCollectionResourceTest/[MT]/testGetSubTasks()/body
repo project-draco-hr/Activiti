@@ -1,0 +1,41 @@
+{
+  Task parentTask=taskService.newTask();
+  parentTask.setName("parent task");
+  taskService.saveTask(parentTask);
+  Task subTask=taskService.newTask();
+  subTask.setName("sub task 1");
+  subTask.setParentTaskId(parentTask.getId());
+  taskService.saveTask(subTask);
+  Task subTask2=taskService.newTask();
+  subTask2.setName("sub task 2");
+  subTask2.setParentTaskId(parentTask.getId());
+  taskService.saveTask(subTask2);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_SUBTASKS_COLLECTION,parentTask.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(2,responseNode.size());
+  boolean foundSubtask1=false;
+  boolean foundSubtask2=false;
+  for (int i=0; i < responseNode.size(); i++) {
+    JsonNode var=responseNode.get(i);
+    if ("sub task 1".equals(var.get("name").asText())) {
+      foundSubtask1=true;
+      assertEquals(subTask.getId(),var.get("id").asText());
+    }
+ else     if ("sub task 2".equals(var.get("name").asText())) {
+      foundSubtask2=true;
+      assertEquals(subTask2.getId(),var.get("id").asText());
+    }
+  }
+  assertTrue(foundSubtask1);
+  assertTrue(foundSubtask2);
+  taskService.deleteTask(parentTask.getId());
+  taskService.deleteTask(subTask.getId());
+  taskService.deleteTask(subTask2.getId());
+  historyService.deleteHistoricTaskInstance(parentTask.getId());
+  historyService.deleteHistoricTaskInstance(subTask.getId());
+  historyService.deleteHistoricTaskInstance(subTask2.getId());
+}

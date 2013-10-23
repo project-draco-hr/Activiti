@@ -43,6 +43,41 @@
       }
     }
   }
+  List<Artifact> artifacts=gatherAllArtifacts(bpmnModel);
+  for (  Artifact artifact : artifacts) {
+    GraphicInfo artifactGraphicInfo=bpmnModel.getGraphicInfo(artifact.getId());
+    if (artifactGraphicInfo != null) {
+      if (artifactGraphicInfo.getX() + artifactGraphicInfo.getWidth() > maxX) {
+        maxX=artifactGraphicInfo.getX() + artifactGraphicInfo.getWidth();
+      }
+      if (artifactGraphicInfo.getX() < minX) {
+        minX=artifactGraphicInfo.getX();
+      }
+      if (artifactGraphicInfo.getY() + artifactGraphicInfo.getHeight() > maxY) {
+        maxY=artifactGraphicInfo.getY() + artifactGraphicInfo.getHeight();
+      }
+      if (artifactGraphicInfo.getY() < minY) {
+        minY=artifactGraphicInfo.getY();
+      }
+    }
+    List<GraphicInfo> graphicInfoList=bpmnModel.getFlowLocationGraphicInfo(artifact.getId());
+    if (graphicInfoList != null) {
+      for (      GraphicInfo graphicInfo : graphicInfoList) {
+        if (graphicInfo.getX() > maxX) {
+          maxX=graphicInfo.getX();
+        }
+        if (graphicInfo.getX() < minX) {
+          minX=graphicInfo.getX();
+        }
+        if (graphicInfo.getY() > maxY) {
+          maxY=graphicInfo.getY();
+        }
+        if (graphicInfo.getY() < minY) {
+          minY=graphicInfo.getY();
+        }
+      }
+    }
+  }
   int nrOfLanes=0;
   for (  Process process : bpmnModel.getProcesses()) {
     for (    Lane l : process.getLanes()) {

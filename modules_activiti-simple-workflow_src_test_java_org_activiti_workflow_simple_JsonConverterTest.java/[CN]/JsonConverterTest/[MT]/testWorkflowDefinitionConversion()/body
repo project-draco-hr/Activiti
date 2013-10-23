@@ -1,0 +1,11 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").id("the id").key("the key");
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  Writer writer=new OutputStreamWriter(baos);
+  converter.writeWorkflowDefinition(workflowDefinition,writer);
+  WorkflowDefinition parsedDefinition=converter.readWorkflowDefinition(baos.toByteArray());
+  assertEquals(workflowDefinition.getName(),parsedDefinition.getName());
+  assertEquals(workflowDefinition.getKey(),parsedDefinition.getKey());
+  assertEquals(workflowDefinition.getId(),parsedDefinition.getId());
+  assertEquals(workflowDefinition.getDescription(),parsedDefinition.getDescription());
+}

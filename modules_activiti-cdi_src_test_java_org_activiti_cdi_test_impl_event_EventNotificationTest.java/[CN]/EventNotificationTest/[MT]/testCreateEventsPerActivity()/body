@@ -1,0 +1,18 @@
+{
+  TestEventListener listenerBean=getBeanInstance(TestEventListener.class);
+  listenerBean.reset();
+  assertEquals(0,listenerBean.getCreateTask1());
+  assertEquals(0,listenerBean.getAssignTask1());
+  assertEquals(0,listenerBean.getCompleteTask1());
+  runtimeService.startProcessInstanceByKey("process3");
+  Task task=taskService.createTaskQuery().singleResult();
+  taskService.claim(task.getId(),"auser");
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().singleResult();
+  taskService.complete(task.getId());
+  assertEquals(1,listenerBean.getCreateTask1());
+  assertEquals(1,listenerBean.getCreateTask2());
+  assertEquals(1,listenerBean.getAssignTask1());
+  assertEquals(1,listenerBean.getCompleteTask1());
+  assertEquals(1,listenerBean.getCompleteTask2());
+}

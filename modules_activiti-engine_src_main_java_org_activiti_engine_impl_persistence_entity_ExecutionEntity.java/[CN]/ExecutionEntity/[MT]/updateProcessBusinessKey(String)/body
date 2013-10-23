@@ -1,0 +1,8 @@
+{
+  if (isProcessInstanceType() && bzKey != null) {
+    setBusinessKey(bzKey);
+    Context.getCommandContext().getHistoryManager().updateProcessBusinessKeyInHistory(this);
+    return bzKey;
+  }
+  return null;
+}

@@ -7,15 +7,23 @@
  else {
     camelVarMap=new HashMap<String,Object>();
     Object camelBody=exchange.getIn().getBody();
-    if (camelBody instanceof String) {
-      camelVarMap.put("camelBody",camelBody);
-    }
- else     if (camelBody instanceof Map<?,?>) {
+    if (camelBody instanceof Map<?,?>) {
       Map<?,?> camelBodyMap=(Map<?,?>)camelBody;
       for (      @SuppressWarnings("rawtypes") Map.Entry e : camelBodyMap.entrySet()) {
         if (e.getKey() instanceof String) {
           camelVarMap.put((String)e.getKey(),e.getValue());
         }
+      }
+    }
+ else {
+      if (activitiEndpoint.isCopyCamelBodyToBodyAsString() && !(camelBody instanceof String)) {
+        camelBody=exchange.getContext().getTypeConverter().convertTo(String.class,exchange,camelBody);
+      }
+      camelVarMap.put(CAMELBODY,camelBody);
+    }
+    if (activitiEndpoint.isCopyVariablesFromHeader()) {
+      for (      Map.Entry<String,Object> header : exchange.getIn().getHeaders().entrySet()) {
+        camelVarMap.put(header.getKey(),header.getValue());
       }
     }
   }

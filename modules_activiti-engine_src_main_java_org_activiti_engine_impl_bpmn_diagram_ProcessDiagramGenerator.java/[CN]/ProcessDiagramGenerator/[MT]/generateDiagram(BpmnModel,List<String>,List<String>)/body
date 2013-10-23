@@ -13,5 +13,10 @@
   for (  FlowNode flowNode : bpmnModel.getProcesses().get(0).findFlowElementsOfType(FlowNode.class)) {
     drawActivity(processDiagramCanvas,bpmnModel,flowNode,highLightedActivities,highLightedFlows);
   }
+  for (  Process process : bpmnModel.getProcesses()) {
+    for (    Artifact artifact : process.getArtifacts()) {
+      drawArtifact(processDiagramCanvas,bpmnModel,artifact);
+    }
+  }
   return processDiagramCanvas;
 }

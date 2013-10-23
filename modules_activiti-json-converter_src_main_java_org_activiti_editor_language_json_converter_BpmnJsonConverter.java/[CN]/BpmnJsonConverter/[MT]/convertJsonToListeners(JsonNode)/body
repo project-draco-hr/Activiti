@@ -1,0 +1,33 @@
+{
+  List<ActivitiListener> executionListeners=new ArrayList<ActivitiListener>();
+  try {
+    listenersNode=objectMapper.readTree(listenersNode.asText());
+  }
+ catch (  Exception e) {
+    LOGGER.info("Listeners node can not be read",e);
+  }
+  JsonNode itemsArrayNode=listenersNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+  if (itemsArrayNode != null) {
+    for (    JsonNode itemNode : itemsArrayNode) {
+      JsonNode typeNode=itemNode.get(PROPERTY_EXECUTION_LISTENER_EVENT);
+      if (typeNode != null && StringUtils.isNotEmpty(typeNode.asText())) {
+        ActivitiListener listener=new ActivitiListener();
+        listener.setEvent(typeNode.asText());
+        if (StringUtils.isNotEmpty(itemNode.get(PROPERTY_EXECUTION_LISTENER_CLASS).asText())) {
+          listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
+          listener.setImplementation(itemNode.get(PROPERTY_EXECUTION_LISTENER_CLASS).asText());
+        }
+ else         if (StringUtils.isNotEmpty(itemNode.get(PROPERTY_EXECUTION_LISTENER_EXPRESSION).asText())) {
+          listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
+          listener.setImplementation(itemNode.get(PROPERTY_EXECUTION_LISTENER_EXPRESSION).asText());
+        }
+ else         if (StringUtils.isNotEmpty(itemNode.get(PROPERTY_EXECUTION_LISTENER_DELEGATEEXPRESSION).asText())) {
+          listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
+          listener.setImplementation(itemNode.get(PROPERTY_EXECUTION_LISTENER_DELEGATEEXPRESSION).asText());
+        }
+        executionListeners.add(listener);
+      }
+    }
+  }
+  return executionListeners;
+}

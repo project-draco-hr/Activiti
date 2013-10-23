@@ -1,0 +1,29 @@
+{
+  TaskResponse response=new TaskResponse(task);
+  response.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK,task.getId()));
+  if (response.getParentTaskId() != null) {
+    response.setParentTaskUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK,response.getParentTaskId()));
+  }
+  if (response.getProcessDefinitionId() != null) {
+    response.setProcessDefinitionUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_DEFINITION,response.getProcessDefinitionId()));
+  }
+  if (response.getExecutionId() != null) {
+    response.setExecutionUrl(securedResource.createFullResourceUrl(RestUrls.URL_EXECUTION,response.getExecutionId()));
+  }
+  if (response.getProcessInstanceId() != null) {
+    response.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,response.getProcessInstanceId()));
+  }
+  if (task.getProcessVariables() != null) {
+    Map<String,Object> variableMap=task.getProcessVariables();
+    for (    String name : variableMap.keySet()) {
+      response.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.GLOBAL,task.getId(),VARIABLE_TASK,false));
+    }
+  }
+  if (task.getTaskLocalVariables() != null) {
+    Map<String,Object> variableMap=task.getTaskLocalVariables();
+    for (    String name : variableMap.keySet()) {
+      response.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.LOCAL,task.getId(),VARIABLE_TASK,false));
+    }
+  }
+  return response;
+}

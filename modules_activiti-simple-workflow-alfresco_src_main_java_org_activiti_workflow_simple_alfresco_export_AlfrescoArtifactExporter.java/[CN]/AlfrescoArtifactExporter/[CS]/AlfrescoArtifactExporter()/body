@@ -1,0 +1,11 @@
+{
+  bpmnConverter=new BpmnXMLConverter();
+  try {
+    modelJaxbContext=JAXBContext.newInstance(M2Model.class);
+    moduleJaxbContext=JAXBContext.newInstance(Module.class,AlfrescoConfiguration.class);
+    beansJaxbContext=JAXBContext.newInstance(Beans.class);
+  }
+ catch (  JAXBException jaxbe) {
+    throw new AlfrescoSimpleWorkflowException("Error while building JAXB-context for exporting content-model",jaxbe);
+  }
+}

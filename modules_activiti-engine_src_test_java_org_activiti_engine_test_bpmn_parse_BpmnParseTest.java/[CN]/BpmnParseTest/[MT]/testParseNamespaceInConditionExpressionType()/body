@@ -1,5 +1,5 @@
 {
-  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
   ProcessDefinitionEntity processDefinitionEntity=commandExecutor.execute(new Command<ProcessDefinitionEntity>(){
     public ProcessDefinitionEntity execute(    CommandContext commandContext){
       return Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedLatestProcessDefinitionByKey("resolvableNamespacesProcess");

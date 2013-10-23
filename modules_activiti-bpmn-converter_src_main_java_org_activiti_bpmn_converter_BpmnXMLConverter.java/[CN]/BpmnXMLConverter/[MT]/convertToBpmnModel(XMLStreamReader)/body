@@ -56,6 +56,7 @@
           pool.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
           pool.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
           pool.setProcessRef(xtr.getAttributeValue(null,ATTRIBUTE_PROCESS_REF));
+          BpmnXMLUtil.parseChildElements(ELEMENT_PARTICIPANT,pool,xtr,model);
           model.getPools().add(pool);
         }
       }
@@ -69,7 +70,7 @@
         new PotentialStarterParser().parse(xtr,activeProcess);
       }
  else       if (ELEMENT_LANE.equals(xtr.getLocalName())) {
-        new LaneParser().parse(xtr,activeProcess);
+        new LaneParser().parse(xtr,activeProcess,model);
       }
  else       if (ELEMENT_DOCUMENTATION.equals(xtr.getLocalName())) {
         BaseElement parentElement=null;
@@ -80,6 +81,9 @@
           parentElement=activeProcess;
         }
         new DocumentationParser().parseChildElement(xtr,parentElement,model);
+      }
+ else       if (ELEMENT_EXTENSIONS.equals(xtr.getLocalName())) {
+        new ExtensionElementsParser().parse(xtr,activeSubProcessList,activeProcess,model);
       }
  else       if (ELEMENT_SUBPROCESS.equals(xtr.getLocalName())) {
         new SubProcessParser().parse(xtr,activeSubProcessList,activeProcess);
@@ -93,18 +97,12 @@
  else       if (ELEMENT_DI_EDGE.equals(xtr.getLocalName())) {
         new BpmnEdgeParser().parse(xtr,model);
       }
- else       if (activeSubProcessList.size() == 0 && ELEMENT_EXECUTION_LISTENER.equals(xtr.getLocalName())) {
-        new ExecutionListenerParser().parseChildElement(xtr,activeProcess,model);
-      }
  else {
-        if (activeSubProcessList.size() > 0 && ELEMENT_EXECUTION_LISTENER.equalsIgnoreCase(xtr.getLocalName())) {
-          new ExecutionListenerParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1),model);
-        }
- else         if (activeSubProcessList.size() > 0 && ELEMENT_MULTIINSTANCE.equalsIgnoreCase(xtr.getLocalName())) {
+        if (activeSubProcessList.size() > 0 && ELEMENT_MULTIINSTANCE.equalsIgnoreCase(xtr.getLocalName())) {
           new MultiInstanceParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1),model);
         }
  else         if (convertersToBpmnMap.containsKey(xtr.getLocalName())) {
-          if (activeProcess != null && activeProcess.isExecutable()) {
+          if (activeProcess != null) {
             Class<? extends BaseBpmnXMLConverter> converterClass=convertersToBpmnMap.get(xtr.getLocalName());
             BaseBpmnXMLConverter converter=converterClass.newInstance();
             if (userTaskFormTypes != null && ELEMENT_TASK_USER.equals(xtr.getLocalName())) {

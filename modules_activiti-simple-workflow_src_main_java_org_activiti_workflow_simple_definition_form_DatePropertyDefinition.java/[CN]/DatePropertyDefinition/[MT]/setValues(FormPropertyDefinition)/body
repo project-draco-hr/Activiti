@@ -1,0 +1,11 @@
+{
+  if (!(otherDefinition instanceof DatePropertyDefinition)) {
+    throw new SimpleWorkflowException("An instance of DatePropertyDefinition is required to set values");
+  }
+  DatePropertyDefinition datePropertyDefinition=(DatePropertyDefinition)otherDefinition;
+  setName(datePropertyDefinition.getName());
+  setMandatory(datePropertyDefinition.isMandatory());
+  setWritable(datePropertyDefinition.isWritable());
+  setShowTime(datePropertyDefinition.isShowTime());
+  setParameters(otherDefinition.cloneParameters());
+}

@@ -31,16 +31,7 @@
   }
   writeExtensionChildElements(baseElement,xtw);
   didWriteExtensionStartElement=writeListeners(baseElement,xtw);
-  if (baseElement.getExtensionElements().size() > 0) {
-    if (didWriteExtensionStartElement == false) {
-      xtw.writeStartElement(ELEMENT_EXTENSIONS);
-      didWriteExtensionStartElement=true;
-    }
-    Map<String,String> namespaceMap=new HashMap<String,String>();
-    for (    ExtensionElement extensionElement : baseElement.getExtensionElements().values()) {
-      writeExtensionElement(extensionElement,namespaceMap,xtw);
-    }
-  }
+  didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(baseElement,didWriteExtensionStartElement,xtw);
   if (didWriteExtensionStartElement) {
     xtw.writeEndElement();
   }

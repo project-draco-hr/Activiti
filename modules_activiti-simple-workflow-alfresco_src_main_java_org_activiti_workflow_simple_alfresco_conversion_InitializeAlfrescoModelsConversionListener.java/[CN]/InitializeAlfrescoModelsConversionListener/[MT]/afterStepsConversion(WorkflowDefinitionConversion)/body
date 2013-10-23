@@ -1,0 +1,30 @@
+{
+  for (  FlowElement flowElement : conversion.getProcess().getFlowElements()) {
+    if (flowElement instanceof StartEvent) {
+      StartEvent startEvent=(StartEvent)flowElement;
+      if (startEvent.getFormKey() == null) {
+        Module module=AlfrescoConversionUtil.getModule(conversion);
+        Configuration detailsForm=module.addConfiguration(EVALUATOR_STRING_COMPARE,MessageFormat.format(EVALUATOR_CONDITION_ACTIVITI,conversion.getProcess().getId()));
+        if (conversion.getWorkflowDefinition().getStartFormDefinition() != null && conversion.getWorkflowDefinition().getStartFormDefinition().getFormGroups().size() > 0) {
+          M2Type type=new M2Type();
+          M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+          model.getTypes().add(type);
+          M2Namespace modelNamespace=model.getNamespaces().get(0);
+          type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),AlfrescoConversionConstants.START_TASK_SIMPLE_NAME));
+          type.setParentName(AlfrescoConversionConstants.DEFAULT_START_FORM_TYPE);
+          Module shareModule=AlfrescoConversionUtil.getModule(conversion);
+          Configuration configuration=shareModule.addConfiguration(AlfrescoConversionConstants.EVALUATOR_TASK_TYPE,type.getName());
+          Form formConfig=configuration.createForm();
+          formConfig.setStartForm(true);
+          formCreator.createForm(type,formConfig,conversion.getWorkflowDefinition().getStartFormDefinition(),conversion);
+          detailsForm.addForm(formConfig);
+          startEvent.setFormKey(type.getName());
+        }
+ else {
+          startEvent.setFormKey(DEFAULT_START_FORM_TYPE);
+          populateDefaultDetailFormConfig(detailsForm);
+        }
+      }
+    }
+  }
+}

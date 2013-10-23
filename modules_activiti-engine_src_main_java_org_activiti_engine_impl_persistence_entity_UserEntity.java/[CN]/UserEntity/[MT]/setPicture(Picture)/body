@@ -1,14 +1,3 @@
 {
-  if (pictureByteArrayId != null) {
-    Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(pictureByteArrayId);
-  }
-  if (picture != null) {
-    pictureByteArray=new ByteArrayEntity(picture.getMimeType(),picture.getBytes());
-    Context.getCommandContext().getDbSqlSession().insert(pictureByteArray);
-    pictureByteArrayId=pictureByteArray.getId();
-  }
- else {
-    pictureByteArrayId=null;
-    pictureByteArray=null;
-  }
+  pictureByteArrayRef.setValue(picture.getMimeType(),picture.getBytes());
 }
