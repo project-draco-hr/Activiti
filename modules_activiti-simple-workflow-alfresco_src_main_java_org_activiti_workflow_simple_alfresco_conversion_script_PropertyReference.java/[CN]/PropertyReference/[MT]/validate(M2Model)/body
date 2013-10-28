@@ -1,0 +1,6 @@
+{
+  String namespacePrefix=model.getNamespaces().get(0).getPrefix();
+  if (!model.isContainedInModel(AlfrescoConversionUtil.getQualifiedName(namespacePrefix,propertyName))) {
+    throw new SimpleWorkflowException("Property reference: " + this.getPlaceholder() + " does not reference an existing property.");
+  }
+}

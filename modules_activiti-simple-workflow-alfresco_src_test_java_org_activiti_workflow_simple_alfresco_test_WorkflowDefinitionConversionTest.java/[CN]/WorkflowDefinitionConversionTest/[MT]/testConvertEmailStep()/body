@@ -1,0 +1,21 @@
+{
+  WorkflowDefinition definition=new WorkflowDefinition();
+  AlfrescoEmailStepDefinition emailStep=new AlfrescoEmailStepDefinition();
+  emailStep.setTo("fred");
+  emailStep.setSubject("jos");
+  definition.addStep(emailStep);
+  WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(definition);
+  conversion.convert();
+  ServiceTask task=null;
+  for (  FlowElement element : conversion.getProcess().getFlowElements()) {
+    if (element instanceof ServiceTask) {
+      if (task != null) {
+        Assert.fail("More than one service-task found");
+      }
+      task=(ServiceTask)element;
+    }
+  }
+  assertNotNull(task);
+  assertEquals(AlfrescoConversionConstants.CLASSNAME_SCRIPT_DELEGATE,task.getImplementation());
+  conversionFactory.getArtifactExporter().writeBpmnModel(System.out,conversion);
+}

@@ -1,5 +1,8 @@
 {
   if (stepDefinition.getId() == null) {
-    throw new AlfrescoSimpleWorkflowException("Id of a human step is required.");
+    if (stepDefinition.getName() == null && !stepDefinition.getName().isEmpty()) {
+      throw new AlfrescoSimpleWorkflowException("Name or id of a human step is required.");
+    }
+    stepDefinition.setId(AlfrescoConversionUtil.getValidIdString(stepDefinition.getName()));
   }
 }

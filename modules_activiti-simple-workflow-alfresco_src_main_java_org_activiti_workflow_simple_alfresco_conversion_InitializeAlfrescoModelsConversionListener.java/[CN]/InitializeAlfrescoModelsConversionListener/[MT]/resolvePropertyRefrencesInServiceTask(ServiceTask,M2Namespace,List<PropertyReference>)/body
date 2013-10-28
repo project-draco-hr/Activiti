@@ -1,0 +1,11 @@
+{
+  if (serviceTask.getFieldExtensions() != null && !serviceTask.getFieldExtensions().isEmpty()) {
+    for (    FieldExtension extension : serviceTask.getFieldExtensions()) {
+      String value=extension.getExpression();
+      if (value != null && !value.isEmpty() && PropertyReference.containsPropertyReference(value)) {
+        value=PropertyReference.replaceAllPropertyReferencesInString(value,modelNamespace.getPrefix(),references,true);
+        extension.setExpression(value);
+      }
+    }
+  }
+}
