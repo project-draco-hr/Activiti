@@ -1,6 +1,11 @@
 {
   if (propertyName != null) {
-    return propertyName.replace(':','_');
+    if (additionalProperties != null) {
+      return propertyName.replace(':','_') + "." + additionalProperties;
+    }
+ else {
+      return propertyName.replace(':','_');
+    }
   }
   return null;
 }
