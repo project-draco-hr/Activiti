@@ -1,0 +1,12 @@
+{
+  if (!(otherDefinition instanceof AlfrescoEndProcessStepDefinition)) {
+    throw new SimpleWorkflowException("An instance of AlfrescoEndProcessStep is required to set values");
+  }
+  AlfrescoEndProcessStepDefinition def=(AlfrescoEndProcessStepDefinition)otherDefinition;
+  setName(def.getName());
+  setDescription(def.getDescription());
+  setId(def.getId());
+  if (def.getParameters() != null) {
+    setParameters(new HashMap<String,Object>(def.getParameters()));
+  }
+}

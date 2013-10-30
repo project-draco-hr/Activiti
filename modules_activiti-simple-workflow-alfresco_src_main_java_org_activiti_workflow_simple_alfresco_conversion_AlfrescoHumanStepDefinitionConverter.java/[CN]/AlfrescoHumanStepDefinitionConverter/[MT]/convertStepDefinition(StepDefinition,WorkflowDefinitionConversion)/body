@@ -16,12 +16,11 @@
   Form formConfig=configuration.createForm();
   formCreator.createForm(type,formConfig,humanStep.getForm(),conversion);
   addPropertySharing(humanStep,conversion,userTask);
-  addScriptListeners(humanStep,conversion,userTask);
   if (humanStep.getAssignmentType() == HumanStepAssignmentType.USER) {
     String assignee=humanStep.getAssignment().getAssignee();
     if (assignee != null && PropertyReference.isPropertyReference(assignee)) {
       PropertyReference reference=PropertyReference.createReference(assignee);
-      reference.validate(model);
+      AlfrescoConversionUtil.getPropertyReferences(conversion).add(reference);
       userTask.setAssignee(reference.getUsernameReferenceExpression(modelNamespace.getPrefix()));
     }
   }

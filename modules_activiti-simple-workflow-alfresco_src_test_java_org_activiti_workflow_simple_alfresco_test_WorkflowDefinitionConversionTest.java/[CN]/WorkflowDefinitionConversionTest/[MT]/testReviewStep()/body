@@ -1,0 +1,18 @@
+{
+  WorkflowDefinition definition=new WorkflowDefinition();
+  definition.setId("process");
+  AlfrescoReviewStepDefinition review=new AlfrescoReviewStepDefinition();
+  review.setName("Review");
+  review.setAssignmentPropertyName("bpm:people");
+  review.setAssignmentType(HumanStepAssignmentType.USERS);
+  review.setRequiredApprovalCount("1");
+  AlfrescoEmailStepDefinition emailStepDefinition=new AlfrescoEmailStepDefinition();
+  emailStepDefinition.setName("Send rejection email");
+  review.getRejectionSteps().add(emailStepDefinition);
+  definition.addStep(review);
+  WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(definition);
+  conversion.convert();
+  new File("target/repo").mkdir();
+  new File("target/share").mkdir();
+  conversionFactory.getArtifactExporter().exportArtifacts(conversion,new File("target/repo"),new File("target/share"));
+}

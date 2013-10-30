@@ -4,6 +4,7 @@
   conversion.setLastActivityId(forkGateway.getId());
   WorkflowDefinitionConversionFactory conversionFactory=conversion.getConversionFactory();
   List<FlowElement> endElements=new ArrayList<FlowElement>();
+  List<SequenceFlow> bypassingFlows=new ArrayList<SequenceFlow>();
   for (  ListConditionStepDefinition<ChoiceStepsDefinition> stepListDefinition : choiceStepsDefinition.getStepList()) {
     StringBuilder conditionBuilder=new StringBuilder();
     for (    ConditionDefinition conditionDefintion : stepListDefinition.getConditions()) {
@@ -31,7 +32,10 @@
       if (i == 0) {
         if (conditionBuilder.length() > 0) {
           conditionBuilder.append("}");
-          addSequenceFlow(conversion,forkGateway.getId(),flowElement.getId(),conditionBuilder.toString());
+          SequenceFlow mainFlow=addSequenceFlow(conversion,forkGateway.getId(),flowElement.getId(),conditionBuilder.toString());
+          if (stepListDefinition.getName() != null) {
+            mainFlow.setName(stepListDefinition.getName());
+          }
         }
  else {
           addSequenceFlow(conversion,forkGateway.getId(),flowElement.getId());
@@ -41,13 +45,32 @@
         endElements.add(flowElement);
       }
     }
+    if (stepListDefinition.getSteps().isEmpty()) {
+      SequenceFlow created=null;
+      if (conditionBuilder.length() > 0) {
+        conditionBuilder.append("}");
+        created=addSequenceFlow(conversion,forkGateway.getId(),null,conditionBuilder.toString());
+      }
+ else {
+        created=addSequenceFlow(conversion,forkGateway.getId(),null);
+      }
+      if (stepListDefinition.getName() != null) {
+        created.setName(stepListDefinition.getName());
+      }
+      bypassingFlows.add(created);
+    }
   }
   conversion.setSequenceflowGenerationEnabled(false);
   ExclusiveGateway joinGateway=createExclusiveGateway(conversion);
   conversion.setLastActivityId(joinGateway.getId());
   conversion.setSequenceflowGenerationEnabled(true);
   for (  FlowElement endElement : endElements) {
-    addSequenceFlow(conversion,endElement.getId(),joinGateway.getId());
+    if (!(endElement instanceof EndEvent)) {
+      addSequenceFlow(conversion,endElement.getId(),joinGateway.getId());
+    }
+  }
+  for (  SequenceFlow bypassingFlow : bypassingFlows) {
+    bypassingFlow.setTargetRef(joinGateway.getId());
   }
   return forkGateway;
 }

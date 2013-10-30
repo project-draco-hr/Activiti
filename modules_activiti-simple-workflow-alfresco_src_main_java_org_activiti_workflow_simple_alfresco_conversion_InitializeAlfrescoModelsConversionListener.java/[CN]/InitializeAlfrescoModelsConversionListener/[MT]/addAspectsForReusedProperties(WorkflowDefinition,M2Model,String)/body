@@ -5,6 +5,9 @@
     if (step instanceof HumanStepDefinition) {
       addDefinitionsToMap(((HumanStepDefinition)step).getForm(),definitionMap);
     }
+ else     if (step instanceof AlfrescoReviewStepDefinition) {
+      addDefinitionsToMap(((AlfrescoReviewStepDefinition)step).getForm(),definitionMap);
+    }
   }
   for (  Entry<String,FormPropertyDefinition> entry : definitionMap.entrySet()) {
     if (entry.getValue() != null) {

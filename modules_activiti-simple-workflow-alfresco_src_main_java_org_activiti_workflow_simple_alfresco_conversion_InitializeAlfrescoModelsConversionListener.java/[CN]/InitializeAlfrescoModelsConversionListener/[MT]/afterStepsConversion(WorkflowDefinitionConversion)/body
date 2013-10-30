@@ -38,6 +38,9 @@
  else     if (element instanceof ServiceTask) {
       resolvePropertyRefrencesInServiceTask((ServiceTask)element,modelNamespace,references);
     }
+ else     if (element instanceof UserTask) {
+      addScriptListenersToUserTask((UserTask)element,conversion);
+    }
   }
   if (references != null && !references.isEmpty()) {
     for (    PropertyReference reference : references) {
