@@ -22,7 +22,7 @@
   assertTrue(startTaskFound);
   M2Model contentModel=AlfrescoConversionUtil.getContentModel(conversion);
   assertNotNull(contentModel);
-  Module module=AlfrescoConversionUtil.getModule(conversion);
+  Module module=AlfrescoConversionUtil.getExtension(conversion).getModules().get(0);
   assertNotNull(module);
   assertEquals(1L,module.getConfigurations().size());
   Configuration config=module.getConfigurations().get(0);

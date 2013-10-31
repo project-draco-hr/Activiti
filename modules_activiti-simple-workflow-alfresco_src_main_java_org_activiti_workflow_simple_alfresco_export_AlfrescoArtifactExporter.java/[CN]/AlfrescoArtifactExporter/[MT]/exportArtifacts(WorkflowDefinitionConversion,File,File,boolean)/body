@@ -2,12 +2,12 @@
   validateArtifactTargets(repositoryFolder,shareFolder);
   String processId=conversion.getProcess().getId();
   try {
-    File processFile=new File(repositoryFolder,processId + PROCESS_FILE_SUFFIX);
+    File processFile=new File(repositoryFolder,getBpmnFileName(conversion));
     processFile.createNewFile();
     FileOutputStream processStream=new FileOutputStream(processFile);
     writeBpmnModel(processStream,conversion);
     processStream.close();
-    File contentModelFile=new File(repositoryFolder,processId + MODEL_FILE_SUFFIX);
+    File contentModelFile=new File(repositoryFolder,getContentModelFileName(conversion));
     contentModelFile.createNewFile();
     FileOutputStream modelStream=new FileOutputStream(contentModelFile);
     writeContentModel(modelStream,conversion);
@@ -17,11 +17,18 @@
     FileOutputStream springContextStream=new FileOutputStream(springContextFile);
     writeWorkflowDeployerBean(springContextStream,processId,processFile.getName(),contentModelFile.getName());
     springContextStream.close();
-    File shareConfigFile=new File(shareFolder,processId + SHARE_CONFIG_FILE_SUFFIX);
+    File shareConfigFile=new File(shareFolder,getShareConfigFileName(conversion));
     shareConfigFile.createNewFile();
     FileOutputStream shareConfigStream=new FileOutputStream(shareConfigFile);
-    writeShareConfig(shareConfigStream,conversion,false);
+    writeShareConfig(shareConfigStream,conversion,asExtension);
     shareConfigStream.close();
+    if (asExtension) {
+      File shareModuleDeploymentFile=new File(shareFolder,getShareModuleDeploymentFileName(conversion));
+      shareModuleDeploymentFile.createNewFile();
+      FileOutputStream shareModuleStream=new FileOutputStream(shareModuleDeploymentFile);
+      writeShareExtensionModule(shareModuleStream,conversion);
+      shareModuleStream.close();
+    }
     File shareContextFile=new File(shareFolder,processId + SHARE_CONTEXT_FILE_SUFFIX);
     shareContextFile.createNewFile();
     FileOutputStream shareContextStream=new FileOutputStream(shareContextFile);

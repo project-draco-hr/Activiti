@@ -5,14 +5,14 @@
     if (flowElement instanceof StartEvent) {
       StartEvent startEvent=(StartEvent)flowElement;
       if (startEvent.getFormKey() == null) {
-        Module module=AlfrescoConversionUtil.getModule(conversion);
+        Module module=AlfrescoConversionUtil.getExtension(conversion).getModules().get(0);
         Configuration detailsForm=module.addConfiguration(EVALUATOR_STRING_COMPARE,MessageFormat.format(EVALUATOR_CONDITION_ACTIVITI,conversion.getProcess().getId()));
         if (conversion.getWorkflowDefinition().getStartFormDefinition() != null && conversion.getWorkflowDefinition().getStartFormDefinition().getFormGroups().size() > 0) {
           M2Type type=new M2Type();
           model.getTypes().add(type);
           type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),AlfrescoConversionConstants.START_TASK_SIMPLE_NAME));
           type.setParentName(AlfrescoConversionConstants.DEFAULT_START_FORM_TYPE);
-          Module shareModule=AlfrescoConversionUtil.getModule(conversion);
+          Module shareModule=AlfrescoConversionUtil.getExtension(conversion).getModules().get(0);
           Configuration configuration=shareModule.addConfiguration(AlfrescoConversionConstants.EVALUATOR_TASK_TYPE,type.getName());
           Form formConfig=configuration.createForm();
           formConfig.setStartForm(true);
