@@ -1,0 +1,20 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  List<String> assigneeList=Arrays.asList("kermit","gonzo","fozzie");
+  vars.put("assigneeList",assigneeList);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey(processDefinitionKey,vars);
+  List<Task> tasks=taskService.createTaskQuery().orderByTaskName().asc().list();
+  assertEquals(3,tasks.size());
+  assertEquals("My Task 0",tasks.get(0).getName());
+  assertEquals("My Task 1",tasks.get(1).getName());
+  assertEquals("My Task 2",tasks.get(2).getName());
+  tasks=taskService.createTaskQuery().orderByTaskAssignee().asc().list();
+  assertEquals("fozzie",tasks.get(0).getAssignee());
+  assertEquals("gonzo",tasks.get(1).getAssignee());
+  assertEquals("kermit",tasks.get(2).getAssignee());
+  taskService.complete(tasks.get(0).getId());
+  taskService.complete(tasks.get(1).getId());
+  taskService.complete(tasks.get(2).getId());
+  assertEquals(0,taskService.createTaskQuery().count());
+  assertProcessEnded(processInstance.getProcessInstanceId());
+}

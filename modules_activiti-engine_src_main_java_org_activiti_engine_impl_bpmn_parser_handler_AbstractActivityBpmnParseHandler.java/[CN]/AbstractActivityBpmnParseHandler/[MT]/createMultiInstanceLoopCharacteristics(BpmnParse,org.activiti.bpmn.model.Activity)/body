@@ -33,6 +33,9 @@
   if (StringUtils.isNotEmpty(loopCharacteristics.getElementVariable())) {
     miActivityBehavior.setCollectionElementVariable(loopCharacteristics.getElementVariable());
   }
+  if (StringUtils.isNotEmpty(loopCharacteristics.getElementIndexVariable())) {
+    miActivityBehavior.setCollectionElementIndexVariable(loopCharacteristics.getElementIndexVariable());
+  }
   if (miActivityBehavior.getLoopCardinalityExpression() == null && miActivityBehavior.getCollectionExpression() == null && miActivityBehavior.getCollectionVariable() == null) {
     bpmnModel.addProblem("Either loopCardinality or loopDataInputRef/activiti:collection must been set.",loopCharacteristics);
   }
