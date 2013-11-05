@@ -1,11 +1,11 @@
 {
   ScriptServiceTaskBuilder builder=new ScriptServiceTaskBuilder();
   builder.addLine("var mail = actions.create('mail');");
-  addMailActionParameter("to",stepDefinition.getTo(),builder);
-  addMailActionParameter("cc",stepDefinition.getCc(),builder);
-  addMailActionParameter("from",stepDefinition.getFrom(),builder);
-  addMailActionParameter("subject",stepDefinition.getSubject(),builder);
-  addMailActionParameter("text",stepDefinition.getBody(),builder);
+  addMailActionParameter("to",getSafeJsString(stepDefinition.getTo()),builder);
+  addMailActionParameter("cc",getSafeJsString(stepDefinition.getCc()),builder);
+  addMailActionParameter("from",getSafeJsString(stepDefinition.getFrom()),builder);
+  addMailActionParameter("subject",getSafeJsString(stepDefinition.getSubject()),builder);
+  addMailActionParameter("text",getSafeJsString(stepDefinition.getBody()),builder);
   builder.addLine("mail.execute(bpm_package);");
   ServiceTask serviceTask=builder.build();
   serviceTask.setName(stepDefinition.getName());

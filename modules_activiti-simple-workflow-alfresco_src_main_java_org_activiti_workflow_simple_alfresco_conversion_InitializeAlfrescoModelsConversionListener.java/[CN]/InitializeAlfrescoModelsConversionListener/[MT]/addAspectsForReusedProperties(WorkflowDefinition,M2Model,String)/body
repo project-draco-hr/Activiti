@@ -1,14 +1,7 @@
 {
   Map<String,FormPropertyDefinition> definitionMap=new HashMap<String,FormPropertyDefinition>();
   addDefinitionsToMap(workflowDefinition.getStartFormDefinition(),definitionMap);
-  for (  StepDefinition step : workflowDefinition.getSteps()) {
-    if (step instanceof HumanStepDefinition) {
-      addDefinitionsToMap(((HumanStepDefinition)step).getForm(),definitionMap);
-    }
- else     if (step instanceof AlfrescoReviewStepDefinition) {
-      addDefinitionsToMap(((AlfrescoReviewStepDefinition)step).getForm(),definitionMap);
-    }
-  }
+  addAspectsForReusedProperties(workflowDefinition.getSteps(),model,processId,definitionMap);
   for (  Entry<String,FormPropertyDefinition> entry : definitionMap.entrySet()) {
     if (entry.getValue() != null) {
       M2Aspect aspect=new M2Aspect();
