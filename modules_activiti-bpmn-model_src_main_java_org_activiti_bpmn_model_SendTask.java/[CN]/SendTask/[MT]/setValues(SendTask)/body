@@ -1,0 +1,12 @@
+{
+  super.setValues(otherElement);
+  setType(otherElement.getType());
+  setImplementationType(otherElement.getImplementationType());
+  setOperationRef(otherElement.getOperationRef());
+  fieldExtensions=new ArrayList<FieldExtension>();
+  if (otherElement.getFieldExtensions() != null && otherElement.getFieldExtensions().size() > 0) {
+    for (    FieldExtension extension : otherElement.getFieldExtensions()) {
+      fieldExtensions.add(extension.clone());
+    }
+  }
+}
