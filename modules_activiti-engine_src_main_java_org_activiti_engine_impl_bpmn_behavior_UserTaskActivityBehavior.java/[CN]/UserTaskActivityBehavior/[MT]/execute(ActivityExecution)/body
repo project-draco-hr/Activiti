@@ -17,7 +17,8 @@
         task.setDueDate((Date)dueDate);
       }
  else       if (dueDate instanceof String) {
-        task.setDueDate(new DueDateBusinessCalendar().resolveDuedate((String)dueDate));
+        BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(DueDateBusinessCalendar.NAME);
+        task.setDueDate(businessCalendar.resolveDuedate((String)dueDate));
       }
  else {
         throw new ActivitiIllegalArgumentException("Due date expression does not resolve to a Date or Date string: " + taskDefinition.getDueDateExpression().getExpressionText());
