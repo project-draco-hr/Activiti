@@ -1,6 +1,11 @@
 {
   if (variables != null) {
-    task.setExecutionVariables(variables);
+    if (localScope) {
+      task.setVariablesLocal(variables);
+    }
+ else {
+      task.setExecutionVariables(variables);
+    }
   }
   task.complete();
   return null;

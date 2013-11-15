@@ -1,0 +1,9 @@
+{
+  super.setValues(otherEvent);
+  eventDefinitions=new ArrayList<EventDefinition>();
+  if (otherEvent.getEventDefinitions() != null && otherEvent.getEventDefinitions().size() > 0) {
+    for (    EventDefinition eventDef : otherEvent.getEventDefinitions()) {
+      eventDefinitions.add(eventDef.clone());
+    }
+  }
+}
