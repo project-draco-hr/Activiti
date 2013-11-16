@@ -1,5 +1,4 @@
 {
-  String processDefinitionId=task.getExecution().getProcessDefinitionId();
-  ProcessDefinition processDefinition=task.getExecution().getEngineServices().getRepositoryService().getProcessDefinition(processDefinitionId);
+  ProcessDefinition processDefinition=Context.getProcessEngineConfiguration().getProcessDefinitionCache().get(task.getExecution().getProcessDefinitionId());
   return new CdiBusinessProcessEvent(activityId,transitionName,processDefinition,task,type,task.getExecution().getProcessInstanceId(),task.getExecutionId(),new Date());
 }
