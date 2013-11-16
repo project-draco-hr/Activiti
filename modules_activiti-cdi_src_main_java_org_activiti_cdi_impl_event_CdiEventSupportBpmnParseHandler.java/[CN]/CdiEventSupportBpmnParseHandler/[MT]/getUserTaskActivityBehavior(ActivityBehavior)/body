@@ -1,0 +1,9 @@
+{
+  if (behavior instanceof UserTaskActivityBehavior) {
+    return (UserTaskActivityBehavior)behavior;
+  }
+ else   if (behavior instanceof MultiInstanceActivityBehavior) {
+    return (UserTaskActivityBehavior)((MultiInstanceActivityBehavior)behavior).getInnerActivityBehavior();
+  }
+  return null;
+}
