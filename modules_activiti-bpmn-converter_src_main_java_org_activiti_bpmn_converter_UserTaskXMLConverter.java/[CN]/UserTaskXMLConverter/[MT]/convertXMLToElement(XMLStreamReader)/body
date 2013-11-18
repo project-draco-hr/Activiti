@@ -24,7 +24,7 @@
     String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEGROUPS);
     userTask.getCandidateGroups().addAll(parseDelimitedList(expression));
   }
-  BpmnXMLUtil.addCustomAttributes(xtr,userTask,defaultAttributes);
+  BpmnXMLUtil.addCustomAttributes(xtr,userTask,defaultUserTaskAttributes);
   parseChildElements(getXMLElementName(),userTask,xtr);
   return userTask;
 }
