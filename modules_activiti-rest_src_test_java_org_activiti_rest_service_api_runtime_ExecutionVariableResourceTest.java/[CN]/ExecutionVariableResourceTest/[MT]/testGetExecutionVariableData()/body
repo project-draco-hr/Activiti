@@ -16,4 +16,5 @@
   actualResponseBytesAsText=client.getResponse().getEntityAsText();
   assertEquals("This is a binary piece of text",actualResponseBytesAsText);
   assertEquals(MediaType.APPLICATION_OCTET_STREAM.getName(),getMediaType(client));
+  client.release();
 }

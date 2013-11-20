@@ -5,7 +5,7 @@
   }
   String existingValue=ActivitiUtil.getIdentityService().getUserInfo(user.getId(),key);
   if (existingValue == null) {
-    throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND.getCode(),"User info with key '" + key + "' does not exists for user '"+ user.getId()+ "'.",null,null);
+    throw new ActivitiObjectNotFoundException("User info with key '" + key + "' does not exists for user '"+ user.getId()+ "'.",null);
   }
   return key;
 }

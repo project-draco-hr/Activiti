@@ -14,8 +14,8 @@
   ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_EXCEPTION_STRACKTRACE,timerJob.getId()));
   Representation response=client.get();
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  String stack=response.getText();
+  String stack=IOUtils.toString(response.getStream());
   assertNotNull(stack);
   assertEquals(managementService.getJobExceptionStacktrace(timerJob.getId()),stack);
-  assertEquals(MediaType.TEXT_PLAIN.getName(),getMediaType(client));
+  assertTrue(getMediaType(client).contains(MediaType.TEXT_PLAIN.getName()));
 }

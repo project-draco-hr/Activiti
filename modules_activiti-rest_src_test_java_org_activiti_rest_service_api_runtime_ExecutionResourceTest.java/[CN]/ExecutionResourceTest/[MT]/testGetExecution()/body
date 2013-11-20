@@ -27,4 +27,5 @@
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,childExecution.getId())));
   assertTrue(responseNode.get("parentUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId())));
   assertTrue(responseNode.get("processInstanceUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,parentExecution.getId())));
+  client.release();
 }

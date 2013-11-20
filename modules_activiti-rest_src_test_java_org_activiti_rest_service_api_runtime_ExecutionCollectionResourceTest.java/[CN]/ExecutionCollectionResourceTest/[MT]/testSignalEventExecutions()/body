@@ -12,4 +12,5 @@
   waitingExecution=runtimeService.createExecutionQuery().activityId("anotherWaitState").singleResult();
   assertNotNull(waitingExecution);
   assertEquals(signalExecution.getId(),waitingExecution.getId());
+  client.release();
 }
