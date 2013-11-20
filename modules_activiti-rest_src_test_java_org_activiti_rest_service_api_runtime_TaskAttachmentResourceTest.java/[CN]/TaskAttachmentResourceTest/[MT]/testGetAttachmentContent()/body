@@ -9,7 +9,7 @@
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     String responseBodyString=response.getText();
     assertEquals("This is binary content",responseBodyString);
-    Series<Parameter> headers=(Series<Parameter>)client.getResponseAttributes().get(HeaderConstants.ATTRIBUTE_HEADERS);
+    Series<Header> headers=(Series<Header>)client.getResponseAttributes().get(HeaderConstants.ATTRIBUTE_HEADERS);
     assertEquals("application/octet-stream",headers.getFirstValue(HeaderConstants.HEADER_CONTENT_TYPE));
   }
   finally {

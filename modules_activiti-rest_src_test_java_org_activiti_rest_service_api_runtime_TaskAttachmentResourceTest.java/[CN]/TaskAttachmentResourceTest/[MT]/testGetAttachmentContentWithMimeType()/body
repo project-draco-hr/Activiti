@@ -7,7 +7,7 @@
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),binaryAttachment.getId()));
     client.get();
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    Series<Parameter> headers=(Series<Parameter>)client.getResponseAttributes().get(HeaderConstants.ATTRIBUTE_HEADERS);
+    Series<Header> headers=(Series<Header>)client.getResponseAttributes().get(HeaderConstants.ATTRIBUTE_HEADERS);
     assertEquals("application/xml",headers.getFirstValue(HeaderConstants.HEADER_CONTENT_TYPE));
   }
   finally {

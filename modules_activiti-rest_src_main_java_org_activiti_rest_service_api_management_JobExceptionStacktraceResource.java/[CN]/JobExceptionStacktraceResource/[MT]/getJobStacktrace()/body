@@ -5,5 +5,5 @@
   if (stackTrace == null) {
     throw new ActivitiObjectNotFoundException("Job with id '" + job.getId() + "' doesn't have an exception stacktrace.",String.class);
   }
-  return new InputRepresentation(new ByteArrayInputStream(stackTrace.getBytes()),MediaType.TEXT_PLAIN);
+  return new StringRepresentation(stackTrace,MediaType.TEXT_PLAIN);
 }
