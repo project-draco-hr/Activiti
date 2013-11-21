@@ -1,0 +1,12 @@
+{
+  boolean valid=false;
+  if (event instanceof ActivityEntityEvent) {
+    if (entityClass == null) {
+      valid=true;
+    }
+ else {
+      valid=entityClass.isAssignableFrom(((ActivityEntityEvent)event).getEntity().getClass());
+    }
+  }
+  return valid;
+}

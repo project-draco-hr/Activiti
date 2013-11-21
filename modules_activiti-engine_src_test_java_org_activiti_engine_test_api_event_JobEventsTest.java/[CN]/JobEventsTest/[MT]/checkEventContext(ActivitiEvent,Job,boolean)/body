@@ -1,0 +1,14 @@
+{
+  assertEquals(entity.getProcessInstanceId(),event.getProcessInstanceId());
+  assertEquals(entity.getProcessDefinitionId(),event.getProcessDefinitionId());
+  if (scopeExecutionExpected) {
+    assertEquals(entity.getExecutionId(),event.getExecutionId());
+  }
+ else {
+    assertEquals(entity.getProcessInstanceId(),event.getExecutionId());
+  }
+  assertTrue(event instanceof ActivityEntityEvent);
+  ActivityEntityEvent entityEvent=(ActivityEntityEvent)event;
+  assertTrue(entityEvent.getEntity() instanceof Job);
+  assertEquals(entity.getId(),entityEvent.getEntity().getId());
+}

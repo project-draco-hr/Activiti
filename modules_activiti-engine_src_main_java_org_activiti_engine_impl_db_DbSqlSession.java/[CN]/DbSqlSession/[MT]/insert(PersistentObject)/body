@@ -5,4 +5,7 @@
   }
   insertedObjects.add(persistentObject);
   cachePut(persistentObject,false);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,persistentObject));
+  }
 }

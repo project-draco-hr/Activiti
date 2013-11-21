@@ -1,0 +1,19 @@
+{
+  if (this.eventDispatcher == null) {
+    this.eventDispatcher=new ActivitiEventDispatcherImpl();
+  }
+  this.eventDispatcher.setEnabled(enableEventDispatcher);
+  if (eventListeners != null) {
+    for (    ActivitiEventListener listenerToAdd : eventListeners) {
+      this.eventDispatcher.addEventListener(listenerToAdd);
+    }
+  }
+  if (typedEventListeners != null) {
+    for (    Entry<String,List<ActivitiEventListener>> listenersToAdd : typedEventListeners.entrySet()) {
+      ActivitiEventType[] types=ActivitiEventType.getTypesFromString(listenersToAdd.getKey());
+      for (      ActivitiEventListener listenerToAdd : listenersToAdd.getValue()) {
+        this.eventDispatcher.addEventListener(listenerToAdd,types);
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  if (Context.isExecutionContextActive()) {
+    ExecutionContext executionContext=Context.getExecutionContext();
+    if (executionContext != null) {
+      event.setExecutionId(executionContext.getExecution().getId());
+      event.setProcessInstanceId(executionContext.getExecution().getProcessInstanceId());
+      event.setProcessDefinitionId(executionContext.getExecution().getProcessDefinitionId());
+    }
+  }
+ else {
+    if (event instanceof ActivityEntityEvent) {
+      Object persistendObject=((ActivityEntityEvent)event).getEntity();
+      if (persistendObject instanceof Job) {
+        event.setExecutionId(((Job)persistendObject).getExecutionId());
+        event.setProcessInstanceId(((Job)persistendObject).getProcessInstanceId());
+        event.setProcessDefinitionId(((Job)persistendObject).getProcessDefinitionId());
+      }
+    }
+  }
+}

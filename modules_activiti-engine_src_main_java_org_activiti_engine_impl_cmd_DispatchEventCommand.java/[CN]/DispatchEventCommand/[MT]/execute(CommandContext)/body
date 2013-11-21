@@ -1,0 +1,12 @@
+{
+  if (event == null) {
+    throw new ActivitiIllegalArgumentException("event is null");
+  }
+  if (commandContext.getEventDispatcher().isEnabled()) {
+    commandContext.getEventDispatcher().dispatchEvent(event);
+  }
+ else {
+    throw new ActivitiException("Message dispatcher is disabled, cannot dispatch event");
+  }
+  return null;
+}
