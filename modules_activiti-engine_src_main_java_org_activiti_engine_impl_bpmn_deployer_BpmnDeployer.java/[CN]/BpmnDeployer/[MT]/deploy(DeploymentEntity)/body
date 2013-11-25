@@ -41,6 +41,7 @@
   ProcessDefinitionEntityManager processDefinitionManager=commandContext.getProcessDefinitionEntityManager();
   DbSqlSession dbSqlSession=commandContext.getSession(DbSqlSession.class);
   for (  ProcessDefinitionEntity processDefinition : processDefinitions) {
+    List<TimerEntity> timers=new ArrayList<TimerEntity>();
     if (deployment.isNew()) {
       int processDefinitionVersion;
       ProcessDefinitionEntity latestProcessDefinition=processDefinitionManager.findLatestProcessDefinitionByKey(processDefinition.getKey());
@@ -59,11 +60,12 @@
       }
       processDefinition.setId(processDefinitionId);
       removeObsoleteTimers(processDefinition);
-      addTimerDeclarations(processDefinition);
+      addTimerDeclarations(processDefinition,timers);
       removeObsoleteMessageEventSubscriptions(processDefinition,latestProcessDefinition);
       addMessageEventSubscriptions(processDefinition);
       dbSqlSession.insert(processDefinition);
       addAuthorizations(processDefinition);
+      scheduleTimers(timers);
     }
  else {
       String deploymentId=deployment.getId();
