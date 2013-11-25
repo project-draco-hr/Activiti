@@ -4,5 +4,5 @@
   taskService.setAssignee(task.getId(),"kermit");
   taskService.complete(task.getId());
   String eventsReceived=(String)runtimeService.getVariable(task.getProcessInstanceId(),"events");
-  assertEquals("create - assignment - complete",eventsReceived);
+  assertEquals("create - assignment - complete - delete",eventsReceived);
 }
