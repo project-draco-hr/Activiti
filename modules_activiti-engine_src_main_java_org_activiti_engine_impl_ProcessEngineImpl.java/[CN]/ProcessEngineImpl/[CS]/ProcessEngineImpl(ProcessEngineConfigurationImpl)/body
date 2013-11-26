@@ -26,4 +26,5 @@
   if (processEngineConfiguration.getProcessEngineLifecycleListener() != null) {
     processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineBuilt(this);
   }
+  processEngineConfiguration.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createGlobalEvent(ActivitiEventType.ENGINE_CREATED));
 }

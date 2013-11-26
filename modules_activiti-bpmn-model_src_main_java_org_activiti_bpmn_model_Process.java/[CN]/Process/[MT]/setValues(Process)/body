@@ -20,4 +20,10 @@
   if (otherElement.getCandidateStarterGroups() != null && otherElement.getCandidateStarterGroups().size() > 0) {
     candidateStarterGroups.addAll(otherElement.getCandidateStarterGroups());
   }
+  eventListeners=new ArrayList<EventListener>();
+  if (otherElement.getEventListeners() != null && !otherElement.getEventListeners().isEmpty()) {
+    for (    EventListener listener : otherElement.getEventListeners()) {
+      eventListeners.add(listener.clone());
+    }
+  }
 }

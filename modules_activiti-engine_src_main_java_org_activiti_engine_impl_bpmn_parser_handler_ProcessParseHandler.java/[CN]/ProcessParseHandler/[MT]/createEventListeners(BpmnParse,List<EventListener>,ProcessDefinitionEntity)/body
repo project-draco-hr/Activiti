@@ -1,0 +1,16 @@
+{
+  if (eventListeners != null && !eventListeners.isEmpty()) {
+    for (    EventListener eventListener : eventListeners) {
+      ActivitiEventType[] types=ActivitiEventType.getTypesFromString(eventListener.getEvents());
+      if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(eventListener.getImplementationType())) {
+        currentProcessDefinition.getEventSupport().addEventListener(bpmnParse.getListenerFactory().createClassDelegateEventListener(eventListener),types);
+      }
+ else       if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(eventListener.getImplementationType())) {
+        currentProcessDefinition.getEventSupport().addEventListener(bpmnParse.getListenerFactory().createDelegateExpressionEventListener(eventListener),types);
+      }
+ else {
+        bpmnParse.getBpmnModel().addProblem("Unsupported implementation type for EventLIstener: " + eventListener.getImplementationType(),bpmnParse.getCurrentFlowElement());
+      }
+    }
+  }
+}

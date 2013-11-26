@@ -66,6 +66,9 @@
       dbSqlSession.insert(processDefinition);
       addAuthorizations(processDefinition);
       scheduleTimers(timers);
+      if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,processDefinition));
+      }
     }
  else {
       String deploymentId=deployment.getId();

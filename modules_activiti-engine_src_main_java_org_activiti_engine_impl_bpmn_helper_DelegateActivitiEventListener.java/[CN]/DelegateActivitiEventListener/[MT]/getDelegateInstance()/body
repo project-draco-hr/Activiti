@@ -1,0 +1,13 @@
+{
+  if (delegateInstance == null) {
+    Object instance=ReflectUtil.instantiate(className);
+    if (instance instanceof ActivitiEventListener) {
+      delegateInstance=(ActivitiEventListener)instance;
+    }
+ else {
+      failOnException=true;
+      throw new ActivitiIllegalArgumentException("Class " + className + " does not implement "+ ActivitiEventListener.class.getName());
+    }
+  }
+  return delegateInstance;
+}

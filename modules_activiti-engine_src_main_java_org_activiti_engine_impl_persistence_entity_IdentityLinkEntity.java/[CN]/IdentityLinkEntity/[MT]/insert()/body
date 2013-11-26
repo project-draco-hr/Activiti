@@ -1,4 +1,7 @@
 {
   Context.getCommandContext().getDbSqlSession().insert(this);
   Context.getCommandContext().getHistoryManager().recordIdentityLinkCreated(this);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,this));
+  }
 }

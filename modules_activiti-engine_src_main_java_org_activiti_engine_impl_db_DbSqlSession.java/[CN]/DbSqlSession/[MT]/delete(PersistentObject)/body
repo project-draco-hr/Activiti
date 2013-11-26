@@ -6,7 +6,4 @@
     }
   }
   deleteOperations.add(new CheckedDeleteOperation(persistentObject));
-  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,persistentObject));
-  }
 }

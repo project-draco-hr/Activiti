@@ -1,0 +1,17 @@
+{
+  ProcessDefinition firstDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).processDefinitionKey("oneTaskProcess").singleResult();
+  assertNotNull(firstDefinition);
+  ProcessDefinition secondDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).processDefinitionKey("simpleProcess").singleResult();
+  assertNotNull(firstDefinition);
+  TestActivitiEventListener listener=new TestActivitiEventListener();
+  ProcessDefinitionEntity definitionEntity=(ProcessDefinitionEntity)repositoryService.getProcessDefinition(firstDefinition.getId());
+  assertNotNull(definitionEntity);
+  definitionEntity.getEventSupport().addEventListener(listener);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceById(firstDefinition.getId());
+  assertNotNull(processInstance);
+  assertFalse(listener.getEventsReceived().isEmpty());
+  listener.clearEventsReceived();
+  ProcessInstance otherInstance=runtimeService.startProcessInstanceById(secondDefinition.getId());
+  assertNotNull(otherInstance);
+  assertTrue(listener.getEventsReceived().isEmpty());
+}

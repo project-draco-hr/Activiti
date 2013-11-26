@@ -1,21 +1,13 @@
 {
   if (enabled) {
-    if (event == null) {
-      throw new ActivitiIllegalArgumentException("Event cannot be null.");
+    eventSupport.dispatchEvent(event);
+  }
+  if (Context.isExecutionContextActive()) {
+    ProcessDefinitionEntity definition=Context.getExecutionContext().getProcessDefinition();
+    if (definition != null) {
+      definition.getEventSupport().dispatchEvent(event);
     }
-    if (event.getType() == null) {
-      throw new ActivitiIllegalArgumentException("Event type cannot be null.");
-    }
-    if (eventListeners.size() > 0) {
-      for (      ActivitiEventListener listener : eventListeners) {
-        dispatchEvent(event,listener);
-      }
-    }
-    List<ActivitiEventListener> typed=typedListeners.get(event.getType());
-    if (typed != null && typed.size() > 0) {
-      for (      ActivitiEventListener listener : typed) {
-        dispatchEvent(event,listener);
-      }
-    }
+  }
+ else {
   }
 }

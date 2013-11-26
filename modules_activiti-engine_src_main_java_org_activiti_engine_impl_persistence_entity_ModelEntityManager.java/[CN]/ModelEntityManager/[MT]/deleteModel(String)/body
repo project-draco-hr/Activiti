@@ -3,4 +3,7 @@
   getDbSqlSession().delete(model);
   deleteEditorSource(model);
   deleteEditorSourceExtra(model);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,model));
+  }
 }
