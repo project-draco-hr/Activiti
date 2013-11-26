@@ -1,0 +1,22 @@
+{
+  try {
+    runtimeService.startProcessInstanceByKey("testInvalidEventExpression");
+    fail("Exception expected");
+  }
+ catch (  ActivitiException ae) {
+    assertEquals("Exception while executing event-listener",ae.getMessage());
+    assertTrue(ae.getCause() instanceof ActivitiException);
+    assertEquals("Unknown property used in expression: ${unexistingBean}",ae.getCause().getMessage());
+  }
+  try {
+    runtimeService.startProcessInstanceByKey("testInvalidEventClass");
+    fail("Exception expected");
+  }
+ catch (  ActivitiException ae) {
+    assertEquals("Exception while executing event-listener",ae.getMessage());
+    assertTrue(ae.getCause() instanceof ActivitiException);
+    assertEquals("couldn't instantiate class org.activiti.engine.test.api.event.UnexistingClass",ae.getCause().getMessage());
+    assertTrue(ae.getCause().getCause() instanceof ActivitiClassLoadingException);
+    assertTrue(ae.getCause().getCause().getCause() instanceof ClassNotFoundException);
+  }
+}

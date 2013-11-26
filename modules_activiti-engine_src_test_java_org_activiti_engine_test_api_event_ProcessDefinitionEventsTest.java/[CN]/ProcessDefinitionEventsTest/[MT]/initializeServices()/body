@@ -1,0 +1,7 @@
+{
+  super.initializeServices();
+  listener=new TestActivitiEntityEventListener(ProcessDefinition.class);
+  identityLinkListener=new TestActivitiEntityEventListener(IdentityLink.class);
+  processEngineConfiguration.getEventDispatcher().addEventListener(listener);
+  processEngineConfiguration.getEventDispatcher().addEventListener(identityLinkListener);
+}

@@ -5,5 +5,8 @@
   if (element instanceof UserTask) {
     didWriteExtensionStartElement=writeListeners(ELEMENT_TASK_LISTENER,((UserTask)element).getTaskListeners(),didWriteExtensionStartElement,xtw);
   }
+  if (element instanceof Process) {
+    didWriteExtensionStartElement=writeEventListeners(((Process)element).getEventListeners(),didWriteExtensionStartElement,xtw);
+  }
   return didWriteExtensionStartElement;
 }

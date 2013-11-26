@@ -15,6 +15,11 @@
         event.setProcessInstanceId(((Job)persistendObject).getProcessInstanceId());
         event.setProcessDefinitionId(((Job)persistendObject).getProcessDefinitionId());
       }
+ else       if (persistendObject instanceof ExecutionEntity) {
+        event.setExecutionId(((ExecutionEntity)persistendObject).getId());
+        event.setProcessInstanceId(((ExecutionEntity)persistendObject).getProcessInstanceId());
+        event.setProcessDefinitionId(((ExecutionEntity)persistendObject).getProcessDefinitionId());
+      }
     }
   }
 }

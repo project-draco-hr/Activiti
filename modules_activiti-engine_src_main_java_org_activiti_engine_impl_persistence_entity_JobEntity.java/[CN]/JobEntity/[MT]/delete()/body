@@ -5,4 +5,7 @@
     ExecutionEntity execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(executionId);
     execution.removeJob(this);
   }
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,this));
+  }
 }

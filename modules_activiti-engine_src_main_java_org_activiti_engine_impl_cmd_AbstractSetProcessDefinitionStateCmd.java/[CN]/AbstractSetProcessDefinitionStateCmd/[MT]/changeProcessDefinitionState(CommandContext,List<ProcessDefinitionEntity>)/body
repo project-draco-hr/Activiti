@@ -14,5 +14,15 @@
         processInstances=fetchProcessInstancesPage(commandContext,processDefinition,currentStartIndex);
       }
     }
+    if (Context.getCommandContext().getEventDispatcher().isEnabled()) {
+      ActivitiEventType eventType=null;
+      if (getProcessDefinitionSuspensionState() == SuspensionState.ACTIVE) {
+        eventType=ActivitiEventType.ENTITY_ACTIVATED;
+      }
+ else {
+        eventType=ActivitiEventType.ENTITY_SUSPENDED;
+      }
+      Context.getCommandContext().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(eventType,processDefinition));
+    }
   }
 }

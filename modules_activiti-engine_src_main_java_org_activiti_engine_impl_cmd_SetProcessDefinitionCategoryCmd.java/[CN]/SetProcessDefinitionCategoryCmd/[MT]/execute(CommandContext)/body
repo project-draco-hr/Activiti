@@ -11,5 +11,8 @@
   if (processDefinitionCache != null) {
     processDefinitionCache.remove(processDefinitionId);
   }
+  if (Context.getCommandContext().getEventDispatcher().isEnabled()) {
+    Context.getCommandContext().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,processDefinition));
+  }
   return null;
 }

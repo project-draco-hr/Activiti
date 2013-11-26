@@ -1,11 +1,3 @@
 {
-  if (listenerToAdd == null) {
-    throw new ActivitiIllegalArgumentException("Listener cannot be null.");
-  }
-  if (types == null || types.length == 0) {
-    addEventListener(listenerToAdd);
-  }
-  for (  ActivitiEventType type : types) {
-    addTypedEventListener(listenerToAdd,type);
-  }
+  eventSupport.addEventListener(listenerToAdd,types);
 }

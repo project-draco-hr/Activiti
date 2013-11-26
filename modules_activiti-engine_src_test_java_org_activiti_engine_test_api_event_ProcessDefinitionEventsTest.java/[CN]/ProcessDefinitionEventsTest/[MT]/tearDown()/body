@@ -1,0 +1,9 @@
+{
+  super.tearDown();
+  if (listener != null) {
+    identityLinkListener.clearEventsReceived();
+    listener.clearEventsReceived();
+    processEngineConfiguration.getEventDispatcher().removeEventListener(listener);
+    processEngineConfiguration.getEventDispatcher().removeEventListener(identityLinkListener);
+  }
+}

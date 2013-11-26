@@ -1,0 +1,18 @@
+{
+  Process process=model.getMainProcess();
+  assertNotNull(process);
+  assertNotNull(process.getEventListeners());
+  assertEquals(3,process.getEventListeners().size());
+  EventListener listener=process.getEventListeners().get(0);
+  assertEquals("ENTITY_CREATE",listener.getEvents());
+  assertEquals("org.activiti.test.MyListener",listener.getImplementation());
+  assertEquals(BpmnXMLConstants.ATTRIBUTE_LISTENER_CLASS,listener.getImplementationType());
+  listener=process.getEventListeners().get(1);
+  assertNull(listener.getEvents());
+  assertEquals("org.activiti.test.AllEventTypesListener",listener.getImplementation());
+  assertEquals(BpmnXMLConstants.ATTRIBUTE_LISTENER_CLASS,listener.getImplementationType());
+  listener=process.getEventListeners().get(2);
+  assertEquals("ENTITY_DELETE",listener.getEvents());
+  assertEquals("${myListener}",listener.getImplementation());
+  assertEquals(BpmnXMLConstants.ATTRIBUTE_LISTENER_DELEGATEEXPRESSION,listener.getImplementationType());
+}
