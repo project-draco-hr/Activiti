@@ -11,7 +11,7 @@
   assertEquals(1,listener.getEventsReceived().size());
   event=listener.getEventsReceived().get(0);
   assertEquals(ActivitiEventType.ENTITY_UPDATED,event.getType());
-  Job updatedJob=(Job)((ActivityEntityEvent)event).getEntity();
+  Job updatedJob=(Job)((ActivitiEntityEvent)event).getEntity();
   assertEquals(5,updatedJob.getRetries());
   checkEventContext(event,theJob,true);
   listener.clearEventsReceived();

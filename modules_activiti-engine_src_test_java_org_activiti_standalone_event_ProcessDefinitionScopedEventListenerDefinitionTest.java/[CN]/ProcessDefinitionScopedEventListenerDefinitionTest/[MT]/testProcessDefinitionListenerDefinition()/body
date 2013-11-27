@@ -7,8 +7,8 @@
   for (  ActivitiEvent event : testListenerBean.getEventsReceived()) {
     assertEquals(ActivitiEventType.ENTITY_CREATED,event.getType());
   }
-  assertTrue(testListenerBean.getEventsReceived().get(0) instanceof ActivityEntityEvent);
-  ActivityEntityEvent event=(ActivityEntityEvent)testListenerBean.getEventsReceived().get(0);
+  assertTrue(testListenerBean.getEventsReceived().get(0) instanceof ActivitiEntityEvent);
+  ActivitiEntityEvent event=(ActivitiEntityEvent)testListenerBean.getEventsReceived().get(0);
   assertTrue(event.getEntity() instanceof ProcessInstance);
   assertEquals(processInstance.getId(),((ProcessInstance)event.getEntity()).getId());
   List<ActivitiEvent> events=StaticTestActivitiEventListener.getEventsReceived();
