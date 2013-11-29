@@ -1,0 +1,10 @@
+{
+  if (propertyValue != null) {
+    long count=ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().userId(propertyValue).count();
+    if (count == 0) {
+      throw new ActivitiObjectNotFoundException("User " + propertyValue + " does not exist",User.class);
+    }
+    return propertyValue;
+  }
+  return null;
+}
