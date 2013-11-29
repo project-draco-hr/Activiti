@@ -11,6 +11,9 @@
   }
  else {
     try {
+      if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createActivityEvent(ActivitiEventType.ACTIVITY_COMPENSATE,compensationHandler.getId(),compensatingExecution.getId(),compensatingExecution.getProcessInstanceId(),compensatingExecution.getProcessDefinitionId()));
+      }
       compensatingExecution.setActivity(compensationHandler);
       compensatingExecution.performOperation(AtomicOperation.ACTIVITY_START);
     }

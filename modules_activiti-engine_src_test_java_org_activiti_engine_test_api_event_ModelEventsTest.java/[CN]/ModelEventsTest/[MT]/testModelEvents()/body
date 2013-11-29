@@ -7,14 +7,14 @@
     repositoryService.saveModel(model);
     assertEquals(1,listener.getEventsReceived().size());
     assertEquals(ActivitiEventType.ENTITY_CREATED,listener.getEventsReceived().get(0).getType());
-    assertEquals(model.getId(),((Model)((ActivityEntityEvent)listener.getEventsReceived().get(0)).getEntity()).getId());
+    assertEquals(model.getId(),((Model)((ActivitiEntityEvent)listener.getEventsReceived().get(0)).getEntity()).getId());
     listener.clearEventsReceived();
     model=repositoryService.getModel(model.getId());
     model.setName("Updated");
     repositoryService.saveModel(model);
     assertEquals(1,listener.getEventsReceived().size());
     assertEquals(ActivitiEventType.ENTITY_UPDATED,listener.getEventsReceived().get(0).getType());
-    assertEquals(model.getId(),((Model)((ActivityEntityEvent)listener.getEventsReceived().get(0)).getEntity()).getId());
+    assertEquals(model.getId(),((Model)((ActivitiEntityEvent)listener.getEventsReceived().get(0)).getEntity()).getId());
     listener.clearEventsReceived();
     repositoryService.addModelEditorSource(model.getId(),"test".getBytes());
     repositoryService.addModelEditorSourceExtra(model.getId(),"test extra".getBytes());
@@ -25,7 +25,7 @@
     repositoryService.deleteModel(model.getId());
     assertEquals(1,listener.getEventsReceived().size());
     assertEquals(ActivitiEventType.ENTITY_DELETED,listener.getEventsReceived().get(0).getType());
-    assertEquals(model.getId(),((Model)((ActivityEntityEvent)listener.getEventsReceived().get(0)).getEntity()).getId());
+    assertEquals(model.getId(),((Model)((ActivitiEntityEvent)listener.getEventsReceived().get(0)).getEntity()).getId());
     listener.clearEventsReceived();
   }
   finally {

@@ -1,0 +1,35 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").singleResult();
+  assertNotNull(processDefinition);
+  repositoryService.addCandidateStarterUser(processDefinition.getId(),"kermit");
+  repositoryService.addCandidateStarterGroup(processDefinition.getId(),"sales");
+  assertEquals(2,listener.getEventsReceived().size());
+  ActivitiEntityEvent event=(ActivitiEntityEvent)listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.ENTITY_CREATED,event.getType());
+  assertTrue(event.getEntity() instanceof IdentityLink);
+  assertEquals(processDefinition.getId(),event.getProcessDefinitionId());
+  assertNull(event.getProcessInstanceId());
+  assertNull(event.getExecutionId());
+  event=(ActivitiEntityEvent)listener.getEventsReceived().get(1);
+  assertEquals(ActivitiEventType.ENTITY_CREATED,event.getType());
+  assertTrue(event.getEntity() instanceof IdentityLink);
+  assertEquals(processDefinition.getId(),event.getProcessDefinitionId());
+  assertNull(event.getProcessInstanceId());
+  assertNull(event.getExecutionId());
+  listener.clearEventsReceived();
+  repositoryService.deleteCandidateStarterUser(processDefinition.getId(),"kermit");
+  repositoryService.deleteCandidateStarterGroup(processDefinition.getId(),"sales");
+  assertEquals(2,listener.getEventsReceived().size());
+  event=(ActivitiEntityEvent)listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.ENTITY_DELETED,event.getType());
+  assertTrue(event.getEntity() instanceof IdentityLink);
+  assertEquals(processDefinition.getId(),event.getProcessDefinitionId());
+  assertNull(event.getProcessInstanceId());
+  assertNull(event.getExecutionId());
+  event=(ActivitiEntityEvent)listener.getEventsReceived().get(1);
+  assertEquals(ActivitiEventType.ENTITY_DELETED,event.getType());
+  assertTrue(event.getEntity() instanceof IdentityLink);
+  assertEquals(processDefinition.getId(),event.getProcessDefinitionId());
+  assertNull(event.getProcessInstanceId());
+  assertNull(event.getExecutionId());
+}

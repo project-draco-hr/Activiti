@@ -20,6 +20,6 @@
   checkEventContext(event,theJob,true);
   event=listener.getEventsReceived().get(3);
   assertEquals(ActivitiEventType.JOB_RETRIES_DECREMENTED,event.getType());
-  assertEquals(0,((Job)((ActivityEntityEvent)event).getEntity()).getRetries());
+  assertEquals(0,((Job)((ActivitiEntityEvent)event).getEntity()).getRetries());
   checkEventContext(event,theJob,true);
 }

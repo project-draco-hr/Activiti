@@ -2,7 +2,12 @@
   ensureActivityInitialized();
   SignallableActivityBehavior activityBehavior=(SignallableActivityBehavior)activity.getActivityBehavior();
   try {
+    String signalledActivityId=activity.getId();
     activityBehavior.signal(this,signalName,signalData);
+    boolean isUserTask=(activityBehavior instanceof UserTaskActivityBehavior) || ((activityBehavior instanceof MultiInstanceActivityBehavior) && ((MultiInstanceActivityBehavior)activityBehavior).getInnerActivityBehavior() instanceof UserTaskActivityBehavior);
+    if (!isUserTask && Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createSignalEvent(ActivitiEventType.ACTIVITY_SIGNALLED,signalledActivityId,signalName,signalData,this.id,this.processInstanceId,this.processDefinitionId));
+    }
   }
  catch (  RuntimeException e) {
     throw e;
