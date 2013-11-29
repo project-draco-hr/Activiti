@@ -6,7 +6,7 @@
     activityBehavior.signal(this,signalName,signalData);
     boolean isUserTask=(activityBehavior instanceof UserTaskActivityBehavior) || ((activityBehavior instanceof MultiInstanceActivityBehavior) && ((MultiInstanceActivityBehavior)activityBehavior).getInnerActivityBehavior() instanceof UserTaskActivityBehavior);
     if (!isUserTask && Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createSignalEvent(ActivitiEventType.ACTIVITY_SIGNALLED,signalledActivityId,signalName,signalData,this.id,this.processInstanceId,this.processDefinitionId));
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createSignalEvent(ActivitiEventType.ACTIVITY_SIGNALED,signalledActivityId,signalName,signalData,this.id,this.processInstanceId,this.processDefinitionId));
     }
   }
  catch (  RuntimeException e) {

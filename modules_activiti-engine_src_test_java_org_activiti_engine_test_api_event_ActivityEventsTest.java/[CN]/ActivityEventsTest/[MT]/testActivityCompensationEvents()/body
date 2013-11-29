@@ -14,7 +14,7 @@
   assertEquals(processInstance.getProcessDefinitionId(),activityEvent.getProcessDefinitionId());
   assertTrue(listener.getEventsReceived().get(1) instanceof ActivitiSignalEvent);
   ActivitiSignalEvent signalEvent=(ActivitiSignalEvent)listener.getEventsReceived().get(1);
-  assertEquals(ActivitiEventType.ACTIVITY_SIGNALLED,signalEvent.getType());
+  assertEquals(ActivitiEventType.ACTIVITY_SIGNALED,signalEvent.getType());
   assertEquals("throwCompensation",signalEvent.getActivityId());
   assertEquals(processInstance.getId(),signalEvent.getExecutionId());
   assertEquals(processInstance.getProcessInstanceId(),signalEvent.getProcessInstanceId());
