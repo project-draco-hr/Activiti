@@ -1,5 +1,7 @@
 {
   if (event instanceof ActivitiActivityEvent) {
-    eventsReceived.add(event);
+    if (!ignoreRawActivityEvents || (event.getType() != ActivitiEventType.ACTIVITY_STARTED && event.getType() != ActivitiEventType.ACTIVITY_COMPLETED)) {
+      eventsReceived.add(event);
+    }
   }
 }
