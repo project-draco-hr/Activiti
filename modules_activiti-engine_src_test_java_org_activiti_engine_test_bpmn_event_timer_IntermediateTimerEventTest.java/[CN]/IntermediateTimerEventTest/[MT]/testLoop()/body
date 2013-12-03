@@ -1,0 +1,8 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testLoop");
+  for (int i=0; i < 3; i++) {
+    Job timer=managementService.createJobQuery().singleResult();
+    managementService.executeJob(timer.getId());
+  }
+  assertProcessEnded(processInstance.getId());
+}
