@@ -8,7 +8,7 @@
   assertEquals(1L,listener.getEventsReceived().size());
   assertTrue(listener.getEventsReceived().get(0) instanceof ActivitiSignalEvent);
   ActivitiSignalEvent signalEvent=(ActivitiSignalEvent)listener.getEventsReceived().get(0);
-  assertEquals(ActivitiEventType.ACTIVITY_SIGNALLED,signalEvent.getType());
+  assertEquals(ActivitiEventType.ACTIVITY_SIGNALED,signalEvent.getType());
   assertEquals("shipOrder",signalEvent.getActivityId());
   assertEquals(executionWithSignalEvent.getId(),signalEvent.getExecutionId());
   assertEquals(executionWithSignalEvent.getProcessInstanceId(),signalEvent.getProcessInstanceId());
