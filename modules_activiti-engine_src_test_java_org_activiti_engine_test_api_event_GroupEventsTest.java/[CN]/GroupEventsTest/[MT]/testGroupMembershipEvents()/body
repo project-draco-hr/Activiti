@@ -1,0 +1,57 @@
+{
+  TestActivitiEventListener membershipListener=new TestActivitiEventListener();
+  processEngineConfiguration.getEventDispatcher().addEventListener(membershipListener);
+  User user=null;
+  Group group=null;
+  try {
+    user=identityService.newUser("kermit");
+    identityService.saveUser(user);
+    group=identityService.newGroup("sales");
+    identityService.saveGroup(group);
+    membershipListener.clearEventsReceived();
+    identityService.createMembership("kermit","sales");
+    assertEquals(1,membershipListener.getEventsReceived().size());
+    assertTrue(membershipListener.getEventsReceived().get(0) instanceof ActivitiMembershipEvent);
+    ActivitiMembershipEvent event=(ActivitiMembershipEvent)membershipListener.getEventsReceived().get(0);
+    assertEquals(ActivitiEventType.MEMBERSHIP_CREATED,event.getType());
+    assertEquals("sales",event.getGroupId());
+    assertEquals("kermit",event.getUserId());
+    assertNull(event.getExecutionId());
+    assertNull(event.getProcessDefinitionId());
+    assertNull(event.getProcessInstanceId());
+    membershipListener.clearEventsReceived();
+    identityService.deleteMembership("kermit","sales");
+    assertEquals(1,membershipListener.getEventsReceived().size());
+    assertTrue(membershipListener.getEventsReceived().get(0) instanceof ActivitiMembershipEvent);
+    event=(ActivitiMembershipEvent)membershipListener.getEventsReceived().get(0);
+    assertEquals(ActivitiEventType.MEMBERSHIP_DELETED,event.getType());
+    assertEquals("sales",event.getGroupId());
+    assertEquals("kermit",event.getUserId());
+    assertNull(event.getExecutionId());
+    assertNull(event.getProcessDefinitionId());
+    assertNull(event.getProcessInstanceId());
+    membershipListener.clearEventsReceived();
+    identityService.createMembership("kermit","sales");
+    membershipListener.clearEventsReceived();
+    identityService.deleteGroup(group.getId());
+    assertEquals(2,membershipListener.getEventsReceived().size());
+    assertTrue(membershipListener.getEventsReceived().get(0) instanceof ActivitiMembershipEvent);
+    event=(ActivitiMembershipEvent)membershipListener.getEventsReceived().get(0);
+    assertEquals(ActivitiEventType.MEMBERSHIPS_DELETED,event.getType());
+    assertEquals("sales",event.getGroupId());
+    assertNull(event.getUserId());
+    assertNull(event.getExecutionId());
+    assertNull(event.getProcessDefinitionId());
+    assertNull(event.getProcessInstanceId());
+    membershipListener.clearEventsReceived();
+  }
+  finally {
+    processEngineConfiguration.getEventDispatcher().removeEventListener(membershipListener);
+    if (user != null) {
+      identityService.deleteUser(user.getId());
+    }
+    if (group != null) {
+      identityService.deleteGroup(group.getId());
+    }
+  }
+}
