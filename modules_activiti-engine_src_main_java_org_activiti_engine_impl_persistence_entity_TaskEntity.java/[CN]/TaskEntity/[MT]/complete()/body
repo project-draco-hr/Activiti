@@ -3,6 +3,9 @@
   if (Authentication.getAuthenticatedUserId() != null && processInstanceId != null) {
     getProcessInstance().involveUser(Authentication.getAuthenticatedUserId(),IdentityLinkType.PARTICIPANT);
   }
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_COMPLETED,this));
+  }
   Context.getCommandContext().getTaskEntityManager().deleteTask(this,TaskEntity.DELETE_REASON_COMPLETED,false);
   if (executionId != null) {
     ExecutionEntity execution=getExecution();

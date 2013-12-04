@@ -38,6 +38,11 @@
           event.setExecutionId(idLink.getTask().getExecutionId());
         }
       }
+ else       if (persistendObject instanceof Task) {
+        event.setProcessInstanceId(((Task)persistendObject).getProcessInstanceId());
+        event.setExecutionId(((Task)persistendObject).getExecutionId());
+        event.setProcessDefinitionId(((Task)persistendObject).getProcessDefinitionId());
+      }
     }
   }
 }
