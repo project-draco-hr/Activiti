@@ -1,0 +1,19 @@
+{
+  for (  EventDefinition eventDefinition : eventDefinitions) {
+    if (eventDefinition instanceof TimerEventDefinition) {
+      writeTimerDefinition(parentEvent,(TimerEventDefinition)eventDefinition,xtw);
+    }
+ else     if (eventDefinition instanceof SignalEventDefinition) {
+      writeSignalDefinition(parentEvent,(SignalEventDefinition)eventDefinition,xtw);
+    }
+ else     if (eventDefinition instanceof MessageEventDefinition) {
+      writeMessageDefinition(parentEvent,(MessageEventDefinition)eventDefinition,xtw);
+    }
+ else     if (eventDefinition instanceof ErrorEventDefinition) {
+      writeErrorDefinition(parentEvent,(ErrorEventDefinition)eventDefinition,xtw);
+    }
+ else     if (eventDefinition instanceof TerminateEventDefinition) {
+      writeTerminateDefinition(parentEvent,(TerminateEventDefinition)eventDefinition,xtw);
+    }
+  }
+}

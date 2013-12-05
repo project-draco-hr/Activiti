@@ -1,6 +1,9 @@
 {
   xtw.writeStartElement(ELEMENT_EVENT_SIGNALDEFINITION);
   writeDefaultAttribute(ATTRIBUTE_SIGNAL_REF,signalDefinition.getSignalRef(),xtw);
+  if (parentEvent instanceof ThrowEvent && signalDefinition.isAsync()) {
+    BpmnXMLUtil.writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS,"true",xtw);
+  }
   boolean didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(signalDefinition,false,xtw);
   if (didWriteExtensionStartElement) {
     xtw.writeEndElement();
