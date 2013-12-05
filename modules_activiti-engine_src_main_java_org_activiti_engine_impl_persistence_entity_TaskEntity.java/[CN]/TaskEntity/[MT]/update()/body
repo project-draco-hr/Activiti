@@ -1,6 +1,6 @@
 {
   setOwner(this.getOwner());
-  setAssignee(this.getAssignee());
+  setAssignee(this.getAssignee(),true,false);
   setDelegationState(this.getDelegationState());
   setName(this.getName());
   setDescription(this.getDescription());
@@ -12,4 +12,7 @@
   CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   dbSqlSession.update(this);
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,this));
+  }
 }

@@ -14,11 +14,21 @@
     if (activity.isNotExclusive()) {
       writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_EXCLUSIVE,ATTRIBUTE_VALUE_FALSE,xtw);
     }
-    writeDefaultAttribute(ATTRIBUTE_DEFAULT,activity.getDefaultFlow(),xtw);
+    if (StringUtils.isNotEmpty(activity.getDefaultFlow())) {
+      FlowElement defaultFlowElement=model.getFlowElement(activity.getDefaultFlow());
+      if (defaultFlowElement != null && defaultFlowElement instanceof SequenceFlow) {
+        writeDefaultAttribute(ATTRIBUTE_DEFAULT,activity.getDefaultFlow(),xtw);
+      }
+    }
   }
   if (baseElement instanceof Gateway) {
     final Gateway gateway=(Gateway)baseElement;
-    writeDefaultAttribute(ATTRIBUTE_DEFAULT,gateway.getDefaultFlow(),xtw);
+    if (StringUtils.isNotEmpty(gateway.getDefaultFlow())) {
+      FlowElement defaultFlowElement=model.getFlowElement(gateway.getDefaultFlow());
+      if (defaultFlowElement != null && defaultFlowElement instanceof SequenceFlow) {
+        writeDefaultAttribute(ATTRIBUTE_DEFAULT,gateway.getDefaultFlow(),xtw);
+      }
+    }
   }
   writeAdditionalAttributes(baseElement,xtw);
   if (baseElement instanceof FlowElement) {

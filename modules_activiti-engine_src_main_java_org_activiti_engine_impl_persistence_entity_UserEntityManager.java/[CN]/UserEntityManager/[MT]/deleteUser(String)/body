@@ -7,5 +7,8 @@
     }
     getDbSqlSession().delete("deleteMembershipsByUserId",userId);
     user.delete();
+    if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,user));
+    }
   }
 }
