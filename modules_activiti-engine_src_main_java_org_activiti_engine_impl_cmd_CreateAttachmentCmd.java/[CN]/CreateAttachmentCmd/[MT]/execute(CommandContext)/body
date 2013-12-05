@@ -15,5 +15,15 @@
     attachment.setContentId(byteArray.getId());
   }
   commandContext.getHistoryManager().createAttachmentComment(taskId,processInstanceId,attachmentName,true);
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    String processDefinitionId=null;
+    if (attachment.getProcessInstanceId() != null) {
+      ExecutionEntity process=commandContext.getExecutionEntityManager().findExecutionById(processInstanceId);
+      if (process != null) {
+        processDefinitionId=process.getProcessDefinitionId();
+      }
+    }
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,attachment,processInstanceId,processInstanceId,processDefinitionId));
+  }
   return attachment;
 }
