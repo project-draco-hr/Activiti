@@ -12,7 +12,7 @@
     log.debug("using database type: {}",databaseType);
   }
  catch (  SQLException e) {
-    e.printStackTrace();
+    log.error("Exception while initializing Database connection",e);
   }
  finally {
     try {
@@ -21,7 +21,7 @@
       }
     }
  catch (    SQLException e) {
-      e.printStackTrace();
+      log.error("Exception while closing the Database connection",e);
     }
   }
 }
