@@ -8,23 +8,30 @@
   filterAllEdges(modelNode,edgeMap,sourceAndTargetMap,shapeMap,sourceRefMap);
   readEdgeDI(edgeMap,sourceAndTargetMap,bpmnModel);
   ArrayNode shapesArrayNode=(ArrayNode)modelNode.get(EDITOR_CHILD_SHAPES);
-  boolean nonEmptyPoolFound=false;
+  boolean emptyPoolFound=true;
   for (  JsonNode shapeNode : shapesArrayNode) {
     String stencilId=BpmnJsonConverterUtil.getStencilId(shapeNode);
     if (STENCIL_POOL.equals(stencilId)) {
       Pool pool=new Pool();
       pool.setId(BpmnJsonConverterUtil.getElementId(shapeNode));
       pool.setName(JsonConverterUtil.getPropertyValueAsString(PROPERTY_NAME,shapeNode));
+      pool.setProcessRef(JsonConverterUtil.getPropertyValueAsString(PROPERTY_PROCESS_ID,shapeNode));
+      JsonNode processExecutableNode=JsonConverterUtil.getProperty(PROPERTY_PROCESS_EXECUTABLE,shapeNode);
+      if (processExecutableNode != null && StringUtils.isNotEmpty(processExecutableNode.asText())) {
+        pool.setExecutable(JsonConverterUtil.getPropertyValueAsBoolean(PROPERTY_PROCESS_EXECUTABLE,shapeNode));
+      }
       bpmnModel.getPools().add(pool);
       Process process=new Process();
-      process.setId("Process_" + pool.getId());
+      process.setId(pool.getProcessRef());
+      process.setName(pool.getName());
+      process.setExecutable(pool.isExecutable());
       bpmnModel.addProcess(process);
-      pool.setProcessRef(process.getId());
+      processJsonElements(shapesArrayNode,modelNode,process,shapeMap);
       ArrayNode laneArrayNode=(ArrayNode)shapeNode.get(EDITOR_CHILD_SHAPES);
       for (      JsonNode laneNode : laneArrayNode) {
         String laneStencilId=BpmnJsonConverterUtil.getStencilId(laneNode);
         if (STENCIL_LANE.equals(laneStencilId)) {
-          nonEmptyPoolFound=true;
+          emptyPoolFound=false;
           Lane lane=new Lane();
           lane.setId(BpmnJsonConverterUtil.getElementId(laneNode));
           lane.setName(JsonConverterUtil.getPropertyValueAsString(PROPERTY_NAME,laneNode));
@@ -35,7 +42,7 @@
       }
     }
   }
-  if (nonEmptyPoolFound == false) {
+  if (emptyPoolFound) {
     JsonNode processIdNode=JsonConverterUtil.getProperty(PROPERTY_PROCESS_ID,modelNode);
     Process process=new Process();
     bpmnModel.getProcesses().add(process);
