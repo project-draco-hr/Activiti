@@ -4,6 +4,9 @@
   process.setId(generateProcessId(workflowDefinition));
   process.setName(workflowDefinition.getName());
   process.setDocumentation(workflowDefinition.getDescription());
+  if (workflowDefinition.getCategory() != null) {
+    conversion.getBpmnModel().setTargetNamespace(workflowDefinition.getCategory());
+  }
   conversion.setProcess(process);
   StartEvent startEvent=new StartEvent();
   startEvent.setId(START_EVENT_ID);
