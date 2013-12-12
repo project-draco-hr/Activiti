@@ -1,0 +1,10 @@
+{
+  SignalEventDefinition signalEventDefinition=new SignalEventDefinition();
+  signalEventDefinition.setSignalRef(approvalFinishedSignal.getId());
+  List<EventDefinition> signalEventDefinitions=new ArrayList<EventDefinition>();
+  signalEventDefinitions.add(signalEventDefinition);
+  ThrowEvent signalThrowEvent=new ThrowEvent();
+  signalThrowEvent.setId(conversion.getUniqueNumberedId(SIGNAL_THROWEVENT_PREFIX));
+  signalThrowEvent.setEventDefinitions(signalEventDefinitions);
+  return signalThrowEvent;
+}
