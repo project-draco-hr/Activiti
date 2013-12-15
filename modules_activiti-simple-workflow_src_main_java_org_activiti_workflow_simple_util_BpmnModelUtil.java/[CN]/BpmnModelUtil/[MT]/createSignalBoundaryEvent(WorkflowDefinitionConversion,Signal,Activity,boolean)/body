@@ -1,0 +1,10 @@
+{
+  BoundaryEvent signalBoundaryEvent=new BoundaryEvent();
+  signalBoundaryEvent.setId(conversion.getUniqueNumberedId(SIGNAL_BOUNDARY_EVENT));
+  signalBoundaryEvent.setCancelActivity(cancelActivity);
+  signalBoundaryEvent.setAttachedToRef(activity);
+  SignalEventDefinition boundarySignalEventDefinition=new SignalEventDefinition();
+  boundarySignalEventDefinition.setSignalRef(signal.getId());
+  signalBoundaryEvent.addEventDefinition(boundarySignalEventDefinition);
+  return signalBoundaryEvent;
+}

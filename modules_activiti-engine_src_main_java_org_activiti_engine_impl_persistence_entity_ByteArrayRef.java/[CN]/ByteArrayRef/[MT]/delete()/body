@@ -1,13 +1,11 @@
 {
-  if (id != null) {
+  if (!deleted && id != null) {
     if (entity != null) {
       Context.getCommandContext().getByteArrayEntityManager().deleteByteArray(entity);
     }
  else {
       Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(id);
     }
-    id=null;
-    entity=null;
-    name=null;
+    deleted=true;
   }
 }

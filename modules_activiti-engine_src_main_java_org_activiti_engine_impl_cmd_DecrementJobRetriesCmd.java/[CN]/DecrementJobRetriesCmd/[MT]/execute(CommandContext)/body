@@ -7,6 +7,11 @@
     job.setExceptionMessage(exception.getMessage());
     job.setExceptionStacktrace(getExceptionStacktrace());
   }
+  ActivitiEventDispatcher eventDispatcher=commandContext.getEventDispatcher();
+  if (eventDispatcher.isEnabled()) {
+    eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,job));
+    eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_RETRIES_DECREMENTED,job));
+  }
   JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
   MessageAddedNotification messageAddedNotification=new MessageAddedNotification(jobExecutor);
   TransactionContext transactionContext=commandContext.getTransactionContext();

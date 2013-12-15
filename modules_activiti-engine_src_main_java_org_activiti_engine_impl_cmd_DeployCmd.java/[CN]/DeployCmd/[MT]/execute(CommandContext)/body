@@ -13,5 +13,8 @@
   if (deploymentBuilder.getProcessDefinitionsActivationDate() != null) {
     scheduleProcessDefinitionActivation(commandContext,deployment);
   }
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,deployment));
+  }
   return deployment;
 }

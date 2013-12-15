@@ -1,0 +1,7 @@
+{
+  checkHistoryEnabled();
+  Map<String,Object> params=new HashMap<String,Object>();
+  params.put("taskId",taskId);
+  params.put("type",type);
+  return getDbSqlSession().selectListWithRawParameter("selectCommentsByTaskIdAndType",params,0,Integer.MAX_VALUE);
+}

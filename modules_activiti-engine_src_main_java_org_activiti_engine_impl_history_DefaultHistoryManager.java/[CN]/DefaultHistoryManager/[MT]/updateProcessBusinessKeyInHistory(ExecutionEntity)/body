@@ -1,0 +1,14 @@
+{
+  if (isHistoryEnabled()) {
+    if (log.isDebugEnabled()) {
+      log.debug("updateProcessBusinessKeyInHistory : {}",processInstance.getId());
+    }
+    if (processInstance != null) {
+      HistoricProcessInstanceEntity historicProcessInstance=getDbSqlSession().selectById(HistoricProcessInstanceEntity.class,processInstance.getId());
+      if (historicProcessInstance != null) {
+        historicProcessInstance.setBusinessKey(processInstance.getProcessBusinessKey());
+        getDbSqlSession().update(historicProcessInstance);
+      }
+    }
+  }
+}

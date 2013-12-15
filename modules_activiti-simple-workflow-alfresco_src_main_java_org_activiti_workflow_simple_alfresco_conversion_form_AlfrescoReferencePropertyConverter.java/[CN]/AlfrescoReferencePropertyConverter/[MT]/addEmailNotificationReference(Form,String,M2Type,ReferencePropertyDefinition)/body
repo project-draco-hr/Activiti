@@ -1,0 +1,19 @@
+{
+  if (form.isStartForm()) {
+    boolean forced=extractBooleanFromParameters(def.getParameters(),AlfrescoConversionConstants.PARAMETER_FORCE_NOTOFICATIONS,false);
+    if (forced) {
+      if (type.getPropertyOverride(AlfrescoConversionConstants.PROPERTY_SEND_EMAIL_NOTIFICATIONS) == null) {
+        M2PropertyOverride override=new M2PropertyOverride();
+        override.setName(AlfrescoConversionConstants.PROPERTY_SEND_EMAIL_NOTIFICATIONS);
+        override.setDefaultValue(Boolean.TRUE.toString());
+        type.getPropertyOverrides().add(override);
+      }
+    }
+ else {
+      form.getFormFieldVisibility().addShowFieldElement(AlfrescoConversionConstants.PROPERTY_SEND_EMAIL_NOTIFICATIONS);
+      FormField formField=form.getFormAppearance().addFormField(AlfrescoConversionConstants.PROPERTY_SEND_EMAIL_NOTIFICATIONS,null,formSet);
+      formField.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_EMAIL_NOTIFICATION_TEMPLATE));
+      form.getFormAppearance().addFormAppearanceElement(formField);
+    }
+  }
+}

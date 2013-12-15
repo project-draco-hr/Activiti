@@ -7,5 +7,16 @@
   if (attachment.getTaskId() != null) {
     commandContext.getHistoryManager().createAttachmentComment(attachment.getTaskId(),attachment.getProcessInstanceId(),attachment.getName(),false);
   }
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    String processDefinitionId=null;
+    String processInstanceId=attachment.getProcessInstanceId();
+    if (attachment.getProcessInstanceId() != null) {
+      ExecutionEntity process=commandContext.getExecutionEntityManager().findExecutionById(processInstanceId);
+      if (process != null) {
+        processDefinitionId=process.getProcessDefinitionId();
+      }
+    }
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,attachment,processInstanceId,processInstanceId,processDefinitionId));
+  }
   return null;
 }

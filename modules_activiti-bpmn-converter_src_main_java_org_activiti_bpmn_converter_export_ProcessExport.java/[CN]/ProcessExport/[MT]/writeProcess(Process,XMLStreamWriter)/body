@@ -11,13 +11,15 @@
   if (process.getCandidateStarterGroups().size() > 0) {
     xtw.writeAttribute(ACTIVITI_EXTENSIONS_PREFIX,ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_PROCESS_CANDIDATE_GROUPS,BpmnXMLUtil.convertToDelimitedString(process.getCandidateStarterGroups()));
   }
+  BpmnXMLUtil.writeCustomAttributes(process.getAttributes().values(),xtw,defaultProcessAttributes);
   if (StringUtils.isNotEmpty(process.getDocumentation())) {
     xtw.writeStartElement(ELEMENT_DOCUMENTATION);
     xtw.writeCharacters(process.getDocumentation());
     xtw.writeEndElement();
   }
-  boolean wroteListener=ActivitiListenerExport.writeListeners(process,false,xtw);
-  if (wroteListener) {
+  boolean didWriteExtensionStartElement=ActivitiListenerExport.writeListeners(process,false,xtw);
+  didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(process,didWriteExtensionStartElement,xtw);
+  if (didWriteExtensionStartElement) {
     xtw.writeEndElement();
   }
   LaneExport.writeLanes(process,xtw);

@@ -1,0 +1,8 @@
+{
+  if (AlfrescoConversionUtil.hasTaskScriptTaskListenerBuilder(conversion,userTask.getId(),AlfrescoConversionConstants.TASK_LISTENER_EVENT_CREATE)) {
+    userTask.getTaskListeners().add(AlfrescoConversionUtil.getScriptTaskListenerBuilder(conversion,userTask.getId(),AlfrescoConversionConstants.TASK_LISTENER_EVENT_CREATE).build());
+  }
+  if (AlfrescoConversionUtil.hasTaskScriptTaskListenerBuilder(conversion,userTask.getId(),AlfrescoConversionConstants.TASK_LISTENER_EVENT_COMPLETE)) {
+    userTask.getTaskListeners().add(AlfrescoConversionUtil.getScriptTaskListenerBuilder(conversion,userTask.getId(),AlfrescoConversionConstants.TASK_LISTENER_EVENT_COMPLETE).build());
+  }
+}

@@ -1,0 +1,25 @@
+{
+  if (!(otherDefinition instanceof AlfrescoTransitionsPropertyDefinition)) {
+    throw new SimpleWorkflowException("An instance of AlfrescoTransitionProperty is required to set values");
+  }
+  AlfrescoTransitionsPropertyDefinition propDef=(AlfrescoTransitionsPropertyDefinition)otherDefinition;
+  setName(propDef.getName());
+  setMandatory(propDef.isMandatory());
+  setWritable(propDef.isWritable());
+  if (entries == null) {
+    entries=new ArrayList<ListPropertyEntry>();
+  }
+ else {
+    entries.clear();
+  }
+  if (propDef.getTransitions() != null) {
+    ListPropertyEntry newEntry=null;
+    for (    ListPropertyEntry entry : propDef.getTransitions()) {
+      newEntry=new ListPropertyEntry(entry.getValue(),entry.getName());
+      entries.add(newEntry);
+    }
+  }
+  if (otherDefinition.getParameters() != null) {
+    setParameters(new HashMap<String,Object>(otherDefinition.getParameters()));
+  }
+}

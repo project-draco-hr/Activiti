@@ -1,9 +1,17 @@
 {
   DeploymentEntityManager deploymentEntityManager=Context.getCommandContext().getDeploymentEntityManager();
-  if (deploymentEntityManager.findDeploymentById(deploymentId) == null)   throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.",DeploymentEntity.class);
+  DeploymentEntity deployment=deploymentEntityManager.findDeploymentById(deploymentId);
+  if (deployment == null)   throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.",DeploymentEntity.class);
   List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl(Context.getCommandContext()).deploymentId(deploymentId).list();
+  ActivitiEventDispatcher eventDispatcher=Context.getProcessEngineConfiguration().getEventDispatcher();
   for (  ProcessDefinition processDefinition : processDefinitions) {
     processDefinitionCache.remove(processDefinition.getId());
+    if (eventDispatcher.isEnabled()) {
+      eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,processDefinition));
+    }
   }
   deploymentEntityManager.deleteDeployment(deploymentId,cascade);
+  if (eventDispatcher.isEnabled()) {
+    eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,deployment));
+  }
 }

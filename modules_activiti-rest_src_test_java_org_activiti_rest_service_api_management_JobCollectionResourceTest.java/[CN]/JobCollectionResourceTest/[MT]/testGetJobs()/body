@@ -1,0 +1,65 @@
+{
+  Calendar hourAgo=Calendar.getInstance();
+  hourAgo.add(Calendar.HOUR,-1);
+  Calendar inAnHour=Calendar.getInstance();
+  inAnHour.add(Calendar.HOUR,1);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("timerProcess",Collections.singletonMap("error",(Object)Boolean.TRUE));
+  Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).timers().singleResult();
+  assertNotNull(timerJob);
+  for (int i=0; i < timerJob.getRetries(); i++) {
+    try {
+      managementService.executeJob(timerJob.getId());
+      fail();
+    }
+ catch (    ActivitiException expected) {
+    }
+  }
+  timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).timers().singleResult();
+  assertEquals(0,timerJob.getRetries());
+  Job asyncJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).withRetriesLeft().singleResult();
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION);
+  assertResultsPresentInDataResponse(url,asyncJob.getId(),timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?id=" + asyncJob.getId();
+  assertResultsPresentInDataResponse(url,asyncJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?processInstanceId=" + processInstance.getId();
+  assertResultsPresentInDataResponse(url,asyncJob.getId(),timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?processInstanceId=unexisting";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?executionId=" + asyncJob.getExecutionId();
+  assertResultsPresentInDataResponse(url,asyncJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?executionId=" + timerJob.getExecutionId();
+  assertResultsPresentInDataResponse(url,timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?processDefinitionId=" + processInstance.getProcessDefinitionId();
+  assertResultsPresentInDataResponse(url,asyncJob.getId(),timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?processDefinitionId=unexisting";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?withRetriesLeft=true";
+  assertResultsPresentInDataResponse(url,asyncJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?executable=true";
+  assertResultsPresentInDataResponse(url,asyncJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?timersOnly=true";
+  assertResultsPresentInDataResponse(url,timerJob.getId());
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?timersOnly=true&messagesOnly=true");
+  try {
+    client.get();
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Only one of 'timersOnly' or 'messagesOnly' can be provided.",expected.getStatus().getDescription());
+  }
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?dueBefore=" + getISODateString(inAnHour.getTime());
+  assertResultsPresentInDataResponse(url,timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?dueBefore=" + getISODateString(hourAgo.getTime());
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?dueAfter=" + getISODateString(hourAgo.getTime());
+  assertResultsPresentInDataResponse(url,timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?dueAfter=" + getISODateString(inAnHour.getTime());
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?withException=true";
+  assertResultsPresentInDataResponse(url,timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?exceptionMessage=" + timerJob.getExceptionMessage();
+  assertResultsPresentInDataResponse(url,timerJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?exceptionMessage=";
+  assertResultsPresentInDataResponse(url);
+}

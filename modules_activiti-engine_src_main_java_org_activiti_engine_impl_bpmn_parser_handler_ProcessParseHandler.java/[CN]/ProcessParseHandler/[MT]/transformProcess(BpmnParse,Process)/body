@@ -9,6 +9,7 @@
   currentProcessDefinition.setTaskDefinitions(new HashMap<String,TaskDefinition>());
   currentProcessDefinition.setDeploymentId(bpmnParse.getDeployment().getId());
   createExecutionListenersOnScope(bpmnParse,process.getExecutionListeners(),currentProcessDefinition);
+  createEventListeners(bpmnParse,process.getEventListeners(),currentProcessDefinition);
   ExpressionManager expressionManager=bpmnParse.getExpressionManager();
   for (  String candidateUser : process.getCandidateStarterUsers()) {
     currentProcessDefinition.addCandidateStarterUserIdExpression(expressionManager.createExpression(candidateUser));

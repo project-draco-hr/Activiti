@@ -4,4 +4,7 @@
     ExecutionEntity execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(executionId);
     execution.addJob(this);
   }
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,this));
+  }
 }

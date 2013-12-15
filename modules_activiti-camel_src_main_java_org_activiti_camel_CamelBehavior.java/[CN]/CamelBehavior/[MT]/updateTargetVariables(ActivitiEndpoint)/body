@@ -1,0 +1,7 @@
+{
+  toTargetType=null;
+  if (endpoint.isCopyVariablesToBodyAsMap())   toTargetType=TargetType.BODY_AS_MAP;
+ else   if (endpoint.isCopyCamelBodyToBody())   toTargetType=TargetType.BODY;
+ else   if (endpoint.isCopyVariablesToProperties())   toTargetType=TargetType.PROPERTIES;
+  if (toTargetType == null)   setPropertTargetVariable(endpoint);
+}

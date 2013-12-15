@@ -1,0 +1,9 @@
+{
+  xtw.writeStartElement(ELEMENT_EVENT_ERRORDEFINITION);
+  writeDefaultAttribute(ATTRIBUTE_ERROR_REF,errorDefinition.getErrorCode(),xtw);
+  boolean didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(errorDefinition,false,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
+  }
+  xtw.writeEndElement();
+}

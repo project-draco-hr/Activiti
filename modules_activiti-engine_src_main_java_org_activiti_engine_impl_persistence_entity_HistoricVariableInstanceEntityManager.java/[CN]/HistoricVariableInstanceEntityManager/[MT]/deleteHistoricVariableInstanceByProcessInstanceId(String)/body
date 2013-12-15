@@ -1,6 +1,6 @@
 {
   if (getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
-    List<HistoricVariableInstanceEntity> historicProcessVariables=(List)getDbSqlSession().createHistoricVariableInstanceQuery().processInstanceId(historicProcessInstanceId).list();
+    List<HistoricVariableInstanceEntity> historicProcessVariables=(List)getDbSqlSession().createHistoricVariableInstanceQuery().processInstanceId(historicProcessInstanceId).excludeVariableInitialization().list();
     for (    HistoricVariableInstanceEntity historicProcessVariable : historicProcessVariables) {
       historicProcessVariable.delete();
     }

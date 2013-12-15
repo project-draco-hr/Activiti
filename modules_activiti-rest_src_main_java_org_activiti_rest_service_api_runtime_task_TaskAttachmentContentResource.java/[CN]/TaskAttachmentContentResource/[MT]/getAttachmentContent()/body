@@ -1,0 +1,24 @@
+{
+  if (!authenticate())   return null;
+  HistoricTaskInstance task=getHistoricTaskFromRequest();
+  String attachmentId=getAttribute("attachmentId");
+  if (attachmentId == null) {
+    throw new ActivitiIllegalArgumentException("AttachmentId is required.");
+  }
+  Attachment attachment=ActivitiUtil.getTaskService().getAttachment(attachmentId);
+  if (attachment == null || !task.getId().equals(attachment.getTaskId())) {
+    throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have an attachment with id '"+ attachmentId+ "'.",Attachment.class);
+  }
+  InputStream attachmentStream=ActivitiUtil.getTaskService().getAttachmentContent(attachmentId);
+  if (attachmentStream == null) {
+    throw new ActivitiObjectNotFoundException("Attachment with id '" + attachmentId + "' doesn't have content associated with it.",Attachment.class);
+  }
+  MediaType type=null;
+  if (attachment.getType() != null && MediaType.valueOf(attachment.getType()) != null) {
+    type=MediaType.valueOf(attachment.getType());
+  }
+  if (type == null || !type.isConcrete()) {
+    type=MediaType.APPLICATION_OCTET_STREAM;
+  }
+  return new InputRepresentation(attachmentStream,type);
+}

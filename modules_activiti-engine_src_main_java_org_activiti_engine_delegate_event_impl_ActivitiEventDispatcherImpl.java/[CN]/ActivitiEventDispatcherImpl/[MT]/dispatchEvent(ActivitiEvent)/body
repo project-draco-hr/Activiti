@@ -1,0 +1,13 @@
+{
+  if (enabled) {
+    eventSupport.dispatchEvent(event);
+  }
+  if (Context.isExecutionContextActive()) {
+    ProcessDefinitionEntity definition=Context.getExecutionContext().getProcessDefinition();
+    if (definition != null) {
+      definition.getEventSupport().dispatchEvent(event);
+    }
+  }
+ else {
+  }
+}

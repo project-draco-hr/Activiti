@@ -1,0 +1,18 @@
+{
+  EventListener listener=new EventListener();
+  BpmnXMLUtil.addXMLLocation(listener,xtr);
+  if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_CLASS))) {
+    listener.setImplementation(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_CLASS));
+    listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
+  }
+ else   if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_DELEGATEEXPRESSION))) {
+    listener.setImplementation(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_DELEGATEEXPRESSION));
+    listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
+  }
+ else {
+    model.addProblem("Element 'class' or 'delegateExpression' is mandatory on eventListener",xtr);
+  }
+  listener.setEvents(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_EVENTS));
+  Process parentProcess=(Process)parentElement;
+  parentProcess.getEventListeners().add(listener);
+}

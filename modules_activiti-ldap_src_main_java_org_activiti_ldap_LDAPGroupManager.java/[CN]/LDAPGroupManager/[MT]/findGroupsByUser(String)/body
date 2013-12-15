@@ -11,7 +11,8 @@
       String searchExpression=ldapConfigurator.getLdapQueryBuilder().buildQueryGroupsForUser(ldapConfigurator,userId);
       List<Group> groups=new ArrayList<Group>();
       try {
-        NamingEnumeration<?> namingEnum=initialDirContext.search(ldapConfigurator.getBaseDn(),searchExpression,createSearchControls());
+        String baseDn=ldapConfigurator.getGroupBaseDn() != null ? ldapConfigurator.getGroupBaseDn() : ldapConfigurator.getBaseDn();
+        NamingEnumeration<?> namingEnum=initialDirContext.search(baseDn,searchExpression,createSearchControls());
         while (namingEnum.hasMore()) {
           SearchResult result=(SearchResult)namingEnum.next();
           GroupEntity group=new GroupEntity();

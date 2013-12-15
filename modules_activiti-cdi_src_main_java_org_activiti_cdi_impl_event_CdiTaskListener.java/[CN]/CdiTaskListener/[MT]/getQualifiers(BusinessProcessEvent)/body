@@ -1,0 +1,13 @@
+{
+  Annotation businessProcessQualifier=new BusinessProcessLiteral(event.getProcessDefinition().getKey());
+  if (type == BusinessProcessEventType.CREATE_TASK) {
+    return new Annotation[]{businessProcessQualifier,new CreateTaskLiteral(activityId)};
+  }
+  if (type == BusinessProcessEventType.ASSIGN_TASK) {
+    return new Annotation[]{businessProcessQualifier,new AssignTaskLiteral(activityId)};
+  }
+  if (type == BusinessProcessEventType.COMPLETE_TASK) {
+    return new Annotation[]{businessProcessQualifier,new CompleteTaskLiteral(activityId)};
+  }
+  return new Annotation[]{};
+}

@@ -1,0 +1,30 @@
+{
+  StringBuilder builder=new StringBuilder();
+  boolean isDateDefined=years != null || months != null || days != null;
+  boolean isTimeDefined=hours != null || minutes != null || seconds != null;
+  if (isDateDefined || isTimeDefined) {
+    builder.append("P");
+    if (years != null && years > 0) {
+      builder.append(years + "Y");
+    }
+    if (months != null && months > 0) {
+      builder.append(months + "M");
+    }
+    if (days != null && days > 0) {
+      builder.append(days + "D");
+    }
+    if (isTimeDefined) {
+      builder.append("T");
+      if (hours != null && hours > 0) {
+        builder.append(hours + "H");
+      }
+      if (minutes != null && minutes > 0) {
+        builder.append(minutes + "M");
+      }
+      if (seconds != null && seconds > 0) {
+        builder.append(seconds + "S");
+      }
+    }
+  }
+  return builder.toString();
+}

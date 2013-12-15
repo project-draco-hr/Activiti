@@ -7,7 +7,7 @@
     fail("RuntimeException from within the script task expected");
   }
  catch (  RuntimeException re) {
-    assertTextPresent("This is an exception thrown from scriptTask",re.getMessage());
+    assertTextPresent("This is an exception thrown from scriptTask",re.getCause().getMessage());
   }
   timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(timerJob);

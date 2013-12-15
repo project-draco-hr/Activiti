@@ -1,0 +1,7 @@
+{
+  VariableInstanceEntity result=super.createVariableInstance(variableName,value,sourceActivityExecution);
+  if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createVariableEvent(ActivitiEventType.VARIABLE_CREATED,variableName,value,result.getTaskId(),result.getExecutionId(),getProcessInstanceId(),getProcessDefinitionId()));
+  }
+  return result;
+}

@@ -1,0 +1,15 @@
+{
+  String key=userTaskId + "-" + eventName;
+  Map<String,ScriptTaskListenerBuilder> builderMap=(Map<String,ScriptTaskListenerBuilder>)conversion.getArtifact(ARTIFACT_PROPERTY_TASK_SCRIPT_BUILDER);
+  if (builderMap == null) {
+    builderMap=new HashMap<String,ScriptTaskListenerBuilder>();
+    conversion.setArtifact(ARTIFACT_PROPERTY_TASK_SCRIPT_BUILDER,builderMap);
+  }
+  ScriptTaskListenerBuilder result=builderMap.get(key);
+  if (result == null) {
+    result=new ScriptTaskListenerBuilder();
+    result.setEvent(eventName);
+    builderMap.put(key,result);
+  }
+  return result;
+}

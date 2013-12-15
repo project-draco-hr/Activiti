@@ -1,0 +1,21 @@
+{
+  String fieldName=null;
+  if (form.isStartForm()) {
+    fieldName=AlfrescoConversionConstants.PROPERTY_WORKFLOW_PRIORITY;
+  }
+ else {
+    fieldName=AlfrescoConversionConstants.PROPERTY_PRIORITY;
+  }
+  form.getFormFieldVisibility().addShowFieldElement(fieldName);
+  FormField priorityField=new FormField();
+  priorityField.setSet(formSet);
+  priorityField.setLabelId(AlfrescoConversionConstants.FORM_WORKFLOW_PRIORITY_LABEL);
+  priorityField.setId(fieldName);
+  if (form.isStartForm() || writable) {
+    priorityField.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_PRIORITY_TEMPLATE));
+  }
+ else {
+    priorityField.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE));
+  }
+  form.getFormAppearance().addFormAppearanceElement(priorityField);
+}

@@ -1,0 +1,10 @@
+{
+  if (propertyValue != null) {
+    ProcessDefinition processDefinition=ProcessEngines.getDefaultProcessEngine().getRepositoryService().createProcessDefinitionQuery().processDefinitionId(propertyValue).singleResult();
+    if (processDefinition == null) {
+      throw new ActivitiObjectNotFoundException("Process definition with id " + propertyValue + " does not exist",ProcessDefinitionEntity.class);
+    }
+    return processDefinition;
+  }
+  return null;
+}

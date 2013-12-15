@@ -1,0 +1,11 @@
+{
+  SequenceFlow sequenceFlow=new SequenceFlow();
+  sequenceFlow.setId(conversion.getUniqueNumberedId(getSequenceFlowPrefix()));
+  sequenceFlow.setSourceRef(sourceActivityId);
+  sequenceFlow.setTargetRef(targetActivityId);
+  if (StringUtils.isNotEmpty(condition)) {
+    sequenceFlow.setConditionExpression(condition);
+  }
+  conversion.getProcess().addFlowElement(sequenceFlow);
+  return sequenceFlow;
+}

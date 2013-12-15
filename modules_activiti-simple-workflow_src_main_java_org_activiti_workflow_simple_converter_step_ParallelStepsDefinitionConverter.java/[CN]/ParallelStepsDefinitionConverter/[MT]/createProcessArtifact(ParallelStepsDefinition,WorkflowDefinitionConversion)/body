@@ -2,14 +2,32 @@
   ParallelGateway forkGateway=createParallelGateway(conversion);
   addSequenceFlow(conversion,conversion.getLastActivityId(),forkGateway.getId());
   conversion.setLastActivityId(forkGateway.getId());
-  conversion.setUpdateLastActivityEnabled(false);
-  conversion.convertSteps(parallelStepsDefinition.getSteps());
-  conversion.setUpdateLastActivityEnabled(true);
+  WorkflowDefinitionConversionFactory conversionFactory=conversion.getConversionFactory();
+  List<FlowElement> endElements=new ArrayList<FlowElement>();
+  for (  ListStepDefinition<ParallelStepsDefinition> stepListDefinition : parallelStepsDefinition.getStepList()) {
+    for (int i=0; i < stepListDefinition.getSteps().size(); i++) {
+      if (i == 0) {
+        conversion.setSequenceflowGenerationEnabled(false);
+      }
+ else {
+        conversion.setSequenceflowGenerationEnabled(true);
+      }
+      StepDefinition step=stepListDefinition.getSteps().get(i);
+      FlowElement flowElement=(FlowElement)conversionFactory.getStepConverterFor(step).convertStepDefinition(step,conversion);
+      if (i == 0) {
+        addSequenceFlow(conversion,forkGateway.getId(),flowElement.getId());
+      }
+      if ((i + 1) == stepListDefinition.getSteps().size()) {
+        endElements.add(flowElement);
+      }
+    }
+  }
+  conversion.setSequenceflowGenerationEnabled(false);
   ParallelGateway joinGateway=createParallelGateway(conversion);
   conversion.setLastActivityId(joinGateway.getId());
-  List<FlowElement> successorsOfFork=BpmnModelUtil.findSucessorFlowElementsFor(conversion.getProcess(),forkGateway);
-  for (  FlowElement successorOfFork : successorsOfFork) {
-    addSequenceFlow(conversion,successorOfFork.getId(),joinGateway.getId());
+  conversion.setSequenceflowGenerationEnabled(true);
+  for (  FlowElement endElement : endElements) {
+    addSequenceFlow(conversion,endElement.getId(),joinGateway.getId());
   }
   return forkGateway;
 }

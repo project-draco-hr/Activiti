@@ -1,0 +1,22 @@
+{
+  for (  StepDefinition step : steps) {
+    if (step instanceof FormStepDefinition) {
+      addDefinitionsToMap(((FormStepDefinition)step).getForm(),definitionMap);
+    }
+ else     if (step instanceof AbstractStepListContainer<?>) {
+      List<ListStepDefinition<?>> stepList=((AbstractStepListContainer)step).getStepList();
+      for (      ListStepDefinition<?> list : stepList) {
+        addAspectsForReusedProperties(list.getSteps(),model,processId,definitionMap);
+      }
+    }
+ else     if (step instanceof AbstractConditionStepListContainer<?>) {
+      List<ListConditionStepDefinition<?>> stepList=((AbstractConditionStepListContainer)step).getStepList();
+      for (      ListConditionStepDefinition<?> list : stepList) {
+        addAspectsForReusedProperties(list.getSteps(),model,processId,definitionMap);
+      }
+    }
+ else     if (step instanceof AbstractStepDefinitionContainer<?>) {
+      addAspectsForReusedProperties(((AbstractStepDefinitionContainer<WorkflowDefinition>)step).getSteps(),model,processId,definitionMap);
+    }
+  }
+}

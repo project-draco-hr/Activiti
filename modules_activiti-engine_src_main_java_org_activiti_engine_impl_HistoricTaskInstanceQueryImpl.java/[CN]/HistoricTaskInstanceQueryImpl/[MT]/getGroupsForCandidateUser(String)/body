@@ -1,0 +1,8 @@
+{
+  List<Group> groups=Context.getCommandContext().getGroupIdentityManager().findGroupsByUser(candidateUser);
+  List<String> groupIds=new ArrayList<String>();
+  for (  Group group : groups) {
+    groupIds.add(group.getId());
+  }
+  return groupIds;
+}

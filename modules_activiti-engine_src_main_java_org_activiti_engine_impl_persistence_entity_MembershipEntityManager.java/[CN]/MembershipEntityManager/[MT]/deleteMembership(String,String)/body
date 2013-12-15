@@ -3,4 +3,7 @@
   parameters.put("userId",userId);
   parameters.put("groupId",groupId);
   getDbSqlSession().delete("deleteMembership",parameters);
+  if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createMembershipEvent(ActivitiEventType.MEMBERSHIP_DELETED,groupId,userId));
+  }
 }

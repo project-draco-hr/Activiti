@@ -1,0 +1,35 @@
+{
+  AlfrescoTransitionsPropertyDefinition def=(AlfrescoTransitionsPropertyDefinition)propertyDefinition;
+  String propertyName=contentType.getName() + AlfrescoConversionConstants.PROPERTY_TRANSITIONS_SUFFIX;
+  M2Property property=new M2Property();
+  property.setMandatory(new M2Mandatory(def.isMandatory()));
+  property.setName(propertyName);
+  property.setPropertyType(AlfrescoConversionConstants.PROPERTY_TYPE_TEXT);
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  contentType.getProperties().add(property);
+  if (def.getTransitions() != null && def.getTransitions().size() > 0) {
+    M2Constraint valueConstraint=new M2Constraint();
+    valueConstraint.setType(AlfrescoConversionConstants.CONTENT_MODEL_CONSTRAINT_TYPE_LIST);
+    valueConstraint.setName(propertyName + AlfrescoConversionConstants.CONTENT_MODEL_CONSTRAINT_TYPE_LIST.toLowerCase());
+    List<String> values=new ArrayList<String>(def.getTransitions().size());
+    for (    ListPropertyEntry entry : def.getTransitions()) {
+      values.add(entry.getValue());
+    }
+    valueConstraint.getParameters().add(new M2NamedValue(AlfrescoConversionConstants.CONTENT_MODEL_CONSTRAINT_ALLOWED_VALUES,null,values));
+    model.getConstraints().add(valueConstraint);
+    M2Constraint reference=new M2Constraint();
+    reference.setRef(valueConstraint.getName());
+    property.getConstraints().add(reference);
+  }
+  M2PropertyOverride override=new M2PropertyOverride();
+  override.setDefaultValue(AlfrescoConversionUtil.getUrlQualifiedPropertyName(propertyName,model.getNamespaces().get(0)));
+  override.setName(AlfrescoConversionConstants.PROPERTY_OUTCOME_PROPERTY_NAME);
+  contentType.getPropertyOverrides().add(override);
+  form.getFormAppearance().addFormSet(AlfrescoConversionConstants.FORM_SET_RESPONSE,null,null,null);
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField transitionsFormField=new FormField();
+  transitionsFormField.setId(propertyName);
+  transitionsFormField.setSet(AlfrescoConversionConstants.FORM_SET_RESPONSE);
+  transitionsFormField.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_TRANSITIONS_TEMPLATE));
+  form.getFormAppearance().addFormAppearanceElement(transitionsFormField);
+}

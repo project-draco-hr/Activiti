@@ -1,0 +1,14 @@
+{
+  if (!(otherDefinition instanceof DelayStepDefinition)) {
+    throw new SimpleWorkflowException("An instance of DelayStepDefinition is required to set values");
+  }
+  DelayStepDefinition delayDefinition=(DelayStepDefinition)otherDefinition;
+  setId(delayDefinition.getId());
+  setName(delayDefinition.getName());
+  setDescription(delayDefinition.getDescription());
+  setTimeDate(delayDefinition.getTimeDate());
+  setTimeDuration(delayDefinition.getTimeDuration());
+  if (delayDefinition.getParameters() != null) {
+    setParameters(new HashMap<String,Object>(delayDefinition.getParameters()));
+  }
+}

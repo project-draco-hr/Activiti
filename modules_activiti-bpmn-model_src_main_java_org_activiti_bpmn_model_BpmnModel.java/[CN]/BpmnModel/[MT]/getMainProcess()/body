@@ -1,4 +1,8 @@
 {
-  Process process=getProcess(null);
-  return process;
+  if (getPools().size() > 0) {
+    return getProcess(getPools().get(0).getId());
+  }
+ else {
+    return getProcess(null);
+  }
 }

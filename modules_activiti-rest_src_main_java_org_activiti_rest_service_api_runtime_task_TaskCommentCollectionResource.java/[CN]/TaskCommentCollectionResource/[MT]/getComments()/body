@@ -1,0 +1,10 @@
+{
+  if (!authenticate())   return null;
+  List<CommentResponse> result=new ArrayList<CommentResponse>();
+  RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  HistoricTaskInstance task=getHistoricTaskFromRequest();
+  for (  Comment comment : ActivitiUtil.getTaskService().getTaskComments(task.getId())) {
+    result.add(responseFactory.createRestComment(this,comment));
+  }
+  return result;
+}

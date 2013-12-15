@@ -1,6 +1,6 @@
 {
   TaskService taskService=activitiRule.getTaskService();
-  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").inParallel().addHumanStep("first task","kermit").addHumanStep("second step","gonzo").addHumanStep("thrid task","mispiggy").endParallel().addHumanStep("Task in between","kermit").inParallel().addHumanStep("fourth task","gonzo").addHumanStep("fifth step","gonzo").endParallel();
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").inParallel().inList().addHumanStep("first task","kermit").endList().inList().addHumanStep("second step","gonzo").endList().inList().addHumanStep("third task","mispiggy").endList().endParallel().addHumanStep("Task in between","kermit").inParallel().inList().addHumanStep("fourth task","gonzo").endList().inList().addHumanStep("fifth step","gonzo").endList().endParallel();
   activitiRule.getRuntimeService().startProcessInstanceByKey(convertAndDeploy(workflowDefinition));
   assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
   assertEquals(1,taskService.createTaskQuery().taskAssignee("gonzo").count());

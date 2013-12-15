@@ -1,0 +1,10 @@
+{
+  boolean isOutputNeeded=extractBooleanFromParameters(definition.getParameters(),AlfrescoConversionConstants.PARAMETER_ADD_PROPERTY_TO_OUTPUT,false);
+  if (isOutputNeeded) {
+    String userTaskId=getUserTaskIdWithFormkey(contentType,conversion.getProcess());
+    if (userTaskId != null) {
+      PropertySharing propertySharing=AlfrescoConversionUtil.getPropertySharing(conversion,userTaskId);
+      propertySharing.addOutgoingProperty(propertyName,propertyName);
+    }
+  }
+}

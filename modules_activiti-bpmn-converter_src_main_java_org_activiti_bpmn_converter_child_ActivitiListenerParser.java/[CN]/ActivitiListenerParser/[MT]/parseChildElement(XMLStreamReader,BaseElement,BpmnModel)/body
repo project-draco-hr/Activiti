@@ -1,5 +1,5 @@
 {
-  listener=new ActivitiListener();
+  ActivitiListener listener=new ActivitiListener();
   BpmnXMLUtil.addXMLLocation(listener,xtr);
   if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_CLASS))) {
     listener.setImplementation(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_CLASS));
@@ -17,5 +17,6 @@
     model.addProblem("Element 'class' or 'expression' is mandatory on executionListener",xtr);
   }
   listener.setEvent(xtr.getAttributeValue(null,ATTRIBUTE_LISTENER_EVENT));
+  addListenerToParent(listener,parentElement);
   parseChildElements(xtr,listener,model,new FieldExtensionParser());
 }

@@ -1,0 +1,10 @@
+{
+  if (!(otherDefinition instanceof BooleanPropertyDefinition)) {
+    throw new SimpleWorkflowException("An instance of BooleanPropertyDefinition is required to set values");
+  }
+  BooleanPropertyDefinition datePropertyDefinition=(BooleanPropertyDefinition)otherDefinition;
+  setName(datePropertyDefinition.getName());
+  setMandatory(datePropertyDefinition.isMandatory());
+  setWritable(datePropertyDefinition.isWritable());
+  setParameters(otherDefinition.cloneParameters());
+}

@@ -47,7 +47,12 @@
       }
     }
     xtw.writeAttribute(ATTRIBUTE_ID,messageId);
-    xtw.writeAttribute(ATTRIBUTE_NAME,message.getName());
+    if (StringUtils.isNotEmpty(message.getName())) {
+      xtw.writeAttribute(ATTRIBUTE_NAME,message.getName());
+    }
+    if (StringUtils.isNotEmpty(message.getItemRef())) {
+      xtw.writeAttribute(ATTRIBUTE_ITEM_REF,message.getItemRef());
+    }
     xtw.writeEndElement();
   }
 }

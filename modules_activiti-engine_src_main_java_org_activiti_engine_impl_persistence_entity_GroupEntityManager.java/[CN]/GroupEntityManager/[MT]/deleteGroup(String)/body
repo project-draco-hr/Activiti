@@ -1,5 +1,13 @@
 {
   GroupEntity group=getDbSqlSession().selectById(GroupEntity.class,groupId);
-  getDbSqlSession().delete("deleteMembershipsByGroupId",groupId);
-  getDbSqlSession().delete(group);
+  if (group != null) {
+    if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createMembershipEvent(ActivitiEventType.MEMBERSHIPS_DELETED,groupId,null));
+    }
+    getDbSqlSession().delete("deleteMembershipsByGroupId",groupId);
+    getDbSqlSession().delete(group);
+    if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,group));
+    }
+  }
 }

@@ -1,0 +1,14 @@
+{
+  Beans beans=new Beans();
+  Bean shareCustomConfigBean=new Bean(processId + WORKFLOW_DEPLOYER_NAME_SUFFIX,null);
+  shareCustomConfigBean.setBeanClass(SHARE_CONFIG_BOOTSTRAP_BEAN_CLASS);
+  shareCustomConfigBean.setInitMethod(SHARE_CONFIG_BOOTSTRAP_BEAN_INIT_METHOD);
+  BeanProperty configsProperty=new BeanProperty(PROPERTY_CONFIGS);
+  configsProperty.addListItem(WEB_EXTENSIONS_PATH_PREFIX + configFileName);
+  BeanProperty configServiceProperty=new BeanProperty(PROPERTY_CONFIG_SERVICE);
+  configServiceProperty.setRef(PROPERTY_CONFIG_SERVICE_REF);
+  shareCustomConfigBean.getProperties().add(configServiceProperty);
+  shareCustomConfigBean.getProperties().add(configsProperty);
+  beans.getBeans().add(shareCustomConfigBean);
+  writeBeans(out,beans);
+}

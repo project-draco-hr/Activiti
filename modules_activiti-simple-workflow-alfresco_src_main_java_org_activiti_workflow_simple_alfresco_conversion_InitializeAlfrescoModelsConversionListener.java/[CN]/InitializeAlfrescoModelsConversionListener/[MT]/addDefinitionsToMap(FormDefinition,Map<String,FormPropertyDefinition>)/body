@@ -1,0 +1,20 @@
+{
+  if (formDefinition != null && formDefinition.getFormGroups() != null) {
+    String finalPropertyName=null;
+    for (    FormPropertyGroup group : formDefinition.getFormGroups()) {
+      if (group.getFormPropertyDefinitions() != null) {
+        for (        FormPropertyDefinition def : group.getFormPropertyDefinitions()) {
+          if (isPropertyReuseCandidate(def)) {
+            finalPropertyName=AlfrescoConversionUtil.getValidIdString(def.getName());
+            if (definitionMap.containsKey(finalPropertyName)) {
+              definitionMap.put(finalPropertyName,def);
+            }
+ else {
+              definitionMap.put(finalPropertyName,null);
+            }
+          }
+        }
+      }
+    }
+  }
+}

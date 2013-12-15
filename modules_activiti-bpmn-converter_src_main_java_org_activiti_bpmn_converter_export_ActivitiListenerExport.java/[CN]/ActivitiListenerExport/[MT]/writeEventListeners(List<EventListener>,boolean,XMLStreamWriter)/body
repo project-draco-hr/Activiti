@@ -1,0 +1,20 @@
+{
+  if (eventListeners != null && !eventListeners.isEmpty()) {
+    for (    EventListener eventListener : eventListeners) {
+      if (!didWriteExtensionStartElement) {
+        xtw.writeStartElement(ELEMENT_EXTENSIONS);
+        didWriteExtensionStartElement=true;
+      }
+      xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,ELEMENT_EVENT_LISTENER,ACTIVITI_EXTENSIONS_NAMESPACE);
+      BpmnXMLUtil.writeDefaultAttribute(ATTRIBUTE_LISTENER_EVENTS,eventListener.getEvents(),xtw);
+      if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(eventListener.getImplementationType())) {
+        BpmnXMLUtil.writeDefaultAttribute(ATTRIBUTE_LISTENER_CLASS,eventListener.getImplementation(),xtw);
+      }
+ else       if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(eventListener.getImplementationType())) {
+        BpmnXMLUtil.writeDefaultAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION,eventListener.getImplementation(),xtw);
+      }
+      xtw.writeEndElement();
+    }
+  }
+  return didWriteExtensionStartElement;
+}

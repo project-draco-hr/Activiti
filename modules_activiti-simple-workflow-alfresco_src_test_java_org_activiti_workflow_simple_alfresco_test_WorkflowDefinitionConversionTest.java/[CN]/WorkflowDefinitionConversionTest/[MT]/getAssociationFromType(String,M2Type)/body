@@ -1,0 +1,9 @@
+{
+  for (  M2ClassAssociation assoc : type.getAssociations()) {
+    if (assoc.getName().endsWith(shortName)) {
+      return assoc;
+    }
+  }
+  Assert.fail("No association found for the given name: " + shortName);
+  return null;
+}

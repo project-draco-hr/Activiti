@@ -21,6 +21,9 @@
   if (humanStepDefinition.getForm() != null) {
     FormDefinition formDefinition=humanStepDefinition.getForm();
     userTask.setFormProperties(convertProperties(formDefinition));
+    if (formDefinition.getFormKey() != null) {
+      userTask.setFormKey(formDefinition.getFormKey());
+    }
   }
   return userTask;
 }
