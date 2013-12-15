@@ -1,6 +1,6 @@
 {
   final Class<?> targetClass=AopUtils.getTargetClass(bean);
-  final org.activiti.spring.annotations.ActivitiComponent component=targetClass.getAnnotation(org.activiti.spring.annotations.ActivitiComponent.class);
+  final ActivitiComponent component=targetClass.getAnnotation(ActivitiComponent.class);
   ReflectionUtils.doWithMethods(targetClass,new ReflectionUtils.MethodCallback(){
     @SuppressWarnings("unchecked") public void doWith(    Method method) throws IllegalArgumentException, IllegalAccessException {
       State state=AnnotationUtils.getAnnotation(method,State.class);

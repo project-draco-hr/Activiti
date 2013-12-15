@@ -1,8 +1,15 @@
 {
-  Map<ProcessVariable,Object> vars=this.mapOfAnnotationValues(ProcessVariable.class,invocation);
-  Map<String,Object> varNameToValueMap=new HashMap<String,Object>();
-  for (  ProcessVariable processVariable : vars.keySet()) {
-    varNameToValueMap.put(processVariable.value(),vars.get(processVariable));
+  List<Argument> args=mapOfAnnotationValues(ProcessVariable.class,invocation);
+  Map<String,Object> vars=new HashMap<String,Object>();
+  for (  Argument argument : args) {
+    Annotation[] annotations=argument.getAnnotations();
+    for (    Annotation a : annotations) {
+      if (a instanceof ProcessVariable) {
+        ProcessVariable processVariable=(ProcessVariable)a;
+        String processVariableAnnotationValue=StringUtils.hasText(processVariable.value()) ? processVariable.value() : argument.getArgumentName();
+        vars.put(processVariableAnnotationValue,argument.getValue());
+      }
+    }
   }
-  return varNameToValueMap;
+  return vars;
 }
