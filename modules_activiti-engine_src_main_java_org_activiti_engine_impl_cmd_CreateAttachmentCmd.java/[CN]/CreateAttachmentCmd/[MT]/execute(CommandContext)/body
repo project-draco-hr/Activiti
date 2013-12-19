@@ -7,6 +7,7 @@
   attachment.setTaskId(taskId);
   attachment.setProcessInstanceId(processInstanceId);
   attachment.setUrl(url);
+  attachment.setUserId(Authentication.getAuthenticatedUserId());
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   dbSqlSession.insert(attachment);
   if (content != null) {
