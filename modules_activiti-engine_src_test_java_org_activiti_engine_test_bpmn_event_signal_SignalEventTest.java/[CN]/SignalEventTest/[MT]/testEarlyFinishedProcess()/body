@@ -1,0 +1,6 @@
+{
+  Map<String,Object> variableMap=new HashMap<String,Object>();
+  variableMap.put("name","Activiti");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("callerProcess",variableMap);
+  assertNotNull(processInstance.getId());
+}
