@@ -1,0 +1,25 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("errorProcess");
+  assertNotNull(processInstance);
+  ProcessInstance afterErrorInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNull(afterErrorInstance);
+  ActivitiEvent errorEvent=null;
+  for (  ActivitiEvent event : listener.getEventsReceived()) {
+    if (ActivitiEventType.UNCAUGHT_BPMN_ERROR.equals(event.getType())) {
+      if (errorEvent == null) {
+        errorEvent=event;
+      }
+ else {
+        fail("Only one ActivityErrorEvent expected");
+      }
+    }
+  }
+  assertNotNull(errorEvent);
+  assertEquals(ActivitiEventType.UNCAUGHT_BPMN_ERROR,errorEvent.getType());
+  assertTrue(errorEvent instanceof ActivitiErrorEvent);
+  assertEquals("123",((ActivitiErrorEvent)errorEvent).getErrorCode());
+  assertNull(((ActivitiErrorEvent)errorEvent).getActivityId());
+  assertEquals(processInstance.getId(),errorEvent.getProcessInstanceId());
+  assertEquals(processInstance.getProcessDefinitionId(),errorEvent.getProcessDefinitionId());
+  assertFalse(processInstance.getId().equals(errorEvent.getExecutionId()));
+}

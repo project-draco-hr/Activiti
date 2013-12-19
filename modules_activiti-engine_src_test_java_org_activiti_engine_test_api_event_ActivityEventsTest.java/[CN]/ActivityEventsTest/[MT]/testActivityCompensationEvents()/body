@@ -21,4 +21,6 @@
   assertEquals(processInstance.getProcessDefinitionId(),signalEvent.getProcessDefinitionId());
   assertEquals("compensationDone",signalEvent.getSignalName());
   assertNull(signalEvent.getSignalData());
+  processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(processInstance);
 }
