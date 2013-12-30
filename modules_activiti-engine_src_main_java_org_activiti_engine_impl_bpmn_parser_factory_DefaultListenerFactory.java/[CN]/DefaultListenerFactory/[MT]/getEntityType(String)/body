@@ -1,0 +1,10 @@
+{
+  if (entityType != null) {
+    Class<?> entityClass=ENTITY_MAPPING.get(entityType.trim());
+    if (entityClass == null) {
+      throw new ActivitiIllegalArgumentException("Unsupported entity-type for an ActivitiEventListener: " + entityType);
+    }
+    return entityClass;
+  }
+  return null;
+}

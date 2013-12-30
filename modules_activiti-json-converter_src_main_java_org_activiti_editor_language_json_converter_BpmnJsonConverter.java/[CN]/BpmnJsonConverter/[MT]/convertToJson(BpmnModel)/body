@@ -22,6 +22,7 @@
     propertiesNode.put(PROPERTY_PROCESS_EXECUTABLE,PROPERTY_VALUE_NO);
   }
   propertiesNode.put(PROPERTY_PROCESS_NAMESPACE,model.getTargetNamespace());
+  convertListenersToJson(mainProcess.getEventListeners(),propertiesNode);
   if (StringUtils.isNotEmpty(mainProcess.getDocumentation())) {
     propertiesNode.put(PROPERTY_DOCUMENTATION,mainProcess.getDocumentation());
   }

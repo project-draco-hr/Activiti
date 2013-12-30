@@ -1,0 +1,26 @@
+{
+  SignalThrowingEventListener listener=null;
+  try {
+    listener=new SignalThrowingEventListener();
+    listener.setSignalName("Signal");
+    listener.setProcessInstanceScope(true);
+    processEngineConfiguration.getEventDispatcher().addEventListener(listener,ActivitiEventType.JOB_EXECUTION_FAILURE);
+    ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testSignal");
+    assertNotNull(processInstance);
+    waitForJobExecutorToProcessAllJobs(2000,100);
+    Job failedJob=managementService.createJobQuery().withException().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(failedJob);
+    assertEquals(0,failedJob.getRetries());
+    assertEquals(0,taskService.createTaskQuery().processInstanceId(processInstance.getId()).count());
+    try {
+      managementService.executeJob(failedJob.getId());
+      fail("Exception expected");
+    }
+ catch (    ActivitiException ae) {
+      assertEquals(0,taskService.createTaskQuery().processInstanceId(processInstance.getId()).count());
+    }
+  }
+  finally {
+    processEngineConfiguration.getEventDispatcher().removeEventListener(listener);
+  }
+}

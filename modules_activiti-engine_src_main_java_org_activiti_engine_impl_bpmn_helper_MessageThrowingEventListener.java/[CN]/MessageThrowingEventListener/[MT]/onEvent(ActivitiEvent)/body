@@ -1,0 +1,15 @@
+{
+  if (isValidEvent(event)) {
+    if (event.getProcessInstanceId() == null) {
+      throw new ActivitiIllegalArgumentException("Cannot throw process-instance scoped message, since the dispatched event is not part of an ongoing process instance");
+    }
+    CommandContext commandContext=Context.getCommandContext();
+    List<EventSubscriptionEntity> subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findEventSubscriptionsByNameAndExecution(MessageEventHandler.EVENT_HANDLER_TYPE,messageName,event.getExecutionId());
+    if (subscriptionEntities.isEmpty() && event.getProcessInstanceId() != null && !event.getExecutionId().equals(event.getProcessInstanceId())) {
+      subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findEventSubscriptionsByNameAndExecution(MessageEventHandler.EVENT_HANDLER_TYPE,messageName,event.getProcessInstanceId());
+    }
+    for (    EventSubscriptionEntity signalEventSubscriptionEntity : subscriptionEntities) {
+      signalEventSubscriptionEntity.eventReceived(null,false);
+    }
+  }
+}
