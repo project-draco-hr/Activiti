@@ -2,7 +2,17 @@
   String activitiBeanRegistryBeanName=ActivitiContextUtils.ACTIVITI_REGISTRY_BEAN_NAME;
   if (beanFactory instanceof BeanDefinitionRegistry) {
     BeanDefinitionRegistry registry=(BeanDefinitionRegistry)beanFactory;
-    configureDefaultActivitiRegistry(activitiBeanRegistryBeanName,registry);
+    BeanDefinition beanDefinition=beanDefinition(beanFactory,activitiBeanRegistryBeanName,StateHandlerRegistry.class);
+    if (null == beanDefinition) {
+      String registryClassName=StateHandlerRegistry.class.getName();
+      log.info("registering a {} instance under bean name {}.",registryClassName,activitiBeanRegistryBeanName);
+      BeanDefinition processEngineBeanDefinition=beanDefinition(beanFactory,"processEngine",ProcessEngine.class);
+      RootBeanDefinition rootBeanDefinition=new RootBeanDefinition();
+      rootBeanDefinition.setBeanClassName(registryClassName);
+      rootBeanDefinition.getPropertyValues().addPropertyValue("processEngine",processEngineBeanDefinition);
+      BeanDefinitionHolder holder=new BeanDefinitionHolder(rootBeanDefinition,activitiBeanRegistryBeanName);
+      BeanDefinitionReaderUtils.registerBeanDefinition(holder,registry);
+    }
   }
  else {
     log.info("BeanFactory is not a BeanDefinitionRegistry. " + "The default '{}' cannot be configured.",activitiBeanRegistryBeanName);
