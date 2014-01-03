@@ -1,0 +1,20 @@
+{
+  Assert.isInstanceOf(BeanDefinitionRegistry.class,beanFactory,"BeanFactory was not a BeanDefinitionRegistry, so ProcessScopeBeanFactoryPostProcessor cannot be used.");
+  final String processScopeName=PROCESS_SCOPE_NAME;
+  BeanDefinitionRegistry registry=(BeanDefinitionRegistry)beanFactory;
+  BeanDefinition processEngineBeanDefinition=BeanDefinitionUtils.beanDefinition(beanFactory,"processEngine",ProcessEngine.class);
+  RootBeanDefinition processScopeRootBeanDefinition=new RootBeanDefinition(ProcessScope.class);
+  processScopeRootBeanDefinition.getPropertyValues().add("processEngine",processEngineBeanDefinition);
+  registry.registerBeanDefinition(processScopeName,processScopeRootBeanDefinition);
+  for (  String beanName : beanFactory.getBeanDefinitionNames()) {
+    BeanDefinition definition=beanFactory.getBeanDefinition(beanName);
+    boolean scoped=processScopeName.equals(definition.getScope());
+    Scopifier scopifier=new Scopifier(registry,processScopeName,proxyTargetClass,scoped);
+    scopifier.visitBeanDefinition(definition);
+    if (scoped) {
+      Scopifier.createScopedProxy(beanName,definition,registry,proxyTargetClass);
+    }
+  }
+  beanFactory.registerSingleton(PROCESS_SCOPE_PROCESS_VARIABLES_SINGLETON,this.processVariablesMap);
+  beanFactory.registerResolvableDependency(ProcessInstance.class,createSharedProcessInstance());
+}

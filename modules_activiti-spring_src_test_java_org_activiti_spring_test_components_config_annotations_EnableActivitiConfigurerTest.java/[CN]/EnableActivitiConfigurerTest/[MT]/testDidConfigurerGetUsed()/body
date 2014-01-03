@@ -1,0 +1,5 @@
+{
+  org.junit.Assert.assertTrue("the configurer should have played a part in the configuration process",this.customActivitiConfigurer.isUsed());
+  org.junit.Assert.assertTrue("processDefinitionResources should have been called and the resulting preferences honored",this.customActivitiConfigurer.methodMemoryMap.get("processDefinitionResources"));
+  org.junit.Assert.assertTrue("postProcessSpringProcessEngineConfiguration should always be " + "called if an ActivitiConfigurer is specified? ",this.customActivitiConfigurer.methodMemoryMap.get("postProcessSpringProcessEngineConfiguration"));
+}
