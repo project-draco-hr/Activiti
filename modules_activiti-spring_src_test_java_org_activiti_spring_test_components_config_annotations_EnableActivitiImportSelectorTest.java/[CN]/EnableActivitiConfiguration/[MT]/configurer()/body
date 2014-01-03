@@ -1,0 +1,14 @@
+{
+  return new ActivitiConfigurer(){
+    @Override public void processDefinitionResources(    List<Resource> resourceList){
+    }
+    @Override public void postProcessSpringProcessEngineConfiguration(    SpringProcessEngineConfiguration springProcessEngineConfiguration){
+      springProcessEngineConfiguration.setDatabaseSchemaUpdate("create-drop");
+      springProcessEngineConfiguration.setJobExecutorActivate(true);
+    }
+    @Override public DataSource dataSource(){
+      return dataSource();
+    }
+  }
+;
+}
