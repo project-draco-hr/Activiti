@@ -1,0 +1,11 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testEventListeners");
+  assertNotNull(processInstance);
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(task);
+  TestActivitiEventListener theListener=(TestActivitiEventListener)processEngineConfiguration.getBeans().get("testAttachmentEventListener");
+  assertNotNull(theListener);
+  assertEquals(0,theListener.getEventsReceived().size());
+  taskService.createAttachment("test",task.getId(),processInstance.getId(),"test","test","url");
+  assertEquals(1,theListener.getEventsReceived().size());
+}

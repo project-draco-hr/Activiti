@@ -1,0 +1,15 @@
+{
+  boolean valid=false;
+  if (entityClass != null) {
+    if (event instanceof ActivitiEntityEvent) {
+      Object entity=((ActivitiEntityEvent)event).getEntity();
+      if (entity != null) {
+        valid=entityClass.isAssignableFrom(entity.getClass());
+      }
+    }
+  }
+ else {
+    valid=true;
+  }
+  return valid;
+}

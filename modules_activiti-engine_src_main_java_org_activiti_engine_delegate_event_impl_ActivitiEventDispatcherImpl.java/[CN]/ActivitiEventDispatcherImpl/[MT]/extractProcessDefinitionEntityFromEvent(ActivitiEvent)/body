@@ -1,0 +1,16 @@
+{
+  ProcessDefinitionEntity result=null;
+  if (event.getProcessDefinitionId() != null) {
+    result=Context.getProcessEngineConfiguration().getDeploymentManager().getProcessDefinitionCache().get(event.getProcessDefinitionId());
+    if (result != null) {
+      result=Context.getProcessEngineConfiguration().getDeploymentManager().resolveProcessDefinition(result);
+    }
+  }
+  if (result == null && event instanceof ActivitiEntityEvent) {
+    Object entity=((ActivitiEntityEvent)event).getEntity();
+    if (entity instanceof ProcessDefinition) {
+      result=(ProcessDefinitionEntity)entity;
+    }
+  }
+  return result;
+}

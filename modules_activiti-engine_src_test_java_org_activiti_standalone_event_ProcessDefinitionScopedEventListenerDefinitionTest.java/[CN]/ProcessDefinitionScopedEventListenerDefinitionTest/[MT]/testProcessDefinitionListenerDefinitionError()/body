@@ -1,6 +1,6 @@
 {
   try {
-    runtimeService.startProcessInstanceByKey("testInvalidEventExpression");
+    repositoryService.createDeployment().addClasspathResource("org/activiti/standalone/event/invalidEventListenerExpression.bpmn20.xml").deploy();
     fail("Exception expected");
   }
  catch (  ActivitiException ae) {
@@ -9,7 +9,7 @@
     assertEquals("Unknown property used in expression: ${unexistingBean}",ae.getCause().getMessage());
   }
   try {
-    runtimeService.startProcessInstanceByKey("testInvalidEventClass");
+    repositoryService.createDeployment().addClasspathResource("org/activiti/standalone/event/invalidEventListenerClass.bpmn20.xml").deploy();
     fail("Exception expected");
   }
  catch (  ActivitiException ae) {

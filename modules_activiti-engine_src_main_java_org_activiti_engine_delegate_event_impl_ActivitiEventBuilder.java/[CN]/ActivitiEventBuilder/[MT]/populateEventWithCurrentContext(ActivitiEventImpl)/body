@@ -43,6 +43,9 @@
         event.setExecutionId(((Task)persistendObject).getExecutionId());
         event.setProcessDefinitionId(((Task)persistendObject).getProcessDefinitionId());
       }
+ else       if (persistendObject instanceof ProcessDefinition) {
+        event.setProcessDefinitionId(((ProcessDefinition)persistendObject).getId());
+      }
     }
   }
 }
