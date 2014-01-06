@@ -1,5 +1,6 @@
 {
   List<EventListener> eventListeners=new ArrayList<EventListener>();
+  if (StringUtils.isEmpty(listenersNode.asText()))   return eventListeners;
   try {
     listenersNode=objectMapper.readTree(listenersNode.asText());
   }

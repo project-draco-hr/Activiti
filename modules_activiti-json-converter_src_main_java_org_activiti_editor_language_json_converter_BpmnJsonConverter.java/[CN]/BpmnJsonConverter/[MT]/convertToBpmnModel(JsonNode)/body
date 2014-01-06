@@ -79,9 +79,10 @@
     }
     if (subShapesMap.size() > 0) {
       List<String> removeSubFlowsList=new ArrayList<String>();
-      for (      FlowElement flowElement : process.findFlowElementsOfType(SequenceFlow.class)) {
+      List<SequenceFlow> sequenceFlowList=process.findFlowElementsOfType(SequenceFlow.class);
+      for (      FlowElement flowElement : sequenceFlowList) {
         SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
-        if (subShapesMap.containsKey(sequenceFlow.getSourceRef())) {
+        if (process.getFlowElement(flowElement.getId()) != null && subShapesMap.containsKey(sequenceFlow.getSourceRef())) {
           SubProcess subProcess=subShapesMap.get(sequenceFlow.getSourceRef());
           subProcess.addFlowElement(sequenceFlow);
           removeSubFlowsList.add(sequenceFlow.getId());
