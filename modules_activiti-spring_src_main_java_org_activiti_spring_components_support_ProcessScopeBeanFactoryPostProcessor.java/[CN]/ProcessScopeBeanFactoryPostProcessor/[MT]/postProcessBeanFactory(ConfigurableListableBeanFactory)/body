@@ -1,11 +1,11 @@
 {
-  Assert.isInstanceOf(BeanDefinitionRegistry.class,beanFactory,"BeanFactory was not a BeanDefinitionRegistry, so ProcessScopeBeanFactoryPostProcessor cannot be used.");
-  final String processScopeName=PROCESS_SCOPE_NAME;
+  String[] processEngineBeanNames=beanFactory.getBeanNamesForType(ProcessEngine.class);
+  Assert.isTrue(processEngineBeanNames.length == 1,oneAndOnlyOneMessage);
+  RuntimeBeanReference processEngineRuntimeBeanReference=new RuntimeBeanReference(processEngineBeanNames[0]);
+  String processScopeName=PROCESS_SCOPE_NAME;
+  Assert.isInstanceOf(BeanDefinitionRegistry.class,beanFactory,"BeanFactory was not a BeanDefinitionRegistry, so " + ProcessScopeBeanFactoryPostProcessor.class.getName() + " cannot be used.");
   BeanDefinitionRegistry registry=(BeanDefinitionRegistry)beanFactory;
-  BeanDefinition processEngineBeanDefinition=BeanDefinitionUtils.beanDefinition(beanFactory,"processEngine",ProcessEngine.class);
-  RootBeanDefinition processScopeRootBeanDefinition=new RootBeanDefinition(ProcessScope.class);
-  processScopeRootBeanDefinition.getPropertyValues().add("processEngine",processEngineBeanDefinition);
-  registry.registerBeanDefinition(processScopeName,processScopeRootBeanDefinition);
+  final boolean proxyTargetClass=true;
   for (  String beanName : beanFactory.getBeanDefinitionNames()) {
     BeanDefinition definition=beanFactory.getBeanDefinition(beanName);
     boolean scoped=processScopeName.equals(definition.getScope());
@@ -15,6 +15,6 @@
       Scopifier.createScopedProxy(beanName,definition,registry,proxyTargetClass);
     }
   }
+  registry.registerBeanDefinition(processScopeName,BeanDefinitionBuilder.genericBeanDefinition(ProcessScope.class).addConstructorArgReference(processEngineRuntimeBeanReference.getBeanName()).getBeanDefinition());
   beanFactory.registerSingleton(PROCESS_SCOPE_PROCESS_VARIABLES_SINGLETON,this.processVariablesMap);
-  beanFactory.registerResolvableDependency(ProcessInstance.class,createSharedProcessInstance());
 }

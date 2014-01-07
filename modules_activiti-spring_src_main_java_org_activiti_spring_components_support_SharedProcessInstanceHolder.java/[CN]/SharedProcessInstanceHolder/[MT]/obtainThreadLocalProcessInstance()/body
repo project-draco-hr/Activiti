@@ -1,0 +1,9 @@
+{
+  try {
+    if (callableThreadLocal.get() == null)     registerProcessInstanceCallable(defaultProcessInstanceCallable);
+    return callableThreadLocal.get().call();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

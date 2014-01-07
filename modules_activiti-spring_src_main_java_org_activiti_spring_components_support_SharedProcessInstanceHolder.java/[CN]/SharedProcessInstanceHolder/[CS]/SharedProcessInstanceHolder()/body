@@ -1,0 +1,17 @@
+{
+  ProxyFactory proxyFactoryBean=new ProxyFactory(ProcessInstance.class,new MethodInterceptor(){
+    public Object invoke(    MethodInvocation methodInvocation) throws Throwable {
+      String methodName=methodInvocation.getMethod().getName();
+      if (methodName.equals("toString")) {
+        return "SharedProcessInstance";
+      }
+      ProcessInstance processInstance=obtainThreadLocalProcessInstance();
+      Method method=methodInvocation.getMethod();
+      Object[] args=methodInvocation.getArguments();
+      return method.invoke(processInstance,args);
+    }
+  }
+);
+  this.processInstance=(ProcessInstance)proxyFactoryBean.getProxy(ClassUtils.getDefaultClassLoader());
+  Assert.notNull(this.processInstance,"the processInstance proxy must not be null");
+}

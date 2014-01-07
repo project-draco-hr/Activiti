@@ -2,11 +2,11 @@
   String activitiBeanRegistryBeanName=ActivitiContextUtils.ACTIVITI_REGISTRY_BEAN_NAME;
   if (beanFactory instanceof BeanDefinitionRegistry) {
     BeanDefinitionRegistry registry=(BeanDefinitionRegistry)beanFactory;
-    BeanDefinition beanDefinition=BeanDefinitionUtils.beanDefinition(beanFactory,activitiBeanRegistryBeanName,StateHandlerRegistry.class);
+    BeanDefinition beanDefinition=BeanDefinitionUtils.findBeanDefinitionByBeanNameOrType(beanFactory,activitiBeanRegistryBeanName,StateHandlerRegistry.class);
     if (null == beanDefinition) {
       String registryClassName=StateHandlerRegistry.class.getName();
       log.info("registering a {} instance under bean name {}.",registryClassName,activitiBeanRegistryBeanName);
-      BeanDefinition processEngineBeanDefinition=BeanDefinitionUtils.beanDefinition(beanFactory,"processEngine",ProcessEngine.class);
+      BeanDefinition processEngineBeanDefinition=BeanDefinitionUtils.findBeanDefinitionByBeanNameOrType(beanFactory,"processEngine",ProcessEngine.class);
       RootBeanDefinition rootBeanDefinition=new RootBeanDefinition();
       rootBeanDefinition.setBeanClassName(registryClassName);
       rootBeanDefinition.getPropertyValues().addPropertyValue("processEngine",processEngineBeanDefinition);

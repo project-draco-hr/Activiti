@@ -1,0 +1,7 @@
+{
+  long customerId=22;
+  ProcessInstance processInstance=this.processStarter.start(customerId);
+  Map<String,Object> vars=variables(processInstance.getId());
+  assertTrue(vars.size() == 1);
+  assertTrue(vars.get("customerId").equals(customerId));
+}

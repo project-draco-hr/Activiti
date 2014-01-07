@@ -12,8 +12,8 @@
   Assert.assertEquals("there should be 1 (one) task enqueued at this point.",tasks.size(),1);
   Task t=tasks.iterator().next();
   this.taskService.claim(t.getId(),"me");
-  logger.info("sleeping for 10 seconds while a user performs his task. " + "The first transaction has committed. A new one will start in 10 seconds");
-  Thread.sleep(1000 * 5);
+  logger.info("sleeping for 2 seconds while a user performs his task. " + "The first transaction has committed. A new one will start in 10 seconds");
+  Thread.sleep(1000 * 2);
   this.taskService.complete(t.getId());
   scopedObject=(StatefulObject)processEngine.getRuntimeService().getVariable(processInstance.getId(),"scopedTarget.c1");
   Assert.assertEquals(scopedObject.getVisitedCount(),3);

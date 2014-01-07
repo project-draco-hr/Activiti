@@ -1,0 +1,12 @@
+{
+  callableThreadLocal.set(new Callable<ProcessInstance>(){
+    private ProcessInstance processInstance;
+    @Override public ProcessInstance call() throws Exception {
+      if (null == processInstance) {
+        processInstance=runnable.call();
+      }
+      return processInstance;
+    }
+  }
+);
+}

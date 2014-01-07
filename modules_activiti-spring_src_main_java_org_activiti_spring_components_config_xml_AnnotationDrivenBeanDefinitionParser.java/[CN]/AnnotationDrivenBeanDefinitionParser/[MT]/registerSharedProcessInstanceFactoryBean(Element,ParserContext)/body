@@ -1,0 +1,5 @@
+{
+  BeanDefinition sharedProcessInstanceFactoryBeanBeanDefinition=build(SharedProcessInstanceFactoryBean.class).addConstructorArgReference(this.sharedProcessInstanceHolderRuntimeBeanReference.getBeanName()).getBeanDefinition();
+  String sharedProcessInstanceHolderBeanDefinitionName=parserContext.getReaderContext().registerWithGeneratedName(sharedProcessInstanceFactoryBeanBeanDefinition);
+  return new RuntimeBeanReference(sharedProcessInstanceHolderBeanDefinitionName);
+}

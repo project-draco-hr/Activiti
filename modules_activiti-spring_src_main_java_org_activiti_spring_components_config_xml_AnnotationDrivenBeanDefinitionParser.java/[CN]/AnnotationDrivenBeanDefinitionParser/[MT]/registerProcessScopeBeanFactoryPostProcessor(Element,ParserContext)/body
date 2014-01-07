@@ -1,0 +1,5 @@
+{
+  Class<?> processScopeBeanFactoryPostProcessorClass=ProcessScopeBeanFactoryPostProcessor.class;
+  BeanDefinition processStartingBPPBeanDefinition=build(processScopeBeanFactoryPostProcessorClass).addConstructorArgReference(this.processEngineRuntimeBeanReference.getBeanName()).getBeanDefinition();
+  parserContext.getRegistry().registerBeanDefinition(processScopeBeanFactoryPostProcessorClass.getName(),processStartingBPPBeanDefinition);
+}

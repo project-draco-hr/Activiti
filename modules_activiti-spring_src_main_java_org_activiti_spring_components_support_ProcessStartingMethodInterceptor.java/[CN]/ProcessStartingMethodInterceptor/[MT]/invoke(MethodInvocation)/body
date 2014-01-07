@@ -1,23 +1,31 @@
 {
   Method method=invocation.getMethod();
   StartProcess startProcess=AnnotationUtils.getAnnotation(method,StartProcess.class);
-  String processKey=startProcess.processKey();
+  final String processKey=startProcess.processKey();
   Assert.hasText(processKey,"you must provide the name of process to start");
   Object result;
   try {
-    result=invocation.proceed();
-    Map<String,Object> vars=this.processVariablesFromAnnotations(invocation);
-    String businessKey=this.processBusinessKey(invocation);
-    log.info("variables for the started process: {}",vars.toString());
-    RuntimeService runtimeService=this.processEngine.getRuntimeService();
-    ProcessInstance pi;
-    if (null != businessKey && StringUtils.hasText(businessKey)) {
-      pi=runtimeService.startProcessInstanceByKey(processKey,businessKey,vars);
-      log.info("the business key for the started process is '{}'",businessKey);
-    }
+    sharedProcessInstanceHolder.registerProcessInstanceCallable(new Callable<ProcessInstance>(){
+      @Override public ProcessInstance call() throws Exception {
+        ProcessStartingMethodInterceptor that=ProcessStartingMethodInterceptor.this;
+        Map<String,Object> vars=that.processVariablesFromAnnotations(invocation);
+        String businessKey=that.processBusinessKey(invocation);
+        log.info("variables for the started process: {}",vars.toString());
+        RuntimeService runtimeService=ProcessStartingMethodInterceptor.this.processEngine.getRuntimeService();
+        ProcessInstance pi;
+        if (null != businessKey && StringUtils.hasText(businessKey)) {
+          pi=runtimeService.startProcessInstanceByKey(processKey,businessKey,vars);
+          log.info("the business key for the started process is '{}'",businessKey);
+        }
  else {
-      pi=runtimeService.startProcessInstanceByKey(processKey,vars);
+          pi=runtimeService.startProcessInstanceByKey(processKey,vars);
+        }
+        return pi;
+      }
     }
+);
+    result=invocation.proceed();
+    ProcessInstance pi=sharedProcessInstanceHolder.sharedProcessInstance();
     String pId=pi.getId();
     if (invocation.getMethod().getReturnType().equals(void.class))     return null;
     if (shouldReturnProcessInstance(startProcess,invocation,result))     return pi;

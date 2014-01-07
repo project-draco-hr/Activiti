@@ -1,6 +1,10 @@
 {
-  registerProcessScope(element,parserContext);
-  registerStateHandlerAnnotationBeanFactoryPostProcessor(element,parserContext);
-  registerProcessStartAnnotationBeanPostProcessor(element,parserContext);
+  String procEngineRef=element.getAttribute(processEngineAttribute);
+  Assert.hasText(procEngineRef,"you must specify a process-engine attribute");
+  this.processEngineRuntimeBeanReference=new RuntimeBeanReference(procEngineRef);
+  this.sharedProcessInstanceHolderRuntimeBeanReference=registerSharedProcessInstanceHolder(element,parserContext);
+  registerSharedProcessInstanceFactoryBean(element,parserContext);
+  registerProcessScopeBeanFactoryPostProcessor(element,parserContext);
+  registerProcessStartingBeanPostProcessor(element,parserContext);
   return null;
 }

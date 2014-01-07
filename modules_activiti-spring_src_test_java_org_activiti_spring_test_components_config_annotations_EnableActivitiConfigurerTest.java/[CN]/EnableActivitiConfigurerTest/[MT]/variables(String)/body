@@ -1,0 +1,7 @@
+{
+  List<ProcessInstance> processInstances=this.runtimeService.createProcessInstanceQuery().processInstanceId(id).orderByProcessInstanceId().asc().list();
+  assertTrue("there must be more than one result",processInstances.size() > 0);
+  ProcessInstance result=processInstances.iterator().next();
+  assertEquals("the executionId's should be the same",result.getId(),id);
+  return this.processEngine.getRuntimeService().getVariables(result.getId());
+}

@@ -1,13 +1,15 @@
 {
   ActivitiConfigurer configurer=activitiConfigurer(activitiConfigurers);
-  final DataSource finalDataSource=dataSource(configurer,dataSources);
-  final SpringJobExecutor springJobExecutor=springJobExecutor();
-  final SpringProcessEngineConfiguration springProcessEngineConfiguration=new SpringProcessEngineConfiguration();
-  final PlatformTransactionManager platformTransactionManager=platformTransactionManager(finalDataSource);
-  springProcessEngineConfiguration.setDataSource(finalDataSource);
-  springProcessEngineConfiguration.setTransactionManager(platformTransactionManager);
-  springProcessEngineConfiguration.setJobExecutor(springJobExecutor);
-  springProcessEngineConfiguration.setDeploymentResources(resources(configurer));
-  configurer.postProcessSpringProcessEngineConfiguration(springProcessEngineConfiguration);
-  return springProcessEngineConfiguration;
+  List<Resource> processDefinitionResources=new ArrayList<Resource>();
+  configurer.processDefinitionResources(processDefinitionResources);
+  SpringProcessEngineConfiguration engine=new SpringProcessEngineConfiguration();
+  if (processDefinitionResources.size() > 0) {
+    engine.setDeploymentResources(processDefinitionResources.toArray(new Resource[processDefinitionResources.size()]));
+  }
+  DataSource dataSource=dataSource(configurer,dataSources);
+  engine.setDataSource(dataSource);
+  engine.setTransactionManager(platformTransactionManager(dataSource));
+  engine.setJobExecutor(springJobExecutor());
+  configurer.postProcessSpringProcessEngineConfiguration(engine);
+  return engine;
 }
