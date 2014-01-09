@@ -1,0 +1,5 @@
+{
+  for (  Deployment deployment : repositoryService.createDeploymentQuery().list())   repositoryService.deleteDeployment(deployment.getId());
+  String[] defs={"org/activiti/spring/test/jpa/JPASpringTest.bpmn20.xml"};
+  for (  String pd : defs)   repositoryService.createDeployment().addClasspathResource(pd).deploy();
+}

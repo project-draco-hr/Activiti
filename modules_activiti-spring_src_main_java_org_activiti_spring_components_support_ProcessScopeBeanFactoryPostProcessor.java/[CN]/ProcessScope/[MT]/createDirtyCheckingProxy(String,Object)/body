@@ -1,6 +1,6 @@
 {
   ProxyFactory proxyFactoryBean=new ProxyFactory(scopedObject);
-  proxyFactoryBean.setProxyTargetClass(this.proxyTargetClass);
+  proxyFactoryBean.setProxyTargetClass(true);
   proxyFactoryBean.addAdvice(new MethodInterceptor(){
     public Object invoke(    MethodInvocation methodInvocation) throws Throwable {
       Object result=methodInvocation.proceed();

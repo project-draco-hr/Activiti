@@ -1,0 +1,7 @@
+{
+  LocalContainerEntityManagerFactoryBean emf=new LocalContainerEntityManagerFactoryBean();
+  emf.setPersistenceXmlLocation("classpath:/org/activiti/spring/test/jpa/custom-persistence.xml");
+  emf.setJpaVendorAdapter(openJpaVendorAdapter);
+  emf.setDataSource(ds);
+  return emf;
+}
