@@ -1,0 +1,10 @@
+{
+  if (persistentObject.getId() == null) {
+    throw new ActivitiException("Cannot touch " + persistentObject.getClass() + " with no id");
+  }
+  if (insertedObjects.contains(persistentObject)) {
+    insertedObjects.remove(persistentObject);
+    insertedObjects.add(persistentObject);
+    cachePut(persistentObject,false);
+  }
+}
