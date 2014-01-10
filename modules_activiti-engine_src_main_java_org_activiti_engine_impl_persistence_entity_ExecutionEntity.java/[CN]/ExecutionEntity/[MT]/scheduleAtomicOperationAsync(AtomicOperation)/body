@@ -3,5 +3,8 @@
   message.setExecution(this);
   message.setExclusive(getActivity().isExclusive());
   message.setJobHandlerType(AsyncContinuationJobHandler.TYPE);
+  if (getTenantId() != null) {
+    message.setTenantId(getTenantId());
+  }
   Context.getCommandContext().getJobEntityManager().send(message);
 }

@@ -12,6 +12,9 @@
       bpmnParse.execute();
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setResourceName(resourceName);
+        if (deployment.getTenantId() != null) {
+          processDefinition.setTenantId(deployment.getTenantId());
+        }
         String diagramResourceName=getDiagramResourceForProcess(resourceName,processDefinition.getKey(),resources);
         if (deployment.isNew()) {
           if (Context.getProcessEngineConfiguration().isCreateDiagramOnDeploy() && diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
