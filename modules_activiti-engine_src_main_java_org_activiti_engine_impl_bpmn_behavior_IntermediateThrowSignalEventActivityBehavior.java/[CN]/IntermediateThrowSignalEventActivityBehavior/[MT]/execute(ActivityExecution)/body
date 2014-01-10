@@ -10,5 +10,5 @@
   for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : subscriptionEntities) {
     signalEventSubscriptionEntity.eventReceived(null,signalDefinition.isAsync());
   }
-  leave(execution);
+  if (execution.getActivity() != null)   leave(execution);
 }
