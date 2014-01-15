@@ -14,6 +14,9 @@
       historicActivityInstance.setActivityName((String)executionEntity.getActivity().getProperty("name"));
       historicActivityInstance.setActivityType((String)executionEntity.getActivity().getProperty("type"));
       historicActivityInstance.setStartTime(ClockUtil.getCurrentTime());
+      if (executionEntity.getTenantId() != null) {
+        historicActivityInstance.setTenantId(executionEntity.getTenantId());
+      }
       getDbSqlSession().insert(historicActivityInstance);
     }
   }
