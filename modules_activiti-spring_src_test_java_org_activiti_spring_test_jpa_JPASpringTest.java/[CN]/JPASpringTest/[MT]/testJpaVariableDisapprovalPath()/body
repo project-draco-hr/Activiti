@@ -22,4 +22,5 @@
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(task);
   assertEquals("Send rejection letter",task.getName());
+  deleteDeployments();
 }

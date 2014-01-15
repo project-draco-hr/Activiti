@@ -17,4 +17,5 @@
   assertNotNull(task);
   taskService.complete(task.getId(),variables);
   assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+  deleteDeployments();
 }
