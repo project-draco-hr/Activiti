@@ -1,0 +1,22 @@
+{
+  try {
+    startBarrier.await();
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException(e);
+  }
+catch (  BrokenBarrierException e) {
+    throw new RuntimeException(e);
+  }
+  new SetExecutionVariablesCmd(executionId,Collections.singletonMap("var","12345"),false).execute(commandContext);
+  try {
+    endBarrier.await();
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException(e);
+  }
+catch (  BrokenBarrierException e) {
+    throw new RuntimeException(e);
+  }
+  return null;
+}

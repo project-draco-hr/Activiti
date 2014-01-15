@@ -4,6 +4,7 @@
   VariableInstanceEntity variableInstance=VariableInstanceEntity.createAndInsert(variableName,type,value);
   initializeVariableInstanceBackPointer(variableInstance);
   variableInstances.put(variableName,variableInstance);
+  variableInstanceList.add(variableInstance);
   Context.getCommandContext().getHistoryManager().recordVariableCreate(variableInstance);
   Context.getCommandContext().getHistoryManager().recordHistoricDetailVariableCreate(variableInstance,sourceActivityExecution,isActivityIdUsedForDetails());
   return variableInstance;
