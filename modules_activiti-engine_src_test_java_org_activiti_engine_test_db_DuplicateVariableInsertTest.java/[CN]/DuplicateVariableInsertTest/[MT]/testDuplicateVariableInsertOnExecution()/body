@@ -31,7 +31,6 @@
   firstInstertThread.join();
   secondInsertThread.join();
   assertEquals(1,exceptions.size());
-  assertTrue(exceptions.get(0) instanceof ActivitiOptimisticLockingException);
   Map<String,Object> variables=runtimeService.getVariables(processInstance.getId());
   assertEquals(1,variables.size());
   assertEquals("12345",variables.get("var"));
