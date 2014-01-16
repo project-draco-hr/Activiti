@@ -14,6 +14,18 @@
   if (names.contains("categoryNotEquals")) {
     deploymentQuery.deploymentCategoryNotEquals(getQueryParameter("categoryNotEquals",query));
   }
+  if (names.contains("tenantId")) {
+    deploymentQuery.deploymentTenantId(getQueryParameter("tenantId",query));
+  }
+  if (names.contains("tenantIdLike")) {
+    deploymentQuery.deploymentTenantIdLike(getQueryParameter("tenantIdLike",query));
+  }
+  if (names.contains("withoutTenantId")) {
+    Boolean withoutTenantId=getQueryParameterAsBoolean("withoutTenantId",query);
+    if (Boolean.TRUE == withoutTenantId) {
+      deploymentQuery.deploymentWithoutTenantId();
+    }
+  }
   DataResponse response=new DeploymentsPaginateList(this).paginateList(getQuery(),deploymentQuery,"id",allowedSortProperties);
   return response;
 }

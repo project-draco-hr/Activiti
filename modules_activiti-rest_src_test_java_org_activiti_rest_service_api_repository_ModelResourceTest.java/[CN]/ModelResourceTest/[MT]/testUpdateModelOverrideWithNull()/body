@@ -9,6 +9,7 @@
     model.setKey("Model key");
     model.setMetaInfo("Model metainfo");
     model.setName("Model name");
+    model.setTenantId("myTenant");
     model.setVersion(2);
     repositoryService.saveModel(model);
     Calendar updateTime=Calendar.getInstance();
@@ -21,6 +22,7 @@
     requestNode.put("metaInfo",(String)null);
     requestNode.put("deploymentId",(String)null);
     requestNode.put("version",(String)null);
+    requestNode.put("tenantId",(String)null);
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
     Representation response=client.put(requestNode);
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
@@ -32,10 +34,18 @@
     assertNull(responseNode.get("version").getTextValue());
     assertNull(responseNode.get("metaInfo").getTextValue());
     assertNull(responseNode.get("deploymentId").getTextValue());
+    assertNull(responseNode.get("tenantId").getTextValue());
     assertEquals(model.getId(),responseNode.get("id").getTextValue());
     assertEquals(createTime.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").getTextValue()).getTime());
     assertEquals(updateTime.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").getTextValue()).getTime());
     assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId())));
+    model=repositoryService.getModel(model.getId());
+    assertNull(model.getName());
+    assertNull(model.getKey());
+    assertNull(model.getCategory());
+    assertNull(model.getMetaInfo());
+    assertNull(model.getDeploymentId());
+    assertNull(model.getTenantId());
   }
   finally {
     try {
