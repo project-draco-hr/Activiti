@@ -19,6 +19,11 @@
       Configuration configuration=parser.getConfiguration();
       configuration.setEnvironment(environment);
       configuration.getTypeHandlerRegistry().register(VariableType.class,JdbcType.VARCHAR,new IbatisVariableTypeHandler());
+      if (getCustomMybatisMappers() != null) {
+        for (        Class<?> clazz : getCustomMybatisMappers()) {
+          configuration.addMapper(clazz);
+        }
+      }
       configuration=parser.parse();
       sqlSessionFactory=new DefaultSqlSessionFactory(configuration);
     }
