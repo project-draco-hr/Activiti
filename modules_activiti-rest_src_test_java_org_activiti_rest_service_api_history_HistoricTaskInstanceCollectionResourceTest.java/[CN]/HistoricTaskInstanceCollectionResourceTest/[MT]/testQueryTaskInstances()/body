@@ -3,10 +3,15 @@
   processVariables.put("stringVar","Azerty");
   processVariables.put("intVar",67890);
   processVariables.put("booleanVar",false);
+  Calendar created=Calendar.getInstance();
+  created.set(Calendar.YEAR,2001);
+  created.set(Calendar.MILLISECOND,0);
+  ClockUtil.setCurrentTime(created.getTime());
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  ClockUtil.reset();
+  Task task1=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task1.getId());
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-  taskService.complete(task.getId());
-  task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.setVariableLocal(task.getId(),"local","test");
   taskService.setOwner(task.getId(),"test");
   taskService.setDueDate(task.getId(),new GregorianCalendar(2013,0,1).getTime());
@@ -26,4 +31,9 @@
   assertResultsPresentInDataResponse(url + "?dueDateAfter=" + dateFormat.format(new GregorianCalendar(2013,4,1).getTime()),0);
   assertResultsPresentInDataResponse(url + "?dueDateBefore=" + dateFormat.format(new GregorianCalendar(2010,0,1).getTime()),0);
   assertResultsPresentInDataResponse(url + "?dueDateBefore=" + dateFormat.format(new GregorianCalendar(2013,4,1).getTime()),1,task.getId());
+  assertResultsPresentInDataResponse(url + "?taskCreatedOn=" + dateFormat.format(created.getTime()),1,task1.getId());
+  created.set(Calendar.YEAR,2002);
+  assertResultsPresentInDataResponse(url + "?taskCreatedBefore=" + dateFormat.format(created.getTime()),1,task1.getId());
+  created.set(Calendar.YEAR,2000);
+  assertResultsPresentInDataResponse(url + "?taskCreatedAfter=" + dateFormat.format(created.getTime()),3,task1.getId(),task2.getId());
 }
