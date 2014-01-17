@@ -130,5 +130,14 @@
   if (request.getProcessInstanceVariables() != null) {
     addProcessvariables(taskQuery,request.getProcessInstanceVariables());
   }
+  if (request.getTenantId() != null) {
+    taskQuery.taskTenantId(request.getTenantId());
+  }
+  if (request.getTenantIdLike() != null) {
+    taskQuery.taskTenantIdLike(request.getTenantIdLike());
+  }
+  if (Boolean.TRUE.equals(request.getWithoutTenantId())) {
+    taskQuery.taskWithoutTenantId();
+  }
   return new TaskPaginateList(this).paginateList(query,taskQuery,"id",properties);
 }

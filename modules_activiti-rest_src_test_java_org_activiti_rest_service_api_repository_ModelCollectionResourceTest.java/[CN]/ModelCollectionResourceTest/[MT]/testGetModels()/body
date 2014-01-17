@@ -46,6 +46,21 @@
     model2.setKey("Model key");
     repositoryService.saveModel(model2);
     assertResultsPresentInDataResponse(url,model2.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION) + "?withoutTenantId=true";
+    assertResultsPresentInDataResponse(url,model1.getId(),model2.getId());
+    model1=repositoryService.getModel(model1.getId());
+    model1.setTenantId("myTenant");
+    repositoryService.saveModel(model1);
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION) + "?withoutTenantId=true";
+    assertResultsPresentInDataResponse(url,model2.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION) + "?tenantId=myTenant";
+    assertResultsPresentInDataResponse(url,model1.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION) + "?tenantId=anotherTenant";
+    assertResultsPresentInDataResponse(url);
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION) + "?tenantIdLike=" + encode("%enant");
+    assertResultsPresentInDataResponse(url,model1.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION) + "?tenantIdLike=anotherTenant";
+    assertResultsPresentInDataResponse(url);
   }
   finally {
     if (model1 != null) {

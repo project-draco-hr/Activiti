@@ -1,0 +1,17 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey");
+  String id=processInstance.getId();
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?withoutTenantId=true";
+  assertResultsPresentInDataResponse(url,id);
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?tenantId=myTenant";
+  assertResultsPresentInDataResponse(url,id);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?tenantId=anotherTenant";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?tenantIdLike=" + encode("%enant");
+  assertResultsPresentInDataResponse(url,id);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?tenantIdLike=" + encode("%what");
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?withoutTenantId=true";
+  assertResultsPresentInDataResponse(url);
+}
