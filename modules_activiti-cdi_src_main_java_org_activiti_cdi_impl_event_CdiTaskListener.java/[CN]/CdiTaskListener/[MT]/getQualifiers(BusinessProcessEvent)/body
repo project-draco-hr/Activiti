@@ -9,5 +9,8 @@
   if (type == BusinessProcessEventType.COMPLETE_TASK) {
     return new Annotation[]{businessProcessQualifier,new CompleteTaskLiteral(activityId)};
   }
+  if (type == BusinessProcessEventType.DELETE_TASK) {
+    return new Annotation[]{businessProcessQualifier,new DeleteTaskLiteral(activityId)};
+  }
   return new Annotation[]{};
 }

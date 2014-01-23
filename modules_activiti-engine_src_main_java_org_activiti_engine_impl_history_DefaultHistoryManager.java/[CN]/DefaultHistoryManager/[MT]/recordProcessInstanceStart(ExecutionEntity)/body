@@ -16,6 +16,9 @@
     historicActivityInstance.setActivityType((String)processInstance.getActivity().getProperty("type"));
     Date now=ClockUtil.getCurrentTime();
     historicActivityInstance.setStartTime(now);
+    if (processInstance.getTenantId() != null) {
+      historicActivityInstance.setTenantId(processInstance.getTenantId());
+    }
     getDbSqlSession().insert(historicActivityInstance);
   }
 }

@@ -1,6 +1,9 @@
 {
   ExecutionEntity newExecution=new ExecutionEntity();
   newExecution.executions=new ArrayList<ExecutionEntity>();
+  if (getTenantId() != null) {
+    newExecution.setTenantId(getTenantId());
+  }
   Context.getCommandContext().getDbSqlSession().insert(newExecution);
   return newExecution;
 }

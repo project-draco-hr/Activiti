@@ -27,6 +27,9 @@
   if (executionEntity != null) {
     timer.setExecution(executionEntity);
     timer.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
+    if (executionEntity != null && executionEntity.getTenantId() != null) {
+      timer.setTenantId(executionEntity.getTenantId());
+    }
   }
   if (type == TimerDeclarationType.CYCLE) {
     if (!isInterruptingTimer) {

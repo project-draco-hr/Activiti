@@ -5,9 +5,15 @@
     }
     RestletFileUpload upload=new RestletFileUpload(new DiskFileItemFactory());
     List<FileItem> items=upload.parseRepresentation(entity);
+    String tenantId=null;
     FileItem uploadItem=null;
     for (    FileItem fileItem : items) {
-      if (fileItem.getName() != null) {
+      if (fileItem.isFormField()) {
+        if ("tenantId".equals(fileItem.getFieldName())) {
+          tenantId=fileItem.getString("UTF-8");
+        }
+      }
+ else       if (fileItem.getName() != null) {
         uploadItem=fileItem;
       }
     }
@@ -26,6 +32,9 @@
       throw new ActivitiIllegalArgumentException("File must be of type .bpmn20.xml, .bpmn, .bar or .zip");
     }
     deploymentBuilder.name(fileName);
+    if (tenantId != null) {
+      deploymentBuilder.tenantId(tenantId);
+    }
     Deployment deployment=deploymentBuilder.deploy();
     setStatus(Status.SUCCESS_CREATED);
     return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createDeploymentResponse(this,deployment);

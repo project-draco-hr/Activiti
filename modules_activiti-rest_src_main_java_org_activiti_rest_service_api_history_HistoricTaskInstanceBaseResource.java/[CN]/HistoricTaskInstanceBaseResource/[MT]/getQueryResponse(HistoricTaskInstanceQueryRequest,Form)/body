@@ -155,5 +155,14 @@
   if (queryRequest.getProcessVariables() != null) {
     addProcessVariables(query,queryRequest.getProcessVariables());
   }
+  if (queryRequest.getTenantId() != null) {
+    query.taskTenantId(queryRequest.getTenantId());
+  }
+  if (queryRequest.getTenantIdLike() != null) {
+    query.taskTenantIdLike(queryRequest.getTenantIdLike());
+  }
+  if (Boolean.TRUE.equals(queryRequest.getWithoutTenantId())) {
+    query.taskWithoutTenantId();
+  }
   return new HistoricTaskInstancePaginateList(this).paginateList(urlQuery,query,"taskInstanceId",allowedSortProperties);
 }

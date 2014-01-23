@@ -1,0 +1,7 @@
+{
+  BpmnModel bpmnModel=createOneTaskTestProcess();
+  Deployment deployment=repositoryService.createDeployment().addBpmnModel("oneTasktest.bpmn20.xml",bpmnModel).deploy();
+  this.deploymentId=deployment.getId();
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+  return processDefinition.getId();
+}

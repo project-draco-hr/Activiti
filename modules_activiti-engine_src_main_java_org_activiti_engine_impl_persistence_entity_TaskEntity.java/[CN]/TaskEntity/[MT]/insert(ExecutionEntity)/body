@@ -2,6 +2,9 @@
   CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   dbSqlSession.insert(this);
+  if (execution != null && execution.getTenantId() != null) {
+    setTenantId(execution.getTenantId());
+  }
   if (execution != null) {
     execution.addTask(this);
   }

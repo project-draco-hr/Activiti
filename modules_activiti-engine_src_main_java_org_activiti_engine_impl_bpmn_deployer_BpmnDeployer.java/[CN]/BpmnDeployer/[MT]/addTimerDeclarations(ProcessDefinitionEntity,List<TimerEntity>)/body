@@ -4,6 +4,9 @@
     for (    TimerDeclarationImpl timerDeclaration : timerDeclarations) {
       TimerEntity timer=timerDeclaration.prepareTimerEntity(null);
       timer.setProcessDefinitionId(processDefinition.getId());
+      if (processDefinition.getTenantId() != null) {
+        timer.setTenantId(processDefinition.getTenantId());
+      }
       timers.add(timer);
     }
   }

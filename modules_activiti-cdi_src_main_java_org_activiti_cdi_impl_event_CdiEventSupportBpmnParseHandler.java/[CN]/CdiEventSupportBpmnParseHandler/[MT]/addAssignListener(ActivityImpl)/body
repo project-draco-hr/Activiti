@@ -1,4 +1,4 @@
 {
-  UserTaskActivityBehavior behavior=(UserTaskActivityBehavior)activity.getActivityBehavior();
+  UserTaskActivityBehavior behavior=getUserTaskActivityBehavior(activity.getActivityBehavior());
   behavior.getTaskDefinition().addTaskListener(TaskListener.EVENTNAME_ASSIGNMENT,new CdiTaskListener(activity.getId(),BusinessProcessEventType.ASSIGN_TASK));
 }
