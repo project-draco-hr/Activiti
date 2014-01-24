@@ -1,0 +1,15 @@
+{
+  TaskQuery query=taskService.createTaskQuery().taskCandidateOrAssigneed("kermit");
+  assertEquals(11,query.count());
+  List<Task> tasks=query.list();
+  assertEquals(11,tasks.size());
+  taskService.claim(tasks.get(0).getId(),"kermit");
+  query=taskService.createTaskQuery().taskCandidateOrAssigneed("kermit");
+  assertEquals(11,query.count());
+  taskService.claim(tasks.get(1).getId(),"fozzie");
+  query=taskService.createTaskQuery().taskCandidateOrAssigneed("kermit");
+  assertEquals(10,query.count());
+  query=taskService.createTaskQuery().taskCandidateOrAssigneed("fozzie");
+  assertEquals(4,query.count());
+  assertEquals(4,query.list().size());
+}
