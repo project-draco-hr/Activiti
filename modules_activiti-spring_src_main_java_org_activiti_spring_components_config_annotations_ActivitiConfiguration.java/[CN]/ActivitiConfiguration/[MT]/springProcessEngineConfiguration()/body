@@ -1,0 +1,15 @@
+{
+  ActivitiConfigurer configurer=activitiConfigurer(activitiConfigurers);
+  List<Resource> processDefinitionResources=new ArrayList<Resource>();
+  configurer.processDefinitionResources(processDefinitionResources);
+  SpringProcessEngineConfiguration engine=new SpringProcessEngineConfiguration();
+  if (processDefinitionResources.size() > 0) {
+    engine.setDeploymentResources(processDefinitionResources.toArray(new Resource[processDefinitionResources.size()]));
+  }
+  DataSource dataSource=dataSource(configurer,dataSources);
+  engine.setDataSource(dataSource);
+  engine.setTransactionManager(platformTransactionManager(dataSource));
+  engine.setJobExecutor(springJobExecutor());
+  configurer.postProcessSpringProcessEngineConfiguration(engine);
+  return engine;
+}

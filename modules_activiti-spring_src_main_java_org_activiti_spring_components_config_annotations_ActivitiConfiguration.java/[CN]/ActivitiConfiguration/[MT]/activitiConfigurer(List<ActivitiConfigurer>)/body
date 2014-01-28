@@ -1,0 +1,26 @@
+{
+  return new ActivitiConfigurer(){
+    @Override public void processDefinitionResources(    List<Resource> resourceList){
+      List<Resource> resources=new ArrayList<Resource>();
+      Resource defaultClassPathResourceMatcher=new ClassPathResource("classpath:/processes/**bpmn20.xml");
+      if (defaultClassPathResourceMatcher.exists()) {
+        resources.add(defaultClassPathResourceMatcher);
+      }
+      if (activitiConfigurers != null && activitiConfigurers.size() > 0) {
+        for (        ActivitiConfigurer ac : activitiConfigurers) {
+          ac.processDefinitionResources(resources);
+        }
+      }
+      resourceList.addAll(resources);
+    }
+    @Override public void postProcessSpringProcessEngineConfiguration(    SpringProcessEngineConfiguration springProcessEngineConfiguration){
+      for (      ActivitiConfigurer configurer : activitiConfigurers) {
+        configurer.postProcessSpringProcessEngineConfiguration(springProcessEngineConfiguration);
+      }
+    }
+    @Override public DataSource dataSource(){
+      return null;
+    }
+  }
+;
+}
