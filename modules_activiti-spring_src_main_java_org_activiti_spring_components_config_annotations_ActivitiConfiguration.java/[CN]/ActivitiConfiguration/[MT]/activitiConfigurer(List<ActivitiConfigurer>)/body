@@ -14,8 +14,10 @@
       resourceList.addAll(resources);
     }
     @Override public void postProcessSpringProcessEngineConfiguration(    SpringProcessEngineConfiguration springProcessEngineConfiguration){
-      for (      ActivitiConfigurer configurer : activitiConfigurers) {
-        configurer.postProcessSpringProcessEngineConfiguration(springProcessEngineConfiguration);
+      if (activitiConfigurers != null) {
+        for (        ActivitiConfigurer configurer : activitiConfigurers) {
+          configurer.postProcessSpringProcessEngineConfiguration(springProcessEngineConfiguration);
+        }
       }
     }
     @Override public DataSource dataSource(){
