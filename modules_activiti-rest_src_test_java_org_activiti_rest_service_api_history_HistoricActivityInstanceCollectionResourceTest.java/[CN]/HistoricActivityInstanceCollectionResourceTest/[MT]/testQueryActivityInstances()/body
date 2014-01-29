@@ -3,7 +3,7 @@
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.complete(task.getId());
   managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
-  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKeyAndTenantId("oneTaskProcess","myTenant");
   String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_ACTIVITY_INSTANCES);
   assertResultsPresentInDataResponse(url + "?activityId=processTask",2,"processTask");
   assertResultsPresentInDataResponse(url + "?activityId=processTask&finished=true",1,"processTask");
