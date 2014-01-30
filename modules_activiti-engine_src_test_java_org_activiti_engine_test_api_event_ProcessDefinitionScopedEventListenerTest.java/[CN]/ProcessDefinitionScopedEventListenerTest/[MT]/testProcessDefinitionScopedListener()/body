@@ -1,7 +1,7 @@
 {
-  ProcessDefinition firstDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).processDefinitionKey("oneTaskProcess").singleResult();
+  ProcessDefinition firstDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deploymentIdFromDeploymentAnnotation).processDefinitionKey("oneTaskProcess").singleResult();
   assertNotNull(firstDefinition);
-  ProcessDefinition secondDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).processDefinitionKey("simpleProcess").singleResult();
+  ProcessDefinition secondDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deploymentIdFromDeploymentAnnotation).processDefinitionKey("simpleProcess").singleResult();
   assertNotNull(firstDefinition);
   TestActivitiEventListener listener=new TestActivitiEventListener();
   ProcessDefinitionEntity definitionEntity=(ProcessDefinitionEntity)repositoryService.getProcessDefinition(firstDefinition.getId());

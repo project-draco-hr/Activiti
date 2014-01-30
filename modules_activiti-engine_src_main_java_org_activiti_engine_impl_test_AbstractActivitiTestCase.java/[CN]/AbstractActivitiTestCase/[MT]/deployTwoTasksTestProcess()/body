@@ -1,7 +1,7 @@
 {
   BpmnModel bpmnModel=createTwoTasksTestProcess();
   Deployment deployment=repositoryService.createDeployment().addBpmnModel("twoTasksTestProcess.bpmn20.xml",bpmnModel).deploy();
-  this.deploymentId=deployment.getId();
+  deploymentIdsForAutoCleanup.add(deployment.getId());
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
   return processDefinition.getId();
 }
