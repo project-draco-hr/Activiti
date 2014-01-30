@@ -1,4 +1,4 @@
 {
-  ProcessEngineConfigurationImpl svcs=(ProcessEngineConfigurationImpl)execution.getEngineServices();
-  return svcs.getExpressionManager().createExpression((String)execution.getVariable(var.getExpressionText()));
+  String variable=(String)execution.getVariable(var.getExpressionText());
+  return Context.getProcessEngineConfiguration().getExpressionManager().createExpression(variable);
 }
