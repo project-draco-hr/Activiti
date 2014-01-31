@@ -48,7 +48,7 @@
     if (deployment.isNew()) {
       int processDefinitionVersion;
       ProcessDefinitionEntity latestProcessDefinition=null;
-      if (processDefinition.getTenantId() != null) {
+      if (processDefinition.getTenantId() != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
         latestProcessDefinition=processDefinitionManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinition.getKey(),processDefinition.getTenantId());
       }
  else {

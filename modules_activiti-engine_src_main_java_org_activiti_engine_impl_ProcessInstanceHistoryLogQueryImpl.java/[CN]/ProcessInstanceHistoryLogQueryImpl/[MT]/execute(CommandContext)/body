@@ -1,5 +1,8 @@
 {
   HistoricProcessInstanceEntity historicProcessInstance=commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstance(processInstanceId);
+  if (historicProcessInstance == null) {
+    return null;
+  }
   ProcessInstanceHistoryLogImpl processInstanceHistoryLog=new ProcessInstanceHistoryLogImpl(historicProcessInstance);
   if (includeTasks) {
     List<? extends HistoricData> tasks=commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesByQueryCriteria(new HistoricTaskInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId));
