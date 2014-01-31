@@ -1,7 +1,7 @@
 {
   DeploymentManager deploymentCache=Context.getProcessEngineConfiguration().getDeploymentManager();
   ProcessDefinition processDefinition=null;
-  if (job.getTenantId() == null) {
+  if (job.getTenantId() == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(job.getTenantId())) {
     processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKey(configuration);
   }
  else {
