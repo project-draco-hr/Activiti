@@ -1,0 +1,10 @@
+{
+  int beforeIndex=0;
+  int afterIndex=0;
+  for (int index=0; index < listener.getEventsReceived().size(); index++) {
+    ActivitiEvent activitiEvent=listener.getEventsReceived().get(index);
+    if (isEqual(before,activitiEvent))     beforeIndex=index;
+    if (isEqual(after,activitiEvent))     afterIndex=index;
+  }
+  assertTrue(beforeIndex < afterIndex);
+}
