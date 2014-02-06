@@ -1,4 +1,5 @@
 {
+  if (authenticate() == false)   return;
   User user=getUserFromRequest();
   if (!MediaType.MULTIPART_FORM_DATA.isCompatible(representation.getMediaType())) {
     throw new ResourceException(Status.CLIENT_ERROR_UNSUPPORTED_MEDIA_TYPE.getCode(),"The request should be of type 'multipart/form-data'.",null,null);
