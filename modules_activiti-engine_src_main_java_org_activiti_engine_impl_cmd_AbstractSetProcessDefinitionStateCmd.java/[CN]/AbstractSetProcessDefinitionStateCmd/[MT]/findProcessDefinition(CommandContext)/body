@@ -15,7 +15,14 @@
     processDefinitionEntities.add(processDefinitionEntity);
   }
  else {
-    List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl(commandContext).processDefinitionKey(processDefinitionKey).list();
+    ProcessDefinitionQueryImpl query=new ProcessDefinitionQueryImpl(commandContext).processDefinitionKey(processDefinitionKey);
+    if (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+      query.processDefinitionWithoutTenantId();
+    }
+ else {
+      query.processDefinitionTenantId(tenantId);
+    }
+    List<ProcessDefinition> processDefinitions=query.list();
     if (processDefinitions.size() == 0) {
       throw new ActivitiException("Cannot find process definition for key '" + processDefinitionKey + "'");
     }

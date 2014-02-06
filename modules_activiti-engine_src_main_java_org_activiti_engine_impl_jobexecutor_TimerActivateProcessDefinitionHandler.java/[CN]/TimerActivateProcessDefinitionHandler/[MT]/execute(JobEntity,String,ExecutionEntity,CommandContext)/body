@@ -2,6 +2,6 @@
   JSONObject cfgJson=new JSONObject(configuration);
   String processDefinitionId=job.getProcessDefinitionId();
   boolean activateProcessInstances=getIncludeProcessInstances(cfgJson);
-  ActivateProcessDefinitionCmd activateProcessDefinitionCmd=new ActivateProcessDefinitionCmd(processDefinitionId,null,activateProcessInstances,null);
+  ActivateProcessDefinitionCmd activateProcessDefinitionCmd=new ActivateProcessDefinitionCmd(processDefinitionId,null,activateProcessInstances,null,job.getTenantId());
   activateProcessDefinitionCmd.execute(commandContext);
 }
