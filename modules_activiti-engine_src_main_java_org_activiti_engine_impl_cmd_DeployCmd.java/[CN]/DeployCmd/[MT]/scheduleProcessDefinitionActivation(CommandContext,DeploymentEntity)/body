@@ -1,8 +1,8 @@
 {
   for (  ProcessDefinitionEntity processDefinitionEntity : deployment.getDeployedArtifacts(ProcessDefinitionEntity.class)) {
-    SuspendProcessDefinitionCmd suspendProcessDefinitionCmd=new SuspendProcessDefinitionCmd(processDefinitionEntity,false,null);
+    SuspendProcessDefinitionCmd suspendProcessDefinitionCmd=new SuspendProcessDefinitionCmd(processDefinitionEntity,false,null,deployment.getTenantId());
     suspendProcessDefinitionCmd.execute(commandContext);
-    ActivateProcessDefinitionCmd activateProcessDefinitionCmd=new ActivateProcessDefinitionCmd(processDefinitionEntity,false,deploymentBuilder.getProcessDefinitionsActivationDate());
+    ActivateProcessDefinitionCmd activateProcessDefinitionCmd=new ActivateProcessDefinitionCmd(processDefinitionEntity,false,deploymentBuilder.getProcessDefinitionsActivationDate(),deployment.getTenantId());
     activateProcessDefinitionCmd.execute(commandContext);
   }
 }
