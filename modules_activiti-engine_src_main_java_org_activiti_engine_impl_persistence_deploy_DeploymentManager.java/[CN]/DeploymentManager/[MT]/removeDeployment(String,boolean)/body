@@ -5,7 +5,6 @@
   List<ProcessDefinition> processDefinitions=new ProcessDefinitionQueryImpl(Context.getCommandContext()).deploymentId(deploymentId).list();
   ActivitiEventDispatcher eventDispatcher=Context.getProcessEngineConfiguration().getEventDispatcher();
   for (  ProcessDefinition processDefinition : processDefinitions) {
-    processDefinitionCache.remove(processDefinition.getId());
     if (eventDispatcher.isEnabled()) {
       eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,processDefinition));
     }
@@ -13,5 +12,8 @@
   deploymentEntityManager.deleteDeployment(deploymentId,cascade);
   if (eventDispatcher.isEnabled()) {
     eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,deployment));
+  }
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    processDefinitionCache.remove(processDefinition.getId());
   }
 }

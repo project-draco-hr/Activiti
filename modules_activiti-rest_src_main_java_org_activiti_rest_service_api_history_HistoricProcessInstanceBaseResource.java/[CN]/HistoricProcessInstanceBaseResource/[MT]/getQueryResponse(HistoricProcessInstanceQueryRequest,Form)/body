@@ -55,5 +55,14 @@
   if (queryRequest.getVariables() != null) {
     addVariables(query,queryRequest.getVariables());
   }
-  return new HistoricProcessInstancePaginateList(this).paginateList(urlQuery,query,"processInstanceId",allowedSortProperties);
+  if (queryRequest.getTenantId() != null) {
+    query.processInstanceTenantId(queryRequest.getTenantId());
+  }
+  if (queryRequest.getTenantIdLike() != null) {
+    query.processInstanceTenantIdLike(queryRequest.getTenantIdLike());
+  }
+  if (Boolean.TRUE.equals(queryRequest.getWithoutTenantId())) {
+    query.processInstanceWithoutTenantId();
+  }
+  return new HistoricProcessInstancePaginateList(this).paginateList(urlQuery,queryRequest,query,"processInstanceId",allowedSortProperties);
 }

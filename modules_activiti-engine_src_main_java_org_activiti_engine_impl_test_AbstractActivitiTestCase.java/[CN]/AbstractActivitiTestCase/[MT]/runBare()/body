@@ -3,8 +3,9 @@
   if (repositoryService == null) {
     initializeServices();
   }
+  String deploymentId=null;
   try {
-    deploymentId=TestHelper.annotationDeploymentSetUp(processEngine,getClass(),getName());
+    deploymentIdFromDeploymentAnnotation=TestHelper.annotationDeploymentSetUp(processEngine,getClass(),getName());
     super.runBare();
   }
  catch (  AssertionFailedError e) {
@@ -20,7 +21,14 @@ catch (  Throwable e) {
     throw e;
   }
  finally {
-    TestHelper.annotationDeploymentTearDown(processEngine,deploymentId,getClass(),getName());
+    if (deploymentIdFromDeploymentAnnotation != null) {
+      TestHelper.annotationDeploymentTearDown(processEngine,deploymentIdFromDeploymentAnnotation,getClass(),getName());
+      deploymentIdFromDeploymentAnnotation=null;
+    }
+    for (    String autoDeletedDeploymentId : deploymentIdsForAutoCleanup) {
+      repositoryService.deleteDeployment(autoDeletedDeploymentId,true);
+    }
+    deploymentIdsForAutoCleanup.clear();
     assertAndEnsureCleanDb();
     ClockUtil.reset();
     closeDownProcessEngine();

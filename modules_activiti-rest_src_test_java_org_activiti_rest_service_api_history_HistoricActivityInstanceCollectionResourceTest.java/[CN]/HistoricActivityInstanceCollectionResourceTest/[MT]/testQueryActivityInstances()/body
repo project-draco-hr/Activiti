@@ -2,7 +2,8 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.complete(task.getId());
-  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKeyAndTenantId("oneTaskProcess","myTenant");
   String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_ACTIVITY_INSTANCES);
   assertResultsPresentInDataResponse(url + "?activityId=processTask",2,"processTask");
   assertResultsPresentInDataResponse(url + "?activityId=processTask&finished=true",1,"processTask");
@@ -21,4 +22,9 @@
   assertResultsPresentInDataResponse(url + "?taskAssignee=kermit",2,"processTask");
   assertResultsPresentInDataResponse(url + "?taskAssignee=fozzie",1,"processTask2");
   assertResultsPresentInDataResponse(url + "?taskAssignee=fozzie2",0);
+  assertResultsPresentInDataResponse(url + "?withoutTenantId=true",3);
+  assertResultsPresentInDataResponse(url + "?tenantId=myTenant",2,"theStart","processTask");
+  assertResultsPresentInDataResponse(url + "?tenantId=anotherTenant");
+  assertResultsPresentInDataResponse(url + "?tenantIdLike=" + encode("%enant"),2,"theStart","processTask");
+  assertResultsPresentInDataResponse(url + "?tenantIdLike=anotherTenant");
 }

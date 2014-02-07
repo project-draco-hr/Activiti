@@ -79,6 +79,15 @@
     assertResultsPresentInDataResponse(url,processTask.getId());
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?dueBefore=" + getISODateString(inBetweenTaskCreation.getTime());
     assertResultsPresentInDataResponse(url,adhocTask.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?withoutTenantId=true";
+    assertResultsPresentInDataResponse(url,adhocTask.getId(),processTask.getId());
+    managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?withoutTenantId=true";
+    assertResultsPresentInDataResponse(url,adhocTask.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?tenantId=myTenant";
+    assertResultsPresentInDataResponse(url,processTask.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?tenantIdLike=" + encode("%enant");
+    assertResultsPresentInDataResponse(url,processTask.getId());
     runtimeService.suspendProcessInstanceById(processInstance.getId());
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?active=false";
     assertResultsPresentInDataResponse(url,processTask.getId());

@@ -5,7 +5,7 @@
   restVar.setName(name);
   if (value != null) {
     for (    RestVariableConverter c : variableConverters) {
-      if (value.getClass().isAssignableFrom(c.getVariableType())) {
+      if (c.getVariableType().isAssignableFrom(value.getClass())) {
         converter=c;
         break;
       }

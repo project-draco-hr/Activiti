@@ -1,0 +1,7 @@
+{
+  Thread.sleep(5000);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("osgiProcess");
+  assertTrue(processInstance.isEnded());
+  HistoricVariableInstance variable=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("visited").singleResult();
+  assertTrue((Boolean)variable.getValue());
+}

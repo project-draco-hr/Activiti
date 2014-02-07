@@ -21,7 +21,14 @@
   assertEquals(task.getPriority(),responseNode.get("priority").asInt());
   assertTrue(responseNode.get("parentTaskId").isNull());
   assertTrue(responseNode.get("delegationState").isNull());
+  assertEquals("",responseNode.get("tenantId").getTextValue());
   assertTrue(responseNode.get("executionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,task.getExecutionId())));
   assertTrue(responseNode.get("processInstanceUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,task.getProcessInstanceId())));
   assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(task.getProcessDefinitionId()))));
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
+  response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertEquals("myTenant",responseNode.get("tenantId").asText());
 }

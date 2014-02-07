@@ -30,4 +30,17 @@
   assertResultsPresentInDataResponse(url,childExecution.getId());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?activityId=anotherId";
   assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?withoutTenantId=true";
+  assertResultsPresentInDataResponse(url,id,childExecution.getId());
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?withoutTenantId=true";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?tenantId=myTenant";
+  assertResultsPresentInDataResponse(url,id,childExecution.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?tenantId=myTenant2";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?tenantIdLike=" + encode("%enant");
+  assertResultsPresentInDataResponse(url,id,childExecution.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION) + "?tenantIdLike=" + encode("%whatever");
+  assertResultsPresentInDataResponse(url);
 }

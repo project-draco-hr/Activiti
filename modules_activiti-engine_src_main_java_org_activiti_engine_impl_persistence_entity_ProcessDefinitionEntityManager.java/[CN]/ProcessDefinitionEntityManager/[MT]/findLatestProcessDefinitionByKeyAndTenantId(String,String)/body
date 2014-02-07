@@ -1,0 +1,6 @@
+{
+  Map<String,Object> params=new HashMap<String,Object>(2);
+  params.put("processDefinitionKey",processDefinitionKey);
+  params.put("tenantId",tenantId);
+  return (ProcessDefinitionEntity)getDbSqlSession().selectOne("selectLatestProcessDefinitionByKeyAndTenantId",params);
+}

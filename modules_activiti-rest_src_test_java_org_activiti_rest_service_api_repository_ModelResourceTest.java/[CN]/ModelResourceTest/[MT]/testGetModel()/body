@@ -11,6 +11,7 @@
     model.setName("Model name");
     model.setVersion(2);
     model.setDeploymentId(deploymentId);
+    model.setTenantId("myTenant");
     repositoryService.saveModel(model);
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
     Representation response=client.get();
@@ -24,6 +25,7 @@
     assertEquals("Model metainfo",responseNode.get("metaInfo").getTextValue());
     assertEquals(deploymentId,responseNode.get("deploymentId").getTextValue());
     assertEquals(model.getId(),responseNode.get("id").getTextValue());
+    assertEquals("myTenant",responseNode.get("tenantId").getTextValue());
     assertEquals(now.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").getTextValue()).getTime());
     assertEquals(now.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").getTextValue()).getTime());
     assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId())));

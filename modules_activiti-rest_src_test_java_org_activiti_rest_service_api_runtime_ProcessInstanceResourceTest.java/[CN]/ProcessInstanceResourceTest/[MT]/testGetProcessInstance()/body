@@ -9,6 +9,13 @@
   assertEquals("myBusinessKey",responseNode.get("businessKey").getTextValue());
   assertEquals("processTask",responseNode.get("activityId").getTextValue());
   assertFalse(responseNode.get("suspended").getBooleanValue());
+  assertEquals("",responseNode.get("tenantId").getTextValue());
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())));
   assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(processInstance.getProcessDefinitionId()))));
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("myTenant",responseNode.get("tenantId").getTextValue());
 }

@@ -11,6 +11,7 @@
     requestNode.put("metaInfo","Model metainfo");
     requestNode.put("deploymentId",deploymentId);
     requestNode.put("version",2);
+    requestNode.put("tenantId","myTenant");
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION));
     Representation response=client.post(requestNode);
     assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
@@ -22,6 +23,7 @@
     assertEquals(2,responseNode.get("version").getIntValue());
     assertEquals("Model metainfo",responseNode.get("metaInfo").getTextValue());
     assertEquals(deploymentId,responseNode.get("deploymentId").getTextValue());
+    assertEquals("myTenant",responseNode.get("tenantId").getTextValue());
     assertEquals(createTime.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").getTextValue()).getTime());
     assertEquals(createTime.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").getTextValue()).getTime());
     assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,responseNode.get("id").getTextValue())));
@@ -33,6 +35,7 @@
     assertEquals("Model key",model.getKey());
     assertEquals(deploymentId,model.getDeploymentId());
     assertEquals("Model metainfo",model.getMetaInfo());
+    assertEquals("myTenant",model.getTenantId());
     assertEquals(2,model.getVersion().intValue());
   }
   finally {
