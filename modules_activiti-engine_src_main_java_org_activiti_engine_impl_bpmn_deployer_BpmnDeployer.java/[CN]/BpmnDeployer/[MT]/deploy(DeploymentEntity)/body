@@ -68,6 +68,9 @@
         processDefinitionId=nextId;
       }
       processDefinition.setId(processDefinitionId);
+      if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,processDefinition));
+      }
       removeObsoleteTimers(processDefinition);
       addTimerDeclarations(processDefinition,timers);
       removeObsoleteMessageEventSubscriptions(processDefinition,latestProcessDefinition);
@@ -75,7 +78,7 @@
       dbSqlSession.insert(processDefinition);
       addAuthorizations(processDefinition);
       if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,processDefinition));
+        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,processDefinition));
       }
       scheduleTimers(timers);
     }
