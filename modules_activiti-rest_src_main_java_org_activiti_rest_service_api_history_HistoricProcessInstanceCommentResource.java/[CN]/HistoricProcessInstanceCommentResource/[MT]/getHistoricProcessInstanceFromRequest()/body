@@ -1,0 +1,11 @@
+{
+  String processInstanceId=getAttribute("processInstanceId");
+  if (processInstanceId == null) {
+    throw new ActivitiIllegalArgumentException("The processInstanceId cannot be null");
+  }
+  HistoricProcessInstance processInstance=ActivitiUtil.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+  if (processInstance == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a process instance with id '" + processInstanceId + "'.",HistoricProcessInstance.class);
+  }
+  return processInstance;
+}
