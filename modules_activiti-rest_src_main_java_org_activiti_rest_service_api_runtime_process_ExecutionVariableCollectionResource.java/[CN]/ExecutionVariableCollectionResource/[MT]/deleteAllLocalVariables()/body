@@ -1,4 +1,7 @@
 {
+  if (!authenticate()) {
+    return;
+  }
   Execution execution=getExecutionFromRequest();
   Collection<String> currentVariables=ActivitiUtil.getRuntimeService().getVariablesLocal(execution.getId()).keySet();
   ActivitiUtil.getRuntimeService().removeVariablesLocal(execution.getId(),currentVariables);

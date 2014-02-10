@@ -1,4 +1,7 @@
 {
+  if (!authenticate()) {
+    return null;
+  }
   try {
     if (entity == null || entity.getMediaType() == null || !MediaType.MULTIPART_FORM_DATA.isCompatible(entity.getMediaType())) {
       throw new ActivitiIllegalArgumentException("The request should be of type" + MediaType.MULTIPART_FORM_DATA + ".");

@@ -6,7 +6,7 @@
     PvmTransition flow=activity.getOutgoingTransitions().get(0);
     Condition condition=(Condition)flow.getProperty(BpmnParse.PROPERTYNAME_CONDITION);
     if (condition != null) {
-      bpmnModel.addProblem("Exclusive Gateway '" + activity.getId() + "' has only one outgoing sequence flow ('"+ flow.getId()+ "'). This is not allowed to have a condition.",exclusiveGateway);
+      bpmnModel.addWarning("Exclusive Gateway '" + activity.getId() + "' has only one outgoing sequence flow ('"+ flow.getId()+ "'). This is not allowed to have a condition.",exclusiveGateway);
     }
   }
  else {
@@ -21,12 +21,12 @@
         flowsWithoutCondition.add(flow);
       }
       if (hasConditon && isDefaultFlow) {
-        bpmnModel.addProblem("Exclusive Gateway '" + activity.getId() + "' has outgoing sequence flow '"+ flow.getId()+ "' which is the default flow but has a condition too.",exclusiveGateway);
+        bpmnModel.addWarning("Exclusive Gateway '" + activity.getId() + "' has outgoing sequence flow '"+ flow.getId()+ "' which is the default flow but has a condition too.",exclusiveGateway);
       }
     }
     if (hasDefaultFlow || flowsWithoutCondition.size() > 1) {
       for (      PvmTransition flow : flowsWithoutCondition) {
-        bpmnModel.addProblem("Exclusive Gateway '" + activity.getId() + "' has outgoing sequence flow '"+ flow.getId()+ "' without condition which is not the default flow.",exclusiveGateway);
+        bpmnModel.addWarning("Exclusive Gateway '" + activity.getId() + "' has outgoing sequence flow '"+ flow.getId()+ "' without condition which is not the default flow.",exclusiveGateway);
       }
     }
  else     if (flowsWithoutCondition.size() == 1) {

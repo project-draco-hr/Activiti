@@ -1,4 +1,7 @@
 {
+  if (!authenticate()) {
+    return;
+  }
   if (!ExecutionActionRequest.ACTION_SIGNAL_EVENT_RECEIVED.equals(actionRequest.getAction())) {
     throw new ActivitiIllegalArgumentException("Illegal action: '" + actionRequest.getAction() + "'.");
   }

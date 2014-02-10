@@ -1,0 +1,12 @@
+{
+  final TextField textField=new TextField(getPropertyLabel(formProperty));
+  textField.setRequired(formProperty.isRequired());
+  textField.setEnabled(formProperty.isWritable());
+  textField.setRequiredError(getMessage(Messages.FORM_FIELD_REQUIRED,getPropertyLabel(formProperty)));
+  if (formProperty.getValue() != null) {
+    textField.setValue(formProperty.getValue());
+  }
+  textField.addValidator(new DoubleValidator("Value must be a double"));
+  textField.setImmediate(true);
+  return textField;
+}

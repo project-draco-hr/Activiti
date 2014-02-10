@@ -1,4 +1,5 @@
 {
+  if (authenticate() == false)   return;
   User user=getUserFromRequest();
   String key=getValidKeyFromRequest(user);
   ActivitiUtil.getIdentityService().setUserInfo(user.getId(),key,null);
