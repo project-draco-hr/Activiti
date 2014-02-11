@@ -2,5 +2,6 @@
   getDbSqlSession().insert((PersistentObject)user);
   if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
     getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,user));
+    getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,user));
   }
 }

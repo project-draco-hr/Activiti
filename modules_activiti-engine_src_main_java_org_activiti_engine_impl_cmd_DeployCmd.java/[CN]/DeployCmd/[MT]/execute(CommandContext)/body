@@ -9,12 +9,15 @@
   }
   deployment.setNew(true);
   Context.getCommandContext().getDeploymentEntityManager().insertDeployment(deployment);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,deployment));
+  }
   Context.getProcessEngineConfiguration().getDeploymentManager().deploy(deployment);
   if (deploymentBuilder.getProcessDefinitionsActivationDate() != null) {
     scheduleProcessDefinitionActivation(commandContext,deployment);
   }
   if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,deployment));
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,deployment));
   }
   return deployment;
 }
