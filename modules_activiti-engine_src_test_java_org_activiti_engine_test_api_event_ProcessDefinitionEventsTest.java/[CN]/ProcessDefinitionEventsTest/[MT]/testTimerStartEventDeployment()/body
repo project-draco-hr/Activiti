@@ -1,0 +1,8 @@
+{
+  ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)repositoryService.createProcessDefinitionQuery().processDefinitionKey("startTimerEventExample").singleResult();
+  ActivitiEntityEvent processDefinitionCreated=ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,processDefinition);
+  TimerEntity timer=(TimerEntity)managementService.createJobQuery().singleResult();
+  ActivitiEntityEvent timerCreated=ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,timer);
+  assertSequence(processDefinitionCreated,timerCreated);
+  listener.clearEventsReceived();
+}

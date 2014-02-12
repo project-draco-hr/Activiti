@@ -1,0 +1,28 @@
+{
+  ProcessInstance pi=null;
+  try {
+    pi=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT_COLLECTION,pi.getId()));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("message","This is a comment...");
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    List<Comment> commentsOnProcess=taskService.getProcessInstanceComments(pi.getId());
+    assertNotNull(commentsOnProcess);
+    assertEquals(1,commentsOnProcess.size());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("kermit",responseNode.get("author").getTextValue());
+    assertEquals("This is a comment...",responseNode.get("message").getTextValue());
+    assertEquals(commentsOnProcess.get(0).getId(),responseNode.get("id").getTextValue());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),commentsOnProcess.get(0).getId())));
+  }
+  finally {
+    if (pi != null) {
+      List<Comment> comments=taskService.getProcessInstanceComments(pi.getId());
+      for (      Comment c : comments) {
+        taskService.deleteComment(c.getId());
+      }
+    }
+  }
+}

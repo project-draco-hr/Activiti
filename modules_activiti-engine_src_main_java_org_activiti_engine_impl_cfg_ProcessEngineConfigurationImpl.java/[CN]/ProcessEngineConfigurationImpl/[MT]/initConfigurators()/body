@@ -1,5 +1,5 @@
 {
-  List<ProcessEngineConfigurator> allConfigurators=new ArrayList<ProcessEngineConfigurator>();
+  allConfigurators=new ArrayList<ProcessEngineConfigurator>();
   if (configurators != null) {
     for (    ProcessEngineConfigurator configurator : configurators) {
       allConfigurators.add(configurator);
@@ -36,8 +36,7 @@
 );
       log.info("Found {} Process Engine Configurators in total:",allConfigurators.size());
       for (      ProcessEngineConfigurator configurator : allConfigurators) {
-        log.info("{}",configurator.getClass());
-        configurator.configure(this);
+        log.info("{} (priority:{})",configurator.getClass(),configurator.getPriority());
       }
     }
   }
