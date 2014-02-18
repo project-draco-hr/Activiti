@@ -1,9 +1,12 @@
 {
+  CommandContext commandContext=Context.getCommandContext();
   if (assignee == null && this.assignee == null) {
+    if (commandContext != null) {
+      commandContext.getHistoryManager().recordTaskAssigneeChange(id,assignee);
+    }
     return;
   }
   this.assignee=assignee;
-  CommandContext commandContext=Context.getCommandContext();
   if (commandContext != null) {
     commandContext.getHistoryManager().recordTaskAssigneeChange(id,assignee);
     if (assignee != null && processInstanceId != null) {
