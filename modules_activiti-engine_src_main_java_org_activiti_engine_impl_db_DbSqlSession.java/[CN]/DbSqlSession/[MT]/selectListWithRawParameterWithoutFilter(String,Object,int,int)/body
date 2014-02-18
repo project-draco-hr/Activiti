@@ -1,0 +1,7 @@
+{
+  statement=dbSqlSessionFactory.mapStatement(statement);
+  if (firstResult == -1 || maxResults == -1) {
+    return Collections.EMPTY_LIST;
+  }
+  return sqlSession.selectList(statement,parameter);
+}
