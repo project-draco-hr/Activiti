@@ -1,0 +1,18 @@
+{
+  if (authenticate() == false)   return null;
+  User user=getUserFromRequest();
+  if (request.isEmailChanged()) {
+    user.setEmail(request.getEmail());
+  }
+  if (request.isFirstNameChanged()) {
+    user.setFirstName(request.getFirstName());
+  }
+  if (request.isLastNameChanged()) {
+    user.setLastName(request.getLastName());
+  }
+  if (request.isPasswordChanged()) {
+    user.setPassword(request.getPassword());
+  }
+  ActivitiUtil.getIdentityService().saveUser(user);
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createUserResponse(this,user,false);
+}

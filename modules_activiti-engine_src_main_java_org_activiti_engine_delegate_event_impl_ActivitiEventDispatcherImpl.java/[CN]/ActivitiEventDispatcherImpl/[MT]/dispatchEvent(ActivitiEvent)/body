@@ -1,0 +1,20 @@
+{
+  if (enabled) {
+    eventSupport.dispatchEvent(event);
+  }
+  if (Context.isExecutionContextActive()) {
+    ProcessDefinitionEntity definition=Context.getExecutionContext().getProcessDefinition();
+    if (definition != null) {
+      definition.getEventSupport().dispatchEvent(event);
+    }
+  }
+ else {
+    CommandContext commandContext=Context.getCommandContext();
+    if (commandContext != null) {
+      ProcessDefinitionEntity processDefinition=extractProcessDefinitionEntityFromEvent(event);
+      if (processDefinition != null) {
+        processDefinition.getEventSupport().dispatchEvent(event);
+      }
+    }
+  }
+}

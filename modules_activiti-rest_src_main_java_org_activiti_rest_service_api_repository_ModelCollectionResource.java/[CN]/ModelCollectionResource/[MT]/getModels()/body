@@ -1,0 +1,60 @@
+{
+  if (authenticate() == false)   return null;
+  ModelQuery modelQuery=ActivitiUtil.getRepositoryService().createModelQuery();
+  Form form=getQuery();
+  Set<String> names=form.getNames();
+  if (names.contains("id")) {
+    modelQuery.modelId(getQueryParameter("id",form));
+  }
+  if (names.contains("category")) {
+    modelQuery.modelCategory(getQueryParameter("category",form));
+  }
+  if (names.contains("categoryLike")) {
+    modelQuery.modelCategoryLike(getQueryParameter("categoryLike",form));
+  }
+  if (names.contains("categoryNotEquals")) {
+    modelQuery.modelCategoryNotEquals(getQueryParameter("categoryNotEquals",form));
+  }
+  if (names.contains("name")) {
+    modelQuery.modelName(getQueryParameter("name",form));
+  }
+  if (names.contains("nameLike")) {
+    modelQuery.modelNameLike(getQueryParameter("nameLike",form));
+  }
+  if (names.contains("key")) {
+    modelQuery.modelKey(getQueryParameter("key",form));
+  }
+  if (names.contains("version")) {
+    modelQuery.modelVersion(getQueryParameterAsInt("version",form));
+  }
+  if (names.contains("latestVersion")) {
+    boolean isLatestVersion=getQueryParameterAsBoolean("latestVersion",form);
+    if (isLatestVersion) {
+      modelQuery.latestVersion();
+    }
+  }
+  if (names.contains("deploymentId")) {
+    modelQuery.deploymentId(getQueryParameter("deploymentId",form));
+  }
+  if (names.contains("deployed")) {
+    boolean isDeployed=getQueryParameterAsBoolean("deployed",form);
+    if (isDeployed) {
+      modelQuery.deployed();
+    }
+ else {
+      modelQuery.notDeployed();
+    }
+  }
+  if (names.contains("tenantId")) {
+    modelQuery.modelTenantId(getQueryParameter("tenantId",form));
+  }
+  if (names.contains("tenantIdLike")) {
+    modelQuery.modelTenantIdLike(getQueryParameter("tenantIdLike",form));
+  }
+  if (names.contains("withoutTenantId")) {
+    if (Boolean.TRUE.equals(getQueryParameterAsBoolean("withoutTenantId",form))) {
+      modelQuery.modelWithoutTenantId();
+    }
+  }
+  return new ModelsPaginateList(this).paginateList(form,modelQuery,"id",allowedSortProperties);
+}

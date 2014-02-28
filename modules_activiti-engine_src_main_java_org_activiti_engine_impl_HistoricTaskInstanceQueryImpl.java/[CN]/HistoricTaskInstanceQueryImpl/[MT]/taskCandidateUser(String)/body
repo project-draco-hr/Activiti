@@ -1,0 +1,13 @@
+{
+  if (candidateUser == null) {
+    throw new ActivitiIllegalArgumentException("Candidate user is null");
+  }
+  if (candidateGroup != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateUser and candidateGroup");
+  }
+  if (candidateGroups != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateUser and candidateGroupIn");
+  }
+  this.candidateUser=candidateUser;
+  return this;
+}

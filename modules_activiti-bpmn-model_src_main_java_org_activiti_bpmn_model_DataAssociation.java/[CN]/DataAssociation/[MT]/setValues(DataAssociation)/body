@@ -1,0 +1,11 @@
+{
+  setSourceRef(otherAssociation.getSourceRef());
+  setTargetRef(otherAssociation.getTargetRef());
+  setTransformation(otherAssociation.getTransformation());
+  assignments=new ArrayList<Assignment>();
+  if (otherAssociation.getAssignments() != null && otherAssociation.getAssignments().size() > 0) {
+    for (    Assignment assignment : otherAssociation.getAssignments()) {
+      assignments.add(assignment.clone());
+    }
+  }
+}

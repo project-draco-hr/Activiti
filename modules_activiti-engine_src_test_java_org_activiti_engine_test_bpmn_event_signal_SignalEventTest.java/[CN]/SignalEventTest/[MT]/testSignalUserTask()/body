@@ -1,0 +1,11 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("catchSignal");
+  Execution execution=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).activityId("waitState").singleResult();
+  assertNotNull(execution);
+  try {
+    runtimeService.signal(execution.getId());
+    fail("ActivitiException expected");
+  }
+ catch (  ActivitiException ae) {
+  }
+}

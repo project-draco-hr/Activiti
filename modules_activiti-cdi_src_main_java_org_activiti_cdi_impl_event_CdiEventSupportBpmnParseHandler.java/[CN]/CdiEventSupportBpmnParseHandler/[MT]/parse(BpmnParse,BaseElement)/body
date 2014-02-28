@@ -5,6 +5,12 @@
   }
  else {
     ActivityImpl activity=bpmnParse.getCurrentScope().findActivity(element.getId());
+    if (element instanceof UserTask) {
+      addCreateListener(activity);
+      addAssignListener(activity);
+      addCompleteListener(activity);
+      addDeleteListener(activity);
+    }
     if (activity != null) {
       addStartEventListener(activity);
       addEndEventListener(activity);

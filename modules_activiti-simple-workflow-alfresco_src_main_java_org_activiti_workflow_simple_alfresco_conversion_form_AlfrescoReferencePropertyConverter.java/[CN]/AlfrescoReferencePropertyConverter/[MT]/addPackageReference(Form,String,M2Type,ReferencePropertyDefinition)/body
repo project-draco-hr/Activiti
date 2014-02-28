@@ -1,0 +1,9 @@
+{
+  form.getFormFieldVisibility().addShowFieldElement(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS);
+  form.getFormAppearance().addFormField(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS,null,formSet);
+  if (!form.isStartForm()) {
+    boolean allowAddingItems=extractBooleanFromParameters(referenceDefinition.getParameters(),AlfrescoConversionConstants.PARAMETER_PACKAGEITEMS_ALLOW_ADD,true);
+    boolean allowRemovingItems=extractBooleanFromParameters(referenceDefinition.getParameters(),AlfrescoConversionConstants.PARAMETER_PACKAGEITEMS_ALLOW_REMOVE,true);
+    addOrAlterPackageItemActions(contentType,allowAddingItems,allowRemovingItems);
+  }
+}

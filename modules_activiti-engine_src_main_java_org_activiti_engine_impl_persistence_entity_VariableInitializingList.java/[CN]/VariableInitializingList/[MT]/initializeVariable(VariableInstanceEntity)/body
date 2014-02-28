@@ -1,0 +1,8 @@
+{
+  if (Context.getCommandContext() != null && e != null && e.getType() != null) {
+    e.getValue();
+    if (JPAEntityVariableType.TYPE_NAME.equals(e.getType().getTypeName())) {
+      ((CacheableVariable)e.getType()).setForceCacheable(true);
+    }
+  }
+}

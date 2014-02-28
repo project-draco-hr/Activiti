@@ -1,11 +1,8 @@
 {
-  List<String> variableNames=new ArrayList<String>(getVariableNamesLocal());
-  for (  String variableName : variableNames) {
-    ensureVariableInstancesInitialized();
-    VariableInstanceEntity variableInstance=variableInstances.remove(variableName);
-    if (variableInstance != null) {
-      Context.getCommandContext().getHistoryManager().recordVariableUpdate(variableInstance);
-      variableInstance.delete();
-    }
+  ensureVariableInstancesInitialized();
+  for (  VariableInstanceEntity variableInstance : variableInstanceList) {
+    Context.getCommandContext().getHistoryManager().recordVariableUpdate(variableInstance);
+    variableInstance.delete();
   }
+  variableInstanceList.clear();
 }

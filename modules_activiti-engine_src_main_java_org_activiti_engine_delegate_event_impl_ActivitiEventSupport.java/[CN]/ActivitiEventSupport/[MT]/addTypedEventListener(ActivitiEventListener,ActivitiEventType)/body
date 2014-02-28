@@ -1,0 +1,10 @@
+{
+  List<ActivitiEventListener> listeners=typedListeners.get(type);
+  if (listeners == null) {
+    listeners=new ArrayList<ActivitiEventListener>();
+    typedListeners.put(type,listeners);
+  }
+  if (!listeners.contains(listener)) {
+    listeners.add(listener);
+  }
+}

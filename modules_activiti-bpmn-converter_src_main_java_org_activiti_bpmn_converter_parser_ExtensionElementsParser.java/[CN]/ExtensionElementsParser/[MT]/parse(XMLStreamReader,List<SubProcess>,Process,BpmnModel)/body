@@ -1,0 +1,30 @@
+{
+  BaseElement parentElement=null;
+  if (activeSubProcessList.size() > 0) {
+    parentElement=activeSubProcessList.get(activeSubProcessList.size() - 1);
+  }
+ else {
+    parentElement=activeProcess;
+  }
+  boolean readyWithChildElements=false;
+  while (readyWithChildElements == false && xtr.hasNext()) {
+    xtr.next();
+    if (xtr.isStartElement()) {
+      if (ELEMENT_EXECUTION_LISTENER.equals(xtr.getLocalName())) {
+        new ExecutionListenerParser().parseChildElement(xtr,parentElement,model);
+      }
+ else       if (ELEMENT_EVENT_LISTENER.equals(xtr.getLocalName())) {
+        new ActivitiEventListenerParser().parseChildElement(xtr,parentElement,model);
+      }
+ else {
+        ExtensionElement extensionElement=BpmnXMLUtil.parseExtensionElement(xtr);
+        parentElement.addExtensionElement(extensionElement);
+      }
+    }
+ else     if (xtr.isEndElement()) {
+      if (ELEMENT_EXTENSIONS.equals(xtr.getLocalName())) {
+        readyWithChildElements=true;
+      }
+    }
+  }
+}

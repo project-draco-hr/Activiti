@@ -1,0 +1,25 @@
+{
+  Message message=messageRepository.findOne(1L);
+  assertNotNull(message);
+  assertEquals("Hello World",message.getText());
+  Map<String,Object> processVariables=new HashMap<String,Object>();
+  processVariables.put("message",message);
+  ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceByKey("jpa-process",processVariables);
+  assertNotNull(processInstance);
+  createUsers(processEngine);
+  Task task=processEngine.getTaskService().createTaskQuery().singleResult();
+  assertEquals("Activiti is awesome!",task.getName());
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION));
+  client.getReference().addQueryParameter("includeProcessVariables","true");
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data").get(0);
+  assertNotNull(dataNode);
+  JsonNode variableNode=dataNode.get("variables").get(0);
+  assertNotNull(variableNode);
+  assertEquals("message",variableNode.get("name").asText());
+  assertEquals("global",variableNode.get("scope").asText());
+  assertEquals("serializable",variableNode.get("type").asText());
+  assertNotNull(variableNode.get("valueUrl"));
+  dropUsers(processEngine);
+}

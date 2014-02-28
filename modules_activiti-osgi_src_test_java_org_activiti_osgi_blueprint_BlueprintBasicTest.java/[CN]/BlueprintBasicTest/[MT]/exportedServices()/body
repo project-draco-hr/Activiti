@@ -1,0 +1,9 @@
+{
+  assertNotNull(processEngine);
+  assertNotNull(repositoryService);
+  Thread.sleep(5000);
+  Deployment deployment=repositoryService.createDeploymentQuery().singleResult();
+  assertEquals("org.activiti.osgi.example",deployment.getName());
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  assertEquals("osgiProcess",processDefinition.getKey());
+}

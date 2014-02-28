@@ -1,0 +1,18 @@
+{
+  TestActivitiEventListener newListener=new TestActivitiEventListener();
+  dispatcher.addEventListener(newListener,ActivitiEventType.ENTITY_CREATED,ActivitiEventType.ENTITY_DELETED);
+  ActivitiEntityEventImpl event1=new ActivitiEntityEventImpl(new TaskEntity(),ActivitiEventType.ENTITY_CREATED);
+  ActivitiEntityEventImpl event2=new ActivitiEntityEventImpl(new TaskEntity(),ActivitiEventType.ENTITY_DELETED);
+  ActivitiEntityEventImpl event3=new ActivitiEntityEventImpl(new TaskEntity(),ActivitiEventType.ENTITY_UPDATED);
+  dispatcher.dispatchEvent(event1);
+  dispatcher.dispatchEvent(event2);
+  dispatcher.dispatchEvent(event3);
+  assertEquals(2,newListener.getEventsReceived().size());
+  assertEquals(event1,newListener.getEventsReceived().get(0));
+  assertEquals(event2,newListener.getEventsReceived().get(1));
+  dispatcher.removeEventListener(newListener);
+  newListener.clearEventsReceived();
+  dispatcher.dispatchEvent(event1);
+  dispatcher.dispatchEvent(event2);
+  assertTrue(newListener.getEventsReceived().isEmpty());
+}

@@ -3,4 +3,7 @@
   membershipEntity.setUserId(userId);
   membershipEntity.setGroupId(groupId);
   getDbSqlSession().insert(membershipEntity);
+  if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createMembershipEvent(ActivitiEventType.MEMBERSHIP_CREATED,groupId,userId));
+  }
 }

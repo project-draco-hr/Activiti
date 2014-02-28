@@ -1,0 +1,46 @@
+{
+  ExecutionQuery query=ActivitiUtil.getRuntimeService().createExecutionQuery();
+  if (queryRequest.getId() != null) {
+    query.executionId(queryRequest.getId());
+  }
+  if (queryRequest.getProcessInstanceId() != null) {
+    query.processInstanceId(queryRequest.getProcessInstanceId());
+  }
+  if (queryRequest.getProcessDefinitionKey() != null) {
+    query.processDefinitionKey(queryRequest.getProcessDefinitionKey());
+  }
+  if (queryRequest.getProcessDefinitionId() != null) {
+    query.processDefinitionId(queryRequest.getProcessDefinitionId());
+  }
+  if (queryRequest.getProcessBusinessKey() != null) {
+    query.processInstanceBusinessKey(queryRequest.getProcessBusinessKey());
+  }
+  if (queryRequest.getActivityId() != null) {
+    query.activityId(queryRequest.getActivityId());
+  }
+  if (queryRequest.getParentId() != null) {
+    query.parentId(queryRequest.getParentId());
+  }
+  if (queryRequest.getMessageEventSubscriptionName() != null) {
+    query.messageEventSubscriptionName(queryRequest.getMessageEventSubscriptionName());
+  }
+  if (queryRequest.getSignalEventSubscriptionName() != null) {
+    query.signalEventSubscriptionName(queryRequest.getSignalEventSubscriptionName());
+  }
+  if (queryRequest.getVariables() != null) {
+    addVariables(query,queryRequest.getVariables(),false);
+  }
+  if (queryRequest.getProcessInstanceVariables() != null) {
+    addVariables(query,queryRequest.getProcessInstanceVariables(),true);
+  }
+  if (queryRequest.getTenantId() != null) {
+    query.executionTenantId(queryRequest.getTenantId());
+  }
+  if (queryRequest.getTenantIdLike() != null) {
+    query.executionTenantIdLike(queryRequest.getTenantIdLike());
+  }
+  if (Boolean.TRUE.equals(queryRequest.getWithoutTenantId())) {
+    query.executionWithoutTenantId();
+  }
+  return new ExecutionPaginateList(this).paginateList(urlQuery,queryRequest,query,"processInstanceId",allowedSortProperties);
+}

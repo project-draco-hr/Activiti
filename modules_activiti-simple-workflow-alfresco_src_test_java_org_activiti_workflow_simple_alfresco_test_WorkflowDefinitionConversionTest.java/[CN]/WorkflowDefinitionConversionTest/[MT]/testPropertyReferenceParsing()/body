@@ -1,0 +1,19 @@
+{
+  String absoluteReference="{{Property Name}}";
+  assertTrue(PropertyReference.isPropertyReference(absoluteReference));
+  assertFalse(PropertyReference.isPropertyReference("{{incomplete}"));
+  assertTrue(PropertyReference.containsPropertyReference(absoluteReference));
+  assertEquals("test_propertyname",PropertyReference.createReference(absoluteReference).getVariableReference("test"));
+  String referenceWithProperties="{{Property Name.test}}";
+  assertTrue(PropertyReference.isPropertyReference(referenceWithProperties));
+  assertTrue(PropertyReference.containsPropertyReference(referenceWithProperties));
+  assertEquals("test_propertyname.test",PropertyReference.createReference(referenceWithProperties).getVariableReference("test"));
+  absoluteReference="{{Property Name.}}";
+  assertTrue(PropertyReference.isPropertyReference(absoluteReference));
+  assertFalse(PropertyReference.isPropertyReference("{{incomplete}"));
+  assertTrue(PropertyReference.containsPropertyReference(absoluteReference));
+  assertEquals("test_propertyname",PropertyReference.createReference(absoluteReference).getVariableReference("test"));
+  String referenceInText="This is a {{reference}}";
+  assertEquals("This is a ${test_reference}",PropertyReference.replaceAllPropertyReferencesInString(referenceInText,"test",new ArrayList<PropertyReference>(),true));
+  assertEquals("This is a test_reference",PropertyReference.replaceAllPropertyReferencesInString(referenceInText,"test",new ArrayList<PropertyReference>(),false));
+}

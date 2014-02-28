@@ -2,6 +2,6 @@
   JSONObject cfgJson=new JSONObject(configuration);
   String processDefinitionId=job.getProcessDefinitionId();
   boolean suspendProcessInstances=getIncludeProcessInstances(cfgJson);
-  SuspendProcessDefinitionCmd suspendProcessDefinitionCmd=new SuspendProcessDefinitionCmd(processDefinitionId,null,suspendProcessInstances,null);
+  SuspendProcessDefinitionCmd suspendProcessDefinitionCmd=new SuspendProcessDefinitionCmd(processDefinitionId,null,suspendProcessInstances,null,job.getTenantId());
   suspendProcessDefinitionCmd.execute(commandContext);
 }

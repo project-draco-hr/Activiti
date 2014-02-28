@@ -2,4 +2,8 @@
   ((ModelEntity)model).setCreateTime(ClockUtil.getCurrentTime());
   ((ModelEntity)model).setLastUpdateTime(ClockUtil.getCurrentTime());
   getDbSqlSession().insert((PersistentObject)model);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,model));
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,model));
+  }
 }

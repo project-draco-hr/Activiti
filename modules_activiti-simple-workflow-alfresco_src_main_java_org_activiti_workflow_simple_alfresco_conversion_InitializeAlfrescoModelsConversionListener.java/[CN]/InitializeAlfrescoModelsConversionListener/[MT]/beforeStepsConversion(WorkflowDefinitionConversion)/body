@@ -1,0 +1,13 @@
+{
+  String processId=null;
+  if (conversion.getWorkflowDefinition().getId() != null) {
+    processId=AlfrescoConversionUtil.getValidIdString(conversion.getWorkflowDefinition().getId());
+  }
+ else {
+    processId=generateUniqueProcessId(conversion);
+  }
+  M2Model model=addContentModel(conversion,processId);
+  addExtension(conversion,processId);
+  addAspectsForReusedProperties(conversion.getWorkflowDefinition(),model,processId);
+  conversion.setArtifact(ARTIFACT_PROPERTY_REFERENCES,new ArrayList<PropertyReference>());
+}

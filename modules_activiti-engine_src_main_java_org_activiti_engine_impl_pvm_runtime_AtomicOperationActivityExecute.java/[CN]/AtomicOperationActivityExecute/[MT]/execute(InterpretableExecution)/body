@@ -6,6 +6,9 @@
   }
   log.debug("{} executes {}: {}",execution,activity,activityBehavior.getClass().getName());
   try {
+    if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createActivityEvent(ActivitiEventType.ACTIVITY_STARTED,execution.getActivity().getId(),execution.getId(),execution.getProcessInstanceId(),execution.getProcessDefinitionId()));
+    }
     activityBehavior.execute(execution);
   }
  catch (  RuntimeException e) {

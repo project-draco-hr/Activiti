@@ -11,6 +11,9 @@
   if (businessKey != null) {
     processInstance.setBusinessKey(businessKey);
   }
+  if (getTenantId() != null) {
+    processInstance.setTenantId(getTenantId());
+  }
   processInstance.setProcessInstance(processInstance);
   String authenticatedUserId=Authentication.getAuthenticatedUserId();
   String initiatorVariableName=(String)getProperty(BpmnParse.PROPERTYNAME_INITIATOR_VARIABLE_NAME);

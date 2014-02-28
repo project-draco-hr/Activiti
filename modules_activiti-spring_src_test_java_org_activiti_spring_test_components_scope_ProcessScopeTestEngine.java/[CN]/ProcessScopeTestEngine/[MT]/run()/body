@@ -1,0 +1,23 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("customerId",customerId);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("component-waiter",vars);
+  Map<String,Object> runtimeVars=runtimeService.getVariables(processInstance.getId());
+  String statefulObjectVariableKey=keyForObjectType(runtimeVars,StatefulObject.class);
+  assertTrue(runtimeVars.size() > 0);
+  assertTrue(StringUtils.hasText(statefulObjectVariableKey));
+  StatefulObject scopedObject=(StatefulObject)runtimeService.getVariable(processInstance.getId(),statefulObjectVariableKey);
+  assertNotNull(scopedObject);
+  assertTrue(StringUtils.hasText(scopedObject.getName()));
+  assertEquals(scopedObject.getVisitedCount(),2);
+  String procId=processInstance.getProcessInstanceId();
+  List<Task> tasks=taskService.createTaskQuery().executionId(procId).list();
+  assertEquals(tasks.size(),1);
+  Task t=tasks.iterator().next();
+  this.taskService.claim(t.getId(),"me");
+  this.taskService.complete(t.getId());
+  scopedObject=(StatefulObject)runtimeService.getVariable(processInstance.getId(),statefulObjectVariableKey);
+  assertEquals(scopedObject.getVisitedCount(),3);
+  assertEquals(customerId,scopedObject.getCustomerId());
+  return scopedObject;
+}

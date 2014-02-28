@@ -1,0 +1,16 @@
+{
+  if (!(stepDefinition instanceof AlfrescoReviewStepDefinition)) {
+    throw new SimpleWorkflowException("An instance of AlfrescoReviewStepDefinition is required to set values");
+  }
+  AlfrescoReviewStepDefinition reviewStepDefinition=(AlfrescoReviewStepDefinition)stepDefinition;
+  setName(reviewStepDefinition.getName());
+  setId(reviewStepDefinition.getId());
+  setDescription(reviewStepDefinition.getDescription());
+  setEndProcessOnReject(reviewStepDefinition.isEndProcessOnReject());
+  setAssignmentType(reviewStepDefinition.getAssignmentType());
+  setRequiredApprovalCount(reviewStepDefinition.getRequiredApprovalCount());
+  setAssignmentPropertyName(reviewStepDefinition.getAssignmentPropertyName());
+  if (reviewStepDefinition.getParameters() != null) {
+    setParameters(new HashMap<String,Object>(reviewStepDefinition.getParameters()));
+  }
+}

@@ -7,7 +7,7 @@
   Date duedate=null;
   VariableScope scopeForExpression=executionEntity;
   if (scopeForExpression == null) {
-    scopeForExpression=StartProcessVariableScope.getSharedInstance();
+    scopeForExpression=NoExecutionVariableScope.getSharedInstance();
   }
   Object dueDateValue=description.getValue(scopeForExpression);
   if (dueDateValue instanceof String) {
@@ -27,6 +27,9 @@
   if (executionEntity != null) {
     timer.setExecution(executionEntity);
     timer.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
+    if (executionEntity != null && executionEntity.getTenantId() != null) {
+      timer.setTenantId(executionEntity.getTenantId());
+    }
   }
   if (type == TimerDeclarationType.CYCLE) {
     if (!isInterruptingTimer) {

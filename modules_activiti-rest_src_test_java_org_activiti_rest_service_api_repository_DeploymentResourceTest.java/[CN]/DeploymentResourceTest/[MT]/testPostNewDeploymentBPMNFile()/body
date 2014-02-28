@@ -1,0 +1,34 @@
+{
+  try {
+    Representation uploadRepresentation=new HttpMultipartRepresentation("oneTaskProcess.bpmn20.xml",ReflectUtil.getResourceAsStream("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml"));
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION));
+    Representation response=client.post(uploadRepresentation);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    String deploymentId=responseNode.get("id").getTextValue();
+    String name=responseNode.get("name").getTextValue();
+    String category=responseNode.get("category").getTextValue();
+    String deployTime=responseNode.get("deploymentTime").getTextValue();
+    String url=responseNode.get("url").getTextValue();
+    String tenantId=responseNode.get("tenantId").getTextValue();
+    assertEquals("",tenantId);
+    assertNotNull(deploymentId);
+    assertEquals(1L,repositoryService.createDeploymentQuery().deploymentId(deploymentId).count());
+    assertNotNull(name);
+    assertEquals("oneTaskProcess.bpmn20.xml",name);
+    assertNotNull(url);
+    assertTrue(url.endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,deploymentId)));
+    assertNull(category);
+    assertNotNull(deployTime);
+    List<String> resources=repositoryService.getDeploymentResourceNames(deploymentId);
+    assertEquals(1L,resources.size());
+    assertEquals("oneTaskProcess.bpmn20.xml",resources.get(0));
+    assertEquals(1L,repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).count());
+  }
+  finally {
+    List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
+    for (    Deployment deployment : deployments) {
+      repositoryService.deleteDeployment(deployment.getId(),true);
+    }
+  }
+}

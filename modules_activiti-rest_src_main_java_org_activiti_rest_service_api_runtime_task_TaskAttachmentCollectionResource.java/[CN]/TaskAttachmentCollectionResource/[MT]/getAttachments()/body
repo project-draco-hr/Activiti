@@ -1,0 +1,10 @@
+{
+  if (!authenticate())   return null;
+  List<AttachmentResponse> result=new ArrayList<AttachmentResponse>();
+  RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  HistoricTaskInstance task=getHistoricTaskFromRequest();
+  for (  Attachment attachment : ActivitiUtil.getTaskService().getTaskAttachments(task.getId())) {
+    result.add(responseFactory.createAttachmentResponse(this,attachment));
+  }
+  return result;
+}

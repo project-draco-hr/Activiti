@@ -1,0 +1,18 @@
+{
+  if (!authenticate()) {
+    return;
+  }
+  Task task=getTaskFromRequest();
+  String family=getAttribute("family");
+  String identityId=getAttribute("identityId");
+  String type=getAttribute("type");
+  validateIdentityLinkArguments(family,identityId,type);
+  getIdentityLink(family,identityId,type,task.getId());
+  if (RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS.equals(family)) {
+    ActivitiUtil.getTaskService().deleteUserIdentityLink(task.getId(),identityId,type);
+  }
+ else {
+    ActivitiUtil.getTaskService().deleteGroupIdentityLink(task.getId(),identityId,type);
+  }
+  setStatus(Status.SUCCESS_NO_CONTENT);
+}

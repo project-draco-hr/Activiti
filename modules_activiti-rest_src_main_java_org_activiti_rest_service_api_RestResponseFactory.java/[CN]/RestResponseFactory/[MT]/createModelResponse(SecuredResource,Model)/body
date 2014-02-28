@@ -1,0 +1,18 @@
+{
+  ModelResponse response=new ModelResponse();
+  response.setCategory(model.getCategory());
+  response.setCreateTime(model.getCreateTime());
+  response.setId(model.getId());
+  response.setKey(model.getKey());
+  response.setLastUpdateTime(model.getLastUpdateTime());
+  response.setMetaInfo(model.getMetaInfo());
+  response.setName(model.getName());
+  response.setDeploymentId(model.getDeploymentId());
+  response.setVersion(model.getVersion());
+  response.setTenantId(model.getTenantId());
+  response.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_MODEL,model.getId()));
+  if (model.getDeploymentId() != null) {
+    response.setDeploymentUrl(securedResource.createFullResourceUrl(RestUrls.URL_DEPLOYMENT,model.getDeploymentId()));
+  }
+  return response;
+}

@@ -1,4 +1,16 @@
 {
   checkHistoryEnabled();
   super.delete(persistentObject);
+  Comment comment=(Comment)persistentObject;
+  if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    String processDefinitionId=null;
+    String processInstanceId=comment.getProcessInstanceId();
+    if (comment.getProcessInstanceId() != null) {
+      ExecutionEntity process=getProcessInstanceManager().findExecutionById(comment.getProcessInstanceId());
+      if (process != null) {
+        processDefinitionId=process.getProcessDefinitionId();
+      }
+    }
+    getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,persistentObject,processInstanceId,processInstanceId,processDefinitionId));
+  }
 }

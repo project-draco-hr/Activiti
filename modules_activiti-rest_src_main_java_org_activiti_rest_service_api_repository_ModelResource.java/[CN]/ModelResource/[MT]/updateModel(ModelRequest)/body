@@ -1,0 +1,27 @@
+{
+  if (authenticate() == false)   return null;
+  Model model=getModelFromRequest();
+  if (request.isCategoryChanged()) {
+    model.setCategory(request.getCategory());
+  }
+  if (request.isDeploymentChanged()) {
+    model.setDeploymentId(request.getDeploymentId());
+  }
+  if (request.isKeyChanged()) {
+    model.setKey(request.getKey());
+  }
+  if (request.isMetaInfoChanged()) {
+    model.setMetaInfo(request.getMetaInfo());
+  }
+  if (request.isNameChanged()) {
+    model.setName(request.getName());
+  }
+  if (request.isVersionChanged()) {
+    model.setVersion(request.getVersion());
+  }
+  if (request.isTenantIdChanged()) {
+    model.setTenantId(request.getTenantId());
+  }
+  ActivitiUtil.getRepositoryService().saveModel(model);
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createModelResponse(this,model);
+}

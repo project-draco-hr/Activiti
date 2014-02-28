@@ -1,0 +1,41 @@
+{
+  Model model=null;
+  try {
+    Calendar now=Calendar.getInstance();
+    now.set(Calendar.MILLISECOND,0);
+    ClockUtil.setCurrentTime(now.getTime());
+    model=repositoryService.newModel();
+    model.setCategory("Model category");
+    model.setKey("Model key");
+    model.setMetaInfo("Model metainfo");
+    model.setName("Model name");
+    model.setVersion(2);
+    model.setDeploymentId(deploymentId);
+    model.setTenantId("myTenant");
+    repositoryService.saveModel(model);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("Model name",responseNode.get("name").getTextValue());
+    assertEquals("Model key",responseNode.get("key").getTextValue());
+    assertEquals("Model category",responseNode.get("category").getTextValue());
+    assertEquals(2,responseNode.get("version").getIntValue());
+    assertEquals("Model metainfo",responseNode.get("metaInfo").getTextValue());
+    assertEquals(deploymentId,responseNode.get("deploymentId").getTextValue());
+    assertEquals(model.getId(),responseNode.get("id").getTextValue());
+    assertEquals("myTenant",responseNode.get("tenantId").getTextValue());
+    assertEquals(now.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").getTextValue()).getTime());
+    assertEquals(now.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").getTextValue()).getTime());
+    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId())));
+    assertTrue(responseNode.get("deploymentUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,deploymentId)));
+  }
+  finally {
+    try {
+      repositoryService.deleteModel(model.getId());
+    }
+ catch (    Throwable ignore) {
+    }
+  }
+}

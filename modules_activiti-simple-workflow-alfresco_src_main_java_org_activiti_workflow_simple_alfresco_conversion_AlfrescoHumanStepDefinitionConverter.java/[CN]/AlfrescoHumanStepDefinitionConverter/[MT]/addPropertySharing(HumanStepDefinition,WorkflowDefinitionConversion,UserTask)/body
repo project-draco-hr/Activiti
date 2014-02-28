@@ -1,0 +1,18 @@
+{
+  PropertySharing sharing=AlfrescoConversionUtil.getPropertySharing(conversion,userTask.getId());
+  ScriptTaskListenerBuilder createEventBuilder=AlfrescoConversionUtil.getScriptTaskListenerBuilder(conversion,userTask.getId(),AlfrescoConversionConstants.TASK_LISTENER_EVENT_CREATE);
+  createEventBuilder.addDueDateInheritance();
+  createEventBuilder.addPriorityInheritance();
+  if (sharing.hasIncomingProperties()) {
+    createEventBuilder=AlfrescoConversionUtil.getScriptTaskListenerBuilder(conversion,userTask.getId(),AlfrescoConversionConstants.TASK_LISTENER_EVENT_CREATE);
+    for (    Entry<String,String> entry : sharing.getIncomingProperties().entrySet()) {
+      createEventBuilder.addIncomingProperty(entry.getKey(),entry.getValue());
+    }
+  }
+  if (sharing.hasOutgoingProperties()) {
+    ScriptTaskListenerBuilder completeEventBuilder=AlfrescoConversionUtil.getScriptTaskListenerBuilder(conversion,userTask.getId(),AlfrescoConversionConstants.TASK_LISTENER_EVENT_COMPLETE);
+    for (    Entry<String,String> entry : sharing.getOutgoingProperties().entrySet()) {
+      completeEventBuilder.addOutgoingProperty(entry.getKey(),entry.getValue());
+    }
+  }
+}

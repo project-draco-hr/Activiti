@@ -1,0 +1,12 @@
+{
+  if (event.getEventDefinitions() != null && !event.getEventDefinitions().isEmpty()) {
+    for (    EventDefinition def : event.getEventDefinitions()) {
+      if (def instanceof TimerEventDefinition) {
+        TimerEventDefinition timer=(TimerEventDefinition)def;
+        if (timer.getTimeDate() != null && PropertyReference.isPropertyReference(timer.getTimeDate())) {
+          timer.setTimeDate(PropertyReference.createReference(timer.getTimeDate()).getPropertyReferenceExpression(modelNamespace.getPrefix()));
+        }
+      }
+    }
+  }
+}

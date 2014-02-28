@@ -1,0 +1,9 @@
+{
+  for (  Map.Entry<String,Object> e : runtimeVars.entrySet()) {
+    Object value=e.getValue();
+    if (value.getClass().isAssignableFrom(clazz)) {
+      return e.getKey();
+    }
+  }
+  return null;
+}

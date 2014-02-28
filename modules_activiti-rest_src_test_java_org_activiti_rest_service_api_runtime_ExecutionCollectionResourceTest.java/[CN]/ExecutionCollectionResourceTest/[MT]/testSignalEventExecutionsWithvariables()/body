@@ -1,0 +1,26 @@
+{
+  Execution signalExecution=runtimeService.startProcessInstanceByKey("processOne");
+  assertNotNull(signalExecution);
+  ArrayNode variables=objectMapper.createArrayNode();
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("action","signalEventReceived");
+  requestNode.put("signalName","alert");
+  requestNode.put("variables",variables);
+  ObjectNode varNode=objectMapper.createObjectNode();
+  variables.add(varNode);
+  varNode.put("name","myVar");
+  varNode.put("value","Variable set when signal event is receieved");
+  Execution waitingExecution=runtimeService.createExecutionQuery().activityId("waitState").singleResult();
+  assertNotNull(waitingExecution);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION));
+  client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  client.release();
+  waitingExecution=runtimeService.createExecutionQuery().activityId("anotherWaitState").singleResult();
+  assertNotNull(waitingExecution);
+  assertEquals(signalExecution.getId(),waitingExecution.getId());
+  Map<String,Object> vars=runtimeService.getVariables(waitingExecution.getId());
+  assertEquals(1,vars.size());
+  assertEquals("Variable set when signal event is receieved",vars.get("myVar"));
+  client.release();
+}

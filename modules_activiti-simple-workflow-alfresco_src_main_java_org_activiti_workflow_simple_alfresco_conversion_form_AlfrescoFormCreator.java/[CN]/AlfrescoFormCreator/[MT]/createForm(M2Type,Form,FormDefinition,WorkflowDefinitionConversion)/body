@@ -1,0 +1,37 @@
+{
+  if (formDefinition != null && formDefinition.getFormGroups() != null) {
+    for (    FormPropertyGroup group : formDefinition.getFormGroups()) {
+      String groupId=null;
+      if (group.getId() != null) {
+        groupId=AlfrescoConversionUtil.getValidIdString(group.getId());
+      }
+ else {
+        groupId=AlfrescoConversionUtil.getValidIdString(group.getTitle());
+      }
+      FormSet formSet=formConfig.getFormAppearance().addFormSet(groupId,getAppearanceForGroup(group),group.getTitle(),getTemplateForGroup(group));
+      AlfrescoFormPropertyConverter converter=null;
+      for (      FormPropertyDefinition property : group.getFormPropertyDefinitions()) {
+        converter=propertyConverters.get(property.getClass());
+        if (converter == null) {
+          throw new AlfrescoSimpleWorkflowException("Unsupported property type: " + property.getClass().getName());
+        }
+        converter.convertProperty(contentType,formSet.getId(),formConfig,property,conversion);
+      }
+    }
+  }
+  if (formDefinition != null && formDefinition.getFormPropertyDefinitions() != null && !formDefinition.getFormPropertyDefinitions().isEmpty()) {
+    for (    FormPropertyDefinition def : formDefinition.getFormPropertyDefinitions()) {
+      if (def instanceof AlfrescoTransitionsPropertyDefinition) {
+        AlfrescoFormPropertyConverter converter=propertyConverters.get(def.getClass());
+        if (converter != null) {
+          converter.convertProperty(contentType,null,formConfig,def,conversion);
+        }
+      }
+    }
+  }
+  if (formConfig.getFormAppearance().getFormSet(AlfrescoConversionConstants.FORM_SET_RESPONSE) == null) {
+    formConfig.getFormAppearance().addFormSet(AlfrescoConversionConstants.FORM_SET_RESPONSE,null,null,null);
+    formConfig.getFormFieldVisibility().addShowFieldElement(AlfrescoConversionConstants.FORM_FIELD_TRANSITIONS);
+    formConfig.getFormAppearance().addFormField(AlfrescoConversionConstants.FORM_FIELD_TRANSITIONS,null,AlfrescoConversionConstants.FORM_SET_RESPONSE);
+  }
+}

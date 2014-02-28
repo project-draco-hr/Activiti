@@ -1,0 +1,27 @@
+{
+  if (authenticate() == false)   return null;
+  try {
+    InputStream dataStream=null;
+    MediaType mediaType=null;
+    RestVariable variable=getVariableFromRequest(true);
+    if (RestResponseFactory.BYTE_ARRAY_VARIABLE_TYPE.equals(variable.getType())) {
+      dataStream=new ByteArrayInputStream((byte[])variable.getValue());
+      mediaType=MediaType.APPLICATION_OCTET_STREAM;
+    }
+ else     if (RestResponseFactory.SERIALIZABLE_VARIABLE_TYPE.equals(variable.getType())) {
+      ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+      ObjectOutputStream outputStream=new ObjectOutputStream(buffer);
+      outputStream.writeObject(variable.getValue());
+      outputStream.close();
+      dataStream=new ByteArrayInputStream(buffer.toByteArray());
+      mediaType=MediaType.APPLICATION_JAVA_OBJECT;
+    }
+ else {
+      throw new ActivitiObjectNotFoundException("The variable does not have a binary data stream.",null);
+    }
+    return new InputRepresentation(dataStream,mediaType);
+  }
+ catch (  IOException ioe) {
+    throw new ResourceException(Status.SERVER_ERROR_INTERNAL,ioe);
+  }
+}

@@ -46,4 +46,19 @@
   assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals("unexistingstringvalue").count());
   assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals(false).count());
   assertEquals(0,taskService.createTaskQuery().taskVariableValueEquals(otherDate.getTime()).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueLike("stringVar","string%").count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueLike("stringVar","String%").count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueLike("stringVar","%Value").count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueGreaterThan("integerVar",1000).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueGreaterThan("integerVar",1234).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueGreaterThan("integerVar",1240).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueGreaterThanOrEqual("integerVar",1000).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueGreaterThanOrEqual("integerVar",1234).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueGreaterThanOrEqual("integerVar",1240).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueLessThan("integerVar",1240).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueLessThan("integerVar",1234).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueLessThan("integerVar",1000).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueLessThanOrEqual("integerVar",1240).count());
+  assertEquals(1,taskService.createTaskQuery().taskVariableValueLessThanOrEqual("integerVar",1234).count());
+  assertEquals(0,taskService.createTaskQuery().taskVariableValueLessThanOrEqual("integerVar",1000).count());
 }

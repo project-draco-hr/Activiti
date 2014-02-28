@@ -1,0 +1,33 @@
+{
+  Verifier verifier=new SecretVerifier(){
+    @Override public int verify(    String username,    char[] password) throws IllegalArgumentException {
+      boolean verified=ActivitiUtil.getIdentityService().checkPassword(username,new String(password));
+      if (verified) {
+        return RESULT_VALID;
+      }
+ else {
+        return RESULT_INVALID;
+      }
+    }
+  }
+;
+  authenticator=new ChallengeAuthenticator(null,true,ChallengeScheme.HTTP_BASIC,"Activiti Realm"){
+    @Override protected boolean authenticate(    Request request,    Response response){
+      if (restAuthenticator != null && !restAuthenticator.requestRequiresAuthentication(request)) {
+        return true;
+      }
+      if (request.getChallengeResponse() == null) {
+        return false;
+      }
+ else {
+        boolean authenticated=super.authenticate(request,response);
+        if (authenticated && restAuthenticator != null) {
+          authenticated=restAuthenticator.isRequestAuthorized(request);
+        }
+        return authenticated;
+      }
+    }
+  }
+;
+  authenticator.setVerifier(verifier);
+}

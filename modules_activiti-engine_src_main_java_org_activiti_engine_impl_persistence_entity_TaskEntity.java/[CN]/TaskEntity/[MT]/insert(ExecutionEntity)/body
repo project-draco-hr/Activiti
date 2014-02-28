@@ -2,8 +2,15 @@
   CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   dbSqlSession.insert(this);
+  if (execution != null && execution.getTenantId() != null) {
+    setTenantId(execution.getTenantId());
+  }
   if (execution != null) {
     execution.addTask(this);
   }
   commandContext.getHistoryManager().recordTaskCreated(this,execution);
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,this));
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,this));
+  }
 }

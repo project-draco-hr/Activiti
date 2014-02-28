@@ -11,4 +11,16 @@
   assertEquals("Task after subprocess",taskAfterSubProcess.getName());
   taskService.complete(taskAfterSubProcess.getId());
   assertProcessEnded(processInstance.getId());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricProcessInstance historicProcess=historyService.createHistoricProcessInstanceQuery().processInstanceId(taskInSubProcess.getProcessInstanceId()).singleResult();
+    assertNotNull(historicProcess);
+    assertEquals("theStart",historicProcess.getStartActivityId());
+    List<HistoricActivityInstance> historicInstances=historyService.createHistoricActivityInstanceQuery().processInstanceId(taskInSubProcess.getProcessInstanceId()).list();
+    assertEquals(3L,historicInstances.size());
+    Set<String> expectedActivities=new HashSet<String>(Arrays.asList(new String[]{"theStart","task","theEnd"}));
+    for (    HistoricActivityInstance act : historicInstances) {
+      expectedActivities.remove(act.getActivityId());
+    }
+    assertTrue("Not all expected activities were found in the history",expectedActivities.isEmpty());
+  }
 }

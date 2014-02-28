@@ -1,0 +1,27 @@
+{
+  boolean found=getAspect(qualifiedName) != null;
+  if (!found) {
+    if (getTypes() != null) {
+      for (      M2Type type : getTypes()) {
+        if (found) {
+          break;
+        }
+        if (type.getProperties() != null) {
+          for (          M2Property prop : type.getProperties()) {
+            if (qualifiedName.equals(prop.getName())) {
+              found=true;
+              break;
+            }
+          }
+          for (          M2ClassAssociation assoc : type.getAssociations()) {
+            if (qualifiedName.equals(assoc.getName())) {
+              found=true;
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  return found;
+}

@@ -1,0 +1,19 @@
+{
+  List<PropertySharing> sharingList=(List<PropertySharing>)conversion.getArtifact(ARTIFACT_PROPERTY_SHARING);
+  if (sharingList == null) {
+    sharingList=new ArrayList<PropertySharing>();
+    conversion.setArtifact(ARTIFACT_PROPERTY_SHARING,sharingList);
+  }
+  PropertySharing result=null;
+  for (  PropertySharing sharing : sharingList) {
+    if (userTaskId.equals(sharing.getUserTaskId())) {
+      result=sharing;
+    }
+  }
+  if (result == null) {
+    result=new PropertySharing();
+    result.setUserTaskId(userTaskId);
+    sharingList.add(result);
+  }
+  return result;
+}

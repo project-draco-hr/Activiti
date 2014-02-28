@@ -14,11 +14,21 @@
     if (activity.isNotExclusive()) {
       writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_EXCLUSIVE,ATTRIBUTE_VALUE_FALSE,xtw);
     }
-    writeDefaultAttribute(ATTRIBUTE_DEFAULT,activity.getDefaultFlow(),xtw);
+    if (StringUtils.isNotEmpty(activity.getDefaultFlow())) {
+      FlowElement defaultFlowElement=model.getFlowElement(activity.getDefaultFlow());
+      if (defaultFlowElement != null && defaultFlowElement instanceof SequenceFlow) {
+        writeDefaultAttribute(ATTRIBUTE_DEFAULT,activity.getDefaultFlow(),xtw);
+      }
+    }
   }
   if (baseElement instanceof Gateway) {
     final Gateway gateway=(Gateway)baseElement;
-    writeDefaultAttribute(ATTRIBUTE_DEFAULT,gateway.getDefaultFlow(),xtw);
+    if (StringUtils.isNotEmpty(gateway.getDefaultFlow())) {
+      FlowElement defaultFlowElement=model.getFlowElement(gateway.getDefaultFlow());
+      if (defaultFlowElement != null && defaultFlowElement instanceof SequenceFlow) {
+        writeDefaultAttribute(ATTRIBUTE_DEFAULT,gateway.getDefaultFlow(),xtw);
+      }
+    }
   }
   writeAdditionalAttributes(baseElement,xtw);
   if (baseElement instanceof FlowElement) {
@@ -31,18 +41,7 @@
   }
   writeExtensionChildElements(baseElement,xtw);
   didWriteExtensionStartElement=writeListeners(baseElement,xtw);
-  if (baseElement.getExtensionElements().size() > 0) {
-    if (didWriteExtensionStartElement == false) {
-      xtw.writeStartElement(ELEMENT_EXTENSIONS);
-      didWriteExtensionStartElement=true;
-    }
-    Map<String,String> namespaceMap=new HashMap<String,String>();
-    for (    List<ExtensionElement> extensionElements : baseElement.getExtensionElements().values()) {
-      for (      ExtensionElement extensionElement : extensionElements) {
-        writeExtensionElement(extensionElement,namespaceMap,xtw);
-      }
-    }
-  }
+  didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(baseElement,didWriteExtensionStartElement,xtw);
   if (didWriteExtensionStartElement) {
     xtw.writeEndElement();
   }

@@ -17,5 +17,8 @@
       commandContext.getHistoryManager().recordTaskEnd(taskId,deleteReason);
     }
     getDbSqlSession().delete(task);
+    if (commandContext.getEventDispatcher().isEnabled()) {
+      commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,task));
+    }
   }
 }

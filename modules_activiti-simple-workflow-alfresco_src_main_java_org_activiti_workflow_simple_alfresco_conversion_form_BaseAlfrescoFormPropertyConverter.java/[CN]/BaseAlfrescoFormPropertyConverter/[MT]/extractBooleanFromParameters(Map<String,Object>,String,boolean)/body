@@ -1,0 +1,18 @@
+{
+  boolean result=defaultValue;
+  if (parameters != null) {
+    Object value=parameters.get(key);
+    if (value != null) {
+      if (value instanceof Boolean) {
+        result=(Boolean)value;
+      }
+ else       if (value instanceof String) {
+        result=Boolean.valueOf((Boolean)value);
+      }
+ else {
+        result=Boolean.valueOf(value.toString());
+      }
+    }
+  }
+  return result;
+}

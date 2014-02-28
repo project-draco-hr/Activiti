@@ -1,0 +1,16 @@
+{
+  if (form.isStartForm()) {
+    throw new AlfrescoSimpleWorkflowException("Field references cannot be used on start-forms");
+  }
+  String propertyName=getPropertyName(definition,conversion);
+  PropertyReference reference=new PropertyReference(definition.getName());
+  AlfrescoConversionUtil.getPropertyReferences(conversion).add(reference);
+  contentType.getMandatoryAspects().add(propertyName);
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField field=new FormField();
+  form.getFormAppearance().addFormAppearanceElement(field);
+  field.setId(propertyName);
+  field.setLabelId(definition.getName());
+  field.setSet(formSet);
+  field.setControl(new FormFieldControl(AlfrescoConversionConstants.FORM_READONLY_TEMPLATE));
+}

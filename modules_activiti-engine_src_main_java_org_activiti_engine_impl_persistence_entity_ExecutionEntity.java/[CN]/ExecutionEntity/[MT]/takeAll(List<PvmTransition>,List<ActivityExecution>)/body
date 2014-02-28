@@ -27,10 +27,8 @@
     List<ExecutionEntity> recyclableExecutionImpls=(List)recyclableExecutions;
     recyclableExecutions.remove(concurrentRoot);
     for (    ExecutionEntity prunedExecution : recyclableExecutionImpls) {
-      if (!prunedExecution.isEnded()) {
-        log.debug("pruning execution {}",prunedExecution);
-        prunedExecution.remove();
-      }
+      log.debug("pruning execution {}",prunedExecution);
+      prunedExecution.remove();
     }
     log.debug("activating the concurrent root {} as the single path of execution going forward",concurrentRoot);
     concurrentRoot.setActive(true);

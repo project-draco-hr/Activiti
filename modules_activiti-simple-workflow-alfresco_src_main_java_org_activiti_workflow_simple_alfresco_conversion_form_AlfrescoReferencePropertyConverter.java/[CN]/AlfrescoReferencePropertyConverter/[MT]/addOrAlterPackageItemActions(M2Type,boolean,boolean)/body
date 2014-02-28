@@ -1,0 +1,23 @@
+{
+  if (allowAdd) {
+    M2PropertyOverride addOverride=contentType.getPropertyOverride(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS_ACTION_GROUP);
+    if (addOverride == null) {
+      addOverride=new M2PropertyOverride();
+      addOverride.setName(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS_ACTION_GROUP);
+      contentType.getPropertyOverrides().add(addOverride);
+    }
+    addOverride.setDefaultValue(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS_ACTION_GROUP_ADD);
+  }
+  M2PropertyOverride removeOverride=contentType.getPropertyOverride(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS_ITEM_ACTION_GROUP);
+  if (removeOverride == null) {
+    removeOverride=new M2PropertyOverride();
+    removeOverride.setName(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS_ITEM_ACTION_GROUP);
+    contentType.getPropertyOverrides().add(removeOverride);
+  }
+  if (allowRemove) {
+    removeOverride.setDefaultValue(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS_ITEM_ACTION_GROUP_REMOVE);
+  }
+ else {
+    removeOverride.setDefaultValue(AlfrescoConversionConstants.PROPERTY_PACKAGEITEMS_ITEM_ACTION_GROUP_EDIT);
+  }
+}

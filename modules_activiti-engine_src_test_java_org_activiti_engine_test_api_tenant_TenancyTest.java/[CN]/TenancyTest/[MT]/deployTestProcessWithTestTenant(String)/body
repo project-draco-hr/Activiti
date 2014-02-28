@@ -1,0 +1,5 @@
+{
+  String id=repositoryService.createDeployment().addBpmnModel("testProcess.bpmn20.xml",createOneTaskTestProcess()).tenantId(tenantId).deploy().getId();
+  autoCleanedUpDeploymentIds.add(id);
+  return repositoryService.createProcessDefinitionQuery().deploymentId(id).singleResult().getId();
+}

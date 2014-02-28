@@ -1,7 +1,7 @@
 {
   String eventHandlerId=findLocalErrorEventHandler(execution,errorCode);
   if (eventHandlerId != null) {
-    executeCatch(eventHandlerId,execution);
+    executeCatch(eventHandlerId,execution,errorCode);
   }
  else {
     ActivityExecution superExecution=getSuperExecution(execution);
@@ -10,6 +10,9 @@
     }
  else {
       LOG.info("{} throws error event with errorCode '{}', but no catching boundary event was defined. Execution will simply be ended (none end event semantics).",execution.getActivity().getId(),errorCode);
+      if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+        Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createErrorEvent(ActivitiEventType.UNCAUGHT_BPMN_ERROR,null,errorCode,execution.getId(),execution.getProcessInstanceId(),execution.getProcessDefinitionId()));
+      }
       execution.end();
     }
   }

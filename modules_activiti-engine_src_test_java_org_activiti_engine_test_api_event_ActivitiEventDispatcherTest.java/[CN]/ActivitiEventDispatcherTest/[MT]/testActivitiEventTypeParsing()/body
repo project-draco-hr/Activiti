@@ -1,0 +1,29 @@
+{
+  ActivitiEventType[] types=ActivitiEventType.getTypesFromString(null);
+  assertNotNull(types);
+  assertEquals(0,types.length);
+  types=ActivitiEventType.getTypesFromString("");
+  assertNotNull(types);
+  assertEquals(0,types.length);
+  types=ActivitiEventType.getTypesFromString("ENTITY_CREATED");
+  assertNotNull(types);
+  assertEquals(1,types.length);
+  assertEquals(ActivitiEventType.ENTITY_CREATED,types[0]);
+  types=ActivitiEventType.getTypesFromString("ENTITY_CREATED,ENTITY_DELETED");
+  assertNotNull(types);
+  assertEquals(2,types.length);
+  assertEquals(ActivitiEventType.ENTITY_CREATED,types[0]);
+  assertEquals(ActivitiEventType.ENTITY_DELETED,types[1]);
+  types=ActivitiEventType.getTypesFromString(",ENTITY_CREATED,,ENTITY_DELETED,,,");
+  assertNotNull(types);
+  assertEquals(2,types.length);
+  assertEquals(ActivitiEventType.ENTITY_CREATED,types[0]);
+  assertEquals(ActivitiEventType.ENTITY_DELETED,types[1]);
+  try {
+    types=ActivitiEventType.getTypesFromString("WHOOPS,ENTITY_DELETED");
+    fail("Exception expected");
+  }
+ catch (  ActivitiIllegalArgumentException expected) {
+    assertEquals("Invalid event-type: WHOOPS",expected.getMessage());
+  }
+}

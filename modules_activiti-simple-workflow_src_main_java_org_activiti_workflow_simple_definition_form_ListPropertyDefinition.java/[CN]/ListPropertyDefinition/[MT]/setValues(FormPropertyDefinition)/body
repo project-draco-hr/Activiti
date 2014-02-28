@@ -9,6 +9,9 @@
   if (entries == null) {
     entries=new ArrayList<ListPropertyEntry>();
   }
+ else {
+    entries.clear();
+  }
   if (datePropertyDefinition.getEntries() != null) {
     ListPropertyEntry newEntry=null;
     for (    ListPropertyEntry entry : datePropertyDefinition.getEntries()) {
@@ -16,4 +19,5 @@
       entries.add(newEntry);
     }
   }
+  setParameters(otherDefinition.cloneParameters());
 }

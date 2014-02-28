@@ -2,6 +2,9 @@
   JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
   if (job != null) {
     job.setRetries(retries);
+    if (commandContext.getEventDispatcher().isEnabled()) {
+      commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,job));
+    }
   }
  else {
     throw new ActivitiObjectNotFoundException("No job found with id '" + jobId + "'.",Job.class);

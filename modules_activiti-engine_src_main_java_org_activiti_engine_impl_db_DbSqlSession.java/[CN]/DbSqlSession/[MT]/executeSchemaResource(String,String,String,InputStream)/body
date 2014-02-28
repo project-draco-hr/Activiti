@@ -7,6 +7,21 @@
     Exception exception=null;
     byte[] bytes=IoUtil.readInputStream(inputStream,resourceName);
     String ddlStatements=new String(bytes);
+    try {
+      String databaseType=dbSqlSessionFactory.getDatabaseType();
+      if (databaseType.equals("mysql")) {
+        DatabaseMetaData databaseMetaData=connection.getMetaData();
+        int majorVersion=databaseMetaData.getDatabaseMajorVersion();
+        int minorVersion=databaseMetaData.getDatabaseMinorVersion();
+        log.info("Found MySQL: majorVersion=" + majorVersion + " minorVersion="+ minorVersion);
+        if (majorVersion <= 5 && minorVersion < 6) {
+          ddlStatements=updateDdlForMySqlVersionLowerThan56(ddlStatements);
+        }
+      }
+    }
+ catch (    Exception e) {
+      log.info("Could not get database metadata",e);
+    }
     BufferedReader reader=new BufferedReader(new StringReader(ddlStatements));
     String line=readNextTrimmedLine(reader);
     while (line != null) {

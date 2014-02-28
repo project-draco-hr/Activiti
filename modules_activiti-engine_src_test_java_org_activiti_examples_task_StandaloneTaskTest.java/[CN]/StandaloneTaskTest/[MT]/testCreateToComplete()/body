@@ -11,6 +11,11 @@
   tasks=taskService.createTaskQuery().taskCandidateUser("gonzo").list();
   assertEquals(1,tasks.size());
   assertEquals("testTask",tasks.get(0).getName());
+  task.setName("Update name");
+  taskService.saveTask(task);
+  tasks=taskService.createTaskQuery().taskCandidateUser("kermit").list();
+  assertEquals(1,tasks.size());
+  assertEquals("Update name",tasks.get(0).getName());
   taskService.claim(taskId,"kermit");
   assertTrue(taskService.createTaskQuery().taskCandidateUser("kermit").list().isEmpty());
   assertTrue(taskService.createTaskQuery().taskCandidateUser("gonzo").list().isEmpty());

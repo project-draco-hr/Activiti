@@ -7,4 +7,5 @@
   if (processEngineConfiguration.getProcessEngineLifecycleListener() != null) {
     processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineClosed(this);
   }
+  processEngineConfiguration.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createGlobalEvent(ActivitiEventType.ENGINE_CLOSED));
 }
