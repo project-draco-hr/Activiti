@@ -1,0 +1,21 @@
+{
+  if (SHAPE_TYPE.Rectangle.equals(shapeType)) {
+    return new Rectangle2D.Double(graphicInfo.getX(),graphicInfo.getY(),graphicInfo.getWidth(),graphicInfo.getHeight());
+  }
+ else   if (SHAPE_TYPE.Rhombus.equals(shapeType)) {
+    Path2D.Double rhombus=new Path2D.Double();
+    rhombus.moveTo(graphicInfo.getX(),graphicInfo.getY() + graphicInfo.getHeight() / 2);
+    rhombus.lineTo(graphicInfo.getX() + graphicInfo.getWidth() / 2,graphicInfo.getY() + graphicInfo.getHeight());
+    rhombus.lineTo(graphicInfo.getX() + graphicInfo.getWidth(),graphicInfo.getY() + graphicInfo.getHeight() / 2);
+    rhombus.lineTo(graphicInfo.getX() + graphicInfo.getWidth() / 2,graphicInfo.getY());
+    rhombus.lineTo(graphicInfo.getX(),graphicInfo.getY() + graphicInfo.getHeight() / 2);
+    rhombus.closePath();
+    return rhombus;
+  }
+ else   if (SHAPE_TYPE.Ellipse.equals(shapeType)) {
+    return new Ellipse2D.Double(graphicInfo.getX(),graphicInfo.getY(),graphicInfo.getWidth(),graphicInfo.getHeight());
+  }
+ else {
+  }
+  return null;
+}
