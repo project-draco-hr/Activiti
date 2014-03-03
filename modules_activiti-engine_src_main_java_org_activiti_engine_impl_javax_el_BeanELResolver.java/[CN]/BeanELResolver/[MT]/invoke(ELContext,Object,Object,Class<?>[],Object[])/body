@@ -16,7 +16,7 @@
       result=target.invoke(base,coerceParams(getExpressionFactory(context),target,params));
     }
  catch (    InvocationTargetException e) {
-      throw new ELException(e.getCause());
+      throw new ELException(e.getTargetException());
     }
 catch (    IllegalAccessException e) {
       throw new ELException(e);
