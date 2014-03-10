@@ -1,4 +1,7 @@
 {
+  if (password == null || password.length() == 0) {
+    throw new ActivitiException("Null or empty passwords are not allowed!");
+  }
   try {
     LDAPTemplate ldapTemplate=new LDAPTemplate(ldapConfigurator);
     return ldapTemplate.execute(new LDAPCallBack<Boolean>(){
