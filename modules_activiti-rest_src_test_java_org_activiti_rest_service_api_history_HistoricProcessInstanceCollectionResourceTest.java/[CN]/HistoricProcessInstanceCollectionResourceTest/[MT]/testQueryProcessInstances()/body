@@ -1,11 +1,11 @@
 {
   Calendar startTime=Calendar.getInstance();
-  ClockUtil.setCurrentTime(startTime.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(startTime.getTime());
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.complete(task.getId());
   startTime.add(Calendar.DAY_OF_YEAR,1);
-  ClockUtil.setCurrentTime(startTime.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(startTime.getTime());
   ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCES);
   assertResultsPresentInDataResponse(url + "?finished=true",processInstance.getId());
@@ -16,7 +16,7 @@
   assertResultsPresentInDataResponse(url + "?withoutTenantId=true",processInstance.getId(),processInstance2.getId());
   managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
   startTime.add(Calendar.DAY_OF_YEAR,1);
-  ClockUtil.setCurrentTime(startTime.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(startTime.getTime());
   ProcessInstance processInstance3=runtimeService.startProcessInstanceByKeyAndTenantId("oneTaskProcess","myTenant");
   assertResultsPresentInDataResponse(url + "?withoutTenantId=true",processInstance.getId(),processInstance2.getId());
   assertResultsPresentInDataResponse(url + "?tenantId=myTenant",processInstance3.getId());

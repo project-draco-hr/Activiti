@@ -1,11 +1,11 @@
 {
-  Date testStartTime=ClockUtil.getCurrentTime();
+  Date testStartTime=processEngineConfiguration.getClock().getCurrentTime();
   runtimeService.startProcessInstanceByKey("timerOnNestedSubprocesses");
   List<Task> tasks=taskService.createTaskQuery().orderByTaskName().asc().list();
   assertEquals(2,tasks.size());
   assertEquals("Inner subprocess task 1",tasks.get(0).getName());
   assertEquals("Inner subprocess task 2",tasks.get(1).getName());
-  ClockUtil.setCurrentTime(new Date(testStartTime.getTime() + ((2 * 60 * 60* 1000) + 5000)));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(testStartTime.getTime() + ((2 * 60 * 60* 1000) + 5000)));
   Job timer=managementService.createJobQuery().timers().singleResult();
   managementService.executeJob(timer.getId());
   Task task=taskService.createTaskQuery().singleResult();

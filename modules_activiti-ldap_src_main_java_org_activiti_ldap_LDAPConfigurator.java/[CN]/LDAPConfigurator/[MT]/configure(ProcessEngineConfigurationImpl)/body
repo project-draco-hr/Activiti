@@ -1,6 +1,7 @@
 {
+  clock=processEngineConfiguration.getClock();
   LDAPUserManagerFactory ldapUserManagerFactory=getLdapUserManagerFactory();
   processEngineConfiguration.getSessionFactories().put(ldapUserManagerFactory.getSessionType(),ldapUserManagerFactory);
-  LDAPGroupManagerFactory ldapGroupManagerFactory=getLdapGroupManagerFactory();
+  LDAPGroupManagerFactory ldapGroupManagerFactory=getLdapGroupManagerFactory(clock);
   processEngineConfiguration.getSessionFactories().put(ldapGroupManagerFactory.getSessionType(),ldapGroupManagerFactory);
 }

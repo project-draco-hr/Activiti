@@ -3,7 +3,7 @@
   historicVariableUpdate.processInstanceId=variableInstance.getProcessInstanceId();
   historicVariableUpdate.executionId=variableInstance.getExecutionId();
   historicVariableUpdate.taskId=variableInstance.getTaskId();
-  historicVariableUpdate.time=ClockUtil.getCurrentTime();
+  historicVariableUpdate.time=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
   historicVariableUpdate.revision=variableInstance.getRevision();
   historicVariableUpdate.name=variableInstance.getName();
   historicVariableUpdate.variableType=variableInstance.getType();

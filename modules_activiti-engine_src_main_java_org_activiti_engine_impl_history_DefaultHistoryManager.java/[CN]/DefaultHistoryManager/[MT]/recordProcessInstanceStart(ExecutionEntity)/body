@@ -14,7 +14,7 @@
     historicActivityInstance.setActivityId(processInstance.getActivityId());
     historicActivityInstance.setActivityName((String)processInstance.getActivity().getProperty("name"));
     historicActivityInstance.setActivityType((String)processInstance.getActivity().getProperty("type"));
-    Date now=ClockUtil.getCurrentTime();
+    Date now=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
     historicActivityInstance.setStartTime(now);
     if (processInstance.getTenantId() != null) {
       historicActivityInstance.setTenantId(processInstance.getTenantId());

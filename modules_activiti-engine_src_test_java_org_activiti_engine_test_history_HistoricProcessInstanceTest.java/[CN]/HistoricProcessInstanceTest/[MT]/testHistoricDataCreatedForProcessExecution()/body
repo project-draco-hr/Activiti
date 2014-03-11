@@ -8,7 +8,7 @@
   calendar.set(Calendar.SECOND,0);
   calendar.set(Calendar.MILLISECOND,0);
   Date noon=calendar.getTime();
-  ClockUtil.setCurrentTime(noon);
+  processEngineConfiguration.getClock().setCurrentTime(noon);
   final ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess","myBusinessKey");
   assertEquals(1,historyService.createHistoricProcessInstanceQuery().unfinished().count());
   assertEquals(0,historyService.createHistoricProcessInstanceQuery().finished().count());
@@ -23,7 +23,7 @@
   List<Task> tasks=taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
   assertEquals(1,tasks.size());
   Date twentyFiveSecsAfterNoon=new Date(noon.getTime() + 25 * 1000);
-  ClockUtil.setCurrentTime(twentyFiveSecsAfterNoon);
+  processEngineConfiguration.getClock().setCurrentTime(twentyFiveSecsAfterNoon);
   taskService.complete(tasks.get(0).getId());
   historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(historicProcessInstance);

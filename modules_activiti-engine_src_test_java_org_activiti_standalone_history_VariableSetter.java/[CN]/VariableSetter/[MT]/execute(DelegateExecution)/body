@@ -1,7 +1,7 @@
 {
   SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy hh:mm:ss SSS");
   Date updatedDate=sdf.parse("01/01/2001 01:23:46 000");
-  ClockUtil.setCurrentTime(updatedDate);
+  Context.getProcessEngineConfiguration().getClock().setCurrentTime(updatedDate);
   execution.setVariable("aVariable","updated value");
   execution.setVariable("bVariable",123);
   execution.setVariable("cVariable",12345L);

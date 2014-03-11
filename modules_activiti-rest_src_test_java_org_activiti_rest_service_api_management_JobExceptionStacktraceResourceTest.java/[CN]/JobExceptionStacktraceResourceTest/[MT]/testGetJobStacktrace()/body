@@ -10,7 +10,7 @@
   }
   Calendar now=Calendar.getInstance();
   now.set(Calendar.MILLISECOND,0);
-  ClockUtil.setCurrentTime(now.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(now.getTime());
   ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_EXCEPTION_STRACKTRACE,timerJob.getId()));
   Representation response=client.get();
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());

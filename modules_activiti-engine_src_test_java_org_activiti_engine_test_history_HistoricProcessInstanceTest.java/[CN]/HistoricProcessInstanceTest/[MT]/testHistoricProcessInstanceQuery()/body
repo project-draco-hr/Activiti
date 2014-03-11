@@ -1,6 +1,6 @@
 {
   Calendar startTime=Calendar.getInstance();
-  ClockUtil.setCurrentTime(startTime.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(startTime.getTime());
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess","businessKey123");
   runtimeService.addUserIdentityLink(processInstance.getId(),"kermit","someType");
   Calendar hourAgo=Calendar.getInstance();

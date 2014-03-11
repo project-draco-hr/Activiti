@@ -2,6 +2,7 @@
   if (jobExecutor == null) {
     jobExecutor=new DefaultJobExecutor();
   }
+  jobExecutor.setClockReader(this.clock);
   jobHandlers=new HashMap<String,JobHandler>();
   TimerExecuteNestedActivityJobHandler timerExecuteNestedActivityJobHandler=new TimerExecuteNestedActivityJobHandler();
   jobHandlers.put(timerExecuteNestedActivityJobHandler.getType(),timerExecuteNestedActivityJobHandler);

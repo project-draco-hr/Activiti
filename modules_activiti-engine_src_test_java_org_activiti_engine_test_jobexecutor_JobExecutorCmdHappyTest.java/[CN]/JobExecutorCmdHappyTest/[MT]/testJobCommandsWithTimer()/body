@@ -1,5 +1,5 @@
 {
-  ClockUtil.setCurrentTime(new Date(SOME_TIME));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(SOME_TIME));
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
   JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
@@ -14,7 +14,7 @@
   List<List<String>> jobIdsList=acquiredJobs.getJobIdBatches();
   assertEquals(0,jobIdsList.size());
   List<String> expectedJobIds=new ArrayList<String>();
-  ClockUtil.setCurrentTime(new Date(SOME_TIME + (20 * SECOND)));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(SOME_TIME + (20 * SECOND)));
   acquiredJobs=commandExecutor.execute(new AcquireJobsCmd(jobExecutor));
   jobIdsList=acquiredJobs.getJobIdBatches();
   assertEquals(1,jobIdsList.size());

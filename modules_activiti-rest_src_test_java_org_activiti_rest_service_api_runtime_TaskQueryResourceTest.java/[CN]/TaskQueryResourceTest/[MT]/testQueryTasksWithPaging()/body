@@ -2,7 +2,7 @@
   try {
     Calendar adhocTaskCreate=Calendar.getInstance();
     adhocTaskCreate.set(Calendar.MILLISECOND,0);
-    ClockUtil.setCurrentTime(adhocTaskCreate.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(adhocTaskCreate.getTime());
     List<String> taskIdList=new ArrayList<String>();
     for (int i=0; i < 10; i++) {
       Task adhocTask=taskService.newTask();

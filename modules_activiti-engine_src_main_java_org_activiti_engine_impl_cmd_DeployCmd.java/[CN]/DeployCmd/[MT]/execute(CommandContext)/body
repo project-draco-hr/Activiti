@@ -1,6 +1,6 @@
 {
   DeploymentEntity deployment=deploymentBuilder.getDeployment();
-  deployment.setDeploymentTime(ClockUtil.getCurrentTime());
+  deployment.setDeploymentTime(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
   if (deploymentBuilder.isDuplicateFilterEnabled()) {
     DeploymentEntity existingDeployment=Context.getCommandContext().getDeploymentEntityManager().findLatestDeploymentByName(deployment.getName());
     if ((existingDeployment != null) && !deploymentsDiffer(deployment,existingDeployment)) {
