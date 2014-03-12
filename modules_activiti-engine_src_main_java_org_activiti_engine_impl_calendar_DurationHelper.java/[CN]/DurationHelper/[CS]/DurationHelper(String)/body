@@ -20,10 +20,10 @@
     }
  else {
       end=parseDate(expression.get(1));
-      period=datatypeFactory.newDuration(end.getTime() - start.getTime());
+      period=datatypeFactory.newDuration(end.getTimeInMillis() - start.getTimeInMillis());
     }
   }
   if (start == null && end == null) {
-    start=ClockUtil.getCurrentTime();
+    start=ClockUtil.getCurrentCalendar();
   }
 }
