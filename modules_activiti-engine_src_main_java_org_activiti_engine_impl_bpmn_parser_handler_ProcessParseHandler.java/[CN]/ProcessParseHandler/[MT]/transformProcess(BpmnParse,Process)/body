@@ -23,6 +23,13 @@
   bpmnParse.setCurrentScope(currentProcessDefinition);
   bpmnParse.processFlowElements(process.getFlowElements());
   processArtifacts(bpmnParse,process.getArtifacts(),currentProcessDefinition);
+  Map<String,Object> variables=processDataObjects(bpmnParse,process.getDataObjects(),currentProcessDefinition);
+  if (null != currentProcessDefinition.getVariables()) {
+    currentProcessDefinition.getVariables().putAll(variables);
+  }
+ else {
+    currentProcessDefinition.setVariables(variables);
+  }
   bpmnParse.removeCurrentScope();
   if (process.getIoSpecification() != null) {
     IOSpecification ioSpecification=createIOSpecification(bpmnParse,process.getIoSpecification());

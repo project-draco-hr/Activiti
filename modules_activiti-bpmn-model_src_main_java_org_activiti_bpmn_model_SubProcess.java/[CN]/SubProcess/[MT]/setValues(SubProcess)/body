@@ -1,3 +1,23 @@
 {
   super.setValues(otherElement);
+  for (  ValuedDataObject thisObject : getDataObjects()) {
+    boolean exists=false;
+    for (    ValuedDataObject otherObject : otherElement.getDataObjects()) {
+      if (thisObject.getId().equals(otherObject.getId())) {
+        exists=true;
+      }
+    }
+    if (!exists) {
+      removeFlowElement(thisObject.getId());
+    }
+  }
+  dataObjects=new ArrayList<ValuedDataObject>();
+  if (otherElement.getDataObjects() != null && otherElement.getDataObjects().size() > 0) {
+    for (    ValuedDataObject dataObject : otherElement.getDataObjects()) {
+      ValuedDataObject clone=dataObject.clone();
+      dataObjects.add(clone);
+      removeFlowElement(clone.getId());
+      addFlowElement(clone);
+    }
+  }
 }

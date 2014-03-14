@@ -13,6 +13,10 @@
   bpmnParse.setCurrentSubProcess(subProcess);
   bpmnParse.processFlowElements(subProcess.getFlowElements());
   processArtifacts(bpmnParse,subProcess.getArtifacts(),activity);
+  if (subProcess instanceof SubProcess) {
+    Map<String,Object> variables=processDataObjects(bpmnParse,subProcess.getDataObjects(),activity);
+    activity.setVariables(variables);
+  }
   bpmnParse.removeCurrentScope();
   bpmnParse.removeCurrentSubProcess();
   if (subProcess.getIoSpecification() != null) {

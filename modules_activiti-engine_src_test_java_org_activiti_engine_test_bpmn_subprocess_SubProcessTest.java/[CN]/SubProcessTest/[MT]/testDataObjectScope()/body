@@ -1,0 +1,34 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("dataObjectScope");
+  Task currentTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+  assertEquals("Complete Task A",currentTask.getName());
+  Map<String,Object> variables=runtimeService.getVariables(pi.getId());
+  assertEquals(1,variables.size());
+  Entry<String,Object> currentVariable=variables.entrySet().iterator().next();
+  assertEquals("StringTest123",currentVariable.getKey());
+  assertEquals("Testing123",currentVariable.getValue());
+  taskService.complete(currentTask.getId());
+  currentTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+  assertEquals("Complete SubTask",currentTask.getName());
+  variables=runtimeService.getVariables(pi.getId());
+  assertEquals(2,variables.size());
+  for (  Entry<String,Object> nextVariable : variables.entrySet()) {
+    if (nextVariable.getKey().equals("StringTest123")) {
+      assertEquals("Testing123",nextVariable.getValue());
+    }
+ else {
+      assertEquals("StringTest456",nextVariable.getKey());
+      assertEquals("Testing456",nextVariable.getValue());
+    }
+  }
+  taskService.complete(currentTask.getId());
+  variables=runtimeService.getVariables(pi.getId());
+  assertEquals(1,variables.size());
+  currentVariable=variables.entrySet().iterator().next();
+  assertEquals("StringTest123",currentVariable.getKey());
+  assertEquals("Testing123",currentVariable.getValue());
+  currentTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+  assertEquals("Complete Task B",currentTask.getName());
+  taskService.complete(currentTask.getId());
+  assertNull(runtimeService.createProcessInstanceQuery().processInstanceId(pi.getId()).singleResult());
+}
