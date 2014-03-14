@@ -15,6 +15,10 @@
     processInstance.setTenantId(getTenantId());
   }
   processInstance.setProcessInstance(processInstance);
+  Map<String,Object> dataObjectVars=getVariables();
+  if (dataObjectVars != null) {
+    processInstance.setVariables(dataObjectVars);
+  }
   String authenticatedUserId=Authentication.getAuthenticatedUserId();
   String initiatorVariableName=(String)getProperty(BpmnParse.PROPERTYNAME_INITIATOR_VARIABLE_NAME);
   if (initiatorVariableName != null) {

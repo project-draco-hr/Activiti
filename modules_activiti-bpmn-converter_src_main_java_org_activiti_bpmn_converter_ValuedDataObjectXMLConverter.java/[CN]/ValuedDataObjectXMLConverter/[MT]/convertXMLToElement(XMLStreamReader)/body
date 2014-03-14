@@ -1,0 +1,34 @@
+{
+  ValuedDataObject dataObject=null;
+  ItemDefinition itemSubjectRef=new ItemDefinition();
+  String structureRef=xtr.getAttributeValue(null,ATTRIBUTE_DATA_ITEM_REF);
+  String dataType=structureRef.substring(structureRef.indexOf(':') + 1);
+  if (dataType.equals("string")) {
+    dataObject=new StringDataObject();
+  }
+ else   if (dataType.equals("int")) {
+    dataObject=new IntegerDataObject();
+  }
+ else   if (dataType.equals("long")) {
+    dataObject=new LongDataObject();
+  }
+ else   if (dataType.equals("double")) {
+    dataObject=new DoubleDataObject();
+  }
+ else   if (dataType.equals("boolean")) {
+    dataObject=new BooleanDataObject();
+  }
+ else   if (dataType.equals("datetime")) {
+    dataObject=new DateDataObject();
+  }
+ else {
+  }
+  if (null != dataObject) {
+    dataObject.setId(xtr.getAttributeValue(null,ATTRIBUTE_DATA_ID));
+    dataObject.setName(xtr.getAttributeValue(null,ATTRIBUTE_DATA_NAME));
+    itemSubjectRef.setStructureRef(structureRef);
+    dataObject.setItemSubjectRef(itemSubjectRef);
+    parseChildElements(xtr,dataObject);
+  }
+  return dataObject;
+}

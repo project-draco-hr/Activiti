@@ -1,0 +1,25 @@
+{
+  boolean readyWithDataObject=false;
+  try {
+    while (readyWithDataObject == false && xtr.hasNext()) {
+      xtr.next();
+      if (xtr.isStartElement() && ELEMENT_DATA_VALUE.equalsIgnoreCase(xtr.getLocalName())) {
+        String value=xtr.getElementText();
+        if (StringUtils.isNotEmpty(value)) {
+          if (dataObject instanceof DateDataObject) {
+            dataObject.setValue(DateTime.parse(value,ISODateTimeFormat.dateOptionalTimeParser()).toDate());
+          }
+ else {
+            dataObject.setValue(value);
+          }
+        }
+      }
+ else       if (xtr.isEndElement() && ELEMENT_DATA_OBJECT.equalsIgnoreCase(xtr.getLocalName())) {
+        readyWithDataObject=true;
+      }
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.warn("Error parsing data object child elements",e);
+  }
+}
