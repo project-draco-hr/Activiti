@@ -1,0 +1,6 @@
+{
+  CompensateEventDefinition compensateEventDefinition=(CompensateEventDefinition)eventDefinition;
+  if ((StringUtils.isNotEmpty(compensateEventDefinition.getActivityRef()) && bpmnModel.getFlowElement(compensateEventDefinition.getActivityRef()) == null)) {
+    addError(errors,Problems.COMPENSATE_EVENT_INVALID_ACTIVITY_REF,process,event,"Invalid attribute value for 'activityRef': no activity with the given id");
+  }
+}

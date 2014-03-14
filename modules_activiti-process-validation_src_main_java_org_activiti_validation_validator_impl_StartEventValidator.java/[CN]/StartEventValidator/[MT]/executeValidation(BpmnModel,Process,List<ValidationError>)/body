@@ -1,0 +1,23 @@
+{
+  List<StartEvent> startEvents=process.findFlowElementsOfType(StartEvent.class,false);
+  List<StartEvent> nonMessageStartEvents=new ArrayList<StartEvent>();
+  for (  StartEvent startEvent : startEvents) {
+    if (startEvent.getEventDefinitions() != null && startEvent.getEventDefinitions().size() > 0) {
+      EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
+      if (!(eventDefinition instanceof MessageEventDefinition)) {
+        nonMessageStartEvents.add(startEvent);
+        if (!(eventDefinition instanceof TimerEventDefinition)) {
+          addError(errors,Problems.START_EVENT_INVALID_EVENT_DEFINITION,process,startEvent,"Unsupported event definition on start event");
+        }
+      }
+    }
+ else {
+      nonMessageStartEvents.add(startEvent);
+    }
+  }
+  if (nonMessageStartEvents.size() > 1) {
+    for (    StartEvent startEvent : nonMessageStartEvents) {
+      addError(errors,Problems.START_EVENT_MULTIPLE_FOUND,process,startEvent,"Multiple none start events or timer start events not supported on process definition");
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  List<IntermediateCatchEvent> intermediateCatchEvents=process.findFlowElementsOfType(IntermediateCatchEvent.class);
+  for (  IntermediateCatchEvent intermediateCatchEvent : intermediateCatchEvents) {
+    EventDefinition eventDefinition=null;
+    if (intermediateCatchEvent.getEventDefinitions().size() > 0) {
+      eventDefinition=intermediateCatchEvent.getEventDefinitions().get(0);
+    }
+    if (eventDefinition == null) {
+      addError(errors,Problems.INTERMEDIATE_CATCH_EVENT_NO_EVENTDEFINITION,process,intermediateCatchEvent,"No event definition for intermediate catch event ");
+    }
+ else {
+      if (!(eventDefinition instanceof TimerEventDefinition) && !(eventDefinition instanceof SignalEventDefinition) && !(eventDefinition instanceof MessageEventDefinition)) {
+        addError(errors,Problems.INTERMEDIATE_CATCH_EVENT_INVALID_EVENTDEFINITION,process,intermediateCatchEvent,"Unsupported intermediate catch event type");
+      }
+    }
+  }
+}

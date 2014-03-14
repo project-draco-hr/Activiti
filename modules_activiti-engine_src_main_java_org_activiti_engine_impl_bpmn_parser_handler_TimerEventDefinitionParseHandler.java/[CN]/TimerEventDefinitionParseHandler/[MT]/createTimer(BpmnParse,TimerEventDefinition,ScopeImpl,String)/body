@@ -15,7 +15,7 @@
     expression=expressionManager.createExpression(timerEventDefinition.getTimeDuration());
   }
   if (expression == null) {
-    bpmnParse.getBpmnModel().addProblem("Timer needs configuration (either timeDate, timeCycle or timeDuration is needed).",timerEventDefinition);
+    logger.warn("Timer needs configuration (either timeDate, timeCycle or timeDuration is needed) (" + timerActivity.getId() + ")");
   }
   TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(expression,type,jobHandlerType);
   timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());

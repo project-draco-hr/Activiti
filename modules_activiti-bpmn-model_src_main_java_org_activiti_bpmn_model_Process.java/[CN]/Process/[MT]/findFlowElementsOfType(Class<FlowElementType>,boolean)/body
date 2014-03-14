@@ -1,0 +1,14 @@
+{
+  List<FlowElementType> foundFlowElements=new ArrayList<FlowElementType>();
+  for (  FlowElement flowElement : this.getFlowElements()) {
+    if (type.isInstance(flowElement)) {
+      foundFlowElements.add((FlowElementType)flowElement);
+    }
+    if (flowElement instanceof SubProcess) {
+      if (goIntoSubprocesses) {
+        foundFlowElements.addAll(findFlowElementsInSubProcessOfType((SubProcess)flowElement,type));
+      }
+    }
+  }
+  return foundFlowElements;
+}

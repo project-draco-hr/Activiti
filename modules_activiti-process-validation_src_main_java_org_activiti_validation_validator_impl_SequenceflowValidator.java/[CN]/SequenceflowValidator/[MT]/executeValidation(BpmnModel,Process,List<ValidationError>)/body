@@ -1,0 +1,21 @@
+{
+  List<SequenceFlow> sequenceFlows=process.findFlowElementsOfType(SequenceFlow.class);
+  for (  SequenceFlow sequenceFlow : sequenceFlows) {
+    String sourceRef=sequenceFlow.getSourceRef();
+    String targetRef=sequenceFlow.getTargetRef();
+    if (StringUtils.isEmpty(sourceRef)) {
+      addError(errors,Problems.SEQ_FLOW_INVALID_SRC,process,sequenceFlow,"Invalid source for sequenceflow");
+    }
+    if (StringUtils.isEmpty(targetRef)) {
+      addError(errors,Problems.SEQ_FLOW_INVALID_TARGET,process,sequenceFlow,"Invalid target for sequenceflow");
+    }
+    FlowElement source=bpmnModel.getFlowElement(sourceRef);
+    FlowElement target=bpmnModel.getFlowElement(targetRef);
+    if (source == null) {
+      addError(errors,Problems.SEQ_FLOW_INVALID_SRC,process,sequenceFlow,"Invalid source for sequenceflow");
+    }
+    if (target == null) {
+      addError(errors,Problems.SEQ_FLOW_INVALID_TARGET,process,sequenceFlow,"Invalid target for sequenceflow");
+    }
+  }
+}

@@ -3,10 +3,7 @@
     BpmnInterface bpmnInterface=new BpmnInterface(interfaceObject.getId(),interfaceObject.getName());
     bpmnInterface.setImplementation(this.interfaceImplementations.get(interfaceObject.getImplementationRef()));
     for (    org.activiti.bpmn.model.Operation operationObject : interfaceObject.getOperations()) {
-      if (!this.messages.containsKey(operationObject.getInMessageRef())) {
-        bpmnModel.addProblem(operationObject.getInMessageRef() + " does not exist",operationObject);
-      }
- else {
+      if (this.messages.containsKey(operationObject.getInMessageRef())) {
         MessageDefinition inMessage=this.messages.get(operationObject.getInMessageRef());
         Operation operation=new Operation(operationObject.getId(),operationObject.getName(),bpmnInterface,inMessage);
         operation.setImplementation(this.operationImplementations.get(operationObject.getImplementationRef()));

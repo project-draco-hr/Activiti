@@ -5,7 +5,6 @@
     return (ActivityBehavior)ClassDelegate.instantiateDelegate(theClass,fieldDeclarations);
   }
  catch (  ClassNotFoundException e) {
-    bpmnModel.addProblem("Could not find org.activiti.mule.MuleSendActivitiBehavior: " + e.getMessage(),task);
-    return null;
+    throw new ActivitiException("Could not find org.activiti.mule.MuleSendActivitiBehavior: ",e);
   }
 }

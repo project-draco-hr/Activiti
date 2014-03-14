@@ -12,7 +12,10 @@
   if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
     Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,deployment));
   }
-  Context.getProcessEngineConfiguration().getDeploymentManager().deploy(deployment);
+  Map<String,Object> deploymentSettings=new HashMap<String,Object>();
+  deploymentSettings.put(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED,deploymentBuilder.isBpmn20XsdValidationEnabled());
+  deploymentSettings.put(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED,deploymentBuilder.isProcessValidationEnabled());
+  Context.getProcessEngineConfiguration().getDeploymentManager().deploy(deployment,deploymentSettings);
   if (deploymentBuilder.getProcessDefinitionsActivationDate() != null) {
     scheduleProcessDefinitionActivation(commandContext,deployment);
   }

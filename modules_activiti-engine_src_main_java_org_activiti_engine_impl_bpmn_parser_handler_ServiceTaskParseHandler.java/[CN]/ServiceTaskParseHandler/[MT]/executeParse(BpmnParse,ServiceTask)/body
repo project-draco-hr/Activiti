@@ -4,7 +4,6 @@
   activity.setExclusive(!serviceTask.isNotExclusive());
   if (StringUtils.isNotEmpty(serviceTask.getType())) {
     if (serviceTask.getType().equalsIgnoreCase("mail")) {
-      validateFieldDeclarationsForEmail(bpmnParse,serviceTask,serviceTask.getFieldExtensions());
       activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createMailActivityBehavior(serviceTask));
     }
  else     if (serviceTask.getType().equalsIgnoreCase("mule")) {
@@ -14,11 +13,10 @@
       activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createCamelActivityBehavior(serviceTask,bpmnParse.getBpmnModel()));
     }
  else     if (serviceTask.getType().equalsIgnoreCase("shell")) {
-      validateFieldDeclarationsForShell(bpmnParse,serviceTask,serviceTask.getFieldExtensions());
       activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createShellActivityBehavior(serviceTask));
     }
  else {
-      bpmnParse.getBpmnModel().addProblem("Invalid usage of type attribute: '" + serviceTask.getType() + "'.",serviceTask);
+      logger.warn("Invalid service task type: '" + serviceTask.getType() + "' "+ " for service task "+ serviceTask.getId());
     }
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(serviceTask.getImplementationType())) {
@@ -32,7 +30,7 @@
   }
  else   if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(serviceTask.getImplementationType()) && StringUtils.isNotEmpty(serviceTask.getOperationRef())) {
     if (!bpmnParse.getOperations().containsKey(serviceTask.getOperationRef())) {
-      bpmnParse.getBpmnModel().addProblem(serviceTask.getOperationRef() + " does not exist",serviceTask);
+      logger.warn(serviceTask.getOperationRef() + " does not exist for service task " + serviceTask.getId());
     }
  else {
       WebServiceActivityBehavior webServiceActivityBehavior=bpmnParse.getActivityBehaviorFactory().createWebServiceActivityBehavior(serviceTask);
@@ -53,6 +51,6 @@
     }
   }
  else {
-    bpmnParse.getBpmnModel().addProblem("One of the attributes 'class', 'delegateExpression', 'type', 'operation', or 'expression' is mandatory on serviceTask.",serviceTask);
+    logger.warn("One of the attributes 'class', 'delegateExpression', 'type', 'operation', or 'expression' is mandatory on serviceTask " + serviceTask.getId());
   }
 }
