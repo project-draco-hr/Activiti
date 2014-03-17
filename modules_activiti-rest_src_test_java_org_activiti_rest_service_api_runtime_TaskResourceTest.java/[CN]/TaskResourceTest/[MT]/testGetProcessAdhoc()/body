@@ -1,7 +1,7 @@
 {
   try {
     Calendar now=Calendar.getInstance();
-    ClockUtil.setCurrentTime(now.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(now.getTime());
     Task parentTask=taskService.newTask();
     taskService.saveTask(parentTask);
     Task task=taskService.newTask();

@@ -1,14 +1,14 @@
 {
   List<String> ids=new ArrayList<String>();
   SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
-  ClockUtil.setCurrentTime(sdf.parse("01/01/2008 01:01:01.000"));
+  processEngineConfiguration.getClock().setCurrentTime(sdf.parse("01/01/2008 01:01:01.000"));
   Task rootTask1=taskService.newTask();
   rootTask1.setName("rootTestTask");
   rootTask1.setDescription("rootTestTask description");
   taskService.saveTask(rootTask1);
   ids.add(rootTask1.getId());
   taskService.addCandidateUser(rootTask1.getId(),"kermit");
-  ClockUtil.setCurrentTime(sdf.parse("01/01/2009 01:01:01.000"));
+  processEngineConfiguration.getClock().setCurrentTime(sdf.parse("01/01/2009 01:01:01.000"));
   for (int i=1; i <= 2; i++) {
     Task subtask=taskService.newTask();
     subtask.setName("kermitSubTask" + i);
@@ -18,21 +18,21 @@
     taskService.addCandidateUser(subtask.getId(),"kermit");
     ids.add(subtask.getId());
   }
-  ClockUtil.setCurrentTime(sdf.parse("01/02/2008 02:02:02.000"));
+  processEngineConfiguration.getClock().setCurrentTime(sdf.parse("01/02/2008 02:02:02.000"));
   Task rootTask2=taskService.newTask();
   rootTask2.setName("gonzoRootTask1");
   rootTask2.setDescription("gonzo Root task1 description");
   taskService.saveTask(rootTask2);
   taskService.setAssignee(rootTask2.getId(),"gonzo");
   ids.add(rootTask2.getId());
-  ClockUtil.setCurrentTime(sdf.parse("05/02/2008 02:02:02.000"));
+  processEngineConfiguration.getClock().setCurrentTime(sdf.parse("05/02/2008 02:02:02.000"));
   Task rootTask3=taskService.newTask();
   rootTask3.setName("gonzoRootTask2");
   rootTask3.setDescription("gonzo Root task2 description");
   taskService.saveTask(rootTask3);
   taskService.setAssignee(rootTask3.getId(),"gonzo");
   ids.add(rootTask3.getId());
-  ClockUtil.setCurrentTime(sdf.parse("01/01/2009 01:01:01.000"));
+  processEngineConfiguration.getClock().setCurrentTime(sdf.parse("01/01/2009 01:01:01.000"));
   for (int i=1; i <= 3; i++) {
     Task subtask=taskService.newTask();
     subtask.setName("gonzoSubTask1_" + i);
@@ -42,7 +42,7 @@
     taskService.setAssignee(subtask.getId(),"gonzo");
     ids.add(subtask.getId());
   }
-  ClockUtil.setCurrentTime(sdf.parse("02/01/2009 01:01:01.000"));
+  processEngineConfiguration.getClock().setCurrentTime(sdf.parse("02/01/2009 01:01:01.000"));
   for (int i=1; i <= 2; i++) {
     Task subtask=taskService.newTask();
     subtask.setName("gonzoSubTask2_" + i);

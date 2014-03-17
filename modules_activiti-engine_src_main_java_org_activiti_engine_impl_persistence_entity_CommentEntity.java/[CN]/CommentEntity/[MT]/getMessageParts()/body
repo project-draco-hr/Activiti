@@ -3,14 +3,13 @@
     return null;
   }
   List<String> messageParts=new ArrayList<String>();
-  StringTokenizer tokenizer=new StringTokenizer(message,MESSAGE_PARTS_MARKER);
-  while (tokenizer.hasMoreTokens()) {
-    String nextToken=tokenizer.nextToken();
-    if ("null".equals(nextToken)) {
+  String[] parts=MESSAGE_PARTS_MARKER_REGEX.split(message);
+  for (  String part : parts) {
+    if ("null".equals(part)) {
       messageParts.add(null);
     }
  else {
-      messageParts.add(nextToken);
+      messageParts.add(part);
     }
   }
   return messageParts;

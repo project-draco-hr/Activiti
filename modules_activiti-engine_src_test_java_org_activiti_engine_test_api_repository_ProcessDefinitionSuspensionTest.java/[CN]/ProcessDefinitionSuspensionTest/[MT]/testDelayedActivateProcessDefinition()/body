@@ -1,6 +1,6 @@
 {
   Date startTime=new Date();
-  ClockUtil.setCurrentTime(startTime);
+  processEngineConfiguration.getClock().setCurrentTime(startTime);
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   repositoryService.suspendProcessDefinitionById(processDefinition.getId());
   try {
@@ -16,7 +16,7 @@
   long oneDayFromStart=startTime.getTime() + (24 * 60 * 60* 1000);
   repositoryService.activateProcessDefinitionById(processDefinition.getId(),false,new Date(oneDayFromStart));
   long twoDaysFromStart=startTime.getTime() + (2 * 24 * 60* 60* 1000);
-  ClockUtil.setCurrentTime(new Date(twoDaysFromStart));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(twoDaysFromStart));
   waitForJobExecutorToProcessAllJobs(5000L,50L);
   runtimeService.startProcessInstanceById(processDefinition.getId());
   assertEquals(1,runtimeService.createProcessInstanceQuery().count());

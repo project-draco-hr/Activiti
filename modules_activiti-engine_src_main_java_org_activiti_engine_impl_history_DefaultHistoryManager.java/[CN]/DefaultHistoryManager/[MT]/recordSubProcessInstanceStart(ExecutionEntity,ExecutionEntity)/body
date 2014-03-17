@@ -20,7 +20,7 @@
     historicActivityInstance.setActivityId(initialActivity.getId());
     historicActivityInstance.setActivityName((String)initialActivity.getProperty("name"));
     historicActivityInstance.setActivityType((String)initialActivity.getProperty("type"));
-    Date now=ClockUtil.getCurrentTime();
+    Date now=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
     historicActivityInstance.setStartTime(now);
     getDbSqlSession().insert(historicActivityInstance);
   }

@@ -1,7 +1,7 @@
 {
   LDAPGroupCacheEntry cacheEntry=groupCache.get(userId);
   if (cacheEntry != null) {
-    if ((ClockUtil.getCurrentTime().getTime() - cacheEntry.getTimestamp().getTime()) < expirationTime) {
+    if ((clockReader.getCurrentTime().getTime() - cacheEntry.getTimestamp().getTime()) < expirationTime) {
       if (ldapCacheListener != null) {
         ldapCacheListener.cacheHit(userId);
       }

@@ -3,7 +3,7 @@
   try {
     Calendar createTime=Calendar.getInstance();
     createTime.set(Calendar.MILLISECOND,0);
-    ClockUtil.setCurrentTime(createTime.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(createTime.getTime());
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("name","Model name");
     requestNode.put("category","Model category");

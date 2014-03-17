@@ -1,5 +1,5 @@
 {
-  Date resolvedDuedate=ClockUtil.getCurrentTime();
+  Date resolvedDuedate=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
   String[] tokens=duedate.split(" and ");
   for (  String token : tokens) {
     resolvedDuedate=addSingleUnitQuantity(resolvedDuedate,token);

@@ -2,7 +2,7 @@
   try {
     Calendar now=Calendar.getInstance();
     now.set(Calendar.MILLISECOND,0);
-    ClockUtil.setCurrentTime(now.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(now.getTime());
     Task task=taskService.newTask();
     taskService.saveTask(task);
     taskService.addUserIdentityLink(task.getId(),"gonzo","someType");
