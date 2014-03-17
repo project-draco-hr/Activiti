@@ -9,8 +9,8 @@
     if (StringUtils.isEmpty(targetRef)) {
       addError(errors,Problems.SEQ_FLOW_INVALID_TARGET,process,sequenceFlow,"Invalid target for sequenceflow");
     }
-    FlowElement source=bpmnModel.getFlowElement(sourceRef);
-    FlowElement target=bpmnModel.getFlowElement(targetRef);
+    FlowElement source=process.getFlowElementRecursive(sourceRef);
+    FlowElement target=process.getFlowElementRecursive(targetRef);
     if (source == null) {
       addError(errors,Problems.SEQ_FLOW_INVALID_SRC,process,sequenceFlow,"Invalid source for sequenceflow");
     }

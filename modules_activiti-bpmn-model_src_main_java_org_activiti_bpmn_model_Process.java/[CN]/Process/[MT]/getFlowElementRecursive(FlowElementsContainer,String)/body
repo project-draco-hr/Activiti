@@ -1,0 +1,14 @@
+{
+  for (  FlowElement flowElement : flowElementsContainer.getFlowElements()) {
+    if (flowElement.getId() != null && flowElement.getId().equals(flowElementId)) {
+      return flowElement;
+    }
+ else     if (flowElement instanceof FlowElementsContainer) {
+      FlowElement result=getFlowElementRecursive((FlowElementsContainer)flowElement,flowElementId);
+      if (result != null) {
+        return result;
+      }
+    }
+  }
+  return null;
+}
