@@ -6,7 +6,7 @@
   assertNotNull(execution);
   assertEquals("service",runtimeService.getActiveActivityIds(execution.getId()).get(0));
   assertEquals(2,managementService.createJobQuery().count());
-  ClockUtil.setCurrentTime(new Date(System.currentTimeMillis() + 10000));
+  Context.getProcessEngineConfiguration().getClock().setCurrentTime(new Date(System.currentTimeMillis() + 10000));
   waitForJobExecutorToProcessAllJobs(10000L,25L);
   assertNull(runtimeService.createExecutionQuery().singleResult());
   assertEquals(0,managementService.createJobQuery().count());

@@ -3,7 +3,7 @@
   processInstanceId=processInstance.getId();
   businessKey=processInstance.getBusinessKey();
   processDefinitionId=processInstance.getProcessDefinitionId();
-  startTime=ClockUtil.getCurrentTime();
+  startTime=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
   startUserId=Authentication.getAuthenticatedUserId();
   startActivityId=processInstance.getActivityId();
   superProcessInstanceId=processInstance.getSuperExecution() != null ? processInstance.getSuperExecution().getProcessInstanceId() : null;

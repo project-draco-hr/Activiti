@@ -3,7 +3,7 @@
   try {
     Calendar createTime=Calendar.getInstance();
     createTime.set(Calendar.MILLISECOND,0);
-    ClockUtil.setCurrentTime(createTime.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(createTime.getTime());
     model=repositoryService.newModel();
     model.setCategory("Model category");
     model.setKey("Model key");
@@ -14,7 +14,7 @@
     Calendar updateTime=Calendar.getInstance();
     updateTime.set(Calendar.MILLISECOND,0);
     updateTime.add(Calendar.HOUR,1);
-    ClockUtil.setCurrentTime(updateTime.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(updateTime.getTime());
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("name","Updated name");
     requestNode.put("category","Updated category");

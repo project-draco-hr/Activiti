@@ -1,4 +1,4 @@
 {
-  Date now=ClockUtil.getCurrentTime();
+  Date now=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
   return getDbSqlSession().selectList("selectNextJobsToExecute",now,page);
 }

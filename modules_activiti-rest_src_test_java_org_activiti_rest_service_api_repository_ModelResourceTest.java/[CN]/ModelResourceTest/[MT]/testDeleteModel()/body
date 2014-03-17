@@ -3,7 +3,7 @@
   try {
     Calendar now=Calendar.getInstance();
     now.set(Calendar.MILLISECOND,0);
-    ClockUtil.setCurrentTime(now.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(now.getTime());
     model=repositoryService.newModel();
     model.setCategory("Model category");
     model.setKey("Model key");

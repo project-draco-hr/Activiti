@@ -13,7 +13,7 @@
       historicActivityInstance.setActivityId(executionEntity.getActivityId());
       historicActivityInstance.setActivityName((String)executionEntity.getActivity().getProperty("name"));
       historicActivityInstance.setActivityType((String)executionEntity.getActivity().getProperty("type"));
-      historicActivityInstance.setStartTime(ClockUtil.getCurrentTime());
+      historicActivityInstance.setStartTime(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
       if (executionEntity.getTenantId() != null) {
         historicActivityInstance.setTenantId(executionEntity.getTenantId());
       }
