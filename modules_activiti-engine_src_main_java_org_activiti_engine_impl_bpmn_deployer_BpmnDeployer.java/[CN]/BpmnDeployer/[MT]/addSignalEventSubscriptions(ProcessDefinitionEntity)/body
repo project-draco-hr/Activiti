@@ -1,0 +1,17 @@
+{
+  List<EventSubscriptionDeclaration> eventDefinitions=(List<EventSubscriptionDeclaration>)processDefinition.getProperty(BpmnParse.PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION);
+  if (eventDefinitions != null) {
+    for (    EventSubscriptionDeclaration eventDefinition : eventDefinitions) {
+      if (eventDefinition.getEventType().equals("signal") && eventDefinition.isStartEvent()) {
+        SignalEventSubscriptionEntity subscriptionEntity=new SignalEventSubscriptionEntity();
+        subscriptionEntity.setEventName(eventDefinition.getEventName());
+        subscriptionEntity.setActivityId(eventDefinition.getActivityId());
+        subscriptionEntity.setProcessDefinitionId(processDefinition.getId());
+        if (processDefinition.getTenantId() != null) {
+          subscriptionEntity.setTenantId(processDefinition.getTenantId());
+        }
+        subscriptionEntity.insert();
+      }
+    }
+  }
+}

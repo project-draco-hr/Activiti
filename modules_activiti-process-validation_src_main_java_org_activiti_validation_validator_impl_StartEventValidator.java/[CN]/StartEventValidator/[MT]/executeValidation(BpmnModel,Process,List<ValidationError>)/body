@@ -6,7 +6,7 @@
       EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
       if (!(eventDefinition instanceof MessageEventDefinition)) {
         nonMessageStartEvents.add(startEvent);
-        if (!(eventDefinition instanceof TimerEventDefinition)) {
+        if (!(eventDefinition instanceof TimerEventDefinition) && !(eventDefinition instanceof SignalEventDefinition)) {
           addError(errors,Problems.START_EVENT_INVALID_EVENT_DEFINITION,process,startEvent,"Unsupported event definition on start event");
         }
       }
