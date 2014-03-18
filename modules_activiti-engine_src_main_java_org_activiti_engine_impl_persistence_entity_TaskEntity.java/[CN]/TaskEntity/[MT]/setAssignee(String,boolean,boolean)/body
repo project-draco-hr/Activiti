@@ -12,7 +12,10 @@
     if (assignee != null && processInstanceId != null) {
       getProcessInstance().involveUser(assignee,IdentityLinkType.PARTICIPANT);
     }
-    fireEvent(TaskListener.EVENTNAME_ASSIGNMENT);
+    if (!StringUtils.equals(initialAssignee,assignee)) {
+      fireEvent(TaskListener.EVENTNAME_ASSIGNMENT);
+      initialAssignee=assignee;
+    }
     if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
       if (dispatchAssignmentEvent) {
         commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_ASSIGNED,this));
