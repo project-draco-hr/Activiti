@@ -1,6 +1,8 @@
 {
   validateValidUsage();
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey(key,businessKey,getAndClearCachedVariables());
-  setExecution(instance);
+  if (!instance.isEnded()) {
+    setExecution(instance);
+  }
   return instance;
 }
