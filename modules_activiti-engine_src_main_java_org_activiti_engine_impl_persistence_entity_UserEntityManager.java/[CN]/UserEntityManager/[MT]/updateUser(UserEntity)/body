@@ -1,8 +1,0 @@
-{
-  CommandContext commandContext=Context.getCommandContext();
-  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
-  dbSqlSession.update(updatedUser);
-  if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,updatedUser));
-  }
-}
