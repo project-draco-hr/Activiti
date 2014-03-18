@@ -4,7 +4,7 @@
   if (messageEventDefinitions != null) {
     for (    EventSubscriptionDeclaration messageEventDefinition : messageEventDefinitions) {
       if (messageEventDefinition.isStartEvent()) {
-        List<EventSubscriptionEntity> subscriptionsForSameMessageName=commandContext.getEventSubscriptionEntityManager().findEventSubscriptionsByName(MessageEventHandler.EVENT_HANDLER_TYPE,messageEventDefinition.getEventName());
+        List<EventSubscriptionEntity> subscriptionsForSameMessageName=commandContext.getEventSubscriptionEntityManager().findEventSubscriptionsByNameAndTenantId(MessageEventHandler.EVENT_HANDLER_TYPE,messageEventDefinition.getEventName(),processDefinition.getTenantId());
         List<MessageEventSubscriptionEntity> cachedSubscriptions=commandContext.getDbSqlSession().findInCache(MessageEventSubscriptionEntity.class);
         for (        MessageEventSubscriptionEntity cachedSubscription : cachedSubscriptions) {
           if (messageEventDefinition.getEventName().equals(cachedSubscription.getEventName()) && !subscriptionsForSameMessageName.contains(cachedSubscription)) {
@@ -19,6 +19,9 @@
         newSubscription.setEventName(messageEventDefinition.getEventName());
         newSubscription.setActivityId(messageEventDefinition.getActivityId());
         newSubscription.setConfiguration(processDefinition.getId());
+        if (processDefinition.getTenantId() != null) {
+          newSubscription.setTenantId(processDefinition.getTenantId());
+        }
         newSubscription.insert();
       }
     }
