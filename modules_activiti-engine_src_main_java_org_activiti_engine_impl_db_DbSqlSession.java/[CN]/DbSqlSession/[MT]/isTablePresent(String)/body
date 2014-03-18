@@ -1,5 +1,7 @@
 {
-  tableName=prependDatabaseTablePrefix(tableName);
+  if (!dbSqlSessionFactory.isTablePrefixIsSchema()) {
+    tableName=prependDatabaseTablePrefix(tableName);
+  }
   Connection connection=null;
   try {
     connection=sqlSession.getConnection();
