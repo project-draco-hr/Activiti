@@ -1,0 +1,7 @@
+{
+  Map<String,String> params=new HashMap<String,String>();
+  params.put("eventName",messageName);
+  params.put("tenantId",tenantId);
+  MessageEventSubscriptionEntity entity=(MessageEventSubscriptionEntity)getDbSqlSession().selectOne("selectMessageStartEventSubscriptionByName",params);
+  return entity;
+}

@@ -1,5 +1,8 @@
 {
   CompensateEventSubscriptionEntity eventSubscription=new CompensateEventSubscriptionEntity(executionEntity);
+  if (executionEntity.getTenantId() != null) {
+    eventSubscription.setTenantId(executionEntity.getTenantId());
+  }
   eventSubscription.insert();
   return eventSubscription;
 }

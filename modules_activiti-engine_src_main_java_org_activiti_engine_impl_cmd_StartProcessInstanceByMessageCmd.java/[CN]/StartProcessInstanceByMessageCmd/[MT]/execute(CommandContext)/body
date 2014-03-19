@@ -2,7 +2,7 @@
   if (messageName == null) {
     throw new ActivitiIllegalArgumentException("Cannot start process instance by message: message name is null");
   }
-  MessageEventSubscriptionEntity messageEventSubscription=commandContext.getEventSubscriptionEntityManager().findMessageStartEventSubscriptionByName(messageName);
+  MessageEventSubscriptionEntity messageEventSubscription=commandContext.getEventSubscriptionEntityManager().findMessageStartEventSubscriptionByName(messageName,tenantId);
   if (messageEventSubscription == null) {
     throw new ActivitiObjectNotFoundException("Cannot start process instance by message: no subscription to message with name '" + messageName + "' found.",MessageEventSubscriptionEntity.class);
   }

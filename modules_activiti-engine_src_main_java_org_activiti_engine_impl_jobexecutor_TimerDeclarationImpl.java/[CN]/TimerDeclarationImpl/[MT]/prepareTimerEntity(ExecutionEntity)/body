@@ -32,7 +32,11 @@
     }
   }
   if (type == TimerDeclarationType.CYCLE) {
-    if (!isInterruptingTimer) {
+    boolean repeat=!isInterruptingTimer;
+    if (TimerCatchIntermediateEventJobHandler.TYPE.equals(jobHandlerType)) {
+      repeat=false;
+    }
+    if (repeat) {
       String prepared=prepareRepeat(dueDateString);
       timer.setRepeat(prepared);
     }

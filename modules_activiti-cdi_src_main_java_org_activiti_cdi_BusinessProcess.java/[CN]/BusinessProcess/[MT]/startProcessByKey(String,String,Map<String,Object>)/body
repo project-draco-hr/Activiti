@@ -3,6 +3,8 @@
   Map<String,Object> cachedVariables=getAndClearCachedVariables();
   cachedVariables.putAll(variables);
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceByKey(key,businessKey,cachedVariables);
-  setExecution(instance);
+  if (!instance.isEnded()) {
+    setExecution(instance);
+  }
   return instance;
 }

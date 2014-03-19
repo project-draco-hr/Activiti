@@ -1,0 +1,7 @@
+{
+  UserEntity user=(UserEntity)findUserById(userId);
+  if (user == null) {
+    throw new ActivitiObjectNotFoundException("user " + userId + " doesn't exist",User.class);
+  }
+  user.setPicture(picture);
+}

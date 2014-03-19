@@ -83,6 +83,8 @@
       addTimerDeclarations(processDefinition,timers);
       removeObsoleteMessageEventSubscriptions(processDefinition,latestProcessDefinition);
       addMessageEventSubscriptions(processDefinition);
+      removeObsoleteSignalEventSubScription(processDefinition,latestProcessDefinition);
+      addSignalEventSubscriptions(processDefinition);
       dbSqlSession.insert(processDefinition);
       addAuthorizations(processDefinition);
       if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
