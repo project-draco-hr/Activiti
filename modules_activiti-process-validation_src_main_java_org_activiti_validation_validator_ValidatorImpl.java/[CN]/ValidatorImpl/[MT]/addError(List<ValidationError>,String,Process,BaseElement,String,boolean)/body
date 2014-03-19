@@ -1,0 +1,20 @@
+{
+  ValidationError error=new ValidationError();
+  error.setWarning(isWarning);
+  if (process != null) {
+    error.setProcessDefinitionId(process.getId());
+    error.setProcessDefinitionName(process.getName());
+  }
+  if (baseElement != null) {
+    error.setXmlLineNumber(baseElement.getXmlRowNumber());
+    error.setXmlColumnNumber(baseElement.getXmlColumnNumber());
+  }
+  error.setProblem(problem);
+  error.setDefaultDescription(description);
+  if (baseElement instanceof FlowElement) {
+    FlowElement flowElement=(FlowElement)baseElement;
+    error.setActivityId(flowElement.getId());
+    error.setActivityName(flowElement.getName());
+  }
+  addError(validationErrors,error);
+}

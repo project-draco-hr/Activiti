@@ -1,12 +1,12 @@
 {
   Date now=new Date();
-  ClockUtil.setCurrentTime(now);
+  processEngineConfiguration.getClock().setCurrentTime(now);
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinition.getId());
   assertEquals(1,managementService.createJobQuery().count());
   runtimeService.suspendProcessInstanceById(processInstance.getId());
   assertEquals(1,managementService.createJobQuery().count());
-  ClockUtil.setCurrentTime(new Date(now.getTime() + (60 * 60 * 1000)));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(now.getTime() + (60 * 60 * 1000)));
   waitForJobExecutorToProcessAllJobs(1000L,100L);
   assertEquals(1,managementService.createJobQuery().count());
   runtimeService.activateProcessInstanceById(processInstance.getId());

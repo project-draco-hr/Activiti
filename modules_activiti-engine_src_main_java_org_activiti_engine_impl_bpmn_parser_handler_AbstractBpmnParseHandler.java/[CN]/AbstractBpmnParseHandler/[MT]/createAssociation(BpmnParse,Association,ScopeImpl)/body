@@ -13,7 +13,7 @@
     if (sourceActivity.getProperty("type").equals("compensationBoundaryCatch")) {
       Object isForCompensation=targetActivity.getProperty(PROPERTYNAME_IS_FOR_COMPENSATION);
       if (isForCompensation == null || !(Boolean)isForCompensation) {
-        bpmnModel.addProblem("compensation boundary catch must be connected to element with isForCompensation=true",association);
+        logger.warn("compensation boundary catch must be connected to element with isForCompensation=true");
       }
  else {
         ActivityImpl compensatedActivity=sourceActivity.getParentActivity();

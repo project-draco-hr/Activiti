@@ -25,10 +25,4 @@
   for (  SequenceFlow sequenceFlow : sequenceFlowToParse) {
     bpmnParserHandlers.parseElement(this,sequenceFlow);
   }
-  for (  FlowElement flowElement : flowElements) {
-    if (flowElement instanceof ExclusiveGateway) {
-      ActivityImpl gatewayActivity=getCurrentScope().findActivity(flowElement.getId());
-      validateExclusiveGateway(gatewayActivity,(ExclusiveGateway)flowElement);
-    }
-  }
 }

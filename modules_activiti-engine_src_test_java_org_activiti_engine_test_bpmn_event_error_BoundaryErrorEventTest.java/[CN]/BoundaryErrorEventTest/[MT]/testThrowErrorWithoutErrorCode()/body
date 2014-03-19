@@ -1,9 +1,0 @@
-{
-  try {
-    repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/bpmn/event/error/BoundaryErrorEventTest.testThrowErrorWithoutErrorCode.bpmn20.xml").deploy();
-    fail("ActivitiException expected");
-  }
- catch (  ActivitiException re) {
-    assertTextPresent("errorCode is required for an error event",re.getMessage());
-  }
-}

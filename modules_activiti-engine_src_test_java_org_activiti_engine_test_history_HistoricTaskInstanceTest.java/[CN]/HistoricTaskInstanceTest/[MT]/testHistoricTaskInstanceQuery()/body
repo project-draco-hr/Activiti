@@ -1,9 +1,9 @@
 {
   Calendar start=Calendar.getInstance();
   start.set(Calendar.MILLISECOND,0);
-  ClockUtil.setCurrentTime(start.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(start.getTime());
   ProcessInstance finishedInstance=runtimeService.startProcessInstanceByKey("HistoricTaskQueryTest","myBusinessKey");
-  ClockUtil.reset();
+  processEngineConfiguration.getClock().reset();
   Task task=taskService.createTaskQuery().processInstanceId(finishedInstance.getId()).singleResult();
   task.setPriority(1234);
   task.setOwner("fozzie");

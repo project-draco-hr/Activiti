@@ -1,9 +1,9 @@
 {
-  ClockUtil.setCurrentTime(new Date(timerThreeFireTime.getTime() + ONE_SECOND));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(timerThreeFireTime.getTime() + ONE_SECOND));
   JobQuery query=managementService.createJobQuery().executable();
   verifyQueryResults(query,4);
   setRetries(processInstanceIdOne,0);
   verifyQueryResults(query,3);
-  ClockUtil.setCurrentTime(testStartTime);
+  processEngineConfiguration.getClock().setCurrentTime(testStartTime);
   verifyQueryResults(query,1);
 }

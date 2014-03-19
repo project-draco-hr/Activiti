@@ -15,6 +15,7 @@
   for (  ProcessDefinition processDefinition : processDefinitions) {
     String processDefinitionId=processDefinition.getId();
     getIdentityLinkManager().deleteIdentityLinksByProcDef(processDefinitionId);
+    getEventSubscriptionManager().deleteEventSubscriptionsForProcessDefinition(processDefinitionId);
   }
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
   for (  ProcessDefinition processDefinition : processDefinitions) {
@@ -33,7 +34,7 @@
         }
       }
     }
-    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionEntityManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,processDefinition.getId());
+    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionEntityManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,processDefinition.getId(),processDefinition.getTenantId());
     for (    EventSubscriptionEntity eventSubscriptionEntity : findEventSubscriptionsByConfiguration) {
       eventSubscriptionEntity.delete();
     }

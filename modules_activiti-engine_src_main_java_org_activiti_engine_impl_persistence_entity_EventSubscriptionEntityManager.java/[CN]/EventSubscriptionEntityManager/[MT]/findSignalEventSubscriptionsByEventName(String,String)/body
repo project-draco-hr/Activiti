@@ -1,0 +1,19 @@
+{
+  final String query="selectSignalEventSubscriptionsByEventName";
+  Set<SignalEventSubscriptionEntity> selectList=null;
+  Map<String,String> params=new HashMap<String,String>();
+  params.put("eventName",eventName);
+  if (tenantId != null) {
+    params.put("tenantId",tenantId);
+    selectList=new HashSet<SignalEventSubscriptionEntity>(getDbSqlSession().selectList(query,params));
+  }
+ else {
+    selectList=new HashSet<SignalEventSubscriptionEntity>(getDbSqlSession().selectList(query,params));
+  }
+  for (  SignalEventSubscriptionEntity entity : createdSignalSubscriptions) {
+    if (eventName.equals(entity.getEventName())) {
+      selectList.add(entity);
+    }
+  }
+  return new ArrayList<SignalEventSubscriptionEntity>(selectList);
+}

@@ -1,6 +1,6 @@
 {
   Calendar now=Calendar.getInstance();
-  ClockUtil.setCurrentTime(now.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(now.getTime());
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.setDueDate(task.getId(),now.getTime());

@@ -1,0 +1,7 @@
+{
+  if (this.ldapGroupManagerFactory != null) {
+    this.ldapGroupManagerFactory.setLdapConfigurator(this);
+    return this.ldapGroupManagerFactory;
+  }
+  return new LDAPGroupManagerFactory(this,clockReader);
+}

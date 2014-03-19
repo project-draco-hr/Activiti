@@ -6,7 +6,7 @@
   listener.clearEventsReceived();
   Calendar tomorrow=Calendar.getInstance();
   tomorrow.add(Calendar.DAY_OF_YEAR,1);
-  ClockUtil.setCurrentTime(tomorrow.getTime());
+  processEngineConfiguration.getClock().setCurrentTime(tomorrow.getTime());
   waitForJobExecutorToProcessAllJobs(2000,100);
   assertEquals(4,listener.getEventsReceived().size());
   ActivitiEvent event=listener.getEventsReceived().get(0);

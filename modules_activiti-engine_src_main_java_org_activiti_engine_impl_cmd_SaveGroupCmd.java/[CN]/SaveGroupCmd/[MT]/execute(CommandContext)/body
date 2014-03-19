@@ -2,7 +2,7 @@
   if (group == null) {
     throw new ActivitiIllegalArgumentException("group is null");
   }
-  if (group.getRevision() == 0) {
+  if (commandContext.getGroupIdentityManager().isNewGroup(group)) {
     commandContext.getGroupIdentityManager().insertGroup(group);
   }
  else {

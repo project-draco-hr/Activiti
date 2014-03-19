@@ -9,7 +9,12 @@
       subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByProcessInstanceAndEventName(event.getProcessInstanceId(),signalName);
     }
  else {
-      subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(signalName);
+      String tenantId=null;
+      if (event.getProcessDefinitionId() != null) {
+        ProcessDefinitionEntity processDefinitionEntity=commandContext.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(event.getProcessDefinitionId());
+        tenantId=processDefinitionEntity.getTenantId();
+      }
+      subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(signalName,tenantId);
     }
     for (    SignalEventSubscriptionEntity signalEventSubscriptionEntity : subscriptionEntities) {
       signalEventSubscriptionEntity.eventReceived(null,false);

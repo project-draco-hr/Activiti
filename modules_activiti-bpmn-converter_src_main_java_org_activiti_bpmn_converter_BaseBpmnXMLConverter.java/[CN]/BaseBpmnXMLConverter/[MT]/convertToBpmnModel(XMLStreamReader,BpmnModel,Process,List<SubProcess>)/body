@@ -37,6 +37,14 @@
         ((Gateway)currentFlowElement).setDefaultFlow(defaultFlow);
       }
     }
+    if (currentFlowElement instanceof DataObject) {
+      if (activeSubProcessList.size() > 0) {
+        activeSubProcessList.get(activeSubProcessList.size() - 1).getDataObjects().add((ValuedDataObject)parsedElement);
+      }
+ else {
+        this.activeProcess.getDataObjects().add((ValuedDataObject)parsedElement);
+      }
+    }
     if (activeSubProcessList.size() > 0) {
       activeSubProcessList.get(activeSubProcessList.size() - 1).addFlowElement(currentFlowElement);
     }

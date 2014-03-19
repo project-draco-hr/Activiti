@@ -1,0 +1,18 @@
+{
+  Collection<Artifact> artifacts=bpmnModel.getGlobalArtifacts();
+  if (artifacts != null) {
+    for (    Artifact artifact : artifacts) {
+      if (artifact instanceof Association) {
+        validate(null,(Association)artifact,errors);
+      }
+    }
+  }
+  for (  Process process : bpmnModel.getProcesses()) {
+    artifacts=process.getArtifacts();
+    for (    Artifact artifact : artifacts) {
+      if (artifact instanceof Association) {
+        validate(process,(Association)artifact,errors);
+      }
+    }
+  }
+}

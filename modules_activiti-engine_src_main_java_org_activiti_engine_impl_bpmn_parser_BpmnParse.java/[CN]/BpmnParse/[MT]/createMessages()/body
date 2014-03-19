@@ -2,10 +2,7 @@
   for (  Message messageElement : bpmnModel.getMessages()) {
     MessageDefinition messageDefinition=new MessageDefinition(messageElement.getId(),name);
     if (StringUtils.isNotEmpty(messageElement.getItemRef())) {
-      if (!this.itemDefinitions.containsKey(messageElement.getItemRef())) {
-        bpmnModel.addProblem(messageElement.getItemRef() + " does not exist",messageElement);
-      }
- else {
+      if (this.itemDefinitions.containsKey(messageElement.getItemRef())) {
         ItemDefinition itemDefinition=this.itemDefinitions.get(messageElement.getItemRef());
         messageDefinition.setItemDefinition(itemDefinition);
       }

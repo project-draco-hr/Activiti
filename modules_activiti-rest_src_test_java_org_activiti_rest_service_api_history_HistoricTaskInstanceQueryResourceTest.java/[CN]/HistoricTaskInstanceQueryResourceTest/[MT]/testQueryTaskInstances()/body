@@ -4,11 +4,11 @@
   processVariables.put("intVar",67890);
   processVariables.put("booleanVar",false);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess","myBusinessKey",processVariables);
-  ClockUtil.setCurrentTime(new GregorianCalendar(2013,0,1).getTime());
+  processEngineConfiguration.getClock().setCurrentTime(new GregorianCalendar(2013,0,1).getTime());
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   Task finishedTaskProcess1=task;
   taskService.complete(task.getId());
-  ClockUtil.setCurrentTime(null);
+  processEngineConfiguration.getClock().setCurrentTime(null);
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.setVariableLocal(task.getId(),"local","test");
   taskService.setOwner(task.getId(),"test");

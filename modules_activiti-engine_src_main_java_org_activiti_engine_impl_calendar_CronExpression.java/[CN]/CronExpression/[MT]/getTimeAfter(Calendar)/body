@@ -1,5 +1,5 @@
 {
-  Calendar cl=ClockUtil.getCurrentCalendar(getTimeZone());
+  Calendar cl=clockReader.getCurrentCalendar(getTimeZone());
   afterTime.add(Calendar.SECOND,1);
   cl.setTimeInMillis(afterTime.getTimeInMillis());
   cl.set(Calendar.MILLISECOND,0);
@@ -79,7 +79,7 @@
           t=day;
           day=getLastDayOfMonth(mon,cl.get(Calendar.YEAR));
           day-=lastdayOffset;
-          java.util.Calendar tcal=ClockUtil.getCurrentCalendar(getTimeZone());
+          java.util.Calendar tcal=clockReader.getCurrentCalendar(getTimeZone());
           tcal.set(Calendar.SECOND,0);
           tcal.set(Calendar.MINUTE,0);
           tcal.set(Calendar.HOUR_OF_DAY,0);
@@ -114,7 +114,7 @@
  else       if (nearestWeekday) {
         t=day;
         day=((Integer)daysOfMonth.first()).intValue();
-        java.util.Calendar tcal=ClockUtil.getCurrentCalendar(getTimeZone());
+        java.util.Calendar tcal=clockReader.getCurrentCalendar(getTimeZone());
         tcal.set(Calendar.SECOND,0);
         tcal.set(Calendar.MINUTE,0);
         tcal.set(Calendar.HOUR_OF_DAY,0);

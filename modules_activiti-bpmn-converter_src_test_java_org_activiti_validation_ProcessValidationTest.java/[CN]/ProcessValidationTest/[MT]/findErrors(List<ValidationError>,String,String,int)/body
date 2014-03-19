@@ -1,0 +1,9 @@
+{
+  List<ValidationError> results=findErrors(errors,validatorSetName,problemName);
+  Assert.assertEquals(expectedNrOfProblems,results.size());
+  for (  ValidationError result : results) {
+    Assert.assertEquals(validatorSetName,result.getValidatorSetName());
+    Assert.assertEquals(problemName,result.getProblem());
+  }
+  return results;
+}

@@ -1,5 +1,5 @@
 {
-  UserEntity user=findUserById(userId);
+  UserEntity user=(UserEntity)findUserById(userId);
   if (user != null) {
     List<IdentityInfoEntity> identityInfos=getDbSqlSession().selectList("selectIdentityInfoByUserId",userId);
     for (    IdentityInfoEntity identityInfo : identityInfos) {

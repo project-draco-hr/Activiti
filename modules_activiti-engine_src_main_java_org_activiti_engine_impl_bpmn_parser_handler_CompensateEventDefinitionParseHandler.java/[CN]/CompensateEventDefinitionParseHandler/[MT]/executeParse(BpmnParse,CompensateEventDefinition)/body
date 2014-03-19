@@ -2,7 +2,7 @@
   ScopeImpl scope=bpmnParse.getCurrentScope();
   if (StringUtils.isNotEmpty(eventDefinition.getActivityRef())) {
     if (scope.findActivity(eventDefinition.getActivityRef()) == null) {
-      bpmnParse.getBpmnModel().addProblem("Invalid attribute value for 'activityRef': no activity with id '" + eventDefinition.getActivityRef() + "' in current scope "+ scope.getId(),eventDefinition);
+      logger.warn("Invalid attribute value for 'activityRef': no activity with id '" + eventDefinition.getActivityRef() + "' in current scope "+ scope.getId());
     }
   }
   org.activiti.engine.impl.bpmn.parser.CompensateEventDefinition compensateEventDefinition=new org.activiti.engine.impl.bpmn.parser.CompensateEventDefinition();
@@ -17,12 +17,6 @@
     boolean interrupting=boundaryEvent.isCancelActivity();
     activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEventActivityBehavior(boundaryEvent,interrupting,activity));
     activity.setProperty("type","compensationBoundaryCatch");
-    ScopeImpl parent=activity.getParent();
-    for (    ActivityImpl child : parent.getActivities()) {
-      if (child.getProperty("type").equals("compensationBoundaryCatch") && child != activity) {
-        bpmnParse.getBpmnModel().addProblem("multiple boundary events with compensateEventDefinition not supported on same activity.",eventDefinition);
-      }
-    }
   }
  else {
   }
