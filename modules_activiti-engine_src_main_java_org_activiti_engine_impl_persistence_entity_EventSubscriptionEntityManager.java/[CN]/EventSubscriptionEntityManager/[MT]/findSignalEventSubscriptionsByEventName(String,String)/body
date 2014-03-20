@@ -3,7 +3,7 @@
   Set<SignalEventSubscriptionEntity> selectList=null;
   Map<String,String> params=new HashMap<String,String>();
   params.put("eventName",eventName);
-  if (tenantId != null) {
+  if (tenantId != null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
     params.put("tenantId",tenantId);
     selectList=new HashSet<SignalEventSubscriptionEntity>(getDbSqlSession().selectList(query,params));
   }
