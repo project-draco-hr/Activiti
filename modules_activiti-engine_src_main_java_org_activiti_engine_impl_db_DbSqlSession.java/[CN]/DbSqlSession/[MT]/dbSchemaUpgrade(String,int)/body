@@ -1,0 +1,16 @@
+{
+  ActivitiVersion activitiVersion=ACTIVITI_VERSIONS.get(currentDatabaseVersionsIndex);
+  String dbVersion=activitiVersion.getMainVersion();
+  log.info("upgrading activiti {} schema from {} to {}",component,dbVersion,ProcessEngine.VERSION);
+  for (int i=currentDatabaseVersionsIndex + 1; i < ACTIVITI_VERSIONS.size(); i++) {
+    String nextVersion=ACTIVITI_VERSIONS.get(i).getMainVersion();
+    if (nextVersion.endsWith("-SNAPSHOT")) {
+      nextVersion=nextVersion.substring(0,nextVersion.length() - "-SNAPSHOT".length());
+    }
+    dbVersion=dbVersion.replace(".","");
+    nextVersion=nextVersion.replace(".","");
+    log.info("Upgrade needed: {} -> {}. Looking for schema update resource for component '{}'",dbVersion,nextVersion,component);
+    executeSchemaResource("upgrade",component,getResourceForDbOperation("upgrade","upgradestep." + dbVersion + ".to."+ nextVersion,component),true);
+    dbVersion=nextVersion;
+  }
+}
