@@ -1,24 +1,3 @@
 {
-  Map<String,String> localNamespaces=new LinkedHashMap<String,String>();
-  for (  List<ExtensionAttribute> attributeList : attributes) {
-    if (attributeList != null && !attributeList.isEmpty()) {
-      for (      ExtensionAttribute attribute : attributeList) {
-        if (!isBlacklisted(attribute,blackLists)) {
-          if (attribute.getNamespacePrefix() == null) {
-            if (attribute.getNamespace() == null)             xtw.writeAttribute(attribute.getName(),attribute.getValue());
- else {
-              xtw.writeAttribute(attribute.getNamespace(),attribute.getName(),attribute.getValue());
-            }
-          }
- else {
-            if (!localNamespaces.containsKey(attribute.getNamespacePrefix())) {
-              localNamespaces.put(attribute.getNamespacePrefix(),attribute.getNamespace());
-              xtw.writeNamespace(attribute.getNamespacePrefix(),attribute.getNamespace());
-            }
-            xtw.writeAttribute(attribute.getNamespacePrefix(),attribute.getNamespace(),attribute.getName(),attribute.getValue());
-          }
-        }
-      }
-    }
-  }
+  writeCustomAttributes(attributes,xtw,new LinkedHashMap<String,String>(),blackLists);
 }

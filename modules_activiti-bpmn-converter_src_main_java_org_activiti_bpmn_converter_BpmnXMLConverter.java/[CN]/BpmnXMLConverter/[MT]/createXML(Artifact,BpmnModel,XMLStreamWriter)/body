@@ -1,7 +1,7 @@
 {
-  Class<? extends BaseBpmnXMLConverter> converter=convertersToXMLMap.get(artifact.getClass());
+  BaseBpmnXMLConverter converter=convertersToXMLMap.get(artifact.getClass());
   if (converter == null) {
     throw new XMLException("No converter for " + artifact.getClass() + " found");
   }
-  converter.newInstance().convertToXML(xtw,artifact,model);
+  converter.convertToXML(xtw,artifact,model);
 }
