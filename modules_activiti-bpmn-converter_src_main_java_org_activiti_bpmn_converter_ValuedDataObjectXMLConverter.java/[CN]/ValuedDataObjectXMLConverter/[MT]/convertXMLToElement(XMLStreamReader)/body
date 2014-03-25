@@ -2,26 +2,32 @@
   ValuedDataObject dataObject=null;
   ItemDefinition itemSubjectRef=new ItemDefinition();
   String structureRef=xtr.getAttributeValue(null,ATTRIBUTE_DATA_ITEM_REF);
-  String dataType=structureRef.substring(structureRef.indexOf(':') + 1);
-  if (dataType.equals("string")) {
-    dataObject=new StringDataObject();
-  }
- else   if (dataType.equals("int")) {
-    dataObject=new IntegerDataObject();
-  }
- else   if (dataType.equals("long")) {
-    dataObject=new LongDataObject();
-  }
- else   if (dataType.equals("double")) {
-    dataObject=new DoubleDataObject();
-  }
- else   if (dataType.equals("boolean")) {
-    dataObject=new BooleanDataObject();
-  }
- else   if (dataType.equals("datetime")) {
-    dataObject=new DateDataObject();
+  if (StringUtils.isNotEmpty(structureRef) && structureRef.contains(":")) {
+    String dataType=structureRef.substring(structureRef.indexOf(':') + 1);
+    if (dataType.equals("string")) {
+      dataObject=new StringDataObject();
+    }
+ else     if (dataType.equals("int")) {
+      dataObject=new IntegerDataObject();
+    }
+ else     if (dataType.equals("long")) {
+      dataObject=new LongDataObject();
+    }
+ else     if (dataType.equals("double")) {
+      dataObject=new DoubleDataObject();
+    }
+ else     if (dataType.equals("boolean")) {
+      dataObject=new BooleanDataObject();
+    }
+ else     if (dataType.equals("datetime")) {
+      dataObject=new DateDataObject();
+    }
+ else {
+    }
   }
  else {
+    dataObject=new StringDataObject();
+    structureRef="xsd:string";
   }
   if (dataObject != null) {
     dataObject.setId(xtr.getAttributeValue(null,ATTRIBUTE_DATA_ID));
@@ -29,7 +35,20 @@
     BpmnXMLUtil.addXMLLocation(dataObject,xtr);
     itemSubjectRef.setStructureRef(structureRef);
     dataObject.setItemSubjectRef(itemSubjectRef);
-    parseChildElements(xtr,dataObject);
+    parseChildElements(getXMLElementName(),dataObject,xtr);
+    List<ExtensionElement> valuesElement=dataObject.getExtensionElements().get("value");
+    if (valuesElement != null && valuesElement.size() > 0) {
+      ExtensionElement valueElement=valuesElement.get(0);
+      if (StringUtils.isNotEmpty(valueElement.getElementText())) {
+        if (dataObject instanceof DateDataObject) {
+          dataObject.setValue(DateTime.parse(valueElement.getElementText(),ISODateTimeFormat.dateOptionalTimeParser()).toDate());
+        }
+ else {
+          dataObject.setValue(valueElement.getElementText());
+        }
+      }
+      dataObject.getExtensionElements().remove("value");
+    }
   }
   return dataObject;
 }

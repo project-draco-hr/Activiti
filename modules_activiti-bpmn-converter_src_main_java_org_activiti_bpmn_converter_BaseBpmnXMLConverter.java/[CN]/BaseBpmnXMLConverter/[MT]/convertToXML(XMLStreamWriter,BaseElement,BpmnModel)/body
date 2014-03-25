@@ -1,7 +1,7 @@
 {
   this.model=model;
   xtw.writeStartElement(getXMLElementName());
-  didWriteExtensionStartElement=false;
+  boolean didWriteExtensionStartElement=false;
   writeDefaultAttribute(ATTRIBUTE_ID,baseElement.getId(),xtw);
   if (baseElement instanceof FlowElement) {
     writeDefaultAttribute(ATTRIBUTE_NAME,((FlowElement)baseElement).getName(),xtw);
@@ -39,8 +39,8 @@
       xtw.writeEndElement();
     }
   }
-  writeExtensionChildElements(baseElement,xtw);
-  didWriteExtensionStartElement=writeListeners(baseElement,xtw);
+  didWriteExtensionStartElement=writeExtensionChildElements(baseElement,didWriteExtensionStartElement,xtw);
+  didWriteExtensionStartElement=writeListeners(baseElement,didWriteExtensionStartElement,xtw);
   didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(baseElement,didWriteExtensionStartElement,xtw);
   if (didWriteExtensionStartElement) {
     xtw.writeEndElement();
