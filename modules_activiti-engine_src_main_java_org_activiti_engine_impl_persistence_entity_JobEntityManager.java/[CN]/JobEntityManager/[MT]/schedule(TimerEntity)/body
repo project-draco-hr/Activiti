@@ -6,7 +6,7 @@
   timer.insert();
   JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
   int waitTimeInMillis=jobExecutor.getWaitTimeInMillis();
-  if (duedate.getTime() < (ClockUtil.getCurrentTime().getTime() + waitTimeInMillis)) {
+  if (duedate.getTime() < (Context.getProcessEngineConfiguration().getClock().getCurrentTime().getTime() + waitTimeInMillis)) {
     hintJobExecutor(timer);
   }
 }

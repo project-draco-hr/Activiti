@@ -1,0 +1,16 @@
+{
+  if (activity.getDataInputAssociations() != null) {
+    for (    DataAssociation dataAssociation : activity.getDataInputAssociations()) {
+      if (StringUtils.isEmpty(dataAssociation.getTargetRef())) {
+        addError(errors,Problems.DATA_ASSOCIATION_MISSING_TARGETREF,process,activity,"Targetref is required on a data association");
+      }
+    }
+  }
+  if (activity.getDataOutputAssociations() != null) {
+    for (    DataAssociation dataAssociation : activity.getDataOutputAssociations()) {
+      if (StringUtils.isEmpty(dataAssociation.getTargetRef())) {
+        addError(errors,Problems.DATA_ASSOCIATION_MISSING_TARGETREF,process,activity,"Targetref is required on a data association");
+      }
+    }
+  }
+}

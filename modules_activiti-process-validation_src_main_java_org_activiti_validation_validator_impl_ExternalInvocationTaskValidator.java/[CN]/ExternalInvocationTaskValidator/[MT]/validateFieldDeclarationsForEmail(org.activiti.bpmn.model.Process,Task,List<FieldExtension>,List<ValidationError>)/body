@@ -1,0 +1,27 @@
+{
+  boolean toDefined=false;
+  boolean textOrHtmlDefined=false;
+  for (  FieldExtension fieldExtension : fieldExtensions) {
+    if (fieldExtension.getFieldName().equals("to")) {
+      toDefined=true;
+    }
+    if (fieldExtension.getFieldName().equals("html")) {
+      textOrHtmlDefined=true;
+    }
+    if (fieldExtension.getFieldName().equals("htmlVar")) {
+      textOrHtmlDefined=true;
+    }
+    if (fieldExtension.getFieldName().equals("text")) {
+      textOrHtmlDefined=true;
+    }
+    if (fieldExtension.getFieldName().equals("textVar")) {
+      textOrHtmlDefined=true;
+    }
+  }
+  if (!toDefined) {
+    addError(errors,Problems.MAIL_TASK_NO_RECIPIENT,process,task,"No recipient is defined on the mail activity");
+  }
+  if (!textOrHtmlDefined) {
+    addError(errors,Problems.MAIL_TASK_NO_CONTENT,process,task,"Text, html, textVar or htmlVar field should be provided");
+  }
+}

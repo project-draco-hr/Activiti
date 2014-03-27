@@ -6,7 +6,6 @@
     eventDefinition=event.getEventDefinitions().get(0);
   }
   if (eventDefinition == null) {
-    bpmnModel.addProblem("No event definition for intermediate catch event " + event.getId(),event);
     nestedActivity=createActivityOnCurrentScope(bpmnParse,event,BpmnXMLConstants.ELEMENT_EVENT_CATCH);
   }
  else {
@@ -24,7 +23,7 @@
       bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse,eventDefinition);
     }
  else {
-      bpmnModel.addProblem("Unsupported intermediate catch event type.",event);
+      logger.warn("Unsupported intermediate catch event type for event " + event.getId());
     }
   }
 }

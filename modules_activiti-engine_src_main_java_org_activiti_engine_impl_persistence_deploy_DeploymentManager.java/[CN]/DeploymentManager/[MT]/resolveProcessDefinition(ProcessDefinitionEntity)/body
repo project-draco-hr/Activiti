@@ -5,7 +5,7 @@
   if (processDefinition == null) {
     DeploymentEntity deployment=Context.getCommandContext().getDeploymentEntityManager().findDeploymentById(deploymentId);
     deployment.setNew(false);
-    deploy(deployment);
+    deploy(deployment,null);
     processDefinition=processDefinitionCache.get(processDefinitionId);
     if (processDefinition == null) {
       throw new ActivitiException("deployment '" + deploymentId + "' didn't put process definition '"+ processDefinitionId+ "' in the cache");

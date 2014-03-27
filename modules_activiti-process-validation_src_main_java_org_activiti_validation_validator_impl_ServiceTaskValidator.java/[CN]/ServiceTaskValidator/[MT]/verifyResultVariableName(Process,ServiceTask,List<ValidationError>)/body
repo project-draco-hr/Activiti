@@ -1,0 +1,5 @@
+{
+  if (StringUtils.isNotEmpty(serviceTask.getResultVariableName()) && (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(serviceTask.getImplementationType()) || ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(serviceTask.getImplementationType()))) {
+    addError(errors,Problems.SERVICE_TASK_RESULT_VAR_NAME_WITH_DELEGATE,process,serviceTask,"'resultVariableName' not supported for service tasks using 'class' or 'delegateExpression");
+  }
+}

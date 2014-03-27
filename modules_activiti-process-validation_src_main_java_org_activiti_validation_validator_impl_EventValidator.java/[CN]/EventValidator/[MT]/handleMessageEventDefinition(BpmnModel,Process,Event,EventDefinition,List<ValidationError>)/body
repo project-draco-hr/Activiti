@@ -1,0 +1,9 @@
+{
+  MessageEventDefinition messageEventDefinition=(MessageEventDefinition)eventDefinition;
+  if (StringUtils.isEmpty(messageEventDefinition.getMessageRef())) {
+    addError(errors,Problems.MESSAGE_EVENT_MISSING_MESSAGE_REF,process,event,"attribute 'messageRef' is required");
+  }
+ else   if (!bpmnModel.containsMessageId(messageEventDefinition.getMessageRef())) {
+    addError(errors,Problems.MESSAGE_EVENT_INVALID_MESSAGE_REF,process,event,"Invalid 'messageRef': no message with that id can be found in the model");
+  }
+}

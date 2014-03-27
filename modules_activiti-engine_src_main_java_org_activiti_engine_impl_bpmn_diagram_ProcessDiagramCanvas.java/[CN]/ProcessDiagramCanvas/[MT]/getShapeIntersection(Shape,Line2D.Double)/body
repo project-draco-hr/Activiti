@@ -1,0 +1,28 @@
+{
+  PathIterator it=shape.getPathIterator(null);
+  double[] coords=new double[6];
+  double[] pos=new double[2];
+  Line2D.Double l=new Line2D.Double();
+  while (!it.isDone()) {
+    int type=it.currentSegment(coords);
+switch (type) {
+case PathIterator.SEG_MOVETO:
+      pos[0]=coords[0];
+    pos[1]=coords[1];
+  break;
+case PathIterator.SEG_LINETO:
+l=new Line2D.Double(pos[0],pos[1],coords[0],coords[1]);
+if (line.intersectsLine(l)) {
+return getLinesIntersection(line,l);
+}
+pos[0]=coords[0];
+pos[1]=coords[1];
+break;
+case PathIterator.SEG_CLOSE:
+break;
+default :
+}
+it.next();
+}
+return null;
+}

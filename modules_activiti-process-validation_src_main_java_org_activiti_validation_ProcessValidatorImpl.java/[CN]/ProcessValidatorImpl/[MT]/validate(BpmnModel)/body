@@ -1,0 +1,14 @@
+{
+  List<ValidationError> allErrors=new ArrayList<ValidationError>();
+  for (  ValidatorSet validatorSet : validatorSets) {
+    for (    Validator validator : validatorSet.getValidators()) {
+      validator.validate(bpmnModel,allErrors);
+      if (allErrors.size() > 0) {
+        for (        ValidationError error : allErrors) {
+          error.setValidatorSetName(validatorSet.getName());
+        }
+      }
+    }
+  }
+  return allErrors;
+}

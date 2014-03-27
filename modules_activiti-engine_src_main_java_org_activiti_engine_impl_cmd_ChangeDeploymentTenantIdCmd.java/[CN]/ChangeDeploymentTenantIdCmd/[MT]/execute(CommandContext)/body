@@ -6,11 +6,13 @@
   if (deployment == null) {
     throw new ActivitiObjectNotFoundException("Could not find deployment with id " + deploymentId,Deployment.class);
   }
+  String oldTenantId=deployment.getTenantId();
   deployment.setTenantId(newTenantId);
   commandContext.getProcessDefinitionEntityManager().updateProcessDefinitionTenantIdForDeployment(deploymentId,newTenantId);
   commandContext.getExecutionEntityManager().updateExecutionTenantIdForDeployment(deploymentId,newTenantId);
   commandContext.getTaskEntityManager().updateTaskTenantIdForDeployment(deploymentId,newTenantId);
   commandContext.getJobEntityManager().updateJobTenantIdForDeployment(deploymentId,newTenantId);
+  commandContext.getEventSubscriptionEntityManager().updateEventSubscriptionTenantId(oldTenantId,newTenantId);
   List<ProcessDefinition> processDefinitions=commandContext.getDbSqlSession().createProcessDefinitionQuery().deploymentId(deploymentId).list();
   for (  ProcessDefinition processDefinition : processDefinitions) {
     commandContext.getProcessEngineConfiguration().getProcessDefinitionCache().remove(processDefinition.getId());

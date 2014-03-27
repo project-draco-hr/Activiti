@@ -8,7 +8,7 @@
   assertEquals(1,managementService.createJobQuery().count());
   Execution execution=runtimeService.createExecutionQuery().messageEventSubscriptionName("newInvoice").signalEventSubscriptionName("alert").singleResult();
   assertNotNull(execution);
-  ClockUtil.setCurrentTime(new Date(ClockUtil.getCurrentTime().getTime() + 10000));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(processEngineConfiguration.getClock().getCurrentTime().getTime() + 10000));
   try {
     EventSubscriptionEntity messageEventSubscription=messageEventSubscriptionQuery.singleResult();
     runtimeService.messageEventReceived(messageEventSubscription.getEventName(),messageEventSubscription.getExecutionId());
@@ -20,6 +20,6 @@
     taskService.complete(task.getId());
   }
   finally {
-    ClockUtil.setCurrentTime(new Date());
+    processEngineConfiguration.getClock().setCurrentTime(new Date());
   }
 }

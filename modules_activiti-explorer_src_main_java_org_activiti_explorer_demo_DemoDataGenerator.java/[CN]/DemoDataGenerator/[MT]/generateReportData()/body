@@ -5,7 +5,7 @@
         ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getJobExecutor().shutdown();
         Random random=new Random();
         Date now=new Date(new Date().getTime() - (24 * 60 * 60* 1000));
-        ClockUtil.setCurrentTime(now);
+        ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getClock().setCurrentTime(now);
         for (int i=0; i < 50; i++) {
           if (random.nextBoolean()) {
             processEngine.getRuntimeService().startProcessInstanceByKey("fixSystemFailure");
@@ -23,12 +23,12 @@
           }
           if (random.nextInt(100) < 20) {
             now=new Date(now.getTime() - ((24 * 60 * 60* 1000) - (60 * 60 * 1000)));
-            ClockUtil.setCurrentTime(now);
+            ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getClock().setCurrentTime(now);
           }
         }
         List<Job> jobs=processEngine.getManagementService().createJobQuery().list();
         for (int i=0; i < jobs.size() / 2; i++) {
-          ClockUtil.setCurrentTime(jobs.get(i).getDuedate());
+          ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getClock().setCurrentTime(jobs.get(i).getDuedate());
           processEngine.getManagementService().executeJob(jobs.get(i).getId());
         }
         List<Task> tasks=processEngine.getTaskService().createTaskQuery().list();
@@ -38,12 +38,12 @@
               String assignee=random.nextBoolean() ? "kermit" : "fozzie";
               processEngine.getTaskService().claim(task.getId(),assignee);
             }
-            ClockUtil.setCurrentTime(new Date(task.getCreateTime().getTime() + random.nextInt(60 * 60 * 1000)));
+            ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getClock().setCurrentTime(new Date(task.getCreateTime().getTime() + random.nextInt(60 * 60 * 1000)));
             processEngine.getTaskService().complete(task.getId());
           }
           tasks=processEngine.getTaskService().createTaskQuery().list();
         }
-        ClockUtil.reset();
+        ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getClock().reset();
         ((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getJobExecutor().start();
         LOGGER.info("Demo report data generated");
       }

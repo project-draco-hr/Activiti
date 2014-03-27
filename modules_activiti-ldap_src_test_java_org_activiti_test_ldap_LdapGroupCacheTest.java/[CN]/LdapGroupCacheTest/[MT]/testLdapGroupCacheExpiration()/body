@@ -6,11 +6,11 @@
   assertEquals(0,taskService.createTaskQuery().taskCandidateUser("kermit").count());
   assertEquals("kermit",cacheListener.getLastCacheHit());
   Date now=new Date();
-  ClockUtil.setCurrentTime(now);
+  processEngineConfiguration.getClock().setCurrentTime(now);
   assertEquals(0,taskService.createTaskQuery().taskCandidateUser("fozzie").count());
   assertEquals("fozzie",cacheListener.getLastCacheMiss());
   assertEquals("pepe",cacheListener.getLastCacheEviction());
-  ClockUtil.setCurrentTime(new Date(now.getTime() + (45 * 60 * 1000)));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(now.getTime() + (45 * 60 * 1000)));
   assertEquals(0,taskService.createTaskQuery().taskCandidateUser("fozzie").count());
   assertEquals("fozzie",cacheListener.getLastCacheExpiration());
   assertEquals("fozzie",cacheListener.getLastCacheEviction());

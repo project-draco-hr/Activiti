@@ -30,7 +30,7 @@ catch (  Throwable e) {
     }
     deploymentIdsForAutoCleanup.clear();
     assertAndEnsureCleanDb();
-    ClockUtil.reset();
+    processEngineConfiguration.getClock().reset();
     closeDownProcessEngine();
   }
 }

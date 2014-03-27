@@ -1,0 +1,17 @@
+{
+  List<SendTask> sendTasks=process.findFlowElementsOfType(SendTask.class);
+  for (  SendTask sendTask : sendTasks) {
+    if (StringUtils.isEmpty(sendTask.getType()) && !ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(sendTask.getImplementationType())) {
+      addError(errors,Problems.SEND_TASK_INVALID_IMPLEMENTATION,process,sendTask,"One of the attributes 'type' or 'operation' is mandatory on sendTask");
+    }
+    if (StringUtils.isNotEmpty(sendTask.getType())) {
+      if (!sendTask.getType().equalsIgnoreCase("mail") && !sendTask.getType().equalsIgnoreCase("mule") && !sendTask.getType().equalsIgnoreCase("camel")) {
+        addError(errors,Problems.SEND_TASK_INVALID_TYPE,process,sendTask,"Invalid or unsupported type for send task");
+      }
+      if (sendTask.getType().equalsIgnoreCase("mail")) {
+        validateFieldDeclarationsForEmail(process,sendTask,sendTask.getFieldExtensions(),errors);
+      }
+    }
+    verifyWebservice(bpmnModel,process,sendTask,errors);
+  }
+}

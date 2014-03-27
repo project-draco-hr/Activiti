@@ -8,7 +8,7 @@
     if (subscription.getEventType().equals("message")) {
       for (      EventSubscriptionDeclaration eventDefinition : eventDefinitions) {
         if (eventDefinition.getEventType().equals("message") && eventDefinition.getEventName().equals(subscription.getEventName()) && eventDefinition.isStartEvent() == subscription.isStartEvent()) {
-          bpmnParse.getBpmnModel().addProblem("Cannot have more than one message event subscription with name '" + subscription.getEventName() + "' for scope '"+ scope.getId()+ "'",parsedEventDefinition);
+          logger.warn("Cannot have more than one message event subscription with name '" + subscription.getEventName() + "' for scope '"+ scope.getId()+ "'");
         }
       }
     }

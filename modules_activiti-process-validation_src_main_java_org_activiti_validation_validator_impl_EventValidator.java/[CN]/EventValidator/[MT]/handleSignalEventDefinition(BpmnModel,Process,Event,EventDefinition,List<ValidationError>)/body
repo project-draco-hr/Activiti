@@ -1,0 +1,9 @@
+{
+  SignalEventDefinition signalEventDefinition=(SignalEventDefinition)eventDefinition;
+  if (StringUtils.isEmpty(signalEventDefinition.getSignalRef())) {
+    addError(errors,Problems.SIGNAL_EVENT_MISSING_SIGNAL_REF,process,event,"signalEventDefinition does not have mandatory property 'signalRef'");
+  }
+ else   if (!bpmnModel.containsSignalId(signalEventDefinition.getSignalRef())) {
+    addError(errors,Problems.SIGNAL_EVENT_INVALID_SIGNAL_REF,process,event,"Invalid 'signalRef': no signal with that id can be found in the model");
+  }
+}

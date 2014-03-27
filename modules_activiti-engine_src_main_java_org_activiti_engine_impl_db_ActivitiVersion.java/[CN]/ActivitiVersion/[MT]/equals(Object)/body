@@ -1,0 +1,18 @@
+{
+  if (!(obj instanceof ActivitiVersion)) {
+    return false;
+  }
+  ActivitiVersion other=(ActivitiVersion)obj;
+  boolean mainVersionEqual=mainVersion.equals(other.mainVersion);
+  if (!mainVersionEqual) {
+    return false;
+  }
+ else {
+    if (alternativeVersionStrings != null) {
+      return alternativeVersionStrings.equals(other.alternativeVersionStrings);
+    }
+ else {
+      return other.alternativeVersionStrings == null;
+    }
+  }
+}

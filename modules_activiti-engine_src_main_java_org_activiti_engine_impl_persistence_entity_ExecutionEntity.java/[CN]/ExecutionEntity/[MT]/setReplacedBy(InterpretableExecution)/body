@@ -2,7 +2,15 @@
   this.replacedBy=(ExecutionEntity)replacedBy;
   CommandContext commandContext=Context.getCommandContext();
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
-  for (  TaskEntity task : getTasks()) {
+  List<TaskEntity> allTasks=new ArrayList<TaskEntity>();
+  allTasks.addAll(getTasks());
+  List<TaskEntity> cachedTasks=dbSqlSession.findInCache(TaskEntity.class);
+  for (  TaskEntity cachedTask : cachedTasks) {
+    if (cachedTask.getExecutionId().equals(this.getId())) {
+      allTasks.add(cachedTask);
+    }
+  }
+  for (  TaskEntity task : allTasks) {
     task.setExecutionId(replacedBy.getId());
     task.setExecution(this.replacedBy);
     List<VariableInstanceEntity> variables=(List)commandContext.getVariableInstanceEntityManager().findVariableInstancesByTaskId(task.getId());

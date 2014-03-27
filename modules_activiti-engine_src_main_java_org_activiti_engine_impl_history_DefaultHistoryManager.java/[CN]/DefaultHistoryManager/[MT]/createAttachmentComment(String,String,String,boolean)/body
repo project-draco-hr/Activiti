@@ -4,7 +4,7 @@
     CommentEntity comment=new CommentEntity();
     comment.setUserId(userId);
     comment.setType(CommentEntity.TYPE_EVENT);
-    comment.setTime(ClockUtil.getCurrentTime());
+    comment.setTime(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
     comment.setTaskId(taskId);
     comment.setProcessInstanceId(processInstanceId);
     if (create) {

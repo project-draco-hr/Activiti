@@ -8,6 +8,12 @@
   assertEquals("johndoe",task.getOwner());
   assertEquals("joesmoe",task.getAssignee());
   assertEquals(DelegationState.PENDING,task.getDelegationState());
+  try {
+    taskService.complete(task.getId());
+    fail();
+  }
+ catch (  ActivitiException e) {
+  }
   taskService.resolveTask(taskId);
   task=taskService.createTaskQuery().taskId(taskId).singleResult();
   assertEquals("johndoe",task.getOwner());

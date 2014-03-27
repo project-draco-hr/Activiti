@@ -1,0 +1,10 @@
+{
+  final String query="selectEventSubscriptionsByName";
+  Map<String,String> params=new HashMap<String,String>();
+  params.put("eventType",type);
+  params.put("eventName",eventName);
+  if (tenantId != null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
+    params.put("tenantId",tenantId);
+  }
+  return getDbSqlSession().selectList(query,params);
+}

@@ -1,17 +1,47 @@
 {
   try {
+    ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
     BpmnXMLConverter converter=new BpmnXMLConverter();
     boolean enableSafeBpmnXml=false;
     String encoding=null;
-    if (Context.getProcessEngineConfiguration() != null) {
-      enableSafeBpmnXml=Context.getProcessEngineConfiguration().isEnableSafeBpmnXml();
-      encoding=Context.getProcessEngineConfiguration().getXmlEncoding();
+    if (processEngineConfiguration != null) {
+      enableSafeBpmnXml=processEngineConfiguration.isEnableSafeBpmnXml();
+      encoding=processEngineConfiguration.getXmlEncoding();
     }
     if (encoding != null) {
-      bpmnModel=converter.convertToBpmnModel(streamSource,true,enableSafeBpmnXml,encoding);
+      bpmnModel=converter.convertToBpmnModel(streamSource,validateSchema,enableSafeBpmnXml,encoding);
     }
  else {
-      bpmnModel=converter.convertToBpmnModel(streamSource,true,enableSafeBpmnXml);
+      bpmnModel=converter.convertToBpmnModel(streamSource,validateSchema,enableSafeBpmnXml);
+    }
+    if (validateProcess) {
+      ProcessValidator processValidator=processEngineConfiguration.getProcessValidator();
+      if (processValidator == null) {
+        LOGGER.warn("Process should be validated, but no process validator is configured on the process engine configuration!");
+      }
+ else {
+        List<ValidationError> validationErrors=processValidator.validate(bpmnModel);
+        if (validationErrors != null && validationErrors.size() > 0) {
+          StringBuilder warningBuilder=new StringBuilder();
+          StringBuilder errorBuilder=new StringBuilder();
+          for (          ValidationError error : validationErrors) {
+            if (error.isWarning()) {
+              warningBuilder.append(error.toString());
+              warningBuilder.append("\n");
+            }
+ else {
+              errorBuilder.append(error.toString());
+              errorBuilder.append("\n");
+            }
+          }
+          if (errorBuilder.length() > 0) {
+            throw new ActivitiException("Errors while parsing:\n" + errorBuilder.toString());
+          }
+          if (warningBuilder.length() > 0) {
+            LOGGER.warn("Following warnings encountered during process validation: " + warningBuilder.toString());
+          }
+        }
+      }
     }
     createImports();
     createItemDefinitions();
@@ -26,14 +56,6 @@
  else {
       throw new ActivitiException("Error parsing XML",e);
     }
-  }
-  if (bpmnModel.getProblems().size() > 0) {
-    StringBuilder problemBuilder=new StringBuilder();
-    for (    Problem error : bpmnModel.getProblems()) {
-      problemBuilder.append(error.toString());
-      problemBuilder.append("\n");
-    }
-    throw new ActivitiException("Errors while parsing:\n" + problemBuilder.toString());
   }
   return this;
 }

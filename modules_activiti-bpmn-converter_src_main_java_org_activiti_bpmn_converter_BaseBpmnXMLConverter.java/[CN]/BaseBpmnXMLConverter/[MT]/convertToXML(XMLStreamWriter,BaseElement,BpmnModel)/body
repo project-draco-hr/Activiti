@@ -1,7 +1,6 @@
 {
-  this.model=model;
   xtw.writeStartElement(getXMLElementName());
-  didWriteExtensionStartElement=false;
+  boolean didWriteExtensionStartElement=false;
   writeDefaultAttribute(ATTRIBUTE_ID,baseElement.getId(),xtw);
   if (baseElement instanceof FlowElement) {
     writeDefaultAttribute(ATTRIBUTE_NAME,((FlowElement)baseElement).getName(),xtw);
@@ -30,7 +29,7 @@
       }
     }
   }
-  writeAdditionalAttributes(baseElement,xtw);
+  writeAdditionalAttributes(baseElement,model,xtw);
   if (baseElement instanceof FlowElement) {
     final FlowElement flowElement=(FlowElement)baseElement;
     if (StringUtils.isNotEmpty(flowElement.getDocumentation())) {
@@ -39,8 +38,8 @@
       xtw.writeEndElement();
     }
   }
-  writeExtensionChildElements(baseElement,xtw);
-  didWriteExtensionStartElement=writeListeners(baseElement,xtw);
+  didWriteExtensionStartElement=writeExtensionChildElements(baseElement,didWriteExtensionStartElement,xtw);
+  didWriteExtensionStartElement=writeListeners(baseElement,didWriteExtensionStartElement,xtw);
   didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(baseElement,didWriteExtensionStartElement,xtw);
   if (didWriteExtensionStartElement) {
     xtw.writeEndElement();
@@ -49,6 +48,6 @@
     final Activity activity=(Activity)baseElement;
     MultiInstanceExport.writeMultiInstance(activity,xtw);
   }
-  writeAdditionalChildElements(baseElement,xtw);
+  writeAdditionalChildElements(baseElement,model,xtw);
   xtw.writeEndElement();
 }

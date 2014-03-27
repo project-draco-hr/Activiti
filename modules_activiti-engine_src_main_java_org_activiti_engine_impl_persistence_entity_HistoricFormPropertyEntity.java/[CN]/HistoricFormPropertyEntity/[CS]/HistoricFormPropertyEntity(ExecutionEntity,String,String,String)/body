@@ -4,7 +4,7 @@
   this.taskId=taskId;
   this.propertyId=propertyId;
   this.propertyValue=propertyValue;
-  this.time=ClockUtil.getCurrentTime();
+  this.time=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
   HistoricActivityInstanceEntity historicActivityInstance=Context.getCommandContext().getHistoryManager().findActivityInstance(execution);
   if (historicActivityInstance != null) {
     this.activityInstanceId=historicActivityInstance.getId();

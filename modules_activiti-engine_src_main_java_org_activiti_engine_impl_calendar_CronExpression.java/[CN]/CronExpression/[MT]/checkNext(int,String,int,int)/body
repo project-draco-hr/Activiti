@@ -14,7 +14,7 @@
  else {
       throw new ParseException("'L' option is not valid here. (pos=" + i + ")",i);
     }
-    TreeSet set=getSet(type);
+    TreeSet<Integer> set=getSet(type);
     set.add(Integer.valueOf(val));
     i++;
     return i;
@@ -27,7 +27,7 @@
       throw new ParseException("'W' option is not valid here. (pos=" + i + ")",i);
     }
     if (val > 31)     throw new ParseException("The 'W' option does not make sense with values larger than 31 (max number of days in a month)",i);
-    TreeSet set=getSet(type);
+    TreeSet<Integer> set=getSet(type);
     set.add(Integer.valueOf(val));
     i++;
     return i;
@@ -46,7 +46,7 @@
  catch (    Exception e) {
       throw new ParseException("A numeric value between 1 and 5 must follow the '#' option",i);
     }
-    TreeSet set=getSet(type);
+    TreeSet<Integer> set=getSet(type);
     set.add(Integer.valueOf(val));
     i++;
     return i;

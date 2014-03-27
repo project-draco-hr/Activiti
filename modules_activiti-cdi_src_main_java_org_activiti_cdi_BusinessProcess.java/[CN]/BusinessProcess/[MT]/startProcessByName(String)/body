@@ -7,6 +7,8 @@
     throw new ActivitiObjectNotFoundException("No process definition found for name: " + string,ProcessDefinition.class);
   }
   ProcessInstance instance=processEngine.getRuntimeService().startProcessInstanceById(definition.getId(),getAndClearCachedVariables());
-  setExecution(instance);
+  if (!instance.isEnded()) {
+    setExecution(instance);
+  }
   return instance;
 }
