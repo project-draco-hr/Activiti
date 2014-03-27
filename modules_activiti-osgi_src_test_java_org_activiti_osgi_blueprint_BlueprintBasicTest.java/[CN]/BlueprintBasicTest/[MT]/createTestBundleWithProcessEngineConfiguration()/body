@@ -3,7 +3,7 @@
     return TinyBundles.bundle().add("OSGI-INF/blueprint/context.xml",new FileInputStream(new File("src/test/resources/config/context.xml"))).set(Constants.BUNDLE_SYMBOLICNAME,"org.activiti.osgi.config").set(Constants.DYNAMICIMPORT_PACKAGE,"*").build();
   }
  catch (  FileNotFoundException fnfe) {
-    fail(fnfe.toString());
+    fail("Failure in createTestBundleWithProcessEngineConfiguration " + fnfe.toString());
     return null;
   }
 }
