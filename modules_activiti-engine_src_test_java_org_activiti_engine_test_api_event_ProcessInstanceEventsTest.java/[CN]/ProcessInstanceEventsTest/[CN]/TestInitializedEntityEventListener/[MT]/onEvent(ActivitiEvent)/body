@@ -1,0 +1,6 @@
+{
+  if (event instanceof ActivitiEntityEvent && ProcessInstance.class.isAssignableFrom(((ActivitiEntityEvent)event).getEntity().getClass())) {
+    assertNotNull(((ExecutionEntity)((ActivitiEntityEvent)event).getEntity()).getId());
+    eventsReceived.add(event);
+  }
+}
