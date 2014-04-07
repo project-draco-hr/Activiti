@@ -5,6 +5,7 @@
   result.setId(processInstance.getId());
   result.setProcessDefinitionId(processInstance.getProcessDefinitionId());
   result.setProcessDefinitionUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processInstance.getProcessDefinitionId()));
+  result.setEnded(processInstance.isEnded());
   result.setSuspended(processInstance.isSuspended());
   result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
   result.setTenantId(processInstance.getTenantId());
