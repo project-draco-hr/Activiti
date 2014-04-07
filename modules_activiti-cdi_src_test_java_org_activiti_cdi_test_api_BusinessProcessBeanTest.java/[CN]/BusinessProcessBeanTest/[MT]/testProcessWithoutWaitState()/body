@@ -1,0 +1,5 @@
+{
+  BusinessProcess businessProcess=getBeanInstance(BusinessProcess.class);
+  businessProcess.startProcessByKey("businessProcessBeanTest").getId();
+  assertNull(processEngine.getRuntimeService().createProcessInstanceQuery().singleResult());
+}
