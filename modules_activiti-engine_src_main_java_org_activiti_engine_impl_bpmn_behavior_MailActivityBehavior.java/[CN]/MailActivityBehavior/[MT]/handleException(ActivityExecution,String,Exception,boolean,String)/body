@@ -1,0 +1,16 @@
+{
+  if (doIgnoreException) {
+    LOG.info("Ignoring email send error: " + msg,e);
+    if (exceptionVariable != null && exceptionVariable.length() > 0) {
+      execution.setVariable(exceptionVariable,msg);
+    }
+  }
+ else {
+    if (e instanceof ActivitiException) {
+      throw (ActivitiException)e;
+    }
+ else {
+      throw new ActivitiException(msg,e);
+    }
+  }
+}
