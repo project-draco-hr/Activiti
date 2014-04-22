@@ -1,5 +1,5 @@
 {
   super.initializeServices();
-  listener=new TestActivitiEntityEventListener(ProcessInstance.class);
-  processEngineConfiguration.getEventDispatcher().addEventListener(listener);
+  this.listener=new TestInitializedEntityEventListener();
+  processEngineConfiguration.getEventDispatcher().addEventListener(this.listener);
 }
