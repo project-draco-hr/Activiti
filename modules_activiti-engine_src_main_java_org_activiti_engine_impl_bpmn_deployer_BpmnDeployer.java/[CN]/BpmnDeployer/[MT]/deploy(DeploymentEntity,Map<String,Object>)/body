@@ -2,6 +2,7 @@
   LOG.debug("Processing deployment {}",deployment.getName());
   List<ProcessDefinitionEntity> processDefinitions=new ArrayList<ProcessDefinitionEntity>();
   Map<String,ResourceEntity> resources=deployment.getResources();
+  final ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
   for (  String resourceName : resources.keySet()) {
     LOG.info("Processing resource {}",resourceName);
     if (isBpmnResource(resourceName)) {
@@ -25,9 +26,9 @@
         }
         String diagramResourceName=getDiagramResourceForProcess(resourceName,processDefinition.getKey(),resources);
         if (deployment.isNew()) {
-          if (Context.getProcessEngineConfiguration().isCreateDiagramOnDeploy() && diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
+          if (processEngineConfiguration.isCreateDiagramOnDeploy() && diagramResourceName == null && processDefinition.isGraphicalNotationDefined()) {
             try {
-              byte[] diagramBytes=IoUtil.readInputStream(ProcessDiagramGenerator.generatePngDiagram(bpmnParse.getBpmnModel()),null);
+              byte[] diagramBytes=IoUtil.readInputStream(processEngineConfiguration.getProcessDiagramGenerator().generatePngDiagram(bpmnParse.getBpmnModel()),null);
               diagramResourceName=getProcessImageResourceName(resourceName,processDefinition.getKey(),"png");
               createResource(diagramResourceName,diagramBytes,deployment);
             }
@@ -108,7 +109,7 @@
         processDefinition.setSuspensionState(persistedProcessDefinition.getSuspensionState());
       }
     }
-    Context.getProcessEngineConfiguration().getDeploymentManager().getProcessDefinitionCache().add(processDefinition.getId(),processDefinition);
+    processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache().add(processDefinition.getId(),processDefinition);
     deployment.addDeployedArtifact(processDefinition);
   }
 }

@@ -3,7 +3,9 @@
     private static final long serialVersionUID=6993112534181068935L;
     public InputStream getStream(){
       WorkflowDefinitionConversion workflowDefinitionConversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(createWorkflow());
-      return ProcessDiagramGenerator.generatePngDiagram(workflowDefinitionConversion.getBpmnModel());
+      final ProcessEngineImpl defaultProcessEngine=(ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine();
+      final ProcessDiagramGenerator diagramGenerator=defaultProcessEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
+      return diagramGenerator.generatePngDiagram(workflowDefinitionConversion.getBpmnModel());
     }
   }
 ;
