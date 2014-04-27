@@ -1,0 +1,21 @@
+{
+  when(resourceMock1.getPathWithinContext()).thenReturn(resourceName1);
+  when(resourceMock1.getFile()).thenReturn(fileMock1);
+  when(resourceMock2.getDescription()).thenReturn(resourceName2);
+  when(resourceMock2.getFile()).thenReturn(fileMock2);
+  when(resourceMock3.getFile()).thenReturn(fileMock3);
+  when(fileMock3.getAbsolutePath()).thenReturn(resourceName3);
+  when(resourceMock4.getFile()).thenReturn(fileMock4);
+  when(fileMock4.getAbsolutePath()).thenReturn(resourceName4);
+  when(resourceMock5.getFile()).thenReturn(fileMock5);
+  when(fileMock5.getAbsolutePath()).thenReturn(resourceName5);
+  when(resourceMock1.getInputStream()).thenReturn(inputStreamMock);
+  when(resourceMock2.getInputStream()).thenReturn(inputStreamMock);
+  when(resourceMock3.getInputStream()).thenReturn(inputStreamMock);
+  when(resourceMock4.getInputStream()).thenReturn(inputStreamMock);
+  when(resourceMock5.getInputStream()).thenReturn(inputStreamMock);
+  when(repositoryServiceMock.createDeployment()).thenReturn(deploymentBuilderMock);
+  when(deploymentBuilderMock.enableDuplicateFiltering()).thenReturn(deploymentBuilderMock);
+  when(deploymentBuilderMock.name(isA(String.class))).thenReturn(deploymentBuilderMock);
+  when(deploymentBuilderMock.deploy()).thenReturn(deploymentMock);
+}
