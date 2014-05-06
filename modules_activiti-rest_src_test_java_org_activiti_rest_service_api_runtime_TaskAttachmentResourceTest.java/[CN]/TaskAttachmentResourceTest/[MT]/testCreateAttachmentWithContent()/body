@@ -16,13 +16,13 @@
     Attachment binaryAttachment=attachments.get(0);
     assertEquals("This is binary content",IOUtils.toString(taskService.getAttachmentContent(binaryAttachment.getId())));
     JsonNode responseNode=objectMapper.readTree(response.getStream());
-    assertEquals(binaryAttachment.getId(),responseNode.get("id").getTextValue());
-    assertEquals("myType",responseNode.get("type").getTextValue());
-    assertEquals("An attachment",responseNode.get("name").getTextValue());
-    assertEquals("An attachment description",responseNode.get("description").getTextValue());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),binaryAttachment.getId())));
-    assertTrue(responseNode.get("contentUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),binaryAttachment.getId())));
-    assertTrue(responseNode.get("taskUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())));
+    assertEquals(binaryAttachment.getId(),responseNode.get("id").textValue());
+    assertEquals("myType",responseNode.get("type").textValue());
+    assertEquals("An attachment",responseNode.get("name").textValue());
+    assertEquals("An attachment description",responseNode.get("description").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),binaryAttachment.getId())));
+    assertTrue(responseNode.get("contentUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),binaryAttachment.getId())));
+    assertTrue(responseNode.get("taskUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())));
     assertTrue(responseNode.get("externalUrl").isNull());
     assertTrue(responseNode.get("processInstanceUrl").isNull());
   }

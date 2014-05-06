@@ -5,12 +5,12 @@
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("signalName","The Signal");
     client.post(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
     client.release();
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceWithoutTenantId().processDefinitionKey("processWithSignalStart1").count());
     requestNode.put("tenantId","my tenant");
     client.post(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
     client.release();
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceTenantId("my tenant").processDefinitionKey("processWithSignalStart1").count());
     ArrayNode vars=requestNode.putArray("variables");
@@ -18,12 +18,12 @@
     var.put("name","testVar");
     var.put("value","test");
     client.post(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
     client.release();
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceTenantId("my tenant").processDefinitionKey("processWithSignalStart1").variableValueEquals("testVar","test").count());
     requestNode.remove("tenantId");
     client.post(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
     client.release();
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceWithoutTenantId().processDefinitionKey("processWithSignalStart1").variableValueEquals("testVar","test").count());
   }

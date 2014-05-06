@@ -11,11 +11,11 @@
     assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
     assertNotNull(responseNode);
-    assertEquals("testuser",responseNode.get("id").getTextValue());
-    assertEquals("Frederik",responseNode.get("firstName").getTextValue());
-    assertEquals("Heremans",responseNode.get("lastName").getTextValue());
-    assertEquals("no-reply@activiti.org",responseNode.get("email").getTextValue());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,"testuser")));
+    assertEquals("testuser",responseNode.get("id").textValue());
+    assertEquals("Frederik",responseNode.get("firstName").textValue());
+    assertEquals("Heremans",responseNode.get("lastName").textValue());
+    assertEquals("no-reply@activiti.org",responseNode.get("email").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,"testuser")));
     assertNotNull(identityService.createUserQuery().userId("testuser").singleResult());
   }
   finally {

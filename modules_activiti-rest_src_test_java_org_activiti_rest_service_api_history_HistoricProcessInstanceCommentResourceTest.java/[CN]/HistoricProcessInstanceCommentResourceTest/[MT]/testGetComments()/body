@@ -13,10 +13,10 @@
     assertTrue(responseNode.isArray());
     assertEquals(1,responseNode.size());
     ObjectNode commentNode=(ObjectNode)responseNode.get(0);
-    assertEquals("kermit",commentNode.get("author").getTextValue());
-    assertEquals("This is a comment...",commentNode.get("message").getTextValue());
-    assertEquals(comment.getId(),commentNode.get("id").getTextValue());
-    assertTrue(commentNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())));
+    assertEquals("kermit",commentNode.get("author").textValue());
+    assertEquals("This is a comment...",commentNode.get("message").textValue());
+    assertEquals(comment.getId(),commentNode.get("id").textValue());
+    assertTrue(commentNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())));
     client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,"unexistingtask"));
     try {
       client.get();

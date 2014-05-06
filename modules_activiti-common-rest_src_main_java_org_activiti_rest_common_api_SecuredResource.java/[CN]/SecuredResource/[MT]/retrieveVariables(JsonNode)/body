@@ -1,27 +1,27 @@
 {
   Map<String,Object> variables=new HashMap<String,Object>();
   if (jsonNode != null) {
-    Iterator<String> itName=jsonNode.getFieldNames();
+    Iterator<String> itName=jsonNode.fieldNames();
     while (itName.hasNext()) {
       String name=itName.next();
       JsonNode valueNode=jsonNode.path(name);
       if (valueNode.isBoolean()) {
-        variables.put(name,valueNode.getBooleanValue());
+        variables.put(name,valueNode.booleanValue());
       }
  else       if (valueNode.isInt()) {
-        variables.put(name,valueNode.getIntValue());
+        variables.put(name,valueNode.intValue());
       }
  else       if (valueNode.isLong()) {
-        variables.put(name,valueNode.getLongValue());
+        variables.put(name,valueNode.longValue());
       }
  else       if (valueNode.isDouble()) {
-        variables.put(name,valueNode.getDoubleValue());
+        variables.put(name,valueNode.doubleValue());
       }
  else       if (valueNode.isTextual()) {
-        variables.put(name,valueNode.getTextValue());
+        variables.put(name,valueNode.textValue());
       }
  else {
-        variables.put(name,valueNode.getValueAsText());
+        variables.put(name,valueNode.textValue());
       }
     }
   }

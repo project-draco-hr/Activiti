@@ -8,7 +8,7 @@
     List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedActivityIds));
     Iterator<JsonNode> it=dataNode.iterator();
     while (it.hasNext()) {
-      String activityId=it.next().get("activityId").getTextValue();
+      String activityId=it.next().get("activityId").textValue();
       toBeFound.remove(activityId);
     }
     assertTrue("Not all entries have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());

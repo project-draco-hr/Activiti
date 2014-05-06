@@ -13,9 +13,9 @@
     assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
     assertNotNull(responseNode);
-    assertEquals("testuser",responseNode.get("userId").getTextValue());
-    assertEquals("testgroup",responseNode.get("groupId").getTextValue());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,testGroup.getId(),testUser.getId())));
+    assertEquals("testuser",responseNode.get("userId").textValue());
+    assertEquals("testgroup",responseNode.get("groupId").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,testGroup.getId(),testUser.getId())));
     Group createdGroup=identityService.createGroupQuery().groupId("testgroup").singleResult();
     assertNotNull(createdGroup);
     assertEquals("Test group",createdGroup.getName());

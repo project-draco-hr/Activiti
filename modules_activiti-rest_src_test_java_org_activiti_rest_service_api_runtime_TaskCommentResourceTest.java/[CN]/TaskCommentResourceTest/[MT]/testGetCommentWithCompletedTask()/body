@@ -11,10 +11,10 @@
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
     assertNotNull(responseNode);
-    assertEquals("kermit",responseNode.get("author").getTextValue());
-    assertEquals("This is a comment...",responseNode.get("message").getTextValue());
-    assertEquals(comment.getId(),responseNode.get("id").getTextValue());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId())));
+    assertEquals("kermit",responseNode.get("author").textValue());
+    assertEquals("This is a comment...",responseNode.get("message").textValue());
+    assertEquals(comment.getId(),responseNode.get("id").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId())));
   }
   finally {
     List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().list();

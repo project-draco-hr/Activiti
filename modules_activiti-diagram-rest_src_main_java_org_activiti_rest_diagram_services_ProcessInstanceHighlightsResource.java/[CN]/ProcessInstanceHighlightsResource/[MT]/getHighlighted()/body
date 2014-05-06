@@ -3,10 +3,10 @@
   if (processInstanceId == null) {
     throw new ActivitiException("No process instance id provided");
   }
-  ObjectNode responseJSON=new ObjectMapper().createObjectNode();
+  ObjectNode responseJSON=objectMapper.createObjectNode();
   responseJSON.put("processInstanceId",processInstanceId);
-  ArrayNode activitiesArray=new ObjectMapper().createArrayNode();
-  ArrayNode flowsArray=new ObjectMapper().createArrayNode();
+  ArrayNode activitiesArray=objectMapper.createArrayNode();
+  ArrayNode flowsArray=objectMapper.createArrayNode();
   try {
     processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
     processDefinition=(ProcessDefinitionEntity)repositoryService.getDeployedProcessDefinition(processInstance.getProcessDefinitionId());

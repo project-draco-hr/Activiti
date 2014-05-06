@@ -3,7 +3,7 @@
   JsonNode titleNode=jsonNode.get("title");
   String title=null;
   if (titleNode != null) {
-    title=titleNode.getTextValue();
+    title=titleNode.textValue();
   }
   ChartComponent chartComponent=new ChartComponent(title);
   JsonNode datasetsNode=jsonNode.get("datasets");
@@ -18,7 +18,7 @@
       JsonNode descriptionNode=datasetNode.get("description");
       String description=null;
       if (descriptionNode != null) {
-        description=descriptionNode.getTextValue();
+        description=descriptionNode.textValue();
       }
       JsonNode dataNode=datasetNode.get("data");
       if (dataNode == null || dataNode.size() == 0) {
@@ -28,11 +28,11 @@
         String[] names=new String[dataNode.size()];
         Number[] values=new Number[dataNode.size()];
         int index=0;
-        Iterator<String> fieldIterator=dataNode.getFieldNames();
+        Iterator<String> fieldIterator=dataNode.fieldNames();
         while (fieldIterator.hasNext()) {
           String field=fieldIterator.next();
           names[index]=field;
-          values[index]=dataNode.get(field).getNumberValue();
+          values[index]=dataNode.get(field).numberValue();
           index++;
         }
         if (names.length > 0) {

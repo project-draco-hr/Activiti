@@ -8,10 +8,10 @@
     String encodedResourceId=client.getReference().getLastSegment(false);
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),encodedResourceId)));
-    assertTrue(responseNode.get("contentUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deployment.getId(),encodedResourceId)));
-    assertEquals("text/xml",responseNode.get("mediaType").getTextValue());
-    assertEquals("processDefinition",responseNode.get("type").getTextValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),encodedResourceId)));
+    assertTrue(responseNode.get("contentUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deployment.getId(),encodedResourceId)));
+    assertEquals("text/xml",responseNode.get("mediaType").textValue());
+    assertEquals("processDefinition",responseNode.get("type").textValue());
   }
   finally {
     List<Deployment> deployments=repositoryService.createDeploymentQuery().list();

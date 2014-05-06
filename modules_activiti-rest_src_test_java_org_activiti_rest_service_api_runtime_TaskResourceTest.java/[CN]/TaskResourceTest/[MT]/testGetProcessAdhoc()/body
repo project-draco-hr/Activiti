@@ -31,7 +31,7 @@
     assertTrue(responseNode.get("executionId").isNull());
     assertTrue(responseNode.get("processInstanceId").isNull());
     assertTrue(responseNode.get("processDefinitionId").isNull());
-    assertEquals("",responseNode.get("tenantId").getTextValue());
+    assertEquals("",responseNode.get("tenantId").textValue());
     assertTrue(responseNode.get("parentTaskUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,parentTask.getId())));
   }
   finally {

@@ -9,7 +9,7 @@
   Representation response=client.put(requestNode);
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
   JsonNode responseNode=objectMapper.readTree(response.getStream());
-  assertFalse(responseNode.get("suspended").getBooleanValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
   processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   assertFalse(processDefinition.isSuspended());
 }

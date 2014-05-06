@@ -5,11 +5,11 @@
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
   JsonNode responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals(processInstance.getId(),responseNode.get("id").getTextValue());
-  assertEquals("myBusinessKey",responseNode.get("businessKey").getTextValue());
-  assertEquals("processTask",responseNode.get("activityId").getTextValue());
-  assertFalse(responseNode.get("suspended").getBooleanValue());
-  assertEquals("",responseNode.get("tenantId").getTextValue());
+  assertEquals(processInstance.getId(),responseNode.get("id").textValue());
+  assertEquals("myBusinessKey",responseNode.get("businessKey").textValue());
+  assertEquals("processTask",responseNode.get("activityId").textValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
+  assertEquals("",responseNode.get("tenantId").textValue());
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())));
   assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(processInstance.getProcessDefinitionId()))));
   managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
@@ -17,5 +17,5 @@
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
   responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals("myTenant",responseNode.get("tenantId").getTextValue());
+  assertEquals("myTenant",responseNode.get("tenantId").textValue());
 }

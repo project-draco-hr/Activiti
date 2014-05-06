@@ -6,7 +6,7 @@
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
   JsonNode responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals(tableNameToGet,responseNode.get("name").getTextValue());
-  assertEquals(((Long)tableCounts.get(responseNode.get("name").getTextValue())).longValue(),responseNode.get("count").getLongValue());
-  assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,tableNameToGet)));
+  assertEquals(tableNameToGet,responseNode.get("name").textValue());
+  assertEquals(((Long)tableCounts.get(responseNode.get("name").textValue())).longValue(),responseNode.get("count").longValue());
+  assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,tableNameToGet)));
 }

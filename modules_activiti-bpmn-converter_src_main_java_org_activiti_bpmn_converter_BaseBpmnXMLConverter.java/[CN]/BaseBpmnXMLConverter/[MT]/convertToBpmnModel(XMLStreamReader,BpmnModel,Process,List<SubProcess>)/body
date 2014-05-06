@@ -31,9 +31,12 @@
       }
     }
     if (currentFlowElement instanceof Gateway) {
+      Gateway gateway=(Gateway)currentFlowElement;
       if (StringUtils.isNotEmpty(defaultFlow)) {
-        ((Gateway)currentFlowElement).setDefaultFlow(defaultFlow);
+        gateway.setDefaultFlow(defaultFlow);
       }
+      gateway.setAsynchronous(async);
+      gateway.setNotExclusive(notExclusive);
     }
     if (currentFlowElement instanceof DataObject) {
       if (activeSubProcessList.size() > 0) {

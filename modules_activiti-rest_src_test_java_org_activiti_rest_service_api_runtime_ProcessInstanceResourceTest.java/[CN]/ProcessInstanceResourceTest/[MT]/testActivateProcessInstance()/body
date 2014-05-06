@@ -9,8 +9,8 @@
   assertEquals(1,runtimeService.createProcessInstanceQuery().active().processInstanceId(processInstance.getId()).count());
   JsonNode responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals(processInstance.getId(),responseNode.get("id").getTextValue());
-  assertFalse(responseNode.get("suspended").getBooleanValue());
+  assertEquals(processInstance.getId(),responseNode.get("id").textValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
   try {
     client.put(requestNode);
     fail("Expected exception");

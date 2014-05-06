@@ -20,7 +20,7 @@
         String startParams=entity.getText();
         if (StringUtils.isNotEmpty(startParams)) {
           JsonNode startJSON=new ObjectMapper().readTree(startParams);
-          Iterator<String> itName=startJSON.getFieldNames();
+          Iterator<String> itName=startJSON.fieldNames();
           while (itName.hasNext()) {
             String name=itName.next();
             JsonNode valueNode=startJSON.path(name);
@@ -43,7 +43,7 @@
     try {
       String startParams=entity.getText();
       JsonNode startJSON=new ObjectMapper().readTree(startParams);
-      userId=startJSON.path("userId").getTextValue();
+      userId=startJSON.path("userId").textValue();
     }
  catch (    Exception e) {
       throw new ActivitiException("Did not assign the operation parameters",e);

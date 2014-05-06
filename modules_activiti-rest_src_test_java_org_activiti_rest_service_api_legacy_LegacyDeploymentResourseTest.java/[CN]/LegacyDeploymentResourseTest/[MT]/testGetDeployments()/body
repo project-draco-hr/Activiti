@@ -11,8 +11,8 @@
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
     assertEquals(2L,dataNode.size());
-    assertEquals(firstDeployment.getId(),dataNode.get(0).get("id").getTextValue());
-    assertEquals(secondDeployment.getId(),dataNode.get(1).get("id").getTextValue());
+    assertEquals(firstDeployment.getId(),dataNode.get(0).get("id").textValue());
+    assertEquals(secondDeployment.getId(),dataNode.get(1).get("id").textValue());
   }
   finally {
     List<Deployment> deployments=repositoryService.createDeploymentQuery().list();

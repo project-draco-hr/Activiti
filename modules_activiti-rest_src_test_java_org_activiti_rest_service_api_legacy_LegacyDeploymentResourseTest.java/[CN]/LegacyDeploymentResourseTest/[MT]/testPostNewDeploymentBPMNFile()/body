@@ -5,10 +5,10 @@
     Representation response=client.post(uploadRepresentation);
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
-    String deploymentId=responseNode.get("id").getTextValue();
-    String name=responseNode.get("name").getTextValue();
-    String category=responseNode.get("category").getTextValue();
-    String deployTime=responseNode.get("deploymentTime").getTextValue();
+    String deploymentId=responseNode.get("id").textValue();
+    String name=responseNode.get("name").textValue();
+    String category=responseNode.get("category").textValue();
+    String deployTime=responseNode.get("deploymentTime").textValue();
     assertNotNull(deploymentId);
     assertEquals(1L,repositoryService.createDeploymentQuery().deploymentId(deploymentId).count());
     assertNotNull(name);

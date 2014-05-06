@@ -28,18 +28,18 @@
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
     assertNotNull(responseNode);
-    assertEquals("Updated name",responseNode.get("name").getTextValue());
-    assertEquals("Updated key",responseNode.get("key").getTextValue());
-    assertEquals("Updated category",responseNode.get("category").getTextValue());
-    assertEquals(3,responseNode.get("version").getIntValue());
-    assertEquals("Updated metainfo",responseNode.get("metaInfo").getTextValue());
-    assertEquals(deploymentId,responseNode.get("deploymentId").getTextValue());
-    assertEquals(model.getId(),responseNode.get("id").getTextValue());
-    assertEquals("myTenant",responseNode.get("tenantId").getTextValue());
-    assertEquals(createTime.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").getTextValue()).getTime());
-    assertEquals(updateTime.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").getTextValue()).getTime());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId())));
-    assertTrue(responseNode.get("deploymentUrl").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,deploymentId)));
+    assertEquals("Updated name",responseNode.get("name").textValue());
+    assertEquals("Updated key",responseNode.get("key").textValue());
+    assertEquals("Updated category",responseNode.get("category").textValue());
+    assertEquals(3,responseNode.get("version").intValue());
+    assertEquals("Updated metainfo",responseNode.get("metaInfo").textValue());
+    assertEquals(deploymentId,responseNode.get("deploymentId").textValue());
+    assertEquals(model.getId(),responseNode.get("id").textValue());
+    assertEquals("myTenant",responseNode.get("tenantId").textValue());
+    assertEquals(createTime.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").textValue()).getTime());
+    assertEquals(updateTime.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").textValue()).getTime());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId())));
+    assertTrue(responseNode.get("deploymentUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,deploymentId)));
   }
   finally {
     try {
