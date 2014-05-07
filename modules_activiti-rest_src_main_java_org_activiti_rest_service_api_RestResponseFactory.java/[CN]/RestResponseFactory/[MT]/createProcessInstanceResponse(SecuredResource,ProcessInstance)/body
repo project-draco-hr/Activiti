@@ -9,6 +9,12 @@
   result.setSuspended(processInstance.isSuspended());
   result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
   result.setTenantId(processInstance.getTenantId());
+  if (processInstance.isEnded()) {
+    result.setCompleted(true);
+  }
+ else {
+    result.setCompleted(false);
+  }
   if (processInstance.getProcessVariables() != null) {
     Map<String,Object> variableMap=processInstance.getProcessVariables();
     for (    String name : variableMap.keySet()) {
