@@ -8,31 +8,10 @@
   integerVarNode.put("name","integerVariable");
   integerVarNode.put("value",1234);
   integerVarNode.put("type","integer");
-  ObjectNode shortVarNode=variablesNode.addObject();
-  shortVarNode.put("name","shortVariable");
-  shortVarNode.put("value",123);
-  shortVarNode.put("type","short");
-  ObjectNode longVarNode=variablesNode.addObject();
-  longVarNode.put("name","longVariable");
-  longVarNode.put("value",4567890L);
-  longVarNode.put("type","long");
-  ObjectNode doubleVarNode=variablesNode.addObject();
-  doubleVarNode.put("name","doubleVariable");
-  doubleVarNode.put("value",123.456);
-  doubleVarNode.put("type","double");
-  ObjectNode booleanVarNode=variablesNode.addObject();
-  booleanVarNode.put("name","booleanVariable");
-  booleanVarNode.put("value",Boolean.TRUE);
-  booleanVarNode.put("type","boolean");
-  Calendar varCal=Calendar.getInstance();
-  String isoString=getISODateString(varCal.getTime());
-  ObjectNode dateVarNode=variablesNode.addObject();
-  dateVarNode.put("name","dateVariable");
-  dateVarNode.put("value",isoString);
-  dateVarNode.put("type","date");
   ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("processDefinitionKey","processOne");
+  requestNode.put("returnVariables",true);
   requestNode.put("variables",variablesNode);
   client.post(requestNode);
   assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
@@ -40,16 +19,24 @@
   assertEquals("processTask",responseNode.get("activityId").asText());
   assertEquals(false,responseNode.get("ended").asBoolean());
   JsonNode variablesArrayNode=responseNode.get("variables");
-  assertEquals(0,variablesArrayNode.size());
+  assertEquals(2,variablesArrayNode.size());
+  for (  JsonNode variableNode : variablesArrayNode) {
+    if ("stringVariable".equals(variableNode.get("name").asText())) {
+      assertEquals("simple string value",variableNode.get("value").asText());
+      assertEquals("string",variableNode.get("type").asText());
+    }
+ else     if ("integerVariable".equals(variableNode.get("name").asText())) {
+      assertEquals(1234,variableNode.get("value").asInt());
+      assertEquals("integer",variableNode.get("type").asText());
+    }
+ else {
+      fail("Unexpected variable " + variableNode.get("name").asText());
+    }
+  }
   ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
   assertNotNull(processInstance);
   Map<String,Object> processVariables=runtimeService.getVariables(processInstance.getId());
-  assertEquals(7,processVariables.size());
+  assertEquals(2,processVariables.size());
   assertEquals("simple string value",processVariables.get("stringVariable"));
   assertEquals(1234,processVariables.get("integerVariable"));
-  assertEquals((short)123,processVariables.get("shortVariable"));
-  assertEquals(4567890L,processVariables.get("longVariable"));
-  assertEquals(123.456,processVariables.get("doubleVariable"));
-  assertEquals(Boolean.TRUE,processVariables.get("booleanVariable"));
-  assertEquals(varCal.getTime(),processVariables.get("dateVariable"));
 }

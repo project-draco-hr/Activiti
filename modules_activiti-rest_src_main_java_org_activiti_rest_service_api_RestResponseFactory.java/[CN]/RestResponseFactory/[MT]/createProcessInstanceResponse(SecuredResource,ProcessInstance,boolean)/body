@@ -16,34 +16,15 @@
     result.setCompleted(false);
   }
   if (returnVariables) {
-    RuntimeService runtimeService=ActivitiUtil.getRuntimeService();
-    HistoryService historyService=ActivitiUtil.getHistoryService();
     if (processInstance.isEnded()) {
-      Map<String,Object> variableMap=new HashMap<String,Object>();
-      List<HistoricDetail> historicDetailList=historyService.createHistoricDetailQuery().executionId(processInstance.getId()).list();
-      for (      HistoricDetail historicDetail : historicDetailList) {
-        Map<String,Integer> versionMap=new HashMap<String,Integer>();
-        if (historicDetail instanceof HistoricVariableUpdate) {
-          HistoricVariableUpdate historicVariableUpdate=(HistoricVariableUpdate)historicDetail;
-          if (versionMap.get(historicVariableUpdate.getVariableName()) == null) {
-            versionMap.put(historicVariableUpdate.getVariableName(),historicVariableUpdate.getRevision());
-            variableMap.put(historicVariableUpdate.getVariableName(),historicVariableUpdate.getValue());
-          }
- else {
-            Integer currentRevision=historicVariableUpdate.getRevision();
-            Integer previousRevision=versionMap.get(historicVariableUpdate.getVariableName());
-            if (currentRevision > previousRevision) {
-              versionMap.put(historicVariableUpdate.getVariableName(),currentRevision);
-              variableMap.put(historicVariableUpdate.getVariableName(),historicVariableUpdate.getValue());
-            }
-          }
-        }
-      }
-      for (      String name : variableMap.keySet()) {
-        result.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.LOCAL,processInstance.getId(),VARIABLE_PROCESS,false));
+      HistoryService historyService=ActivitiUtil.getHistoryService();
+      List<HistoricVariableInstance> historicVariableList=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).list();
+      for (      HistoricVariableInstance historicVariable : historicVariableList) {
+        result.addVariable(createRestVariable(securedResource,historicVariable.getVariableName(),historicVariable.getValue(),RestVariableScope.LOCAL,processInstance.getId(),VARIABLE_PROCESS,false));
       }
     }
  else {
+      RuntimeService runtimeService=ActivitiUtil.getRuntimeService();
       Map<String,Object> variableMap=runtimeService.getVariables(processInstance.getId());
       for (      String name : variableMap.keySet()) {
         result.addVariable(createRestVariable(securedResource,name,variableMap.get(name),RestVariableScope.LOCAL,processInstance.getId(),VARIABLE_PROCESS,false));

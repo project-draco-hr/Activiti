@@ -47,8 +47,12 @@
       }
     }
     setStatus(Status.SUCCESS_CREATED);
-    if (request.getReturnVariables())     return factory.createProcessInstanceResponse(this,instance,true);
- else     return factory.createProcessInstanceResponse(this,instance);
+    if (request.getReturnVariables()) {
+      return factory.createProcessInstanceResponse(this,instance,true);
+    }
+ else {
+      return factory.createProcessInstanceResponse(this,instance);
+    }
   }
  catch (  ActivitiObjectNotFoundException aonfe) {
     throw new ActivitiIllegalArgumentException(aonfe.getMessage(),aonfe);
