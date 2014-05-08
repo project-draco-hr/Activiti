@@ -13,6 +13,8 @@
     g.setPaint(originalPaint);
     g.draw(rect);
   }
-  String text=fitTextToWidth(name,width);
-  g.drawString(text,x + 10,y + 15);
+  if (name != null && !name.isEmpty()) {
+    String text=fitTextToWidth(name,width);
+    g.drawString(text,x + 10,y + 15);
+  }
 }
