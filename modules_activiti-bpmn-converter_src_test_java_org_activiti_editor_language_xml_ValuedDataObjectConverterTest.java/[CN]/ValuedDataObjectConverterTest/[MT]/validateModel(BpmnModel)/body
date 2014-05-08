@@ -4,7 +4,7 @@
   assertTrue(flowElement instanceof StartEvent);
   assertEquals("start1",flowElement.getId());
   List<ValuedDataObject> dataObjects=model.getProcess(null).getDataObjects();
-  assertEquals(6,dataObjects.size());
+  assertEquals(7,dataObjects.size());
   Map<String,ValuedDataObject> objectMap=new HashMap<String,ValuedDataObject>();
   for (  ValuedDataObject valueObj : dataObjects) {
     objectMap.put(valueObj.getId(),valueObj);
@@ -57,6 +57,11 @@
   assertEquals(1,testValues.size());
   assertEquals("testvalue",testValues.get(0).getName());
   assertEquals("test",testValues.get(0).getElementText());
+  dataObj=objectMap.get("NoData");
+  assertEquals("NoData",dataObj.getId());
+  assertEquals("NoData",dataObj.getName());
+  assertEquals("xsd:datetime",dataObj.getItemSubjectRef().getStructureRef());
+  assertNull(dataObj.getValue());
   flowElement=model.getMainProcess().getFlowElement("userTask1");
   assertNotNull(flowElement);
   assertTrue(flowElement instanceof UserTask);
