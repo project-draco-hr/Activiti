@@ -1,0 +1,9 @@
+{
+  super.executeParse(bpmnParse,userTask);
+  ScopeImpl scope=bpmnParse.getCurrentScope();
+  ProcessDefinitionImpl processDefinition=scope.getProcessDefinition();
+  ActivityImpl activity=processDefinition.findActivity(userTask.getId());
+  SimulatorParserUtils.setSimulationBehavior(scope,userTask);
+  UserTaskActivityBehavior userTaskActivity=(UserTaskActivityBehavior)activity.getActivityBehavior();
+  userTaskActivity.getTaskDefinition().addTaskListener(eventName,taskListener);
+}

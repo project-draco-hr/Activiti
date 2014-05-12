@@ -1,0 +1,7 @@
+{
+  final HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().finished().singleResult();
+  assertNotNull(historicProcessInstance);
+  assertEquals("oneTaskProcessBusinessKey",historicProcessInstance.getBusinessKey());
+  HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("userTask").singleResult();
+  assertEquals("user1",historicTaskInstance.getAssignee());
+}

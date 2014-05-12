@@ -1,0 +1,20 @@
+{
+  recordEvents();
+  SimulationDebugger simDebugger=createDebugger();
+  simDebugger.init();
+  RuntimeService runtimeService=SimulationRunContext.getRuntimeService();
+  TaskService taskService=SimulationRunContext.getTaskService();
+  HistoryService historyService=SimulationRunContext.getHistoryService();
+  simDebugger.runTo(0);
+  ProcessInstance procInstance=runtimeService.createProcessInstanceQuery().active().processInstanceBusinessKey("oneTaskProcessBusinessKey").singleResult();
+  assertNull(procInstance);
+  simDebugger.runTo(1);
+  step1Check(runtimeService,taskService);
+  simDebugger.runTo(1000);
+  step1Check(runtimeService,taskService);
+  simDebugger.runTo(1500);
+  step2Check(runtimeService,taskService);
+  checkStatus(historyService);
+  simDebugger.close();
+  ProcessEngines.destroy();
+}

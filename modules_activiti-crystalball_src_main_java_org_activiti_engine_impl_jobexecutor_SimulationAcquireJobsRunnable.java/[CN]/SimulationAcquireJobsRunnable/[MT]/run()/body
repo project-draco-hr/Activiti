@@ -1,0 +1,67 @@
+{
+  final CommandExecutor commandExecutor=jobExecutor.getCommandExecutor();
+  isWaiting.set(false);
+  int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
+  try {
+    AcquiredJobs acquiredJobs=commandExecutor.execute(jobExecutor.getAcquireJobsCmd());
+    for (    List<String> jobIds : acquiredJobs.getJobIdBatches()) {
+      jobExecutor.executeJobs(jobIds);
+    }
+    millisToWait=jobExecutor.getWaitTimeInMillis();
+    int jobsAcquired=acquiredJobs.getJobIdBatches().size();
+    if (jobsAcquired < maxJobsPerAcquisition) {
+      isJobAdded=false;
+      Date duedate=new Date(SimulationRunContext.getClock().getCurrentTime().getTime() + millisToWait);
+      List<TimerEntity> nextTimers=commandExecutor.execute(new GetUnlockedTimersByDuedateCmd(duedate,new Page(0,1)));
+      if (!nextTimers.isEmpty()) {
+        long millisTillNextTimer=nextTimers.get(0).getDuedate().getTime() - SimulationRunContext.getClock().getCurrentTime().getTime();
+        if (millisTillNextTimer < millisToWait && millisTillNextTimer != 0) {
+          millisToWait=millisTillNextTimer;
+        }
+      }
+    }
+ else {
+      millisToWait=0;
+    }
+  }
+ catch (  ActivitiOptimisticLockingException optimisticLockingException) {
+    if (log.isLoggable(Level.FINE)) {
+      log.fine("Optimistic locking exception during job acquisition. If you have multiple job executors running against the same database, " + "this exception means that this thread tried to acquire a job, which already was acquired by another job executor acquisition thread." + "This is expected behavior in a clustered environment. "+ "You can ignore this message if you indeed have multiple job executor acquisition threads running against the same database. "+ "Exception message: "+ optimisticLockingException.getMessage());
+    }
+  }
+catch (  Exception e) {
+    if (log.isLoggable(Level.SEVERE)) {
+      log.log(Level.SEVERE,"exception during job acquisition: " + e.getMessage(),e);
+    }
+    millisToWait*=waitIncreaseFactor;
+    if (millisToWait > maxWait) {
+      millisToWait=maxWait;
+    }
+ else     if (millisToWait == 0) {
+      millisToWait=jobExecutor.getWaitTimeInMillis();
+    }
+  }
+  if ((millisToWait > 0) && (!isJobAdded)) {
+    try {
+      if (log.isLoggable(Level.FINE)) {
+        log.fine("job acquisition thread sleeping for " + millisToWait + " millis");
+      }
+synchronized (MONITOR) {
+        if (!isInterrupted) {
+          isWaiting.set(true);
+          SimulationEvent event=new SimulationEvent.Builder(SimulationEvent.TYPE_ACQUIRE_JOB_NOTIFICATION_EVENT).simulationTime(SimulationRunContext.getClock().getCurrentTime().getTime() + millisToWait).property(this).build();
+          SimulationRunContext.getEventCalendar().addEvent(event);
+        }
+      }
+      if (log.isLoggable(Level.FINE)) {
+        log.fine("job acquisition thread woke up");
+      }
+    }
+  finally {
+    }
+  }
+ else {
+    SimulationEvent event=new SimulationEvent.Builder(SimulationEvent.TYPE_ACQUIRE_JOB_NOTIFICATION_EVENT).simulationTime(SimulationRunContext.getClock().getCurrentTime().getTime()).property(this).build();
+    SimulationRunContext.getEventCalendar().addEvent(event);
+  }
+}

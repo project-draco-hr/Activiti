@@ -1,0 +1,10 @@
+{
+  Clock clock=new DefaultClockImpl();
+  ProcessEngine processEngine=(new RecordableProcessEngineFactory(THE_SIMPLEST_PROCESS,clock,listener)).getObject();
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put(TEST_VARIABLE,TEST_VALUE);
+  processEngine.getRuntimeService().startProcessInstanceByKey(SIMPLEST_PROCESS,BUSINESS_KEY,variables);
+  checkStatus(processEngine);
+  EventRecorderTestUtils.closeProcessEngine(processEngine,listener);
+  ProcessEngines.destroy();
+}

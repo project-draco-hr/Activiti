@@ -1,0 +1,6 @@
+{
+  List<Function<ActivitiEvent,SimulationEvent>> transformers=new ArrayList<Function<ActivitiEvent,SimulationEvent>>();
+  transformers.add(new ProcessInstanceCreateTransformer(PROCESS_INSTANCE_START_EVENT_TYPE,PROCESS_DEFINITION_ID_KEY,BUSINESS_KEY,VARIABLES_KEY));
+  transformers.add(new UserTaskCompleteTransformer(USER_TASK_COMPLETED_EVENT_TYPE));
+  return transformers;
+}

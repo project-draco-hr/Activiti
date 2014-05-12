@@ -1,0 +1,5 @@
+{
+  if (event != null && event.getType().equals(SimulationEvent.TYPE_BREAK_SIMULATION))   return true;
+  if (dueDate != null)   return event == null || (SimulationRunContext.getClock().getCurrentTime().after(dueDate));
+  return event == null;
+}

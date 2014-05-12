@@ -1,0 +1,11 @@
+{
+  log.debug("Simulation time:" + this.processEngine.getProcessEngineConfiguration().getClock().getCurrentTime());
+  SimulationEventHandler handler=eventHandlerMap.get(event.getType());
+  if (handler != null) {
+    log.debug("Handling event of type[{}]",event.getType());
+    handler.handle(event);
+  }
+ else {
+    log.warn("Event type[{}] does not have any handler assigned.",event.getType());
+  }
+}
