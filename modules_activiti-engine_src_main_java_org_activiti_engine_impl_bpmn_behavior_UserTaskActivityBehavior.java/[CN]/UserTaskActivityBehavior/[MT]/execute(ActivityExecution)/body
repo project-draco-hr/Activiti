@@ -56,5 +56,8 @@
     }
   }
   handleAssignments(task,execution);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_CREATED,task));
+  }
   task.fireEvent(TaskListener.EVENTNAME_CREATE);
 }
