@@ -13,6 +13,9 @@
         writeQualifiedAttribute(ATTRIBUTE_ACTIVITY_EXCLUSIVE,ATTRIBUTE_VALUE_FALSE,xtw);
       }
     }
+    if (activity.isForCompensation()) {
+      writeDefaultAttribute(ATTRIBUTE_ACTIVITY_ISFORCOMPENSATION,ATTRIBUTE_VALUE_TRUE,xtw);
+    }
     if (StringUtils.isNotEmpty(activity.getDefaultFlow())) {
       FlowElement defaultFlowElement=model.getFlowElement(activity.getDefaultFlow());
       if (defaultFlowElement != null && defaultFlowElement instanceof SequenceFlow) {
