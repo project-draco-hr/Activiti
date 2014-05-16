@@ -1,0 +1,9 @@
+{
+  runtimeService.startProcessInstanceByKey("testFormExpression",CollectionUtil.singletonMap("var","abc"));
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("first-form.json",task.getFormKey());
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("form-abc.json",task.getFormKey());
+  taskService.complete(task.getId());
+}
