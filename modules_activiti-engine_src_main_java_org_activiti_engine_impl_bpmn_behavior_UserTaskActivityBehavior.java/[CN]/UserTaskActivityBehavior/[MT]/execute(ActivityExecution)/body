@@ -55,6 +55,17 @@
       }
     }
   }
+  if (taskDefinition.getFormKeyExpression() != null) {
+    final Object formKey=(String)taskDefinition.getFormKeyExpression().getValue(execution);
+    if (formKey != null) {
+      if (formKey instanceof String) {
+        task.setFormKey((String)formKey);
+      }
+ else {
+        throw new ActivitiIllegalArgumentException("FormKey expression does not resolve to a string: " + taskDefinition.getFormKeyExpression().getExpressionText());
+      }
+    }
+  }
   handleAssignments(task,execution);
   task.fireEvent(TaskListener.EVENTNAME_CREATE);
 }
