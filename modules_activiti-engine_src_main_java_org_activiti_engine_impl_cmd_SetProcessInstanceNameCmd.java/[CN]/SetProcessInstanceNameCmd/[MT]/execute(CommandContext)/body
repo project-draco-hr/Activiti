@@ -1,0 +1,18 @@
+{
+  if (processInstanceId == null) {
+    throw new ActivitiIllegalArgumentException("processInstanceId is null");
+  }
+  ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(processInstanceId);
+  if (execution == null) {
+    throw new ActivitiObjectNotFoundException("process instance " + processInstanceId + " doesn't exist",ProcessInstance.class);
+  }
+  if (!execution.isProcessInstanceType()) {
+    throw new ActivitiObjectNotFoundException("process instance " + processInstanceId + " doesn't exist, the given ID references an execution, though",ProcessInstance.class);
+  }
+  if (execution.isSuspended()) {
+    throw new ActivitiException("process instance " + processInstanceId + " is suspended, cannot set name");
+  }
+  execution.setName(name);
+  commandContext.getHistoryManager().recordProcessInstanceNameChange(processInstanceId,name);
+  return null;
+}
