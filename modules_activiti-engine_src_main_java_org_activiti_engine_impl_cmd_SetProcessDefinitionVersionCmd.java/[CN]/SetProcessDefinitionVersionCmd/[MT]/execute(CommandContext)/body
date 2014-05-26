@@ -19,7 +19,7 @@
   ProcessDefinitionEntity newProcessDefinition=deploymentCache.findDeployedProcessDefinitionByKeyAndVersion(currentProcessDefinition.getKey(),processDefinitionVersion);
   validateAndSwitchVersionOfExecution(commandContext,processInstance,newProcessDefinition);
   commandContext.getHistoryManager().recordProcessDefinitionChange(processInstanceId,newProcessDefinition.getId());
-  List<ExecutionEntity> childExecutions=executionManager.findChildExecutionsByParentExecutionId(processInstanceId);
+  List<ExecutionEntity> childExecutions=executionManager.findChildExecutionsByProcessInstanceId(processInstanceId);
   for (  ExecutionEntity executionEntity : childExecutions) {
     validateAndSwitchVersionOfExecution(commandContext,executionEntity,newProcessDefinition);
   }
