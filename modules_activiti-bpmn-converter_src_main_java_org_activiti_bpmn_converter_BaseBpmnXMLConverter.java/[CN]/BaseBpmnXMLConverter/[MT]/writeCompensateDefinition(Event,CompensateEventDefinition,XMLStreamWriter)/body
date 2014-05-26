@@ -1,0 +1,9 @@
+{
+  xtw.writeStartElement(ELEMENT_EVENT_COMPENSATEDEFINITION);
+  writeDefaultAttribute(ATTRIBUTE_COMPENSATE_ACTIVITYREF,compensateEventDefinition.getActivityRef(),xtw);
+  boolean didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(compensateEventDefinition,false,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
+  }
+  xtw.writeEndElement();
+}
