@@ -3,7 +3,7 @@
   if (processInstance == null) {
     throw new ActivitiObjectNotFoundException("Cannot find process instance with id " + processInstanceId,ExecutionEntity.class);
   }
-  processInstance.addIdentityLink(userId,groupId,type);
-  commandContext.getHistoryManager().createProcessInstanceIdentityLinkComment(processInstanceId,userId,groupId,type,true);
+  processInstance.deleteIdentityLink(userId,groupId,type);
+  commandContext.getHistoryManager().createProcessInstanceIdentityLinkComment(processInstanceId,userId,groupId,type,false);
   return null;
 }
