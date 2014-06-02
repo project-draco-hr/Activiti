@@ -9,10 +9,12 @@
   ProcessInstance procInstance=runtimeService.createProcessInstanceQuery().active().processInstanceBusinessKey("oneTaskProcessBusinessKey").singleResult();
   assertNull(procInstance);
   simDebugger.runTo(1);
+  step0Check(SimulationRunContext.getRepositoryService());
+  simDebugger.runTo(1001);
   step1Check(runtimeService,taskService);
-  simDebugger.runTo(1000);
+  simDebugger.runTo(2000);
   step1Check(runtimeService,taskService);
-  simDebugger.runTo(1500);
+  simDebugger.runTo(2500);
   step2Check(runtimeService,taskService);
   checkStatus(historyService);
   simDebugger.close();

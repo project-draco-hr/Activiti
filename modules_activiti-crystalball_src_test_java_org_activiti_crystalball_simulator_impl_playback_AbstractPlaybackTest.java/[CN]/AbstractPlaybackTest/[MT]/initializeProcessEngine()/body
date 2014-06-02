@@ -1,4 +1,6 @@
 {
   Clock clock=new DefaultClockImpl();
-  this.processEngine=(new RecordableProcessEngineFactory(clock,listener)).getObject();
+  ProcessEngineConfiguration processEngineConfiguration=ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault();
+  processEngineConfiguration.setClock(clock);
+  this.processEngine=(new RecordableProcessEngineFactory((ProcessEngineConfigurationImpl)processEngineConfiguration,listener)).getObject();
 }

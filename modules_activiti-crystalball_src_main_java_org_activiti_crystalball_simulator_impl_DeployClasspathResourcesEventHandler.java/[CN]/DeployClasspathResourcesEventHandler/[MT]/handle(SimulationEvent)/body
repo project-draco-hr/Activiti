@@ -1,0 +1,9 @@
+{
+  List<String> resources=(List<String>)event.getProperty(resourcesKey);
+  DeploymentBuilder deploymentBuilder=SimulationRunContext.getRepositoryService().createDeployment();
+  for (  String resource : resources) {
+    log.debug("adding resource [{}] to repository",resource,SimulationRunContext.getRepositoryService());
+    deploymentBuilder.addClasspathResource(resource);
+  }
+  deploymentBuilder.deploy();
+}
