@@ -1,0 +1,11 @@
+{
+  if (processInstanceId == null) {
+    throw new ActivitiIllegalArgumentException("processInstanceId is null");
+  }
+  if (type == null) {
+    throw new ActivitiIllegalArgumentException("type is required when adding a new process instance identity link");
+  }
+  if (userId == null && groupId == null) {
+    throw new ActivitiIllegalArgumentException("userId and groupId cannot both be null");
+  }
+}
