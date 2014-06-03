@@ -1,0 +1,7 @@
+{
+  Stack<ProcessEngineImpl> stack=getStack(processEngineThreadLocal);
+  if (stack.isEmpty()) {
+    return null;
+  }
+  return stack.peek().getTaskService();
+}

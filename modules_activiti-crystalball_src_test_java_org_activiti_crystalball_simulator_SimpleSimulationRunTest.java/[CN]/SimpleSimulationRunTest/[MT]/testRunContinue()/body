@@ -1,0 +1,9 @@
+{
+  recordEvents();
+  SimulationDebugger simDebugger=createDebugger();
+  simDebugger.init();
+  simDebugger.runContinue();
+  checkStatus(SimulationRunContext.getHistoryService());
+  simDebugger.close();
+  ProcessEngines.destroy();
+}

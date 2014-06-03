@@ -1,0 +1,5 @@
+{
+  final HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().finished().singleResult();
+  assertNotNull(historicProcessInstance);
+  assertTrue(startsWith(historicProcessInstance.getProcessDefinitionId(),"messageStartEventProcess"));
+}

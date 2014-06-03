@@ -1,0 +1,9 @@
+{
+  isJobAdded=true;
+  if (isWaiting.compareAndSet(true,false)) {
+synchronized (MONITOR) {
+      SimulationEvent event=new SimulationEvent.Builder(SimulationEvent.TYPE_ACQUIRE_JOB_NOTIFICATION_EVENT).simulationTime(SimulationRunContext.getClock().getCurrentTime().getTime()).property(this).build();
+      SimulationRunContext.getEventCalendar().addEvent(event);
+    }
+  }
+}

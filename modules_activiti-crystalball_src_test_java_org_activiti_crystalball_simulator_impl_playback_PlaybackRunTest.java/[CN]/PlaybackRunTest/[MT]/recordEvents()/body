@@ -1,0 +1,14 @@
+{
+  Clock clock=new DefaultClockImpl();
+  ProcessEngineConfigurationImpl config=(ProcessEngineConfigurationImpl)ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault();
+  config.setClock(clock);
+  ProcessEngine processEngine=(new RecordableProcessEngineFactory(config,listener)).getObject();
+  processEngine.getProcessEngineConfiguration().setClock(clock);
+  processEngine.getRepositoryService().createDeployment().addClasspathResource(THE_SIMPLEST_PROCESS).deploy();
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put(TEST_VARIABLE,TEST_VALUE);
+  processEngine.getRuntimeService().startProcessInstanceByKey(SIMPLEST_PROCESS,BUSINESS_KEY,variables);
+  checkStatus(processEngine);
+  EventRecorderTestUtils.closeProcessEngine(processEngine,listener);
+  ProcessEngines.destroy();
+}

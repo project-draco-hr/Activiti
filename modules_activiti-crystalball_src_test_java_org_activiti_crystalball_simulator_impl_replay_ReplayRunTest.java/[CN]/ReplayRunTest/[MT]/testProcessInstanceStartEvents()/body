@@ -1,0 +1,24 @@
+{
+  ProcessEngineImpl processEngine=initProcessEngine();
+  TaskService taskService=processEngine.getTaskService();
+  RuntimeService runtimeService=processEngine.getRuntimeService();
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put(TEST_VARIABLE,TEST_VALUE);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey(USERTASK_PROCESS,BUSINESS_KEY,variables);
+  Task task=taskService.createTaskQuery().taskDefinitionKey("userTask").singleResult();
+  TimeUnit.MILLISECONDS.sleep(50);
+  taskService.complete(task.getId());
+  final SimulationDebugger simRun=new ReplaySimulationRun(processEngine,getReplayHandlers(processInstance.getId()));
+  simRun.init();
+  assertEquals(0,runtimeService.createProcessInstanceQuery().processDefinitionKey(USERTASK_PROCESS).count());
+  assertEquals(0,taskService.createTaskQuery().taskDefinitionKey("userTask").count());
+  simRun.step();
+  assertEquals(1,runtimeService.createProcessInstanceQuery().processDefinitionKey(USERTASK_PROCESS).count());
+  assertEquals(1,taskService.createTaskQuery().taskDefinitionKey("userTask").count());
+  simRun.step();
+  assertEquals(0,runtimeService.createProcessInstanceQuery().processDefinitionKey(USERTASK_PROCESS).count());
+  assertEquals(0,taskService.createTaskQuery().taskDefinitionKey("userTask").count());
+  simRun.close();
+  processEngine.close();
+  ProcessEngines.destroy();
+}

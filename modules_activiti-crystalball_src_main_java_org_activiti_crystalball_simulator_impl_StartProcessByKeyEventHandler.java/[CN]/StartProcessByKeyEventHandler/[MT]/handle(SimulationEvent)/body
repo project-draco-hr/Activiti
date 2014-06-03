@@ -1,0 +1,7 @@
+{
+  String processDefinitionKey=(String)event.getProperty(processToStartKey);
+  String businessKey=(String)event.getProperty(this.businessKey);
+  @SuppressWarnings("unchecked") Map<String,Object> variables=(Map<String,Object>)event.getProperty(variablesKey);
+  log.debug("Starting new processDefKey[{}] businessKey[{}] with variables[{}]",processDefinitionKey,businessKey,variables);
+  SimulationRunContext.getRuntimeService().startProcessInstanceByKey(processDefinitionKey,businessKey,variables);
+}

@@ -1,0 +1,39 @@
+{
+  SimulationDebugger simDebugger=null;
+  try {
+    Clock clock=new ThreadLocalClock(new DefaultClockFactory());
+    FactoryBean<ProcessEngineImpl> simulationProcessEngineFactory=new SimulationProcessEngineFactory(ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault());
+    final SimpleSimulationRun.Builder builder=new SimpleSimulationRun.Builder();
+    builder.processEngine(simulationProcessEngineFactory.getObject()).eventCalendar((new SimpleEventCalendarFactory(clock,new SimulationEventComparator(),listener.getSimulationEvents())).getObject()).eventHandlers(getHandlers());
+    simDebugger=builder.build();
+    simDebugger.init();
+    this.processEngine=SimulationRunContext.getProcessEngine();
+    initializeServices();
+    deploymentIdFromDeploymentAnnotation=TestHelper.annotationDeploymentSetUp(processEngine,getClass(),getName());
+    simDebugger.runContinue();
+    _checkStatus();
+  }
+ catch (  AssertionFailedError e) {
+    log.warn("Playback simulation {} has failed",getName());
+    log.error(EMPTY_LINE);
+    log.error("ASSERTION FAILED: {}",e,e);
+    exception=e;
+    throw e;
+  }
+catch (  Throwable e) {
+    log.warn("Playback simulation {} has failed",getName());
+    log.error(EMPTY_LINE);
+    log.error("EXCEPTION: {}",e,e);
+    exception=e;
+    throw e;
+  }
+ finally {
+    if (simDebugger != null) {
+      TestHelper.annotationDeploymentTearDown(processEngine,deploymentIdFromDeploymentAnnotation,getClass(),getName());
+      simDebugger.close();
+      assertAndEnsureCleanDb();
+    }
+    this.processEngineConfiguration.getClock().reset();
+    closeDownProcessEngine();
+  }
+}

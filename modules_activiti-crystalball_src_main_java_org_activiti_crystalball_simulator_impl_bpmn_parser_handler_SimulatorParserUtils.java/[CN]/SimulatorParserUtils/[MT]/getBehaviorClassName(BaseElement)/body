@@ -1,0 +1,12 @@
+{
+  final Map<String,List<ExtensionElement>> extensionElements=baseElement.getExtensionElements();
+  if (extensionElements != null && !extensionElements.isEmpty()) {
+    List<ExtensionElement> behaviorExtensionElements=extensionElements.get(SIMULATION_BEHAVIOR);
+    if (behaviorExtensionElements != null && !behaviorExtensionElements.isEmpty()) {
+      for (      ExtensionElement extension : behaviorExtensionElements) {
+        if (SIMULATION_BPMN_EXTENSIONS_NS.equals(extension.getNamespace()))         return extension.getAttributeValue(null,SIMULATION_CLASS_NAME);
+      }
+    }
+  }
+  return null;
+}

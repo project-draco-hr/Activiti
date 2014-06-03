@@ -1,0 +1,5 @@
+{
+  runtimeService.startProcessInstanceByKey("basicSimulationRun");
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+  assertThat(Counter.value.get(),is(1l));
+}

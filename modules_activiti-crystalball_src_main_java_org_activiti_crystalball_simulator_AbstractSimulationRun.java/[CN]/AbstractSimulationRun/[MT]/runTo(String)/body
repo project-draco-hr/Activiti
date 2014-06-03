@@ -1,0 +1,8 @@
+{
+  EventCalendar eventCalendar=SimulationRunContext.getEventCalendar();
+  SimulationEvent event=eventCalendar.peekFirstEvent();
+  while (!simulationEventType.equals(event.getType()) && !simulationEnd(event)) {
+    step();
+    event=eventCalendar.peekFirstEvent();
+  }
+}

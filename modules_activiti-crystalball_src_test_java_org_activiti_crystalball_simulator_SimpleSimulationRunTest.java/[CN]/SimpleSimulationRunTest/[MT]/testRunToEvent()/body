@@ -1,0 +1,14 @@
+{
+  recordEvents();
+  SimulationDebugger simDebugger=createDebugger();
+  simDebugger.init();
+  try {
+    simDebugger.runTo(USER_TASK_COMPLETED_EVENT_TYPE);
+    step1Check(SimulationRunContext.getRuntimeService(),SimulationRunContext.getTaskService());
+    simDebugger.runContinue();
+  }
+  finally {
+    simDebugger.close();
+    ProcessEngines.destroy();
+  }
+}

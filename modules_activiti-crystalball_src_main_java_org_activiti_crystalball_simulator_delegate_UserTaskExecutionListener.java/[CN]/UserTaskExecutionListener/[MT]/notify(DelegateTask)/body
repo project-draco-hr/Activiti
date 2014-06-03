@@ -1,0 +1,10 @@
+{
+  SimulationEvent eventToSimulate=findUserTaskCompleteEvent(delegateTask);
+  if (eventToSimulate != null) {
+    Map<String,Object> properties=new HashMap<String,Object>();
+    properties.put("taskId",delegateTask.getId());
+    properties.put("variables",eventToSimulate.getProperty(UserTaskCompleteTransformer.TASK_VARIABLES));
+    SimulationEvent e=new SimulationEvent.Builder(typeToCreate).properties(properties).build();
+    SimulationRunContext.getEventCalendar().addEvent(e);
+  }
+}
