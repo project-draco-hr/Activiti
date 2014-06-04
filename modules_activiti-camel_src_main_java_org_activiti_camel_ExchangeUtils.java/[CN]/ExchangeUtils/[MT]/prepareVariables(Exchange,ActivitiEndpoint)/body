@@ -3,6 +3,13 @@
   Map<String,Object> camelVarMap=null;
   if (shouldReadFromProperties) {
     camelVarMap=exchange.getProperties();
+    Map<String,Object> newCamelVarMap=new HashMap<String,Object>();
+    for (    String s : camelVarMap.keySet()) {
+      if (IGNORE_MESSAGE_PROPERTY.equalsIgnoreCase(s) == false) {
+        newCamelVarMap.put(s,camelVarMap.get(s));
+      }
+    }
+    camelVarMap=newCamelVarMap;
   }
  else {
     camelVarMap=new HashMap<String,Object>();

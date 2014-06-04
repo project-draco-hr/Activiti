@@ -1,5 +1,5 @@
 {
-  Map<String,ResourceEntity> resources=(Map<String,ResourceEntity>)event.getProperty(resourcesKey);
+  @SuppressWarnings("unchecked") Map<String,ResourceEntity> resources=(Map<String,ResourceEntity>)event.getProperty(resourcesKey);
   List<InputStream> inputStreams=new ArrayList<InputStream>();
   try {
     DeploymentBuilder deploymentBuilder=SimulationRunContext.getRepositoryService().createDeployment();
