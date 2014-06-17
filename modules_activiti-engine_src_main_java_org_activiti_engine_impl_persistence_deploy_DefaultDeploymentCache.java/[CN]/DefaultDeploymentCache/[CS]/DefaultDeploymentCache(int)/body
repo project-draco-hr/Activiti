@@ -1,5 +1,5 @@
 {
-  this.cache=new LinkedHashMap<String,T>(limit + 1,0.75f,true){
+  this.cache=Collections.synchronizedMap(new LinkedHashMap<String,T>(limit + 1,0.75f,true){
     private static final long serialVersionUID=1L;
     protected boolean removeEldestEntry(    java.util.Map.Entry<String,T> eldest){
       boolean removeEldest=size() > limit;
@@ -9,5 +9,5 @@
       return removeEldest;
     }
   }
-;
+);
 }
