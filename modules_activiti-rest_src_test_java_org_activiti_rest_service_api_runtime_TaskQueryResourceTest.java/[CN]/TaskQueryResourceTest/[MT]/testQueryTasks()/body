@@ -74,6 +74,12 @@
     requestNode.put("candidateGroup","sales");
     assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
     requestNode.removeAll();
+    ArrayNode arrayNode=requestNode.arrayNode();
+    arrayNode.add("sales");
+    arrayNode.add("somethingElse");
+    requestNode.put("candidateGroupIn",arrayNode);
+    assertResultsPresentInDataResponse(url,requestNode,processTask.getId());
+    requestNode.removeAll();
     requestNode.put("involvedUser","misspiggy");
     assertResultsPresentInDataResponse(url,requestNode,adhocTask.getId());
     requestNode.removeAll();
