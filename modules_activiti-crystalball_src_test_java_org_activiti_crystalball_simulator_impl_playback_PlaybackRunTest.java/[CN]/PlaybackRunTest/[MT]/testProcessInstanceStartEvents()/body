@@ -8,7 +8,7 @@
   final ProcessEngineImpl simProcessEngine=simulationProcessEngineFactory.getObject();
   builder.processEngine(simProcessEngine).eventCalendar((new SimpleEventCalendarFactory(clock,new SimulationEventComparator(),listener.getSimulationEvents())).getObject()).eventHandlers(getHandlers());
   SimpleSimulationRun simRun=builder.build();
-  simRun.execute();
+  simRun.execute(new NoExecutionVariableScope());
   checkStatus(simProcessEngine);
   simProcessEngine.getProcessEngineConfiguration().setDatabaseSchemaUpdate("create-drop");
   simProcessEngine.close();
