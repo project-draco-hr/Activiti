@@ -9,7 +9,7 @@
   TimeUnit.MILLISECONDS.sleep(50);
   taskService.complete(task.getId());
   final SimulationDebugger simRun=new ReplaySimulationRun(processEngine,getReplayHandlers(processInstance.getId()));
-  simRun.init();
+  simRun.init(new NoExecutionVariableScope());
   assertEquals(0,runtimeService.createProcessInstanceQuery().processDefinitionKey(USERTASK_PROCESS).count());
   assertEquals(0,taskService.createTaskQuery().taskDefinitionKey("userTask").count());
   simRun.step();

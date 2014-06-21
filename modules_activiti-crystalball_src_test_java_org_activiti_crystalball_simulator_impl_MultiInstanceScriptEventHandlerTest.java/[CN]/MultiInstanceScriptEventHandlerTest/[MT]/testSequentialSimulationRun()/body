@@ -1,0 +1,16 @@
+{
+  ProcessInstance simulationExperiment=runtimeService.startProcessInstanceByKey("multiInstanceResultVariablesSimulationRun");
+  assertEquals(1,runtimeService.createExecutionQuery().count());
+  String simulationRunResult=(String)runtimeService.getVariable(simulationExperiment.getProcessInstanceId(),"simulationRunResult-0");
+  assertThat(simulationRunResult,is("Hello world0!"));
+  simulationRunResult=(String)runtimeService.getVariable(simulationExperiment.getProcessInstanceId(),"simulationRunResult-1");
+  assertThat(simulationRunResult,is("Hello world1!"));
+  simulationRunResult=(String)runtimeService.getVariable(simulationExperiment.getProcessInstanceId(),"simulationRunResult-2");
+  assertThat(simulationRunResult,is("Hello world2!"));
+  simulationRunResult=(String)runtimeService.getVariable(simulationExperiment.getProcessInstanceId(),"simulationRunResult-3");
+  assertThat(simulationRunResult,is("Hello world3!"));
+  simulationRunResult=(String)runtimeService.getVariable(simulationExperiment.getProcessInstanceId(),"simulationRunResult-4");
+  assertThat(simulationRunResult,is("Hello world4!"));
+  runtimeService.signal(simulationExperiment.getId());
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+}
