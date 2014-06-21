@@ -4,8 +4,9 @@
     public InputStream getStream(){
       WorkflowDefinitionConversion workflowDefinitionConversion=ExplorerApp.get().getWorkflowDefinitionConversionFactory().createWorkflowDefinitionConversion(createWorkflow());
       final ProcessEngineImpl defaultProcessEngine=(ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine();
-      final ProcessDiagramGenerator diagramGenerator=defaultProcessEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
-      return diagramGenerator.generatePngDiagram(workflowDefinitionConversion.getBpmnModel());
+      final ProcessEngineConfiguration processEngineConfiguration=defaultProcessEngine.getProcessEngineConfiguration();
+      final ProcessDiagramGenerator diagramGenerator=processEngineConfiguration.getProcessDiagramGenerator();
+      return diagramGenerator.generateDiagram(workflowDefinitionConversion.getBpmnModel(),"png",processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader());
     }
   }
 ;
