@@ -1,0 +1,28 @@
+{
+  if (closed) {
+    throw new ActivitiImageException("ProcessDiagramGenerator already closed");
+  }
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  try {
+    minX=(minX <= 5) ? 5 : minX;
+    minY=(minY <= 5) ? 5 : minY;
+    BufferedImage imageToSerialize=processDiagram;
+    if (minX >= 0 && minY >= 0) {
+      imageToSerialize=processDiagram.getSubimage(minX - 5,minY - 5,canvasWidth - minX + 5,canvasHeight - minY + 5);
+    }
+    ImageIO.write(imageToSerialize,imageType,out);
+  }
+ catch (  IOException e) {
+    throw new ActivitiImageException("Error while generating process image",e);
+  }
+ finally {
+    try {
+      if (out != null) {
+        out.close();
+      }
+    }
+ catch (    IOException ignore) {
+    }
+  }
+  return new ByteArrayInputStream(out.toByteArray());
+}

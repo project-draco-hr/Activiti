@@ -1,0 +1,11 @@
+{
+  InputStream resourceStream=null;
+  if (customClassLoader != null) {
+    resourceStream=customClassLoader.getResourceAsStream(name);
+  }
+  if (resourceStream == null) {
+    ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+    resourceStream=classLoader.getResourceAsStream(name);
+  }
+  return resourceStream;
+}

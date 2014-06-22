@@ -1,0 +1,21 @@
+{
+  RoundRectangle2D rect=new RoundRectangle2D.Double(x,y,width,height,8,8);
+  if (isTriggeredByEvent) {
+    Stroke originalStroke=g.getStroke();
+    g.setStroke(EVENT_SUBPROCESS_STROKE);
+    g.draw(rect);
+    g.setStroke(originalStroke);
+  }
+ else {
+    Paint originalPaint=g.getPaint();
+    g.setPaint(SUBPROCESS_BOX_COLOR);
+    g.fill(rect);
+    g.setPaint(SUBPROCESS_BORDER_COLOR);
+    g.draw(rect);
+    g.setPaint(originalPaint);
+  }
+  if (name != null && !name.isEmpty()) {
+    String text=fitTextToWidth(name,width);
+    g.drawString(text,x + 10,y + 15);
+  }
+}
