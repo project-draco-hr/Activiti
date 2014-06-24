@@ -1,0 +1,19 @@
+{
+  drawGateway(graphicInfo);
+  int x=(int)graphicInfo.getX();
+  int y=(int)graphicInfo.getY();
+  int width=(int)graphicInfo.getWidth();
+  int height=(int)graphicInfo.getHeight();
+  double scale=.6;
+  drawCatchingEvent((int)(x + width * (1 - scale) / 2),(int)(y + height * (1 - scale) / 2),(int)(width * scale),(int)(height * scale),true,null,"eventGateway");
+  double r=width / 6.;
+  int topX=(int)(.95 * r);
+  int topY=(int)(-.31 * r);
+  int bottomX=(int)(.59 * r);
+  int bottomY=(int)(.81 * r);
+  int[] xPoints=new int[]{0,topX,bottomX,-bottomX,-topX};
+  int[] yPoints=new int[]{-(int)r,topY,bottomY,bottomY,topY};
+  Polygon pentagon=new Polygon(xPoints,yPoints,5);
+  pentagon.translate(x + width / 2,y + width / 2);
+  g.drawPolygon(pentagon);
+}

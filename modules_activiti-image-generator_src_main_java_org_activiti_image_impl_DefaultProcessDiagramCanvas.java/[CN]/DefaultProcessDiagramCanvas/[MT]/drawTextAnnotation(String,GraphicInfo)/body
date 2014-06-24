@@ -1,0 +1,29 @@
+{
+  int x=(int)graphicInfo.getX();
+  int y=(int)graphicInfo.getY();
+  int width=(int)graphicInfo.getWidth();
+  int height=(int)graphicInfo.getHeight();
+  Font originalFont=g.getFont();
+  Stroke originalStroke=g.getStroke();
+  g.setFont(ANNOTATION_FONT);
+  Path2D path=new Path2D.Double();
+  x+=.5;
+  int lineLength=18;
+  path.moveTo(x + lineLength,y);
+  path.lineTo(x,y);
+  path.lineTo(x,y + height);
+  path.lineTo(x + lineLength,y + height);
+  path.lineTo(x + lineLength,y + height - 1);
+  path.lineTo(x + 1,y + height - 1);
+  path.lineTo(x + 1,y + 1);
+  path.lineTo(x + lineLength,y + 1);
+  path.closePath();
+  g.draw(path);
+  int boxWidth=width - (2 * ANNOTATION_TEXT_PADDING);
+  int boxHeight=height - (2 * ANNOTATION_TEXT_PADDING);
+  int boxX=x + width / 2 - boxWidth / 2;
+  int boxY=y + height / 2 - boxHeight / 2;
+  drawMultilineAnnotationText(text,boxX,boxY,boxWidth,boxHeight);
+  g.setFont(originalFont);
+  g.setStroke(originalStroke);
+}
