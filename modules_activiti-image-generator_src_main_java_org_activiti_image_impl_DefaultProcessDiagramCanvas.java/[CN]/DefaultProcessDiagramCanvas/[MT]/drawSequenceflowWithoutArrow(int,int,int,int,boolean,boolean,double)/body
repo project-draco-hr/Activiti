@@ -1,0 +1,10 @@
+{
+  Paint originalPaint=g.getPaint();
+  if (highLighted)   g.setPaint(HIGHLIGHT_COLOR);
+  Line2D.Double line=new Line2D.Double(srcX,srcY,targetX,targetY);
+  g.draw(line);
+  if (conditional) {
+    drawConditionalSequenceFlowIndicator(line,scaleFactor);
+  }
+  if (highLighted)   g.setPaint(originalPaint);
+}

@@ -4,7 +4,7 @@
   if (processDefinition != null && processDefinition.isGraphicalNotationDefined()) {
     BpmnModel bpmnModel=repositoryService.getBpmnModel(processDefinitionId);
     ProcessEngineConfiguration processEngineConfiguration=Context.getProcessEngineConfiguration();
-    InputStream definitionImageStream=diagramGenerator.generateDiagram(bpmnModel,"png",runtimeService.getActiveActivityIds(processInstanceId),Collections.<String>emptyList(),processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader());
+    InputStream definitionImageStream=diagramGenerator.generateDiagram(bpmnModel,"png",runtimeService.getActiveActivityIds(processInstanceId),Collections.<String>emptyList(),processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader(),1.0);
     StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
     String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());
     String fileName=processInstanceId + UUID.randomUUID() + "."+ imageExtension;

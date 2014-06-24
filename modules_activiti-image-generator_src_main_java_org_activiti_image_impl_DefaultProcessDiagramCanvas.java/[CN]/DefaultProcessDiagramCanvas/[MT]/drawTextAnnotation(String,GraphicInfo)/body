@@ -23,7 +23,9 @@
   int boxHeight=height - (2 * ANNOTATION_TEXT_PADDING);
   int boxX=x + width / 2 - boxWidth / 2;
   int boxY=y + height / 2 - boxHeight / 2;
-  drawMultilineAnnotationText(text,boxX,boxY,boxWidth,boxHeight);
+  if (text != null && text.isEmpty() == false) {
+    drawMultilineAnnotationText(text,boxX,boxY,boxWidth,boxHeight);
+  }
   g.setFont(originalFont);
   g.setStroke(originalStroke);
 }

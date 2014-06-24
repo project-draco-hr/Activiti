@@ -12,7 +12,7 @@
     BpmnModel bpmnModel=ActivitiUtil.getRepositoryService().getBpmnModel(pde.getId());
     ProcessEngineConfiguration processEngineConfiguration=ActivitiUtil.getProcessEngine().getProcessEngineConfiguration();
     ProcessDiagramGenerator diagramGenerator=processEngineConfiguration.getProcessDiagramGenerator();
-    InputStream resource=diagramGenerator.generateDiagram(bpmnModel,"png",ActivitiUtil.getRuntimeService().getActiveActivityIds(processInstanceId),Collections.<String>emptyList(),processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader());
+    InputStream resource=diagramGenerator.generateDiagram(bpmnModel,"png",ActivitiUtil.getRuntimeService().getActiveActivityIds(processInstanceId),Collections.<String>emptyList(),processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader(),1.0);
     InputRepresentation output=new InputRepresentation(resource,MediaType.IMAGE_PNG);
     return output;
   }
