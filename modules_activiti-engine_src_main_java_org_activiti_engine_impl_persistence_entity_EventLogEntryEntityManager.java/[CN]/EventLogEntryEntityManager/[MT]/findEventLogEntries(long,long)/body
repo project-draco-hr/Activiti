@@ -1,0 +1,8 @@
+{
+  Map<String,Object> params=new HashMap<String,Object>(2);
+  params.put("startLogNr",startLogNr);
+  if (pageSize > 0) {
+    params.put("endLogNr",startLogNr + pageSize + 1);
+  }
+  return getDbSqlSession().selectList("selectEventLogEntries",params);
+}

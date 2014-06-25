@@ -1,0 +1,24 @@
+{
+  DatabaseEventLoggerEventHandler eventHandler=getEventHandler(event);
+  if (eventHandler != null) {
+    if (eventHandler != null && databaseEventFlusher == null) {
+      CommandContext currentCommandContext=Context.getCommandContext();
+      databaseEventFlusher=new DatabaseEventFlusher();
+      currentCommandContext.addCloseListener(databaseEventFlusher);
+      currentCommandContext.addCloseListener(new CommandContextCloseListener(){
+        @Override public void closing(        CommandContext commandContext){
+        }
+        @Override public void closed(        CommandContext commandContext){
+          databaseEventFlusher=null;
+          if (listeners != null) {
+            for (            DatabaseEventLoggerListener listener : listeners) {
+              listener.eventsAdded(DatabaseEventLogger.this);
+            }
+          }
+        }
+      }
+);
+    }
+    databaseEventFlusher.addEventHandler(eventHandler);
+  }
+}

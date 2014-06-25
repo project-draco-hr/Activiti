@@ -1,6 +1,3 @@
 {
-  if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createActivityEvent(ActivitiEventType.ACTIVITY_COMPLETED,execution.getActivity().getId(),execution.getId(),execution.getProcessInstanceId(),execution.getProcessDefinitionId()));
-  }
   execution.performOperation(TRANSITION_DESTROY_SCOPE);
 }

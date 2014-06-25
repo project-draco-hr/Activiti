@@ -1,4 +1,5 @@
 {
+  fireActivityCompletedEvent();
   transitions=new ArrayList<PvmTransition>(transitions);
   recyclableExecutions=(recyclableExecutions != null ? new ArrayList<ActivityExecution>(recyclableExecutions) : new ArrayList<ActivityExecution>());
   if (recyclableExecutions.size() > 1) {
@@ -34,7 +35,7 @@
     concurrentRoot.setActive(true);
     concurrentRoot.setActivity(activity);
     concurrentRoot.setConcurrent(false);
-    concurrentRoot.take(transitions.get(0));
+    concurrentRoot.take(transitions.get(0),false);
   }
  else {
     List<OutgoingExecution> outgoingExecutions=new ArrayList<OutgoingExecution>();
@@ -62,7 +63,7 @@
       prunedExecution.end();
     }
     for (    OutgoingExecution outgoingExecution : outgoingExecutions) {
-      outgoingExecution.take();
+      outgoingExecution.take(false);
     }
   }
 }

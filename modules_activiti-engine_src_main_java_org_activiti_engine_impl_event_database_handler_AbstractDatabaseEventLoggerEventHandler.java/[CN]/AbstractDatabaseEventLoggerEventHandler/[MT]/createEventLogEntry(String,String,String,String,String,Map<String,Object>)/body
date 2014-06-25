@@ -1,0 +1,22 @@
+{
+  try {
+    EventLogEntryEntity eventLogEntry=new EventLogEntryEntity();
+    eventLogEntry.setProcessDefinitionId(processDefinitionId);
+    eventLogEntry.setProcessInstanceId(processInstanceId);
+    eventLogEntry.setExecutionId(executionId);
+    eventLogEntry.setTaskId(taskId);
+    eventLogEntry.setType(type);
+    eventLogEntry.setTimeStamp(timeStamp);
+    putInMapIfNotNull(data,Fields.TIMESTAMP,timeStamp);
+    String userId=Authentication.getAuthenticatedUserId();
+    if (userId != null) {
+      eventLogEntry.setUserId(userId);
+      putInMapIfNotNull(data,"userId",userId);
+    }
+    eventLogEntry.setData(objectMapper.writeValueAsString(data));
+    return eventLogEntry;
+  }
+ catch (  Exception e) {
+  }
+  return null;
+}

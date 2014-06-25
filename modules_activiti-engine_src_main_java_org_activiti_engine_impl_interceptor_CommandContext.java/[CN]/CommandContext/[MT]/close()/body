@@ -10,6 +10,16 @@
         exception(exception);
       }
  finally {
+        if (exception == null && closeListeners != null) {
+          try {
+            for (            CommandContextCloseListener listener : closeListeners) {
+              listener.closing(this);
+            }
+          }
+ catch (          Throwable exception) {
+            exception(exception);
+          }
+        }
         try {
           if (exception == null) {
             transactionContext.commit();
@@ -17,6 +27,16 @@
         }
  catch (        Throwable exception) {
           exception(exception);
+        }
+        if (exception == null && closeListeners != null) {
+          try {
+            for (            CommandContextCloseListener listener : closeListeners) {
+              listener.closed(this);
+            }
+          }
+ catch (          Throwable exception) {
+            exception(exception);
+          }
         }
         if (exception != null) {
           if (exception instanceof JobNotFoundException || exception instanceof ActivitiTaskAlreadyClaimedException) {

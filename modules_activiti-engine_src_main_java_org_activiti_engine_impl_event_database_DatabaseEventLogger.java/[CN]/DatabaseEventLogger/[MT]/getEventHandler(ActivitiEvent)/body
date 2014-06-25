@@ -1,0 +1,28 @@
+{
+  Class<? extends DatabaseEventLoggerEventHandler> eventHandlerClass=null;
+  if (event.getType().equals(ActivitiEventType.ENTITY_CREATED)) {
+    Object entity=((ActivitiEntityEvent)event).getEntity();
+    if (entity instanceof ExecutionEntity) {
+      ExecutionEntity executionEntity=(ExecutionEntity)entity;
+      if (executionEntity.getProcessInstanceId().equals(executionEntity.getId())) {
+        eventHandlerClass=ProcessInstanceStartedEventHandler.class;
+      }
+    }
+  }
+ else   if (event.getType().equals(ActivitiEventType.ENTITY_DELETED)) {
+    Object entity=((ActivitiEntityEvent)event).getEntity();
+    if (entity instanceof ExecutionEntity) {
+      ExecutionEntity executionEntity=(ExecutionEntity)entity;
+      if (executionEntity.getProcessInstanceId().equals(executionEntity.getId())) {
+        eventHandlerClass=ProcessInstanceEndedEventHandler.class;
+      }
+    }
+  }
+ else {
+    eventHandlerClass=eventHandlers.get(event.getType());
+  }
+  if (eventHandlerClass != null) {
+    return instantiateEventHandler(event,eventHandlerClass);
+  }
+  return null;
+}

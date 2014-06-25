@@ -1,0 +1,8 @@
+{
+  if (startLogNr == null) {
+    return commandContext.getEventLogEntryEntityManager().findAllEventLogEntries();
+  }
+ else {
+    return commandContext.getEventLogEntryEntityManager().findEventLogEntries(startLogNr != null ? startLogNr : 0,pageSize != null ? pageSize : -1);
+  }
+}
