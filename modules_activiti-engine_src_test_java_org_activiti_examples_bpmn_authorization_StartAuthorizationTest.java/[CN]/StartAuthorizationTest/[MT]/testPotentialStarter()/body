@@ -12,6 +12,14 @@
     ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("potentialStarter");
     assertProcessEnded(processInstance.getId());
     assertTrue(processInstance.isEnded());
+    ProcessDefinition potentialStarter=repositoryService.createProcessDefinitionQuery().processDefinitionKey("potentialStarter").startableByUser("user1").latestVersion().singleResult();
+    assertNotNull(potentialStarter);
+    potentialStarter=repositoryService.createProcessDefinitionQuery().processDefinitionKey("potentialStarter").startableByUser("user3").latestVersion().singleResult();
+    assertNotNull(potentialStarter);
+    potentialStarter=repositoryService.createProcessDefinitionQuery().processDefinitionKey("potentialStarter").startableByUser("userInGroup2").latestVersion().singleResult();
+    assertNotNull(potentialStarter);
+    potentialStarter=repositoryService.createProcessDefinitionQuery().processDefinitionKey("potentialStarter").startableByUser("userInGroup3").latestVersion().singleResult();
+    assertNotNull(potentialStarter);
   }
   finally {
     tearDownUsersAndGroups();

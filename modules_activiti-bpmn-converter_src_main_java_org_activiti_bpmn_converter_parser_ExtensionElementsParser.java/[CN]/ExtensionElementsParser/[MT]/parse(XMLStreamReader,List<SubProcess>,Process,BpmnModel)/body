@@ -16,6 +16,9 @@
  else       if (ELEMENT_EVENT_LISTENER.equals(xtr.getLocalName())) {
         new ActivitiEventListenerParser().parseChildElement(xtr,parentElement,model);
       }
+ else       if (ELEMENT_POTENTIAL_STARTER.equals(xtr.getLocalName())) {
+        new PotentialStarterParser().parse(xtr,activeProcess);
+      }
  else {
         ExtensionElement extensionElement=BpmnXMLUtil.parseExtensionElement(xtr);
         parentElement.addExtensionElement(extensionElement);
