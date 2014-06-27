@@ -1,0 +1,13 @@
+{
+  try {
+    EventLoggerEventHandler eventHandler=eventHandlerClass.newInstance();
+    eventHandler.setTimeStamp(clock.getCurrentTime());
+    eventHandler.setEvent(event);
+    eventHandler.setObjectMapper(objectMapper);
+    return eventHandler;
+  }
+ catch (  Exception e) {
+    logger.warn("Could not instantiate " + eventHandlerClass + ", this is most likely a programmatic error");
+  }
+  return null;
+}
