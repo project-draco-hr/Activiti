@@ -2,14 +2,6 @@
   try {
     try {
       try {
-        if (exception == null) {
-          flushSessions();
-        }
-      }
- catch (      Throwable exception) {
-        exception(exception);
-      }
- finally {
         if (exception == null && closeListeners != null) {
           try {
             for (            CommandContextCloseListener listener : closeListeners) {
@@ -20,6 +12,14 @@
             exception(exception);
           }
         }
+        if (exception == null) {
+          flushSessions();
+        }
+      }
+ catch (      Throwable exception) {
+        exception(exception);
+      }
+ finally {
         try {
           if (exception == null) {
             transactionContext.commit();
