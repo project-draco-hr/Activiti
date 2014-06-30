@@ -1,0 +1,12 @@
+{
+  Job job=managementService.createJobQuery().singleResult();
+  try {
+    managementService.executeJob(job.getId());
+  }
+ catch (  Exception e) {
+  }
+  job=managementService.createJobQuery().singleResult();
+  if (job.getRetries() != retriesLeft) {
+    waitForExecutedJobWithRetriesLeft(retriesLeft);
+  }
+}

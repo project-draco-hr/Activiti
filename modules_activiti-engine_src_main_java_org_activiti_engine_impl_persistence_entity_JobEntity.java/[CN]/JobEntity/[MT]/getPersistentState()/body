@@ -5,6 +5,8 @@
   persistentState.put("retries",retries);
   persistentState.put("duedate",duedate);
   persistentState.put("exceptionMessage",exceptionMessage);
-  persistentState.put("exceptionByteArrayId",exceptionByteArrayRef.getId());
+  if (exceptionByteArrayId != null) {
+    persistentState.put("exceptionByteArrayId",exceptionByteArrayId);
+  }
   return persistentState;
 }

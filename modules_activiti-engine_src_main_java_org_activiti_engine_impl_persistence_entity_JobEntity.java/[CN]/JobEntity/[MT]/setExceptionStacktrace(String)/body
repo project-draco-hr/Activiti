@@ -1,3 +1,24 @@
 {
-  exceptionByteArrayRef.setValue("stacktrace",getUtf8Bytes(exception));
+  byte[] exceptionBytes=null;
+  if (exception == null) {
+    exceptionBytes=null;
+  }
+ else {
+    try {
+      exceptionBytes=exception.getBytes("UTF-8");
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new ActivitiException("UTF-8 is not a supported encoding");
+    }
+  }
+  ByteArrayEntity byteArray=getExceptionByteArray();
+  if (byteArray == null) {
+    byteArray=new ByteArrayEntity("job.exceptionByteArray",exceptionBytes);
+    Context.getCommandContext().getDbSqlSession().insert(byteArray);
+    exceptionByteArrayId=byteArray.getId();
+    exceptionByteArray=byteArray;
+  }
+ else {
+    byteArray.setBytes(exceptionBytes);
+  }
 }

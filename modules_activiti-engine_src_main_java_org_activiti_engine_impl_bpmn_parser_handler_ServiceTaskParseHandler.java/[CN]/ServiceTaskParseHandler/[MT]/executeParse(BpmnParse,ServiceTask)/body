@@ -1,6 +1,7 @@
 {
   ActivityImpl activity=createActivityOnCurrentScope(bpmnParse,serviceTask,BpmnXMLConstants.ELEMENT_TASK_SERVICE);
   activity.setAsync(serviceTask.isAsynchronous());
+  activity.setFailedJobRetryTimeCycleValue(serviceTask.getFailedJobRetryTimeCycleValue());
   activity.setExclusive(!serviceTask.isNotExclusive());
   if (StringUtils.isNotEmpty(serviceTask.getType())) {
     if (serviceTask.getType().equalsIgnoreCase("mail")) {

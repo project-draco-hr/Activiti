@@ -1,0 +1,18 @@
+{
+  JobEntity job=Context.getCommandContext().getJobEntityManager().findJobById(jobId);
+  ActivityImpl activity=getCurrentActivity(commandContext,job);
+  if (activity == null) {
+    log.log(Level.SEVERE,"Failure while executing " + JobRetryCmd.class.getName() + " for job id '"+ jobId+ "'. Falling back to standard job retry strategy.");
+    executeStandardStrategy(commandContext);
+  }
+ else {
+    try {
+      executeCustomStrategy(commandContext,job,activity);
+    }
+ catch (    Exception e) {
+      log.log(Level.SEVERE,"Failure while executing " + JobRetryCmd.class.getName() + " for job id '"+ jobId+ "'. Falling back to standard job retry strategy.",e);
+      executeStandardStrategy(commandContext);
+    }
+  }
+  return null;
+}
