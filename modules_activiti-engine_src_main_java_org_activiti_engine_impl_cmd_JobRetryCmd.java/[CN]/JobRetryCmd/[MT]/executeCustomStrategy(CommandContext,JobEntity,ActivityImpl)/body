@@ -6,7 +6,7 @@
  else {
     DurationHelper durationHelper=new DurationHelper(failedJobRetryTimeCycle,Context.getProcessEngineConfiguration().getClock());
     job.setLockExpirationTime(durationHelper.getDateAfter());
-    if (job.getExceptionByteArrayId() == null && job.getExceptionMessage() == null) {
+    if (job.getExceptionMessage() == null) {
       log.fine("Applying JobRetryStrategy '" + failedJobRetryTimeCycle + "' the first time for job "+ job.getId()+ " with "+ durationHelper.getTimes()+ " retries");
       job.setRetries(durationHelper.getTimes());
     }
