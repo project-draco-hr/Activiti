@@ -6,7 +6,7 @@
  catch (  Exception e) {
   }
   job=managementService.createJobQuery().singleResult();
-  if (job.getRetries() != retriesLeft) {
+  if (job.getRetries() > retriesLeft) {
     waitForExecutedJobWithRetriesLeft(retriesLeft);
   }
 }
