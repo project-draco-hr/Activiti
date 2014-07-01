@@ -1,18 +1,43 @@
 {
   JobEntity job=Context.getCommandContext().getJobEntityManager().findJobById(jobId);
   ActivityImpl activity=getCurrentActivity(commandContext,job);
-  if (activity == null) {
-    log.log(Level.SEVERE,"Failure while executing " + JobRetryCmd.class.getName() + " for job id '"+ jobId+ "'. Falling back to standard job retry strategy.");
-    executeStandardStrategy(commandContext);
+  if (activity == null || activity.getFailedJobRetryTimeCycleValue() == null) {
+    log.log(Level.SEVERE,"activitiy or FailedJobRetryTimerCycleValue is null in job " + jobId + "'. only decrementing retries.");
+    job.setRetries(job.getRetries() - 1);
+    job.setLockOwner(null);
+    job.setLockExpirationTime(null);
   }
  else {
+    String failedJobRetryTimeCycle=activity.getFailedJobRetryTimeCycleValue();
+    DurationHelper durationHelper;
     try {
-      executeCustomStrategy(commandContext,job,activity);
+      durationHelper=new DurationHelper(failedJobRetryTimeCycle,Context.getProcessEngineConfiguration().getClock());
+      job.setLockExpirationTime(durationHelper.getDateAfter());
+      if (job.getExceptionMessage() == null) {
+        log.fine("Applying JobRetryStrategy '" + failedJobRetryTimeCycle + "' the first time for job "+ job.getId()+ " with "+ durationHelper.getTimes()+ " retries");
+        job.setRetries(durationHelper.getTimes());
+      }
+ else {
+        log.fine("Decrementing retries of JobRetryStrategy '" + failedJobRetryTimeCycle + "' for job "+ job.getId());
+      }
+      job.setRetries(job.getRetries() - 1);
     }
  catch (    Exception e) {
-      log.log(Level.SEVERE,"Failure while executing " + JobRetryCmd.class.getName() + " for job id '"+ jobId+ "'. Falling back to standard job retry strategy.",e);
-      executeStandardStrategy(commandContext);
+      throw new ActivitiException("failedJobRetryTimeCylcle has wrong format:" + failedJobRetryTimeCycle,exception);
     }
   }
+  if (exception != null) {
+    job.setExceptionMessage(exception.getMessage());
+    job.setExceptionStacktrace(getExceptionStacktrace());
+  }
+  ActivitiEventDispatcher eventDispatcher=commandContext.getEventDispatcher();
+  if (eventDispatcher.isEnabled()) {
+    eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,job));
+    eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_RETRIES_DECREMENTED,job));
+  }
+  JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
+  MessageAddedNotification messageAddedNotification=new MessageAddedNotification(jobExecutor);
+  TransactionContext transactionContext=commandContext.getTransactionContext();
+  transactionContext.addTransactionListener(TransactionState.COMMITTED,messageAddedNotification);
   return null;
 }
