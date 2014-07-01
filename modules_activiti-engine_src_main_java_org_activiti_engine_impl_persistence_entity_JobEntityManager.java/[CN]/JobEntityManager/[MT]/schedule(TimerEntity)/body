@@ -4,9 +4,5 @@
     throw new ActivitiIllegalArgumentException("duedate is null");
   }
   timer.insert();
-  JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
-  int waitTimeInMillis=jobExecutor.getWaitTimeInMillis();
-  if (duedate.getTime() < (Context.getProcessEngineConfiguration().getClock().getCurrentTime().getTime() + waitTimeInMillis)) {
-    hintJobExecutor(timer);
-  }
+  pokeJobExecutor(timer);
 }
