@@ -13,7 +13,9 @@
   assertTrue(rootNode.size() > 0);
   assertEquals(1,rootNode.get("data").size());
   JsonNode dataNode=rootNode.get("data").get(0);
-  assertEquals(processId,dataNode.get("id").textValue());
+  assertEquals(processId,dataNode.get("id").asText());
+  assertEquals(processInstance.getProcessDefinitionId(),dataNode.get("processDefinitionId").asText());
+  assertTrue(dataNode.get("processDefinitionUrl").asText().contains(encode(processInstance.getProcessDefinitionId())));
   JsonNode variableNodes=dataNode.get("variables");
   assertEquals(0,variableNodes.size());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?businessKey=myBusinessKey&includeProcessVariables=true";
@@ -27,6 +29,8 @@
   assertEquals(1,rootNode.get("data").size());
   dataNode=rootNode.get("data").get(0);
   assertEquals(processId,dataNode.get("id").textValue());
+  assertEquals(processInstance.getProcessDefinitionId(),dataNode.get("processDefinitionId").asText());
+  assertTrue(dataNode.get("processDefinitionUrl").asText().contains(encode(processInstance.getProcessDefinitionId())));
   variableNodes=dataNode.get("variables");
   assertEquals(1,variableNodes.size());
   variableNodes=dataNode.get("variables");
