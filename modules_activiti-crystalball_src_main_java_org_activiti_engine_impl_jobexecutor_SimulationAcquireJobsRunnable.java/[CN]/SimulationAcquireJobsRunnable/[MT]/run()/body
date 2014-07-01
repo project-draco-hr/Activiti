@@ -25,14 +25,10 @@
     }
   }
  catch (  ActivitiOptimisticLockingException optimisticLockingException) {
-    if (log.isLoggable(Level.FINE)) {
-      log.fine("Optimistic locking exception during job acquisition. If you have multiple job executors running against the same database, " + "this exception means that this thread tried to acquire a job, which already was acquired by another job executor acquisition thread." + "This is expected behavior in a clustered environment. "+ "You can ignore this message if you indeed have multiple job executor acquisition threads running against the same database. "+ "Exception message: "+ optimisticLockingException.getMessage());
-    }
+    log.trace("Optimistic locking exception during job acquisition. If you have multiple job executors running against the same database, " + "this exception means that this thread tried to acquire a job, which already was acquired by another job executor acquisition thread." + "This is expected behavior in a clustered environment. "+ "You can ignore this message if you indeed have multiple job executor acquisition threads running against the same database. "+ "Exception message: "+ optimisticLockingException.getMessage());
   }
 catch (  Exception e) {
-    if (log.isLoggable(Level.SEVERE)) {
-      log.log(Level.SEVERE,"exception during job acquisition: " + e.getMessage(),e);
-    }
+    log.error("exception during job acquisition: " + e.getMessage(),e);
     millisToWait*=waitIncreaseFactor;
     if (millisToWait > maxWait) {
       millisToWait=maxWait;
@@ -43,9 +39,7 @@ catch (  Exception e) {
   }
   if ((millisToWait > 0) && (!isJobAdded)) {
     try {
-      if (log.isLoggable(Level.FINE)) {
-        log.fine("job acquisition thread sleeping for " + millisToWait + " millis");
-      }
+      log.trace("job acquisition thread sleeping for " + millisToWait + " millis");
 synchronized (MONITOR) {
         if (!isInterrupted) {
           isWaiting.set(true);
@@ -53,9 +47,7 @@ synchronized (MONITOR) {
           SimulationRunContext.getEventCalendar().addEvent(event);
         }
       }
-      if (log.isLoggable(Level.FINE)) {
-        log.fine("job acquisition thread woke up");
-      }
+      log.trace("job acquisition thread woke up");
     }
   finally {
     }
