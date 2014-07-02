@@ -6,5 +6,6 @@
   putInMapIfNotNull(data,Fields.PROCESS_DEFINITION_ID,processInstanceEntity.getProcessDefinitionId());
   putInMapIfNotNull(data,Fields.NAME,processInstanceEntity.getName());
   putInMapIfNotNull(data,Fields.TENANT_ID,processInstanceEntity.getTenantId());
+  putInMapIfNotNull(data,Fields.CREATE_TIME,timeStamp);
   return createEventLogEntry(TYPE,processInstanceEntity.getProcessDefinitionId(),processInstanceEntity.getId(),null,null,data);
 }
