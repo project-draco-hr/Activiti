@@ -18,6 +18,10 @@
           bpmnParse.setValidateProcess((Boolean)deploymentSettings.get(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED));
         }
       }
+ else {
+        bpmnParse.setValidateSchema(false);
+        bpmnParse.setValidateProcess(false);
+      }
       bpmnParse.execute();
       for (      ProcessDefinitionEntity processDefinition : bpmnParse.getProcessDefinitions()) {
         processDefinition.setResourceName(resourceName);

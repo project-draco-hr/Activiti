@@ -1,0 +1,9 @@
+{
+  for (  FlowElement flowElement : element.getFlowElements()) {
+    if (!ServiceTask.class.isAssignableFrom(flowElement.getClass())) {
+      continue;
+    }
+    ServiceTask serviceTask=(ServiceTask)flowElement;
+    validateAsyncAttribute(serviceTask,bpmnModel,flowElement);
+  }
+}
