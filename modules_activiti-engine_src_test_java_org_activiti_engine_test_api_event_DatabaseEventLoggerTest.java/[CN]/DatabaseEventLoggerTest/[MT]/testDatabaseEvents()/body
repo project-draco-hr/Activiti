@@ -1,13 +1,27 @@
 {
-  runtimeService.startProcessInstanceByKey("DatabaseEventLoggerProcess");
+  runtimeService.startProcessInstanceByKey("DatabaseEventLoggerProcess",CollectionUtil.singletonMap("testVar","helloWorld???t"));
   List<EventLogEntry> eventLogEntries=managementService.getEventLogEntries(null,null);
-  assertEquals(12,eventLogEntries.size());
+  assertEquals(13,eventLogEntries.size());
   long lastLogNr=-1;
   for (int i=0; i < eventLogEntries.size(); i++) {
     EventLogEntry entry=eventLogEntries.get(i);
     if (i == 0) {
       assertNotNull(entry.getType());
-      assertEquals(entry.getType(),"PROCESSINSTANCE-START");
+      assertEquals(entry.getType(),"VARIABLE_CREATED");
+      assertNotNull(entry.getProcessDefinitionId());
+      assertNotNull(entry.getProcessInstanceId());
+      assertNotNull(entry.getTimeStamp());
+      assertNull(entry.getTaskId());
+      Map<String,Object> data=objectMapper.readValue(entry.getData(),new TypeReference<HashMap<String,Object>>(){
+      }
+);
+      assertNotNull(data.get(Fields.PROCESS_DEFINITION_ID));
+      assertNotNull(data.get(Fields.PROCESS_INSTANCE_ID));
+      assertNotNull(data.get(Fields.VALUE_STRING));
+    }
+    if (i == 1) {
+      assertNotNull(entry.getType());
+      assertEquals(entry.getType(),"PROCESSINSTANCE_START");
       assertNotNull(entry.getProcessDefinitionId());
       assertNotNull(entry.getProcessInstanceId());
       assertNotNull(entry.getTimeStamp());
@@ -22,7 +36,7 @@
       assertFalse(data.containsKey(Fields.NAME));
       assertFalse(data.containsKey(Fields.BUSINESS_KEY));
     }
-    if (i == 1 || i == 4 || i == 7 || i == 10)     if (i == 2) {
+    if (i == 2 || i == 5 || i == 8 || i == 11)     if (i == 3) {
       assertNotNull(entry.getType());
       assertEquals(entry.getType(),ActivitiEventType.ACTIVITY_COMPLETED.name());
       assertNotNull(entry.getProcessDefinitionId());
@@ -41,7 +55,7 @@
       assertNotNull(data.get(Fields.ACTIVITY_TYPE));
       assertNotNull(data.get(Fields.BEHAVIOR_CLASS));
     }
-    if (i == 3 || i == 6 || i == 9) {
+    if (i == 4 || i == 7 || i == 10) {
       assertNotNull(entry.getType());
       assertEquals(entry.getType(),ActivitiEventType.SEQUENCEFLOW_TAKEN.name());
       assertNotNull(entry.getProcessDefinitionId());
@@ -62,7 +76,7 @@
       assertNotNull(data.get(Fields.TARGET_ACTIVITY_TYPE));
       assertNotNull(data.get(Fields.TARGET_ACTIVITY_BEHAVIOR_CLASS));
     }
-    if (i == 5) {
+    if (i == 6) {
       assertNotNull(entry.getType());
       assertEquals(entry.getType(),ActivitiEventType.ACTIVITY_COMPLETED.name());
       assertNotNull(entry.getProcessDefinitionId());
@@ -80,7 +94,7 @@
       assertNotNull(data.get(Fields.ACTIVITY_TYPE));
       assertNotNull(data.get(Fields.BEHAVIOR_CLASS));
     }
-    if (i == 8 || i == 11) {
+    if (i == 9 || i == 12) {
       assertNotNull(entry.getType());
       assertEquals(entry.getType(),ActivitiEventType.TASK_CREATED.name());
       assertNotNull(entry.getTimeStamp());
@@ -193,7 +207,7 @@
     }
     if (i == 12) {
       assertNotNull(entry.getType());
-      assertEquals(entry.getType(),"PROCESSINSTANCE-END");
+      assertEquals(entry.getType(),"PROCESSINSTANCE_END");
       assertNotNull(entry.getProcessDefinitionId());
       assertNotNull(entry.getProcessInstanceId());
       assertNotNull(entry.getTimeStamp());

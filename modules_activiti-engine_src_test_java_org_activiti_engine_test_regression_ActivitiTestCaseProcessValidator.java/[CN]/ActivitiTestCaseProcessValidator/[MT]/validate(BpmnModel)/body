@@ -1,0 +1,16 @@
+{
+  List<ValidationError> errorList=new ArrayList<ValidationError>();
+  CustomParseValidator customParseValidator=new CustomParseValidator();
+  for (  Process process : bpmnModel.getProcesses()) {
+    customParseValidator.executeParse(bpmnModel,process);
+  }
+  ValidationError error=null;
+  for (  String errorRef : bpmnModel.getErrors().keySet()) {
+    error=new ValidationError();
+    error.setValidatorSetName("Manual BPMN parse validator");
+    error.setProblem(errorRef);
+    error.setActivityId(bpmnModel.getErrors().get(errorRef));
+    errorList.add(error);
+  }
+  return errorList;
+}
