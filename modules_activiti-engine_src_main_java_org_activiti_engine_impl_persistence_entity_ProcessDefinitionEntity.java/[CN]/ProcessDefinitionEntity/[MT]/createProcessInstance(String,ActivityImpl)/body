@@ -28,5 +28,8 @@
     processInstance.addIdentityLink(authenticatedUserId,null,IdentityLinkType.STARTER);
   }
   Context.getCommandContext().getHistoryManager().recordProcessInstanceStart(processInstance);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,processInstance));
+  }
   return processInstance;
 }
