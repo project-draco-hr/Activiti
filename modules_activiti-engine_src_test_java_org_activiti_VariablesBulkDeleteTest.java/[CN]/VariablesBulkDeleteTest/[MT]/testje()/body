@@ -1,0 +1,12 @@
+{
+  deployOneTaskTestProcess();
+  Map<String,Object> vars=new HashMap<String,Object>();
+  for (int j=0; j < 40; j++) {
+    vars.put("var" + j,j);
+  }
+  long start=System.currentTimeMillis();
+  runtimeService.startProcessInstanceByKey("oneTaskProcess",vars);
+  taskService.complete(taskService.createTaskQuery().singleResult().getId());
+  long end=System.currentTimeMillis();
+  System.out.println("Time = " + (end - start) + " ms");
+}
