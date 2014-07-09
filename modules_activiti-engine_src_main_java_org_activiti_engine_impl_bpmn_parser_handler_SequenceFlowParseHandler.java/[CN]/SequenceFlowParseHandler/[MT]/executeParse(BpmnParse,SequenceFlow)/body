@@ -6,7 +6,6 @@
   bpmnParse.getSequenceFlows().put(sequenceFlow.getId(),transition);
   transition.setProperty("name",sequenceFlow.getName());
   transition.setProperty("documentation",sequenceFlow.getDocumentation());
-  System.out.println("flow " + sourceActivity.getId() + " "+ sequenceFlow.getTargetRef()+ " "+ destinationActivity);
   transition.setDestination(destinationActivity);
   if (StringUtils.isNotEmpty(sequenceFlow.getConditionExpression())) {
     Condition expressionCondition=new UelExpressionCondition(bpmnParse.getExpressionManager().createExpression(sequenceFlow.getConditionExpression()));

@@ -3,7 +3,9 @@
     for (    String bpmnReference : bpmnModel.getLocationMap().keySet()) {
       if (bpmnModel.getFlowElement(bpmnReference) == null) {
         if (bpmnModel.getArtifact(bpmnReference) == null) {
-          LOGGER.warn("Invalid reference in diagram interchange definition: could not find " + bpmnReference);
+          if (bpmnModel.getPool(bpmnReference) == null && bpmnModel.getLane(bpmnReference) == null) {
+            LOGGER.warn("Invalid reference in diagram interchange definition: could not find " + bpmnReference);
+          }
         }
       }
  else       if (!(bpmnModel.getFlowElement(bpmnReference) instanceof FlowNode)) {
