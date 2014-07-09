@@ -3,7 +3,7 @@
   if (executionId != null) {
     ExecutionEntity execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(executionId);
     execution.addJob(this);
-    if (execution != null && execution.getTenantId() != null) {
+    if (execution.getTenantId() != null) {
       setTenantId(execution.getTenantId());
     }
   }
