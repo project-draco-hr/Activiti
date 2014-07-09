@@ -5,7 +5,7 @@
   params.put("eventName",eventName);
   Set<SignalEventSubscriptionEntity> selectList=new HashSet<SignalEventSubscriptionEntity>(getDbSqlSession().selectList(query,params));
   for (  SignalEventSubscriptionEntity entity : createdSignalSubscriptions) {
-    if (processInstanceId.equals(processInstanceId) && eventName.equals(entity.getEventName())) {
+    if (processInstanceId.equals(entity.getProcessInstanceId()) && eventName.equals(entity.getEventName())) {
       selectList.add(entity);
     }
   }
