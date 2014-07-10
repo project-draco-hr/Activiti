@@ -1,5 +1,5 @@
 {
-  if (ActivitiEventType.ENTITY_CREATED.equals(event.getType()) && (event instanceof ActivitiEntityEvent) && ((ActivitiEntityEvent)event).getEntity() instanceof ProcessInstance&& ((ExecutionEntity)((ActivitiEntityEvent)event).getEntity()).isProcessInstanceType()) {
+  if (ActivitiEventType.ENTITY_INITIALIZED.equals(event.getType()) && (event instanceof ActivitiEntityEvent) && ((ActivitiEntityEvent)event).getEntity() instanceof ProcessInstance&& ((ExecutionEntity)((ActivitiEntityEvent)event).getEntity()).isProcessInstanceType()) {
     ProcessInstance processInstance=(ProcessInstance)((ActivitiEntityEvent)event).getEntity();
     ExecutionEntity executionEntity=(ExecutionEntity)((ActivitiEntityEvent)event).getEntity();
     Map<String,Object> simEventProperties=new HashMap<String,Object>();
