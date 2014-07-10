@@ -2,7 +2,7 @@
   JobEntity job=Context.getCommandContext().getJobEntityManager().findJobById(jobId);
   ActivityImpl activity=getCurrentActivity(commandContext,job);
   if (activity == null || activity.getFailedJobRetryTimeCycleValue() == null) {
-    log.log(Level.SEVERE,"activitiy or FailedJobRetryTimerCycleValue is null in job " + jobId + "'. only decrementing retries.");
+    log.error("activitiy or FailedJobRetryTimerCycleValue is null in job " + jobId + "'. only decrementing retries.");
     job.setRetries(job.getRetries() - 1);
     job.setLockOwner(null);
     job.setLockExpirationTime(null);
@@ -14,11 +14,11 @@
       durationHelper=new DurationHelper(failedJobRetryTimeCycle,Context.getProcessEngineConfiguration().getClock());
       job.setLockExpirationTime(durationHelper.getDateAfter());
       if (job.getExceptionMessage() == null) {
-        log.fine("Applying JobRetryStrategy '" + failedJobRetryTimeCycle + "' the first time for job "+ job.getId()+ " with "+ durationHelper.getTimes()+ " retries");
+        log.debug("Applying JobRetryStrategy '" + failedJobRetryTimeCycle + "' the first time for job "+ job.getId()+ " with "+ durationHelper.getTimes()+ " retries");
         job.setRetries(durationHelper.getTimes());
       }
  else {
-        log.fine("Decrementing retries of JobRetryStrategy '" + failedJobRetryTimeCycle + "' for job "+ job.getId());
+        log.debug("Decrementing retries of JobRetryStrategy '" + failedJobRetryTimeCycle + "' for job "+ job.getId());
       }
       job.setRetries(job.getRetries() - 1);
     }
