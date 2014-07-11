@@ -8,6 +8,9 @@
       execution.setActivity(intermediateEventActivity);
     }
     execution.signal(null,null);
+    if (commandContext.getEventDispatcher().isEnabled()) {
+      commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TIMER_FIRED,job));
+    }
   }
  catch (  RuntimeException e) {
     LogMDC.putMDCExecution(execution);
