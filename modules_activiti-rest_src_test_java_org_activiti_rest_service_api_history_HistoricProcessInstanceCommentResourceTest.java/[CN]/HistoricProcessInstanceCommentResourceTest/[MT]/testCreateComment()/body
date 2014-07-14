@@ -15,7 +15,10 @@
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());
     assertEquals(commentsOnProcess.get(0).getId(),responseNode.get("id").textValue());
-    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),commentsOnProcess.get(0).getId())));
+    assertTrue(responseNode.get("processInstanceUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),commentsOnProcess.get(0).getId())));
+    assertEquals(pi.getProcessInstanceId(),responseNode.get("processInstanceId").asText());
+    assertTrue(responseNode.get("taskUrl").isNull());
+    assertTrue(responseNode.get("taskId").isNull());
   }
   finally {
     if (pi != null) {

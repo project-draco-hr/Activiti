@@ -14,7 +14,10 @@
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());
     assertEquals(comment.getId(),responseNode.get("id").textValue());
-    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId())));
+    assertTrue(responseNode.get("taskUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId())));
+    assertEquals(task.getId(),responseNode.get("taskId").asText());
+    assertTrue(responseNode.get("processInstanceUrl").isNull());
+    assertTrue(responseNode.get("processInstanceId").isNull());
   }
   finally {
     List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().list();

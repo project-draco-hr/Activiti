@@ -13,7 +13,10 @@
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());
     assertEquals(comment.getId(),responseNode.get("id").textValue());
-    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())));
+    assertTrue(responseNode.get("processInstanceUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())));
+    assertEquals(pi.getProcessInstanceId(),responseNode.get("processInstanceId").asText());
+    assertTrue(responseNode.get("taskUrl").isNull());
+    assertTrue(responseNode.get("taskId").isNull());
     client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,"unexistinginstance","123"));
     try {
       client.get();

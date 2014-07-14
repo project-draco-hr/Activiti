@@ -6,11 +6,5 @@
   JsonpFilter jsonpFilter=new JsonpFilter(getContext());
   authenticator.setNext(jsonpFilter);
   jsonpFilter.setNext(router);
-  List<ConverterHelper> registeredConverters=Engine.getInstance().getRegisteredConverters();
-  for (  ConverterHelper helper : registeredConverters) {
-    if (helper instanceof JacksonConverter) {
-      JacksonConverter jacksonConverter=(JacksonConverter)helper;
-    }
-  }
   return authenticator;
 }
