@@ -4,7 +4,7 @@
     for (int i=0; i < times && !cur.after(date); i++) {
       cur=add(cur,period);
     }
-    return cur.before(date) ? null : TimeZoneUtil.convertToTimeZone(cur,clockReader.getCurrentTimeZone());
+    return cur.before(date) ? date : TimeZoneUtil.convertToTimeZone(cur,clockReader.getCurrentTimeZone());
   }
   Calendar cur=add(TimeZoneUtil.convertToTimeZone(end,date.getTimeZone()),period.negate());
   Calendar next=TimeZoneUtil.convertToTimeZone(end,date.getTimeZone());
@@ -12,5 +12,5 @@
     next=cur;
     cur=add(cur,period.negate());
   }
-  return next.before(date) ? null : TimeZoneUtil.convertToTimeZone(next,clockReader.getCurrentTimeZone());
+  return next.before(date) ? date : TimeZoneUtil.convertToTimeZone(next,clockReader.getCurrentTimeZone());
 }
