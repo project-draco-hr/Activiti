@@ -4,6 +4,10 @@
     taskService.addComment(null,processInstance.getId(),"Hello World");
     List<Comment> comments=taskService.getProcessInstanceComments(processInstance.getId());
     assertEquals(1,comments.size());
+    List<Comment> commentsByType=taskService.getProcessInstanceComments(processInstance.getId(),"comment");
+    assertEquals(1,commentsByType.size());
+    commentsByType=taskService.getProcessInstanceComments(processInstance.getId(),"noThisType");
+    assertEquals(0,commentsByType.size());
     runtimeService.suspendProcessInstanceById(processInstance.getId());
     try {
       taskService.addComment(null,processInstance.getId(),"Hello World 2");
