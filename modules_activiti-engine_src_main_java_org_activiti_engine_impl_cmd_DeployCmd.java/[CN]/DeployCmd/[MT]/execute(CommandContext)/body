@@ -1,26 +1,26 @@
 {
   DeploymentEntity deployment=deploymentBuilder.getDeployment();
-  deployment.setDeploymentTime(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
+  deployment.setDeploymentTime(commandContext.getProcessEngineConfiguration().getClock().getCurrentTime());
   if (deploymentBuilder.isDuplicateFilterEnabled()) {
-    DeploymentEntity existingDeployment=Context.getCommandContext().getDeploymentEntityManager().findLatestDeploymentByName(deployment.getName());
+    DeploymentEntity existingDeployment=commandContext.getDeploymentEntityManager().findLatestDeploymentByName(deployment.getName());
     if ((existingDeployment != null) && !deploymentsDiffer(deployment,existingDeployment)) {
       return existingDeployment;
     }
   }
   deployment.setNew(true);
-  Context.getCommandContext().getDeploymentEntityManager().insertDeployment(deployment);
-  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,deployment));
+  commandContext.getDeploymentEntityManager().insertDeployment(deployment);
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,deployment));
   }
   Map<String,Object> deploymentSettings=new HashMap<String,Object>();
   deploymentSettings.put(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED,deploymentBuilder.isBpmn20XsdValidationEnabled());
   deploymentSettings.put(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED,deploymentBuilder.isProcessValidationEnabled());
-  Context.getProcessEngineConfiguration().getDeploymentManager().deploy(deployment,deploymentSettings);
+  commandContext.getProcessEngineConfiguration().getDeploymentManager().deploy(deployment,deploymentSettings);
   if (deploymentBuilder.getProcessDefinitionsActivationDate() != null) {
     scheduleProcessDefinitionActivation(commandContext,deployment);
   }
-  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,deployment));
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,deployment));
   }
   return deployment;
 }

@@ -1,5 +1,5 @@
 {
-  ProcessDefinitionEntity processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
+  ProcessDefinitionEntity processDefinition=commandContext.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
   if (processDefinition == null) {
     throw new ActivitiObjectNotFoundException("Process Definition '" + processDefinitionId + "' not found",ProcessDefinition.class);
   }
@@ -7,7 +7,7 @@
   if (startFormHandler == null) {
     return null;
   }
-  FormEngine formEngine=Context.getProcessEngineConfiguration().getFormEngines().get(formEngineName);
+  FormEngine formEngine=commandContext.getProcessEngineConfiguration().getFormEngines().get(formEngineName);
   if (formEngine == null) {
     throw new ActivitiException("No formEngine '" + formEngineName + "' defined process engine configuration");
   }

@@ -1,8 +1,8 @@
 {
   if (SuspensionState.ACTIVE.equals(getProcessDefinitionSuspensionState())) {
-    return new ProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).suspended().listPage(currentPageStartIndex,Context.getProcessEngineConfiguration().getBatchSizeProcessInstances());
+    return new ProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).suspended().listPage(currentPageStartIndex,commandContext.getProcessEngineConfiguration().getBatchSizeProcessInstances());
   }
  else {
-    return new ProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).active().listPage(currentPageStartIndex,Context.getProcessEngineConfiguration().getBatchSizeProcessInstances());
+    return new ProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).active().listPage(currentPageStartIndex,commandContext.getProcessEngineConfiguration().getBatchSizeProcessInstances());
   }
 }

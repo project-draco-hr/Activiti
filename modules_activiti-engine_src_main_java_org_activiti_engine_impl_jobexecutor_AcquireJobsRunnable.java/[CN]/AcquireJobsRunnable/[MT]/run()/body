@@ -2,6 +2,7 @@
   log.info("{} starting to acquire jobs",jobExecutor.getName());
   final CommandExecutor commandExecutor=jobExecutor.getCommandExecutor();
   while (!isInterrupted) {
+    isJobAdded=false;
     int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
     try {
       AcquiredJobs acquiredJobs=commandExecutor.execute(jobExecutor.getAcquireJobsCmd());
@@ -10,18 +11,7 @@
       }
       millisToWait=jobExecutor.getWaitTimeInMillis();
       int jobsAcquired=acquiredJobs.getJobIdBatches().size();
-      if (jobsAcquired < maxJobsPerAcquisition) {
-        isJobAdded=false;
-        Date duedate=new Date(jobExecutor.getCurrentTime().getTime() + millisToWait);
-        List<TimerEntity> nextTimers=commandExecutor.execute(new GetUnlockedTimersByDuedateCmd(duedate,new Page(0,1)));
-        if (!nextTimers.isEmpty()) {
-          long millisTillNextTimer=nextTimers.get(0).getDuedate().getTime() - jobExecutor.getCurrentTime().getTime();
-          if (millisTillNextTimer < millisToWait) {
-            millisToWait=millisTillNextTimer;
-          }
-        }
-      }
- else {
+      if (jobsAcquired >= maxJobsPerAcquisition) {
         millisToWait=0;
       }
     }
@@ -32,13 +22,7 @@
     }
 catch (    Throwable e) {
       log.error("exception during job acquisition: {}",e.getMessage(),e);
-      millisToWait*=waitIncreaseFactor;
-      if (millisToWait > maxWait) {
-        millisToWait=maxWait;
-      }
- else       if (millisToWait == 0) {
-        millisToWait=jobExecutor.getWaitTimeInMillis();
-      }
+      millisToWait=jobExecutor.getWaitTimeInMillis();
     }
     if ((millisToWait > 0) && (!isJobAdded)) {
       try {

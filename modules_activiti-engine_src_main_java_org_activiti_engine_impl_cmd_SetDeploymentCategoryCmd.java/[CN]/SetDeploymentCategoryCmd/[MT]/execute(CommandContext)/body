@@ -2,13 +2,13 @@
   if (deploymentId == null) {
     throw new ActivitiIllegalArgumentException("Deployment id is null");
   }
-  DeploymentEntity deployment=Context.getCommandContext().getDeploymentEntityManager().findDeploymentById(deploymentId);
+  DeploymentEntity deployment=commandContext.getDeploymentEntityManager().findDeploymentById(deploymentId);
   if (deployment == null) {
     throw new ActivitiObjectNotFoundException("No deployment found for id = '" + deploymentId + "'",Deployment.class);
   }
   deployment.setCategory(category);
-  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,deployment));
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,deployment));
   }
   return null;
 }

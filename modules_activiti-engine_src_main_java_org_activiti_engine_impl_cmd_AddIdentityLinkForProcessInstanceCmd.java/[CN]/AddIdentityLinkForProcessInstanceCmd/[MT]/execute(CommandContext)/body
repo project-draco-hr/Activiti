@@ -1,5 +1,5 @@
 {
-  ExecutionEntity processInstance=Context.getCommandContext().getExecutionEntityManager().findExecutionById(processInstanceId);
+  ExecutionEntity processInstance=commandContext.getExecutionEntityManager().findExecutionById(processInstanceId);
   if (processInstance == null) {
     throw new ActivitiObjectNotFoundException("Cannot find process instance with id " + processInstanceId,ExecutionEntity.class);
   }

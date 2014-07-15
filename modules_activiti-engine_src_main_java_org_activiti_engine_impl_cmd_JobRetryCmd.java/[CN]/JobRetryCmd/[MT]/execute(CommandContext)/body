@@ -1,17 +1,22 @@
 {
-  JobEntity job=Context.getCommandContext().getJobEntityManager().findJobById(jobId);
+  JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
   ActivityImpl activity=getCurrentActivity(commandContext,job);
   if (activity == null || activity.getFailedJobRetryTimeCycleValue() == null) {
     log.error("activitiy or FailedJobRetryTimerCycleValue is null in job " + jobId + "'. only decrementing retries.");
     job.setRetries(job.getRetries() - 1);
     job.setLockOwner(null);
     job.setLockExpirationTime(null);
+    if (job.getDuedate() == null) {
+      job.setDuedate(calculateDueDate(commandContext,commandContext.getProcessEngineConfiguration().getAsyncFailedJobWaitTime(),null));
+    }
+ else {
+      job.setDuedate(calculateDueDate(commandContext,commandContext.getProcessEngineConfiguration().getDefaultFailedJobWaitTime(),job.getDuedate()));
+    }
   }
  else {
     String failedJobRetryTimeCycle=activity.getFailedJobRetryTimeCycleValue();
-    DurationHelper durationHelper;
     try {
-      durationHelper=new DurationHelper(failedJobRetryTimeCycle,Context.getProcessEngineConfiguration().getClock());
+      DurationHelper durationHelper=new DurationHelper(failedJobRetryTimeCycle,commandContext.getProcessEngineConfiguration().getClock());
       job.setLockExpirationTime(durationHelper.getDateAfter());
       if (job.getExceptionMessage() == null) {
         log.debug("Applying JobRetryStrategy '" + failedJobRetryTimeCycle + "' the first time for job "+ job.getId()+ " with "+ durationHelper.getTimes()+ " retries");
@@ -35,7 +40,7 @@
     eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,job));
     eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_RETRIES_DECREMENTED,job));
   }
-  JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
+  JobExecutor jobExecutor=commandContext.getProcessEngineConfiguration().getJobExecutor();
   MessageAddedNotification messageAddedNotification=new MessageAddedNotification(jobExecutor);
   TransactionContext transactionContext=commandContext.getTransactionContext();
   transactionContext.addTransactionListener(TransactionState.COMMITTED,messageAddedNotification);

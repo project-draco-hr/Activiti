@@ -1,7 +1,7 @@
 {
   job.setLockOwner(lockOwner);
   GregorianCalendar gregorianCalendar=new GregorianCalendar();
-  gregorianCalendar.setTime(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
+  gregorianCalendar.setTime(commandContext.getProcessEngineConfiguration().getClock().getCurrentTime());
   gregorianCalendar.add(Calendar.MILLISECOND,lockTimeInMillis);
   job.setLockExpirationTime(gregorianCalendar.getTime());
 }

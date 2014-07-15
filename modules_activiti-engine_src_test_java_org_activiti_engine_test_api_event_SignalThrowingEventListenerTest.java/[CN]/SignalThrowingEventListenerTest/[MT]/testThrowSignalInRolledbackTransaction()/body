@@ -10,7 +10,7 @@
     waitForJobExecutorToProcessAllJobs(2000,100);
     Job failedJob=managementService.createJobQuery().withException().processInstanceId(processInstance.getId()).singleResult();
     assertNotNull(failedJob);
-    assertEquals(0,failedJob.getRetries());
+    assertEquals(2,failedJob.getRetries());
     assertEquals(0,taskService.createTaskQuery().processInstanceId(processInstance.getId()).count());
     try {
       managementService.executeJob(failedJob.getId());

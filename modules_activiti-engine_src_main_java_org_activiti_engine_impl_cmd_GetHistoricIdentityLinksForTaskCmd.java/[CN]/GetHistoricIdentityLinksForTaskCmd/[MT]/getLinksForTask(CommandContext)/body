@@ -1,9 +1,9 @@
 {
-  HistoricTaskInstanceEntity task=Context.getCommandContext().getHistoricTaskInstanceEntityManager().findHistoricTaskInstanceById(taskId);
+  HistoricTaskInstanceEntity task=commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstanceById(taskId);
   if (task == null) {
     throw new ActivitiObjectNotFoundException("No historic task exists with the given id: " + taskId,HistoricTaskInstance.class);
   }
-  List<HistoricIdentityLink> identityLinks=(List)Context.getCommandContext().getHistoricIdentityLinkEntityManager().findHistoricIdentityLinksByTaskId(taskId);
+  List<HistoricIdentityLink> identityLinks=(List)commandContext.getHistoricIdentityLinkEntityManager().findHistoricIdentityLinksByTaskId(taskId);
   if (task.getAssignee() != null) {
     HistoricIdentityLinkEntity identityLink=new HistoricIdentityLinkEntity();
     identityLink.setUserId(task.getAssignee());

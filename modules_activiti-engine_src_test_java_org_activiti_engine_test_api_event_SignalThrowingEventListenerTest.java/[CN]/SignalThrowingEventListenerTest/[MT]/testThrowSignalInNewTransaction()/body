@@ -10,14 +10,14 @@
     waitForJobExecutorToProcessAllJobs(2000,100);
     Job failedJob=managementService.createJobQuery().withException().processInstanceId(processInstance.getId()).singleResult();
     assertNotNull(failedJob);
-    assertEquals(0,failedJob.getRetries());
-    assertEquals(3,taskService.createTaskQuery().processInstanceId(processInstance.getId()).count());
+    assertEquals(2,failedJob.getRetries());
+    assertEquals(1,taskService.createTaskQuery().processInstanceId(processInstance.getId()).count());
     try {
       managementService.executeJob(failedJob.getId());
       fail("Exception expected");
     }
  catch (    ActivitiException ae) {
-      assertEquals(4,taskService.createTaskQuery().processInstanceId(processInstance.getId()).count());
+      assertEquals(2,taskService.createTaskQuery().processInstanceId(processInstance.getId()).count());
     }
   }
   finally {
