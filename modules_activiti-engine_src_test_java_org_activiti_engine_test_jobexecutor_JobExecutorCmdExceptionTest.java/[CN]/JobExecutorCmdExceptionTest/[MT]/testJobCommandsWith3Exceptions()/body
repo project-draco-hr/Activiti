@@ -1,6 +1,6 @@
 {
   tweetExceptionHandler.setExceptionsRemaining(3);
-  commandExecutor.execute(new Command<String>(){
+  String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       MessageEntity message=createTweetExceptionMessage();
       commandContext.getJobEntityManager().send(message);

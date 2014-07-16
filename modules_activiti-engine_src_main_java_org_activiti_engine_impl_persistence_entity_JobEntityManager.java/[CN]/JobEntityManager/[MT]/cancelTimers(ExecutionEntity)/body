@@ -1,6 +1,9 @@
 {
   List<TimerEntity> timers=Context.getCommandContext().getJobEntityManager().findTimersByExecutionId(execution.getId());
   for (  TimerEntity timer : timers) {
+    if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED,timer));
+    }
     timer.delete();
   }
 }
