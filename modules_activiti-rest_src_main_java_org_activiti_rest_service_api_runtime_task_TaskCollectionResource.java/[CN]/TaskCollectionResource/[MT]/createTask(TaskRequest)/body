@@ -7,6 +7,9 @@
   }
   Task task=ActivitiUtil.getTaskService().newTask();
   populateTaskFromRequest(task,taskRequest);
+  if (taskRequest.isTenantIdSet()) {
+    ((TaskEntity)task).setTenantId(taskRequest.getTenantId());
+  }
   ActivitiUtil.getTaskService().saveTask(task);
   setStatus(Status.SUCCESS_CREATED);
   return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createTaskResponse(this,task);
