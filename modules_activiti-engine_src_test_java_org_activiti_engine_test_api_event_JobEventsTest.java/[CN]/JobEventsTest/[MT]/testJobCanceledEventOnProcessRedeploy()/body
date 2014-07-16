@@ -1,0 +1,8 @@
+{
+  String deployment1=repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/event/JobEventsTest.testTimerFiredForTimerStart.bpmn20.xml").deploy().getId();
+  listener.clearEventsReceived();
+  String deployment2=repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/event/JobEventsTest.testTimerFiredForTimerStart.bpmn20.xml").deploy().getId();
+  checkEventCount(1,ActivitiEventType.JOB_CANCELED);
+  repositoryService.deleteDeployment(deployment2);
+  repositoryService.deleteDeployment(deployment1);
+}

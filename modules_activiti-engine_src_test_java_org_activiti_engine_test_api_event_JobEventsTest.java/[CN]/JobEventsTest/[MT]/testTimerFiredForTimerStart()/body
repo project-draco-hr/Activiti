@@ -5,4 +5,5 @@
   waitForJobExecutorToProcessAllJobs(2000,100);
   assertEquals(3,listener.getEventsReceived().size());
   assertEquals(ActivitiEventType.TIMER_FIRED,listener.getEventsReceived().get(0).getType());
+  checkEventCount(0,ActivitiEventType.JOB_CANCELED);
 }

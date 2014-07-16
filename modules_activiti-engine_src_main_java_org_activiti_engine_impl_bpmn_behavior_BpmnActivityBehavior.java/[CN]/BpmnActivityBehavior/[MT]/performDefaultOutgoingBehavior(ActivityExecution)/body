@@ -1,3 +1,7 @@
 {
-  performOutgoingBehavior(activityExceution,true,false,null);
+  ActivityImpl activity=(ActivityImpl)activityExecution.getActivity();
+  if (!(activity.getActivityBehavior() instanceof IntermediateCatchEventActivityBehavior)) {
+    dispatchJobCanceledEvents(activityExecution);
+  }
+  performOutgoingBehavior(activityExecution,true,false,null);
 }
