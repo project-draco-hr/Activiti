@@ -47,6 +47,14 @@
   if (names.contains("candidateGroup")) {
     request.setCandidateGroup(getQueryParameter("candidateGroup",query));
   }
+  if (names.contains("candidateGroups")) {
+    String[] candidateGroups=getQueryParameter("candidateGroups",query).split(",");
+    List<String> groups=new ArrayList<String>(candidateGroups.length);
+    for (    String candidateGroup : candidateGroups) {
+      groups.add(candidateGroup);
+    }
+    request.setCandidateGroupIn(groups);
+  }
   if (names.contains("processDefinitionKey")) {
     request.setProcessDefinitionKey(getQueryParameter("processDefinitionKey",query));
   }
