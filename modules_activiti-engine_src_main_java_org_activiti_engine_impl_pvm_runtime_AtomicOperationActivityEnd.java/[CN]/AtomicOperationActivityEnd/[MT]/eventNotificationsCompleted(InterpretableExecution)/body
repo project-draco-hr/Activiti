@@ -12,6 +12,9 @@
     execution.performOperation(ACTIVITY_END);
   }
  else   if (execution.isProcessInstanceType()) {
+    if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.PROCESS_COMPLETED,execution));
+    }
     execution.performOperation(PROCESS_END);
   }
  else   if (execution.isScope()) {
@@ -40,6 +43,9 @@
           parentScopeExecution.end();
         }
  else {
+          if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+            Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.PROCESS_COMPLETED,execution));
+          }
           parentScopeExecution.performOperation(PROCESS_END);
         }
       }
