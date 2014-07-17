@@ -1,0 +1,17 @@
+{
+  Calendar calendar=GregorianCalendar.getInstance();
+  processEngineConfiguration.getClock().setCurrentCalendar(calendar);
+  runtimeService.startProcessInstanceByKey("testTimerCancelledEvent");
+  calendar.add(Calendar.HOUR,10);
+  processEngineConfiguration.getClock().setCurrentCalendar(calendar);
+  waitForJobExecutorToProcessAllJobs(10000,100);
+  int actualCount=0;
+  List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
+  for (  ActivitiEvent eventReceived : eventsReceived) {
+    if (ActivitiEventType.TASK_TIMEOUT.equals(eventReceived.getType())) {
+      actualCount++;
+    }
+  }
+  assertEquals("TASK_TIMEOUT event was expected 1 time.",1,actualCount);
+  listener.clearEventsReceived();
+}

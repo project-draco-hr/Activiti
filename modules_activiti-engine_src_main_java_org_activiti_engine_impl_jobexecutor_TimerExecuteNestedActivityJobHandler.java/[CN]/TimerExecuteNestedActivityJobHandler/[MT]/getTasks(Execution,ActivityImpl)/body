@@ -1,0 +1,6 @@
+{
+  TaskQueryImpl taskQuery=new TaskQueryImpl(Context.getCommandContext());
+  taskQuery.executionId(execution.getId());
+  taskQuery.taskDefinitionKey(activity.getId());
+  return Context.getCommandContext().getTaskEntityManager().findTasksByQueryCriteria(taskQuery);
+}

@@ -1,0 +1,17 @@
+{
+  ActivityImpl boundaryEventActivity=execution.getProcessDefinition().findActivity(timerEntity.getJobHandlerConfiguration());
+  ActivityBehavior boundaryActivityBehavior=boundaryEventActivity.getActivityBehavior();
+  if (boundaryActivityBehavior instanceof BoundaryEventActivityBehavior) {
+    BoundaryEventActivityBehavior boundaryEventActivityBehavior=(BoundaryEventActivityBehavior)boundaryActivityBehavior;
+    if (boundaryEventActivityBehavior.isInterrupting()) {
+      ActivityImpl activity=execution.getActivity();
+      if (activity != null && activity.getActivityBehavior() instanceof UserTaskActivityBehavior) {
+        List<Task> tasks=getTasks(execution,activity);
+        for (        Task task : tasks) {
+          log.debug("Dispatching new TASK_TIMEOUT event for task with id {}",task.getId());
+          commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_TIMEOUT,task));
+        }
+      }
+    }
+  }
+}
