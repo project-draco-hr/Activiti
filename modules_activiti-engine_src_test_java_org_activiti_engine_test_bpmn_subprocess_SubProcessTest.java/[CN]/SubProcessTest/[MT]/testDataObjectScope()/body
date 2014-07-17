@@ -20,7 +20,7 @@
   taskService.complete(currentTask.getId());
   currentTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Complete SubTask",currentTask.getName());
-  variables=runtimeService.getVariables(pi.getId());
+  variables=runtimeService.getVariables(currentTask.getExecutionId());
   assertEquals(3,variables.size());
   varNameIt=variables.keySet().iterator();
   while (varNameIt.hasNext()) {
