@@ -23,4 +23,5 @@
   assertEquals(processInstance.getProcessDefinitionId(),signalEvent.getProcessDefinitionId());
   assertEquals("messageName",signalEvent.getSignalName());
   assertNull(signalEvent.getSignalData());
+  assertDatabaseEventPresent(ActivitiEventType.ACTIVITY_MESSAGE_RECEIVED);
 }
