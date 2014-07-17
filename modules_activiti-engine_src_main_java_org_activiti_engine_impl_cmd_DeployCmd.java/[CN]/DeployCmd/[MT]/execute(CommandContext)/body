@@ -2,7 +2,11 @@
   DeploymentEntity deployment=deploymentBuilder.getDeployment();
   deployment.setDeploymentTime(commandContext.getProcessEngineConfiguration().getClock().getCurrentTime());
   if (deploymentBuilder.isDuplicateFilterEnabled()) {
-    DeploymentEntity existingDeployment=commandContext.getDeploymentEntityManager().findLatestDeploymentByName(deployment.getName());
+    List<Deployment> deploymentList=commandContext.getProcessEngineConfiguration().getRepositoryService().createDeploymentQuery().deploymentName(deployment.getName()).deploymentTenantId(deployment.getTenantId()).orderByDeploymentId().desc().list();
+    DeploymentEntity existingDeployment=null;
+    if (!deploymentList.isEmpty()) {
+      existingDeployment=(DeploymentEntity)deploymentList.get(0);
+    }
     if ((existingDeployment != null) && !deploymentsDiffer(deployment,existingDeployment)) {
       return existingDeployment;
     }
