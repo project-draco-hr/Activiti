@@ -1,7 +1,5 @@
 {
-  JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
-  int waitTimeInMillis=jobExecutor.getWaitTimeInMillis();
-  if (job.getDuedate().getTime() < (Context.getProcessEngineConfiguration().getClock().getCurrentTime().getTime() + waitTimeInMillis)) {
+  if (job.getDuedate().getTime() <= (Context.getProcessEngineConfiguration().getClock().getCurrentTime().getTime())) {
     hintJobExecutor(job);
   }
 }

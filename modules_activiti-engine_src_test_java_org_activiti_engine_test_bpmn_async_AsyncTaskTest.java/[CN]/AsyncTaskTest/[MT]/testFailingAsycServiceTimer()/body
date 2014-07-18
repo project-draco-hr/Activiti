@@ -5,7 +5,7 @@
   if (!(job instanceof MessageEntity)) {
     fail("the job must be a message");
   }
-  waitForJobExecutorToProcessAllJobs(10000L,25L);
+  waitForJobExecutorToProcessAllJobs(10000L,100L);
   Execution execution=runtimeService.createExecutionQuery().singleResult();
   assertNotNull(execution);
   assertEquals("service",runtimeService.getActiveActivityIds(execution.getId()).get(0));
