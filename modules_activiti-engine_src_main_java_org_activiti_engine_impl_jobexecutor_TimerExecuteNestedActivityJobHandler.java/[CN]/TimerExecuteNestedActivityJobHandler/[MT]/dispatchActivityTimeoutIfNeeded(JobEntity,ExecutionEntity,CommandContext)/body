@@ -1,0 +1,13 @@
+{
+  ActivityImpl boundaryEventActivity=execution.getProcessDefinition().findActivity(timerEntity.getJobHandlerConfiguration());
+  ActivityBehavior boundaryActivityBehavior=boundaryEventActivity.getActivityBehavior();
+  if (boundaryActivityBehavior instanceof BoundaryEventActivityBehavior) {
+    BoundaryEventActivityBehavior boundaryEventActivityBehavior=(BoundaryEventActivityBehavior)boundaryActivityBehavior;
+    if (boundaryEventActivityBehavior.isInterrupting()) {
+      ActivityImpl activity=execution.getActivity();
+      if (activity != null && activity.getActivityBehavior() != null) {
+        commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createActivityEvent(ActivitiEventType.ACTIVITY_COMPLETED,execution.getActivity().getId(),(String)activity.getProperties().get("name"),execution.getId(),execution.getProcessInstanceId(),execution.getProcessDefinitionId(),(String)activity.getProperties().get("type"),activity.getActivityBehavior().getClass().getCanonicalName()));
+      }
+    }
+  }
+}
