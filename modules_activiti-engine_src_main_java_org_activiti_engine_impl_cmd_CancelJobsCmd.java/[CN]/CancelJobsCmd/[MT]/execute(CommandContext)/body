@@ -1,0 +1,13 @@
+{
+  JobEntity jobToDelete=null;
+  for (  String jobId : jobIds) {
+    jobToDelete=commandContext.getJobEntityManager().findJobById(jobId);
+    if (jobToDelete != null) {
+      if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED,jobToDelete));
+      }
+      jobToDelete.delete();
+    }
+  }
+  return null;
+}

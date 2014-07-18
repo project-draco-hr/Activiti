@@ -1,5 +1,5 @@
 {
   String jobId=managementService.createJobQuery().singleResult().getId();
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
-  commandExecutor.execute(new DeleteJobsCmd(jobId));
+  commandExecutor.execute(new CancelJobsCmd(jobId));
 }
