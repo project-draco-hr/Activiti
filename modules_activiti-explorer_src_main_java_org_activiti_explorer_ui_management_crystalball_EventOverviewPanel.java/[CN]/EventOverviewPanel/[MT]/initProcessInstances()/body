@@ -1,0 +1,37 @@
+{
+  HorizontalLayout selectLayout=new HorizontalLayout();
+  selectLayout.setSpacing(true);
+  selectLayout.setMargin(true);
+  selectLayout.setWidth(50,UNITS_PERCENTAGE);
+  addDetailComponent(selectLayout);
+  definitionSelect=new NativeSelect(i18nManager.getMessage(Messages.DEPLOYMENT_HEADER_DEFINITIONS));
+  definitionSelect.setImmediate(true);
+  for (  ProcessDefinition definition : definitionList) {
+    definitionSelect.addItem(definition.getId());
+    definitionSelect.setItemCaption(definition.getId(),definition.getName());
+  }
+  definitionSelect.addListener(new ValueChangeListener(){
+    private static final long serialVersionUID=1L;
+    @Override public void valueChange(    ValueChangeEvent event){
+      if (definitionSelect.getValue() != null) {
+        refreshInstances((String)definitionSelect.getValue());
+      }
+    }
+  }
+);
+  selectLayout.addComponent(definitionSelect);
+  replayButton=new Button("Replay");
+  replayButton.setEnabled(false);
+  replayButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    @Override public void buttonClick(    ClickEvent event){
+    }
+  }
+);
+  selectLayout.addComponent(replayButton);
+  selectLayout.setComponentAlignment(replayButton,Alignment.MIDDLE_LEFT);
+  instanceLayout=new HorizontalLayout();
+  instanceLayout.setWidth(100,UNITS_PERCENTAGE);
+  addDetailComponent(instanceLayout);
+  initInstancesTable();
+}
