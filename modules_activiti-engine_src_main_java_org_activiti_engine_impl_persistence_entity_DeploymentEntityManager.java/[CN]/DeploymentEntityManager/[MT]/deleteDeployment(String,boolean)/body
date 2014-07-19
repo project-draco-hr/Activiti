@@ -30,6 +30,9 @@
       }
       if (nrOfVersions - nrOfProcessDefinitionsWithSameKey <= 1) {
         for (        Job job : timerStartJobs) {
+          if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+            Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED,job,null,null,processDefinition.getId()));
+          }
           ((JobEntity)job).delete();
         }
       }

@@ -41,7 +41,7 @@
     eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_RETRIES_DECREMENTED,job));
   }
   JobExecutor jobExecutor=commandContext.getProcessEngineConfiguration().getJobExecutor();
-  MessageAddedNotification messageAddedNotification=new MessageAddedNotification(jobExecutor);
+  JobAddedNotification messageAddedNotification=new JobAddedNotification(jobExecutor);
   TransactionContext transactionContext=commandContext.getTransactionContext();
   transactionContext.addTransactionListener(TransactionState.COMMITTED,messageAddedNotification);
   return null;

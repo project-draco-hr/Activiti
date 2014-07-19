@@ -1,9 +1,8 @@
 {
   Clock previousClock=processEngineConfiguration.getClock();
-  Calendar testCal=new GregorianCalendar();
   Clock testClock=new DefaultClockImpl();
   processEngineConfiguration.setClock(testClock);
-  testClock.setCurrentTime(testCal.getTime());
+  testClock.setCurrentTime(new Date(0));
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testRepetitionJobEvents");
   Job theJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(theJob);
@@ -15,13 +14,12 @@
   assertEquals(ActivitiEventType.ENTITY_INITIALIZED,event.getType());
   checkEventContext(event,theJob,false);
   listener.clearEventsReceived();
-  testCal.add(Calendar.SECOND,20);
-  testClock.setCurrentTime(testCal.getTime());
-  waitForJobExecutorToProcessAllJobs(5000,200);
-  testCal.add(Calendar.SECOND,20);
-  testClock.setCurrentTime(testCal.getTime());
-  waitForJobExecutorToProcessAllJobs(5000,200);
-  assertEquals(0,managementService.createJobQuery().count());
+  testClock.setCurrentTime(new Date(10000));
+  waitForJobExecutorToProcessAllJobs(20000,100);
+  testClock.setCurrentTime(new Date(20000));
+  waitForJobExecutorToProcessAllJobs(20000,100);
+  testClock.setCurrentTime(new Date(30000));
+  waitForJobExecutorToProcessAllJobs(20000,100);
   int timerFiredCount=0;
   List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
   for (  ActivitiEvent eventReceived : eventsReceived) {

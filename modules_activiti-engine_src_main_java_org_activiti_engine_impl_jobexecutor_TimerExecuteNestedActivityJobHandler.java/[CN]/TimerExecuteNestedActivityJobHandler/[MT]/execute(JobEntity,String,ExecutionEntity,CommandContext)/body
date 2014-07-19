@@ -6,6 +6,7 @@
   try {
     if (commandContext.getEventDispatcher().isEnabled()) {
       commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TIMER_FIRED,job));
+      dispatchActivityTimeoutIfNeeded(job,execution,commandContext);
     }
     borderEventActivity.getActivityBehavior().execute(execution);
   }

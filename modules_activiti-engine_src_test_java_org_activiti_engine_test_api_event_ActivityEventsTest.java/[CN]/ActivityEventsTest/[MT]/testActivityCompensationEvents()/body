@@ -23,4 +23,5 @@
   assertNull(signalEvent.getSignalData());
   processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(processInstance);
+  assertDatabaseEventPresent(ActivitiEventType.ACTIVITY_COMPENSATE);
 }
