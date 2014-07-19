@@ -1,0 +1,22 @@
+{
+  if (ActivitiEventType.TASK_COMPLETED.toString().equals(event.getType())) {
+    ObjectMapper objectMapper=new ObjectMapper();
+    Map<String,Object> data;
+    try {
+      data=objectMapper.readValue(event.getData(),new TypeReference<HashMap<String,Object>>(){
+      }
+);
+    }
+ catch (    IOException e) {
+      throw new CrystalballException("unable to parse JSON string.",e);
+    }
+    String taskIdValue=(String)data.get(Fields.ACTIVITY_ID);
+    String taskDefinitionKeyValue=(String)data.get(Fields.TASK_DEFINITION_KEY);
+    Map<String,Object> properties=new HashMap<String,Object>();
+    properties.put("taskId",taskIdValue);
+    properties.put(TASK_DEFINITION_KEY,taskDefinitionKeyValue);
+    properties.put(PROCESS_INSTANCE_ID,event.getProcessInstanceId());
+    return new SimulationEvent.Builder(this.simulationEventType).priority((int)event.getLogNumber()).properties(properties).build();
+  }
+  return null;
+}

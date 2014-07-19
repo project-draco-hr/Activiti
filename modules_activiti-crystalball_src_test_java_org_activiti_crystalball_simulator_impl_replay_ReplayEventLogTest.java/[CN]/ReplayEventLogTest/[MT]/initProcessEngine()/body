@@ -1,0 +1,6 @@
+{
+  ProcessEngineConfigurationImpl configuration=getProcessEngineConfiguration();
+  ProcessEngineImpl processEngine=(ProcessEngineImpl)configuration.buildProcessEngine();
+  processEngine.getRepositoryService().createDeployment().addClasspathResource(THE_USERTASK_PROCESS).deploy();
+  return processEngine;
+}
