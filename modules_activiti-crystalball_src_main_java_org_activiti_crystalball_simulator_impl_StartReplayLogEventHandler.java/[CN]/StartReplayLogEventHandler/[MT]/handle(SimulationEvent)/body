@@ -1,9 +1,11 @@
 {
   String processDefinitionId=(String)event.getProperty(processToStartIdKey);
   String businessKey=(String)event.getProperty(this.businessKey);
-  @SuppressWarnings("unchecked") Map<String,Object> variables=new HashMap<String,Object>();
+  Map<String,Object> variables=new HashMap<String,Object>();
   Map<String,Object> processVariables=(Map<String,Object>)event.getProperty(variablesKey);
-  if (processVariables != null)   variables.putAll(processVariables);
+  if (processVariables != null) {
+    variables.putAll(processVariables);
+  }
   variables.put(PROCESS_INSTANCE_ID,processInstanceId);
   variables.put(SIMULATION_RUN_ID,SimulationRunContext.getSimulationRunId());
   log.debug("Starting new processDefId[{}] businessKey[{}] with variables[{}]",processDefinitionId,businessKey,variables);
