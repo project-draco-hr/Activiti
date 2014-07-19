@@ -1,0 +1,6 @@
+{
+  List<Function<EventLogEntry,SimulationEvent>> transformers=new ArrayList<Function<EventLogEntry,SimulationEvent>>();
+  transformers.add(new EventLogProcessInstanceCreateTransformer(PROCESS_INSTANCE_START_EVENT_TYPE,PROCESS_DEFINITION_ID_KEY,BUSINESS_KEY,VARIABLES_KEY));
+  transformers.add(new EventLogUserTaskCompleteTransformer(USER_TASK_COMPLETED_EVENT_TYPE));
+  return transformers;
+}
