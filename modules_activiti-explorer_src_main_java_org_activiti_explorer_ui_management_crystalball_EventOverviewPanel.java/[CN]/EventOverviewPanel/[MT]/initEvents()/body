@@ -1,10 +1,37 @@
 {
   HorizontalLayout eventsHeader=new HorizontalLayout();
   eventsHeader.setSpacing(true);
-  eventsHeader.setWidth(100,UNITS_PERCENTAGE);
+  eventsHeader.setWidth(80,UNITS_PERCENTAGE);
   eventsHeader.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
   addDetailComponent(eventsHeader);
   initEventTitle(eventsHeader);
+  stepButton=new Button(i18nManager.getMessage(Messages.CRYSTALBALL_BUTTON_NEXTEVENT));
+  stepButton.setEnabled(false);
+  stepButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    @Override public void buttonClick(    ClickEvent event){
+      if (SimulationRunContext.getEventCalendar().getEvents().size() > 0) {
+        simulationDebugger.step();
+        refreshEvents();
+      }
+    }
+  }
+);
+  eventsHeader.addComponent(stepButton);
+  eventsHeader.setComponentAlignment(stepButton,Alignment.MIDDLE_LEFT);
+  showProcessInstanceButton=new Button();
+  showProcessInstanceButton.addStyleName(Reindeer.BUTTON_LINK);
+  showProcessInstanceButton.addListener(new ClickListener(){
+    private static final long serialVersionUID=1L;
+    public void buttonClick(    ClickEvent event){
+      if (replayHistoricInstance != null) {
+        ExplorerApp.get().getViewManager().showMyProcessInstancesPage(replayHistoricInstance.getId());
+      }
+    }
+  }
+);
+  eventsHeader.addComponent(showProcessInstanceButton);
+  eventsHeader.setComponentAlignment(showProcessInstanceButton,Alignment.MIDDLE_LEFT);
   eventLayout=new HorizontalLayout();
   eventLayout.setWidth(100,UNITS_PERCENTAGE);
   addDetailComponent(eventLayout);
