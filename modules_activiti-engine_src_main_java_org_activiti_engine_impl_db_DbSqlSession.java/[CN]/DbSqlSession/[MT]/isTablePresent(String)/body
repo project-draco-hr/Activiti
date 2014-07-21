@@ -8,11 +8,11 @@
     DatabaseMetaData databaseMetaData=connection.getMetaData();
     ResultSet tables=null;
     String catalog=this.connectionMetadataDefaultCatalog;
-    if (dbSqlSessionFactory.getDatabaseCatalog() != null) {
+    if (dbSqlSessionFactory.getDatabaseCatalog() != null && dbSqlSessionFactory.getDatabaseCatalog().length() > 0) {
       catalog=dbSqlSessionFactory.getDatabaseCatalog();
     }
     String schema=this.connectionMetadataDefaultSchema;
-    if (dbSqlSessionFactory.getDatabaseSchema() != null) {
+    if (dbSqlSessionFactory.getDatabaseSchema() != null && dbSqlSessionFactory.getDatabaseSchema().length() > 0) {
       schema=dbSqlSessionFactory.getDatabaseSchema();
     }
     String databaseType=dbSqlSessionFactory.getDatabaseType();
