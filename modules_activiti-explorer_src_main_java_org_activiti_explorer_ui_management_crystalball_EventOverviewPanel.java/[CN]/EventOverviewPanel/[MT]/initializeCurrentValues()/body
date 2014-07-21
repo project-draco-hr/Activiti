@@ -1,0 +1,19 @@
+{
+  if (ExplorerApp.get().getCrystalBallSimulationDebugger() != null) {
+    this.simulationDebugger=ExplorerApp.get().getCrystalBallSimulationDebugger();
+    this.simulationEvents=ExplorerApp.get().getCrystalBallSimulationEvents();
+    String selectedDefinitionId=ExplorerApp.get().getCrystalBallCurrentDefinitionId();
+    if (selectedDefinitionId != null) {
+      definitionSelect.setValue(selectedDefinitionId);
+    }
+    String selectedInstanceId=ExplorerApp.get().getCrystalBallCurrentInstanceId();
+    if (selectedInstanceId != null) {
+      instanceTable.setValue(selectedInstanceId);
+    }
+    List<HistoricProcessInstance> replayProcessInstanceList=historyService.createHistoricProcessInstanceQuery().processInstanceBusinessKey(SIMULATION_BUSINESS_KEY).orderByProcessInstanceStartTime().desc().list();
+    if (replayProcessInstanceList != null && replayProcessInstanceList.size() > 0) {
+      replayHistoricInstance=replayProcessInstanceList.get(0);
+    }
+    refreshEvents();
+  }
+}
