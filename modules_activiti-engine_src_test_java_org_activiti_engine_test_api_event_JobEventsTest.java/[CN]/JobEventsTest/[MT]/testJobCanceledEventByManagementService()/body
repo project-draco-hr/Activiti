@@ -1,5 +1,5 @@
 {
-  processEngineConfiguration.getClock().setCurrentTime(new Date(0));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(1));
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testTimerCancelledEvent");
   listener.clearEventsReceived();
   Job job=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();

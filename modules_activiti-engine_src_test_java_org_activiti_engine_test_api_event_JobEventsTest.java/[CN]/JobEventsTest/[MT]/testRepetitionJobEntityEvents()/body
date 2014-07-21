@@ -2,7 +2,7 @@
   Clock previousClock=processEngineConfiguration.getClock();
   Clock testClock=new DefaultClockImpl();
   processEngineConfiguration.setClock(testClock);
-  testClock.setCurrentTime(new Date(0));
+  testClock.setCurrentTime(new Date(1));
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testRepetitionJobEvents");
   Job theJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(theJob);
