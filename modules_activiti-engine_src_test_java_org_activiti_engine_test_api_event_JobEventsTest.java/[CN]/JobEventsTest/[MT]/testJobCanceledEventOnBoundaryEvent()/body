@@ -2,7 +2,7 @@
   Clock previousClock=processEngineConfiguration.getClock();
   Clock testClock=new DefaultClockImpl();
   processEngineConfiguration.setClock(testClock);
-  testClock.setCurrentTime(new Date(1));
+  testClock.setCurrentTime(new Date());
   runtimeService.startProcessInstanceByKey("testTimerCancelledEvent");
   listener.clearEventsReceived();
   Task task=taskService.createTaskQuery().singleResult();
