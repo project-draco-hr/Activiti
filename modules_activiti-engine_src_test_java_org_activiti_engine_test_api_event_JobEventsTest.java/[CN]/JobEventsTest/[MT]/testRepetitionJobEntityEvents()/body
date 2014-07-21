@@ -2,7 +2,8 @@
   Clock previousClock=processEngineConfiguration.getClock();
   Clock testClock=new DefaultClockImpl();
   processEngineConfiguration.setClock(testClock);
-  testClock.setCurrentTime(new Date(0));
+  Date now=new Date();
+  testClock.setCurrentTime(now);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testRepetitionJobEvents");
   Job theJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(theJob);
@@ -14,11 +15,11 @@
   assertEquals(ActivitiEventType.ENTITY_INITIALIZED,event.getType());
   checkEventContext(event,theJob,false);
   listener.clearEventsReceived();
-  testClock.setCurrentTime(new Date(10000));
+  testClock.setCurrentTime(new Date(now.getTime() + 10000L));
   waitForJobExecutorToProcessAllJobs(20000,100);
-  testClock.setCurrentTime(new Date(20000));
+  testClock.setCurrentTime(new Date(now.getTime() + 20000L));
   waitForJobExecutorToProcessAllJobs(20000,100);
-  testClock.setCurrentTime(new Date(30000));
+  testClock.setCurrentTime(new Date(now.getTime() + 30000L));
   waitForJobExecutorToProcessAllJobs(20000,100);
   int timerFiredCount=0;
   List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
