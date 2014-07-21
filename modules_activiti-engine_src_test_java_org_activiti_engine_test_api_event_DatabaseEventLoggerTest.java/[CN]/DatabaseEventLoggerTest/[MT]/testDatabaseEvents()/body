@@ -1,6 +1,14 @@
 {
-  runtimeService.startProcessInstanceByKey("DatabaseEventLoggerProcess",CollectionUtil.singletonMap("testVar","helloWorld"));
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("DatabaseEventLoggerProcess",CollectionUtil.singletonMap("testVar","helloWorld"));
   List<EventLogEntry> eventLogEntries=managementService.getEventLogEntries(null,null);
+  String processDefinitionId=processInstance.getProcessDefinitionId();
+  Iterator<EventLogEntry> iterator=eventLogEntries.iterator();
+  while (iterator.hasNext()) {
+    EventLogEntry entry=iterator.next();
+    if (entry.getProcessDefinitionId() != null && !entry.getProcessDefinitionId().equals(processDefinitionId)) {
+      iterator.remove();
+    }
+  }
   assertEquals(15,eventLogEntries.size());
   long lastLogNr=-1;
   for (int i=0; i < eventLogEntries.size(); i++) {

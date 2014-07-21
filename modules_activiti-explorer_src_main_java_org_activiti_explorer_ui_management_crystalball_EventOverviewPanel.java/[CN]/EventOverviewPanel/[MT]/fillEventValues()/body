@@ -1,0 +1,18 @@
+{
+  for (  SimulationEvent originalEvent : simulationEvents) {
+    boolean executed=true;
+    for (    SimulationEvent event : SimulationRunContext.getEventCalendar().getEvents()) {
+      if (originalEvent.equals(event)) {
+        executed=false;
+        stepButton.setEnabled(true);
+        showProcessInstanceButton.setCaption(i18nManager.getMessage(Messages.TASK_PART_OF_PROCESS,definitionMap.get(replayHistoricInstance.getProcessDefinitionId())));
+        showProcessInstanceButton.setVisible(true);
+        break;
+      }
+    }
+    Object itemId=eventTable.addItem();
+    eventTable.getItem(itemId).getItemProperty("type").setValue(originalEvent.getType());
+    eventTable.getItem(itemId).getItemProperty("executed").setValue(executed);
+  }
+  eventTable.setVisible(true);
+}

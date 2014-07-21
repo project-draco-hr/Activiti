@@ -1,4 +1,11 @@
 {
+  HorizontalLayout instancesHeader=new HorizontalLayout();
+  instancesHeader.setSpacing(false);
+  instancesHeader.setMargin(false);
+  instancesHeader.setWidth(100,UNITS_PERCENTAGE);
+  instancesHeader.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);
+  addDetailComponent(instancesHeader);
+  initProcessInstanceTitle(instancesHeader);
   HorizontalLayout selectLayout=new HorizontalLayout();
   selectLayout.setSpacing(true);
   selectLayout.setMargin(true);
@@ -14,17 +21,39 @@
     private static final long serialVersionUID=1L;
     @Override public void valueChange(    ValueChangeEvent event){
       if (definitionSelect.getValue() != null) {
-        refreshInstances((String)definitionSelect.getValue());
+        String selectedDefinitionId=(String)definitionSelect.getValue();
+        ExplorerApp.get().setCrystalBallCurrentDefinitionId(selectedDefinitionId);
+        refreshInstances(selectedDefinitionId);
       }
     }
   }
 );
   selectLayout.addComponent(definitionSelect);
-  replayButton=new Button("Replay");
+  replayButton=new Button(i18nManager.getMessage(Messages.CRYSTALBALL_BUTTON_REPLAY));
   replayButton.setEnabled(false);
   replayButton.addListener(new ClickListener(){
     private static final long serialVersionUID=1L;
     @Override public void buttonClick(    ClickEvent event){
+      if (instanceTable.getValue() != null) {
+        String processInstanceId=(String)instanceTable.getValue();
+        ExplorerApp.get().setCrystalBallCurrentInstanceId(processInstanceId);
+        List<EventLogEntry> eventLogEntries=managementService.getEventLogEntriesByProcessInstanceId(processInstanceId);
+        if (eventLogEntries == null || eventLogEntries.size() == 0)         return;
+        EventLogTransformer transformer=new EventLogTransformer(getTransformers());
+        simulationEvents=transformer.transform(eventLogEntries);
+        ExplorerApp.get().setCrystalBallSimulationEvents(simulationEvents);
+        SimpleEventCalendar eventCalendar=new SimpleEventCalendar(ProcessEngines.getDefaultProcessEngine().getProcessEngineConfiguration().getClock(),new SimulationEventComparator());
+        eventCalendar.addEvents(simulationEvents);
+        simulationDebugger=new ReplaySimulationRun(ProcessEngines.getDefaultProcessEngine(),eventCalendar,getReplayHandlers(processInstanceId));
+        ExplorerApp.get().setCrystalBallSimulationDebugger(simulationDebugger);
+        simulationDebugger.init(new NoExecutionVariableScope());
+        simulationDebugger.step();
+        List<HistoricProcessInstance> replayProcessInstanceList=historyService.createHistoricProcessInstanceQuery().processInstanceBusinessKey(SIMULATION_BUSINESS_KEY).orderByProcessInstanceStartTime().desc().list();
+        if (replayProcessInstanceList != null && replayProcessInstanceList.size() > 0) {
+          replayHistoricInstance=replayProcessInstanceList.get(0);
+        }
+        refreshEvents();
+      }
     }
   }
 );
