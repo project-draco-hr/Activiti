@@ -3,7 +3,7 @@
   assertEquals(11,query.count());
   List<Task> tasks=query.list();
   assertEquals(11,tasks.size());
-  ArrayList candidateGroups=new ArrayList();
+  ArrayList<String> candidateGroups=new ArrayList<String>();
   candidateGroups.add("management");
   candidateGroups.add("accountancy");
   candidateGroups.add("noexist");
@@ -20,8 +20,6 @@
   query=taskService.createTaskQuery().taskCandidateOrAssigned("fozzie");
   assertEquals(4,query.count());
   assertEquals(4,query.list().size());
-  query=taskService.createTaskQuery().taskCandidateOrAssigned("kermit");
-  assertEquals(10,query.count());
   Task task=taskService.newTask();
   task.setName("assigneeToKermit");
   task.setDescription("testTask description");
