@@ -1,0 +1,10 @@
+{
+  Assert.assertTrue(muleContext.isStarted());
+  ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
+  processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/mule/testHttp.bpmn20.xml").deploy();
+  RuntimeService runtimeService=processEngine.getRuntimeService();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("muleProcess");
+  Assert.assertFalse(processInstance.isEnded());
+  Object result=runtimeService.getVariable(processInstance.getProcessInstanceId(),"theVariable");
+  Assert.assertEquals(20,result);
+}

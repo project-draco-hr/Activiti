@@ -1,0 +1,10 @@
+{
+  Assert.assertTrue(muleContext.isStarted());
+  RepositoryService repositoryService=muleContext.getRegistry().get("repositoryService");
+  repositoryService.createDeployment().addClasspathResource("org/activiti/mule/testVM.bpmn20.xml").deploy();
+  RuntimeService runtimeService=muleContext.getRegistry().get("runtimeService");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("muleProcess");
+  Assert.assertFalse(processInstance.isEnded());
+  Object result=runtimeService.getVariable(processInstance.getProcessInstanceId(),"theVariable");
+  Assert.assertEquals(30,result);
+}
