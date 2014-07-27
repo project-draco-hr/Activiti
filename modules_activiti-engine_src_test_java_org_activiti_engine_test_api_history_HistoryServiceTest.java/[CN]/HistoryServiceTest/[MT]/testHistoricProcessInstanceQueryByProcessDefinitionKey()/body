@@ -12,5 +12,5 @@
   taskService.complete(task.getId(),map);
   HistoricProcessInstance historicProcessInstanceSub=historyService.createHistoricProcessInstanceQuery().processDefinitionKey("checkCreditProcess").singleResult();
   HistoricProcessInstance historicProcessInstanceSuper=historyService.createHistoricProcessInstanceQuery().processDefinitionKey("orderProcess").singleResult();
-  assertEquals(historicProcessInstanceSuper.getId(),((HistoricProcessInstanceEntity)historicProcessInstanceSub).getSuperProcessInstanceId());
+  assertEquals(historicProcessInstanceSuper.getId(),historicProcessInstanceSub.getSuperProcessInstanceId());
 }

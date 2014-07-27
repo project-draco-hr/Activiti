@@ -17,14 +17,14 @@
   assertNotNull(instance);
   assertEquals(processInstance1.getId(),instance.getId());
   try {
-    instance=runtimeService.createProcessInstanceQuery().variableValueEqualsIgnoreCase("upper",null).singleResult();
+    runtimeService.createProcessInstanceQuery().variableValueEqualsIgnoreCase("upper",null).singleResult();
     fail("Exception expected");
   }
  catch (  ActivitiIllegalArgumentException ae) {
     assertEquals("value is null",ae.getMessage());
   }
   try {
-    instance=runtimeService.createProcessInstanceQuery().variableValueEqualsIgnoreCase(null,"abcdefg").singleResult();
+    runtimeService.createProcessInstanceQuery().variableValueEqualsIgnoreCase(null,"abcdefg").singleResult();
     fail("Exception expected");
   }
  catch (  ActivitiIllegalArgumentException ae) {
@@ -37,14 +37,14 @@
   instance=runtimeService.createProcessInstanceQuery().variableValueNotEquals("upper","ABCdefg").singleResult();
   assertNotNull(instance);
   try {
-    instance=runtimeService.createProcessInstanceQuery().variableValueNotEqualsIgnoreCase("upper",null).singleResult();
+    runtimeService.createProcessInstanceQuery().variableValueNotEqualsIgnoreCase("upper",null).singleResult();
     fail("Exception expected");
   }
  catch (  ActivitiIllegalArgumentException ae) {
     assertEquals("value is null",ae.getMessage());
   }
   try {
-    instance=runtimeService.createProcessInstanceQuery().variableValueNotEqualsIgnoreCase(null,"abcdefg").singleResult();
+    runtimeService.createProcessInstanceQuery().variableValueNotEqualsIgnoreCase(null,"abcdefg").singleResult();
     fail("Exception expected");
   }
  catch (  ActivitiIllegalArgumentException ae) {
