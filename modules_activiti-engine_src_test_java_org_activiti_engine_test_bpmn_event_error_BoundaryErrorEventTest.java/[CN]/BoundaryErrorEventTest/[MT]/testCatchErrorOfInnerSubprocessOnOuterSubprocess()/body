@@ -5,7 +5,7 @@
   assertEquals("Inner subprocess task 1",tasks.get(0).getName());
   assertEquals("Inner subprocess task 2",tasks.get(1).getName());
   taskService.complete(tasks.get(1).getId());
-  tasks=taskService.createTaskQuery().list();
+  taskService.createTaskQuery().list();
   Task taskAfterError=taskService.createTaskQuery().singleResult();
   assertEquals("task outside subprocess",taskAfterError.getName());
 }
