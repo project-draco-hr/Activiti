@@ -1,0 +1,37 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    identityService.setAuthenticatedUserId("kermit");
+    Comment comment=taskService.addComment(task.getId(),null,"This is a comment...");
+    identityService.setAuthenticatedUserId(null);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId()));
+    Representation response=client.delete();
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    assertEquals(0,response.getSize());
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,"unexistingtask","123"));
+    try {
+      client.get();
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
+    }
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),"unexistingcomment"));
+    try {
+      client.get();
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Task '" + task.getId() + "' doesn't have a comment with id 'unexistingcomment'.",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

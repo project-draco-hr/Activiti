@@ -1,5 +1,5 @@
 {
-  ProcessDefinitionEntity processDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findProcessDefinitionById(processDefinitionId);
+  ProcessDefinitionEntity processDefinition=commandContext.getProcessDefinitionEntityManager().findProcessDefinitionById(processDefinitionId);
   if (processDefinition == null) {
     throw new ActivitiObjectNotFoundException("Cannot find process definition with id " + processDefinitionId,ProcessDefinition.class);
   }

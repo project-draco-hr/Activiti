@@ -1,0 +1,35 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  runtimeService.addUserIdentityLink(processInstance.getId(),"john","customType");
+  runtimeService.addUserIdentityLink(processInstance.getId(),"paul","candidate");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINKS_COLLECTION,processInstance.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(2,responseNode.size());
+  boolean johnFound=false;
+  boolean paulFound=false;
+  for (int i=0; i < responseNode.size(); i++) {
+    ObjectNode link=(ObjectNode)responseNode.get(i);
+    assertNotNull(link);
+    if (!link.get("user").isNull()) {
+      if (link.get("user").textValue().equals("john")) {
+        assertEquals("customType",link.get("type").textValue());
+        assertTrue(link.get("group").isNull());
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"john","customType")));
+        johnFound=true;
+      }
+ else {
+        assertEquals("paul",link.get("user").textValue());
+        assertEquals("candidate",link.get("type").textValue());
+        assertTrue(link.get("group").isNull());
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"paul","candidate")));
+        paulFound=true;
+      }
+    }
+  }
+  assertTrue(johnFound);
+  assertTrue(paulFound);
+}

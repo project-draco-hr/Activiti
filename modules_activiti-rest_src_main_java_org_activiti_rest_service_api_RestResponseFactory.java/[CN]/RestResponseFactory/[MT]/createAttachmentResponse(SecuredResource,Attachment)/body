@@ -1,0 +1,22 @@
+{
+  AttachmentResponse result=new AttachmentResponse();
+  result.setId(attachment.getId());
+  result.setName(attachment.getName());
+  result.setDescription(attachment.getDescription());
+  result.setType(attachment.getType());
+  result.setUserId(attachment.getUserId());
+  if (attachment.getUrl() == null && attachment.getTaskId() != null) {
+    result.setContentUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,attachment.getTaskId(),attachment.getId()));
+  }
+ else {
+    result.setExternalUrl(attachment.getUrl());
+  }
+  if (attachment.getTaskId() != null) {
+    result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK_ATTACHMENT,attachment.getTaskId(),attachment.getId()));
+    result.setTaskUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK,attachment.getTaskId()));
+  }
+  if (attachment.getProcessInstanceId() != null) {
+    result.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,attachment.getProcessInstanceId()));
+  }
+  return result;
+}

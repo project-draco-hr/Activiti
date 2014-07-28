@@ -1,0 +1,16 @@
+{
+  String deleteStatement=dbSqlSessionFactory.getDeleteStatement(persistentObject.getClass());
+  deleteStatement=dbSqlSessionFactory.mapStatement(deleteStatement);
+  if (deleteStatement == null) {
+    throw new ActivitiException("no delete statement for " + persistentObject.getClass() + " in the ibatis mapping files");
+  }
+  if (persistentObject instanceof HasRevision) {
+    int nrOfRowsDeleted=sqlSession.delete(deleteStatement,persistentObject);
+    if (nrOfRowsDeleted == 0) {
+      throw new ActivitiOptimisticLockingException(persistentObject + " was updated by another transaction concurrently");
+    }
+  }
+ else {
+    sqlSession.delete(deleteStatement,persistentObject);
+  }
+}

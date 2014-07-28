@@ -1,0 +1,8 @@
+{
+  List<SimulationEvent> simEvents=new ArrayList<SimulationEvent>();
+  for (  Function<ActivitiEvent,SimulationEvent> t : transformers) {
+    SimulationEvent simEvent=t.apply(event);
+    if (simEvent != null)     simEvents.add(simEvent);
+  }
+  return simEvents;
+}

@@ -1,0 +1,62 @@
+{
+  try {
+    Deployment firstDeployment=repositoryService.createDeployment().name("Deployment 1").addClasspathResource("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml").deploy();
+    Deployment secondDeployment=repositoryService.createDeployment().name("Deployment 2").addClasspathResource("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml").addClasspathResource("org/activiti/rest/service/api/repository/twoTaskProcess.bpmn20.xml").deploy();
+    ProcessDefinition oneTaskProcess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").deploymentId(firstDeployment.getId()).singleResult();
+    ProcessDefinition latestOneTaskProcess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").deploymentId(secondDeployment.getId()).singleResult();
+    ProcessDefinition twoTaskprocess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("twoTaskProcess").deploymentId(secondDeployment.getId()).singleResult();
+    String baseUrl=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_COLLECTION);
+    assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId());
+    String url=baseUrl + "?name=The Two Task Process";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?nameLike=" + encode("The Two%");
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?key=twoTaskProcess";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?key=oneTaskProcess";
+    assertResultsPresentInDataResponse(url,oneTaskProcess.getId(),latestOneTaskProcess.getId());
+    url=baseUrl + "?keyLike=two%";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?category=TwoTaskCategory";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?categoryLike=" + encode("Two%");
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?categoryNotEquals=OneTaskCategory";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?resourceName=org/activiti/rest/service/api/repository/twoTaskProcess.bpmn20.xml";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?resourceNameLike=" + encode("%twoTaskProcess%");
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?version=2";
+    assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId());
+    url=baseUrl + "?latest=true";
+    assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),twoTaskprocess.getId());
+    url=baseUrl + "?latest=false";
+    assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId());
+    url=baseUrl + "?deploymentId=" + secondDeployment.getId();
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId(),latestOneTaskProcess.getId());
+    url=baseUrl + "?startableByUser=kermit";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    repositoryService.suspendProcessDefinitionById(twoTaskprocess.getId());
+    url=baseUrl + "?suspended=true";
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    url=baseUrl + "?suspended=false";
+    assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),oneTaskProcess.getId());
+    url=baseUrl + "?latest=true&name=anyname";
+    try {
+      ClientResource client=getAuthenticatedClient(url);
+      client.get();
+      fail("400 status expected, but was: " + client.getResponse().getStatus());
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("Calling latest() can only be used in combination with key(String) and keyLike(String)",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
+    for (    Deployment deployment : deployments) {
+      repositoryService.deleteDeployment(deployment.getId(),true);
+    }
+  }
+}

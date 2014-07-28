@@ -1,0 +1,7 @@
+{
+  super.initializeServices();
+  listener=new TestMultipleActivitiEventListener();
+  listener.setEventClasses(ActivitiEntityEvent.class);
+  listener.setEntityClasses(ProcessDefinition.class,TimerEntity.class);
+  processEngineConfiguration.getEventDispatcher().addEventListener(listener);
+}

@@ -1,8 +1,7 @@
 {
-  BpmnModel bpmnModel=bpmnParse.getBpmnModel();
   ActivityImpl parentActivity=findActivity(bpmnParse,boundaryEvent.getAttachedToRefId());
   if (parentActivity == null) {
-    bpmnModel.addProblem("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event",boundaryEvent);
+    logger.warn("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event " + boundaryEvent.getId());
     return;
   }
   ActivityImpl nestedActivity=createActivityOnScope(bpmnParse,boundaryEvent,BpmnXMLConstants.ELEMENT_EVENT_BOUNDARY,parentActivity);
@@ -15,6 +14,6 @@
     bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse,eventDefinition);
   }
  else {
-    bpmnModel.addProblem("Unsupported boundary event type",boundaryEvent);
+    logger.warn("Unsupported boundary event type for boundary event " + boundaryEvent.getId());
   }
 }

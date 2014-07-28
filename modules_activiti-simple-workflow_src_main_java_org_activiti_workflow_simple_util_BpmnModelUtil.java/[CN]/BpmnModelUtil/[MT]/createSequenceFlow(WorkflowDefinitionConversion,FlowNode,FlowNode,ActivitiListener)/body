@@ -1,0 +1,14 @@
+{
+  SequenceFlow sequenceFlow=new SequenceFlow();
+  sequenceFlow.setId(conversion.getUniqueNumberedId(ConversionConstants.DEFAULT_SEQUENCEFLOW_PREFIX));
+  sequenceFlow.setSourceRef(source.getId());
+  sequenceFlow.setTargetRef(target.getId());
+  if (executionListeners != null && executionListeners.length > 0) {
+    List<ActivitiListener> listeners=new ArrayList<ActivitiListener>();
+    for (    ActivitiListener listener : executionListeners) {
+      listeners.add(listener);
+    }
+    sequenceFlow.setExecutionListeners(listeners);
+  }
+  return sequenceFlow;
+}

@@ -1,0 +1,7 @@
+{
+  Map<String,Object> parameters=new HashMap<String,Object>();
+  parameters.put("deploymentId",deploymentId);
+  parameters.put("processDefinitionKey",processDefinitionKey);
+  parameters.put("tenantId",tenantId);
+  return (ProcessDefinitionEntity)getDbSqlSession().selectOne("selectProcessDefinitionByDeploymentAndKeyAndTenantId",parameters);
+}

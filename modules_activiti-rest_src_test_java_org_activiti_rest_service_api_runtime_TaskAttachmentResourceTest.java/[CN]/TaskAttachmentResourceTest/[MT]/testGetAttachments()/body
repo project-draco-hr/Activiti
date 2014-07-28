@@ -1,0 +1,22 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    Attachment urlAttachment=taskService.createAttachment("simpleType",task.getId(),null,"Simple attachment","Simple attachment description","http://activiti.org");
+    taskService.saveAttachment(urlAttachment);
+    Attachment binaryAttachment=taskService.createAttachment("binaryType",task.getId(),null,"Binary attachment","Binary attachment description",new ByteArrayInputStream("This is binary content".getBytes()));
+    taskService.saveAttachment(binaryAttachment);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId()));
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertTrue(responseNode.isArray());
+    assertEquals(2,responseNode.size());
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

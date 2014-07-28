@@ -1,0 +1,34 @@
+{
+  Calendar startTime=Calendar.getInstance();
+  processEngineConfiguration.getClock().setCurrentTime(startTime.getTime());
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
+  startTime.add(Calendar.DAY_OF_YEAR,1);
+  processEngineConfiguration.getClock().setCurrentTime(startTime.getTime());
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCES);
+  assertResultsPresentInDataResponse(url + "?finished=true",processInstance.getId());
+  assertResultsPresentInDataResponse(url + "?finished=false",processInstance2.getId());
+  assertResultsPresentInDataResponse(url + "?processDefinitionId=" + processInstance.getProcessDefinitionId(),processInstance.getId(),processInstance2.getId());
+  assertResultsPresentInDataResponse(url + "?processDefinitionId=" + processInstance.getProcessDefinitionId()+ "&finished=true",processInstance.getId());
+  assertResultsPresentInDataResponse(url + "?processDefinitionKey=oneTaskProcess",processInstance.getId(),processInstance2.getId());
+  assertResultsPresentInDataResponse(url + "?withoutTenantId=true",processInstance.getId(),processInstance2.getId());
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  startTime.add(Calendar.DAY_OF_YEAR,1);
+  processEngineConfiguration.getClock().setCurrentTime(startTime.getTime());
+  ProcessInstance processInstance3=runtimeService.startProcessInstanceByKeyAndTenantId("oneTaskProcess","myTenant");
+  assertResultsPresentInDataResponse(url + "?withoutTenantId=true",processInstance.getId(),processInstance2.getId());
+  assertResultsPresentInDataResponse(url + "?tenantId=myTenant",processInstance3.getId());
+  assertResultsPresentInDataResponse(url + "?tenantId=anotherTenant");
+  assertResultsPresentInDataResponse(url + "?tenantIdLike=" + encode("%enant"),processInstance3.getId());
+  assertResultsPresentInDataResponse(url + "?tenantIdLike=anotherTenant");
+  ClientResource client=getAuthenticatedClient(url + "?processDefinitionKey=oneTaskProcess&sort=startTime");
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  assertEquals(3,dataNode.size());
+  assertEquals(processInstance.getId(),dataNode.get(0).get("id").asText());
+  assertEquals(processInstance2.getId(),dataNode.get(1).get("id").asText());
+  assertEquals(processInstance3.getId(),dataNode.get(2).get("id").asText());
+}

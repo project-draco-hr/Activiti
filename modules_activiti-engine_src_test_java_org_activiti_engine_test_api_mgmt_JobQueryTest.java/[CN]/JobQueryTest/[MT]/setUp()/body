@@ -1,22 +1,22 @@
 {
   super.setUp();
-  this.commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  this.commandExecutor=processEngineConfiguration.getCommandExecutor();
   deploymentId=repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/mgmt/timerOnTask.bpmn20.xml").deploy().getId();
   Calendar startTime=Calendar.getInstance();
   startTime.set(Calendar.MILLISECOND,0);
   Date t1=startTime.getTime();
-  ClockUtil.setCurrentTime(t1);
+  processEngineConfiguration.getClock().setCurrentTime(t1);
   processInstanceIdOne=runtimeService.startProcessInstanceByKey("timerOnTask").getId();
   testStartTime=t1;
   timerOneFireTime=new Date(t1.getTime() + ONE_HOUR);
   startTime.add(Calendar.HOUR_OF_DAY,1);
   Date t2=startTime.getTime();
-  ClockUtil.setCurrentTime(t2);
+  processEngineConfiguration.getClock().setCurrentTime(t2);
   processInstanceIdTwo=runtimeService.startProcessInstanceByKey("timerOnTask").getId();
   timerTwoFireTime=new Date(t2.getTime() + ONE_HOUR);
   startTime.add(Calendar.HOUR_OF_DAY,1);
   Date t3=startTime.getTime();
-  ClockUtil.setCurrentTime(t3);
+  processEngineConfiguration.getClock().setCurrentTime(t3);
   processInstanceIdThree=runtimeService.startProcessInstanceByKey("timerOnTask").getId();
   timerThreeFireTime=new Date(t3.getTime() + ONE_HOUR);
   messageId=commandExecutor.execute(new Command<String>(){

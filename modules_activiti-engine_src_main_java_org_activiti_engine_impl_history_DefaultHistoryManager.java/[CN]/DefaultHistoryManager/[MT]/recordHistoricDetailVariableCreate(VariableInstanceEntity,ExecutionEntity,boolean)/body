@@ -1,0 +1,11 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.FULL)) {
+    HistoricDetailVariableInstanceUpdateEntity historicVariableUpdate=HistoricDetailVariableInstanceUpdateEntity.copyAndInsert(variable);
+    if (useActivityId && sourceActivityExecution != null) {
+      HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(sourceActivityExecution);
+      if (historicActivityInstance != null) {
+        historicVariableUpdate.setActivityInstanceId(historicActivityInstance.getId());
+      }
+    }
+  }
+}

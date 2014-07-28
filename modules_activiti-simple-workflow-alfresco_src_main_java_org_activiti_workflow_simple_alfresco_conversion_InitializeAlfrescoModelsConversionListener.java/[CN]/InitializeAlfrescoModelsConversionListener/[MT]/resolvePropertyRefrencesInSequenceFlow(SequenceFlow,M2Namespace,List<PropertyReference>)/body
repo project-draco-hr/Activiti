@@ -1,0 +1,5 @@
+{
+  if (sequenceFlow.getConditionExpression() != null && PropertyReference.containsPropertyReference(sequenceFlow.getConditionExpression())) {
+    sequenceFlow.setConditionExpression(PropertyReference.replaceAllPropertyReferencesInString(sequenceFlow.getConditionExpression(),modelNamespace.getPrefix(),references,false));
+  }
+}

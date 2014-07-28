@@ -1,0 +1,56 @@
+{
+  HashMap<String,Object> processVariables=new HashMap<String,Object>();
+  processVariables.put("stringVar","Azerty");
+  processVariables.put("intVar",67890);
+  processVariables.put("booleanVar",false);
+  processVariables.put("byteVar","test".getBytes());
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.setVariableLocal(task.getId(),"taskVariable","test");
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_DETAIL_QUERY);
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("processInstanceId",processInstance.getId());
+  assertResultsPresentInDataResponse(url,requestNode,5,"stringVar","Azerty");
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("taskId",task.getId());
+  assertResultsPresentInDataResponse(url,requestNode,1,"taskVariable","test");
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processInstanceId",processInstance2.getId());
+  assertResultsPresentInDataResponse(url,requestNode,4,"intVar",67890);
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processInstanceId",processInstance2.getId());
+  requestNode.put("selectOnlyFormProperties",true);
+  assertResultsPresentInDataResponse(url,requestNode,0,null,null);
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processInstanceId",processInstance2.getId());
+  requestNode.put("selectOnlyVariableUpdates",true);
+  assertResultsPresentInDataResponse(url,requestNode,4,"booleanVar",false);
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("processInstanceId",processInstance2.getId());
+  ClientResource client=getAuthenticatedClient(url);
+  Representation response=client.post(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  boolean byteVarFound=false;
+  Iterator<JsonNode> it=dataNode.iterator();
+  while (it.hasNext()) {
+    JsonNode variableNode=it.next().get("variable");
+    String name=variableNode.get("name").textValue();
+    if ("byteVar".equals(name)) {
+      byteVarFound=true;
+      String valueUrl=variableNode.get("valueUrl").textValue();
+      client.release();
+      client=new ClientResource(valueUrl);
+      client.setChallengeResponse(ChallengeScheme.HTTP_BASIC,"kermit","kermit");
+      response=client.get();
+      assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+      byte[] varInput=IOUtils.toByteArray(response.getStream());
+      assertEquals("test",new String(varInput));
+      break;
+    }
+  }
+  assertTrue(byteVarFound);
+}

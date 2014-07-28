@@ -1,7 +1,7 @@
 {
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("forkJoin");
   Execution execution=runtimeService.createExecutionQuery().activityId("receivePayment").singleResult();
-  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutorTxRequired();
+  CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
   SetProcessDefinitionVersionCmd command=new SetProcessDefinitionVersionCmd(execution.getId(),1);
   try {
     commandExecutor.execute(command);

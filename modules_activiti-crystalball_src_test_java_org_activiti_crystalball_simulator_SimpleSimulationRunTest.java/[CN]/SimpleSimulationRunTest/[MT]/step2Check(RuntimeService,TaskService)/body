@@ -1,0 +1,6 @@
+{
+  ProcessInstance procInstance=runtimeService.createProcessInstanceQuery().active().processInstanceBusinessKey("oneTaskProcessBusinessKey").singleResult();
+  assertNull(procInstance);
+  Task t=taskService.createTaskQuery().active().taskDefinitionKey("userTask").singleResult();
+  assertNull(t);
+}

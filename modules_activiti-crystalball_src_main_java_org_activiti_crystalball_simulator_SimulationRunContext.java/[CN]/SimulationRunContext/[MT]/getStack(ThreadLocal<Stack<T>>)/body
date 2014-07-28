@@ -1,0 +1,8 @@
+{
+  Stack<T> stack=threadLocal.get();
+  if (stack == null) {
+    stack=new Stack<T>();
+    threadLocal.set(stack);
+  }
+  return stack;
+}

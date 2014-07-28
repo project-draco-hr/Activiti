@@ -1,0 +1,44 @@
+{
+  assertEquals("formPropertiesProcess",model.getMainProcess().getId());
+  assertEquals("User registration",model.getMainProcess().getName());
+  assertEquals(true,model.getMainProcess().isExecutable());
+  FlowElement startFlowElement=model.getMainProcess().getFlowElement("register");
+  assertNotNull(startFlowElement);
+  assertTrue(startFlowElement instanceof StartEvent);
+  StartEvent startEvent=(StartEvent)startFlowElement;
+  for (  FormProperty formProperty : startEvent.getFormProperties()) {
+    assertEquals(true,formProperty.isRequired());
+  }
+  FlowElement userFlowElement=model.getMainProcess().getFlowElement("edit");
+  assertNotNull(userFlowElement);
+  assertTrue(userFlowElement instanceof UserTask);
+  UserTask userTask=(UserTask)userFlowElement;
+  for (  FormProperty formProperty : userTask.getFormProperties()) {
+    if (formProperty.getId().equals("duplicated")) {
+      checkFormProperty(formProperty,false,true,true);
+    }
+    if (formProperty.getId().equals("name")) {
+      checkFormProperty(formProperty,false,true,true);
+    }
+    if (formProperty.getId().equals("age")) {
+      checkFormProperty(formProperty,false,true,false);
+    }
+    if (formProperty.getId().equals("isMan")) {
+      checkFormProperty(formProperty,false,false,true);
+    }
+    if (formProperty.getId().equals("remove")) {
+      checkFormProperty(formProperty,true,true,true);
+    }
+    if (formProperty.getId().equals("testEnum")) {
+      checkFormProperty(formProperty,false,true,true);
+      List<Map<String,Object>> formValues=new ArrayList<Map<String,Object>>();
+      for (      FormValue formValue : formProperty.getFormValues()) {
+        Map<String,Object> formValueMap=new HashMap<String,Object>();
+        formValueMap.put("id",formValue.getId());
+        formValueMap.put("name",formValue.getName());
+        formValues.add(formValueMap);
+      }
+      checkFormPropertyFormValues(formValues);
+    }
+  }
+}

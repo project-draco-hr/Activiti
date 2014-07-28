@@ -1,0 +1,14 @@
+{
+  super.setUp();
+  repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/runtime/oneTaskProcess.bpmn20.xml").addClasspathResource("org/activiti/engine/test/api/runtime/oneTaskProcess2.bpmn20.xml").deploy();
+  Map<String,Object> startMap=new HashMap<String,Object>();
+  startMap.put("test","test");
+  startMap.put("test2","test2");
+  processInstanceIds=new ArrayList<String>();
+  for (int i=0; i < 4; i++) {
+    processInstanceIds.add(runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY,i + "",startMap).getId());
+  }
+  startMap.clear();
+  startMap.put("anothertest",123);
+  processInstanceIds.add(runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY_2,"1",startMap).getId());
+}

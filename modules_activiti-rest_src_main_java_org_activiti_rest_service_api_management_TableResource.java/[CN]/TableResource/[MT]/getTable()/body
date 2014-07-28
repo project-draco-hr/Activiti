@@ -1,0 +1,19 @@
+{
+  if (authenticate() == false)   return null;
+  String tableName=getAttribute("tableName");
+  if (tableName == null) {
+    throw new ActivitiIllegalArgumentException("The tableName cannot be null");
+  }
+  Map<String,Long> tableCounts=ActivitiUtil.getManagementService().getTableCount();
+  TableResponse response=null;
+  for (  Entry<String,Long> entry : tableCounts.entrySet()) {
+    if (entry.getKey().equals(tableName)) {
+      response=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createTableResponse(this,entry.getKey(),entry.getValue());
+      break;
+    }
+  }
+  if (response == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a table with name '" + tableName + "'.",String.class);
+  }
+  return response;
+}

@@ -20,7 +20,7 @@
     log.debug("active concurrent executions: {}",concurrentActiveExecutions);
   }
   if ((transitions.size() == 1) && (concurrentActiveExecutions.isEmpty())) {
-    List<ExecutionImpl> recyclableExecutionImpls=(List)recyclableExecutions;
+    @SuppressWarnings("rawtypes") List<ExecutionImpl> recyclableExecutionImpls=(List)recyclableExecutions;
     for (    ExecutionImpl prunedExecution : recyclableExecutionImpls) {
       if (!prunedExecution.isEnded()) {
         log.debug("pruning execution {}",prunedExecution);

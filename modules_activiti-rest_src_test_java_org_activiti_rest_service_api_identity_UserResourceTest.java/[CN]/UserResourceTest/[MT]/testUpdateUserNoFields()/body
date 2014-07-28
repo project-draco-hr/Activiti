@@ -1,0 +1,32 @@
+{
+  User savedUser=null;
+  try {
+    User newUser=identityService.newUser("testuser");
+    newUser.setFirstName("Fred");
+    newUser.setLastName("McDonald");
+    newUser.setEmail("no-reply@activiti.org");
+    identityService.saveUser(newUser);
+    savedUser=newUser;
+    ObjectNode taskUpdateRequest=objectMapper.createObjectNode();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId()));
+    Representation response=client.put(taskUpdateRequest);
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("testuser",responseNode.get("id").textValue());
+    assertEquals("Fred",responseNode.get("firstName").textValue());
+    assertEquals("McDonald",responseNode.get("lastName").textValue());
+    assertEquals("no-reply@activiti.org",responseNode.get("email").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId())));
+    newUser=identityService.createUserQuery().userId(newUser.getId()).singleResult();
+    assertEquals("McDonald",newUser.getLastName());
+    assertEquals("Fred",newUser.getFirstName());
+    assertEquals("no-reply@activiti.org",newUser.getEmail());
+    assertNull(newUser.getPassword());
+  }
+  finally {
+    if (savedUser != null) {
+      identityService.deleteUser(savedUser.getId());
+    }
+  }
+}

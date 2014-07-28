@@ -4,21 +4,23 @@
     return cachedObject;
   }
   byte[] bytes=(byte[])super.getValue(valueFields);
-  ByteArrayInputStream bais=new ByteArrayInputStream(bytes);
-  Object deserializedObject;
-  try {
-    ObjectInputStream ois=createObjectInputStream(bais);
-    deserializedObject=ois.readObject();
-    valueFields.setCachedValue(deserializedObject);
-    if (valueFields instanceof VariableInstanceEntity) {
-      Context.getCommandContext().getDbSqlSession().addDeserializedObject(deserializedObject,bytes,(VariableInstanceEntity)valueFields);
+  if (bytes != null) {
+    ByteArrayInputStream bais=new ByteArrayInputStream(bytes);
+    try {
+      ObjectInputStream ois=createObjectInputStream(bais);
+      Object deserializedObject=ois.readObject();
+      valueFields.setCachedValue(deserializedObject);
+      if (valueFields instanceof VariableInstanceEntity) {
+        Context.getCommandContext().getDbSqlSession().addDeserializedObject(deserializedObject,bytes,(VariableInstanceEntity)valueFields);
+      }
+      return deserializedObject;
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Couldn't deserialize object in variable '" + valueFields.getName() + "'",e);
+    }
+ finally {
+      IoUtil.closeSilently(bais);
     }
   }
- catch (  Exception e) {
-    throw new ActivitiException("Couldn't deserialize object in variable '" + valueFields.getName() + "'",e);
-  }
- finally {
-    IoUtil.closeSilently(bais);
-  }
-  return deserializedObject;
+  return null;
 }

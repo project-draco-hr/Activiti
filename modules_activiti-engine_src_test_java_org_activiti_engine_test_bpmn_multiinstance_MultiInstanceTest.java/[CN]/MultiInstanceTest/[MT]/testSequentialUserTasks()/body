@@ -1,17 +1,3 @@
 {
-  String procId=runtimeService.startProcessInstanceByKey("miSequentialUserTasks",CollectionUtil.singletonMap("nrOfLoops",3)).getId();
-  Task task=taskService.createTaskQuery().singleResult();
-  assertEquals("My Task",task.getName());
-  assertEquals("kermit_0",task.getAssignee());
-  taskService.complete(task.getId());
-  task=taskService.createTaskQuery().singleResult();
-  assertEquals("My Task",task.getName());
-  assertEquals("kermit_1",task.getAssignee());
-  taskService.complete(task.getId());
-  task=taskService.createTaskQuery().singleResult();
-  assertEquals("My Task",task.getName());
-  assertEquals("kermit_2",task.getAssignee());
-  taskService.complete(task.getId());
-  assertNull(taskService.createTaskQuery().singleResult());
-  assertProcessEnded(procId);
+  checkSequentialUserTasks("miSequentialUserTasks");
 }

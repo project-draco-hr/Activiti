@@ -1,0 +1,26 @@
+{
+  BaseDelegateEventListener result=null;
+  if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT.equals(eventListener.getImplementationType())) {
+    result=new SignalThrowingEventListener();
+    ((SignalThrowingEventListener)result).setSignalName(eventListener.getImplementation());
+    ((SignalThrowingEventListener)result).setProcessInstanceScope(true);
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT.equals(eventListener.getImplementationType())) {
+    result=new SignalThrowingEventListener();
+    ((SignalThrowingEventListener)result).setSignalName(eventListener.getImplementation());
+    ((SignalThrowingEventListener)result).setProcessInstanceScope(false);
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT.equals(eventListener.getImplementationType())) {
+    result=new MessageThrowingEventListener();
+    ((MessageThrowingEventListener)result).setMessageName(eventListener.getImplementation());
+  }
+ else   if (ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT.equals(eventListener.getImplementationType())) {
+    result=new ErrorThrowingEventListener();
+    ((ErrorThrowingEventListener)result).setErrorCode(eventListener.getImplementation());
+  }
+  if (result == null) {
+    throw new ActivitiIllegalArgumentException("Cannot create an event-throwing event-listener, unknown implementation type: " + eventListener.getImplementationType());
+  }
+  result.setEntityClass(getEntityType(eventListener.getEntityType()));
+  return result;
+}

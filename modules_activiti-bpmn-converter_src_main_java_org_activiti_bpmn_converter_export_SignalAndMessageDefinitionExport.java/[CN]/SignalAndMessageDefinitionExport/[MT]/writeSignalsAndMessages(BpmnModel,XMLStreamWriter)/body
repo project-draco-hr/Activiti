@@ -33,7 +33,7 @@
   for (  Message message : model.getMessages()) {
     xtw.writeStartElement(ELEMENT_MESSAGE);
     String messageId=message.getId();
-    if (messageId.startsWith(model.getTargetNamespace())) {
+    if (model.getTargetNamespace() != null && messageId.startsWith(model.getTargetNamespace())) {
       messageId=messageId.replace(model.getTargetNamespace(),"");
       messageId=messageId.replaceFirst(":","");
     }
@@ -47,7 +47,12 @@
       }
     }
     xtw.writeAttribute(ATTRIBUTE_ID,messageId);
-    xtw.writeAttribute(ATTRIBUTE_NAME,message.getName());
+    if (StringUtils.isNotEmpty(message.getName())) {
+      xtw.writeAttribute(ATTRIBUTE_NAME,message.getName());
+    }
+    if (StringUtils.isNotEmpty(message.getItemRef())) {
+      xtw.writeAttribute(ATTRIBUTE_ITEM_REF,message.getItemRef());
+    }
     xtw.writeEndElement();
   }
 }

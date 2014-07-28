@@ -1,0 +1,35 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testJobEvents");
+  Job theJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(theJob);
+  assertEquals(2,listener.getEventsReceived().size());
+  ActivitiEvent event=listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.ENTITY_CREATED,event.getType());
+  checkEventContext(event,theJob,false);
+  event=listener.getEventsReceived().get(1);
+  assertEquals(ActivitiEventType.ENTITY_INITIALIZED,event.getType());
+  checkEventContext(event,theJob,false);
+  listener.clearEventsReceived();
+  managementService.setJobRetries(theJob.getId(),5);
+  assertEquals(1,listener.getEventsReceived().size());
+  event=listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.ENTITY_UPDATED,event.getType());
+  Job updatedJob=(Job)((ActivitiEntityEvent)event).getEntity();
+  assertEquals(5,updatedJob.getRetries());
+  checkEventContext(event,theJob,true);
+  listener.clearEventsReceived();
+  Calendar tomorrow=Calendar.getInstance();
+  tomorrow.add(Calendar.DAY_OF_YEAR,1);
+  processEngineConfiguration.getClock().setCurrentTime(tomorrow.getTime());
+  waitForJobExecutorToProcessAllJobs(2000,100);
+  assertEquals(3,listener.getEventsReceived().size());
+  event=listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.TIMER_FIRED,event.getType());
+  checkEventContext(event,theJob,true);
+  event=listener.getEventsReceived().get(1);
+  assertEquals(ActivitiEventType.ENTITY_DELETED,event.getType());
+  checkEventContext(event,theJob,true);
+  event=listener.getEventsReceived().get(2);
+  assertEquals(ActivitiEventType.JOB_EXECUTION_SUCCESS,event.getType());
+  checkEventContext(event,theJob,true);
+}

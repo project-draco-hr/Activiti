@@ -1,4 +1,13 @@
 {
+  if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Map<String,Object> variablesMap=null;
+    try {
+      variablesMap=execution.getVariables();
+    }
+ catch (    Throwable t) {
+    }
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityWithVariablesEvent(ActivitiEventType.ENTITY_INITIALIZED,execution,variablesMap,false));
+  }
   ProcessDefinitionImpl processDefinition=execution.getProcessDefinition();
   StartingExecution startingExecution=execution.getStartingExecution();
   List<ActivityImpl> initialActivityStack=processDefinition.getInitialActivityStack(startingExecution.getInitial());

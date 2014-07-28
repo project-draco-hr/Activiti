@@ -1,5 +1,4 @@
 {
-  CommandContext commandContext=Context.getCommandContext();
   if (exprSet != null) {
     Iterator<Expression> iterator=exprSet.iterator();
     while (iterator.hasNext()) {
@@ -13,7 +12,7 @@
         identityLink.setGroupId(expr.toString());
       }
       identityLink.setType(IdentityLinkType.CANDIDATE);
-      commandContext.getDbSqlSession().insert(identityLink);
+      identityLink.insert();
     }
   }
 }

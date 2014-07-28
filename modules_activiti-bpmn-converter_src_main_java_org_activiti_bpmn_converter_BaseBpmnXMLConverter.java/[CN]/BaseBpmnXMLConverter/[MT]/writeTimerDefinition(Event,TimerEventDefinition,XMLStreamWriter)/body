@@ -1,0 +1,23 @@
+{
+  xtw.writeStartElement(ELEMENT_EVENT_TIMERDEFINITION);
+  boolean didWriteExtensionStartElement=BpmnXMLUtil.writeExtensionElements(timerDefinition,false,xtw);
+  if (didWriteExtensionStartElement) {
+    xtw.writeEndElement();
+  }
+  if (StringUtils.isNotEmpty(timerDefinition.getTimeDate())) {
+    xtw.writeStartElement(ATTRIBUTE_TIMER_DATE);
+    xtw.writeCharacters(timerDefinition.getTimeDate());
+    xtw.writeEndElement();
+  }
+ else   if (StringUtils.isNotEmpty(timerDefinition.getTimeCycle())) {
+    xtw.writeStartElement(ATTRIBUTE_TIMER_CYCLE);
+    xtw.writeCharacters(timerDefinition.getTimeCycle());
+    xtw.writeEndElement();
+  }
+ else   if (StringUtils.isNotEmpty(timerDefinition.getTimeDuration())) {
+    xtw.writeStartElement(ATTRIBUTE_TIMER_DURATION);
+    xtw.writeCharacters(timerDefinition.getTimeDuration());
+    xtw.writeEndElement();
+  }
+  xtw.writeEndElement();
+}

@@ -1,5 +1,7 @@
 {
-  TestHelper.annotationDeploymentTearDown(processEngine,deploymentId,getClass(),getName());
-  ClockUtil.reset();
+  processEngineConfiguration.getClock().reset();
+  if (mockSupport != null) {
+    mockSupport.reset();
+  }
   super.tearDown();
 }

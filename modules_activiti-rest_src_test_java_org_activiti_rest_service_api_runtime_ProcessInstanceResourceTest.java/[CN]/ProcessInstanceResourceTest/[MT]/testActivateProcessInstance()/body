@@ -1,0 +1,22 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey");
+  runtimeService.suspendProcessInstanceById(processInstance.getId());
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("action","activate");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
+  Representation response=client.put(requestNode);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  assertEquals(1,runtimeService.createProcessInstanceQuery().active().processInstanceId(processInstance.getId()).count());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals(processInstance.getId(),responseNode.get("id").textValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
+  try {
+    client.put(requestNode);
+    fail("Expected exception");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
+    assertEquals("Process instance with id '" + processInstance.getId() + "' is already active.",expected.getStatus().getDescription());
+  }
+}

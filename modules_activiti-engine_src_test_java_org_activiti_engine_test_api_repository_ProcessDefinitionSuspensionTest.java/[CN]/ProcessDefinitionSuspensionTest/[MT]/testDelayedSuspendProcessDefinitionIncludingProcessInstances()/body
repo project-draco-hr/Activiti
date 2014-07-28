@@ -1,7 +1,7 @@
 {
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   Date startTime=new Date();
-  ClockUtil.setCurrentTime(startTime);
+  processEngineConfiguration.getClock().setCurrentTime(startTime);
   int nrOfProcessInstances=30;
   for (int i=0; i < nrOfProcessInstances; i++) {
     runtimeService.startProcessInstanceById(processDefinition.getId());
@@ -19,7 +19,7 @@
   nrOfProcessInstances=nrOfProcessInstances + 1;
   assertEquals(nrOfProcessInstances,runtimeService.createProcessInstanceQuery().count());
   long eightDaysSinceStartTime=oneWeekFromStartTime + (2 * 24 * 60* 60* 1000);
-  ClockUtil.setCurrentTime(new Date(eightDaysSinceStartTime));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(eightDaysSinceStartTime));
   waitForJobExecutorToProcessAllJobs(5000L,50L);
   try {
     runtimeService.startProcessInstanceById(processDefinition.getId());

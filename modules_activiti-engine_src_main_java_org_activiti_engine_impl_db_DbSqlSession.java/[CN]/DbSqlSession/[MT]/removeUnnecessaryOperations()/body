@@ -1,17 +1,19 @@
 {
-  List<DeleteOperation> deletedObjectsCopy=new ArrayList<DeleteOperation>(deleteOperations);
-  for (  DeleteOperation deleteOperation : deletedObjectsCopy) {
-    if (deleteOperation instanceof DeletePersistentObjectOperation) {
-      DeletePersistentObjectOperation deletePersistentObjectOperation=(DeletePersistentObjectOperation)deleteOperation;
-      PersistentObject insertedObject=findInsertedObject(deletePersistentObjectOperation.getPersistentObject().getClass(),deletePersistentObjectOperation.getPersistentObject().getId());
-      if (insertedObject != null) {
-        insertedObjects.remove(insertedObject);
-        deleteOperations.remove(deleteOperation);
+  List<DeleteOperation> removedDeleteOperations=new ArrayList<DeleteOperation>();
+  for (Iterator<DeleteOperation> deleteIt=deleteOperations.iterator(); deleteIt.hasNext(); ) {
+    DeleteOperation deleteOperation=deleteIt.next();
+    for (Iterator<PersistentObject> insertIt=insertedObjects.iterator(); insertIt.hasNext(); ) {
+      PersistentObject insertedObject=insertIt.next();
+      if (deleteOperation.sameIdentity(insertedObject)) {
+        insertIt.remove();
+        deleteIt.remove();
+        removedDeleteOperations.add(deleteOperation);
       }
-      cacheRemove(deletePersistentObjectOperation.getPersistentObject().getClass(),deletePersistentObjectOperation.getPersistentObject().getId());
     }
+    deleteOperation.clearCache();
   }
   for (  PersistentObject insertedObject : insertedObjects) {
     cacheRemove(insertedObject.getClass(),insertedObject.getId());
   }
+  return removedDeleteOperations;
 }

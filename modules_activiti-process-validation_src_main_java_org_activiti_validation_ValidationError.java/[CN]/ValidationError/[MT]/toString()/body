@@ -1,0 +1,37 @@
+{
+  StringBuilder strb=new StringBuilder();
+  strb.append("[Validation set: '" + validatorSetName + "' | Problem: '"+ problem+ "'] : ");
+  strb.append(defaultDescription);
+  strb.append(" - [Extra info : ");
+  boolean extraInfoAlreadyPresent=false;
+  if (processDefinitionId != null) {
+    strb.append("processDefinitionId = " + processDefinitionId);
+    extraInfoAlreadyPresent=true;
+  }
+  if (processDefinitionName != null) {
+    if (extraInfoAlreadyPresent) {
+      strb.append(" | ");
+    }
+    strb.append("processDefinitionName = " + processDefinitionName + " | ");
+    extraInfoAlreadyPresent=true;
+  }
+  if (activityId != null) {
+    if (extraInfoAlreadyPresent) {
+      strb.append(" | ");
+    }
+    strb.append("id = " + activityId + " | ");
+    extraInfoAlreadyPresent=true;
+  }
+  if (activityName != null) {
+    if (extraInfoAlreadyPresent) {
+      strb.append(" | ");
+    }
+    strb.append("activityName = " + activityName + " | ");
+    extraInfoAlreadyPresent=true;
+  }
+  strb.append("]");
+  if (xmlLineNumber > 0 && xmlColumnNumber > 0) {
+    strb.append(" ( line: " + xmlLineNumber + ", column: "+ xmlColumnNumber+ ")");
+  }
+  return strb.toString();
+}

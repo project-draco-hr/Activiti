@@ -1,0 +1,11 @@
+{
+  EventLogEntryEntityManager eventLogEntryEntityManager=commandContext.getEventLogEntryEntityManager();
+  for (  EventLoggerEventHandler eventHandler : eventHandlers) {
+    try {
+      eventLogEntryEntityManager.insert(eventHandler.generateEventLogEntry(commandContext));
+    }
+ catch (    Exception e) {
+      logger.warn("Could not create event log",e);
+    }
+  }
+}

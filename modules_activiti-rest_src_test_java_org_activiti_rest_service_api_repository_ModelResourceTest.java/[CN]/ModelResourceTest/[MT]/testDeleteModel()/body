@@ -1,0 +1,30 @@
+{
+  Model model=null;
+  try {
+    Calendar now=Calendar.getInstance();
+    now.set(Calendar.MILLISECOND,0);
+    processEngineConfiguration.getClock().setCurrentTime(now.getTime());
+    model=repositoryService.newModel();
+    model.setCategory("Model category");
+    model.setKey("Model key");
+    model.setMetaInfo("Model metainfo");
+    model.setName("Model name");
+    model.setVersion(2);
+    repositoryService.saveModel(model);
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
+    Representation response=client.delete();
+    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    assertEquals(0,response.getSize());
+    assertNull(repositoryService.createModelQuery().modelId(model.getId()).singleResult());
+    model=null;
+  }
+  finally {
+    if (model != null) {
+      try {
+        repositoryService.deleteModel(model.getId());
+      }
+ catch (      Throwable ignore) {
+      }
+    }
+  }
+}

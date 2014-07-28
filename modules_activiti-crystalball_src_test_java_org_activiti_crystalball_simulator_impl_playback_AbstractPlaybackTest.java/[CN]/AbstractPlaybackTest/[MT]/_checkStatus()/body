@@ -1,0 +1,30 @@
+{
+  Method method;
+  try {
+    method=getClass().getMethod(getName(),(Class<?>[])null);
+  }
+ catch (  Exception e) {
+    log.warn("Could not get method by reflection. This could happen if you are using @Parameters in combination with annotations.",e);
+    return;
+  }
+  CheckStatus checkStatusAnnotation=method.getAnnotation(CheckStatus.class);
+  if (checkStatusAnnotation != null) {
+    log.debug("annotation @CheckStatus checks status for {}.{}",getClass().getSimpleName(),getName());
+    String checkStatusMethodName=checkStatusAnnotation.methodName();
+    if (checkStatusMethodName.isEmpty()) {
+      String name=method.getName();
+      checkStatusMethodName=name + "CheckStatus";
+    }
+    try {
+      method=getClass().getMethod(checkStatusMethodName);
+    }
+ catch (    Exception e) {
+      log.error("Could not get CheckStatus method: {} by reflection. This could happen if you are using @Parameters in combination with annotations.",checkStatusMethodName,e);
+      throw new RuntimeException("Could not get CheckStatus method by reflection");
+    }
+    method.invoke(this);
+  }
+ else {
+    log.warn("Check status annotation is not present - nothing is checked");
+  }
+}

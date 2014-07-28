@@ -3,15 +3,7 @@
   if (StringUtils.isNotEmpty(resourceElement) && "resourceAssignmentExpression".equals(resourceElement)) {
     String expression=XMLStreamReaderUtil.moveDown(xtr);
     if (StringUtils.isNotEmpty(expression) && "formalExpression".equals(expression)) {
-      List<String> assignmentList=new ArrayList<String>();
-      String assignmentText=xtr.getElementText();
-      if (assignmentText.contains(",")) {
-        String[] assignmentArray=assignmentText.split(",");
-        assignmentList=Arrays.asList(assignmentArray);
-      }
- else {
-        assignmentList.add(assignmentText);
-      }
+      List<String> assignmentList=CommaSplitter.splitCommas(xtr.getElementText());
       for (      String assignmentValue : assignmentList) {
         if (assignmentValue == null)         continue;
         assignmentValue=assignmentValue.trim();

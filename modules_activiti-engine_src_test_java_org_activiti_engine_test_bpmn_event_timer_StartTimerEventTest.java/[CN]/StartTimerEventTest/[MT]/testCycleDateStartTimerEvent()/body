@@ -1,5 +1,5 @@
 {
-  ClockUtil.setCurrentTime(new Date());
+  processEngineConfiguration.getClock().setCurrentTime(new Date());
   JobQuery jobQuery=managementService.createJobQuery();
   assertEquals(1,jobQuery.count());
   final ProcessInstanceQuery piq=runtimeService.createProcessInstanceQuery().processDefinitionKey("startTimerEventExample");

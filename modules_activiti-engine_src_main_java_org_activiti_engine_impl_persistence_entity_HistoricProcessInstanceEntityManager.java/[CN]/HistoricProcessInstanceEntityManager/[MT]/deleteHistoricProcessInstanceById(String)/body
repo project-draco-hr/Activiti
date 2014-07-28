@@ -6,6 +6,14 @@
     commandContext.getHistoricVariableInstanceEntityManager().deleteHistoricVariableInstanceByProcessInstanceId(historicProcessInstanceId);
     commandContext.getHistoricActivityInstanceEntityManager().deleteHistoricActivityInstancesByProcessInstanceId(historicProcessInstanceId);
     commandContext.getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstancesByProcessInstanceId(historicProcessInstanceId);
+    commandContext.getHistoricIdentityLinkEntityManager().deleteHistoricIdentityLinksByProcInstance(historicProcessInstanceId);
+    commandContext.getCommentEntityManager().deleteCommentsByProcessInstanceId(historicProcessInstanceId);
     getDbSqlSession().delete(historicProcessInstance);
+    HistoricProcessInstanceQueryImpl subProcessesQueryImpl=new HistoricProcessInstanceQueryImpl();
+    subProcessesQueryImpl.superProcessInstanceId(historicProcessInstanceId);
+    List<HistoricProcessInstance> selectList=getDbSqlSession().selectList("selectHistoricProcessInstancesByQueryCriteria",subProcessesQueryImpl);
+    for (    HistoricProcessInstance child : selectList) {
+      deleteHistoricProcessInstanceById(child.getId());
+    }
   }
 }

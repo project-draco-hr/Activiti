@@ -2,7 +2,7 @@
   PvmActivity activity=execution.getActivity();
   if (execution.isConcurrent()) {
     for (    ActivityExecution concurrentExecution : getLeaveExecutions(execution.getParent())) {
-      if (concurrentExecution.isActive() && concurrentExecution.getActivity() != activity) {
+      if (concurrentExecution.isActive() && concurrentExecution.getId().equals(execution.getId()) == false) {
         boolean reachable=false;
         PvmTransition pvmTransition=((ExecutionEntity)concurrentExecution).getTransitionBeingTaken();
         if (pvmTransition != null) {

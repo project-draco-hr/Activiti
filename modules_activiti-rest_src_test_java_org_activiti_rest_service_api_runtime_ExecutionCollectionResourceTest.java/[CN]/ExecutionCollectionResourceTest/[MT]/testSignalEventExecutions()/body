@@ -1,0 +1,16 @@
+{
+  Execution signalExecution=runtimeService.startProcessInstanceByKey("processOne");
+  assertNotNull(signalExecution);
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("action","signalEventReceived");
+  requestNode.put("signalName","alert");
+  Execution waitingExecution=runtimeService.createExecutionQuery().activityId("waitState").singleResult();
+  assertNotNull(waitingExecution);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION));
+  client.put(requestNode);
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  waitingExecution=runtimeService.createExecutionQuery().activityId("anotherWaitState").singleResult();
+  assertNotNull(waitingExecution);
+  assertEquals(signalExecution.getId(),waitingExecution.getId());
+  client.release();
+}

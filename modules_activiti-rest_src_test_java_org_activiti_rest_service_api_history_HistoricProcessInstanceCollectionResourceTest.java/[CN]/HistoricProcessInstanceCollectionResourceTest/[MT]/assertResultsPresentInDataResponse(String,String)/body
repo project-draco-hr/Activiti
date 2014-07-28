@@ -1,0 +1,16 @@
+{
+  int numberOfResultsExpected=expectedResourceIds.length;
+  ClientResource client=getAuthenticatedClient(url);
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  assertEquals(numberOfResultsExpected,dataNode.size());
+  List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedResourceIds));
+  Iterator<JsonNode> it=dataNode.iterator();
+  while (it.hasNext()) {
+    String id=it.next().get("id").textValue();
+    toBeFound.remove(id);
+  }
+  assertTrue("Not all process instances have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());
+  client.release();
+}

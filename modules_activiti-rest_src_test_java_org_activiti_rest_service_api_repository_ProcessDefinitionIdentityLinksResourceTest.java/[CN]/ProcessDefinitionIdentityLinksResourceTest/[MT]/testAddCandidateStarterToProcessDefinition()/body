@@ -1,0 +1,34 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINKS_COLLECTION,processDefinition.getId()));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("user","kermit");
+  Representation response=client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("kermit",responseNode.get("user").textValue());
+  assertEquals("candidate",responseNode.get("type").textValue());
+  assertTrue(responseNode.get("group").isNull());
+  assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"users","kermit")));
+  List<IdentityLink> createdLinks=repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
+  assertEquals(1,createdLinks.size());
+  assertEquals("kermit",createdLinks.get(0).getUserId());
+  assertEquals("candidate",createdLinks.get(0).getType());
+  repositoryService.deleteCandidateStarterUser(processDefinition.getId(),"kermit");
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("group","admin");
+  response=client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("admin",responseNode.get("group").textValue());
+  assertEquals("candidate",responseNode.get("type").textValue());
+  assertTrue(responseNode.get("user").isNull());
+  assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"groups","admin")));
+  createdLinks=repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
+  assertEquals(1,createdLinks.size());
+  assertEquals("admin",createdLinks.get(0).getGroupId());
+  assertEquals("candidate",createdLinks.get(0).getType());
+  repositoryService.deleteCandidateStarterUser(processDefinition.getId(),"admin");
+}

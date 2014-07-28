@@ -1,0 +1,50 @@
+{
+  Model model=null;
+  try {
+    Calendar createTime=Calendar.getInstance();
+    createTime.set(Calendar.MILLISECOND,0);
+    processEngineConfiguration.getClock().setCurrentTime(createTime.getTime());
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("name","Model name");
+    requestNode.put("category","Model category");
+    requestNode.put("key","Model key");
+    requestNode.put("metaInfo","Model metainfo");
+    requestNode.put("deploymentId",deploymentId);
+    requestNode.put("version",2);
+    requestNode.put("tenantId","myTenant");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION));
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("Model name",responseNode.get("name").textValue());
+    assertEquals("Model key",responseNode.get("key").textValue());
+    assertEquals("Model category",responseNode.get("category").textValue());
+    assertEquals(2,responseNode.get("version").intValue());
+    assertEquals("Model metainfo",responseNode.get("metaInfo").textValue());
+    assertEquals(deploymentId,responseNode.get("deploymentId").textValue());
+    assertEquals("myTenant",responseNode.get("tenantId").textValue());
+    assertEquals(createTime.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").textValue()).getTime());
+    assertEquals(createTime.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").textValue()).getTime());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,responseNode.get("id").textValue())));
+    assertTrue(responseNode.get("deploymentUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,deploymentId)));
+    model=repositoryService.createModelQuery().modelId(responseNode.get("id").textValue()).singleResult();
+    assertNotNull(model);
+    assertEquals("Model category",model.getCategory());
+    assertEquals("Model name",model.getName());
+    assertEquals("Model key",model.getKey());
+    assertEquals(deploymentId,model.getDeploymentId());
+    assertEquals("Model metainfo",model.getMetaInfo());
+    assertEquals("myTenant",model.getTenantId());
+    assertEquals(2,model.getVersion().intValue());
+  }
+  finally {
+    if (model != null) {
+      try {
+        repositoryService.deleteModel(model.getId());
+      }
+ catch (      Throwable ignore) {
+      }
+    }
+  }
+}

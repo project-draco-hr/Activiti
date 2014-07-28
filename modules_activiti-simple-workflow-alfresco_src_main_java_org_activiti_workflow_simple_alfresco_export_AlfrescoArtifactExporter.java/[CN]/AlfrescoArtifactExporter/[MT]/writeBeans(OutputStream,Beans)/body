@@ -1,0 +1,11 @@
+{
+  try {
+    Marshaller marshaller=beansJaxbContext.createMarshaller();
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
+    marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd");
+    marshaller.marshal(beans,out);
+  }
+ catch (  JAXBException jaxbe) {
+    throw new IOException(jaxbe);
+  }
+}

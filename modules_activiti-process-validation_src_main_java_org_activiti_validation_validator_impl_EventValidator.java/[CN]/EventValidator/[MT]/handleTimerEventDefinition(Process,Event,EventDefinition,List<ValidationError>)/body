@@ -1,0 +1,6 @@
+{
+  TimerEventDefinition timerEventDefinition=(TimerEventDefinition)eventDefinition;
+  if (StringUtils.isEmpty(timerEventDefinition.getTimeDate()) && StringUtils.isEmpty(timerEventDefinition.getTimeCycle()) && StringUtils.isEmpty(timerEventDefinition.getTimeDuration())) {
+    addError(errors,Problems.EVENT_TIMER_MISSING_CONFIGURATION,process,event,"Timer needs configuration (either timeDate, timeCycle or timeDuration is needed)");
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (childElement != null && StringUtils.isNotEmpty(childElement.getName())) {
+    List<ExtensionElement> elementList=null;
+    if (this.childElements.containsKey(childElement.getName()) == false) {
+      elementList=new ArrayList<ExtensionElement>();
+      this.childElements.put(childElement.getName(),elementList);
+    }
+    this.childElements.get(childElement.getName()).add(childElement);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (extensionElement != null && StringUtils.isNotEmpty(extensionElement.getName())) {
+    List<ExtensionElement> elementList=null;
+    if (this.extensionElements.containsKey(extensionElement.getName()) == false) {
+      elementList=new ArrayList<ExtensionElement>();
+      this.extensionElements.put(extensionElement.getName(),elementList);
+    }
+    this.extensionElements.get(extensionElement.getName()).add(extensionElement);
+  }
+}

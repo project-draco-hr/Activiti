@@ -1,13 +1,3 @@
 {
-  if (owner == null && this.owner == null) {
-    return;
-  }
-  this.owner=owner;
-  CommandContext commandContext=Context.getCommandContext();
-  if (commandContext != null) {
-    commandContext.getHistoryManager().recordTaskOwnerChange(id,owner);
-    if (owner != null && processInstanceId != null) {
-      getProcessInstance().involveUser(owner,IdentityLinkType.PARTICIPANT);
-    }
-  }
+  setOwner(owner,false);
 }

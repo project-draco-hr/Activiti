@@ -1,0 +1,22 @@
+{
+  String processInstanceId=getAttribute("processInstanceId");
+  if (processInstanceId == null) {
+    throw new ActivitiIllegalArgumentException("The processInstanceId cannot be null");
+  }
+  String variableName=getAttribute("variableName");
+  if (variableName == null) {
+    throw new ActivitiIllegalArgumentException("The variableName cannot be null");
+  }
+  HistoricProcessInstance processObject=ActivitiUtil.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).includeProcessVariables().singleResult();
+  if (processObject == null) {
+    throw new ActivitiObjectNotFoundException("Historic process instance '" + processInstanceId + "' couldn't be found.",HistoricProcessInstanceEntity.class);
+  }
+  Object value=processObject.getProcessVariables().get(variableName);
+  if (value == null) {
+    throw new ActivitiObjectNotFoundException("Historic process instance '" + processInstanceId + "' variable value for "+ variableName+ " couldn't be found.",VariableInstanceEntity.class);
+  }
+ else {
+    RestResponseFactory responseFactory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+    return responseFactory.createRestVariable(this,variableName,value,null,processInstanceId,RestResponseFactory.VARIABLE_HISTORY_PROCESS,includeBinary);
+  }
+}

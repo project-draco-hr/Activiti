@@ -1,0 +1,17 @@
+{
+  Map<String,Long> tableCounts=managementService.getTableCount();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLES_COLLECTION));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(tableCounts.size(),responseNode.size());
+  for (int i=0; i < responseNode.size(); i++) {
+    ObjectNode table=(ObjectNode)responseNode.get(i);
+    assertNotNull(table.get("name").textValue());
+    assertNotNull(table.get("count").longValue());
+    assertTrue(table.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,table.get("name").textValue())));
+    assertEquals(((Long)tableCounts.get(table.get("name").textValue())).longValue(),table.get("count").longValue());
+  }
+}

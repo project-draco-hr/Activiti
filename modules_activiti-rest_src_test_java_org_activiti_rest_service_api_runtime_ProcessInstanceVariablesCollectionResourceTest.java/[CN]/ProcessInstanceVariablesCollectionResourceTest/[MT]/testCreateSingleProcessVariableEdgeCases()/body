@@ -1,0 +1,56 @@
+{
+  ArrayNode requestNode=objectMapper.createArrayNode();
+  ObjectNode variableNode=requestNode.addObject();
+  variableNode.put("name","existingVariable");
+  variableNode.put("value","simple string value");
+  variableNode.put("type","string");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,"unexisting"));
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+    assertEquals("Could not find a process instance with id 'unexisting'.",expected.getStatus().getDescription());
+  }
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  runtimeService.setVariable(processInstance.getId(),"existingVariable","I already exist");
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
+    assertEquals("Variable 'existingVariable' is already present on execution '" + processInstance.getId() + "'.",expected.getStatus().getDescription());
+  }
+  variableNode.removeAll();
+  variableNode.put("value","simple string value");
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Variable name is required",expected.getStatus().getDescription());
+  }
+  requestNode.removeAll();
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Request didn't contain a list of variables to create.",expected.getStatus().getDescription());
+  }
+  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  try {
+    client.post(objectMapper.createObjectNode());
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+  }
+}

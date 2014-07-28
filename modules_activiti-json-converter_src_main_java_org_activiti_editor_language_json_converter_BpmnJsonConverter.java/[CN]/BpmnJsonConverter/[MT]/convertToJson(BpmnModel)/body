@@ -10,13 +10,7 @@
   stencilsetNode.put("url","../editor/stencilsets/bpmn2.0/bpmn2.0.json");
   modelNode.put("stencilset",stencilsetNode);
   ArrayNode shapesArrayNode=objectMapper.createArrayNode();
-  Process mainProcess=null;
-  if (model.getPools().size() > 0) {
-    mainProcess=model.getProcess(model.getPools().get(0).getId());
-  }
- else {
-    mainProcess=model.getMainProcess();
-  }
+  Process mainProcess=model.getMainProcess();
   ObjectNode propertiesNode=objectMapper.createObjectNode();
   if (StringUtils.isNotEmpty(mainProcess.getId())) {
     propertiesNode.put(PROPERTY_PROCESS_ID,mainProcess.getId());
@@ -24,25 +18,36 @@
   if (StringUtils.isNotEmpty(mainProcess.getName())) {
     propertiesNode.put(PROPERTY_NAME,mainProcess.getName());
   }
+  if (mainProcess.isExecutable() == false) {
+    propertiesNode.put(PROPERTY_PROCESS_EXECUTABLE,PROPERTY_VALUE_NO);
+  }
+  propertiesNode.put(PROPERTY_PROCESS_NAMESPACE,model.getTargetNamespace());
+  convertListenersToJson(mainProcess.getEventListeners(),propertiesNode);
   if (StringUtils.isNotEmpty(mainProcess.getDocumentation())) {
     propertiesNode.put(PROPERTY_DOCUMENTATION,mainProcess.getDocumentation());
   }
   modelNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
   if (model.getPools().size() > 0) {
     for (    Pool pool : model.getPools()) {
-      GraphicInfo graphicInfo=model.getGraphicInfo(pool.getId());
-      ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,graphicInfo.getX() + graphicInfo.getWidth(),graphicInfo.getY() + graphicInfo.getHeight(),graphicInfo.getX(),graphicInfo.getY());
+      GraphicInfo poolGraphicInfo=model.getGraphicInfo(pool.getId());
+      ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,poolGraphicInfo.getX() + poolGraphicInfo.getWidth(),poolGraphicInfo.getY() + poolGraphicInfo.getHeight(),poolGraphicInfo.getX(),poolGraphicInfo.getY());
       shapesArrayNode.add(poolNode);
       ObjectNode poolPropertiesNode=objectMapper.createObjectNode();
       poolPropertiesNode.put(PROPERTY_OVERRIDE_ID,pool.getId());
+      poolPropertiesNode.put(PROPERTY_PROCESS_ID,pool.getProcessRef());
+      if (pool.isExecutable() == false) {
+        poolPropertiesNode.put(PROPERTY_PROCESS_EXECUTABLE,PROPERTY_VALUE_NO);
+      }
       if (StringUtils.isNotEmpty(pool.getName())) {
         poolPropertiesNode.put(PROPERTY_NAME,pool.getName());
       }
       poolNode.put(EDITOR_SHAPE_PROPERTIES,poolPropertiesNode);
+      poolNode.put(EDITOR_OUTGOING,objectMapper.createArrayNode());
       ArrayNode laneShapesArrayNode=objectMapper.createArrayNode();
       poolNode.put(EDITOR_CHILD_SHAPES,laneShapesArrayNode);
       Process process=model.getProcess(pool.getId());
       if (process != null) {
+        processFlowElements(process.findFlowElementsOfType(SequenceFlow.class),model,shapesArrayNode,poolGraphicInfo.getX(),poolGraphicInfo.getY());
         for (        Lane lane : process.getLanes()) {
           GraphicInfo laneGraphicInfo=model.getGraphicInfo(lane.getId());
           ObjectNode laneNode=BpmnJsonConverterUtil.createChildShape(lane.getId(),STENCIL_LANE,laneGraphicInfo.getX() + laneGraphicInfo.getWidth(),laneGraphicInfo.getY() + laneGraphicInfo.getHeight(),laneGraphicInfo.getX(),laneGraphicInfo.getY());
@@ -55,6 +60,7 @@
           laneNode.put(EDITOR_SHAPE_PROPERTIES,lanePropertiesNode);
           ArrayNode elementShapesArrayNode=objectMapper.createArrayNode();
           laneNode.put(EDITOR_CHILD_SHAPES,elementShapesArrayNode);
+          laneNode.put(EDITOR_OUTGOING,objectMapper.createArrayNode());
           for (          FlowElement flowElement : process.getFlowElements()) {
             if (lane.getFlowReferences().contains(flowElement.getId())) {
               Class<? extends BaseBpmnJsonConverter> converter=convertersToJsonMap.get(flowElement.getClass());

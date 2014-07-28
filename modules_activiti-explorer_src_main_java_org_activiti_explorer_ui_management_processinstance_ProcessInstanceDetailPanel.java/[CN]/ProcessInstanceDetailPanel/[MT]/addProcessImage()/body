@@ -26,7 +26,8 @@
           imagePanel.addStyleName(Reindeer.PANEL_LIGHT);
           imagePanel.setWidth(100,UNITS_PERCENTAGE);
           imagePanel.setHeight(100,UNITS_PERCENTAGE);
-          URL url=new URL(ExplorerApp.get().getURL().toString().replace("/ui","") + "diagram-viewer/index.html?processDefinitionId=" + processDefinition.getId()+ "&processInstanceId="+ processInstance.getId());
+          URL explorerURL=ExplorerApp.get().getURL();
+          URL url=new URL(explorerURL.getProtocol(),explorerURL.getHost(),explorerURL.getPort(),explorerURL.getPath().replace("/ui","") + "diagram-viewer/index.html?processDefinitionId=" + processDefinition.getId()+ "&processInstanceId="+ processInstance.getId());
           Embedded browserPanel=new Embedded("",new ExternalResource(url));
           browserPanel.setType(Embedded.TYPE_BROWSER);
           browserPanel.setWidth(maxX + 350 + "px");
@@ -43,8 +44,10 @@
         LOGGER.error("Error loading process diagram component",e);
       }
     }
-    if (didDrawImage == false && processDefinitionEntity.isGraphicalNotationDefined()) {
-      StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processInstance,repositoryService,runtimeService);
+    if (!didDrawImage && processDefinitionEntity.isGraphicalNotationDefined()) {
+      ProcessEngineConfiguration processEngineConfiguration=ProcessEngines.getDefaultProcessEngine().getProcessEngineConfiguration();
+      ProcessDiagramGenerator diagramGenerator=processEngineConfiguration.getProcessDiagramGenerator();
+      StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processInstance,repositoryService,runtimeService,diagramGenerator);
       if (diagram != null) {
         Label header=new Label(i18nManager.getMessage(Messages.PROCESS_HEADER_DIAGRAM));
         header.addStyleName(ExplorerLayout.STYLE_H3);

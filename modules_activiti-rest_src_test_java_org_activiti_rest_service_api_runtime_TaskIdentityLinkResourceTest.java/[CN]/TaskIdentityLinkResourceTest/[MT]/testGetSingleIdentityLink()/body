@@ -1,0 +1,31 @@
+{
+  try {
+    Task task=taskService.newTask();
+    taskService.saveTask(task);
+    taskService.addUserIdentityLink(task.getId(),"kermit","myType");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","kermit","myType"));
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("kermit",responseNode.get("user").textValue());
+    assertEquals("myType",responseNode.get("type").textValue());
+    assertTrue(responseNode.get("group").isNull());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType")));
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,"unexistingtask",RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType"));
+    try {
+      client.get();
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    List<Task> tasks=taskService.createTaskQuery().list();
+    for (    Task task : tasks) {
+      taskService.deleteTask(task.getId(),true);
+    }
+  }
+}

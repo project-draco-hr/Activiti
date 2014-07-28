@@ -5,10 +5,10 @@
     if (updateStatement == null) {
       throw new ActivitiException("no update statement for " + updatedObject.getClass() + " in the ibatis mapping files");
     }
-    log.debug("updating: ",toString(updatedObject));
+    log.debug("updating: {}",updatedObject);
     int updatedRecords=sqlSession.update(updateStatement,updatedObject);
     if (updatedRecords != 1) {
-      throw new ActivitiOptimisticLockingException(toString(updatedObject) + " was updated by another transaction concurrently");
+      throw new ActivitiOptimisticLockingException(updatedObject + " was updated by another transaction concurrently");
     }
     if (updatedObject instanceof HasRevision) {
       ((HasRevision)updatedObject).setRevision(((HasRevision)updatedObject).getRevisionNext());

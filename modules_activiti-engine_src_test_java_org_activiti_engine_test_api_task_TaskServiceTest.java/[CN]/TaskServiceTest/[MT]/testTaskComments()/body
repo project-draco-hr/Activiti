@@ -13,16 +13,6 @@
     assertEquals("look at this isn't this great? slkdjf sldkfjs ldkfjs ldkfjs ldkfj sldkfj sldkfj sldkjg laksfg sdfgsd;flgkj ksajdhf skjdfh ksjdhf skjdhf kalskjgh lskh dfialurhg ...",((Event)comment).getMessage());
     assertEquals("look at this \n       isn't this great? slkdjf sldkfjs ldkfjs ldkfjs ldkfj sldkfj sldkfj sldkjg laksfg sdfgsd;flgkj ksajdhf skjdfh ksjdhf skjdhf kalskjgh lskh dfialurhg kajsh dfuieqpgkja rzvkfnjviuqerhogiuvysbegkjz lkhf ais liasduh flaisduh ajiasudh vaisudhv nsfd",comment.getFullMessage());
     assertNotNull(comment.getTime());
-    taskService.addComment(taskId,"pid","one");
-    taskService.addComment(taskId,"pid","two");
-    Set<String> expectedComments=new HashSet<String>();
-    expectedComments.add("one");
-    expectedComments.add("two");
-    Set<String> comments=new HashSet<String>();
-    for (    Comment cmt : taskService.getProcessInstanceComments("pid")) {
-      comments.add(cmt.getFullMessage());
-    }
-    assertEquals(expectedComments,comments);
     taskService.deleteTask(taskId,true);
   }
 }

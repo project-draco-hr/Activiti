@@ -1,0 +1,15 @@
+{
+  ProcessInstance processInstance=getProcessInstanceFromRequest();
+  ProcessDefinitionEntity pde=(ProcessDefinitionEntity)((RepositoryServiceImpl)ActivitiUtil.getRepositoryService()).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
+  if (pde != null && pde.isGraphicalNotationDefined()) {
+    BpmnModel bpmnModel=ActivitiUtil.getRepositoryService().getBpmnModel(pde.getId());
+    ProcessEngineConfiguration processEngineConfiguration=ActivitiUtil.getProcessEngine().getProcessEngineConfiguration();
+    ProcessDiagramGenerator diagramGenerator=processEngineConfiguration.getProcessDiagramGenerator();
+    InputStream resource=diagramGenerator.generateDiagram(bpmnModel,"png",ActivitiUtil.getRuntimeService().getActiveActivityIds(processInstance.getId()),Collections.<String>emptyList(),processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader(),1.0);
+    InputRepresentation output=new InputRepresentation(resource,MediaType.IMAGE_PNG);
+    return output;
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Process instance with id '" + processInstance.getId() + "' has no graphical notation defined.");
+  }
+}

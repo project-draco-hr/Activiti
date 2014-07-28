@@ -1,0 +1,23 @@
+{
+  Map<String,List<ExtensionElement>> extensions=userTask.getExtensionElements();
+  String resourceExpression=null;
+  if (extensions != null) {
+    List<ExtensionElement> resourceElements=extensions.get(BpmnXMLConstants.ELEMENT_CUSTOM_RESOURCE);
+    if (resourceElements != null) {
+      for (      ExtensionElement resourceElement : resourceElements) {
+        if (resourceType.equals(resourceElement.getAttributeValue(BpmnXMLConstants.ACTIVITI_EXTENSIONS_NAMESPACE,BpmnXMLConstants.ATTRIBUTE_NAME))) {
+          if (resourceElement != null) {
+            resourceElement=getChildElement(BpmnXMLConstants.ELEMENT_RESOURCE_ASSIGNMENT,resourceElement);
+            if (resourceElement != null) {
+              resourceElement=getChildElement(BpmnXMLConstants.ELEMENT_FORMAL_EXPRESSION,resourceElement);
+              if (resourceElement != null) {
+                resourceExpression=resourceElement.getElementText();
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return generateResourceLists(resourceExpression);
+}

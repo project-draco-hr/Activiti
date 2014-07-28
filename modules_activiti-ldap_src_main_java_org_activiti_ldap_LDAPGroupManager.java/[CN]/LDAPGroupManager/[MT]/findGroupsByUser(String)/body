@@ -1,0 +1,42 @@
+{
+  if (ldapGroupCache != null) {
+    List<Group> groups=ldapGroupCache.get(userId);
+    if (groups != null) {
+      return groups;
+    }
+  }
+  LDAPTemplate ldapTemplate=new LDAPTemplate(ldapConfigurator);
+  return ldapTemplate.execute(new LDAPCallBack<List<Group>>(){
+    public List<Group> executeInContext(    InitialDirContext initialDirContext){
+      String searchExpression=ldapConfigurator.getLdapQueryBuilder().buildQueryGroupsForUser(ldapConfigurator,userId);
+      List<Group> groups=new ArrayList<Group>();
+      try {
+        String baseDn=ldapConfigurator.getGroupBaseDn() != null ? ldapConfigurator.getGroupBaseDn() : ldapConfigurator.getBaseDn();
+        NamingEnumeration<?> namingEnum=initialDirContext.search(baseDn,searchExpression,createSearchControls());
+        while (namingEnum.hasMore()) {
+          SearchResult result=(SearchResult)namingEnum.next();
+          GroupEntity group=new GroupEntity();
+          if (ldapConfigurator.getGroupIdAttribute() != null) {
+            group.setId(result.getAttributes().get(ldapConfigurator.getGroupIdAttribute()).get().toString());
+          }
+          if (ldapConfigurator.getGroupNameAttribute() != null) {
+            group.setName(result.getAttributes().get(ldapConfigurator.getGroupNameAttribute()).get().toString());
+          }
+          if (ldapConfigurator.getGroupTypeAttribute() != null) {
+            group.setType(result.getAttributes().get(ldapConfigurator.getGroupTypeAttribute()).get().toString());
+          }
+          groups.add(group);
+        }
+        namingEnum.close();
+        if (ldapGroupCache != null) {
+          ldapGroupCache.add(userId,groups);
+        }
+        return groups;
+      }
+ catch (      NamingException e) {
+        throw new ActivitiException("Could not find groups for user " + userId,e);
+      }
+    }
+  }
+);
+}

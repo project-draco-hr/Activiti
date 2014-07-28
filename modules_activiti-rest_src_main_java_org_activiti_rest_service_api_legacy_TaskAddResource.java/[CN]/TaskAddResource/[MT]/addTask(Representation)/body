@@ -1,0 +1,53 @@
+{
+  try {
+    if (authenticate() == false)     return null;
+    String taskParams=entity.getText();
+    JsonNode taskJSON=new ObjectMapper().readTree(taskParams);
+    String name=taskJSON.path("taskName").textValue();
+    String description=null;
+    if (taskJSON.path("description") != null) {
+      description=taskJSON.path("description").textValue();
+    }
+    String assignee=null;
+    if (taskJSON.path("assignee") != null) {
+      assignee=taskJSON.path("assignee").textValue();
+    }
+    String owner=null;
+    if (taskJSON.path("owner") != null) {
+      owner=taskJSON.path("owner").textValue();
+    }
+    String priority=null;
+    if (taskJSON.path("priority") != null) {
+      priority=taskJSON.path("priority").textValue();
+    }
+    String dueDate=null;
+    if (taskJSON.path("dueDate") != null) {
+      dueDate=taskJSON.path("dueDate").textValue();
+    }
+    String parentTaskId=null;
+    if (taskJSON.path("parentTaskId") != null) {
+      parentTaskId=taskJSON.path("parentTaskId").textValue();
+    }
+    Task newTask=ActivitiUtil.getTaskService().newTask();
+    newTask.setName(name);
+    newTask.setDescription(description);
+    newTask.setAssignee(assignee);
+    newTask.setOwner(owner);
+    if (priority != null) {
+      newTask.setPriority(RequestUtil.parseToInteger(priority));
+    }
+    if (dueDate != null) {
+      newTask.setDueDate(RequestUtil.parseToDate(dueDate));
+    }
+    newTask.setParentTaskId(parentTaskId);
+    ActivitiUtil.getTaskService().saveTask(newTask);
+    LegacyTaskResponse response=new LegacyTaskResponse(newTask);
+    return response;
+  }
+ catch (  Exception e) {
+    if (e instanceof ActivitiException) {
+      throw (ActivitiException)e;
+    }
+    throw new ActivitiException("Failed to add new task",e);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  if (taskId == null) {
+    throw new ActivitiIllegalArgumentException("taskId is null");
+  }
+  if (variableName == null) {
+    throw new ActivitiIllegalArgumentException("variableName is null");
+  }
+  TaskEntity task=commandContext.getTaskEntityManager().findTaskById(taskId);
+  if (task == null) {
+    throw new ActivitiObjectNotFoundException("task " + taskId + " doesn't exist",Task.class);
+  }
+  boolean hasVariable=false;
+  if (isLocal) {
+    hasVariable=task.hasVariableLocal(variableName);
+  }
+ else {
+    hasVariable=task.hasVariable(variableName);
+  }
+  return hasVariable;
+}

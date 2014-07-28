@@ -1,0 +1,21 @@
+{
+  String namespacePrefix=model.getNamespaces().get(0).getPrefix();
+  boolean valid=false;
+  if (propertyName.contains(":")) {
+    for (    M2Namespace imported : model.getImports()) {
+      if (propertyName.startsWith(imported.getPrefix())) {
+        valid=true;
+        break;
+      }
+    }
+    if (!valid && !propertyName.startsWith(AlfrescoConversionConstants.WORKFLOW_NAMESPACE.getPrefix()) && !propertyName.startsWith(AlfrescoConversionConstants.BPM_NAMESPACE.getPrefix())) {
+      throw new SimpleWorkflowException("Property reference: " + this.getPlaceholder() + " references a property for a namespace that is not imported in the BPM-model");
+    }
+ else {
+      valid=true;
+    }
+  }
+  if (!valid && !model.isContainedInModel(getQualifiedName(namespacePrefix))) {
+    throw new SimpleWorkflowException("Property reference: " + this.getPlaceholder() + " does not reference an existing property.");
+  }
+}

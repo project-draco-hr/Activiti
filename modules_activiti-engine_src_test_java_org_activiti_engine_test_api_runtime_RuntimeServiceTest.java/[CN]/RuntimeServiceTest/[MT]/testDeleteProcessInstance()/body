@@ -7,5 +7,9 @@
   if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricTaskInstance historicTaskInstance=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
     assertEquals(deleteReason,historicTaskInstance.getDeleteReason());
+    HistoricProcessInstance historicInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(historicInstance);
+    assertEquals(deleteReason,historicInstance.getDeleteReason());
+    assertNotNull(historicInstance.getEndTime());
   }
 }

@@ -1,0 +1,9 @@
+{
+  if (!(otherDefinition instanceof NumberPropertyDefinition)) {
+    throw new SimpleWorkflowException("An instance of NumberPropertyDefinition is required to set values");
+  }
+  setName(otherDefinition.getName());
+  setMandatory(otherDefinition.isMandatory());
+  setWritable(otherDefinition.isWritable());
+  setParameters(otherDefinition.cloneParameters());
+}

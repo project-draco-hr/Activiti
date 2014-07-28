@@ -1,0 +1,27 @@
+{
+  final String query="selectTaskWithVariablesByQueryCriteria";
+  if (taskQuery.getFirstResult() < 0 || taskQuery.getMaxResults() <= 0) {
+    return Collections.EMPTY_LIST;
+  }
+  int firstResult=taskQuery.getFirstResult();
+  int maxResults=taskQuery.getMaxResults();
+  taskQuery.setMaxResults(20000);
+  taskQuery.setFirstResult(0);
+  List<Task> instanceList=getDbSqlSession().selectListWithRawParameterWithoutFilter(query,taskQuery,taskQuery.getFirstResult(),taskQuery.getMaxResults());
+  if (instanceList != null && instanceList.size() > 0) {
+    if (firstResult > 0) {
+      if (firstResult <= instanceList.size()) {
+        int toIndex=firstResult + Math.min(maxResults,instanceList.size() - firstResult);
+        return instanceList.subList(firstResult,toIndex);
+      }
+ else {
+        return Collections.EMPTY_LIST;
+      }
+    }
+ else {
+      int toIndex=Math.min(maxResults,instanceList.size());
+      return instanceList.subList(0,toIndex);
+    }
+  }
+  return Collections.EMPTY_LIST;
+}

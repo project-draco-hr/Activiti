@@ -1,0 +1,22 @@
+{
+  try {
+    Deployment deployment=repositoryService.createDeployment().name("Deployment 1").addClasspathResource("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml").addInputStream("test.png",new ByteArrayInputStream("test-content".getBytes())).deploy();
+    ClientResource client=getAuthenticatedClient("deployment/" + deployment.getId() + "/resources");
+    Representation response=client.get();
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode resourcesNode=objectMapper.readTree(response.getStream()).get("resources");
+    assertEquals(2L,resourcesNode.size());
+    List<String> resources=new ArrayList<String>();
+    for (int i=0; i < resourcesNode.size(); i++) {
+      resources.add(resourcesNode.get(i).textValue());
+    }
+    assertTrue(resources.contains("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml"));
+    assertTrue(resources.contains("test.png"));
+  }
+  finally {
+    List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
+    for (    Deployment deployment : deployments) {
+      repositoryService.deleteDeployment(deployment.getId(),true);
+    }
+  }
+}

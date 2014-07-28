@@ -1,12 +1,18 @@
 {
-  tableName=prependDatabaseTablePrefix(tableName);
+  if (!dbSqlSessionFactory.isTablePrefixIsSchema()) {
+    tableName=prependDatabaseTablePrefix(tableName);
+  }
   Connection connection=null;
   try {
     connection=sqlSession.getConnection();
     DatabaseMetaData databaseMetaData=connection.getMetaData();
     ResultSet tables=null;
+    String catalog=this.connectionMetadataDefaultCatalog;
+    if (dbSqlSessionFactory.getDatabaseCatalog() != null && dbSqlSessionFactory.getDatabaseCatalog().length() > 0) {
+      catalog=dbSqlSessionFactory.getDatabaseCatalog();
+    }
     String schema=this.connectionMetadataDefaultSchema;
-    if (dbSqlSessionFactory.getDatabaseSchema() != null) {
+    if (dbSqlSessionFactory.getDatabaseSchema() != null && dbSqlSessionFactory.getDatabaseSchema().length() > 0) {
       schema=dbSqlSessionFactory.getDatabaseSchema();
     }
     String databaseType=dbSqlSessionFactory.getDatabaseType();
@@ -14,7 +20,7 @@
       tableName=tableName.toLowerCase();
     }
     try {
-      tables=databaseMetaData.getTables(this.connectionMetadataDefaultCatalog,schema,tableName,JDBC_METADATA_TABLE_TYPES);
+      tables=databaseMetaData.getTables(catalog,schema,tableName,JDBC_METADATA_TABLE_TYPES);
       return tables.next();
     }
   finally {

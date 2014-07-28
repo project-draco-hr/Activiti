@@ -1,8 +1,5 @@
 {
-  ScriptEngine scriptEngine=scriptEngineManager.getEngineByName(language);
-  if (scriptEngine == null) {
-    throw new ActivitiException("Can't find scripting engine for '" + language + "'");
-  }
+  ScriptEngine scriptEngine=getEngineByName(language);
   try {
     return scriptEngine.eval(script,bindings);
   }

@@ -1,0 +1,25 @@
+{
+  try {
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("id","testgroup");
+    requestNode.put("name","Test group");
+    requestNode.put("type","Test type");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION));
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("testgroup",responseNode.get("id").textValue());
+    assertEquals("Test group",responseNode.get("name").textValue());
+    assertEquals("Test type",responseNode.get("type").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup")));
+    assertNotNull(identityService.createGroupQuery().groupId("testgroup").singleResult());
+  }
+  finally {
+    try {
+      identityService.deleteGroup("testgroup");
+    }
+ catch (    Throwable t) {
+    }
+  }
+}

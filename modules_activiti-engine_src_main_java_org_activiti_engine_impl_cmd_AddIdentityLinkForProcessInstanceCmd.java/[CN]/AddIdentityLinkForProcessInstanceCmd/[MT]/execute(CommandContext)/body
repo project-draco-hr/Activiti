@@ -1,8 +1,9 @@
 {
-  ExecutionEntity processInstance=Context.getCommandContext().getExecutionEntityManager().findExecutionById(processInstanceId);
+  ExecutionEntity processInstance=commandContext.getExecutionEntityManager().findExecutionById(processInstanceId);
   if (processInstance == null) {
     throw new ActivitiObjectNotFoundException("Cannot find process instance with id " + processInstanceId,ExecutionEntity.class);
   }
-  processInstance.addIdentityLink(userId,type);
+  processInstance.addIdentityLink(userId,groupId,type);
+  commandContext.getHistoryManager().createProcessInstanceIdentityLinkComment(processInstanceId,userId,groupId,type,true);
   return null;
 }

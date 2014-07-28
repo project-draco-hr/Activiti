@@ -1,11 +1,20 @@
 {
   ActivityImpl activity=(ActivityImpl)execution.getActivity();
   ActivityImpl parentActivity=activity.getParentActivity();
+  if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    if (execution instanceof ExecutionEntity) {
+      ExecutionEntity executionEntity=(ExecutionEntity)execution;
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createActivityEvent(ActivitiEventType.ACTIVITY_COMPLETED,execution.getActivity().getId(),(String)executionEntity.getActivity().getProperties().get("name"),execution.getId(),execution.getProcessInstanceId(),execution.getProcessDefinitionId(),(String)executionEntity.getActivity().getProperties().get("type"),executionEntity.getActivity().getActivityBehavior().getClass().getCanonicalName()));
+    }
+  }
   if ((parentActivity != null) && (!parentActivity.isScope())) {
     execution.setActivity(parentActivity);
     execution.performOperation(ACTIVITY_END);
   }
- else   if (execution.isProcessInstance()) {
+ else   if (execution.isProcessInstanceType()) {
+    if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.PROCESS_COMPLETED,execution));
+    }
     execution.performOperation(PROCESS_END);
   }
  else   if (execution.isScope()) {
@@ -34,6 +43,9 @@
           parentScopeExecution.end();
         }
  else {
+          if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+            Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.PROCESS_COMPLETED,execution));
+          }
           parentScopeExecution.performOperation(PROCESS_END);
         }
       }

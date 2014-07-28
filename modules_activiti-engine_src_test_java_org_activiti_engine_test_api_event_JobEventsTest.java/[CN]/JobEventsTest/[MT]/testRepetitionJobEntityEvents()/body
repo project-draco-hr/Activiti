@@ -1,0 +1,34 @@
+{
+  Clock previousClock=processEngineConfiguration.getClock();
+  Clock testClock=new DefaultClockImpl();
+  processEngineConfiguration.setClock(testClock);
+  Date now=new Date();
+  testClock.setCurrentTime(now);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("testRepetitionJobEvents");
+  Job theJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(theJob);
+  assertEquals(2,listener.getEventsReceived().size());
+  ActivitiEvent event=listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.ENTITY_CREATED,event.getType());
+  checkEventContext(event,theJob,false);
+  event=listener.getEventsReceived().get(1);
+  assertEquals(ActivitiEventType.ENTITY_INITIALIZED,event.getType());
+  checkEventContext(event,theJob,false);
+  listener.clearEventsReceived();
+  testClock.setCurrentTime(new Date(now.getTime() + 10000L));
+  waitForJobExecutorToProcessAllJobs(20000,100);
+  testClock.setCurrentTime(new Date(now.getTime() + 20000L));
+  waitForJobExecutorToProcessAllJobs(20000,100);
+  testClock.setCurrentTime(new Date(now.getTime() + 30000L));
+  waitForJobExecutorToProcessAllJobs(20000,100);
+  int timerFiredCount=0;
+  List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
+  for (  ActivitiEvent eventReceived : eventsReceived) {
+    if (ActivitiEventType.TIMER_FIRED.equals(eventReceived.getType())) {
+      timerFiredCount++;
+    }
+  }
+  listener.clearEventsReceived();
+  processEngineConfiguration.setClock(previousClock);
+  assertEquals(2,timerFiredCount);
+}

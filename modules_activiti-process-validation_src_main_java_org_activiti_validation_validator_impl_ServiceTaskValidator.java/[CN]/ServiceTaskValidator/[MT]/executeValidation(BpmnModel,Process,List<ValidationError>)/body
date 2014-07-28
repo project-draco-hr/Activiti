@@ -1,0 +1,9 @@
+{
+  List<ServiceTask> serviceTasks=process.findFlowElementsOfType(ServiceTask.class);
+  for (  ServiceTask serviceTask : serviceTasks) {
+    verifyImplementation(process,serviceTask,errors);
+    verifyType(process,serviceTask,errors);
+    verifyResultVariableName(process,serviceTask,errors);
+    verifyWebservice(bpmnModel,process,serviceTask,errors);
+  }
+}

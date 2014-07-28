@@ -1,0 +1,16 @@
+{
+  try {
+    repositoryService.createDeployment().addClasspathResource("org/activiti/standalone/validation/invalid_process_xsd_error.bpmn20.xml").deploy();
+    Assert.fail();
+  }
+ catch (  ActivitiException e) {
+    Assert.assertTrue("original message: " + e.getMessage(),e.getMessage().contains("Error parsing XML"));
+  }
+  try {
+    repositoryService.createDeployment().addClasspathResource("org/activiti/standalone/validation/invalid_process_xsd_error.bpmn20.xml").disableSchemaValidation().deploy();
+    Assert.fail();
+  }
+ catch (  ActivitiException e) {
+    Assert.assertTrue("original message: " + e.getMessage(),e.getMessage().contains("Errors while parsing"));
+  }
+}

@@ -1,0 +1,12 @@
+{
+  List<LegacyTaskResponse> responseList=new ArrayList<LegacyTaskResponse>();
+  for (  Object task : list) {
+    LegacyTaskResponse taskResponse=new LegacyTaskResponse((Task)task);
+    TaskFormData taskFormData=ActivitiUtil.getFormService().getTaskFormData(taskResponse.getId());
+    if (taskFormData != null) {
+      taskResponse.setFormResourceKey(taskFormData.getFormKey());
+    }
+    responseList.add(taskResponse);
+  }
+  return responseList;
+}

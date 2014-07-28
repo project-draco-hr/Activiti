@@ -1,5 +1,4 @@
 {
-  BpmnModel bpmnModel=bpmnParse.getBpmnModel();
   ActivityImpl nestedActivityImpl=createActivityOnCurrentScope(bpmnParse,intermediateEvent,BpmnXMLConstants.ELEMENT_EVENT_THROW);
   EventDefinition eventDefinition=null;
   if (intermediateEvent.getEventDefinitions().size() > 0) {
@@ -15,6 +14,6 @@
     nestedActivityImpl.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowNoneEventActivityBehavior(intermediateEvent));
   }
  else {
-    bpmnModel.addProblem("Unsupported intermediate throw event type " + eventDefinition,intermediateEvent);
+    logger.warn("Unsupported intermediate throw event type for throw event " + intermediateEvent.getId());
   }
 }

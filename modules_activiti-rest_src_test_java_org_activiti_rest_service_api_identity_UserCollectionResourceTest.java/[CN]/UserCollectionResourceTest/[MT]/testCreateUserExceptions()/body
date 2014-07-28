@@ -1,0 +1,28 @@
+{
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_COLLECTION,"unexisting"));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("firstName","Frederik");
+  requestNode.put("lastName","Heremans");
+  requestNode.put("email","no-reply@activiti.org");
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+    assertEquals("Id cannot be null.",expected.getStatus().getDescription());
+  }
+  requestNode=objectMapper.createObjectNode();
+  requestNode.put("id","kermit");
+  requestNode.put("firstName","Frederik");
+  requestNode.put("lastName","Heremans");
+  requestNode.put("email","no-reply@activiti.org");
+  try {
+    client.post(requestNode);
+    fail("Exception expected");
+  }
+ catch (  ResourceException expected) {
+    assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
+    assertEquals("A user with id 'kermit' already exists.",expected.getStatus().getDescription());
+  }
+}

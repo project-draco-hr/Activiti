@@ -1,0 +1,11 @@
+{
+  ExpressionManager expressionManager=bpmnParse.getExpressionManager();
+  Set<Expression> resources=new HashSet<Expression>();
+  List<String> resourceList=CommaSplitter.splitCommas(resourceExpression);
+  if (null != resourceList) {
+    for (    String resource : resourceList) {
+      resources.add(expressionManager.createExpression(resource));
+    }
+  }
+  return resources;
+}

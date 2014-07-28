@@ -1,5 +1,6 @@
 {
   if (!task.isDeleted()) {
+    task.fireEvent(TaskListener.EVENTNAME_DELETE);
     task.setDeleted(true);
     CommandContext commandContext=Context.getCommandContext();
     String taskId=task.getId();
@@ -16,5 +17,8 @@
       commandContext.getHistoryManager().recordTaskEnd(taskId,deleteReason);
     }
     getDbSqlSession().delete(task);
+    if (commandContext.getEventDispatcher().isEnabled()) {
+      commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,task));
+    }
   }
 }

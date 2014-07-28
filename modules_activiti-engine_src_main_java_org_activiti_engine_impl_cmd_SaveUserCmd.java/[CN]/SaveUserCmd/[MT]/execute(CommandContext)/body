@@ -2,11 +2,11 @@
   if (user == null) {
     throw new ActivitiIllegalArgumentException("user is null");
   }
-  if (user.getRevision() == 0) {
-    commandContext.getUserEntityManager().insertUser(user);
+  if (commandContext.getUserIdentityManager().isNewUser(user)) {
+    commandContext.getUserIdentityManager().insertUser(user);
   }
  else {
-    commandContext.getUserEntityManager().updateUser(user);
+    commandContext.getUserIdentityManager().updateUser(user);
   }
   return null;
 }

@@ -1,0 +1,19 @@
+{
+  if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(serviceTask.getImplementationType()) && StringUtils.isNotEmpty(serviceTask.getOperationRef())) {
+    boolean operationFound=false;
+    if (bpmnModel.getInterfaces() != null && bpmnModel.getInterfaces().size() > 0) {
+      for (      Interface bpmnInterface : bpmnModel.getInterfaces()) {
+        if (bpmnInterface.getOperations() != null && bpmnInterface.getOperations().size() > 0) {
+          for (          Operation operation : bpmnInterface.getOperations()) {
+            if (operation.getId() != null && operation.getId().equals(serviceTask.getOperationRef())) {
+              operationFound=true;
+            }
+          }
+        }
+      }
+    }
+    if (!operationFound) {
+      addError(errors,Problems.SERVICE_TASK_WEBSERVICE_INVALID_OPERATION_REF,process,serviceTask,"Invalid operation reference");
+    }
+  }
+}

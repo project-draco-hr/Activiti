@@ -1,0 +1,28 @@
+{
+  float interline=1.0f;
+  if (text != null && text.length() > 0) {
+    Paint originalPaint=g.getPaint();
+    Font originalFont=g.getFont();
+    g.setPaint(LABEL_COLOR);
+    g.setFont(LABEL_FONT);
+    int wrapWidth=100;
+    int textY=(int)(graphicInfo.getY() + graphicInfo.getHeight());
+    AttributedString as=new AttributedString(text);
+    as.addAttribute(TextAttribute.FOREGROUND,g.getPaint());
+    as.addAttribute(TextAttribute.FONT,g.getFont());
+    AttributedCharacterIterator aci=as.getIterator();
+    FontRenderContext frc=new FontRenderContext(null,true,false);
+    LineBreakMeasurer lbm=new LineBreakMeasurer(aci,frc);
+    while (lbm.getPosition() < text.length()) {
+      TextLayout tl=lbm.nextLayout(wrapWidth);
+      textY+=tl.getAscent();
+      Rectangle2D bb=tl.getBounds();
+      double tY=graphicInfo.getY();
+      if (centered)       tY+=(int)(graphicInfo.getWidth() / 2 - bb.getWidth() / 2);
+      tl.draw(g,(float)tY,textY);
+      textY+=tl.getDescent() + tl.getLeading() + (interline - 1.0f) * tl.getAscent();
+    }
+    g.setFont(originalFont);
+    g.setPaint(originalPaint);
+  }
+}

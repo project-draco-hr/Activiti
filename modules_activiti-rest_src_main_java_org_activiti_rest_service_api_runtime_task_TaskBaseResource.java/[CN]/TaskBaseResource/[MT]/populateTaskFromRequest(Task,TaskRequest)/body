@@ -1,0 +1,33 @@
+{
+  if (taskRequest.isNameSet()) {
+    task.setName(taskRequest.getName());
+  }
+  if (taskRequest.isAssigneeSet()) {
+    task.setAssignee(taskRequest.getAssignee());
+  }
+  if (taskRequest.isDescriptionSet()) {
+    task.setDescription(taskRequest.getDescription());
+  }
+  if (taskRequest.isDuedateSet()) {
+    task.setDueDate(taskRequest.getDueDate());
+  }
+  if (taskRequest.isOwnerSet()) {
+    task.setOwner(taskRequest.getOwner());
+  }
+  if (taskRequest.isParentTaskIdSet()) {
+    task.setParentTaskId(taskRequest.getParentTaskId());
+  }
+  if (taskRequest.isPrioritySet()) {
+    task.setPriority(taskRequest.getPriority());
+  }
+  if (taskRequest.isCategorySet()) {
+    task.setCategory(taskRequest.getCategory());
+  }
+  if (taskRequest.isFormKeySet()) {
+    task.setFormKey(taskRequest.getFormKey());
+  }
+  if (taskRequest.isDelegationStateSet()) {
+    DelegationState delegationState=getDelegationState(taskRequest.getDelegationState());
+    task.setDelegationState(delegationState);
+  }
+}

@@ -1,0 +1,47 @@
+{
+  if (!authenticate()) {
+    return null;
+  }
+  Form urlQuery=getQuery();
+  ProcessInstanceQueryRequest queryRequest=new ProcessInstanceQueryRequest();
+  if (getQueryParameter("id",urlQuery) != null) {
+    queryRequest.setProcessInstanceId(getQueryParameter("id",urlQuery));
+  }
+  if (getQueryParameter("processDefinitionKey",urlQuery) != null) {
+    queryRequest.setProcessDefinitionKey(getQueryParameter("processDefinitionKey",urlQuery));
+  }
+  if (getQueryParameter("processDefinitionId",urlQuery) != null) {
+    queryRequest.setProcessDefinitionId(getQueryParameter("processDefinitionId",urlQuery));
+  }
+  if (getQueryParameter("businessKey",urlQuery) != null) {
+    queryRequest.setProcessBusinessKey(getQueryParameter("businessKey",urlQuery));
+  }
+  if (getQueryParameter("involvedUser",urlQuery) != null) {
+    queryRequest.setInvolvedUser(getQueryParameter("involvedUser",urlQuery));
+  }
+  if (getQueryParameter("suspended",urlQuery) != null) {
+    queryRequest.setSuspended(getQueryParameterAsBoolean("suspended",urlQuery));
+  }
+  if (getQueryParameter("superProcessInstanceId",urlQuery) != null) {
+    queryRequest.setSuperProcessInstanceId(getQueryParameter("superProcessInstanceId",urlQuery));
+  }
+  if (getQueryParameter("subProcessInstanceId",urlQuery) != null) {
+    queryRequest.setSubProcessInstanceId(getQueryParameter("subProcessInstanceId",urlQuery));
+  }
+  if (getQueryParameter("excludeSubprocesses",urlQuery) != null) {
+    queryRequest.setExcludeSubprocesses(getQueryParameterAsBoolean("excludeSubprocesses",urlQuery));
+  }
+  if (getQueryParameter("includeProcessVariables",urlQuery) != null) {
+    queryRequest.setIncludeProcessVariables(getQueryParameterAsBoolean("includeProcessVariables",urlQuery));
+  }
+  if (getQueryParameter("tenantId",urlQuery) != null) {
+    queryRequest.setTenantId(getQueryParameter("tenantId",urlQuery));
+  }
+  if (getQueryParameter("tenantIdLike",urlQuery) != null) {
+    queryRequest.setTenantIdLike(getQueryParameter("tenantIdLike",urlQuery));
+  }
+  if (Boolean.TRUE.equals(getQueryParameterAsBoolean("withoutTenantId",urlQuery))) {
+    queryRequest.setWithoutTenantId(Boolean.TRUE);
+  }
+  return getQueryResponse(queryRequest,urlQuery);
+}

@@ -13,9 +13,13 @@
     while (nextIndex < steps.size() && steps.get(nextIndex).isStartsWithPrevious()) {
       if (parallelStepsDefinition == null) {
         parallelStepsDefinition=new ParallelStepsDefinition();
-        parallelStepsDefinition.addStep(currentStep);
+        ListStepDefinition<ParallelStepsDefinition> listStepDef=new ListStepDefinition<ParallelStepsDefinition>();
+        listStepDef.addStep(currentStep);
+        parallelStepsDefinition.addStepList(listStepDef);
       }
-      parallelStepsDefinition.addStep(steps.get(nextIndex));
+      ListStepDefinition<ParallelStepsDefinition> listStepDef=new ListStepDefinition<ParallelStepsDefinition>();
+      listStepDef.addStep(steps.get(nextIndex));
+      parallelStepsDefinition.addStepList(listStepDef);
       nextIndex++;
     }
     if (parallelStepsDefinition != null) {

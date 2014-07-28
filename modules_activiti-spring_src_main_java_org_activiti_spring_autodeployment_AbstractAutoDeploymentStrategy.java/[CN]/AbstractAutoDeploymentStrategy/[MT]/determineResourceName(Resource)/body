@@ -1,0 +1,18 @@
+{
+  String resourceName=null;
+  if (resource instanceof ContextResource) {
+    resourceName=((ContextResource)resource).getPathWithinContext();
+  }
+ else   if (resource instanceof ByteArrayResource) {
+    resourceName=resource.getDescription();
+  }
+ else {
+    try {
+      resourceName=resource.getFile().getAbsolutePath();
+    }
+ catch (    IOException e) {
+      resourceName=resource.getFilename();
+    }
+  }
+  return resourceName;
+}

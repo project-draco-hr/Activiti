@@ -3,19 +3,36 @@
   Map<String,Object> camelVarMap=null;
   if (shouldReadFromProperties) {
     camelVarMap=exchange.getProperties();
+    Map<String,Object> newCamelVarMap=new HashMap<String,Object>();
+    for (    String s : camelVarMap.keySet()) {
+      if (IGNORE_MESSAGE_PROPERTY.equalsIgnoreCase(s) == false) {
+        newCamelVarMap.put(s,camelVarMap.get(s));
+      }
+    }
+    camelVarMap=newCamelVarMap;
   }
  else {
     camelVarMap=new HashMap<String,Object>();
-    Object camelBody=exchange.getIn().getBody();
-    if (camelBody instanceof String) {
-      camelVarMap.put("camelBody",camelBody);
-    }
- else     if (camelBody instanceof Map<?,?>) {
+    Object camelBody=null;
+    if (exchange.hasOut())     camelBody=exchange.getOut().getBody();
+ else     camelBody=exchange.getIn().getBody();
+    if (camelBody instanceof Map<?,?>) {
       Map<?,?> camelBodyMap=(Map<?,?>)camelBody;
       for (      @SuppressWarnings("rawtypes") Map.Entry e : camelBodyMap.entrySet()) {
         if (e.getKey() instanceof String) {
           camelVarMap.put((String)e.getKey(),e.getValue());
         }
+      }
+    }
+ else {
+      if (activitiEndpoint.isCopyCamelBodyToBodyAsString() && !(camelBody instanceof String)) {
+        camelBody=exchange.getContext().getTypeConverter().convertTo(String.class,exchange,camelBody);
+      }
+      camelVarMap.put(CAMELBODY,camelBody);
+    }
+    if (activitiEndpoint.isCopyVariablesFromHeader()) {
+      for (      Map.Entry<String,Object> header : exchange.getIn().getHeaders().entrySet()) {
+        camelVarMap.put(header.getKey(),header.getValue());
       }
     }
   }

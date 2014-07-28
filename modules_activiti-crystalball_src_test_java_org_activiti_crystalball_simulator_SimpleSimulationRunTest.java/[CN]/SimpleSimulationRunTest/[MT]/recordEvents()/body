@@ -1,0 +1,19 @@
+{
+  Clock clock=new DefaultClockImpl();
+  clock.setCurrentTime(new Date(0));
+  ProcessEngineConfigurationImpl config=(ProcessEngineConfigurationImpl)ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault();
+  config.setClock(clock);
+  ProcessEngine processEngine=(new RecordableProcessEngineFactory(config,listener)).getObject();
+  processEngine.getRepositoryService().createDeployment().addClasspathResource(USERTASK_PROCESS).deploy();
+  EventRecorderTestUtils.increaseTime(clock);
+  TaskService taskService=processEngine.getTaskService();
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put(TEST_VARIABLE,TEST_VALUE);
+  processEngine.getRuntimeService().startProcessInstanceByKey("oneTaskProcess","oneTaskProcessBusinessKey",variables);
+  EventRecorderTestUtils.increaseTime(clock);
+  Task task=taskService.createTaskQuery().taskDefinitionKey("userTask").singleResult();
+  taskService.complete(task.getId());
+  checkStatus(processEngine.getHistoryService());
+  EventRecorderTestUtils.closeProcessEngine(processEngine,listener);
+  ProcessEngines.destroy();
+}

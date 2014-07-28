@@ -1,11 +1,11 @@
 {
-  DbSqlSession dbSqlSession=Context.getCommandContext().getDbSqlSession();
-  dbSqlSession.delete(this);
-  if (exceptionByteArrayId != null) {
-    Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(exceptionByteArrayId);
-  }
+  Context.getCommandContext().getDbSqlSession().delete(this);
+  exceptionByteArrayRef.delete();
   if (executionId != null) {
     ExecutionEntity execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(executionId);
     execution.removeJob(this);
+  }
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,this));
   }
 }

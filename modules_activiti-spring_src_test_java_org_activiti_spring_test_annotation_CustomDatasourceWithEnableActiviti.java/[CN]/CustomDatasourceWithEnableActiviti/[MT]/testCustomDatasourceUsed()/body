@@ -1,0 +1,11 @@
+{
+  Connection connection=DriverManager.getConnection("jdbc:h2:mem:anotherDatabase","sa","");
+  Assert.assertNotNull(connection);
+  Statement statement=connection.createStatement();
+  ResultSet rs=statement.executeQuery("SELECT * FROM ACT_GE_PROPERTY");
+  int count=0;
+  while (rs.next()) {
+    count++;
+  }
+  Assert.assertTrue(count > 0);
+}

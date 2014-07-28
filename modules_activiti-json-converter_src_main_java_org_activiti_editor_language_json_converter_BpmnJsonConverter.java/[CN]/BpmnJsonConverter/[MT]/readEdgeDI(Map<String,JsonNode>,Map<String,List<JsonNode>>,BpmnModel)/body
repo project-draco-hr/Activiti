@@ -13,16 +13,16 @@
       continue;
     }
     JsonNode dockersNode=edgeNode.get(EDITOR_DOCKERS);
-    double sourceDockersX=dockersNode.get(0).get(EDITOR_BOUNDS_X).getDoubleValue();
-    double sourceDockersY=dockersNode.get(0).get(EDITOR_BOUNDS_Y).getDoubleValue();
+    double sourceDockersX=dockersNode.get(0).get(EDITOR_BOUNDS_X).doubleValue();
+    double sourceDockersY=dockersNode.get(0).get(EDITOR_BOUNDS_Y).doubleValue();
     GraphicInfo sourceInfo=bpmnModel.getGraphicInfo(BpmnJsonConverterUtil.getElementId(sourceRefNode));
     GraphicInfo targetInfo=bpmnModel.getGraphicInfo(BpmnJsonConverterUtil.getElementId(targetRefNode));
     double sourceRefLineX=sourceInfo.getX() + sourceDockersX;
     double sourceRefLineY=sourceInfo.getY() + sourceDockersY;
     double nextPointInLineX;
     double nextPointInLineY;
-    nextPointInLineX=dockersNode.get(1).get(EDITOR_BOUNDS_X).getDoubleValue();
-    nextPointInLineY=dockersNode.get(1).get(EDITOR_BOUNDS_Y).getDoubleValue();
+    nextPointInLineX=dockersNode.get(1).get(EDITOR_BOUNDS_X).doubleValue();
+    nextPointInLineY=dockersNode.get(1).get(EDITOR_BOUNDS_Y).doubleValue();
     if (dockersNode.size() == 2) {
       nextPointInLineX+=targetInfo.getX();
       nextPointInLineY+=targetInfo.getY();
@@ -52,14 +52,14 @@
     Line2D lastLine=null;
     if (dockersNode.size() > 2) {
       for (int i=1; i < dockersNode.size() - 1; i++) {
-        double x=dockersNode.get(i).get(EDITOR_BOUNDS_X).getDoubleValue();
-        double y=dockersNode.get(i).get(EDITOR_BOUNDS_Y).getDoubleValue();
+        double x=dockersNode.get(i).get(EDITOR_BOUNDS_X).doubleValue();
+        double y=dockersNode.get(i).get(EDITOR_BOUNDS_Y).doubleValue();
         graphicInfoList.add(createGraphicInfo(x,y));
       }
-      double startLastLineX=dockersNode.get(dockersNode.size() - 2).get(EDITOR_BOUNDS_X).getDoubleValue();
-      double startLastLineY=dockersNode.get(dockersNode.size() - 2).get(EDITOR_BOUNDS_Y).getDoubleValue();
-      double endLastLineX=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_X).getDoubleValue();
-      double endLastLineY=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_Y).getDoubleValue();
+      double startLastLineX=dockersNode.get(dockersNode.size() - 2).get(EDITOR_BOUNDS_X).doubleValue();
+      double startLastLineY=dockersNode.get(dockersNode.size() - 2).get(EDITOR_BOUNDS_Y).doubleValue();
+      double endLastLineX=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_X).doubleValue();
+      double endLastLineY=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_Y).doubleValue();
       endLastLineX+=targetInfo.getX();
       endLastLineY+=targetInfo.getY();
       lastLine=new Line2D(startLastLineX,startLastLineY,endLastLineX,endLastLineY);
@@ -74,8 +74,8 @@
       graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
     }
  else     if (DI_CIRCLES.contains(targetRefStencilId)) {
-      double targetDockersX=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_X).getDoubleValue();
-      double targetDockersY=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_Y).getDoubleValue();
+      double targetDockersX=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_X).doubleValue();
+      double targetDockersY=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_Y).doubleValue();
       Circle2D eventCircle=new Circle2D(targetInfo.getX() + targetDockersX,targetInfo.getY() + targetDockersY,targetDockersX);
       Collection<Point2D> intersections=eventCircle.intersections(lastLine);
       Point2D intersection=intersections.iterator().next();

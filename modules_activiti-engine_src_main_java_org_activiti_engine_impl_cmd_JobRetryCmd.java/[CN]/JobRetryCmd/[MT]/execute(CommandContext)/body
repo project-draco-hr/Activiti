@@ -1,0 +1,48 @@
+{
+  JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
+  ActivityImpl activity=getCurrentActivity(commandContext,job);
+  if (activity == null || activity.getFailedJobRetryTimeCycleValue() == null) {
+    log.error("activitiy or FailedJobRetryTimerCycleValue is null in job " + jobId + "'. only decrementing retries.");
+    job.setRetries(job.getRetries() - 1);
+    job.setLockOwner(null);
+    job.setLockExpirationTime(null);
+    if (job.getDuedate() == null) {
+      job.setDuedate(calculateDueDate(commandContext,commandContext.getProcessEngineConfiguration().getAsyncFailedJobWaitTime(),null));
+    }
+ else {
+      job.setDuedate(calculateDueDate(commandContext,commandContext.getProcessEngineConfiguration().getDefaultFailedJobWaitTime(),job.getDuedate()));
+    }
+  }
+ else {
+    String failedJobRetryTimeCycle=activity.getFailedJobRetryTimeCycleValue();
+    try {
+      DurationHelper durationHelper=new DurationHelper(failedJobRetryTimeCycle,commandContext.getProcessEngineConfiguration().getClock());
+      job.setLockExpirationTime(durationHelper.getDateAfter());
+      if (job.getExceptionMessage() == null) {
+        log.debug("Applying JobRetryStrategy '" + failedJobRetryTimeCycle + "' the first time for job "+ job.getId()+ " with "+ durationHelper.getTimes()+ " retries");
+        job.setRetries(durationHelper.getTimes());
+      }
+ else {
+        log.debug("Decrementing retries of JobRetryStrategy '" + failedJobRetryTimeCycle + "' for job "+ job.getId());
+      }
+      job.setRetries(job.getRetries() - 1);
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("failedJobRetryTimeCylcle has wrong format:" + failedJobRetryTimeCycle,exception);
+    }
+  }
+  if (exception != null) {
+    job.setExceptionMessage(exception.getMessage());
+    job.setExceptionStacktrace(getExceptionStacktrace());
+  }
+  ActivitiEventDispatcher eventDispatcher=commandContext.getEventDispatcher();
+  if (eventDispatcher.isEnabled()) {
+    eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,job));
+    eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_RETRIES_DECREMENTED,job));
+  }
+  JobExecutor jobExecutor=commandContext.getProcessEngineConfiguration().getJobExecutor();
+  JobAddedNotification messageAddedNotification=new JobAddedNotification(jobExecutor);
+  TransactionContext transactionContext=commandContext.getTransactionContext();
+  transactionContext.addTransactionListener(TransactionState.COMMITTED,messageAddedNotification);
+  return null;
+}

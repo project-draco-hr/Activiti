@@ -1,0 +1,19 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertEquals(processDefinition.getId(),responseNode.get("id").textValue());
+  assertEquals(processDefinition.getKey(),responseNode.get("key").textValue());
+  assertEquals(processDefinition.getCategory(),responseNode.get("category").textValue());
+  assertEquals(processDefinition.getVersion(),responseNode.get("version").intValue());
+  assertEquals(processDefinition.getDescription(),responseNode.get("description").textValue());
+  assertEquals(processDefinition.getName(),responseNode.get("name").textValue());
+  assertFalse(responseNode.get("graphicalNotationDefined").booleanValue());
+  assertEquals(client.getRequest().getResourceRef().toString(),URLDecoder.decode(responseNode.get("url").textValue(),"UTF-8"));
+  assertEquals(processDefinition.getDeploymentId(),responseNode.get("deploymentId").textValue());
+  assertTrue(responseNode.get("deploymentUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,processDefinition.getDeploymentId())));
+  assertTrue(URLDecoder.decode(responseNode.get("resource").textValue(),"UTF-8").endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,processDefinition.getDeploymentId(),processDefinition.getResourceName())));
+  assertTrue(responseNode.get("diagramResource").isNull());
+}

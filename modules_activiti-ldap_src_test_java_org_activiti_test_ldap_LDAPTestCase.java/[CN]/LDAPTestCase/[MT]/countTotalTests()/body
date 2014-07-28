@@ -1,0 +1,18 @@
+{
+  int count=0;
+  Class superClass=getClass();
+  Vector names=new Vector();
+  while (Test.class.isAssignableFrom(superClass)) {
+    Method[] methods=superClass.getDeclaredMethods();
+    for (    Method method : methods) {
+      String name=method.getName();
+      if (names.contains(name))       continue;
+      names.addElement(name);
+      if (isTestMethod(method)) {
+        count++;
+      }
+    }
+    superClass=superClass.getSuperclass();
+  }
+  return count;
+}

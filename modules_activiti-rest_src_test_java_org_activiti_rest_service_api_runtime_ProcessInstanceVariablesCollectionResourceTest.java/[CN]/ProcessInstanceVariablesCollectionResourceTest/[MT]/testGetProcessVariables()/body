@@ -1,0 +1,21 @@
+{
+  Calendar cal=Calendar.getInstance();
+  Map<String,Object> processVariables=new HashMap<String,Object>();
+  processVariables.put("stringProcVar","This is a ProcVariable");
+  processVariables.put("intProcVar",123);
+  processVariables.put("longProcVar",1234L);
+  processVariables.put("shortProcVar",(short)123);
+  processVariables.put("doubleProcVar",99.99);
+  processVariables.put("booleanProcVar",Boolean.TRUE);
+  processVariables.put("dateProcVar",cal.getTime());
+  processVariables.put("byteArrayProcVar","Some raw bytes".getBytes());
+  processVariables.put("overlappingVariable","process-value");
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(9,responseNode.size());
+}

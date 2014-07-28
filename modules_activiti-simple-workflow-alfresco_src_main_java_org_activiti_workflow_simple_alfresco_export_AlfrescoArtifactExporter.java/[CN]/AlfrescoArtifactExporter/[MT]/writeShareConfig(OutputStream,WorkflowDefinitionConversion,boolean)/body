@@ -1,0 +1,16 @@
+{
+  Extension extension=AlfrescoConversionUtil.getExtension(conversion);
+  try {
+    Object toMarshall=extension;
+    if (!asExtension) {
+      toMarshall=new AlfrescoConfiguration();
+      ((AlfrescoConfiguration)toMarshall).setConfigurations(extension.getModules().get(0).getConfigurations());
+    }
+    Marshaller marshaller=moduleJaxbContext.createMarshaller();
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
+    marshaller.marshal(toMarshall,out);
+  }
+ catch (  JAXBException jaxbe) {
+    throw new IOException(jaxbe);
+  }
+}

@@ -1,0 +1,25 @@
+{
+  TaskService taskService=activitiRule.getTaskService();
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").inChoice().inList().addCondition("test","==","'hello'").addCondition("test2","==","'world'").addHumanStep("first task","kermit").endList().inList().addHumanStep("gonzo task","gonzo").endList().endChoice();
+  Map<String,Object> varMap=new HashMap<String,Object>();
+  varMap.put("test","hello");
+  varMap.put("test2","world");
+  String definitionKey=convertAndDeploy(workflowDefinition);
+  ProcessInstance instance=activitiRule.getRuntimeService().startProcessInstanceByKey(definitionKey,varMap);
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  assertEquals(0,taskService.createTaskQuery().taskAssignee("gonzo").count());
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("first task",task.getName());
+  taskService.complete(task.getId());
+  assertEquals(0,activitiRule.getRuntimeService().createProcessInstanceQuery().processInstanceId(instance.getId()).count());
+  varMap=new HashMap<String,Object>();
+  varMap.put("test","world");
+  varMap.put("test2","world");
+  instance=activitiRule.getRuntimeService().startProcessInstanceByKey(definitionKey,varMap);
+  assertEquals(0,taskService.createTaskQuery().taskAssignee("kermit").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("gonzo").count());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("gonzo task",task.getName());
+  taskService.complete(task.getId());
+  assertEquals(0,activitiRule.getRuntimeService().createProcessInstanceQuery().processInstanceId(instance.getId()).count());
+}

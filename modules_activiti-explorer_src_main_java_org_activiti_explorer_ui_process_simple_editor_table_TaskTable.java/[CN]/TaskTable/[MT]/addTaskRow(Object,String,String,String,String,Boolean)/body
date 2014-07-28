@@ -8,8 +8,34 @@
   }
   Item newItem=getItem(newItemId);
   newItem.getItemProperty(ID_NAME).setValue(taskName == null ? "my task" : taskName);
-  newItem.getItemProperty(ID_ASSIGNEE).setValue(taskAssignee == null ? "" : taskAssignee);
-  newItem.getItemProperty(ID_GROUPS).setValue(taskGroups == null ? "" : taskGroups);
+  ComboBox assigneeComboBox=new ComboBox();
+  assigneeComboBox.setNullSelectionAllowed(true);
+  try {
+    for (    User user : ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().orderByUserFirstName().asc().list()) {
+      assigneeComboBox.addItem(user.getId());
+      assigneeComboBox.setItemCaption(user.getId(),user.getFirstName() + " " + user.getLastName());
+    }
+  }
+ catch (  Exception e) {
+  }
+  if (taskAssignee != null) {
+    assigneeComboBox.select(taskAssignee);
+  }
+  newItem.getItemProperty(ID_ASSIGNEE).setValue(assigneeComboBox);
+  ComboBox groupComboBox=new ComboBox();
+  groupComboBox.setNullSelectionAllowed(true);
+  try {
+    for (    Group group : ProcessEngines.getDefaultProcessEngine().getIdentityService().createGroupQuery().orderByGroupName().asc().list()) {
+      groupComboBox.addItem(group.getId());
+      groupComboBox.setItemCaption(group.getId(),group.getName());
+    }
+  }
+ catch (  Exception e) {
+  }
+  if (taskGroups != null) {
+    groupComboBox.select(taskGroups);
+  }
+  newItem.getItemProperty(ID_GROUPS).setValue(groupComboBox);
   TextField descriptionTextField=new TextField();
   descriptionTextField.setColumns(16);
   descriptionTextField.setRows(1);

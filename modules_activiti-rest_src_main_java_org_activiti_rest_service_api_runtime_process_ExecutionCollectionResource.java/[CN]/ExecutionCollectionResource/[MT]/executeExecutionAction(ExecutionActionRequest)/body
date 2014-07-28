@@ -1,0 +1,17 @@
+{
+  if (!authenticate()) {
+    return;
+  }
+  if (!ExecutionActionRequest.ACTION_SIGNAL_EVENT_RECEIVED.equals(actionRequest.getAction())) {
+    throw new ActivitiIllegalArgumentException("Illegal action: '" + actionRequest.getAction() + "'.");
+  }
+  if (actionRequest.getSignalName() == null) {
+    throw new ActivitiIllegalArgumentException("Signal name is required.");
+  }
+  if (actionRequest.getVariables() != null) {
+    ActivitiUtil.getRuntimeService().signalEventReceived(actionRequest.getSignalName(),getVariablesToSet(actionRequest));
+  }
+ else {
+    ActivitiUtil.getRuntimeService().signalEventReceived(actionRequest.getSignalName());
+  }
+}

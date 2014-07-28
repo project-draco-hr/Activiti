@@ -3,10 +3,7 @@
   MessageEventDefinition eventDefinition=new MessageEventDefinition();
   BpmnXMLUtil.addXMLLocation(eventDefinition,xtr);
   eventDefinition.setMessageRef(xtr.getAttributeValue(null,ATTRIBUTE_MESSAGE_REF));
-  if (StringUtils.isEmpty(eventDefinition.getMessageRef())) {
-    model.addProblem("attribute 'messageRef' is required",xtr);
-  }
- else {
+  if (!StringUtils.isEmpty(eventDefinition.getMessageRef())) {
     int indexOfP=eventDefinition.getMessageRef().indexOf(':');
     if (indexOfP != -1) {
       String prefix=eventDefinition.getMessageRef().substring(0,indexOfP);
@@ -16,9 +13,7 @@
  else {
       eventDefinition.setMessageRef(model.getTargetNamespace() + ":" + eventDefinition.getMessageRef());
     }
-    if (model.containsMessageId(eventDefinition.getMessageRef()) == false) {
-      model.addProblem("Invalid 'messageRef': no message with id '" + eventDefinition.getMessageRef() + "' found.",xtr);
-    }
   }
+  BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_MESSAGEDEFINITION,eventDefinition,xtr,model);
   ((Event)parentElement).getEventDefinitions().add(eventDefinition);
 }

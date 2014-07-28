@@ -1,0 +1,251 @@
+{
+  activityDrawInstructions.put(StartEvent.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      StartEvent startEvent=(StartEvent)flowNode;
+      if (startEvent.getEventDefinitions() != null && startEvent.getEventDefinitions().size() > 0) {
+        EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
+        if (eventDefinition instanceof TimerEventDefinition) {
+          processDiagramCanvas.drawTimerStartEvent(graphicInfo,scaleFactor);
+        }
+ else         if (eventDefinition instanceof ErrorEventDefinition) {
+          processDiagramCanvas.drawErrorStartEvent(graphicInfo,scaleFactor);
+        }
+ else         if (eventDefinition instanceof SignalEventDefinition) {
+          processDiagramCanvas.drawSignalStartEvent(graphicInfo,scaleFactor);
+        }
+      }
+ else {
+        processDiagramCanvas.drawNoneStartEvent(graphicInfo);
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(IntermediateCatchEvent.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      IntermediateCatchEvent intermediateCatchEvent=(IntermediateCatchEvent)flowNode;
+      if (intermediateCatchEvent.getEventDefinitions() != null && intermediateCatchEvent.getEventDefinitions().size() > 0) {
+        if (intermediateCatchEvent.getEventDefinitions().get(0) instanceof SignalEventDefinition) {
+          processDiagramCanvas.drawCatchingSignalEvent(flowNode.getName(),graphicInfo,true,scaleFactor);
+        }
+ else         if (intermediateCatchEvent.getEventDefinitions().get(0) instanceof TimerEventDefinition) {
+          processDiagramCanvas.drawCatchingTimerEvent(flowNode.getName(),graphicInfo,true,scaleFactor);
+        }
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(ThrowEvent.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      ThrowEvent throwEvent=(ThrowEvent)flowNode;
+      if (throwEvent.getEventDefinitions() != null && throwEvent.getEventDefinitions().size() > 0) {
+        if (throwEvent.getEventDefinitions().get(0) instanceof SignalEventDefinition) {
+          processDiagramCanvas.drawThrowingSignalEvent(graphicInfo,scaleFactor);
+        }
+      }
+ else {
+        processDiagramCanvas.drawThrowingNoneEvent(graphicInfo,scaleFactor);
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(EndEvent.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      EndEvent endEvent=(EndEvent)flowNode;
+      if (endEvent.getEventDefinitions() != null && endEvent.getEventDefinitions().size() > 0) {
+        if (endEvent.getEventDefinitions().get(0) instanceof ErrorEventDefinition) {
+          processDiagramCanvas.drawErrorEndEvent(flowNode.getName(),graphicInfo,scaleFactor);
+        }
+      }
+ else {
+        processDiagramCanvas.drawNoneEndEvent(graphicInfo,scaleFactor);
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(Task.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawTask(flowNode.getName(),graphicInfo);
+    }
+  }
+);
+  activityDrawInstructions.put(UserTask.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawUserTask(flowNode.getName(),graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(ScriptTask.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawScriptTask(flowNode.getName(),graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(ServiceTask.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      ServiceTask serviceTask=(ServiceTask)flowNode;
+      if ("camel".equalsIgnoreCase(serviceTask.getType())) {
+        processDiagramCanvas.drawCamelTask(serviceTask.getName(),graphicInfo,scaleFactor);
+      }
+ else       if ("mule".equalsIgnoreCase(serviceTask.getType())) {
+        processDiagramCanvas.drawMuleTask(serviceTask.getName(),graphicInfo,scaleFactor);
+      }
+ else {
+        processDiagramCanvas.drawServiceTask(serviceTask.getName(),graphicInfo,scaleFactor);
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(ReceiveTask.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawReceiveTask(flowNode.getName(),graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(SendTask.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawSendTask(flowNode.getName(),graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(ManualTask.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawManualTask(flowNode.getName(),graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(BusinessRuleTask.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawBusinessRuleTask(flowNode.getName(),graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(ExclusiveGateway.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawExclusiveGateway(graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(InclusiveGateway.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawInclusiveGateway(graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(ParallelGateway.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawParallelGateway(graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(EventGateway.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawEventBasedGateway(graphicInfo,scaleFactor);
+    }
+  }
+);
+  activityDrawInstructions.put(BoundaryEvent.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      BoundaryEvent boundaryEvent=(BoundaryEvent)flowNode;
+      if (boundaryEvent.getEventDefinitions() != null && boundaryEvent.getEventDefinitions().size() > 0) {
+        if (boundaryEvent.getEventDefinitions().get(0) instanceof TimerEventDefinition) {
+          processDiagramCanvas.drawCatchingTimerEvent(flowNode.getName(),graphicInfo,boundaryEvent.isCancelActivity(),scaleFactor);
+        }
+ else         if (boundaryEvent.getEventDefinitions().get(0) instanceof ErrorEventDefinition) {
+          processDiagramCanvas.drawCatchingErrorEvent(graphicInfo,boundaryEvent.isCancelActivity(),scaleFactor);
+        }
+ else         if (boundaryEvent.getEventDefinitions().get(0) instanceof SignalEventDefinition) {
+          processDiagramCanvas.drawCatchingSignalEvent(flowNode.getName(),graphicInfo,boundaryEvent.isCancelActivity(),scaleFactor);
+        }
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(SubProcess.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      if (graphicInfo.getExpanded() != null && !graphicInfo.getExpanded()) {
+        processDiagramCanvas.drawCollapsedSubProcess(flowNode.getName(),graphicInfo,false);
+      }
+ else {
+        processDiagramCanvas.drawExpandedSubProcess(flowNode.getName(),graphicInfo,false,scaleFactor);
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(EventSubProcess.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      if (graphicInfo.getExpanded() != null && !graphicInfo.getExpanded()) {
+        processDiagramCanvas.drawCollapsedSubProcess(flowNode.getName(),graphicInfo,true);
+      }
+ else {
+        processDiagramCanvas.drawExpandedSubProcess(flowNode.getName(),graphicInfo,true,scaleFactor);
+      }
+    }
+  }
+);
+  activityDrawInstructions.put(CallActivity.class,new ActivityDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    FlowNode flowNode){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(flowNode.getId());
+      processDiagramCanvas.drawCollapsedCallActivity(flowNode.getName(),graphicInfo);
+    }
+  }
+);
+  artifactDrawInstructions.put(TextAnnotation.class,new ArtifactDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    Artifact artifact){
+      GraphicInfo graphicInfo=bpmnModel.getGraphicInfo(artifact.getId());
+      TextAnnotation textAnnotation=(TextAnnotation)artifact;
+      processDiagramCanvas.drawTextAnnotation(textAnnotation.getText(),graphicInfo);
+    }
+  }
+);
+  artifactDrawInstructions.put(Association.class,new ArtifactDrawInstruction(){
+    public void draw(    DefaultProcessDiagramCanvas processDiagramCanvas,    BpmnModel bpmnModel,    Artifact artifact){
+      Association association=(Association)artifact;
+      String sourceRef=association.getSourceRef();
+      String targetRef=association.getTargetRef();
+      BaseElement sourceElement=bpmnModel.getFlowElement(sourceRef);
+      BaseElement targetElement=bpmnModel.getFlowElement(targetRef);
+      if (sourceElement == null) {
+        sourceElement=bpmnModel.getArtifact(sourceRef);
+      }
+      if (targetElement == null) {
+        targetElement=bpmnModel.getArtifact(targetRef);
+      }
+      List<GraphicInfo> graphicInfoList=bpmnModel.getFlowLocationGraphicInfo(artifact.getId());
+      graphicInfoList=connectionPerfectionizer(processDiagramCanvas,bpmnModel,sourceElement,targetElement,graphicInfoList);
+      int xPoints[]=new int[graphicInfoList.size()];
+      int yPoints[]=new int[graphicInfoList.size()];
+      for (int i=1; i < graphicInfoList.size(); i++) {
+        GraphicInfo graphicInfo=graphicInfoList.get(i);
+        GraphicInfo previousGraphicInfo=graphicInfoList.get(i - 1);
+        if (i == 1) {
+          xPoints[0]=(int)previousGraphicInfo.getX();
+          yPoints[0]=(int)previousGraphicInfo.getY();
+        }
+        xPoints[i]=(int)graphicInfo.getX();
+        yPoints[i]=(int)graphicInfo.getY();
+      }
+      AssociationDirection associationDirection=association.getAssociationDirection();
+      processDiagramCanvas.drawAssociation(xPoints,yPoints,associationDirection,false,scaleFactor);
+    }
+  }
+);
+}

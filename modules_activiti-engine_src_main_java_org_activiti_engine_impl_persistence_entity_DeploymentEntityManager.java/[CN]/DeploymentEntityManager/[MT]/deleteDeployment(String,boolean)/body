@@ -15,6 +15,7 @@
   for (  ProcessDefinition processDefinition : processDefinitions) {
     String processDefinitionId=processDefinition.getId();
     getIdentityLinkManager().deleteIdentityLinksByProcDef(processDefinitionId);
+    getEventSubscriptionManager().deleteEventSubscriptionsForProcessDefinition(processDefinitionId);
   }
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
   for (  ProcessDefinition processDefinition : processDefinitions) {
@@ -23,17 +24,20 @@
       long nrOfVersions=new ProcessDefinitionQueryImpl(Context.getCommandContext()).processDefinitionKey(processDefinition.getKey()).count();
       long nrOfProcessDefinitionsWithSameKey=0;
       for (      ProcessDefinition p : processDefinitions) {
-        if (!p.getId().equals(processDefinition) && p.getKey().equals(processDefinition)) {
+        if (!p.getId().equals(processDefinition.getId()) && p.getKey().equals(processDefinition.getKey())) {
           nrOfProcessDefinitionsWithSameKey++;
         }
       }
       if (nrOfVersions - nrOfProcessDefinitionsWithSameKey <= 1) {
         for (        Job job : timerStartJobs) {
+          if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+            Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED,job,null,null,processDefinition.getId()));
+          }
           ((JobEntity)job).delete();
         }
       }
     }
-    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionEntityManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,processDefinition.getId());
+    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionEntityManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,processDefinition.getId(),processDefinition.getTenantId());
     for (    EventSubscriptionEntity eventSubscriptionEntity : findEventSubscriptionsByConfiguration) {
       eventSubscriptionEntity.delete();
     }

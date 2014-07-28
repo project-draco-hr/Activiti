@@ -2,7 +2,7 @@
   wrappedField.setValue(newValue);
   if (newValue != null) {
     if (selectedUser == null || !selectedUser.getId().equals(newValue)) {
-      selectedUser=ExplorerApp.get().getUserCache().findUser((String)newValue);
+      selectedUser=ProcessEngines.getDefaultProcessEngine().getIdentityService().createUserQuery().userId((String)newValue).singleResult();
     }
     selectedUserLabel.setValue(getSelectedUserLabel());
     selectedUserLabel.addStyleName(ExplorerLayout.STYLE_FORM_USER_SELECTED);

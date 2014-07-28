@@ -1,0 +1,22 @@
+{
+  try {
+    if (authenticate(SecuredResource.ADMIN) == false)     return null;
+    String startParams=entity.getText();
+    JsonNode startJSON=new ObjectMapper().readTree(startParams);
+    ArrayNode jobIdsJSON=(ArrayNode)startJSON.get("jobIds");
+    for (    JsonNode jobId : jobIdsJSON) {
+      ActivitiUtil.getManagementService().executeJob(jobId.textValue());
+    }
+    ObjectNode successNode=new ObjectMapper().createObjectNode();
+    successNode.put("success",true);
+    return successNode;
+  }
+ catch (  Exception e) {
+    if (e instanceof ActivitiException) {
+      throw (ActivitiException)e;
+    }
+ else {
+      throw new ActivitiException("Failed to execute jobs",e);
+    }
+  }
+}

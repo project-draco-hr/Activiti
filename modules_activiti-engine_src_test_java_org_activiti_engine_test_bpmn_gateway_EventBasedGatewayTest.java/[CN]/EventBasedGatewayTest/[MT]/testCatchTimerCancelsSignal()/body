@@ -3,7 +3,7 @@
   assertEquals(1,createEventSubscriptionQuery().count());
   assertEquals(1,runtimeService.createProcessInstanceQuery().count());
   assertEquals(1,managementService.createJobQuery().count());
-  ClockUtil.setCurrentTime(new Date(ClockUtil.getCurrentTime().getTime() + 10000));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(processEngineConfiguration.getClock().getCurrentTime().getTime() + 10000));
   try {
     waitForJobExecutorToProcessAllJobs(10000,100);
     assertEquals(0,createEventSubscriptionQuery().count());
@@ -14,6 +14,6 @@
     taskService.complete(task.getId());
   }
   finally {
-    ClockUtil.setCurrentTime(new Date());
+    processEngineConfiguration.getClock().setCurrentTime(new Date());
   }
 }

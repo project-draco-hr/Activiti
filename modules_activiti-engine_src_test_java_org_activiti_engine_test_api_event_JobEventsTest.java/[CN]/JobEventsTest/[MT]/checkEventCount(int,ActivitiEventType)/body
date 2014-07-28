@@ -1,0 +1,10 @@
+{
+  int timerCancelledCount=0;
+  List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
+  for (  ActivitiEvent eventReceived : eventsReceived) {
+    if (eventType.equals(eventReceived.getType())) {
+      timerCancelledCount++;
+    }
+  }
+  assertEquals(eventType.name() + " event was expected " + expectedCount+ " times.",expectedCount,timerCancelledCount);
+}

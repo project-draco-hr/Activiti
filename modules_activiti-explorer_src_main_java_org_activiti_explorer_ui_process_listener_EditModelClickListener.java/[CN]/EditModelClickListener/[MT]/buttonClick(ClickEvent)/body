@@ -3,6 +3,12 @@
     showSelectEditorPopupWindow();
   }
  else {
-    showModeler();
+    try {
+      showModeler();
+    }
+ catch (    MalformedURLException e) {
+      e.printStackTrace();
+      ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.PROCESS_EDITOR_LOADING_ERROR,e);
+    }
   }
 }

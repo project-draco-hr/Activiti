@@ -1,5 +1,7 @@
 {
-  uploadComponent=new UploadComponent(description,receiver);
+  uploadComponent=ExplorerApp.get().getComponentFactory(UploadComponentFactory.class).create();
+  uploadComponent.setReceiver(receiver);
+  uploadComponent.setDescription(description);
   uploadComponent.setSizeFull();
   initWindow(caption);
 }

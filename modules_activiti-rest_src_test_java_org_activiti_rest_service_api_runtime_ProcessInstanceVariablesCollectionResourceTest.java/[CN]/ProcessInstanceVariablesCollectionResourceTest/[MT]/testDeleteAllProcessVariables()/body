@@ -1,0 +1,11 @@
+{
+  Map<String,Object> processVariables=new HashMap<String,Object>();
+  processVariables.put("var1","This is a ProcVariable");
+  processVariables.put("var2",123);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  Representation response=client.delete();
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  assertEquals(0,response.getSize());
+  assertEquals(0,runtimeService.getVariablesLocal(processInstance.getId()).size());
+}

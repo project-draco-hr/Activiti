@@ -2,15 +2,15 @@
   if (messageName == null) {
     throw new ActivitiIllegalArgumentException("Cannot start process instance by message: message name is null");
   }
-  MessageEventSubscriptionEntity messageEventSubscription=commandContext.getEventSubscriptionEntityManager().findMessageStartEventSubscriptionByName(messageName);
+  MessageEventSubscriptionEntity messageEventSubscription=commandContext.getEventSubscriptionEntityManager().findMessageStartEventSubscriptionByName(messageName,tenantId);
   if (messageEventSubscription == null) {
-    throw new ActivitiException("Cannot start process instance by message: no subscription to message with name '" + messageName + "' found.");
+    throw new ActivitiObjectNotFoundException("Cannot start process instance by message: no subscription to message with name '" + messageName + "' found.",MessageEventSubscriptionEntity.class);
   }
   String processDefinitionId=messageEventSubscription.getConfiguration();
   if (processDefinitionId == null) {
     throw new ActivitiException("Cannot start process instance by message: subscription to message with name '" + messageName + "' is not a message start event.");
   }
-  DeploymentManager deploymentCache=Context.getProcessEngineConfiguration().getDeploymentManager();
+  DeploymentManager deploymentCache=commandContext.getProcessEngineConfiguration().getDeploymentManager();
   ProcessDefinitionEntity processDefinition=deploymentCache.findDeployedProcessDefinitionById(processDefinitionId);
   if (processDefinition == null) {
     throw new ActivitiObjectNotFoundException("No process definition found for id '" + processDefinitionId + "'",ProcessDefinition.class);

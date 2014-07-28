@@ -1,7 +1,7 @@
 {
   List<SignalEventSubscriptionEntity> signalEvents=null;
   if (executionId == null) {
-    signalEvents=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(eventName);
+    signalEvents=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(eventName,tenantId);
   }
  else {
     ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(executionId);
@@ -16,13 +16,9 @@
       throw new ActivitiException("Execution '" + executionId + "' has not subscribed to a signal event with name '"+ eventName+ "'.");
     }
   }
-  HashMap<String,Object> payload=null;
-  if (variables != null) {
-    payload=new HashMap<String,Object>(variables);
-  }
   for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : signalEvents) {
     if (signalEventSubscriptionEntity.isGlobalScoped()) {
-      signalEventSubscriptionEntity.eventReceived(payload,false);
+      signalEventSubscriptionEntity.eventReceived(payload,async);
     }
   }
   return null;

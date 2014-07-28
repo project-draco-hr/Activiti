@@ -1,0 +1,16 @@
+{
+  HistoricVariableInstanceEntity historicVariableInstance=new HistoricVariableInstanceEntity();
+  historicVariableInstance.id=variableInstance.getId();
+  historicVariableInstance.processInstanceId=variableInstance.getProcessInstanceId();
+  historicVariableInstance.executionId=variableInstance.getExecutionId();
+  historicVariableInstance.taskId=variableInstance.getTaskId();
+  historicVariableInstance.revision=variableInstance.getRevision();
+  historicVariableInstance.name=variableInstance.getName();
+  historicVariableInstance.variableType=variableInstance.getType();
+  historicVariableInstance.copyValue(variableInstance);
+  Date time=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
+  historicVariableInstance.setCreateTime(time);
+  historicVariableInstance.setLastUpdatedTime(time);
+  Context.getCommandContext().getDbSqlSession().insert(historicVariableInstance);
+  return historicVariableInstance;
+}

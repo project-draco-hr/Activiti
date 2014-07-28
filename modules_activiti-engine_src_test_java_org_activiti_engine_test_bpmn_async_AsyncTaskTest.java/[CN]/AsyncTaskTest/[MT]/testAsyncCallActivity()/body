@@ -1,0 +1,7 @@
+{
+  runtimeService.startProcessInstanceByKey("asyncCallactivity");
+  assertEquals(1,managementService.createJobQuery().count());
+  waitForJobExecutorToProcessAllJobs(10000L,250L);
+  assertEquals(0,managementService.createJobQuery().count());
+  assertEquals(0,runtimeService.createProcessInstanceQuery().count());
+}

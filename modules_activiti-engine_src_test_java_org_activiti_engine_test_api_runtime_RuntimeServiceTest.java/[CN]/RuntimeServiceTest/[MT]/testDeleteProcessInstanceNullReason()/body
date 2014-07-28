@@ -3,4 +3,9 @@
   assertEquals(1,runtimeService.createProcessInstanceQuery().processDefinitionKey("oneTaskProcess").count());
   runtimeService.deleteProcessInstance(processInstance.getId(),null);
   assertEquals(0,runtimeService.createProcessInstanceQuery().processDefinitionKey("oneTaskProcess").count());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricProcessInstance historicInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(historicInstance);
+    assertNull(historicInstance.getDeleteReason());
+  }
 }

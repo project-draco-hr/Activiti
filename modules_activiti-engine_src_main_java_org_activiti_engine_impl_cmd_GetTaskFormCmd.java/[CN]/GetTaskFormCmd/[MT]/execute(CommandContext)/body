@@ -1,5 +1,5 @@
 {
-  TaskEntity task=Context.getCommandContext().getTaskEntityManager().findTaskById(taskId);
+  TaskEntity task=commandContext.getTaskEntityManager().findTaskById(taskId);
   if (task == null) {
     throw new ActivitiObjectNotFoundException("No task found for taskId '" + taskId + "'",Task.class);
   }

@@ -1,0 +1,24 @@
+{
+  if (ldapConfigurator.getUserIdAttribute() != null) {
+    user.setId(result.getAttributes().get(ldapConfigurator.getUserIdAttribute()).get().toString());
+  }
+  if (ldapConfigurator.getUserFirstNameAttribute() != null) {
+    try {
+      user.setFirstName(result.getAttributes().get(ldapConfigurator.getUserFirstNameAttribute()).get().toString());
+    }
+ catch (    NullPointerException e) {
+      user.setFirstName("");
+    }
+  }
+  if (ldapConfigurator.getUserLastNameAttribute() != null) {
+    try {
+      user.setLastName(result.getAttributes().get(ldapConfigurator.getUserLastNameAttribute()).get().toString());
+    }
+ catch (    NullPointerException e) {
+      user.setLastName("");
+    }
+  }
+  if (ldapConfigurator.getUserEmailAttribute() != null) {
+    user.setEmail(result.getAttributes().get(ldapConfigurator.getUserEmailAttribute()).get().toString());
+  }
+}

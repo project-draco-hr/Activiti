@@ -1,6 +1,6 @@
 {
   if (model.getEditorSourceValueId() != null) {
-    ByteArrayEntity data=getDbSqlSession().selectById(ByteArrayEntity.class,model.getEditorSourceValueId());
-    getDbSqlSession().delete(data);
+    ByteArrayRef ref=new ByteArrayRef(model.getEditorSourceValueId());
+    ref.delete();
   }
 }

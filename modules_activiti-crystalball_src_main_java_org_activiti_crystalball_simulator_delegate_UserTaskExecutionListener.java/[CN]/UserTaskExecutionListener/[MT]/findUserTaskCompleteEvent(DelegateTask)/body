@@ -1,0 +1,10 @@
+{
+  if (delegateTask.hasVariable(StartReplayProcessEventHandler.PROCESS_INSTANCE_ID)) {
+    String toSimulateProcessInstanceId=(String)delegateTask.getVariable(StartReplayProcessEventHandler.PROCESS_INSTANCE_ID);
+    String toSimulateTaskDefinitionKey=delegateTask.getTaskDefinitionKey();
+    for (    SimulationEvent e : events) {
+      if (typeToFind.equals(e.getType()) && toSimulateProcessInstanceId.equals(e.getProperty(UserTaskCompleteTransformer.PROCESS_INSTANCE_ID)) && toSimulateTaskDefinitionKey.equals(e.getProperty(UserTaskCompleteTransformer.TASK_DEFINITION_KEY)))       return e;
+    }
+  }
+  return null;
+}

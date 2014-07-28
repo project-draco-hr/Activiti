@@ -1,0 +1,13 @@
+{
+  if (authenticate() == false)   return;
+  Group group=getGroupFromRequest();
+  String userId=getAttribute("userId");
+  if (userId == null) {
+    throw new ActivitiIllegalArgumentException("UserId cannot be null.");
+  }
+  if (ActivitiUtil.getIdentityService().createUserQuery().memberOfGroup(group.getId()).userId(userId).count() != 1) {
+    throw new ActivitiObjectNotFoundException("User '" + userId + "' is not part of group '"+ group.getId()+ "'.",null);
+  }
+  ActivitiUtil.getIdentityService().deleteMembership(userId,group.getId());
+  setStatus(Status.SUCCESS_NO_CONTENT);
+}

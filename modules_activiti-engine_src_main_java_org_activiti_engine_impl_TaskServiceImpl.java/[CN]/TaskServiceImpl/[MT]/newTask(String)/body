@@ -1,5 +1,3 @@
 {
-  TaskEntity task=TaskEntity.create();
-  task.setId(taskId);
-  return task;
+  return commandExecutor.execute(new NewTaskCmd(taskId));
 }

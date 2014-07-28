@@ -1,11 +1,23 @@
 {
   String feedback=null;
-  String dbVersion=null;
   boolean isUpgradeNeeded=false;
+  int matchingVersionIndex=-1;
   if (isEngineTablePresent()) {
     PropertyEntity dbVersionProperty=selectById(PropertyEntity.class,"schema.version");
-    dbVersion=dbVersionProperty.getValue();
-    isUpgradeNeeded=isUpgradeNeeded(dbVersion);
+    String dbVersion=dbVersionProperty.getValue();
+    int index=0;
+    while (matchingVersionIndex < 0 && index < ACTIVITI_VERSIONS.size()) {
+      if (ACTIVITI_VERSIONS.get(index).matches(dbVersion)) {
+        matchingVersionIndex=index;
+      }
+ else {
+        index++;
+      }
+    }
+    if (matchingVersionIndex < 0) {
+      throw new ActivitiException("Could not update Activiti database schema: unknown version from database: '" + dbVersion + "'");
+    }
+    isUpgradeNeeded=(matchingVersionIndex != (ACTIVITI_VERSIONS.size() - 1));
     if (isUpgradeNeeded) {
       dbVersionProperty.setValue(ProcessEngine.VERSION);
       PropertyEntity dbHistoryProperty;
@@ -18,7 +30,7 @@
       }
       String dbHistoryValue=dbHistoryProperty.getValue() + " upgrade(" + dbVersion+ "->"+ ProcessEngine.VERSION+ ")";
       dbHistoryProperty.setValue(dbHistoryValue);
-      dbSchemaUpgrade("engine",dbVersion);
+      dbSchemaUpgrade("engine",matchingVersionIndex);
       feedback="upgraded Activiti from " + dbVersion + " to "+ ProcessEngine.VERSION;
     }
   }
@@ -27,7 +39,7 @@
   }
   if (isHistoryTablePresent()) {
     if (isUpgradeNeeded) {
-      dbSchemaUpgrade("history",dbVersion);
+      dbSchemaUpgrade("history",matchingVersionIndex);
     }
   }
  else   if (dbSqlSessionFactory.isDbHistoryUsed()) {
@@ -35,7 +47,7 @@
   }
   if (isIdentityTablePresent()) {
     if (isUpgradeNeeded) {
-      dbSchemaUpgrade("identity",dbVersion);
+      dbSchemaUpgrade("identity",matchingVersionIndex);
     }
   }
  else   if (dbSqlSessionFactory.isDbIdentityUsed()) {

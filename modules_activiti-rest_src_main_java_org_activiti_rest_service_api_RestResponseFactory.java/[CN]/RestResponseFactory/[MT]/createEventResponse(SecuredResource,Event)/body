@@ -1,0 +1,14 @@
+{
+  EventResponse result=new EventResponse();
+  result.setAction(event.getAction());
+  result.setId(event.getId());
+  result.setMessage(event.getMessageParts());
+  result.setTime(event.getTime());
+  result.setUserId(event.getUserId());
+  result.setUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK_EVENT,event.getTaskId(),event.getId()));
+  result.setTaskUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK,event.getTaskId()));
+  if (event.getProcessInstanceId() != null) {
+    result.setTaskUrl(securedResource.createFullResourceUrl(RestUrls.URL_PROCESS_INSTANCE,event.getProcessInstanceId()));
+  }
+  return result;
+}

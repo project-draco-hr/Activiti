@@ -1,0 +1,22 @@
+{
+  String processInstanceId=(String)getRequest().getAttributes().get("processInstanceId");
+  if (processInstanceId == null) {
+    throw new ActivitiIllegalArgumentException("No process instance id provided");
+  }
+  ExecutionEntity pi=(ExecutionEntity)ActivitiUtil.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+  if (pi == null) {
+    throw new ActivitiObjectNotFoundException("Process instance with id" + processInstanceId + " could not be found",ProcessInstance.class);
+  }
+  ProcessDefinitionEntity pde=(ProcessDefinitionEntity)((RepositoryServiceImpl)ActivitiUtil.getRepositoryService()).getDeployedProcessDefinition(pi.getProcessDefinitionId());
+  if (pde != null && pde.isGraphicalNotationDefined()) {
+    BpmnModel bpmnModel=ActivitiUtil.getRepositoryService().getBpmnModel(pde.getId());
+    ProcessEngineConfiguration processEngineConfiguration=ActivitiUtil.getProcessEngine().getProcessEngineConfiguration();
+    ProcessDiagramGenerator diagramGenerator=processEngineConfiguration.getProcessDiagramGenerator();
+    InputStream resource=diagramGenerator.generateDiagram(bpmnModel,"png",ActivitiUtil.getRuntimeService().getActiveActivityIds(processInstanceId),Collections.<String>emptyList(),processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader(),1.0);
+    InputRepresentation output=new InputRepresentation(resource,MediaType.IMAGE_PNG);
+    return output;
+  }
+ else {
+    throw new ActivitiException("Process instance with id " + processInstanceId + " has no graphic description");
+  }
+}

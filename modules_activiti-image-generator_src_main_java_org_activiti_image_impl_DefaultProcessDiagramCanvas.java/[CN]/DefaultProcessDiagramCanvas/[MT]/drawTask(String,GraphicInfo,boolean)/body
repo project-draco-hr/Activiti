@@ -1,0 +1,30 @@
+{
+  Paint originalPaint=g.getPaint();
+  int x=(int)graphicInfo.getX();
+  int y=(int)graphicInfo.getY();
+  int width=(int)graphicInfo.getWidth();
+  int height=(int)graphicInfo.getHeight();
+  g.setPaint(TASK_BOX_COLOR);
+  int arcR=6;
+  if (thickBorder)   arcR=3;
+  RoundRectangle2D rect=new RoundRectangle2D.Double(x,y,width,height,arcR,arcR);
+  g.fill(rect);
+  g.setPaint(TASK_BORDER_COLOR);
+  if (thickBorder) {
+    Stroke originalStroke=g.getStroke();
+    g.setStroke(THICK_TASK_BORDER_STROKE);
+    g.draw(rect);
+    g.setStroke(originalStroke);
+  }
+ else {
+    g.draw(rect);
+  }
+  g.setPaint(originalPaint);
+  if (name != null && name.length() > 0) {
+    int boxWidth=width - (2 * TEXT_PADDING);
+    int boxHeight=height - 16 - ICON_PADDING- ICON_PADDING- MARKER_WIDTH- 2- 2;
+    int boxX=x + width / 2 - boxWidth / 2;
+    int boxY=y + height / 2 - boxHeight / 2 + ICON_PADDING + ICON_PADDING - 2 - 2;
+    drawMultilineCentredText(name,boxX,boxY,boxWidth,boxHeight);
+  }
+}

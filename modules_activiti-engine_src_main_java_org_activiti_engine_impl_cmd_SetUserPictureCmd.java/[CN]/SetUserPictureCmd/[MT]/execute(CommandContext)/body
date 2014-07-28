@@ -2,10 +2,10 @@
   if (userId == null) {
     throw new ActivitiIllegalArgumentException("userId is null");
   }
-  UserEntity user=(UserEntity)commandContext.getUserEntityManager().findUserById(userId);
+  User user=commandContext.getUserIdentityManager().findUserById(userId);
   if (user == null) {
     throw new ActivitiObjectNotFoundException("user " + userId + " doesn't exist",User.class);
   }
-  user.setPicture(picture);
+  commandContext.getUserIdentityManager().setUserPicture(userId,picture);
   return null;
 }

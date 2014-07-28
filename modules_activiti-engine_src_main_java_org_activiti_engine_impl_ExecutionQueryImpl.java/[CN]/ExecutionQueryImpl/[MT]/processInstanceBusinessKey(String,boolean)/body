@@ -1,0 +1,13 @@
+{
+  if (!includeChildExecutions) {
+    return processInstanceBusinessKey(processInstanceBusinessKey);
+  }
+ else {
+    if (processInstanceBusinessKey == null) {
+      throw new ActivitiIllegalArgumentException("Business key is null");
+    }
+    this.businessKey=processInstanceBusinessKey;
+    this.includeChildExecutionsWithBusinessKeyQuery=includeChildExecutions;
+    return this;
+  }
+}

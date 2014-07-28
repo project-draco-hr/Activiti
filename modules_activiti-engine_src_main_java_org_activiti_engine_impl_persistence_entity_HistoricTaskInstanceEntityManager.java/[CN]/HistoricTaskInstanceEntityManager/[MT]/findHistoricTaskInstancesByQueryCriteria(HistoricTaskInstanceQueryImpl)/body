@@ -1,0 +1,6 @@
+{
+  if (getHistoryManager().isHistoryEnabled()) {
+    return getDbSqlSession().selectList("selectHistoricTaskInstancesByQueryCriteria",historicTaskInstanceQuery);
+  }
+  return Collections.EMPTY_LIST;
+}

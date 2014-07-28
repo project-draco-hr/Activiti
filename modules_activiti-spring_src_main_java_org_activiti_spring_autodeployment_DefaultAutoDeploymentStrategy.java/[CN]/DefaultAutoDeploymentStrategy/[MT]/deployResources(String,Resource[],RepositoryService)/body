@@ -1,0 +1,18 @@
+{
+  final DeploymentBuilder deploymentBuilder=repositoryService.createDeployment().enableDuplicateFiltering().name(deploymentNameHint);
+  for (  final Resource resource : resources) {
+    final String resourceName=determineResourceName(resource);
+    try {
+      if (resourceName.endsWith(".bar") || resourceName.endsWith(".zip") || resourceName.endsWith(".jar")) {
+        deploymentBuilder.addZipInputStream(new ZipInputStream(resource.getInputStream()));
+      }
+ else {
+        deploymentBuilder.addInputStream(resourceName,resource.getInputStream());
+      }
+    }
+ catch (    IOException e) {
+      throw new ActivitiException("couldn't auto deploy resource '" + resource + "': "+ e.getMessage(),e);
+    }
+  }
+  deploymentBuilder.deploy();
+}

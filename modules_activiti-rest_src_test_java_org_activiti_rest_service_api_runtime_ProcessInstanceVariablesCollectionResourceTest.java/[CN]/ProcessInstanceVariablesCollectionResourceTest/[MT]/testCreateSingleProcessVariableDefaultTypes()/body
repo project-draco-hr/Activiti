@@ -1,0 +1,30 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  ArrayNode requestNode=objectMapper.createArrayNode();
+  ObjectNode varNode=requestNode.addObject();
+  varNode.put("name","stringVar");
+  varNode.put("value","String value");
+  client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  assertEquals("String value",runtimeService.getVariable(processInstance.getId(),"stringVar"));
+  client.release();
+  varNode.put("name","integerVar");
+  varNode.put("value",123);
+  client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  assertEquals(123,runtimeService.getVariable(processInstance.getId(),"integerVar"));
+  client.release();
+  varNode.put("name","doubleVar");
+  varNode.put("value",123.456);
+  client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  assertEquals(123.456,runtimeService.getVariable(processInstance.getId(),"doubleVar"));
+  client.release();
+  varNode.put("name","booleanVar");
+  varNode.put("value",Boolean.TRUE);
+  client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  assertEquals(Boolean.TRUE,runtimeService.getVariable(processInstance.getId(),"booleanVar"));
+  client.release();
+}

@@ -1,18 +1,3 @@
 {
-  ByteArrayEntity byteArrayValue=null;
-  if (this.byteArrayValueId != null) {
-    getByteArrayValue();
-    Context.getCommandContext().getByteArrayEntityManager().deleteByteArrayById(byteArrayValueId);
-  }
-  if (bytes != null) {
-    byteArrayValue=new ByteArrayEntity(bytes);
-    Context.getCommandContext().getDbSqlSession().insert(byteArrayValue);
-  }
-  this.byteArrayValue=byteArrayValue;
-  if (byteArrayValue != null) {
-    this.byteArrayValueId=byteArrayValue.getId();
-  }
- else {
-    this.byteArrayValueId=null;
-  }
+  setBytes(bytes);
 }

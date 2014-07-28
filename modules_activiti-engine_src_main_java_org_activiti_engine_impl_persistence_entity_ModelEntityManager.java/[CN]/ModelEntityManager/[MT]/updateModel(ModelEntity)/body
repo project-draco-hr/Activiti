@@ -1,5 +1,9 @@
 {
   CommandContext commandContext=Context.getCommandContext();
+  updatedModel.setLastUpdateTime(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
   DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
   dbSqlSession.update(updatedModel);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,updatedModel));
+  }
 }

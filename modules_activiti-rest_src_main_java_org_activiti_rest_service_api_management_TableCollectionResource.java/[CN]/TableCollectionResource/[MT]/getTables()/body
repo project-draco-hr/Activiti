@@ -1,0 +1,10 @@
+{
+  if (authenticate() == false)   return null;
+  List<TableResponse> tables=new ArrayList<TableResponse>();
+  Map<String,Long> tableCounts=ActivitiUtil.getManagementService().getTableCount();
+  RestResponseFactory factory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
+  for (  Entry<String,Long> entry : tableCounts.entrySet()) {
+    tables.add(factory.createTableResponse(this,entry.getKey(),entry.getValue()));
+  }
+  return tables;
+}

@@ -1,0 +1,28 @@
+{
+  ExtensionElement extensionElement=new ExtensionElement();
+  extensionElement.setName(xtr.getLocalName());
+  if (StringUtils.isNotEmpty(xtr.getNamespaceURI())) {
+    extensionElement.setNamespace(xtr.getNamespaceURI());
+  }
+  if (StringUtils.isNotEmpty(xtr.getPrefix())) {
+    extensionElement.setNamespacePrefix(xtr.getPrefix());
+  }
+  BpmnXMLUtil.addCustomAttributes(xtr,extensionElement,defaultElementAttributes);
+  boolean readyWithExtensionElement=false;
+  while (readyWithExtensionElement == false && xtr.hasNext()) {
+    xtr.next();
+    if (xtr.isCharacters()) {
+      if (StringUtils.isNotEmpty(xtr.getText().trim())) {
+        extensionElement.setElementText(xtr.getText().trim());
+      }
+    }
+ else     if (xtr.isStartElement()) {
+      ExtensionElement childExtensionElement=parseExtensionElement(xtr);
+      extensionElement.addChildElement(childExtensionElement);
+    }
+ else     if (xtr.isEndElement() && extensionElement.getName().equalsIgnoreCase(xtr.getLocalName())) {
+      readyWithExtensionElement=true;
+    }
+  }
+  return extensionElement;
+}

@@ -7,5 +7,23 @@
     }
   }
 );
-  waitForJobExecutorToProcessAllJobs(15000L,50L);
+  Job job=managementService.createJobQuery().singleResult();
+  assertEquals(3,job.getRetries());
+  try {
+    managementService.executeJob(job.getId());
+    fail("exception expected");
+  }
+ catch (  Exception e) {
+  }
+  job=managementService.createJobQuery().singleResult();
+  assertEquals(2,job.getRetries());
+  try {
+    managementService.executeJob(job.getId());
+    fail("exception expected");
+  }
+ catch (  Exception e) {
+  }
+  job=managementService.createJobQuery().singleResult();
+  assertEquals(1,job.getRetries());
+  managementService.executeJob(job.getId());
 }

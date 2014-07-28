@@ -8,16 +8,21 @@
     List<String> jobIds=new ArrayList<String>();
     if (job != null && !acquiredJobs.contains(job.getId())) {
       if (job.isExclusive() && job.getProcessInstanceId() != null) {
+        try {
+          Thread.sleep(100);
+        }
+ catch (        InterruptedException e) {
+        }
         List<JobEntity> exclusiveJobs=commandContext.getJobEntityManager().findExclusiveJobsToExecute(job.getProcessInstanceId());
         for (        JobEntity exclusiveJob : exclusiveJobs) {
           if (exclusiveJob != null) {
-            lockJob(exclusiveJob,lockOwner,lockTimeInMillis);
+            lockJob(commandContext,exclusiveJob,lockOwner,lockTimeInMillis);
             jobIds.add(exclusiveJob.getId());
           }
         }
       }
  else {
-        lockJob(job,lockOwner,lockTimeInMillis);
+        lockJob(commandContext,job,lockOwner,lockTimeInMillis);
         jobIds.add(job.getId());
       }
     }

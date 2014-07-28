@@ -1,0 +1,10 @@
+{
+  DateTimeFormatter dateFormat=ISODateTimeFormat.dateTime();
+  try {
+    return dateFormat.parseDateTime(isoString).toDate();
+  }
+ catch (  IllegalArgumentException iae) {
+    fail("Illegal date provided: " + isoString);
+    return null;
+  }
+}

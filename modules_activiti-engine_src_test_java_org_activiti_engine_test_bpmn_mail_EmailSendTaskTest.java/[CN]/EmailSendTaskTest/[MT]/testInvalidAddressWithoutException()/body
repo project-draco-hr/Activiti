@@ -1,0 +1,6 @@
+{
+  String piId=runtimeService.startProcessInstanceByKey("invalidAddressWithoutException").getId();
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    assertNotNull(historyService.createHistoricVariableInstanceQuery().processInstanceId(piId).variableName("emailError").singleResult());
+  }
+}

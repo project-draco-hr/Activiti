@@ -1,0 +1,11 @@
+{
+  if (listener != null) {
+    listener.clearEventsReceived();
+    processEngineConfiguration.getEventDispatcher().removeEventListener(listener);
+  }
+  for (  EventLogEntry eventLogEntry : managementService.getEventLogEntries(null,null)) {
+    managementService.deleteEventLogEntry(eventLogEntry.getLogNumber());
+  }
+  runtimeService.removeEventListener(databaseEventLogger);
+  super.tearDown();
+}

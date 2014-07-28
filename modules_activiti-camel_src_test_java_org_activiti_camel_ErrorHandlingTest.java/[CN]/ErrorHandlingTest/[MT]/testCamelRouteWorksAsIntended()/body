@@ -1,0 +1,10 @@
+{
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("routing",Routing.DEFAULT);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("ErrorHandling",variables);
+  Job job=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(job);
+  managementService.executeJob(job.getId());
+  Thread.sleep(WAIT);
+  assertEquals("Process instance not completed",0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+}

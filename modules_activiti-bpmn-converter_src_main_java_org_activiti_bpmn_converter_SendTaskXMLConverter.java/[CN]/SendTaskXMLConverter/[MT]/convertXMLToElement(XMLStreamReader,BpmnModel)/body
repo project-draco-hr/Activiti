@@ -1,0 +1,11 @@
+{
+  SendTask sendTask=new SendTask();
+  BpmnXMLUtil.addXMLLocation(sendTask,xtr);
+  sendTask.setType(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TYPE));
+  if ("##WebService".equals(xtr.getAttributeValue(null,ATTRIBUTE_TASK_IMPLEMENTATION))) {
+    sendTask.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE);
+    sendTask.setOperationRef(parseOperationRef(xtr.getAttributeValue(null,ATTRIBUTE_TASK_OPERATION_REF),model));
+  }
+  parseChildElements(getXMLElementName(),sendTask,model,xtr);
+  return sendTask;
+}

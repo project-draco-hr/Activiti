@@ -1,0 +1,27 @@
+{
+  User savedUser=null;
+  try {
+    User newUser=identityService.newUser("testuser");
+    newUser.setFirstName("Fred");
+    newUser.setLastName("McDonald");
+    newUser.setEmail("no-reply@activiti.org");
+    identityService.saveUser(newUser);
+    savedUser=newUser;
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("value","Updated value");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,"testuser","key1"));
+    try {
+      client.put(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("User info with key 'key1' does not exists for user 'testuser'.",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    if (savedUser != null) {
+      identityService.deleteUser(savedUser.getId());
+    }
+  }
+}

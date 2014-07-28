@@ -3,24 +3,27 @@
   userTask.setId(conversion.getUniqueNumberedId(ConversionConstants.USER_TASK_ID_PREFIX));
   userTask.setName(humanStepDefinition.getName());
   userTask.setDocumentation(humanStepDefinition.getDescription());
-  if (humanStepDefinition.isAssigneeInitiator()) {
+  if (humanStepDefinition.getAssignmentType() == HumanStepAssignmentType.INITIATOR) {
     userTask.setAssignee(getInitiatorExpression());
     for (    StartEvent startEvent : conversion.getProcess().findFlowElementsOfType(StartEvent.class)) {
       startEvent.setInitiator(getInitiatorVariable());
     }
   }
- else   if (humanStepDefinition.getAssignee() != null) {
+ else   if (humanStepDefinition.getAssignmentType() == HumanStepAssignmentType.USER) {
     userTask.setAssignee(humanStepDefinition.getAssignee());
   }
-  if (humanStepDefinition.getCandidateUsers() != null && humanStepDefinition.getCandidateUsers().size() > 0) {
+  if (humanStepDefinition.getAssignmentType() == HumanStepAssignmentType.USERS || humanStepDefinition.getAssignmentType() == HumanStepAssignmentType.MIXED) {
     userTask.setCandidateUsers(humanStepDefinition.getCandidateUsers());
   }
-  if (humanStepDefinition.getCandidateGroups() != null && humanStepDefinition.getCandidateGroups().size() > 0) {
+  if (humanStepDefinition.getAssignmentType() == HumanStepAssignmentType.GROUPS || humanStepDefinition.getAssignmentType() == HumanStepAssignmentType.MIXED) {
     userTask.setCandidateGroups(humanStepDefinition.getCandidateGroups());
   }
   if (humanStepDefinition.getForm() != null) {
     FormDefinition formDefinition=humanStepDefinition.getForm();
     userTask.setFormProperties(convertProperties(formDefinition));
+    if (formDefinition.getFormKey() != null) {
+      userTask.setFormKey(formDefinition.getFormKey());
+    }
   }
   return userTask;
 }

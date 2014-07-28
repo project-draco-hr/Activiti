@@ -1,0 +1,13 @@
+{
+  List<ProcessDefinition> definitions=null;
+  try {
+    definitions=repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey).orderByProcessDefinitionVersion().latestVersion().desc().list();
+    if (definitions.size() == 0) {
+      return null;
+    }
+  }
+ catch (  Exception e) {
+    fail(e.getMessage());
+  }
+  return definitions.get(0);
+}

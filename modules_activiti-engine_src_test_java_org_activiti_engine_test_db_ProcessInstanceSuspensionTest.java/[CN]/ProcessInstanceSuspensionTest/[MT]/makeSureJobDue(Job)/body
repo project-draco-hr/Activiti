@@ -1,7 +1,7 @@
 {
-  processEngineConfiguration.getCommandExecutorTxRequired().execute(new Command<Void>(){
+  processEngineConfiguration.getCommandExecutor().execute(new Command<Void>(){
     public Void execute(    CommandContext commandContext){
-      Date currentTime=ClockUtil.getCurrentTime();
+      Date currentTime=processEngineConfiguration.getClock().getCurrentTime();
       commandContext.getJobEntityManager().findJobById(job.getId()).setDuedate(new Date(currentTime.getTime() - 10000));
       return null;
     }

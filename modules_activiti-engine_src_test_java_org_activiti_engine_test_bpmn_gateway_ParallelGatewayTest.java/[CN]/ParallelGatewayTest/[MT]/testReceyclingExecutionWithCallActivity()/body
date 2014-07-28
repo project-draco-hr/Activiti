@@ -1,5 +1,5 @@
 {
-  String processInstanceId=runtimeService.startProcessInstanceByKey("parent-process").getId();
+  runtimeService.startProcessInstanceByKey("parent-process");
   TaskQuery query=taskService.createTaskQuery().orderByTaskName().asc();
   List<Task> tasks=query.list();
   assertEquals(2,tasks.size());

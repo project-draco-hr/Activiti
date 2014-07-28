@@ -1,0 +1,11 @@
+{
+  try {
+    runtimeService.startProcessInstanceByKey("invalidAddress").getId();
+    fail("An Invalid email address should not execute");
+  }
+ catch (  ActivitiException e) {
+  }
+catch (  Exception e) {
+    fail("Only an ActivitiException is expected here but not: " + e);
+  }
+}

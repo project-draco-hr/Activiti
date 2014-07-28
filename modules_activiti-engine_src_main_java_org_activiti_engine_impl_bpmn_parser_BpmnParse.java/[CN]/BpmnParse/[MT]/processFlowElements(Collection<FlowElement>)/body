@@ -1,6 +1,7 @@
 {
   List<SequenceFlow> sequenceFlowToParse=new ArrayList<SequenceFlow>();
   List<BoundaryEvent> boundaryEventsToParse=new ArrayList<BoundaryEvent>();
+  List<FlowElement> defferedFlowElementsToParse=new ArrayList<FlowElement>();
   for (  FlowElement flowElement : flowElements) {
     if (flowElement instanceof SequenceFlow) {
       sequenceFlowToParse.add((SequenceFlow)flowElement);
@@ -8,20 +9,20 @@
  else     if (flowElement instanceof BoundaryEvent) {
       boundaryEventsToParse.add((BoundaryEvent)flowElement);
     }
+ else     if (flowElement instanceof Event) {
+      defferedFlowElementsToParse.add(flowElement);
+    }
  else {
       bpmnParserHandlers.parseElement(this,flowElement);
     }
+  }
+  for (  FlowElement flowElement : defferedFlowElementsToParse) {
+    bpmnParserHandlers.parseElement(this,flowElement);
   }
   for (  BoundaryEvent boundaryEvent : boundaryEventsToParse) {
     bpmnParserHandlers.parseElement(this,boundaryEvent);
   }
   for (  SequenceFlow sequenceFlow : sequenceFlowToParse) {
     bpmnParserHandlers.parseElement(this,sequenceFlow);
-  }
-  for (  FlowElement flowElement : flowElements) {
-    if (flowElement instanceof ExclusiveGateway) {
-      ActivityImpl gatewayActivity=getCurrentScope().findActivity(flowElement.getId());
-      validateExclusiveGateway(gatewayActivity,(ExclusiveGateway)flowElement);
-    }
   }
 }

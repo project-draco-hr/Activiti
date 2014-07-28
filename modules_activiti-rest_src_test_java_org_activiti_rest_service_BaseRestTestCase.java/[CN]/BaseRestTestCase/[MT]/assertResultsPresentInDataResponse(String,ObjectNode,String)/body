@@ -1,0 +1,22 @@
+{
+  int numberOfResultsExpected=0;
+  if (expectedResourceIds != null) {
+    numberOfResultsExpected=expectedResourceIds.length;
+  }
+  ClientResource client=getAuthenticatedClient(url);
+  Representation response=client.post(body);
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode rootNode=objectMapper.readTree(response.getStream());
+  JsonNode dataNode=rootNode.get("data");
+  assertEquals(numberOfResultsExpected,dataNode.size());
+  if (expectedResourceIds != null) {
+    List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedResourceIds));
+    Iterator<JsonNode> it=dataNode.iterator();
+    while (it.hasNext()) {
+      String id=it.next().get("id").textValue();
+      toBeFound.remove(id);
+    }
+    assertTrue("Not all entries have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());
+  }
+  client.release();
+}

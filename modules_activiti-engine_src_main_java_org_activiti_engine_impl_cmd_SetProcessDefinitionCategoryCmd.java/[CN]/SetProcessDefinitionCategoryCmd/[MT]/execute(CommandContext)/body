@@ -1,0 +1,18 @@
+{
+  if (processDefinitionId == null) {
+    throw new ActivitiIllegalArgumentException("Process definition id is null");
+  }
+  ProcessDefinitionEntity processDefinition=commandContext.getProcessDefinitionEntityManager().findProcessDefinitionById(processDefinitionId);
+  if (processDefinition == null) {
+    throw new ActivitiObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'",ProcessDefinition.class);
+  }
+  processDefinition.setCategory(category);
+  DeploymentCache<ProcessDefinitionEntity> processDefinitionCache=commandContext.getProcessEngineConfiguration().getProcessDefinitionCache();
+  if (processDefinitionCache != null) {
+    processDefinitionCache.remove(processDefinitionId);
+  }
+  if (commandContext.getEventDispatcher().isEnabled()) {
+    commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,processDefinition));
+  }
+  return null;
+}

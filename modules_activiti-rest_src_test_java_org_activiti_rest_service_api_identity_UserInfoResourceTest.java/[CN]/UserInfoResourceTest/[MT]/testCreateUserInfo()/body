@@ -1,0 +1,26 @@
+{
+  User savedUser=null;
+  try {
+    User newUser=identityService.newUser("testuser");
+    newUser.setFirstName("Fred");
+    newUser.setLastName("McDonald");
+    newUser.setEmail("no-reply@activiti.org");
+    identityService.saveUser(newUser);
+    savedUser=newUser;
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("value","Value 1");
+    requestNode.put("key","key1");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,"testuser"));
+    Representation response=client.post(requestNode);
+    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertEquals("key1",responseNode.get("key").textValue());
+    assertEquals("Value 1",responseNode.get("value").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")));
+  }
+  finally {
+    if (savedUser != null) {
+      identityService.deleteUser(savedUser.getId());
+    }
+  }
+}

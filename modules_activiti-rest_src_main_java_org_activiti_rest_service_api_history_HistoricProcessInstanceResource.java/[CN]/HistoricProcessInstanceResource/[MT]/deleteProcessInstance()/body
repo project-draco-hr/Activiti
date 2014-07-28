@@ -1,0 +1,10 @@
+{
+  if (!authenticate()) {
+    return;
+  }
+  String processInstanceId=getAttribute("processInstanceId");
+  if (processInstanceId == null) {
+    throw new ActivitiIllegalArgumentException("The processInstanceId cannot be null");
+  }
+  ActivitiUtil.getHistoryService().deleteHistoricProcessInstance(processInstanceId);
+}

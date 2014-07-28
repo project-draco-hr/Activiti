@@ -1,0 +1,40 @@
+{
+  Model model=null;
+  try {
+    Calendar now=Calendar.getInstance();
+    now.set(Calendar.MILLISECOND,0);
+    processEngineConfiguration.getClock().setCurrentTime(now.getTime());
+    model=repositoryService.newModel();
+    model.setCategory("Model category");
+    model.setKey("Model key");
+    model.setMetaInfo("Model metainfo");
+    model.setName("Model name");
+    model.setVersion(2);
+    model.setDeploymentId(deploymentId);
+    repositoryService.saveModel(model);
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
+    Representation response=client.put(requestNode);
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    assertNotNull(responseNode);
+    assertEquals("Model name",responseNode.get("name").textValue());
+    assertEquals("Model key",responseNode.get("key").textValue());
+    assertEquals("Model category",responseNode.get("category").textValue());
+    assertEquals(2,responseNode.get("version").intValue());
+    assertEquals("Model metainfo",responseNode.get("metaInfo").textValue());
+    assertEquals(deploymentId,responseNode.get("deploymentId").textValue());
+    assertEquals(model.getId(),responseNode.get("id").textValue());
+    assertEquals(now.getTime().getTime(),getDateFromISOString(responseNode.get("createTime").textValue()).getTime());
+    assertEquals(now.getTime().getTime(),getDateFromISOString(responseNode.get("lastUpdateTime").textValue()).getTime());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId())));
+    assertTrue(responseNode.get("deploymentUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,deploymentId)));
+  }
+  finally {
+    try {
+      repositoryService.deleteModel(model.getId());
+    }
+ catch (    Throwable ignore) {
+    }
+  }
+}

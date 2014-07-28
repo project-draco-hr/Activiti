@@ -1,0 +1,13 @@
+{
+  if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createErrorEvent(ActivitiEventType.ACTIVITY_ERROR_RECEIVED,borderEventActivity.getId(),errorCode,leavingExecution.getId(),leavingExecution.getProcessInstanceId(),leavingExecution.getProcessDefinitionId()));
+  }
+  if (borderEventActivity.getActivityBehavior() instanceof EventSubProcessStartEventActivityBehavior) {
+    InterpretableExecution execution=(InterpretableExecution)leavingExecution;
+    execution.setActivity(borderEventActivity.getParentActivity());
+    execution.performOperation(AtomicOperation.ACTIVITY_START);
+  }
+ else {
+    leavingExecution.executeActivity(borderEventActivity);
+  }
+}

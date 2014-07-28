@@ -1,0 +1,11 @@
+{
+  InputStream inputStream=this.getClass().getClassLoader().getResourceAsStream("org/activiti/engine/test/api/repository/test-processes.zip");
+  assertNotNull(inputStream);
+  ZipInputStream zipInputStream=new ZipInputStream(inputStream);
+  assertNotNull(zipInputStream);
+  repositoryService.createDeployment().addZipInputStream(zipInputStream).deploy();
+  assertEquals(6,repositoryService.createProcessDefinitionQuery().count());
+  for (  org.activiti.engine.repository.Deployment deployment : repositoryService.createDeploymentQuery().list()) {
+    repositoryService.deleteDeployment(deployment.getId(),true);
+  }
+}

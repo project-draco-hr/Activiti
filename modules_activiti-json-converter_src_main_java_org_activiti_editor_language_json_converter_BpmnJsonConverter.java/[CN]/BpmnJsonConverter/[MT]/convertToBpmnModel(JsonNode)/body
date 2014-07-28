@@ -8,23 +8,27 @@
   filterAllEdges(modelNode,edgeMap,sourceAndTargetMap,shapeMap,sourceRefMap);
   readEdgeDI(edgeMap,sourceAndTargetMap,bpmnModel);
   ArrayNode shapesArrayNode=(ArrayNode)modelNode.get(EDITOR_CHILD_SHAPES);
-  boolean nonEmptyPoolFound=false;
+  boolean emptyPoolFound=true;
   for (  JsonNode shapeNode : shapesArrayNode) {
     String stencilId=BpmnJsonConverterUtil.getStencilId(shapeNode);
     if (STENCIL_POOL.equals(stencilId)) {
       Pool pool=new Pool();
       pool.setId(BpmnJsonConverterUtil.getElementId(shapeNode));
       pool.setName(JsonConverterUtil.getPropertyValueAsString(PROPERTY_NAME,shapeNode));
+      pool.setProcessRef(JsonConverterUtil.getPropertyValueAsString(PROPERTY_PROCESS_ID,shapeNode));
+      pool.setExecutable(JsonConverterUtil.getPropertyValueAsBoolean(PROPERTY_PROCESS_EXECUTABLE,shapeNode,true));
       bpmnModel.getPools().add(pool);
       Process process=new Process();
-      process.setId("Process_" + pool.getId());
+      process.setId(pool.getProcessRef());
+      process.setName(pool.getName());
+      process.setExecutable(pool.isExecutable());
       bpmnModel.addProcess(process);
-      pool.setProcessRef(process.getId());
+      processJsonElements(shapesArrayNode,modelNode,process,shapeMap);
       ArrayNode laneArrayNode=(ArrayNode)shapeNode.get(EDITOR_CHILD_SHAPES);
       for (      JsonNode laneNode : laneArrayNode) {
         String laneStencilId=BpmnJsonConverterUtil.getStencilId(laneNode);
         if (STENCIL_LANE.equals(laneStencilId)) {
-          nonEmptyPoolFound=true;
+          emptyPoolFound=false;
           Lane lane=new Lane();
           lane.setId(BpmnJsonConverterUtil.getElementId(laneNode));
           lane.setName(JsonConverterUtil.getPropertyValueAsString(PROPERTY_NAME,laneNode));
@@ -35,16 +39,32 @@
       }
     }
   }
-  if (nonEmptyPoolFound == false) {
-    JsonNode processIdNode=modelNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_PROCESS_ID);
+  if (emptyPoolFound) {
+    JsonNode processIdNode=JsonConverterUtil.getProperty(PROPERTY_PROCESS_ID,modelNode);
     Process process=new Process();
     bpmnModel.getProcesses().add(process);
     if (processIdNode != null && StringUtils.isNotEmpty(processIdNode.asText())) {
       process.setId(processIdNode.asText());
     }
-    JsonNode processNameNode=modelNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_NAME);
+    JsonNode processNameNode=JsonConverterUtil.getProperty(PROPERTY_NAME,modelNode);
     if (processNameNode != null && StringUtils.isNotEmpty(processNameNode.asText())) {
       process.setName(processNameNode.asText());
+    }
+    JsonNode processExecutableNode=JsonConverterUtil.getProperty(PROPERTY_PROCESS_EXECUTABLE,modelNode);
+    if (processExecutableNode != null && StringUtils.isNotEmpty(processExecutableNode.asText())) {
+      process.setExecutable(JsonConverterUtil.getPropertyValueAsBoolean(PROPERTY_PROCESS_EXECUTABLE,modelNode));
+    }
+    JsonNode processTargetNamespace=JsonConverterUtil.getProperty(PROPERTY_PROCESS_NAMESPACE,modelNode);
+    if (processTargetNamespace != null && StringUtils.isNotEmpty(processTargetNamespace.asText())) {
+      bpmnModel.setTargetNamespace(processTargetNamespace.asText());
+    }
+    JsonNode processExecutionListenerNode=modelNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_EXECUTION_LISTENERS);
+    if (processExecutionListenerNode != null && StringUtils.isNotEmpty(processExecutionListenerNode.asText())) {
+      process.setExecutionListeners(convertJsonToListeners(processExecutionListenerNode));
+    }
+    JsonNode processEventListenerNode=modelNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_EVENT_LISTENERS);
+    if (processEventListenerNode != null) {
+      process.setEventListeners(convertJsonToEventListeners(processEventListenerNode));
     }
     processJsonElements(shapesArrayNode,modelNode,process,shapeMap);
   }
@@ -56,9 +76,10 @@
     }
     if (subShapesMap.size() > 0) {
       List<String> removeSubFlowsList=new ArrayList<String>();
-      for (      FlowElement flowElement : process.findFlowElementsOfType(SequenceFlow.class)) {
+      List<SequenceFlow> sequenceFlowList=process.findFlowElementsOfType(SequenceFlow.class);
+      for (      FlowElement flowElement : sequenceFlowList) {
         SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
-        if (subShapesMap.containsKey(sequenceFlow.getSourceRef())) {
+        if (process.getFlowElement(flowElement.getId()) != null && subShapesMap.containsKey(sequenceFlow.getSourceRef())) {
           SubProcess subProcess=subShapesMap.get(sequenceFlow.getSourceRef());
           subProcess.addFlowElement(sequenceFlow);
           removeSubFlowsList.add(sequenceFlow.getId());
@@ -69,13 +90,8 @@
       }
     }
   }
-  Map<String,SequenceFlow> flowSourceMap=new HashMap<String,SequenceFlow>();
-  Map<String,SequenceFlow> flowTargetMap=new HashMap<String,SequenceFlow>();
   for (  Process process : bpmnModel.getProcesses()) {
-    addAllSequenceFlows(process.getFlowElements(),flowSourceMap,flowTargetMap);
-  }
-  for (  Process process : bpmnModel.getProcesses()) {
-    postProcessElements(process,process.getFlowElements(),flowSourceMap,flowTargetMap);
+    postProcessElements(process,process.getFlowElements());
   }
   return bpmnModel;
 }

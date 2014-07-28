@@ -1,0 +1,6 @@
+{
+  for (  ProcessEngineConfigurator configurator : allConfigurators) {
+    log.info("Executing configure() of {} (priority:{})",configurator.getClass(),configurator.getPriority());
+    configurator.configure(this);
+  }
+}

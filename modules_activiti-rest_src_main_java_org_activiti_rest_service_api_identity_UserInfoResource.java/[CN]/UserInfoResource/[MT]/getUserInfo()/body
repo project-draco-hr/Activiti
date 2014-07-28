@@ -1,0 +1,13 @@
+{
+  if (!authenticate())   return null;
+  User user=getUserFromRequest();
+  String key=getAttribute("key");
+  if (key == null) {
+    throw new ActivitiIllegalArgumentException("Key cannot be null.");
+  }
+  String existingValue=ActivitiUtil.getIdentityService().getUserInfo(user.getId(),key);
+  if (existingValue == null) {
+    throw new ActivitiObjectNotFoundException("User info with key '" + key + "' does not exists for user '"+ user.getId()+ "'.",null);
+  }
+  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createUserInfoResponse(this,key,existingValue,user.getId());
+}

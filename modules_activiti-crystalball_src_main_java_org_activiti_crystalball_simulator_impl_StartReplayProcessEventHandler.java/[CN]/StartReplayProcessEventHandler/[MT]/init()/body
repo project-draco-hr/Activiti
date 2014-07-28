@@ -1,0 +1,5 @@
+{
+  SimulationEvent toReplayStartEvent=findProcessInstanceStartEvent();
+  SimulationEvent startEvent=new SimulationEvent.Builder(eventTypeToSchedule).properties(toReplayStartEvent.getProperties()).build();
+  SimulationRunContext.getEventCalendar().addEvent(startEvent);
+}

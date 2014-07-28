@@ -1,0 +1,45 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("identityLinkProcess");
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.addUserIdentityLink(task.getId(),"john","customType");
+  assertEquals(3,taskService.getIdentityLinksForTask(task.getId()).size());
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINKS_COLLECTION,task.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertTrue(responseNode.isArray());
+  assertEquals(3,responseNode.size());
+  boolean groupCandidateFound=false;
+  boolean userCandidateFound=false;
+  boolean customLinkFound=false;
+  for (int i=0; i < responseNode.size(); i++) {
+    ObjectNode link=(ObjectNode)responseNode.get(i);
+    assertNotNull(link);
+    if (!link.get("user").isNull()) {
+      if (link.get("user").textValue().equals("john")) {
+        assertEquals("customType",link.get("type").textValue());
+        assertTrue(link.get("group").isNull());
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","john","customType")));
+        customLinkFound=true;
+      }
+ else {
+        assertEquals("kermit",link.get("user").textValue());
+        assertEquals("candidate",link.get("type").textValue());
+        assertTrue(link.get("group").isNull());
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","kermit","candidate")));
+        userCandidateFound=true;
+      }
+    }
+ else     if (!link.get("group").isNull()) {
+      assertEquals("sales",link.get("group").textValue());
+      assertEquals("candidate",link.get("type").textValue());
+      assertTrue(link.get("user").isNull());
+      assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS,"sales","candidate")));
+      groupCandidateFound=true;
+    }
+  }
+  assertTrue(groupCandidateFound);
+  assertTrue(userCandidateFound);
+  assertTrue(customLinkFound);
+}

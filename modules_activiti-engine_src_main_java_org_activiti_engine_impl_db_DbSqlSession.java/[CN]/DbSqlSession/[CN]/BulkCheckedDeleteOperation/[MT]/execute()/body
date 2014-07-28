@@ -1,0 +1,19 @@
+{
+  if (persistentObjects.size() == 0) {
+    return;
+  }
+  String bulkDeleteStatement=dbSqlSessionFactory.getBulkDeleteStatement(persistentObjectClass);
+  bulkDeleteStatement=dbSqlSessionFactory.mapStatement(bulkDeleteStatement);
+  if (bulkDeleteStatement == null) {
+    throw new ActivitiException("no bulk delete statement for " + persistentObjectClass + " in the mapping files");
+  }
+  if (persistentObjects.get(0) instanceof HasRevision) {
+    int nrOfRowsDeleted=sqlSession.delete(bulkDeleteStatement,persistentObjects);
+    if (nrOfRowsDeleted < persistentObjects.size()) {
+      throw new ActivitiOptimisticLockingException("One of the entities " + persistentObjectClass + " was updated by another transaction concurrently while trying to do a bulk delete");
+    }
+  }
+ else {
+    sqlSession.delete(bulkDeleteStatement,persistentObjects);
+  }
+}

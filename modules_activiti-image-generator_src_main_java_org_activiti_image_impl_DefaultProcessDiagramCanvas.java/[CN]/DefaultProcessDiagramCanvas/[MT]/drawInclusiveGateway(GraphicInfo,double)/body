@@ -1,0 +1,15 @@
+{
+  drawGateway(graphicInfo);
+  int x=(int)graphicInfo.getX();
+  int y=(int)graphicInfo.getY();
+  int width=(int)graphicInfo.getWidth();
+  int height=(int)graphicInfo.getHeight();
+  int diameter=width / 2;
+  if (scaleFactor == 1.0) {
+    Stroke orginalStroke=g.getStroke();
+    g.setStroke(GATEWAY_TYPE_STROKE);
+    Ellipse2D.Double circle=new Ellipse2D.Double(((width - diameter) / 2) + x,((height - diameter) / 2) + y,diameter,diameter);
+    g.draw(circle);
+    g.setStroke(orginalStroke);
+  }
+}

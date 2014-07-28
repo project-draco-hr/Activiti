@@ -1,0 +1,12 @@
+{
+  try {
+    TestHelper.annotationDeploymentTearDown(processEngine,deploymentId,Class.forName(description.getClassName()),description.getMethodName());
+  }
+ catch (  ClassNotFoundException e) {
+    throw new ActivitiException("Programmatic error: could not instantiate " + description.getClassName(),e);
+  }
+  processEngineConfiguration.getClock().reset();
+  if (mockSupport != null) {
+    TestHelper.annotationMockSupportTeardown(mockSupport);
+  }
+}

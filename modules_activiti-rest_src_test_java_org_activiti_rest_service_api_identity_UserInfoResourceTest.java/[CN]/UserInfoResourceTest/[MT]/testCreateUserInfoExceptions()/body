@@ -1,0 +1,61 @@
+{
+  User savedUser=null;
+  try {
+    User newUser=identityService.newUser("testuser");
+    newUser.setFirstName("Fred");
+    newUser.setLastName("McDonald");
+    newUser.setEmail("no-reply@activiti.org");
+    identityService.saveUser(newUser);
+    savedUser=newUser;
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("key","key1");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,"testuser"));
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("The value cannot be null.",expected.getStatus().getDescription());
+    }
+    client.release();
+    requestNode=objectMapper.createObjectNode();
+    requestNode.put("value","The value");
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
+      assertEquals("The key cannot be null.",expected.getStatus().getDescription());
+    }
+    client.release();
+    identityService.setUserInfo(newUser.getId(),"key1","The value");
+    requestNode=objectMapper.createObjectNode();
+    requestNode.put("key","key1");
+    requestNode.put("value","The value");
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
+      assertEquals("User info with key 'key1' already exists for this user.",expected.getStatus().getDescription());
+    }
+    client.release();
+    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,"unexistinguser"));
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
+      assertEquals("Could not find a user with id 'unexistinguser'.",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    if (savedUser != null) {
+      identityService.deleteUser(savedUser.getId());
+    }
+  }
+}

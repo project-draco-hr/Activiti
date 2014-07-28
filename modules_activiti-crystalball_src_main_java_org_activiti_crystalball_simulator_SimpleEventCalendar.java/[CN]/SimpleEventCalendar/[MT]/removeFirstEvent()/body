@@ -1,0 +1,21 @@
+{
+  if (minIndex == NULL)   return null;
+  SimulationEvent minEvent=eventList.remove(minIndex);
+  if (minEvent.hasSimulationTime() && minEvent.getSimulationTime() < this.clockReader.getCurrentTime().getTime()) {
+    throw new ActivitiException("Unable to execute event from the past");
+  }
+  if (eventList.isEmpty()) {
+    minIndex=NULL;
+  }
+ else {
+    minIndex=0;
+    SimulationEvent event=eventList.get(0);
+    for (int i=1; i < eventList.size(); i++) {
+      if (eventComparator.compare(eventList.get(i),event) < 0) {
+        minIndex=i;
+        event=eventList.get(i);
+      }
+    }
+  }
+  return minEvent;
+}

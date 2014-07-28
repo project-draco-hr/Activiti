@@ -1,0 +1,11 @@
+{
+  WorkflowDefinition definition=new WorkflowDefinition();
+  WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(definition);
+  conversion.convert();
+  BpmnModel bpmnModel=conversion.getBpmnModel();
+  assertNotNull(bpmnModel);
+  Process process=bpmnModel.getMainProcess();
+  assertNotNull(process);
+  String generatedProcessId=process.getId();
+  assertNotNull(generatedProcessId);
+}

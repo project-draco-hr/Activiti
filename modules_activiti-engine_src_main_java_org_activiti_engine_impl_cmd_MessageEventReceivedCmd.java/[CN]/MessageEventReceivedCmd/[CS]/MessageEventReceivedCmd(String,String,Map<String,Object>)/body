@@ -1,5 +1,16 @@
 {
   super(executionId);
   this.messageName=messageName;
-  this.processVariables=processVariables;
+  if (processVariables != null) {
+    if (processVariables instanceof Serializable) {
+      this.payload=(Serializable)processVariables;
+    }
+ else {
+      this.payload=new HashMap<String,Object>(processVariables);
+    }
+  }
+ else {
+    this.payload=null;
+  }
+  this.async=false;
 }

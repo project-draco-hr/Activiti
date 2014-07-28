@@ -1,9 +1,9 @@
 {
   if (businessCalendarManager == null) {
     MapBusinessCalendarManager mapBusinessCalendarManager=new MapBusinessCalendarManager();
-    mapBusinessCalendarManager.addBusinessCalendar(DurationBusinessCalendar.NAME,new DurationBusinessCalendar());
-    mapBusinessCalendarManager.addBusinessCalendar(DueDateBusinessCalendar.NAME,new DueDateBusinessCalendar());
-    mapBusinessCalendarManager.addBusinessCalendar(CycleBusinessCalendar.NAME,new CycleBusinessCalendar());
+    mapBusinessCalendarManager.addBusinessCalendar(DurationBusinessCalendar.NAME,new DurationBusinessCalendar(this.clock));
+    mapBusinessCalendarManager.addBusinessCalendar(DueDateBusinessCalendar.NAME,new DueDateBusinessCalendar(this.clock));
+    mapBusinessCalendarManager.addBusinessCalendar(CycleBusinessCalendar.NAME,new CycleBusinessCalendar(this.clock));
     businessCalendarManager=mapBusinessCalendarManager;
   }
 }

@@ -1,0 +1,13 @@
+{
+  if (!authenticate())   return null;
+  User user=getUserFromRequest();
+  Picture userPicture=ActivitiUtil.getIdentityService().getUserPicture(user.getId());
+  if (userPicture == null) {
+    throw new ActivitiObjectNotFoundException("The user with id '" + user.getId() + "' does not have a picture.",Picture.class);
+  }
+  MediaType mediaType=MediaType.IMAGE_JPEG;
+  if (userPicture.getMimeType() != null) {
+    mediaType=MediaType.valueOf(userPicture.getMimeType());
+  }
+  return new InputRepresentation(userPicture.getInputStream(),mediaType);
+}

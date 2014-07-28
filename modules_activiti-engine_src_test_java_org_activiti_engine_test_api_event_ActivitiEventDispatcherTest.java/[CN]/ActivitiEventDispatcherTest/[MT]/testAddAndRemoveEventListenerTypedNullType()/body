@@ -1,0 +1,9 @@
+{
+  TestActivitiEventListener newListener=new TestActivitiEventListener();
+  dispatcher.addEventListener(newListener,(ActivitiEventType)null);
+  ActivitiEntityEventImpl event1=new ActivitiEntityEventImpl(new TaskEntity(),ActivitiEventType.ENTITY_CREATED);
+  ActivitiEntityEventImpl event2=new ActivitiEntityEventImpl(new TaskEntity(),ActivitiEventType.ENTITY_DELETED);
+  dispatcher.dispatchEvent(event1);
+  dispatcher.dispatchEvent(event2);
+  assertTrue(newListener.getEventsReceived().isEmpty());
+}

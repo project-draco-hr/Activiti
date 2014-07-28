@@ -1,6 +1,6 @@
 {
   assertEquals(-1,counter.getCount());
-  ProcessDefinitionEntity processDefinition=processEngineConfiguration.getCommandExecutorTxRequiresNew().execute(new Command<ProcessDefinitionEntity>(){
+  ProcessDefinitionEntity processDefinition=processEngineConfiguration.getCommandExecutor().execute(new Command<ProcessDefinitionEntity>(){
     public ProcessDefinitionEntity execute(    CommandContext commandContext){
       return Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedLatestProcessDefinitionByKey("asyncWebServiceInvocationWithDataFlowUEL");
     }

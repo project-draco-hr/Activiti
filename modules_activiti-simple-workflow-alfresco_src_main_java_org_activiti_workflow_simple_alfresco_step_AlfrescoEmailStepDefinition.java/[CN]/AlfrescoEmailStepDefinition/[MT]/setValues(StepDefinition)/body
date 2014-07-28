@@ -1,0 +1,17 @@
+{
+  if (!(otherDefinition instanceof AlfrescoEmailStepDefinition)) {
+    throw new SimpleWorkflowException("An instance of AlfrescoEmailStepDefinition is required to set values");
+  }
+  AlfrescoEmailStepDefinition other=(AlfrescoEmailStepDefinition)otherDefinition;
+  setBody(other.getBody());
+  setCc(other.getCc());
+  setDescription(other.getDescription());
+  setFrom(other.getFrom());
+  setId(other.getId());
+  setName(other.getName());
+  setSubject(other.getSubject());
+  setTo(other.getTo());
+  if (other.getParameters() != null) {
+    setParameters(new HashMap<String,Object>(other.getParameters()));
+  }
+}

@@ -1,0 +1,36 @@
+{
+  AttributedString attributedString=new AttributedString(text);
+  attributedString.addAttribute(TextAttribute.FONT,g.getFont());
+  attributedString.addAttribute(TextAttribute.FOREGROUND,Color.black);
+  AttributedCharacterIterator characterIterator=attributedString.getIterator();
+  int currentHeight=0;
+  List<TextLayout> layouts=new ArrayList<TextLayout>();
+  String lastLine=null;
+  LineBreakMeasurer measurer=new LineBreakMeasurer(characterIterator,g.getFontRenderContext());
+  TextLayout layout=null;
+  while (measurer.getPosition() < characterIterator.getEndIndex() && currentHeight <= boxHeight) {
+    int previousPosition=measurer.getPosition();
+    layout=measurer.nextLayout(boxWidth);
+    int height=((Float)(layout.getDescent() + layout.getAscent() + layout.getLeading())).intValue();
+    if (currentHeight + height > boxHeight) {
+      layouts.remove(layouts.size() - 1);
+      if (lastLine.length() >= 4) {
+        lastLine=lastLine.substring(0,lastLine.length() - 4) + "...";
+      }
+      layouts.add(new TextLayout(lastLine,g.getFont(),g.getFontRenderContext()));
+    }
+ else {
+      layouts.add(layout);
+      lastLine=text.substring(previousPosition,measurer.getPosition());
+      currentHeight+=height;
+    }
+  }
+  int currentY=y + (centered ? ((boxHeight - currentHeight) / 2) : 0);
+  int currentX=0;
+  for (  TextLayout textLayout : layouts) {
+    currentY+=textLayout.getAscent();
+    currentX=x + (centered ? ((boxWidth - ((Double)textLayout.getBounds().getWidth()).intValue()) / 2) : 0);
+    textLayout.draw(g,currentX,currentY);
+    currentY+=textLayout.getDescent() + textLayout.getLeading();
+  }
+}

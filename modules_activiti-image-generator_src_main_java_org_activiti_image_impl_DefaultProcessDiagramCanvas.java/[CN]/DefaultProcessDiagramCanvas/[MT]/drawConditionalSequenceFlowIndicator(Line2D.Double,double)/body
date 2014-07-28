@@ -1,0 +1,24 @@
+{
+  if (scaleFactor > 1.0)   return;
+  int horizontal=(int)(CONDITIONAL_INDICATOR_WIDTH * 0.7);
+  int halfOfHorizontal=horizontal / 2;
+  int halfOfVertical=CONDITIONAL_INDICATOR_WIDTH / 2;
+  Polygon conditionalIndicator=new Polygon();
+  conditionalIndicator.addPoint(0,0);
+  conditionalIndicator.addPoint(-halfOfHorizontal,halfOfVertical);
+  conditionalIndicator.addPoint(0,CONDITIONAL_INDICATOR_WIDTH);
+  conditionalIndicator.addPoint(halfOfHorizontal,halfOfVertical);
+  AffineTransform transformation=new AffineTransform();
+  transformation.setToIdentity();
+  double angle=Math.atan2(line.y2 - line.y1,line.x2 - line.x1);
+  transformation.translate(line.x1,line.y1);
+  transformation.rotate((angle - Math.PI / 2d));
+  AffineTransform originalTransformation=g.getTransform();
+  g.setTransform(transformation);
+  g.draw(conditionalIndicator);
+  Paint originalPaint=g.getPaint();
+  g.setPaint(CONDITIONAL_INDICATOR_COLOR);
+  g.fill(conditionalIndicator);
+  g.setPaint(originalPaint);
+  g.setTransform(originalTransformation);
+}

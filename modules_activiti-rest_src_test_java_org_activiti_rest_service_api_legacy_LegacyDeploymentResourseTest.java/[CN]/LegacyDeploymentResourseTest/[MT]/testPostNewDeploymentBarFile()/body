@@ -1,0 +1,37 @@
+{
+  try {
+    ByteArrayOutputStream zipOutput=new ByteArrayOutputStream();
+    ZipOutputStream zipStream=new ZipOutputStream(zipOutput);
+    zipStream.putNextEntry(new ZipEntry("oneTaskProcess.bpmn20.xml"));
+    IOUtils.copy(ReflectUtil.getResourceAsStream("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml"),zipStream);
+    zipStream.closeEntry();
+    zipStream.putNextEntry(new ZipEntry("test.txt"));
+    IOUtils.write("Testing REST-deployment",zipStream);
+    zipStream.closeEntry();
+    zipStream.close();
+    Representation uploadRepresentation=new HttpMultipartRepresentation("test-deployment.bar",new ByteArrayInputStream(zipOutput.toByteArray()));
+    ClientResource client=getAuthenticatedClient("deployment");
+    Representation response=client.post(uploadRepresentation);
+    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    String deploymentId=responseNode.get("id").textValue();
+    String name=responseNode.get("name").textValue();
+    String category=responseNode.get("category").textValue();
+    String deployTime=responseNode.get("deploymentTime").textValue();
+    assertNotNull(deploymentId);
+    assertEquals(1L,repositoryService.createDeploymentQuery().deploymentId(deploymentId).count());
+    assertNotNull(name);
+    assertEquals("test-deployment.bar",name);
+    assertNull(category);
+    assertNotNull(deployTime);
+    List<String> resources=repositoryService.getDeploymentResourceNames(deploymentId);
+    assertEquals(2L,resources.size());
+    assertEquals(1L,repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).count());
+  }
+  finally {
+    List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
+    for (    Deployment deployment : deployments) {
+      repositoryService.deleteDeployment(deployment.getId(),true);
+    }
+  }
+}

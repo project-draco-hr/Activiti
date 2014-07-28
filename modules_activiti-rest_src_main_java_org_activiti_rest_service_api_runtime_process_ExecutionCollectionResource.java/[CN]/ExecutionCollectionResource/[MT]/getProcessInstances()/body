@@ -1,0 +1,44 @@
+{
+  if (!authenticate()) {
+    return null;
+  }
+  Form urlQuery=getQuery();
+  ExecutionQueryRequest queryRequest=new ExecutionQueryRequest();
+  if (getQueryParameter("id",urlQuery) != null) {
+    queryRequest.setId(getQueryParameter("id",urlQuery));
+  }
+  if (getQueryParameter("processInstanceId",urlQuery) != null) {
+    queryRequest.setProcessInstanceId(getQueryParameter("processInstanceId",urlQuery));
+  }
+  if (getQueryParameter("processInstanceBusinessKey",urlQuery) != null) {
+    queryRequest.setProcessBusinessKey(getQueryParameter("processInstanceBusinessKey",urlQuery));
+  }
+  if (getQueryParameter("processDefinitionKey",urlQuery) != null) {
+    queryRequest.setProcessDefinitionKey(getQueryParameter("processDefinitionKey",urlQuery));
+  }
+  if (getQueryParameter("processDefinitionId",urlQuery) != null) {
+    queryRequest.setProcessDefinitionId(getQueryParameter("processDefinitionId",urlQuery));
+  }
+  if (getQueryParameter("messageEventSubscriptionName",urlQuery) != null) {
+    queryRequest.setMessageEventSubscriptionName(getQueryParameter("messageEventSubscriptionName",urlQuery));
+  }
+  if (getQueryParameter("signalEventSubscriptionName",urlQuery) != null) {
+    queryRequest.setSignalEventSubscriptionName(getQueryParameter("signalEventSubscriptionName",urlQuery));
+  }
+  if (getQueryParameter("activityId",urlQuery) != null) {
+    queryRequest.setActivityId(getQueryParameter("activityId",urlQuery));
+  }
+  if (getQueryParameter("parentId",urlQuery) != null) {
+    queryRequest.setParentId(getQueryParameter("parentId",urlQuery));
+  }
+  if (getQueryParameter("tenantId",urlQuery) != null) {
+    queryRequest.setTenantId(getQueryParameter("tenantId",urlQuery));
+  }
+  if (getQueryParameter("tenantIdLike",urlQuery) != null) {
+    queryRequest.setTenantIdLike(getQueryParameter("tenantIdLike",urlQuery));
+  }
+  if (Boolean.TRUE.equals(getQueryParameterAsBoolean("withoutTenantId",urlQuery))) {
+    queryRequest.setWithoutTenantId(Boolean.TRUE);
+  }
+  return getQueryResponse(queryRequest,urlQuery);
+}

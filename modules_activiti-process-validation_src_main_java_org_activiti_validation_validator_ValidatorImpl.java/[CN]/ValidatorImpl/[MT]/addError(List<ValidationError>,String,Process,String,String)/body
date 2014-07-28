@@ -1,0 +1,11 @@
+{
+  ValidationError error=new ValidationError();
+  if (process != null) {
+    error.setProcessDefinitionId(process.getId());
+    error.setProcessDefinitionName(process.getName());
+  }
+  error.setProblem(problem);
+  error.setDefaultDescription(description);
+  error.setActivityId(id);
+  addError(validationErrors,error);
+}

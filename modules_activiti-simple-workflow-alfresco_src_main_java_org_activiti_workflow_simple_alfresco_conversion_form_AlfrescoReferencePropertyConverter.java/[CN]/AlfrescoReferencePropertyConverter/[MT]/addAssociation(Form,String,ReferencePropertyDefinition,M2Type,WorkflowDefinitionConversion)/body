@@ -1,0 +1,39 @@
+{
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  String propertyName=getPropertyName(referenceDefinition,conversion);
+  M2ClassAssociation association=new M2ClassAssociation();
+  association.setName(propertyName);
+  association.setTitle(referenceDefinition.getName());
+  M2AssociationSource source=new M2AssociationSource();
+  source.setMany(false);
+  source.setMandatory(true);
+  M2AssociationTarget target=new M2AssociationTarget();
+  target.setClassName(referenceDefinition.getType());
+  target.setMandatory(referenceDefinition.isMandatory());
+  boolean isTargetMany=extractBooleanFromParameters(referenceDefinition.getParameters(),AlfrescoConversionConstants.PARAMETER_REFERENCE_MANY,false);
+  target.setMany(isTargetMany);
+  association.setTarget(target);
+  association.setSource(source);
+  M2Aspect aspect=model.getAspect(propertyName);
+  if (aspect != null) {
+    if (aspect.getAssociations().isEmpty()) {
+      aspect.getAssociations().add(association);
+    }
+    contentType.getMandatoryAspects().add(propertyName);
+  }
+ else {
+    contentType.getAssociations().add(association);
+  }
+  form.getFormFieldVisibility().addShowFieldElement(propertyName);
+  FormField field=new FormField();
+  form.getFormAppearance().addFormAppearanceElement(field);
+  field.setId(propertyName);
+  field.setSet(formSet);
+  if (AlfrescoConversionConstants.CONTENT_TYPE_CONTENT.equals(referenceDefinition.getType())) {
+    FormFieldControl control=new FormFieldControl(AlfrescoConversionConstants.FORM_PACKAGE_ITEMS_TEMPLATE);
+    control.addControlParameter(AlfrescoConversionConstants.FORM_PACKAGE_ITEMS_PARAM_ROOTNODE,AlfrescoConversionConstants.FORM_PACKAGE_ITEMS_PARAM_ROOTNODE_DEFAULT);
+    field.setControl(control);
+    addOrAlterPackageItemActions(contentType,true,true);
+  }
+  addOutputProperty(referenceDefinition,propertyName,contentType.getName(),conversion);
+}

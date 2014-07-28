@@ -1,10 +1,10 @@
 {
-  if (bpmnParse.getBpmnModel().containsMessageId(messageDefinition.getMessageRef())) {
-    String messageName=bpmnParse.getBpmnModel().getMessage(messageDefinition.getMessageRef()).getName();
-    if (StringUtils.isEmpty(messageName)) {
-      bpmnParse.getBpmnModel().addProblem("messageName is required for a message event",messageDefinition);
-    }
-    messageDefinition.setMessageRef(messageName);
+  BpmnModel bpmnModel=bpmnParse.getBpmnModel();
+  String messageRef=messageDefinition.getMessageRef();
+  if (bpmnModel.containsMessageId(messageRef)) {
+    Message message=bpmnModel.getMessage(messageRef);
+    messageDefinition.setMessageRef(message.getName());
+    messageDefinition.setExtensionElements(message.getExtensionElements());
   }
   EventSubscriptionDeclaration eventSubscription=new EventSubscriptionDeclaration(messageDefinition.getMessageRef(),"message");
   ScopeImpl scope=bpmnParse.getCurrentScope();

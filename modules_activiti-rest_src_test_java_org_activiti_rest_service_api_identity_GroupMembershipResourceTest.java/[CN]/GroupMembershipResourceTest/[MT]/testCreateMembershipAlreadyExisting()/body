@@ -1,0 +1,34 @@
+{
+  try {
+    Group testGroup=identityService.newGroup("testgroup");
+    testGroup.setName("Test group");
+    testGroup.setType("Test type");
+    identityService.saveGroup(testGroup);
+    User testUser=identityService.newUser("testuser");
+    identityService.saveUser(testUser);
+    identityService.createMembership("testuser","testgroup");
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP_COLLECTION,"testgroup"));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("userId","testuser");
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException expected) {
+      assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
+      assertEquals("User 'testuser' is already part of group 'testgroup'.",expected.getStatus().getDescription());
+    }
+  }
+  finally {
+    try {
+      identityService.deleteGroup("testgroup");
+    }
+ catch (    Throwable ignore) {
+    }
+    try {
+      identityService.deleteUser("testuser");
+    }
+ catch (    Throwable ignore) {
+    }
+  }
+}

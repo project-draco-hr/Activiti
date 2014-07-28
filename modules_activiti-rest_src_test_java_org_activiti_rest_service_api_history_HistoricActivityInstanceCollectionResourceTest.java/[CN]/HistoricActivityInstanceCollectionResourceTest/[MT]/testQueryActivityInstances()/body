@@ -1,0 +1,30 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(task.getId());
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  ProcessInstance processInstance2=runtimeService.startProcessInstanceByKeyAndTenantId("oneTaskProcess","myTenant");
+  String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_ACTIVITY_INSTANCES);
+  assertResultsPresentInDataResponse(url + "?activityId=processTask",2,"processTask");
+  assertResultsPresentInDataResponse(url + "?activityId=processTask&finished=true",1,"processTask");
+  assertResultsPresentInDataResponse(url + "?activityId=processTask&finished=false",1,"processTask");
+  assertResultsPresentInDataResponse(url + "?activityId=processTask2",1,"processTask2");
+  assertResultsPresentInDataResponse(url + "?activityId=processTask3",0);
+  assertResultsPresentInDataResponse(url + "?activityName=Process%20task",2,"processTask");
+  assertResultsPresentInDataResponse(url + "?activityName=Process%20task2",1,"processTask2");
+  assertResultsPresentInDataResponse(url + "?activityName=Process%20task3",0);
+  assertResultsPresentInDataResponse(url + "?activityType=userTask",3,"processTask","processTask2");
+  assertResultsPresentInDataResponse(url + "?activityType=startEvent",2,"theStart");
+  assertResultsPresentInDataResponse(url + "?activityType=receiveTask",0);
+  assertResultsPresentInDataResponse(url + "?processInstanceId=" + processInstance.getId(),3,"theStart","processTask","processTask2");
+  assertResultsPresentInDataResponse(url + "?processInstanceId=" + processInstance2.getId(),2,"theStart","processTask");
+  assertResultsPresentInDataResponse(url + "?processDefinitionId=" + processInstance.getProcessDefinitionId(),5,"theStart","processTask","processTask2");
+  assertResultsPresentInDataResponse(url + "?taskAssignee=kermit",2,"processTask");
+  assertResultsPresentInDataResponse(url + "?taskAssignee=fozzie",1,"processTask2");
+  assertResultsPresentInDataResponse(url + "?taskAssignee=fozzie2",0);
+  assertResultsPresentInDataResponse(url + "?withoutTenantId=true",3);
+  assertResultsPresentInDataResponse(url + "?tenantId=myTenant",2,"theStart","processTask");
+  assertResultsPresentInDataResponse(url + "?tenantId=anotherTenant");
+  assertResultsPresentInDataResponse(url + "?tenantIdLike=" + encode("%enant"),2,"theStart","processTask");
+  assertResultsPresentInDataResponse(url + "?tenantIdLike=anotherTenant");
+}

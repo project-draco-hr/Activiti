@@ -1,0 +1,21 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey");
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
+  Representation response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals(processInstance.getId(),responseNode.get("id").textValue());
+  assertEquals("myBusinessKey",responseNode.get("businessKey").textValue());
+  assertEquals("processTask",responseNode.get("activityId").textValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
+  assertEquals("",responseNode.get("tenantId").textValue());
+  assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())));
+  assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(processInstance.getProcessDefinitionId()))));
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  response=client.get();
+  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals("myTenant",responseNode.get("tenantId").textValue());
+}

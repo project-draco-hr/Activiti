@@ -1,0 +1,26 @@
+{
+  try {
+    if (authenticate(SecuredResource.ADMIN) == false)     return null;
+    Boolean cascade=RequestUtil.getBoolean(getQuery(),"cascade",false);
+    String startParams=entity.getText();
+    JsonNode idJSON=new ObjectMapper().readTree(startParams);
+    ArrayNode idArray=(ArrayNode)idJSON.get("deploymentIds");
+    for (    JsonNode deploymentId : idArray) {
+      if (cascade) {
+        ActivitiUtil.getRepositoryService().deleteDeployment(deploymentId.textValue(),true);
+      }
+ else {
+        ActivitiUtil.getRepositoryService().deleteDeployment(deploymentId.textValue());
+      }
+    }
+    ObjectNode successNode=new ObjectMapper().createObjectNode();
+    successNode.put("success",true);
+    return successNode;
+  }
+ catch (  Exception e) {
+    if (e instanceof ActivitiException) {
+      throw (ActivitiException)e;
+    }
+    throw new ActivitiException("Failed to delete deployments",e);
+  }
+}

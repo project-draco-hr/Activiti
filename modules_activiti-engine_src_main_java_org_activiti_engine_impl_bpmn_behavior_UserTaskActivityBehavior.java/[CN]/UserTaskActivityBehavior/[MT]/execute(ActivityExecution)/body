@@ -17,7 +17,8 @@
         task.setDueDate((Date)dueDate);
       }
  else       if (dueDate instanceof String) {
-        task.setDueDate(new DueDateBusinessCalendar().resolveDuedate((String)dueDate));
+        BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(DueDateBusinessCalendar.NAME);
+        task.setDueDate(businessCalendar.resolveDuedate((String)dueDate));
       }
  else {
         throw new ActivitiIllegalArgumentException("Due date expression does not resolve to a Date or Date string: " + taskDefinition.getDueDateExpression().getExpressionText());
@@ -43,6 +44,31 @@
       }
     }
   }
+  if (taskDefinition.getCategoryExpression() != null) {
+    final Object category=taskDefinition.getCategoryExpression().getValue(execution);
+    if (category != null) {
+      if (category instanceof String) {
+        task.setCategory((String)category);
+      }
+ else {
+        throw new ActivitiIllegalArgumentException("Category expression does not resolve to a string: " + taskDefinition.getCategoryExpression().getExpressionText());
+      }
+    }
+  }
+  if (taskDefinition.getFormKeyExpression() != null) {
+    final Object formKey=(String)taskDefinition.getFormKeyExpression().getValue(execution);
+    if (formKey != null) {
+      if (formKey instanceof String) {
+        task.setFormKey((String)formKey);
+      }
+ else {
+        throw new ActivitiIllegalArgumentException("FormKey expression does not resolve to a string: " + taskDefinition.getFormKeyExpression().getExpressionText());
+      }
+    }
+  }
   handleAssignments(task,execution);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_CREATED,task));
+  }
   task.fireEvent(TaskListener.EVENTNAME_CREATE);
 }
