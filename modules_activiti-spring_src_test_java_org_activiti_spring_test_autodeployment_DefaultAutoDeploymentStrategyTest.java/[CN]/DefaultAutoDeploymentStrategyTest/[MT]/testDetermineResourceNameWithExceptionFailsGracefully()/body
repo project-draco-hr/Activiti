@@ -1,0 +1,6 @@
+{
+  when(resourceMock3.getFile()).thenThrow(new IOException());
+  when(resourceMock3.getFilename()).thenReturn(resourceName3);
+  final Resource[] resources=new Resource[]{resourceMock3};
+  classUnderTest.deployResources(deploymentNameHint,resources,repositoryServiceMock);
+}

@@ -1,5 +1,5 @@
 {
-  if (isInitialized) {
+  if (isInitialized()) {
     Map<String,ProcessEngine> engines=new HashMap<String,ProcessEngine>(processEngines);
     processEngines=new HashMap<String,ProcessEngine>();
     for (    String processEngineName : engines.keySet()) {
@@ -14,6 +14,6 @@
     processEngineInfosByName.clear();
     processEngineInfosByResourceUrl.clear();
     processEngineInfos.clear();
-    isInitialized=false;
+    setInitialized(false);
   }
 }

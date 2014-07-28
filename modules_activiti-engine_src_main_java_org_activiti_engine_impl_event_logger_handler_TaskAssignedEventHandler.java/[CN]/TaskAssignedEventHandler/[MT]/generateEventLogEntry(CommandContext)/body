@@ -1,0 +1,5 @@
+{
+  TaskEntity task=(TaskEntity)((ActivitiEntityEvent)event).getEntity();
+  Map<String,Object> data=handleCommonTaskFields(task);
+  return createEventLogEntry(task.getProcessDefinitionId(),task.getProcessInstanceId(),task.getExecutionId(),task.getId(),data);
+}

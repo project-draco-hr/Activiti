@@ -1,3 +1,9 @@
 {
-  return commandContext.getCommentEntityManager().findCommentsByProcessInstanceId(processInstanceId);
+  if (StringUtils.isNotBlank(type)) {
+    List<Comment> commentsByProcessInstanceId=commandContext.getCommentEntityManager().findCommentsByProcessInstanceId(processInstanceId,type);
+    return commentsByProcessInstanceId;
+  }
+ else {
+    return commandContext.getCommentEntityManager().findCommentsByProcessInstanceId(processInstanceId);
+  }
 }

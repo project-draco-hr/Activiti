@@ -4,7 +4,7 @@ synchronized (this) {
       if (objectMapper == null) {
         objectMapper=new ObjectMapper();
         objectMapper.registerSubtypes(ListPropertyDefinition.class,TextPropertyDefinition.class,ReferencePropertyDefinition.class,DatePropertyDefinition.class,NumberPropertyDefinition.class,BooleanPropertyDefinition.class);
-        objectMapper.registerSubtypes(HumanStepDefinition.class,FeedbackStepDefinition.class,ParallelStepsDefinition.class,ScriptStepDefinition.class);
+        objectMapper.registerSubtypes(HumanStepDefinition.class,FeedbackStepDefinition.class,ParallelStepsDefinition.class,ChoiceStepsDefinition.class,ListStepDefinition.class,ListConditionStepDefinition.class,ScriptStepDefinition.class,DelayStepDefinition.class);
         if (additionalModelClasses != null) {
           objectMapper.registerSubtypes(additionalModelClasses.toArray(new Class<?>[]{}));
         }

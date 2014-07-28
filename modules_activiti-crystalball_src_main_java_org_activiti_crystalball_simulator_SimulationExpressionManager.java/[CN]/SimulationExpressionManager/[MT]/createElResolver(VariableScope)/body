@@ -1,0 +1,6 @@
+{
+  CompositeELResolver compositeElResolver=new CompositeELResolver();
+  compositeElResolver.add(new SimulationScopeElResolver(variableScope));
+  compositeElResolver.add(super.createElResolver(variableScope));
+  return compositeElResolver;
+}

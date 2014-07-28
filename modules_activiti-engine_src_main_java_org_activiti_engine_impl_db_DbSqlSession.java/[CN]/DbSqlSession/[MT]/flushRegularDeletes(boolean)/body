@@ -1,0 +1,26 @@
+{
+  List<DeleteOperation> optimizedDeleteOperations=optimizeDeleteOperations(deleteOperations);
+  for (  DeleteOperation delete : optimizedDeleteOperations) {
+    log.debug("executing: {}",delete);
+    delete.execute();
+    if (dispatchEvent) {
+      if (delete instanceof CheckedDeleteOperation) {
+        CheckedDeleteOperation checkedDeleteOperation=(CheckedDeleteOperation)delete;
+        PersistentObject persistentObject=checkedDeleteOperation.getPersistentObject();
+        if (persistentObject instanceof VariableInstanceEntity) {
+          VariableInstanceEntity variableInstance=(VariableInstanceEntity)persistentObject;
+          Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(createVariableDeleteEvent(variableInstance));
+        }
+      }
+ else       if (delete instanceof BulkCheckedDeleteOperation) {
+        BulkCheckedDeleteOperation bulkCheckedDeleteOperation=(BulkCheckedDeleteOperation)delete;
+        if (VariableInstanceEntity.class.isAssignableFrom(bulkCheckedDeleteOperation.getPersistentObjectClass())) {
+          for (          PersistentObject persistentObject : bulkCheckedDeleteOperation.getPersistentObjects()) {
+            VariableInstanceEntity variableInstance=(VariableInstanceEntity)persistentObject;
+            Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(createVariableDeleteEvent(variableInstance));
+          }
+        }
+      }
+    }
+  }
+}

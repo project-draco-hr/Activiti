@@ -1,0 +1,19 @@
+{
+  if (isValidEvent(event)) {
+    if (event.getType() == ActivitiEventType.ENTITY_CREATED) {
+      onCreate(event);
+    }
+ else     if (event.getType() == ActivitiEventType.ENTITY_INITIALIZED) {
+      onInitialized(event);
+    }
+ else     if (event.getType() == ActivitiEventType.ENTITY_DELETED) {
+      onDelete(event);
+    }
+ else     if (event.getType() == ActivitiEventType.ENTITY_UPDATED) {
+      onUpdate(event);
+    }
+ else {
+      onEntityEvent(event);
+    }
+  }
+}

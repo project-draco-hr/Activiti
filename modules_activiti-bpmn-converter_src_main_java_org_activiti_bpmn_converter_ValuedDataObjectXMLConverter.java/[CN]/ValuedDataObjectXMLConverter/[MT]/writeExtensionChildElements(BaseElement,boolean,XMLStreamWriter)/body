@@ -1,0 +1,23 @@
+{
+  ValuedDataObject dataObject=(ValuedDataObject)element;
+  if (StringUtils.isNotEmpty(dataObject.getId()) && dataObject.getValue() != null) {
+    if (didWriteExtensionStartElement == false) {
+      xtw.writeStartElement(ELEMENT_EXTENSIONS);
+      didWriteExtensionStartElement=true;
+    }
+    xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,ELEMENT_DATA_VALUE,ACTIVITI_EXTENSIONS_NAMESPACE);
+    if (dataObject.getValue() != null) {
+      String value=null;
+      if (dataObject instanceof DateDataObject) {
+        DateTime dateTime=new DateTime((Date)dataObject.getValue());
+        value=ISODateTimeFormat.dateTimeNoMillis().print(dateTime);
+      }
+ else {
+        value=dataObject.getValue().toString();
+      }
+      xtw.writeCharacters(value);
+    }
+    xtw.writeEndElement();
+  }
+  return didWriteExtensionStartElement;
+}

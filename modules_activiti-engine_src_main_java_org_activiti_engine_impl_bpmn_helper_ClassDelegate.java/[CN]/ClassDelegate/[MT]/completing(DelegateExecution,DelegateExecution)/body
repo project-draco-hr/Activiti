@@ -1,0 +1,11 @@
+{
+  if (activityBehaviorInstance == null) {
+    activityBehaviorInstance=getActivityBehaviorInstance((ActivityExecution)execution);
+  }
+  if (activityBehaviorInstance instanceof SubProcessActivityBehavior) {
+    ((SubProcessActivityBehavior)activityBehaviorInstance).completing(execution,subProcessInstance);
+  }
+ else {
+    throw new ActivitiException("completing() can only be called on a " + SubProcessActivityBehavior.class.getName() + " instance");
+  }
+}

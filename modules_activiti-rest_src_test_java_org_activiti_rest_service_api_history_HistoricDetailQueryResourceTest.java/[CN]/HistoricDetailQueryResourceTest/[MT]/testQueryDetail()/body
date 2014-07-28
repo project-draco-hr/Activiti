@@ -38,10 +38,10 @@
   Iterator<JsonNode> it=dataNode.iterator();
   while (it.hasNext()) {
     JsonNode variableNode=it.next().get("variable");
-    String name=variableNode.get("name").getTextValue();
+    String name=variableNode.get("name").textValue();
     if ("byteVar".equals(name)) {
       byteVarFound=true;
-      String valueUrl=variableNode.get("valueUrl").getTextValue();
+      String valueUrl=variableNode.get("valueUrl").textValue();
       client.release();
       client=new ClientResource(valueUrl);
       client.setChallengeResponse(ChallengeScheme.HTTP_BASIC,"kermit","kermit");

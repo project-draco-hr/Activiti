@@ -36,6 +36,11 @@
   requestNode.put("variables",variablesNode);
   client.post(requestNode);
   assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  JsonNode responseNode=objectMapper.readTree(client.getResponseEntity().getStream());
+  assertEquals("processTask",responseNode.get("activityId").asText());
+  assertEquals(false,responseNode.get("ended").asBoolean());
+  JsonNode variablesArrayNode=responseNode.get("variables");
+  assertEquals(0,variablesArrayNode.size());
   ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
   assertNotNull(processInstance);
   Map<String,Object> processVariables=runtimeService.getVariables(processInstance.getId());

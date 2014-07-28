@@ -20,14 +20,14 @@
     boolean foundSecond=false;
     for (int i=0; i < responseNode.size(); i++) {
       ObjectNode info=(ObjectNode)responseNode.get(i);
-      assertNotNull(info.get("key").getTextValue());
-      assertNotNull(info.get("url").getTextValue());
-      if (info.get("key").getTextValue().equals("key1")) {
+      assertNotNull(info.get("key").textValue());
+      assertNotNull(info.get("url").textValue());
+      if (info.get("key").textValue().equals("key1")) {
         foundFirst=true;
-        assertTrue(info.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")));
+        assertTrue(info.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")));
       }
- else       if (info.get("key").getTextValue().equals("key2")) {
-        assertTrue(info.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key2")));
+ else       if (info.get("key").textValue().equals("key2")) {
+        assertTrue(info.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key2")));
         foundSecond=true;
       }
     }

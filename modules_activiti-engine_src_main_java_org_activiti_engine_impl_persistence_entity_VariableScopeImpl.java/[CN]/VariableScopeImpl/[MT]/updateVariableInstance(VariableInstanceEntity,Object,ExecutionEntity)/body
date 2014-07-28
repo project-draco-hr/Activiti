@@ -5,8 +5,10 @@
     variableInstance.setValue(null);
     variableInstance.setType(newType);
     variableInstance.forceUpdate();
+    variableInstance.setValue(value);
+    VariableInstanceEntity.touch(variableInstance);
   }
-  variableInstance.setValue(value);
+ else   variableInstance.setValue(value);
   Context.getCommandContext().getHistoryManager().recordHistoricDetailVariableCreate(variableInstance,sourceActivityExecution,isActivityIdUsedForDetails());
   Context.getCommandContext().getHistoryManager().recordVariableUpdate(variableInstance);
 }

@@ -10,7 +10,7 @@
   Representation response=client.post(objectNode);
   JsonNode responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertTrue(responseNode.get("success").getBooleanValue());
+  assertTrue(responseNode.get("success").booleanValue());
   Task task=taskService.createTaskQuery().taskAssignee("kermit").singleResult();
   assertNotNull(task);
   assertEquals("WaitTask",task.getName());

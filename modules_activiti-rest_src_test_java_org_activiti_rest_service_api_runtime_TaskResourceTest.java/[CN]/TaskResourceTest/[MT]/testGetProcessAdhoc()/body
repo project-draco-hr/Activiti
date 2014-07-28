@@ -1,7 +1,7 @@
 {
   try {
     Calendar now=Calendar.getInstance();
-    ClockUtil.setCurrentTime(now.getTime());
+    processEngineConfiguration.getClock().setCurrentTime(now.getTime());
     Task parentTask=taskService.newTask();
     taskService.saveTask(parentTask);
     Task task=taskService.newTask();
@@ -31,6 +31,7 @@
     assertTrue(responseNode.get("executionId").isNull());
     assertTrue(responseNode.get("processInstanceId").isNull());
     assertTrue(responseNode.get("processDefinitionId").isNull());
+    assertEquals("",responseNode.get("tenantId").textValue());
     assertTrue(responseNode.get("parentTaskUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,parentTask.getId())));
   }
   finally {

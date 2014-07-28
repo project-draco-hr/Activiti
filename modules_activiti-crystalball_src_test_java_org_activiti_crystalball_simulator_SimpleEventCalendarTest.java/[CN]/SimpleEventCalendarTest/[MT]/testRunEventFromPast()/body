@@ -1,0 +1,8 @@
+{
+  SimulationEvent event1=new SimulationEvent.Builder("any type").simulationTime(1).build();
+  EventCalendar calendar=new SimpleEventCalendar(clock,comparator);
+  calendar.addEvent(event1);
+  this.clock.setCurrentTime(new Date(2));
+  calendar.removeFirstEvent();
+  fail("RuntimeException expected");
+}

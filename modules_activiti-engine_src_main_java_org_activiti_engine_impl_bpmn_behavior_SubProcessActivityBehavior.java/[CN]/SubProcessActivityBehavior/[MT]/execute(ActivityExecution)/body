@@ -4,5 +4,9 @@
   if (initialActivity == null) {
     throw new ActivitiException("No initial activity found for subprocess " + execution.getActivity().getId());
   }
+  Map<String,Object> dataObjectVars=((ActivityImpl)activity).getVariables();
+  if (dataObjectVars != null) {
+    execution.setVariablesLocal(dataObjectVars);
+  }
   execution.executeActivity(initialActivity);
 }

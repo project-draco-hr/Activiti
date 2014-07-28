@@ -1,0 +1,11 @@
+{
+  if (outgoingExecution.getReplacedBy() != null) {
+    outgoingExecution=outgoingExecution.getReplacedBy();
+  }
+  if (!outgoingExecution.isDeleteRoot()) {
+    outgoingExecution.take(outgoingTransition,fireActivityCompletedEvent);
+  }
+ else {
+    log.debug("Not taking transition '{}', outgoing execution has ended.",outgoingTransition);
+  }
+}

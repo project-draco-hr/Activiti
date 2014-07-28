@@ -1,0 +1,22 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Task task=taskService.createTaskQuery().singleResult();
+  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,task.getId()));
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  String message="test";
+  requestNode.put("message",message);
+  requestNode.put("saveProcessInstanceId",true);
+  Representation response=client.post(requestNode);
+  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  List<Comment> commentsOnTask=taskService.getTaskComments(task.getId());
+  assertNotNull(commentsOnTask);
+  assertEquals(1,commentsOnTask.size());
+  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  assertNotNull(responseNode);
+  assertEquals(processInstance.getId(),responseNode.get("processInstanceId").asText());
+  assertEquals(task.getId(),responseNode.get("taskId").asText());
+  assertEquals(message,responseNode.get("message").asText());
+  assertNotNull(responseNode.get("time").asText());
+  assertTrue(responseNode.get("taskUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),commentsOnTask.get(0).getId())));
+  assertTrue(responseNode.get("processInstanceUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,processInstance.getId(),commentsOnTask.get(0).getId())));
+}

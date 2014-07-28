@@ -6,11 +6,17 @@
  else   if (AlfrescoConversionConstants.FORM_REFERENCE_PACKAGE_ITEMS.equals(referenceDefinition.getType())) {
     addPackageReference(form,formSet,contentType,referenceDefinition);
   }
+ else   if (AlfrescoConversionConstants.FORM_REFERENCE_EMAIL_NOTIFICATION.equals(referenceDefinition.getType())) {
+    addEmailNotificationReference(form,formSet,contentType,referenceDefinition);
+  }
  else   if (AlfrescoConversionConstants.FORM_REFERENCE_PRIORITY.equals(referenceDefinition.getType())) {
     addPriorityReference(form,formSet,referenceDefinition.isWritable());
   }
  else   if (AlfrescoConversionConstants.FORM_REFERENCE_WORKFLOW_DESCRIPTION.equals(referenceDefinition.getType())) {
     addWorkflowDescriptionReference(form,formSet);
+  }
+ else   if (AlfrescoConversionConstants.FORM_REFERENCE_COMMENT.equals(referenceDefinition.getType())) {
+    addCommentReference(form,formSet);
   }
  else   if (AlfrescoConversionConstants.FORM_REFERENCE_FIELD.equals(referenceDefinition.getType())) {
     addFieldReference(form,formSet,referenceDefinition,contentType,conversion);

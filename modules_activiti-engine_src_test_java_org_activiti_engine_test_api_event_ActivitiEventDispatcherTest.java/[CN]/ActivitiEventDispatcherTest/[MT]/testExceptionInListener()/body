@@ -1,0 +1,30 @@
+{
+  TestExceptionActivitiEventListener listener=new TestExceptionActivitiEventListener(false);
+  TestActivitiEventListener secondListener=new TestActivitiEventListener();
+  dispatcher.addEventListener(listener);
+  dispatcher.addEventListener(secondListener);
+  ActivitiEventImpl event=new ActivitiEventImpl(ActivitiEventType.ENTITY_CREATED);
+  try {
+    dispatcher.dispatchEvent(event);
+    assertEquals(1,secondListener.getEventsReceived().size());
+  }
+ catch (  Throwable t) {
+    fail("No exception expected");
+  }
+  dispatcher.removeEventListener(listener);
+  dispatcher.removeEventListener(secondListener);
+  listener=new TestExceptionActivitiEventListener(true);
+  secondListener=new TestActivitiEventListener();
+  dispatcher.addEventListener(listener);
+  dispatcher.addEventListener(secondListener);
+  try {
+    dispatcher.dispatchEvent(event);
+    fail("Exception expected");
+  }
+ catch (  Throwable t) {
+    assertTrue(t instanceof ActivitiException);
+    assertTrue(t.getCause() instanceof RuntimeException);
+    assertEquals("Test exception",t.getCause().getMessage());
+    assertEquals(0,secondListener.getEventsReceived().size());
+  }
+}

@@ -1,0 +1,25 @@
+{
+  for (  SimulationEvent originalEvent : simulationEvents) {
+    boolean executed=true;
+    if (SimulationRunContext.getEventCalendar() != null && SimulationRunContext.getEventCalendar().getEvents() != null) {
+      for (      SimulationEvent event : SimulationRunContext.getEventCalendar().getEvents()) {
+        if (originalEvent.equals(event)) {
+          executed=false;
+          stepButton.setEnabled(true);
+          break;
+        }
+      }
+    }
+    Object itemId=eventTable.addItem();
+    eventTable.getItem(itemId).getItemProperty("type").setValue(originalEvent.getType());
+    eventTable.getItem(itemId).getItemProperty("executed").setValue(executed);
+  }
+  if (replayHistoricInstance != null && replayHistoricInstance.getId() != null) {
+    ProcessInstance testInstance=runtimeService.createProcessInstanceQuery().processInstanceId(replayHistoricInstance.getId()).singleResult();
+    if (testInstance != null) {
+      showProcessInstanceButton.setCaption(i18nManager.getMessage(Messages.TASK_PART_OF_PROCESS,definitionMap.get(replayHistoricInstance.getProcessDefinitionId())));
+      showProcessInstanceButton.setVisible(true);
+    }
+  }
+  eventTable.setVisible(true);
+}

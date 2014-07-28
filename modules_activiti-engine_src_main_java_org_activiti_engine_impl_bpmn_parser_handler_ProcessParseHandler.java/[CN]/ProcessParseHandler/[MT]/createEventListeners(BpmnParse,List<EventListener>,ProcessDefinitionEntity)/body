@@ -1,0 +1,19 @@
+{
+  if (eventListeners != null && !eventListeners.isEmpty()) {
+    for (    EventListener eventListener : eventListeners) {
+      ActivitiEventType[] types=ActivitiEventType.getTypesFromString(eventListener.getEvents());
+      if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(eventListener.getImplementationType())) {
+        currentProcessDefinition.getEventSupport().addEventListener(bpmnParse.getListenerFactory().createClassDelegateEventListener(eventListener),types);
+      }
+ else       if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(eventListener.getImplementationType())) {
+        currentProcessDefinition.getEventSupport().addEventListener(bpmnParse.getListenerFactory().createDelegateExpressionEventListener(eventListener),types);
+      }
+ else       if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT.equals(eventListener.getImplementationType()) || ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT.equals(eventListener.getImplementationType()) || ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT.equals(eventListener.getImplementationType())|| ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT.equals(eventListener.getImplementationType())) {
+        currentProcessDefinition.getEventSupport().addEventListener(bpmnParse.getListenerFactory().createEventThrowingEventListener(eventListener),types);
+      }
+ else {
+        LOGGER.warn("Unsupported implementation type for EventLIstener: " + eventListener.getImplementationType() + " for element "+ bpmnParse.getCurrentFlowElement().getId());
+      }
+    }
+  }
+}

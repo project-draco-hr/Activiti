@@ -2,5 +2,9 @@
   if (value == null) {
     return true;
   }
-  return String.class.isAssignableFrom(value.getClass());
+  if (String.class.isAssignableFrom(value.getClass())) {
+    String stringValue=(String)value;
+    return stringValue.length() <= maxLength;
+  }
+  return false;
 }

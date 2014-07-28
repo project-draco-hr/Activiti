@@ -1,9 +1,11 @@
 {
-  if (blackList != null) {
-    for (    ExtensionAttribute blackAttribute : blackList) {
-      if (blackAttribute.getName().equals(attribute.getName())) {
-        if (blackAttribute.getNamespace() != null && attribute.getNamespace() != null && blackAttribute.getNamespace().equals(attribute.getNamespace()))         return true;
-        if (blackAttribute.getNamespace() == null && attribute.getNamespace() == null)         return true;
+  if (blackLists != null) {
+    for (    List<ExtensionAttribute> blackList : blackLists) {
+      for (      ExtensionAttribute blackAttribute : blackList) {
+        if (blackAttribute.getName().equals(attribute.getName())) {
+          if (blackAttribute.getNamespace() != null && attribute.getNamespace() != null && blackAttribute.getNamespace().equals(attribute.getNamespace()))           return true;
+          if (blackAttribute.getNamespace() == null && attribute.getNamespace() == null)           return true;
+        }
       }
     }
   }

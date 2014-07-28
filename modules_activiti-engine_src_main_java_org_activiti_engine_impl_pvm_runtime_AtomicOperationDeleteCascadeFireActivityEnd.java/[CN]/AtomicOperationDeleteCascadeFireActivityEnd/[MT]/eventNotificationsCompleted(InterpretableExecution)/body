@@ -1,6 +1,6 @@
 {
   ActivityImpl activity=(ActivityImpl)execution.getActivity();
-  if ((execution.isScope()) && (activity != null) && (!activity.isScope())) {
+  if ((execution.isScope()) && (activity != null)) {
     execution.setActivity(activity.getParentActivity());
     execution.performOperation(AtomicOperation.DELETE_CASCADE_FIRE_ACTIVITY_END);
   }

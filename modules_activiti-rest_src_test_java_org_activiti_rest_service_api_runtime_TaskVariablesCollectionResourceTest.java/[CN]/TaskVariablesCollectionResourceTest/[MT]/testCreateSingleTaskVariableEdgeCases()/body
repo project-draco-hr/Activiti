@@ -59,7 +59,7 @@
     }
  catch (    ResourceException expected) {
       assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-      assertEquals("Request didn't cantain a list of variables to create.",expected.getStatus().getDescription());
+      assertEquals("Request didn't contain a list of variables to create.",expected.getStatus().getDescription());
     }
     client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     try {
@@ -68,7 +68,6 @@
     }
  catch (    ResourceException expected) {
       assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-      assertEquals("Request didn't cantain a list of variables to create.",expected.getStatus().getDescription());
     }
   }
   finally {

@@ -18,7 +18,7 @@
       xtw.writeAttribute(ATTRIBUTE_ID,"BPMNShape_" + elementId);
       GraphicInfo graphicInfo=model.getGraphicInfo(elementId);
       FlowElement flowElement=model.getFlowElement(elementId);
-      if (flowElement != null && flowElement instanceof SubProcess && graphicInfo.getExpanded() != null) {
+      if (flowElement instanceof SubProcess && graphicInfo.getExpanded() != null) {
         xtw.writeAttribute(ATTRIBUTE_DI_IS_EXPANDED,String.valueOf(graphicInfo.getExpanded()));
       }
       xtw.writeStartElement(OMGDC_PREFIX,ELEMENT_DI_BOUNDS,OMGDC_NAMESPACE);

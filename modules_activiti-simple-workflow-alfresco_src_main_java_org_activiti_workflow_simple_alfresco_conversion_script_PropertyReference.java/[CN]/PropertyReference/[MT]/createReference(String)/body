@@ -1,0 +1,20 @@
+{
+  PropertyReference ref=null;
+  if (isPropertyReference(referenceString)) {
+    String raw=referenceString.replace(REFERENCE_PREFIX,"").replace(REFERENCE_SUFFIX,"");
+    if (raw.contains(".")) {
+      String additional=null;
+      String propertyName=raw;
+      int indexOf=raw.indexOf(".");
+      if (indexOf > 0) {
+        propertyName=raw.substring(0,indexOf);
+        additional=raw.substring(indexOf + 1);
+      }
+      ref=new PropertyReference(propertyName,additional);
+    }
+ else {
+      ref=new PropertyReference(raw);
+    }
+  }
+  return ref;
+}

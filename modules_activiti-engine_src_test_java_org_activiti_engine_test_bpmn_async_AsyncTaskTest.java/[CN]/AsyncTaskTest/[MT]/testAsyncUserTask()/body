@@ -4,7 +4,7 @@
   assertNull(runtimeService.getVariable(pid,"listener"));
   assertNull(runtimeService.getVariable(pid,"taskListener"));
   assertNull(taskService.createTaskQuery().singleResult());
-  waitForJobExecutorToProcessAllJobs(10000L,25L);
+  waitForJobExecutorToProcessAllJobs(10000L,100L);
   assertNotNull(runtimeService.getVariable(pid,"listener"));
   assertNotNull(runtimeService.getVariable(pid,"taskListener"));
   assertNotNull(taskService.createTaskQuery().singleResult());

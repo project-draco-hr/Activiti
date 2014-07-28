@@ -44,8 +44,10 @@
         LOGGER.error("Error loading process diagram component",e);
       }
     }
-    if (didDrawImage == false && processDefinitionEntity.isGraphicalNotationDefined()) {
-      StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processInstance,repositoryService,runtimeService);
+    if (!didDrawImage && processDefinitionEntity.isGraphicalNotationDefined()) {
+      ProcessEngineConfiguration processEngineConfiguration=ProcessEngines.getDefaultProcessEngine().getProcessEngineConfiguration();
+      ProcessDiagramGenerator diagramGenerator=processEngineConfiguration.getProcessDiagramGenerator();
+      StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processInstance,repositoryService,runtimeService,diagramGenerator);
       if (diagram != null) {
         Label header=new Label(i18nManager.getMessage(Messages.PROCESS_HEADER_DIAGRAM));
         header.addStyleName(ExplorerLayout.STYLE_H3);

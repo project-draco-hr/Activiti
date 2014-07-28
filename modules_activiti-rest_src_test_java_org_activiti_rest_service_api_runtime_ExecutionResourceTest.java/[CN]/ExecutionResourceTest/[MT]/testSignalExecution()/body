@@ -8,10 +8,11 @@
   Representation response=client.put(requestNode);
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
   JsonNode responseNode=objectMapper.readTree(response.getStream());
-  assertEquals("anotherWaitState",responseNode.get("activityId").getTextValue());
+  assertEquals("anotherWaitState",responseNode.get("activityId").textValue());
   assertEquals("anotherWaitState",runtimeService.createExecutionQuery().executionId(signalExecution.getId()).singleResult().getActivityId());
   client.release();
   client.put(requestNode);
   assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
   assertNull(runtimeService.createExecutionQuery().executionId(signalExecution.getId()).singleResult());
+  client.release();
 }

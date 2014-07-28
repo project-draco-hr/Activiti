@@ -1,0 +1,42 @@
+{
+  Map<String,String> resourceLists=null;
+  if (resourceExpression != null) {
+    StringBuilder userExpression=new StringBuilder(50);
+    StringBuilder groupExpression=new StringBuilder(50);
+    List<String> assignmentList=CommaSplitter.splitCommas(resourceExpression);
+    for (    String assignmentValue : assignmentList) {
+      assignmentValue=StringUtils.trimToNull(assignmentValue);
+      if (assignmentValue == null) {
+        continue;
+      }
+      if (assignmentValue.startsWith(USER)) {
+        List<String> userList=CommaSplitter.splitCommas(assignmentValue.substring(USER.length() + 1,assignmentValue.length() - 1).trim());
+        for (        String user : userList) {
+          if (StringUtils.isNotEmpty(userExpression.toString())) {
+            userExpression.append(COMMA_SPACE);
+          }
+          userExpression.append(user);
+        }
+      }
+ else       if (assignmentValue.startsWith(GROUP)) {
+        List<String> groupList=CommaSplitter.splitCommas(assignmentValue.substring(GROUP.length() + 1,assignmentValue.length() - 1).trim());
+        for (        String group : groupList) {
+          if (StringUtils.isNotEmpty(groupExpression.toString())) {
+            groupExpression.append(COMMA_SPACE);
+          }
+          groupExpression.append(group);
+        }
+      }
+ else {
+        if (StringUtils.isNotEmpty(groupExpression.toString())) {
+          groupExpression.append(COMMA_SPACE);
+        }
+        groupExpression.append(assignmentValue);
+      }
+    }
+    resourceLists=new HashMap<String,String>();
+    resourceLists.put(USER,userExpression.toString());
+    resourceLists.put(GROUP,groupExpression.toString());
+  }
+  return resourceLists;
+}

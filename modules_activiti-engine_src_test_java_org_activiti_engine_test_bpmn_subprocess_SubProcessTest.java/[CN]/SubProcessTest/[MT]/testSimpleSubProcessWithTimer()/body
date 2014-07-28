@@ -3,7 +3,7 @@
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("simpleSubProcess");
   Task subProcessTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Task in subprocess",subProcessTask.getName());
-  ClockUtil.setCurrentTime(new Date(startTime.getTime() + (2 * 60 * 60* 1000) + 1000));
+  processEngineConfiguration.getClock().setCurrentTime(new Date(startTime.getTime() + (2 * 60 * 60* 1000) + 1000));
   waitForJobExecutorToProcessAllJobs(5000L,50L);
   Task escalationTask=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertEquals("Fix escalated problem",escalationTask.getName());

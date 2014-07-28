@@ -1,0 +1,18 @@
+{
+  if (list != null) {
+    List<String> result=new ArrayList<String>();
+    PropertyReference propertyReference=null;
+    for (    String string : list) {
+      if (PropertyReference.isPropertyReference(string)) {
+        propertyReference=PropertyReference.createReference(string);
+        result.add(propertyReference.getUsernameReferenceExpression(namespacePrefix));
+        AlfrescoConversionUtil.getPropertyReferences(conversion).add(propertyReference);
+      }
+ else {
+        result.add(string);
+      }
+    }
+    return result;
+  }
+  return null;
+}

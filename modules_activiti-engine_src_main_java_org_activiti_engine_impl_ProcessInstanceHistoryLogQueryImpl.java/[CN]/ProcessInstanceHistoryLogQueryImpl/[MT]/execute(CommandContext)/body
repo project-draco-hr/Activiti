@@ -1,0 +1,33 @@
+{
+  HistoricProcessInstanceEntity historicProcessInstance=commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstance(processInstanceId);
+  if (historicProcessInstance == null) {
+    return null;
+  }
+  ProcessInstanceHistoryLogImpl processInstanceHistoryLog=new ProcessInstanceHistoryLogImpl(historicProcessInstance);
+  if (includeTasks) {
+    List<? extends HistoricData> tasks=commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesByQueryCriteria(new HistoricTaskInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId));
+    processInstanceHistoryLog.addHistoricData(tasks);
+  }
+  if (includeActivities) {
+    List<HistoricActivityInstance> activities=commandContext.getHistoricActivityInstanceEntityManager().findHistoricActivityInstancesByQueryCriteria(new HistoricActivityInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId),null);
+    processInstanceHistoryLog.addHistoricData(activities);
+  }
+  if (includeVariables) {
+    List<HistoricVariableInstance> variables=commandContext.getHistoricVariableInstanceEntityManager().findHistoricVariableInstancesByQueryCriteria(new HistoricVariableInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId),null);
+    processInstanceHistoryLog.addHistoricData(variables);
+  }
+  if (includeComments) {
+    List<? extends HistoricData> comments=commandContext.getCommentEntityManager().findCommentsByProcessInstanceId(processInstanceId);
+    processInstanceHistoryLog.addHistoricData(comments);
+  }
+  if (includeVariableUpdates) {
+    List<? extends HistoricData> variableUpdates=commandContext.getHistoricDetailEntityManager().findHistoricDetailsByQueryCriteria(new HistoricDetailQueryImpl(commandExecutor).variableUpdates(),null);
+    processInstanceHistoryLog.addHistoricData(variableUpdates);
+  }
+  if (includeFormProperties) {
+    List<? extends HistoricData> formProperties=commandContext.getHistoricDetailEntityManager().findHistoricDetailsByQueryCriteria(new HistoricDetailQueryImpl(commandExecutor).formProperties(),null);
+    processInstanceHistoryLog.addHistoricData(formProperties);
+  }
+  processInstanceHistoryLog.orderHistoricData();
+  return processInstanceHistoryLog;
+}

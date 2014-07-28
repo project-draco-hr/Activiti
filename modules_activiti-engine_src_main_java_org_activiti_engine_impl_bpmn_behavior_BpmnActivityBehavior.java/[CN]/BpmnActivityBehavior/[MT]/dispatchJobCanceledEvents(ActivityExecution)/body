@@ -1,0 +1,10 @@
+{
+  if (activityExecution instanceof ExecutionEntity) {
+    List<JobEntity> jobs=((ExecutionEntity)activityExecution).getJobs();
+    for (    JobEntity job : jobs) {
+      if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+        Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED,job));
+      }
+    }
+  }
+}

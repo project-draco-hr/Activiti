@@ -1,0 +1,8 @@
+{
+  ProcessInstance simulationExperiment=runtimeService.startProcessInstanceByKey("resultVariableSimulationRun");
+  assertEquals(1,runtimeService.createExecutionQuery().count());
+  String simulationRunResult=(String)runtimeService.getVariable(simulationExperiment.getProcessInstanceId(),"simulationRunResult");
+  assertThat(simulationRunResult,is("Hello world!"));
+  runtimeService.signal(simulationExperiment.getId());
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+}

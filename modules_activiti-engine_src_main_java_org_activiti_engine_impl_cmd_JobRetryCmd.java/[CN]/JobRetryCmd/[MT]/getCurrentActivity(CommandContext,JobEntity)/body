@@ -1,0 +1,26 @@
+{
+  String type=job.getJobHandlerType();
+  ActivityImpl activity=null;
+  if (TimerExecuteNestedActivityJobHandler.TYPE.equals(type) || TimerCatchIntermediateEventJobHandler.TYPE.equals(type)) {
+    ExecutionEntity execution=fetchExecutionEntity(commandContext,job.getExecutionId());
+    if (execution != null) {
+      activity=execution.getProcessDefinition().findActivity(job.getJobHandlerConfiguration());
+    }
+  }
+ else   if (TimerStartEventJobHandler.TYPE.equals(type)) {
+    DeploymentManager deploymentManager=commandContext.getProcessEngineConfiguration().getDeploymentManager();
+    ProcessDefinitionEntity processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKey(job.getJobHandlerConfiguration());
+    if (processDefinition != null) {
+      activity=processDefinition.getInitial();
+    }
+  }
+ else   if (AsyncContinuationJobHandler.TYPE.equals(type)) {
+    ExecutionEntity execution=fetchExecutionEntity(commandContext,job.getExecutionId());
+    if (execution != null) {
+      activity=execution.getActivity();
+    }
+  }
+ else {
+  }
+  return activity;
+}

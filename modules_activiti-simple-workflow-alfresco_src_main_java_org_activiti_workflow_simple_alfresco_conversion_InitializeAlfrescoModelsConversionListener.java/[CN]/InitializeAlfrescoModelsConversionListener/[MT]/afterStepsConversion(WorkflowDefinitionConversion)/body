@@ -1,18 +1,18 @@
 {
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  M2Namespace modelNamespace=model.getNamespaces().get(0);
   for (  FlowElement flowElement : conversion.getProcess().getFlowElements()) {
     if (flowElement instanceof StartEvent) {
       StartEvent startEvent=(StartEvent)flowElement;
       if (startEvent.getFormKey() == null) {
-        Module module=AlfrescoConversionUtil.getModule(conversion);
+        Module module=AlfrescoConversionUtil.getExtension(conversion).getModules().get(0);
         Configuration detailsForm=module.addConfiguration(EVALUATOR_STRING_COMPARE,MessageFormat.format(EVALUATOR_CONDITION_ACTIVITI,conversion.getProcess().getId()));
         if (conversion.getWorkflowDefinition().getStartFormDefinition() != null && conversion.getWorkflowDefinition().getStartFormDefinition().getFormGroups().size() > 0) {
           M2Type type=new M2Type();
-          M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
           model.getTypes().add(type);
-          M2Namespace modelNamespace=model.getNamespaces().get(0);
           type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),AlfrescoConversionConstants.START_TASK_SIMPLE_NAME));
           type.setParentName(AlfrescoConversionConstants.DEFAULT_START_FORM_TYPE);
-          Module shareModule=AlfrescoConversionUtil.getModule(conversion);
+          Module shareModule=AlfrescoConversionUtil.getExtension(conversion).getModules().get(0);
           Configuration configuration=shareModule.addConfiguration(AlfrescoConversionConstants.EVALUATOR_TASK_TYPE,type.getName());
           Form formConfig=configuration.createForm();
           formConfig.setStartForm(true);
@@ -25,6 +25,26 @@
           populateDefaultDetailFormConfig(detailsForm);
         }
       }
+    }
+  }
+  List<PropertyReference> references=AlfrescoConversionUtil.getPropertyReferences(conversion);
+  for (  FlowElement element : conversion.getProcess().getFlowElements()) {
+    if (element instanceof SequenceFlow) {
+      resolvePropertyRefrencesInSequenceFlow((SequenceFlow)element,modelNamespace,references);
+    }
+ else     if (element instanceof IntermediateCatchEvent) {
+      resolvePropertyRefrencesInCatchEvent((IntermediateCatchEvent)element,modelNamespace,references);
+    }
+ else     if (element instanceof ServiceTask) {
+      resolvePropertyRefrencesInServiceTask((ServiceTask)element,modelNamespace,references);
+    }
+ else     if (element instanceof UserTask) {
+      addScriptListenersToUserTask((UserTask)element,conversion);
+    }
+  }
+  if (references != null && !references.isEmpty()) {
+    for (    PropertyReference reference : references) {
+      reference.validate(model);
     }
   }
 }

@@ -1,5 +1,5 @@
 {
-  UserEntity user=findUserById(userId);
+  UserEntity user=(UserEntity)findUserById(userId);
   if (user != null) {
     List<IdentityInfoEntity> identityInfos=getDbSqlSession().selectList("selectIdentityInfoByUserId",userId);
     for (    IdentityInfoEntity identityInfo : identityInfos) {
@@ -7,5 +7,8 @@
     }
     getDbSqlSession().delete("deleteMembershipsByUserId",userId);
     user.delete();
+    if (getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,user));
+    }
   }
 }

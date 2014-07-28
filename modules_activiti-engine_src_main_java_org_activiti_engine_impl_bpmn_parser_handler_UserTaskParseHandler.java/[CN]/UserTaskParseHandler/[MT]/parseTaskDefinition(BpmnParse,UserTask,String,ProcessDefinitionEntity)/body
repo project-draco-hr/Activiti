@@ -29,8 +29,15 @@
   if (StringUtils.isNotEmpty(userTask.getDueDate())) {
     taskDefinition.setDueDateExpression(expressionManager.createExpression(userTask.getDueDate()));
   }
+  if (StringUtils.isNotEmpty(userTask.getCategory())) {
+    taskDefinition.setCategoryExpression(expressionManager.createExpression(userTask.getCategory()));
+  }
   if (StringUtils.isNotEmpty(userTask.getPriority())) {
     taskDefinition.setPriorityExpression(expressionManager.createExpression(userTask.getPriority()));
   }
+  if (StringUtils.isNotEmpty(userTask.getFormKey())) {
+    taskDefinition.setFormKeyExpression(expressionManager.createExpression(userTask.getFormKey()));
+  }
+  parseCustomIdentityLinks(bpmnParse,userTask,taskDefinition);
   return taskDefinition;
 }

@@ -1,0 +1,38 @@
+{
+  String processDefinitionId=deployOneTaskTestProcess();
+  final ProcessInstance processInstance=runtimeService.startProcessInstanceById(processDefinitionId);
+  final CyclicBarrier startBarrier=new CyclicBarrier(2);
+  final CyclicBarrier endBarrier=new CyclicBarrier(2);
+  final List<Exception> exceptions=new ArrayList<Exception>();
+  Thread firstInstertThread=new Thread(new Runnable(){
+    @Override public void run(){
+      try {
+        managementService.executeCommand(new SetVariableWithBarriersCommand(startBarrier,endBarrier,processInstance.getId()));
+      }
+ catch (      Exception e) {
+        exceptions.add(e);
+      }
+    }
+  }
+);
+  Thread secondInsertThread=new Thread(new Runnable(){
+    @Override public void run(){
+      try {
+        managementService.executeCommand(new SetVariableWithBarriersCommand(startBarrier,endBarrier,processInstance.getId()));
+      }
+ catch (      Exception e) {
+        exceptions.add(e);
+      }
+    }
+  }
+);
+  firstInstertThread.start();
+  secondInsertThread.start();
+  firstInstertThread.join();
+  secondInsertThread.join();
+  assertEquals(1,exceptions.size());
+  Map<String,Object> variables=runtimeService.getVariables(processInstance.getId());
+  assertEquals(1,variables.size());
+  assertEquals("12345",variables.get("var"));
+  runtimeService.deleteProcessInstance(processInstance.getId(),"ShouldNotFail");
+}

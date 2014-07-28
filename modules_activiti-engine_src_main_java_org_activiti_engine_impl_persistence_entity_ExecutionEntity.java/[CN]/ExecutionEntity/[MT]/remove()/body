@@ -11,5 +11,8 @@
   removeEventSubscriptions();
   removeEventScopes();
   removeIdentityLinks();
+  if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,this));
+  }
   Context.getCommandContext().getDbSqlSession().delete(this);
 }

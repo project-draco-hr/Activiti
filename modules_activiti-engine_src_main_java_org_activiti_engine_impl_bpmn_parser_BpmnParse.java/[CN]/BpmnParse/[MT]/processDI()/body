@@ -3,7 +3,9 @@
     for (    String bpmnReference : bpmnModel.getLocationMap().keySet()) {
       if (bpmnModel.getFlowElement(bpmnReference) == null) {
         if (bpmnModel.getArtifact(bpmnReference) == null) {
-          LOGGER.warn("Invalid reference in diagram interchange definition: could not find " + bpmnReference);
+          if (bpmnModel.getPool(bpmnReference) == null && bpmnModel.getLane(bpmnReference) == null) {
+            LOGGER.warn("Invalid reference in diagram interchange definition: could not find " + bpmnReference);
+          }
         }
       }
  else       if (!(bpmnModel.getFlowElement(bpmnReference) instanceof FlowNode)) {
@@ -17,12 +19,7 @@
         }
       }
  else       if (!(bpmnModel.getFlowElement(bpmnReference) instanceof SequenceFlow)) {
-        if (bpmnModel.getFlowLocationMap().get(bpmnReference).size() > 0) {
-          LOGGER.warn("Invalid reference in diagram interchange definition: " + bpmnReference + " does not reference a sequence flow");
-        }
- else {
-          LOGGER.warn("Invalid reference in diagram interchange definition: " + bpmnReference + " does not reference a sequence flow");
-        }
+        LOGGER.warn("Invalid reference in diagram interchange definition: " + bpmnReference + " does not reference a sequence flow");
       }
     }
     for (    Process process : bpmnModel.getProcesses()) {

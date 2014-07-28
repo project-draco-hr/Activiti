@@ -3,6 +3,7 @@
   ScopeImpl scope=getScopeObject();
   ensureParentInitialized();
   variableInstances=new HashMap<String,VariableInstanceEntity>();
+  variableInstanceList=new ArrayList<VariableInstanceEntity>();
   eventSubscriptions=new ArrayList<EventSubscriptionEntity>();
   jobs=new ArrayList<JobEntity>();
   tasks=new ArrayList<TaskEntity>();
@@ -19,6 +20,9 @@
     for (    EventSubscriptionDeclaration eventSubscriptionDeclaration : eventSubscriptionDeclarations) {
       if (!eventSubscriptionDeclaration.isStartEvent()) {
         EventSubscriptionEntity eventSubscriptionEntity=eventSubscriptionDeclaration.prepareEventSubscriptionEntity(this);
+        if (getTenantId() != null) {
+          eventSubscriptionEntity.setTenantId(getTenantId());
+        }
         eventSubscriptionEntity.insert();
       }
     }

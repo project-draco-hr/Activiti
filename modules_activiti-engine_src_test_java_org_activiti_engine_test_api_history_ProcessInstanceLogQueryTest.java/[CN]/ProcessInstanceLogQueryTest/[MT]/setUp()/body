@@ -1,0 +1,15 @@
+{
+  super.setUp();
+  deployTwoTasksTestProcess();
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("var1","Hello");
+  vars.put("var2",123);
+  this.processInstanceId=runtimeService.startProcessInstanceByKey("twoTasksProcess",vars).getId();
+  taskService.addComment(null,processInstanceId,"Hello World");
+  taskService.addComment(null,processInstanceId,"Hello World2");
+  taskService.addComment(null,processInstanceId,"Hello World3");
+  runtimeService.setVariable(processInstanceId,"var1","new Value");
+  for (  Task task : taskService.createTaskQuery().list()) {
+    taskService.complete(task.getId());
+  }
+}

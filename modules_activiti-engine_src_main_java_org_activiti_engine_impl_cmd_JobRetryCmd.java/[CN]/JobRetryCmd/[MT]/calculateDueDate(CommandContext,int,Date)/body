@@ -1,0 +1,11 @@
+{
+  Calendar newDateCal=new GregorianCalendar();
+  if (oldDate != null) {
+    newDateCal.setTime(oldDate);
+  }
+ else {
+    newDateCal.setTime(commandContext.getProcessEngineConfiguration().getClock().getCurrentTime());
+  }
+  newDateCal.add(Calendar.SECOND,waitTimeInSeconds);
+  return newDateCal.getTime();
+}

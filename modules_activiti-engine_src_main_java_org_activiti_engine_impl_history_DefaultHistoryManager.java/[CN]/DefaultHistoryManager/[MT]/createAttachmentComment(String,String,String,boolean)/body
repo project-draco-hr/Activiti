@@ -1,0 +1,19 @@
+{
+  if (isHistoryEnabled()) {
+    String userId=Authentication.getAuthenticatedUserId();
+    CommentEntity comment=new CommentEntity();
+    comment.setUserId(userId);
+    comment.setType(CommentEntity.TYPE_EVENT);
+    comment.setTime(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
+    comment.setTaskId(taskId);
+    comment.setProcessInstanceId(processInstanceId);
+    if (create) {
+      comment.setAction(Event.ACTION_ADD_ATTACHMENT);
+    }
+ else {
+      comment.setAction(Event.ACTION_DELETE_ATTACHMENT);
+    }
+    comment.setMessage(attachmentName);
+    getSession(CommentEntityManager.class).insert(comment);
+  }
+}

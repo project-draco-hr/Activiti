@@ -1,0 +1,14 @@
+{
+  if (isValidEvent(event)) {
+    NoExecutionVariableScope scope=new NoExecutionVariableScope();
+    Object delegate=expression.getValue(scope);
+    if (delegate instanceof ActivitiEventListener) {
+      failOnException=((ActivitiEventListener)delegate).isFailOnException();
+      ((ActivitiEventListener)delegate).onEvent(event);
+    }
+ else {
+      failOnException=true;
+      throw new ActivitiIllegalArgumentException("Delegate expression " + expression + " did not resolve to an implementation of "+ ActivitiEventListener.class.getName());
+    }
+  }
+}

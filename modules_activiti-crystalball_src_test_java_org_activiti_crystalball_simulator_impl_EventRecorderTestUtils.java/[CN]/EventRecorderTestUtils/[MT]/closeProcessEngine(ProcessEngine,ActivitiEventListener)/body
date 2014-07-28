@@ -1,0 +1,7 @@
+{
+  if (listener != null) {
+    final ProcessEngineConfigurationImpl processEngineConfiguration=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration();
+    processEngineConfiguration.getEventDispatcher().removeEventListener(listener);
+  }
+  processEngine.close();
+}

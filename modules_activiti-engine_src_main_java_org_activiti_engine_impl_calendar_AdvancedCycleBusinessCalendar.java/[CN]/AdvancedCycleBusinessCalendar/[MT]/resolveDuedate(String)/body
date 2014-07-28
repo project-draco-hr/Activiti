@@ -1,0 +1,15 @@
+{
+  logger.info("Resolving Due Date: " + duedateDescription);
+  String timeZone=getValueFrom("DSTZONE",duedateDescription);
+  String version=getValueFrom("VER",duedateDescription);
+  duedateDescription=removeValueFrom("VER",removeValueFrom("START",removeValueFrom("DSTZONE",duedateDescription))).trim();
+  try {
+    logger.info("Base Due Date: " + duedateDescription);
+    Date date=resolvers.get(version == null ? getDefaultScheduleVersion() : Integer.valueOf(version)).resolve(duedateDescription,clockReader,timeZone == null ? clockReader.getCurrentTimeZone() : TimeZone.getTimeZone(timeZone));
+    logger.info("Calculated Date: " + (date == null ? "Will Not Run Again" : date));
+    return date;
+  }
+ catch (  Exception e) {
+    throw new ActivitiIllegalArgumentException("Cannot parse duration",e);
+  }
+}

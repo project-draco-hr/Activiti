@@ -1,3 +1,16 @@
 {
-  return createCommentResponse(securedResource,comment.getTaskId(),comment.getProcessInstanceId(),comment.getUserId(),comment.getFullMessage(),comment.getId());
+  CommentResponse result=new CommentResponse();
+  result.setAuthor(comment.getUserId());
+  result.setMessage(comment.getFullMessage());
+  result.setId(comment.getId());
+  result.setTime(comment.getTime());
+  result.setTaskId(comment.getTaskId());
+  result.setProcessInstanceId(comment.getProcessInstanceId());
+  if (comment.getTaskId() != null) {
+    result.setTaskUrl(securedResource.createFullResourceUrl(RestUrls.URL_TASK_COMMENT,comment.getTaskId(),comment.getId()));
+  }
+  if (comment.getProcessInstanceId() != null) {
+    result.setProcessInstanceUrl(securedResource.createFullResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,comment.getProcessInstanceId(),comment.getId()));
+  }
+  return result;
 }

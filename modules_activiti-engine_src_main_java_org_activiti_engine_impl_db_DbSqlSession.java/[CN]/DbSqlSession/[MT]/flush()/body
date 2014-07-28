@@ -1,5 +1,5 @@
 {
-  removeUnnecessaryOperations();
+  List<DeleteOperation> removedOperations=removeUnnecessaryOperations();
   flushDeserializedObjects();
   List<PersistentObject> updatedObjects=getUpdatedObjects();
   if (log.isDebugEnabled()) {
@@ -17,5 +17,5 @@
   }
   flushInserts();
   flushUpdates(updatedObjects);
-  flushDeletes();
+  flushDeletes(removedOperations);
 }

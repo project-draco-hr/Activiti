@@ -62,4 +62,17 @@
   assertResultsPresentInDataResponse(url,timerJob.getId());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?exceptionMessage=";
   assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?withoutTenantId=true";
+  assertResultsPresentInDataResponse(url,timerJob.getId(),asyncJob.getId());
+  managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?withoutTenantId=true";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?tenantId=myTenant";
+  assertResultsPresentInDataResponse(url,timerJob.getId(),asyncJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?tenantId=anotherTenant";
+  assertResultsPresentInDataResponse(url);
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?tenantIdLike=" + encode("%enant");
+  assertResultsPresentInDataResponse(url,timerJob.getId(),asyncJob.getId());
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?tenantIdLike=anotherTenant";
+  assertResultsPresentInDataResponse(url);
 }

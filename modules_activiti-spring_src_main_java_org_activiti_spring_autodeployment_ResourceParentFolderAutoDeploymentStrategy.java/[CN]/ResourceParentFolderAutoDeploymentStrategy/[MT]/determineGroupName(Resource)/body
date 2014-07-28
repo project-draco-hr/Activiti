@@ -1,0 +1,11 @@
+{
+  String result=determineResourceName(resource);
+  try {
+    if (resourceParentIsDirectory(resource)) {
+      result=resource.getFile().getParentFile().getName();
+    }
+  }
+ catch (  IOException e) {
+  }
+  return result;
+}

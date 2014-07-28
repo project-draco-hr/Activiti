@@ -10,8 +10,12 @@
   this.description=task.getDescription();
   this.owner=task.getOwner();
   this.assignee=task.getAssignee();
-  this.startTime=ClockUtil.getCurrentTime();
+  this.startTime=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
   this.taskDefinitionKey=task.getTaskDefinitionKey();
   this.setPriority(task.getPriority());
   this.setDueDate(task.getDueDate());
+  this.setCategory(task.getCategory());
+  if (task.getTenantId() != null) {
+    tenantId=task.getTenantId();
+  }
 }

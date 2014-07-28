@@ -1,0 +1,11 @@
+{
+  if (processInstanceId != null) {
+    return commandContext.getEventLogEntryEntityManager().findEventLogEntriesByProcessInstanceId(processInstanceId);
+  }
+ else   if (startLogNr != null) {
+    return commandContext.getEventLogEntryEntityManager().findEventLogEntries(startLogNr,pageSize != null ? pageSize : -1);
+  }
+ else {
+    return commandContext.getEventLogEntryEntityManager().findAllEventLogEntries();
+  }
+}

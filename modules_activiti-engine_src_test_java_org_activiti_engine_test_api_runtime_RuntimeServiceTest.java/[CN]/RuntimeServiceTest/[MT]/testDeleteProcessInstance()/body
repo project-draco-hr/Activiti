@@ -10,5 +10,6 @@
     HistoricProcessInstance historicInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
     assertNotNull(historicInstance);
     assertEquals(deleteReason,historicInstance.getDeleteReason());
+    assertNotNull(historicInstance.getEndTime());
   }
 }

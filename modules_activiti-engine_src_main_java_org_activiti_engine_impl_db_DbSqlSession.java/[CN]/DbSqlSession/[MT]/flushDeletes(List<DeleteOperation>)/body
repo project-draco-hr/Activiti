@@ -1,0 +1,8 @@
+{
+  boolean dispatchEvent=Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled();
+  flushRegularDeletes(dispatchEvent);
+  if (dispatchEvent) {
+    dispatchEventsForRemovedOperations(removedOperations);
+  }
+  deleteOperations.clear();
+}

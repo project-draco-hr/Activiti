@@ -17,25 +17,25 @@
     ObjectNode link=(ObjectNode)responseNode.get(i);
     assertNotNull(link);
     if (!link.get("user").isNull()) {
-      if (link.get("user").getTextValue().equals("john")) {
-        assertEquals("customType",link.get("type").getTextValue());
+      if (link.get("user").textValue().equals("john")) {
+        assertEquals("customType",link.get("type").textValue());
         assertTrue(link.get("group").isNull());
-        assertTrue(link.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","john","customType")));
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","john","customType")));
         customLinkFound=true;
       }
  else {
-        assertEquals("kermit",link.get("user").getTextValue());
-        assertEquals("candidate",link.get("type").getTextValue());
+        assertEquals("kermit",link.get("user").textValue());
+        assertEquals("candidate",link.get("type").textValue());
         assertTrue(link.get("group").isNull());
-        assertTrue(link.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","kermit","candidate")));
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","kermit","candidate")));
         userCandidateFound=true;
       }
     }
  else     if (!link.get("group").isNull()) {
-      assertEquals("sales",link.get("group").getTextValue());
-      assertEquals("candidate",link.get("type").getTextValue());
+      assertEquals("sales",link.get("group").textValue());
+      assertEquals("candidate",link.get("type").textValue());
       assertTrue(link.get("user").isNull());
-      assertTrue(link.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS,"sales","candidate")));
+      assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS,"sales","candidate")));
       groupCandidateFound=true;
     }
   }

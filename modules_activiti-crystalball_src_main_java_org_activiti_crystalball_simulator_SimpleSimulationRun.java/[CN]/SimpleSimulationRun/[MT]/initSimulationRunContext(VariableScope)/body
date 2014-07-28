@@ -1,0 +1,12 @@
+{
+  try {
+    SimulationRunContext.setEventCalendar(eventCalendar);
+    SimulationRunContext.setProcessEngine(processEngine);
+    SimulationRunContext.setExecution(execution);
+    SimulationRunContext.getClock().setCurrentTime(simulationStartDate);
+    if (dueDate != null)     SimulationRunContext.getEventCalendar().addEvent(new SimulationEvent.Builder(SimulationEvent.TYPE_END_SIMULATION).simulationTime(dueDate.getTime()).build());
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Unable to initialize simulation run",e);
+  }
+}

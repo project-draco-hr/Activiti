@@ -1,0 +1,5 @@
+{
+  SimulationEvent event=SimulationRunContext.getEventCalendar().removeFirstEvent();
+  if (event != null && event.hasSimulationTime())   this.processEngine.getProcessEngineConfiguration().getClock().setCurrentTime(new Date(event.getSimulationTime()));
+  return event;
+}

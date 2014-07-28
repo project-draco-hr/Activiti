@@ -1,0 +1,7 @@
+{
+  ProcessValidator processValidator=commandContext.getProcessEngineConfiguration().getProcessValidator();
+  if (processValidator == null) {
+    throw new ActivitiException("No process validator defined");
+  }
+  return processValidator.validate(bpmnModel);
+}

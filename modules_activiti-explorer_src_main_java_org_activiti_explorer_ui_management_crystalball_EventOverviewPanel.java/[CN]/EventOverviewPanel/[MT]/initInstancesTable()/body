@@ -1,0 +1,34 @@
+{
+  if (instanceList == null || instanceList.size() == 0) {
+    noMembersTable=new Label(i18nManager.getMessage(Messages.ADMIN_RUNNING_NONE_FOUND));
+    instanceLayout.addComponent(noMembersTable);
+  }
+ else {
+    instanceTable=new Table();
+    instanceTable.setWidth(100,UNITS_PERCENTAGE);
+    instanceTable.setHeight(200,UNITS_PIXELS);
+    instanceTable.setEditable(false);
+    instanceTable.setImmediate(true);
+    instanceTable.setSelectable(true);
+    instanceTable.setSortDisabled(false);
+    instanceTable.addContainerProperty("id",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_ID),null,Table.ALIGN_LEFT);
+    instanceTable.addContainerProperty("definitionName",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_NAME),null,Table.ALIGN_LEFT);
+    instanceTable.addContainerProperty("started",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_STARTED),null,Table.ALIGN_LEFT);
+    instanceTable.addContainerProperty("ended",String.class,null,i18nManager.getMessage(Messages.PROCESS_INSTANCE_ENDED),null,Table.ALIGN_LEFT);
+    fillInstanceValues();
+    instanceTable.addListener(new Property.ValueChangeListener(){
+      private static final long serialVersionUID=1L;
+      public void valueChange(      ValueChangeEvent event){
+        Item item=instanceTable.getItem(event.getProperty().getValue());
+        if (item != null) {
+          replayButton.setEnabled(true);
+        }
+ else {
+          replayButton.setEnabled(false);
+        }
+      }
+    }
+);
+    instanceLayout.addComponent(instanceTable);
+  }
+}

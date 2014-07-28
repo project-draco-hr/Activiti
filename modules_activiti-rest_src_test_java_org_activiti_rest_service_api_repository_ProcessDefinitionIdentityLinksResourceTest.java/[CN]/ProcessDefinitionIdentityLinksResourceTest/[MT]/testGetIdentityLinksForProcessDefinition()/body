@@ -15,17 +15,17 @@
     ObjectNode link=(ObjectNode)responseNode.get(i);
     assertNotNull(link);
     if (!link.get("user").isNull()) {
-      assertEquals("kermit",link.get("user").getTextValue());
-      assertEquals("candidate",link.get("type").getTextValue());
+      assertEquals("kermit",link.get("user").textValue());
+      assertEquals("candidate",link.get("type").textValue());
       assertTrue(link.get("group").isNull());
-      assertTrue(link.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"users","kermit")));
+      assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"users","kermit")));
       userCandidateFound=true;
     }
  else     if (!link.get("group").isNull()) {
-      assertEquals("admin",link.get("group").getTextValue());
-      assertEquals("candidate",link.get("type").getTextValue());
+      assertEquals("admin",link.get("group").textValue());
+      assertEquals("candidate",link.get("type").textValue());
       assertTrue(link.get("user").isNull());
-      assertTrue(link.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"groups","admin")));
+      assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"groups","admin")));
       groupCandidateFound=true;
     }
   }

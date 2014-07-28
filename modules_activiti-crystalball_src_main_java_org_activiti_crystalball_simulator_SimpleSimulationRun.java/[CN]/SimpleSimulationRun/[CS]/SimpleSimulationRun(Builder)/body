@@ -1,0 +1,7 @@
+{
+  super(builder.eventHandlers);
+  this.eventCalendar=builder.getEventCalendar();
+  this.processEngine=builder.getProcessEngine();
+  eventHandlerMap.put(SimulationEvent.TYPE_END_SIMULATION,new NoopEventHandler());
+  if (builder.getJobExecutor() != null)   eventHandlerMap.put(SimulationEvent.TYPE_ACQUIRE_JOB_NOTIFICATION_EVENT,new AcquireJobNotificationEventHandler(builder.getJobExecutor()));
+}

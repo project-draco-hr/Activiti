@@ -1,0 +1,14 @@
+{
+  if (!(otherDefinition instanceof ChoiceStepsDefinition)) {
+    throw new SimpleWorkflowException("An instance of ParallelStepsDefinition is required to set values");
+  }
+  ChoiceStepsDefinition definition=(ChoiceStepsDefinition)otherDefinition;
+  setId(definition.getId());
+  setParameters(new HashMap<String,Object>(otherDefinition.getParameters()));
+  steps=new ArrayList<ListConditionStepDefinition<ChoiceStepsDefinition>>();
+  if (definition.getStepList() != null && definition.getStepList().size() > 0) {
+    for (    ListConditionStepDefinition<ChoiceStepsDefinition> stepDefinition : definition.getStepList()) {
+      steps.add(stepDefinition.clone());
+    }
+  }
+}

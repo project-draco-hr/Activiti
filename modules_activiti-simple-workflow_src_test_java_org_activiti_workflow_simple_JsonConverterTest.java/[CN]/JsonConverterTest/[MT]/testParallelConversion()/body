@@ -1,0 +1,21 @@
+{
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").inParallel().inList().addHumanStep("first task","kermit").addHumanStep("second task","kermit").endList().inList().addHumanStep("gonzo task","gonzo").endList().endParallel();
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  Writer writer=new OutputStreamWriter(baos);
+  converter.writeWorkflowDefinition(workflowDefinition,writer);
+  WorkflowDefinition parsedDefinition=converter.readWorkflowDefinition(baos.toByteArray());
+  assertEquals(workflowDefinition.getName(),parsedDefinition.getName());
+  assertEquals(workflowDefinition.getDescription(),parsedDefinition.getDescription());
+  ParallelStepsDefinition parallelDef=null;
+  for (  StepDefinition step : parsedDefinition.getSteps()) {
+    if (step instanceof ParallelStepsDefinition) {
+      parallelDef=(ParallelStepsDefinition)step;
+    }
+  }
+  assertNotNull(parallelDef);
+  assertEquals(2,parallelDef.getStepList().size());
+  ListStepDefinition<ParallelStepsDefinition> listSteps=parallelDef.getStepList().get(0);
+  assertEquals(2,listSteps.getSteps().size());
+  listSteps=parallelDef.getStepList().get(1);
+  assertEquals(1,listSteps.getSteps().size());
+}

@@ -1,0 +1,28 @@
+{
+  CommandContext commandContext=Context.getCommandContext();
+  if (assignee == null && this.assignee == null) {
+    if (commandContext != null) {
+      commandContext.getHistoryManager().recordTaskAssigneeChange(id,assignee);
+    }
+    return;
+  }
+  this.assignee=assignee;
+  if (commandContext != null) {
+    commandContext.getHistoryManager().recordTaskAssigneeChange(id,assignee);
+    if (assignee != null && processInstanceId != null) {
+      getProcessInstance().involveUser(assignee,IdentityLinkType.PARTICIPANT);
+    }
+    if (!StringUtils.equals(initialAssignee,assignee)) {
+      fireEvent(TaskListener.EVENTNAME_ASSIGNMENT);
+      initialAssignee=assignee;
+    }
+    if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      if (dispatchAssignmentEvent) {
+        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_ASSIGNED,this));
+      }
+      if (dispatchUpdateEvent) {
+        commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,this));
+      }
+    }
+  }
+}

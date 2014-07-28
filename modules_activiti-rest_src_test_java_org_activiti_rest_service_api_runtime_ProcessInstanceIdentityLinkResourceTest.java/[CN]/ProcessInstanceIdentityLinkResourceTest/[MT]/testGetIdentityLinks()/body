@@ -15,17 +15,17 @@
     ObjectNode link=(ObjectNode)responseNode.get(i);
     assertNotNull(link);
     if (!link.get("user").isNull()) {
-      if (link.get("user").getTextValue().equals("john")) {
-        assertEquals("customType",link.get("type").getTextValue());
+      if (link.get("user").textValue().equals("john")) {
+        assertEquals("customType",link.get("type").textValue());
         assertTrue(link.get("group").isNull());
-        assertTrue(link.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"john","customType")));
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"john","customType")));
         johnFound=true;
       }
  else {
-        assertEquals("paul",link.get("user").getTextValue());
-        assertEquals("candidate",link.get("type").getTextValue());
+        assertEquals("paul",link.get("user").textValue());
+        assertEquals("candidate",link.get("type").textValue());
         assertTrue(link.get("group").isNull());
-        assertTrue(link.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"paul","candidate")));
+        assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"paul","candidate")));
         paulFound=true;
       }
     }

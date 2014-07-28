@@ -12,7 +12,7 @@
         return newInstance;
       }
  catch (      Exception e) {
-        bpmnModel.addProblem("Could not find importer for type " + theImport.getImportType(),theImport);
+        throw new ActivitiException("Could not find importer for type " + theImport.getImportType());
       }
     }
     return null;

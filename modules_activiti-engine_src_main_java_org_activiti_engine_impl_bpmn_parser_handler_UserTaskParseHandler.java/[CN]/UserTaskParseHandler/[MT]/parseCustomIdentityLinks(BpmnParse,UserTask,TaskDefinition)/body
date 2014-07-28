@@ -1,0 +1,22 @@
+{
+  Map<String,List<ExtensionElement>> extensionElements=userTask.getExtensionElements();
+  if (extensionElements != null) {
+    List<ExtensionElement> resourceLists=extensionElements.get(BpmnXMLConstants.ELEMENT_CUSTOM_RESOURCE);
+    if (resourceLists != null) {
+      for (      ExtensionElement resourceList : resourceLists) {
+        String resourceType=resourceList.getAttributeValue(BpmnXMLConstants.ACTIVITI_EXTENSIONS_NAMESPACE,BpmnXMLConstants.ATTRIBUTE_NAME);
+        Map<String,String> resources=getResources(resourceType,userTask);
+        if (resources != null) {
+          Set<Expression> resourceExpression=convertToExpressions(false,bpmnParse,resources.get(USER));
+          if (resourceExpression != null) {
+            taskDefinition.addCustomUserIdentityLinkExpression(resourceType,resourceExpression);
+          }
+          resourceExpression=convertToExpressions(true,bpmnParse,resources.get(GROUP));
+          if (resourceExpression != null) {
+            taskDefinition.addCustomGroupIdentityLinkExpression(resourceType,resourceExpression);
+          }
+        }
+      }
+    }
+  }
+}

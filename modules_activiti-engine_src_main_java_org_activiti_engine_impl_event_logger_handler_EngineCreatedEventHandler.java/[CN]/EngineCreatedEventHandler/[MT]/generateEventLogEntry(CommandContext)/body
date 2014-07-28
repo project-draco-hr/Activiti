@@ -1,0 +1,9 @@
+{
+  Map<String,Object> data=new HashMap<String,Object>();
+  try {
+    data.put("ip",InetAddress.getLocalHost().getHostAddress());
+  }
+ catch (  UnknownHostException e) {
+  }
+  return createEventLogEntry(data);
+}

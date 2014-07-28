@@ -7,10 +7,10 @@
     ArrayNode idArray=(ArrayNode)idJSON.get("deploymentIds");
     for (    JsonNode deploymentId : idArray) {
       if (cascade) {
-        ActivitiUtil.getRepositoryService().deleteDeployment(deploymentId.getTextValue(),true);
+        ActivitiUtil.getRepositoryService().deleteDeployment(deploymentId.textValue(),true);
       }
  else {
-        ActivitiUtil.getRepositoryService().deleteDeployment(deploymentId.getTextValue());
+        ActivitiUtil.getRepositoryService().deleteDeployment(deploymentId.textValue());
       }
     }
     ObjectNode successNode=new ObjectMapper().createObjectNode();

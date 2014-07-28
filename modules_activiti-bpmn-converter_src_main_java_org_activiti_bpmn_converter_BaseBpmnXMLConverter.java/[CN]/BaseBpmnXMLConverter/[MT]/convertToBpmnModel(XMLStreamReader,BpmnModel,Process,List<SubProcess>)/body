@@ -1,13 +1,11 @@
 {
-  this.model=model;
-  this.activeProcess=activeProcess;
   String elementId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
   String elementName=xtr.getAttributeValue(null,ATTRIBUTE_NAME);
   boolean async=parseAsync(xtr);
   boolean notExclusive=parseNotExclusive(xtr);
   String defaultFlow=xtr.getAttributeValue(null,ATTRIBUTE_DEFAULT);
   boolean isForCompensation=parseForCompensation(xtr);
-  BaseElement parsedElement=convertXMLToElement(xtr);
+  BaseElement parsedElement=convertXMLToElement(xtr,model);
   if (parsedElement instanceof Artifact) {
     Artifact currentArtifact=(Artifact)parsedElement;
     currentArtifact.setId(elementId);
@@ -16,7 +14,7 @@
       currentSubProcess.addArtifact(currentArtifact);
     }
  else {
-      this.activeProcess.addArtifact(currentArtifact);
+      activeProcess.addArtifact(currentArtifact);
     }
   }
   if (parsedElement instanceof FlowElement) {
@@ -33,15 +31,26 @@
       }
     }
     if (currentFlowElement instanceof Gateway) {
+      Gateway gateway=(Gateway)currentFlowElement;
       if (StringUtils.isNotEmpty(defaultFlow)) {
-        ((Gateway)currentFlowElement).setDefaultFlow(defaultFlow);
+        gateway.setDefaultFlow(defaultFlow);
+      }
+      gateway.setAsynchronous(async);
+      gateway.setNotExclusive(notExclusive);
+    }
+    if (currentFlowElement instanceof DataObject) {
+      if (activeSubProcessList.size() > 0) {
+        activeSubProcessList.get(activeSubProcessList.size() - 1).getDataObjects().add((ValuedDataObject)parsedElement);
+      }
+ else {
+        activeProcess.getDataObjects().add((ValuedDataObject)parsedElement);
       }
     }
     if (activeSubProcessList.size() > 0) {
       activeSubProcessList.get(activeSubProcessList.size() - 1).addFlowElement(currentFlowElement);
     }
  else {
-      this.activeProcess.addFlowElement(currentFlowElement);
+      activeProcess.addFlowElement(currentFlowElement);
     }
   }
 }

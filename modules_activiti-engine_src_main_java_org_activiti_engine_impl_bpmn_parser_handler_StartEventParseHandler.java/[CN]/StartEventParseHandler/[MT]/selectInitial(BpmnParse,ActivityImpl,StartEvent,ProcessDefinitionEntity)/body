@@ -3,13 +3,13 @@
     processDefinition.setInitial(startEventActivity);
   }
  else {
-    if (startEventActivity.getProperty("type").equals("messageStartEvent") == false) {
+    if (!startEventActivity.getProperty("type").equals("messageStartEvent")) {
       String currentInitialType=(String)processDefinition.getInitial().getProperty("type");
       if (currentInitialType.equals("messageStartEvent")) {
         processDefinition.setInitial(startEventActivity);
       }
  else {
-        bpmnParse.getBpmnModel().addProblem("multiple none start events or timer start events not supported on process definition.",startEvent);
+        throw new ActivitiException("multiple none start events or timer start events not supported on process definition");
       }
     }
   }

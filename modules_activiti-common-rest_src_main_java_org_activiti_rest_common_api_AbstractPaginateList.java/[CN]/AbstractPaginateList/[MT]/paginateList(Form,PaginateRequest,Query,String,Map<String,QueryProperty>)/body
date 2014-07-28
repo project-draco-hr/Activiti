@@ -1,0 +1,58 @@
+{
+  if (paginateRequest == null) {
+    paginateRequest=new PaginateRequest();
+  }
+  if (paginateRequest.getStart() == null) {
+    paginateRequest.setStart(RequestUtil.getInteger(form,"start",0));
+  }
+  if (paginateRequest.getSize() == null) {
+    paginateRequest.setSize(RequestUtil.getInteger(form,"size",10));
+  }
+  if (paginateRequest.getOrder() == null) {
+    paginateRequest.setOrder(form.getValues("order"));
+  }
+  if (paginateRequest.getSort() == null) {
+    paginateRequest.setSort(form.getValues("sort"));
+  }
+  Integer start=paginateRequest.getStart();
+  if (start == null || start < 0) {
+    start=0;
+  }
+  Integer size=paginateRequest.getSize();
+  if (size == null || size < 0) {
+    size=10;
+  }
+  String sort=paginateRequest.getSort();
+  if (sort == null) {
+    sort=defaultSort;
+  }
+  String order=paginateRequest.getOrder();
+  if (order == null) {
+    order="asc";
+  }
+  if (sort != null && properties.size() > 0) {
+    QueryProperty qp=properties.get(sort);
+    if (qp == null) {
+      throw new ActivitiIllegalArgumentException("Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
+    }
+    ((AbstractQuery)query).orderBy(qp);
+    if (order.equals("asc")) {
+      query.asc();
+    }
+ else     if (order.equals("desc")) {
+      query.desc();
+    }
+ else {
+      throw new ActivitiIllegalArgumentException("Value for param 'order' is not valid : '" + order + "', must be 'asc' or 'desc'");
+    }
+  }
+  List list=processList(query.listPage(start,size));
+  DataResponse response=new DataResponse();
+  response.setStart(start);
+  response.setSize(list.size());
+  response.setSort(sort);
+  response.setOrder(order);
+  response.setTotal(query.count());
+  response.setData(list);
+  return response;
+}

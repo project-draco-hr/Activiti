@@ -7,7 +7,7 @@
   Representation response=client.put(requestNode);
   assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
   JsonNode responseNode=objectMapper.readTree(response.getStream());
-  assertTrue(responseNode.get("suspended").getBooleanValue());
+  assertTrue(responseNode.get("suspended").booleanValue());
   processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   assertTrue(processDefinition.isSuspended());
 }

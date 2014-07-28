@@ -22,6 +22,7 @@
   assertEquals("processValue",responseNode.get("value").asText());
   assertEquals("variable",responseNode.get("name").asText());
   assertEquals("string",responseNode.get("type").asText());
+  client.release();
   client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,processInstance.getId(),"variable") + "?scope=illegal");
   try {
     response=client.get();
@@ -31,6 +32,7 @@
     assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
     assertEquals("Invalid variable scope: 'illegal'",expected.getStatus().getDescription());
   }
+  client.release();
   client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,"unexisting","variable"));
   try {
     response=client.get();
@@ -40,6 +42,7 @@
     assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
     assertEquals("execution unexisting doesn't exist",expected.getStatus().getDescription());
   }
+  client.release();
   client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,processInstance.getId(),"unexistingVariable"));
   try {
     response=client.get();
@@ -49,4 +52,5 @@
     assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
     assertEquals("Execution '" + processInstance.getId() + "' doesn't have a variable with name: 'unexistingVariable'.",expected.getStatus().getDescription());
   }
+  client.release();
 }

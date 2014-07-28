@@ -1,5 +1,7 @@
 {
   BpmnModel model=new BpmnModel();
+  model.setStartEventFormTypes(startEventFormTypes);
+  model.setUserTaskFormTypes(userTaskFormTypes);
   try {
     Process activeProcess=null;
     List<SubProcess> activeSubProcessList=new ArrayList<SubProcess>();
@@ -8,7 +10,7 @@
         xtr.next();
       }
  catch (      Exception e) {
-        LOGGER.error("Error reading XML document",e);
+        LOGGER.debug("Error reading XML document",e);
         throw new XMLException("Error reading XML",e);
       }
       if (xtr.isEndElement() && ELEMENT_SUBPROCESS.equals(xtr.getLocalName())) {
@@ -19,19 +21,13 @@
       }
       if (xtr.isStartElement() == false)       continue;
       if (ELEMENT_DEFINITIONS.equals(xtr.getLocalName())) {
-        model.setTargetNamespace(xtr.getAttributeValue(null,TARGET_NAMESPACE_ATTRIBUTE));
-        for (int i=0; i < xtr.getNamespaceCount(); i++) {
-          String prefix=xtr.getNamespacePrefix(i);
-          if (prefix != null) {
-            model.addNamespace(prefix,xtr.getNamespaceURI(i));
-          }
-        }
+        definitionsParser.parse(xtr,model);
       }
  else       if (ELEMENT_SIGNAL.equals(xtr.getLocalName())) {
-        new SignalParser().parse(xtr,model);
+        signalParser.parse(xtr,model);
       }
  else       if (ELEMENT_MESSAGE.equals(xtr.getLocalName())) {
-        new MessageParser().parse(xtr,model);
+        messageParser.parse(xtr,model);
       }
  else       if (ELEMENT_ERROR.equals(xtr.getLocalName())) {
         if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
@@ -39,13 +35,13 @@
         }
       }
  else       if (ELEMENT_IMPORT.equals(xtr.getLocalName())) {
-        new ImportParser().parse(xtr,model);
+        importParser.parse(xtr,model);
       }
  else       if (ELEMENT_ITEM_DEFINITION.equals(xtr.getLocalName())) {
-        new ItemDefinitionParser().parse(xtr,model);
+        itemDefinitionParser.parse(xtr,model);
       }
  else       if (ELEMENT_INTERFACE.equals(xtr.getLocalName())) {
-        new InterfaceParser().parse(xtr,model);
+        interfaceParser.parse(xtr,model);
       }
  else       if (ELEMENT_IOSPECIFICATION.equals(xtr.getLocalName())) {
         new IOSpecificationParser().parseChildElement(xtr,activeProcess,model);
@@ -61,16 +57,16 @@
         }
       }
  else       if (ELEMENT_PROCESS.equals(xtr.getLocalName())) {
-        Process process=new ProcessParser().parse(xtr,model);
+        Process process=processParser.parse(xtr,model);
         if (process != null) {
           activeProcess=process;
         }
       }
  else       if (ELEMENT_POTENTIAL_STARTER.equals(xtr.getLocalName())) {
-        new PotentialStarterParser().parse(xtr,activeProcess);
+        potentialStarterParser.parse(xtr,activeProcess);
       }
  else       if (ELEMENT_LANE.equals(xtr.getLocalName())) {
-        new LaneParser().parse(xtr,activeProcess,model);
+        laneParser.parse(xtr,activeProcess,model);
       }
  else       if (ELEMENT_DOCUMENTATION.equals(xtr.getLocalName())) {
         BaseElement parentElement=null;
@@ -82,20 +78,32 @@
         }
         new DocumentationParser().parseChildElement(xtr,parentElement,model);
       }
+ else       if (activeProcess == null && ELEMENT_TEXT_ANNOTATION.equals(xtr.getLocalName())) {
+        String elementId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+        TextAnnotation textAnnotation=(TextAnnotation)new TextAnnotationXMLConverter().convertXMLToElement(xtr,model);
+        textAnnotation.setId(elementId);
+        model.getGlobalArtifacts().add(textAnnotation);
+      }
+ else       if (activeProcess == null && ELEMENT_ASSOCIATION.equals(xtr.getLocalName())) {
+        String elementId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
+        Association association=(Association)new AssociationXMLConverter().convertXMLToElement(xtr,model);
+        association.setId(elementId);
+        model.getGlobalArtifacts().add(association);
+      }
  else       if (ELEMENT_EXTENSIONS.equals(xtr.getLocalName())) {
         new ExtensionElementsParser().parse(xtr,activeSubProcessList,activeProcess,model);
       }
  else       if (ELEMENT_SUBPROCESS.equals(xtr.getLocalName())) {
-        new SubProcessParser().parse(xtr,activeSubProcessList,activeProcess);
+        subProcessParser.parse(xtr,activeSubProcessList,activeProcess);
       }
  else       if (ELEMENT_TRANSACTION.equals(xtr.getLocalName())) {
-        new SubProcessParser().parse(xtr,activeSubProcessList,activeProcess);
+        subProcessParser.parse(xtr,activeSubProcessList,activeProcess);
       }
  else       if (ELEMENT_DI_SHAPE.equals(xtr.getLocalName())) {
-        new BpmnShapeParser().parse(xtr,model);
+        bpmnShapeParser.parse(xtr,model);
       }
  else       if (ELEMENT_DI_EDGE.equals(xtr.getLocalName())) {
-        new BpmnEdgeParser().parse(xtr,model);
+        bpmnEdgeParser.parse(xtr,model);
       }
  else {
         if (activeSubProcessList.size() > 0 && ELEMENT_MULTIINSTANCE.equalsIgnoreCase(xtr.getLocalName())) {
@@ -103,30 +111,25 @@
         }
  else         if (convertersToBpmnMap.containsKey(xtr.getLocalName())) {
           if (activeProcess != null) {
-            Class<? extends BaseBpmnXMLConverter> converterClass=convertersToBpmnMap.get(xtr.getLocalName());
-            BaseBpmnXMLConverter converter=converterClass.newInstance();
-            if (userTaskFormTypes != null && ELEMENT_TASK_USER.equals(xtr.getLocalName())) {
-              UserTaskXMLConverter userTaskConverter=(UserTaskXMLConverter)converter;
-              for (              String formType : userTaskFormTypes) {
-                userTaskConverter.addFormType(formType);
-              }
-            }
- else             if (startEventFormTypes != null && ELEMENT_EVENT_START.equals(xtr.getLocalName())) {
-              StartEventXMLConverter startEventConverter=(StartEventXMLConverter)converter;
-              for (              String formType : startEventFormTypes) {
-                startEventConverter.addFormType(formType);
-              }
-            }
+            BaseBpmnXMLConverter converter=convertersToBpmnMap.get(xtr.getLocalName());
             converter.convertToBpmnModel(xtr,model,activeProcess,activeSubProcessList);
           }
         }
       }
     }
     for (    Process process : model.getProcesses()) {
+      for (      Pool pool : model.getPools()) {
+        if (process.getId().equals(pool.getProcessRef())) {
+          pool.setExecutable(process.isExecutable());
+        }
+      }
       processFlowElements(process.getFlowElements(),process);
     }
   }
- catch (  Exception e) {
+ catch (  XMLException e) {
+    throw e;
+  }
+catch (  Exception e) {
     LOGGER.error("Error processing BPMN document",e);
     throw new XMLException("Error processing BPMN document",e);
   }

@@ -1,0 +1,10 @@
+{
+  AutoDeploymentStrategy result=new DefaultAutoDeploymentStrategy();
+  for (  final AutoDeploymentStrategy strategy : deploymentStrategies) {
+    if (strategy.handlesMode(mode)) {
+      result=strategy;
+      break;
+    }
+  }
+  return result;
+}

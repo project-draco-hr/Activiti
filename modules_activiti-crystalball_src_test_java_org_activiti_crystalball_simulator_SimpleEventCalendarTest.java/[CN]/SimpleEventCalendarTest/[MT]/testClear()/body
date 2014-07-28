@@ -1,0 +1,8 @@
+{
+  SimulationEvent event1=new SimulationEvent.Builder("any type").simulationTime(1).build();
+  EventCalendar calendar=new SimpleEventCalendar(clock,comparator);
+  calendar.addEvent(event1);
+  calendar.clear();
+  assertTrue(calendar.isEmpty());
+  assertNull(calendar.removeFirstEvent());
+}

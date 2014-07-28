@@ -9,7 +9,7 @@
     Iterator<JsonNode> it=dataNode.iterator();
     while (it.hasNext()) {
       JsonNode variableNode=it.next().get("variable");
-      String name=variableNode.get("name").getTextValue();
+      String name=variableNode.get("name").textValue();
       if (variableName.equals(name)) {
         variableFound=true;
         if (variableValue instanceof Boolean) {

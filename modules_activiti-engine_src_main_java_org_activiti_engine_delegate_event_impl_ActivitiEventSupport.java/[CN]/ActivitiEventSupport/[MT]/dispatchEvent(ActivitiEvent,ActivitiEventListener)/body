@@ -1,0 +1,13 @@
+{
+  try {
+    listener.onEvent(event);
+  }
+ catch (  Throwable t) {
+    if (listener.isFailOnException()) {
+      throw new ActivitiException("Exception while executing event-listener",t);
+    }
+ else {
+      LOG.warn("Exception while executing event-listener, which was ignored",t);
+    }
+  }
+}

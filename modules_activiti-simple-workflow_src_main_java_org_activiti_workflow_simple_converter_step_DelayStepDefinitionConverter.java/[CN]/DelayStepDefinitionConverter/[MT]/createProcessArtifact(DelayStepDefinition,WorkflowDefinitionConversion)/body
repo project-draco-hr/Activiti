@@ -1,0 +1,16 @@
+{
+  IntermediateCatchEvent event=new IntermediateCatchEvent();
+  event.setId(conversion.getUniqueNumberedId(ConversionConstants.INTERMEDIATE_EVENT_ID_PREVIX));
+  event.setName(stepDefinition.getName());
+  event.setDocumentation(stepDefinition.getDescription());
+  TimerEventDefinition timer=new TimerEventDefinition();
+  event.addEventDefinition(timer);
+  if (stepDefinition.getTimeDate() != null) {
+    timer.setTimeDate(stepDefinition.getTimeDate());
+  }
+ else   if (stepDefinition.getTimeDuration() != null) {
+    timer.setTimeDuration(stepDefinition.getTimeDuration().toISO8601DurationString());
+  }
+  addFlowElement(conversion,event,true);
+  return event;
+}

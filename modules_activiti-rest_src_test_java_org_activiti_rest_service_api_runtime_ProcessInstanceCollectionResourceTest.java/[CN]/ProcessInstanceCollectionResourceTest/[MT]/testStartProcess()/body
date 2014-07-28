@@ -8,10 +8,10 @@
   assertNotNull(processInstance);
   JsonNode responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals(processInstance.getId(),responseNode.get("id").getTextValue());
+  assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("businessKey").isNull());
-  assertEquals("processTask",responseNode.get("activityId").getTextValue());
-  assertFalse(responseNode.get("suspended").getBooleanValue());
+  assertEquals("processTask",responseNode.get("activityId").textValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())));
   assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(processInstance.getProcessDefinitionId()))));
   runtimeService.deleteProcessInstance(processInstance.getId(),"testing");
@@ -23,10 +23,10 @@
   assertNotNull(processInstance);
   responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals(processInstance.getId(),responseNode.get("id").getTextValue());
+  assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("businessKey").isNull());
-  assertEquals("processTask",responseNode.get("activityId").getTextValue());
-  assertFalse(responseNode.get("suspended").getBooleanValue());
+  assertEquals("processTask",responseNode.get("activityId").textValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())));
   assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(processInstance.getProcessDefinitionId()))));
   runtimeService.deleteProcessInstance(processInstance.getId(),"testing");
@@ -38,10 +38,10 @@
   assertNotNull(processInstance);
   responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals(processInstance.getId(),responseNode.get("id").getTextValue());
+  assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("businessKey").isNull());
-  assertEquals("processTask",responseNode.get("activityId").getTextValue());
-  assertFalse(responseNode.get("suspended").getBooleanValue());
+  assertEquals("processTask",responseNode.get("activityId").textValue());
+  assertFalse(responseNode.get("suspended").booleanValue());
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())));
   assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(processInstance.getProcessDefinitionId()))));
   requestNode=objectMapper.createObjectNode();
@@ -51,5 +51,5 @@
   assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
   responseNode=objectMapper.readTree(response.getStream());
   assertNotNull(responseNode);
-  assertEquals("myBusinessKey",responseNode.get("businessKey").getTextValue());
+  assertEquals("myBusinessKey",responseNode.get("businessKey").textValue());
 }

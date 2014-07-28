@@ -8,8 +8,9 @@
   assertTrue(responseNode.isArray());
   assertEquals(2,responseNode.size());
   Set<String> states=new HashSet<String>();
-  states.add(responseNode.get(0).getTextValue());
-  states.add(responseNode.get(1).getTextValue());
+  states.add(responseNode.get(0).textValue());
+  states.add(responseNode.get(1).textValue());
   assertTrue(states.contains("waitState"));
   assertTrue(states.contains("anotherWaitState"));
+  client.release();
 }

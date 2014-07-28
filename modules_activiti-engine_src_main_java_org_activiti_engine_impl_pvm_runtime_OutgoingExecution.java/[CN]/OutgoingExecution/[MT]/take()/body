@@ -1,11 +1,3 @@
 {
-  if (outgoingExecution.getReplacedBy() != null) {
-    outgoingExecution=outgoingExecution.getReplacedBy();
-  }
-  if (!outgoingExecution.isDeleteRoot()) {
-    outgoingExecution.take(outgoingTransition);
-  }
- else {
-    log.debug("Not taking transition '{}', outgoing execution has ended.",outgoingTransition);
-  }
+  take(true);
 }

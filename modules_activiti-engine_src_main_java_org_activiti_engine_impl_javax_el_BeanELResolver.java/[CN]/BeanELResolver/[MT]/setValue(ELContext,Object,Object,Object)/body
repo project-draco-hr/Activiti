@@ -14,7 +14,7 @@
       method.invoke(base,value);
     }
  catch (    InvocationTargetException e) {
-      throw new ELException("Cannot write property: " + property,e.getCause());
+      throw new ELException("Cannot write property: " + property,e.getTargetException());
     }
 catch (    IllegalAccessException e) {
       throw new PropertyNotWritableException("Cannot write property: " + property,e);

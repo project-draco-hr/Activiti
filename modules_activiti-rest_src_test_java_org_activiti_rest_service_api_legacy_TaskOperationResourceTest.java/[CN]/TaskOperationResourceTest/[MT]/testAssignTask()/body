@@ -9,7 +9,7 @@
   requestNode.put("userId","jenny");
   Representation response=client.put(requestNode);
   JsonNode responseNode=objectMapper.readTree(response.getStream());
-  assertTrue(responseNode.get("success").getBooleanValue());
+  assertTrue(responseNode.get("success").booleanValue());
   task=taskService.createTaskQuery().singleResult();
   assertEquals("jenny",task.getAssignee());
 }

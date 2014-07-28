@@ -6,16 +6,14 @@
     assertEquals(1L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     String taskId=task.getId();
     ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    task.setAssignee("fred");
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("action","claim");
-    try {
-      client.post(requestNode);
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-      assertEquals("An assignee is required when claiming a task.",expected.getStatus().getDescription());
-    }
+    client.post(requestNode);
+    task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    assertNotNull(task);
+    assertNull(task.getAssignee());
+    assertEquals(1L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     requestNode.put("assignee","newAssignee");
     client.post(requestNode);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();

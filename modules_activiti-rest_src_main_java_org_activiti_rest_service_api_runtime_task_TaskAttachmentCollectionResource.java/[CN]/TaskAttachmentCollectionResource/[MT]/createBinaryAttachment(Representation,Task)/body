@@ -27,7 +27,7 @@
   if (uploadItem == null) {
     throw new ActivitiIllegalArgumentException("Attachment content is required.");
   }
-  Attachment createdAttachment=ActivitiUtil.getTaskService().createAttachment(type,task.getId(),null,name,description,uploadItem.getInputStream());
+  Attachment createdAttachment=ActivitiUtil.getTaskService().createAttachment(type,task.getId(),task.getProcessInstanceId(),name,description,uploadItem.getInputStream());
   setStatus(Status.SUCCESS_CREATED);
   return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createAttachmentResponse(this,createdAttachment);
 }

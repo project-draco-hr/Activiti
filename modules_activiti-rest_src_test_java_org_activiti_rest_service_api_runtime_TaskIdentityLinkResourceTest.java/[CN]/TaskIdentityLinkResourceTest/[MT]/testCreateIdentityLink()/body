@@ -10,10 +10,10 @@
     assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
     assertNotNull(responseNode);
-    assertEquals("kermit",responseNode.get("user").getTextValue());
-    assertEquals("myType",responseNode.get("type").getTextValue());
+    assertEquals("kermit",responseNode.get("user").textValue());
+    assertEquals("myType",responseNode.get("type").textValue());
     assertTrue(responseNode.get("group").isNull());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType")));
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType")));
     requestNode=objectMapper.createObjectNode();
     requestNode.put("group","sales");
     requestNode.put("type","myType");
@@ -22,10 +22,10 @@
     assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
     responseNode=objectMapper.readTree(response.getStream());
     assertNotNull(responseNode);
-    assertEquals("sales",responseNode.get("group").getTextValue());
-    assertEquals("myType",responseNode.get("type").getTextValue());
+    assertEquals("sales",responseNode.get("group").textValue());
+    assertEquals("myType",responseNode.get("type").textValue());
     assertTrue(responseNode.get("user").isNull());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS,"sales","myType")));
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS,"sales","myType")));
     client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINKS_COLLECTION,"unexistingtask"));
     try {
       client.post(null);

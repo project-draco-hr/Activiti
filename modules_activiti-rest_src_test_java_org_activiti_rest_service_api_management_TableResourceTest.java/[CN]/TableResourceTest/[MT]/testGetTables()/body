@@ -9,9 +9,9 @@
   assertEquals(tableCounts.size(),responseNode.size());
   for (int i=0; i < responseNode.size(); i++) {
     ObjectNode table=(ObjectNode)responseNode.get(i);
-    assertNotNull(table.get("name").getTextValue());
-    assertNotNull(table.get("count").getLongValue());
-    assertTrue(table.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,table.get("name").getTextValue())));
-    assertEquals(((Long)tableCounts.get(table.get("name").getTextValue())).longValue(),table.get("count").getLongValue());
+    assertNotNull(table.get("name").textValue());
+    assertNotNull(table.get("count").longValue());
+    assertTrue(table.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,table.get("name").textValue())));
+    assertEquals(((Long)tableCounts.get(table.get("name").textValue())).longValue(),table.get("count").longValue());
   }
 }

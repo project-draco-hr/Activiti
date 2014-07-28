@@ -1,0 +1,8 @@
+{
+  for (  Event event : processInstanceEvents) {
+    if (action.equals(event.getAction())) {
+      return event;
+    }
+  }
+  throw new AssertionFailedError("no process instance event found with action " + action);
+}

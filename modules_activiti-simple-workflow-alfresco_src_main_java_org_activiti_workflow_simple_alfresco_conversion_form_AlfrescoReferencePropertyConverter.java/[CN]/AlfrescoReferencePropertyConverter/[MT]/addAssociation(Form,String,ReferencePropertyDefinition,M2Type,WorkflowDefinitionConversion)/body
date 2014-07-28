@@ -29,4 +29,11 @@
   form.getFormAppearance().addFormAppearanceElement(field);
   field.setId(propertyName);
   field.setSet(formSet);
+  if (AlfrescoConversionConstants.CONTENT_TYPE_CONTENT.equals(referenceDefinition.getType())) {
+    FormFieldControl control=new FormFieldControl(AlfrescoConversionConstants.FORM_PACKAGE_ITEMS_TEMPLATE);
+    control.addControlParameter(AlfrescoConversionConstants.FORM_PACKAGE_ITEMS_PARAM_ROOTNODE,AlfrescoConversionConstants.FORM_PACKAGE_ITEMS_PARAM_ROOTNODE_DEFAULT);
+    field.setControl(control);
+    addOrAlterPackageItemActions(contentType,true,true);
+  }
+  addOutputProperty(referenceDefinition,propertyName,contentType.getName(),conversion);
 }

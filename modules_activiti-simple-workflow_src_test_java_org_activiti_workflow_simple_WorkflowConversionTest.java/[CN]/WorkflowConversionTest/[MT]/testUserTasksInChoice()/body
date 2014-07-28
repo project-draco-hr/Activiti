@@ -1,0 +1,32 @@
+{
+  TaskService taskService=activitiRule.getTaskService();
+  WorkflowDefinition workflowDefinition=new WorkflowDefinition().name("testWorkflow").description("This is a test workflow").inChoice().inList().addCondition("test","==","'hello'").addHumanStep("first task","kermit").addHumanStep("second task","kermit").endList().inList().addHumanStep("gonzo task","gonzo").endList().endChoice().addHumanStep("last task","kermit");
+  Map<String,Object> varMap=new HashMap<String,Object>();
+  varMap.put("test","hello");
+  String definitionKey=convertAndDeploy(workflowDefinition);
+  ProcessInstance instance=activitiRule.getRuntimeService().startProcessInstanceByKey(definitionKey,varMap);
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("kermit").count());
+  assertEquals(0,taskService.createTaskQuery().taskAssignee("gonzo").count());
+  Task task=taskService.createTaskQuery().singleResult();
+  assertEquals("first task",task.getName());
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("second task",task.getName());
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("last task",task.getName());
+  taskService.complete(task.getId());
+  assertEquals(0,activitiRule.getRuntimeService().createProcessInstanceQuery().processInstanceId(instance.getId()).count());
+  varMap=new HashMap<String,Object>();
+  varMap.put("test","world");
+  instance=activitiRule.getRuntimeService().startProcessInstanceByKey(definitionKey,varMap);
+  assertEquals(0,taskService.createTaskQuery().taskAssignee("kermit").count());
+  assertEquals(1,taskService.createTaskQuery().taskAssignee("gonzo").count());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("gonzo task",task.getName());
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().singleResult();
+  assertEquals("last task",task.getName());
+  taskService.complete(task.getId());
+  assertEquals(0,activitiRule.getRuntimeService().createProcessInstanceQuery().processInstanceId(instance.getId()).count());
+}

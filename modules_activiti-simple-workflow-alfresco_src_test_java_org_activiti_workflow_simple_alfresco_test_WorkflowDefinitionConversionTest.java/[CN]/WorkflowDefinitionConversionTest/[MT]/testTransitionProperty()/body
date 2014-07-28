@@ -1,0 +1,23 @@
+{
+  WorkflowDefinition definition=new WorkflowDefinition();
+  definition.setId("process");
+  HumanStepDefinition humanStep=new HumanStepDefinition();
+  humanStep.setId("step1");
+  FormDefinition form=new FormDefinition();
+  humanStep.setForm(form);
+  AlfrescoTransitionsPropertyDefinition transition=new AlfrescoTransitionsPropertyDefinition();
+  transition.addEntry(new ListPropertyEntry("One","One"));
+  transition.addEntry(new ListPropertyEntry("Two","Two"));
+  humanStep.getForm().addFormProperty(transition);
+  definition.addStep(humanStep);
+  WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(definition);
+  conversion.convert();
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  assertEquals(1L,model.getTypes().size());
+  M2Type taskType=model.getTypes().get(0);
+  assertEquals(1L,taskType.getPropertyOverrides().size());
+  assertEquals("bpm:outcomePropertyName",taskType.getPropertyOverrides().get(0).getName());
+  assertTrue(taskType.getPropertyOverrides().get(0).getDefaultValue().contains("step1transitions"));
+  assertEquals(1L,taskType.getProperties().size());
+  assertEquals(1L,model.getConstraints().size());
+}

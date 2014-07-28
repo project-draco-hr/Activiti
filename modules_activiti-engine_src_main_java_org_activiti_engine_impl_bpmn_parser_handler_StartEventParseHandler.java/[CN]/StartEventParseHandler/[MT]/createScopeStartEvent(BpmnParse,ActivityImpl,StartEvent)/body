@@ -11,20 +11,20 @@
         bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse,eventDefinition);
       }
  else {
-        bpmnParse.getBpmnModel().addProblem("start event of event subprocess must be of type 'error', 'message' or 'signal' ",startEvent);
+        logger.warn("start event of event subprocess must be of type 'error', 'message' or 'signal' for start event " + startEvent.getId());
       }
     }
   }
  else {
     if (startEvent.getEventDefinitions().size() > 0) {
-      bpmnParse.getBpmnModel().addProblem("event definitions only allowed on start event if subprocess is an event subprocess",startEvent);
+      logger.warn("event definitions only allowed on start event if subprocess is an event subprocess " + bpmnParse.getCurrentSubProcess().getId());
     }
     if (scope.getProperty(PROPERTYNAME_INITIAL) == null) {
       scope.setProperty(PROPERTYNAME_INITIAL,startEventActivity);
       startEventActivity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createNoneStartEventActivityBehavior(startEvent));
     }
  else {
-      bpmnParse.getBpmnModel().addProblem("multiple start events not supported for subprocess",bpmnParse.getCurrentSubProcess());
+      logger.warn("multiple start events not supported for subprocess",bpmnParse.getCurrentSubProcess().getId());
     }
   }
 }

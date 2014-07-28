@@ -2,6 +2,9 @@
   if (isProcessInstanceType() && bzKey != null) {
     setBusinessKey(bzKey);
     Context.getCommandContext().getHistoryManager().updateProcessBusinessKeyInHistory(this);
+    if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,this));
+    }
     return bzKey;
   }
   return null;

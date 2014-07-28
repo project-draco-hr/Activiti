@@ -2,6 +2,16 @@
   try {
     try {
       try {
+        if (exception == null && closeListeners != null) {
+          try {
+            for (            CommandContextCloseListener listener : closeListeners) {
+              listener.closing(this);
+            }
+          }
+ catch (          Throwable exception) {
+            exception(exception);
+          }
+        }
         if (exception == null) {
           flushSessions();
         }
@@ -18,6 +28,16 @@
  catch (        Throwable exception) {
           exception(exception);
         }
+        if (exception == null && closeListeners != null) {
+          try {
+            for (            CommandContextCloseListener listener : closeListeners) {
+              listener.closed(this);
+            }
+          }
+ catch (          Throwable exception) {
+            exception(exception);
+          }
+        }
         if (exception != null) {
           if (exception instanceof JobNotFoundException || exception instanceof ActivitiTaskAlreadyClaimedException) {
             log.info("Error while closing command context",exception);
@@ -26,7 +46,7 @@
             log.debug("Optimistic locking exception : " + exception);
           }
  else {
-            log.error("Error while closing command context",exception);
+            log.debug("Error while closing command context",exception);
           }
           transactionContext.rollback();
         }

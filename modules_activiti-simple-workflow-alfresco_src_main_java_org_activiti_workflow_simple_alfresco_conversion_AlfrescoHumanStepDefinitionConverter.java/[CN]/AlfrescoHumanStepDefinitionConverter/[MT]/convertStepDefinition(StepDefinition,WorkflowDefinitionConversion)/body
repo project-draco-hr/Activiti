@@ -1,22 +1,38 @@
 {
-  super.convertStepDefinition(stepDefinition,conversion);
-  String userTaskId=conversion.getLastActivityId();
-  UserTask userTask=(UserTask)conversion.getProcess().getFlowElement(userTaskId);
-  userTask.getFormProperties().clear();
   HumanStepDefinition humanStep=(HumanStepDefinition)stepDefinition;
   validate(humanStep);
+  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
+  M2Namespace modelNamespace=model.getNamespaces().get(0);
+  UserTask userTask=super.convertStepDefinition(stepDefinition,conversion);
+  userTask.getFormProperties().clear();
   userTask.setName(humanStep.getName() != null ? humanStep.getName() : humanStep.getId());
   M2Type type=new M2Type();
-  M2Model model=AlfrescoConversionUtil.getContentModel(conversion);
   model.getTypes().add(type);
-  M2Namespace modelNamespace=model.getNamespaces().get(0);
   type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),humanStep.getId()));
   type.setParentName(AlfrescoConversionConstants.DEFAULT_BASE_FORM_TYPE);
   userTask.setFormKey(type.getName());
-  Module shareModule=AlfrescoConversionUtil.getModule(conversion);
+  Module shareModule=AlfrescoConversionUtil.getExtension(conversion).getModules().get(0);
   Configuration configuration=shareModule.addConfiguration(AlfrescoConversionConstants.EVALUATOR_TASK_TYPE,type.getName());
   Form formConfig=configuration.createForm();
   formCreator.createForm(type,formConfig,humanStep.getForm(),conversion);
   addPropertySharing(humanStep,conversion,userTask);
-  addScriptListeners(humanStep,conversion,userTask);
+  if (humanStep.getAssignmentType() == HumanStepAssignmentType.USER) {
+    String assignee=humanStep.getAssignment().getAssignee();
+    if (assignee != null && PropertyReference.isPropertyReference(assignee)) {
+      PropertyReference reference=PropertyReference.createReference(assignee);
+      AlfrescoConversionUtil.getPropertyReferences(conversion).add(reference);
+      userTask.setAssignee(reference.getUsernameReferenceExpression(modelNamespace.getPrefix()));
+    }
+  }
+ else   if (humanStep.getAssignmentType() == HumanStepAssignmentType.USERS) {
+    if (humanStep.getAssignment().getCandidateUsers() != null) {
+      userTask.setCandidateUsers(resolveUserPropertyReferences(humanStep.getAssignment().getCandidateUsers(),modelNamespace.getPrefix(),conversion));
+    }
+  }
+ else   if (humanStep.getAssignmentType() == HumanStepAssignmentType.GROUPS) {
+    if (humanStep.getAssignment().getCandidateGroups() != null) {
+      userTask.setCandidateGroups(resolveGroupPropertyReferences(humanStep.getAssignment().getCandidateGroups(),modelNamespace.getPrefix(),conversion));
+    }
+  }
+  return userTask;
 }

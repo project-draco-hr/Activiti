@@ -1,0 +1,33 @@
+{
+  FlowElement flowElement=model.getMainProcess().getFlowElement("start1");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof StartEvent);
+  assertEquals("start1",flowElement.getId());
+  flowElement=model.getMainProcess().getFlowElement("subprocess1");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof SubProcess);
+  assertEquals("subprocess1",flowElement.getId());
+  SubProcess subProcess=(SubProcess)flowElement;
+  assertTrue(subProcess.getLoopCharacteristics().isSequential());
+  assertEquals("10",subProcess.getLoopCharacteristics().getLoopCardinality());
+  assertEquals("${assignee == \"\"}",subProcess.getLoopCharacteristics().getCompletionCondition());
+  assertTrue(subProcess.getFlowElements().size() == 5);
+  Map<String,String> attributes=getSubprocessAttributes(flowElement);
+  assertEquals(2,attributes.size());
+  for (  String key : attributes.keySet()) {
+    if (key.equals("Attr3")) {
+      assertTrue("3".equals(attributes.get(key)));
+    }
+ else     if (key.equals("Attr4")) {
+      assertTrue("4".equals(attributes.get(key)));
+    }
+ else {
+      fail("Unknown key value");
+    }
+  }
+  localization=getLocalization(flowElement);
+  assertEquals("rbkfn-2",localization.getResourceBundleKeyForName());
+  assertEquals("rbkfd-2",localization.getResourceBundleKeyForDescription());
+  assertEquals("leifn-2",localization.getLabeledEntityIdForName());
+  assertEquals("leifd-2",localization.getLabeledEntityIdForDescription());
+}

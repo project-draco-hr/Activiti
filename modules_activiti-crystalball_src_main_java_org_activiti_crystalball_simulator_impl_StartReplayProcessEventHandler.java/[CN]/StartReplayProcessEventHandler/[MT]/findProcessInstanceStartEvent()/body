@@ -1,0 +1,8 @@
+{
+  for (  SimulationEvent event : events) {
+    if (eventTypeToReplay.equals(event.getType()) && processInstanceId.equals(event.getProperty(ProcessInstanceCreateTransformer.PROCESS_INSTANCE_ID))) {
+      return event;
+    }
+  }
+  throw new CrystalballException("ProcessInstance to replay start not found");
+}

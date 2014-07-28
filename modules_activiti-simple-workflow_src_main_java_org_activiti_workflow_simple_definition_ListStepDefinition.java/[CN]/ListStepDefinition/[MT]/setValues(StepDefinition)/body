@@ -1,0 +1,15 @@
+{
+  if (!(otherDefinition instanceof ListStepDefinition)) {
+    throw new SimpleWorkflowException("An instance of SerialStepsDefinition is required to set values");
+  }
+  ListStepDefinition<T> definition=(ListStepDefinition<T>)otherDefinition;
+  setId(definition.getId());
+  setName(definition.getName());
+  setParameters(new HashMap<String,Object>(otherDefinition.getParameters()));
+  steps=new ArrayList<StepDefinition>();
+  if (definition.getSteps() != null && definition.getSteps().size() > 0) {
+    for (    StepDefinition stepDefinition : definition.getSteps()) {
+      steps.add(stepDefinition.clone());
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  FlowElement timerElement=model.getMainProcess().getFlowElement("timer_evt");
+  EventDefinition timerEvent=extractEventDefinition(timerElement);
+  assertTrue(timerEvent instanceof TimerEventDefinition);
+  TimerEventDefinition ted=(TimerEventDefinition)timerEvent;
+  assertEquals("PT5M",ted.getTimeDuration());
+  FlowElement signalElement=model.getMainProcess().getFlowElement("signal_evt");
+  EventDefinition signalEvent=extractEventDefinition(signalElement);
+  assertTrue(signalEvent instanceof SignalEventDefinition);
+  SignalEventDefinition sed=(SignalEventDefinition)signalEvent;
+  assertEquals("signal_ref",sed.getSignalRef());
+  FlowElement messageElement=model.getMainProcess().getFlowElement("message_evt");
+  EventDefinition messageEvent=extractEventDefinition(messageElement);
+  assertTrue(messageEvent instanceof MessageEventDefinition);
+  MessageEventDefinition med=(MessageEventDefinition)messageEvent;
+  assertEquals("message_ref",med.getMessageRef());
+}

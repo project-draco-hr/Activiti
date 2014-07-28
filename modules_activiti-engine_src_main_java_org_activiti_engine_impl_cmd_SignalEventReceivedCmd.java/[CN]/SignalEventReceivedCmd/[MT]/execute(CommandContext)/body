@@ -1,7 +1,7 @@
 {
   List<SignalEventSubscriptionEntity> signalEvents=null;
   if (executionId == null) {
-    signalEvents=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(eventName);
+    signalEvents=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(eventName,tenantId);
   }
  else {
     ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(executionId);

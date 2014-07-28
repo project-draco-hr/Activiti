@@ -1,5 +1,5 @@
 {
-  TaskEntity task=Context.getCommandContext().getTaskEntityManager().findTaskById(taskId);
+  TaskEntity task=commandContext.getTaskEntityManager().findTaskById(taskId);
   if (task == null) {
     throw new ActivitiObjectNotFoundException("Task '" + taskId + "' not found",Task.class);
   }
@@ -10,7 +10,7 @@
   if (taskFormHandler == null) {
     return null;
   }
-  FormEngine formEngine=Context.getProcessEngineConfiguration().getFormEngines().get(formEngineName);
+  FormEngine formEngine=commandContext.getProcessEngineConfiguration().getFormEngines().get(formEngineName);
   if (formEngine == null) {
     throw new ActivitiException("No formEngine '" + formEngineName + "' defined process engine configuration");
   }

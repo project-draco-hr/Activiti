@@ -4,7 +4,14 @@
     status=getSpecificStatus(throwable.getCause(),request,response);
   }
   if (status == null) {
-    status=getSpecificStatus(throwable,request,response);
+    Throwable causeThrowable=null;
+    if (throwable.getCause() != null && throwable.getCause() instanceof ActivitiException) {
+      causeThrowable=throwable.getCause();
+    }
+ else {
+      causeThrowable=throwable;
+    }
+    status=getSpecificStatus(causeThrowable,request,response);
   }
   return status != null ? status : Status.SERVER_ERROR_INTERNAL;
 }

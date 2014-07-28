@@ -1,0 +1,6 @@
+{
+  runtimeService.startProcessInstanceByKey("oneTaskProcess","oneTaskProcessBusinessKey");
+  Task task=taskService.createTaskQuery().taskDefinitionKey("userTask").singleResult();
+  EventRecorderTestUtils.increaseTime(processEngineConfiguration.getClock());
+  taskService.complete(task.getId());
+}

@@ -1,0 +1,11 @@
+{
+  when(resourceMock3.getFile()).thenThrow(new IOException());
+  when(resourceMock3.getFilename()).thenReturn(resourceName3);
+  final Resource[] resources=new Resource[]{resourceMock3};
+  classUnderTest.deployResources(deploymentNameHint,resources,repositoryServiceMock);
+  verify(repositoryServiceMock,times(1)).createDeployment();
+  verify(deploymentBuilderMock,times(1)).enableDuplicateFiltering();
+  verify(deploymentBuilderMock,times(1)).name(deploymentNameHint + "." + resourceName3);
+  verify(deploymentBuilderMock,times(1)).addZipInputStream(isA(ZipInputStream.class));
+  verify(deploymentBuilderMock,times(1)).deploy();
+}

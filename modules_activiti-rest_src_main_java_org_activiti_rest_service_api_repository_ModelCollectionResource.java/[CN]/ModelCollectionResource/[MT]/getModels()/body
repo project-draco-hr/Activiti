@@ -1,4 +1,5 @@
 {
+  if (authenticate() == false)   return null;
   ModelQuery modelQuery=ActivitiUtil.getRepositoryService().createModelQuery();
   Form form=getQuery();
   Set<String> names=form.getNames();
@@ -42,6 +43,17 @@
     }
  else {
       modelQuery.notDeployed();
+    }
+  }
+  if (names.contains("tenantId")) {
+    modelQuery.modelTenantId(getQueryParameter("tenantId",form));
+  }
+  if (names.contains("tenantIdLike")) {
+    modelQuery.modelTenantIdLike(getQueryParameter("tenantIdLike",form));
+  }
+  if (names.contains("withoutTenantId")) {
+    if (Boolean.TRUE.equals(getQueryParameterAsBoolean("withoutTenantId",form))) {
+      modelQuery.modelWithoutTenantId();
     }
   }
   return new ModelsPaginateList(this).paginateList(form,modelQuery,"id",allowedSortProperties);

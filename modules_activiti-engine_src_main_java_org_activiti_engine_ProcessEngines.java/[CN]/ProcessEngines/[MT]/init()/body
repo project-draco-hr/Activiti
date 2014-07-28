@@ -1,5 +1,5 @@
 {
-  if (!isInitialized) {
+  if (!isInitialized()) {
     if (processEngines == null) {
       processEngines=new HashMap<String,ProcessEngine>();
     }
@@ -31,7 +31,7 @@
       log.info("Initializing process engine using Spring configuration '{}'",resource.toString());
       initProcessEngineFromSpringResource(resource);
     }
-    isInitialized=true;
+    setInitialized(true);
   }
  else {
     log.info("Process engines already initialized");

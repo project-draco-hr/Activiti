@@ -8,11 +8,17 @@
   }
  else {
     delete();
-    Date newTimer=calculateRepeat();
-    if (newTimer != null) {
-      TimerEntity te=new TimerEntity(this);
-      te.setDuedate(newTimer);
-      Context.getCommandContext().getJobEntityManager().schedule(te);
+    int repeatValue=calculateRepeatValue();
+    if (repeatValue != 0) {
+      if (repeatValue > 0) {
+        setNewRepeat(repeatValue);
+      }
+      Date newTimer=calculateRepeat();
+      if (newTimer != null) {
+        TimerEntity te=new TimerEntity(this);
+        te.setDuedate(newTimer);
+        Context.getCommandContext().getJobEntityManager().schedule(te);
+      }
     }
   }
 }

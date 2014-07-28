@@ -1,0 +1,12 @@
+{
+  String eventTypeString=eventType.name();
+  List<EventLogEntry> eventLogEntries=managementService.getEventLogEntries(0L,100000L);
+  boolean found=false;
+  for (  EventLogEntry entry : eventLogEntries) {
+    if (entry.getType().equals(eventTypeString)) {
+      found=true;
+    }
+  }
+  assertTrue(found);
+  ;
+}

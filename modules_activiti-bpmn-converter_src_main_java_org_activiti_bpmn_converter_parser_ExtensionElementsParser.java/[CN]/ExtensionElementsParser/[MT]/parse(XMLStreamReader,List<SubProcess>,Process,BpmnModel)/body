@@ -11,7 +11,13 @@
     xtr.next();
     if (xtr.isStartElement()) {
       if (ELEMENT_EXECUTION_LISTENER.equals(xtr.getLocalName())) {
-        new ExecutionListenerParser().parseChildElement(xtr,activeProcess,model);
+        new ExecutionListenerParser().parseChildElement(xtr,parentElement,model);
+      }
+ else       if (ELEMENT_EVENT_LISTENER.equals(xtr.getLocalName())) {
+        new ActivitiEventListenerParser().parseChildElement(xtr,parentElement,model);
+      }
+ else       if (ELEMENT_POTENTIAL_STARTER.equals(xtr.getLocalName())) {
+        new PotentialStarterParser().parse(xtr,activeProcess);
       }
  else {
         ExtensionElement extensionElement=BpmnXMLUtil.parseExtensionElement(xtr);

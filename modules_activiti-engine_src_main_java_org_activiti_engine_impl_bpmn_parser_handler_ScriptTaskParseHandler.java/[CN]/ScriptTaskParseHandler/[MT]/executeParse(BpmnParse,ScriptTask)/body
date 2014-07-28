@@ -1,6 +1,6 @@
 {
-  if (scriptTask.getScript() == null) {
-    bpmnParse.getBpmnModel().addProblem("No script provided for scriptTask. ",scriptTask);
+  if (StringUtils.isEmpty(scriptTask.getScript())) {
+    logger.warn("No script provided for scriptTask " + scriptTask.getId());
   }
   ActivityImpl activity=createActivityOnCurrentScope(bpmnParse,scriptTask,BpmnXMLConstants.ELEMENT_TASK_SCRIPT);
   activity.setAsync(scriptTask.isAsynchronous());

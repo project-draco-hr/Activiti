@@ -8,7 +8,7 @@
     throw new ActivitiIllegalArgumentException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' "+ "points to a child execution of process instance "+ "'"+ processInstance.getProcessInstanceId()+ "'. "+ "Please invoke the "+ getClass().getSimpleName()+ " with a root execution id.");
   }
   ProcessDefinitionImpl currentProcessDefinitionImpl=processInstance.getProcessDefinition();
-  DeploymentManager deploymentCache=Context.getProcessEngineConfiguration().getDeploymentManager();
+  DeploymentManager deploymentCache=commandContext.getProcessEngineConfiguration().getDeploymentManager();
   ProcessDefinitionEntity currentProcessDefinition;
   if (currentProcessDefinitionImpl instanceof ProcessDefinitionEntity) {
     currentProcessDefinition=(ProcessDefinitionEntity)currentProcessDefinitionImpl;
@@ -19,7 +19,7 @@
   ProcessDefinitionEntity newProcessDefinition=deploymentCache.findDeployedProcessDefinitionByKeyAndVersion(currentProcessDefinition.getKey(),processDefinitionVersion);
   validateAndSwitchVersionOfExecution(commandContext,processInstance,newProcessDefinition);
   commandContext.getHistoryManager().recordProcessDefinitionChange(processInstanceId,newProcessDefinition.getId());
-  List<ExecutionEntity> childExecutions=executionManager.findChildExecutionsByParentExecutionId(processInstanceId);
+  List<ExecutionEntity> childExecutions=executionManager.findChildExecutionsByProcessInstanceId(processInstanceId);
   for (  ExecutionEntity executionEntity : childExecutions) {
     validateAndSwitchVersionOfExecution(commandContext,executionEntity,newProcessDefinition);
   }

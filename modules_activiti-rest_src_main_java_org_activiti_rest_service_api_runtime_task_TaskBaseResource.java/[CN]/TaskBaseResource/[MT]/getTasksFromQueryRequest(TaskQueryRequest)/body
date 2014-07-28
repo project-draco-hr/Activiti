@@ -52,6 +52,9 @@
   if (request.getCandidateGroup() != null) {
     taskQuery.taskCandidateGroup(request.getCandidateGroup());
   }
+  if (request.getCandidateGroupIn() != null) {
+    taskQuery.taskCandidateGroupIn(request.getCandidateGroupIn());
+  }
   if (request.getProcessInstanceId() != null) {
     taskQuery.processInstanceId(request.getProcessInstanceId());
   }
@@ -130,5 +133,17 @@
   if (request.getProcessInstanceVariables() != null) {
     addProcessvariables(taskQuery,request.getProcessInstanceVariables());
   }
-  return new TaskPaginateList(this).paginateList(query,taskQuery,"id",properties);
+  if (request.getTenantId() != null) {
+    taskQuery.taskTenantId(request.getTenantId());
+  }
+  if (request.getTenantIdLike() != null) {
+    taskQuery.taskTenantIdLike(request.getTenantIdLike());
+  }
+  if (Boolean.TRUE.equals(request.getWithoutTenantId())) {
+    taskQuery.taskWithoutTenantId();
+  }
+  if (request.getCandidateOrAssigned() != null) {
+    taskQuery.taskCandidateOrAssigned(request.getCandidateOrAssigned());
+  }
+  return new TaskPaginateList(this).paginateList(query,request,taskQuery,"id",properties);
 }

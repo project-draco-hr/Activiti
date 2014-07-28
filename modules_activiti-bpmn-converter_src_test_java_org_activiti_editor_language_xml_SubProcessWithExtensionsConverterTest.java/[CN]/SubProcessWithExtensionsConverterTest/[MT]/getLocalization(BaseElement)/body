@@ -1,0 +1,11 @@
+{
+  List<ExtensionElement> i18lnExtension=bObj.getExtensionElements().get(ELEMENT_I18LN_LOCALIZATION);
+  if (!i18lnExtension.isEmpty()) {
+    Map<String,List<ExtensionAttribute>> extensionAttributes=i18lnExtension.get(0).getAttributes();
+    localization.setLabeledEntityIdForName(extensionAttributes.get(ATTRIBUTE_LABELED_ENTITY_ID_FOR_NAME).get(0).getValue());
+    localization.setLabeledEntityIdForDescription(extensionAttributes.get(ATTRIBUTE_LABELED_ENTITY_ID_FOR_DESCRIPTION).get(0).getValue());
+    localization.setResourceBundleKeyForName(extensionAttributes.get(ATTRIBUTE_RESOURCE_BUNDLE_KEY_FOR_NAME).get(0).getValue());
+    localization.setResourceBundleKeyForDescription(extensionAttributes.get(ATTRIBUTE_RESOURCE_BUNDLE_KEY_FOR_DESCRIPTION).get(0).getValue());
+  }
+  return (Localization)localization;
+}

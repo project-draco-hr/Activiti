@@ -1,0 +1,9 @@
+{
+  List<FlowElement> elements=(List<FlowElement>)conversion.getProcess().getFlowElements();
+  for (int i=elements.size() - 1; i >= 0; i--) {
+    if (elements.get(i) instanceof UserTask) {
+      return (UserTask)elements.get(i);
+    }
+  }
+  throw new SimpleWorkflowException("No usertask found in conversion");
+}

@@ -5,10 +5,12 @@
     subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByProcessInstanceAndEventName(execution.getProcessInstanceId(),signalDefinition.getEventName());
   }
  else {
-    subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(signalDefinition.getEventName());
+    subscriptionEntities=commandContext.getEventSubscriptionEntityManager().findSignalEventSubscriptionsByEventName(signalDefinition.getEventName(),execution.getTenantId());
   }
   for (  SignalEventSubscriptionEntity signalEventSubscriptionEntity : subscriptionEntities) {
     signalEventSubscriptionEntity.eventReceived(null,signalDefinition.isAsync());
   }
-  leave(execution);
+  if (execution.getActivity() != null) {
+    leave(execution);
+  }
 }

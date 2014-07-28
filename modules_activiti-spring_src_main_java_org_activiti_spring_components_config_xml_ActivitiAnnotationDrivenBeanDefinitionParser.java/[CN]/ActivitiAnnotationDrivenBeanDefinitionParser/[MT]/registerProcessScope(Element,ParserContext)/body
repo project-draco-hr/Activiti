@@ -1,9 +1,0 @@
-{
-  Class clz=ProcessScope.class;
-  BeanDefinitionBuilder processScopeBDBuilder=BeanDefinitionBuilder.genericBeanDefinition(clz);
-  AbstractBeanDefinition scopeBeanDefinition=processScopeBDBuilder.getBeanDefinition();
-  scopeBeanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-  configureProcessEngine(scopeBeanDefinition,element);
-  String beanName=baseBeanName(clz);
-  parserContext.getRegistry().registerBeanDefinition(beanName,scopeBeanDefinition);
-}

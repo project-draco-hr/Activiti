@@ -1,0 +1,10 @@
+{
+  final HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().finished().includeProcessVariables().singleResult();
+  assertNotNull(historicProcessInstance);
+  RepositoryService repositoryService=processEngine.getRepositoryService();
+  final ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionId(historicProcessInstance.getProcessDefinitionId()).singleResult();
+  assertEquals(SIMPLEST_PROCESS,processDefinition.getKey());
+  assertEquals(1,historicProcessInstance.getProcessVariables().size());
+  assertEquals(TEST_VALUE,historicProcessInstance.getProcessVariables().get(TEST_VARIABLE));
+  assertEquals(BUSINESS_KEY,historicProcessInstance.getBusinessKey());
+}

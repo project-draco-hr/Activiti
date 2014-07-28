@@ -52,5 +52,16 @@
   if (names.contains("exceptionMessage")) {
     query.exceptionMessage(getQueryParameter("exceptionMessage",form));
   }
+  if (names.contains("tenantId")) {
+    query.jobTenantId(getQueryParameter("tenantId",form));
+  }
+  if (names.contains("tenantIdLike")) {
+    query.jobTenantIdLike(getQueryParameter("tenantIdLike",form));
+  }
+  if (names.contains("withoutTenantId")) {
+    if (Boolean.TRUE.equals(getQueryParameterAsBoolean("withoutTenantId",form))) {
+      query.jobWithoutTenantId();
+    }
+  }
   return new JobPaginateList(this).paginateList(form,query,"id",properties);
 }

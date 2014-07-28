@@ -1,0 +1,16 @@
+{
+  for (  HistoricProcessInstance processInstance : instanceList) {
+    ProcessDefinition definition=definitionMap.get(processInstance.getProcessDefinitionId());
+    String definitionName="";
+    if (definition != null) {
+      if (definition.getName() != null) {
+        definitionName=definition.getName();
+      }
+ else {
+        definitionName=definition.getId();
+      }
+      definitionName+=" (v" + definition.getVersion() + ")";
+    }
+    instanceTable.addItem(new String[]{processInstance.getId(),definitionName,processInstance.getStartTime().toString(),processInstance.getEndTime() != null ? processInstance.getEndTime().toString() : ""},processInstance.getId());
+  }
+}

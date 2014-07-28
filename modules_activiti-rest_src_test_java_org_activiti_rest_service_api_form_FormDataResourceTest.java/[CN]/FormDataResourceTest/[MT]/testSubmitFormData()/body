@@ -28,7 +28,7 @@
   propertyArray.add(propNode);
   client.release();
   client.post(requestNode);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
   task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
   assertNull(task);
   processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
@@ -58,7 +58,7 @@
   propNode.put("value","up");
   client.release();
   client.post(requestNode);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
   task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
   assertNull(task);
   processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();

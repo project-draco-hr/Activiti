@@ -4,6 +4,7 @@
   if (formProperties != null) {
     for (    FormProperty formProperty : formProperties) {
       FormPropertyRenderer renderer=getRenderer(formProperty);
+      renderer.setForm(form);
       Field editorComponent=renderer.getPropertyField(formProperty);
       if (editorComponent != null) {
         form.addField(formProperty.getId(),editorComponent);

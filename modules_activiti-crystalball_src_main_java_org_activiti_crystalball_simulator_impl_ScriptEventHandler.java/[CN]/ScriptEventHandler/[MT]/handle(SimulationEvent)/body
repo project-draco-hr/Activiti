@@ -1,0 +1,11 @@
+{
+  ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
+  VariableScope execution=SimulationRunContext.getExecution();
+  try {
+    scriptingEngines.evaluate((String)event.getProperty(this.scriptPropertyName),language,execution,false);
+  }
+ catch (  ActivitiException e) {
+    log.warn("Exception while executing simulation event " + event + " scriptPropertyName :"+ this.scriptPropertyName+ "\n script: "+ event.getProperty(this.scriptPropertyName)+ "\n exception is:"+ e.getMessage());
+    throw e;
+  }
+}

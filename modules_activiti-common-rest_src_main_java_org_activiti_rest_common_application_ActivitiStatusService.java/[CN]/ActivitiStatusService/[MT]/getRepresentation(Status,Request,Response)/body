@@ -2,7 +2,7 @@
   if (status != null && status.isError()) {
     RestError error=new RestError();
     error.setStatusCode(status.getCode());
-    error.setErrorMessage(status.getName());
+    error.setErrorMessage(status.getDescription());
     return new JacksonRepresentation<RestError>(error);
   }
  else {

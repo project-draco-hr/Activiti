@@ -1,0 +1,6 @@
+{
+  Map<String,SimulationEventHandler> handlers=new HashMap<String,SimulationEventHandler>();
+  handlers.put(PROCESS_INSTANCE_START_EVENT_TYPE,new StartReplayProcessEventHandler(processInstanceId,PROCESS_INSTANCE_START_EVENT_TYPE,PROCESS_INSTANCE_START_EVENT_TYPE,listener.getSimulationEvents(),PROCESS_DEFINITION_ID_KEY,BUSINESS_KEY,VARIABLES_KEY));
+  handlers.put(USER_TASK_COMPLETED_EVENT_TYPE,new PlaybackUserTaskCompleteEventHandler());
+  return handlers;
+}

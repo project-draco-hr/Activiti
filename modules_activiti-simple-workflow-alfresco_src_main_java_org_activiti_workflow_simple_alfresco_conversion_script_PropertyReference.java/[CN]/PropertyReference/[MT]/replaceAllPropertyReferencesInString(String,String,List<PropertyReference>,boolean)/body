@@ -1,0 +1,24 @@
+{
+  String newValue=refrence;
+  List<String> references=new ArrayList<String>();
+  Matcher regexMatcher=REFERENCE_EXPRESSION_PATTERN.matcher(refrence);
+  while (regexMatcher.find()) {
+    references.add(regexMatcher.group());
+  }
+  if (!references.isEmpty()) {
+    PropertyReference ref=null;
+    for (    String reference : references) {
+      ref=PropertyReference.createReference(reference);
+      if (ref != null) {
+        foundReferences.add(ref);
+        if (wrapAsExpression) {
+          newValue=newValue.replace(reference,ref.getPropertyReferenceExpression(namespacePrefix));
+        }
+ else {
+          newValue=newValue.replace(reference,ref.getVariableReference(namespacePrefix));
+        }
+      }
+    }
+  }
+  return newValue;
+}

@@ -1,0 +1,38 @@
+{
+  org.activiti.engine.repository.Deployment tenantDeployment=repositoryService.createDeployment().addClasspathResource("org/activiti/rest/service/api/runtime/SignalsResourceTest.process-signal-start.bpmn20.xml").tenantId("my tenant").deploy();
+  try {
+    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_SIGNALS));
+    ObjectNode requestNode=objectMapper.createObjectNode();
+    requestNode.put("signalName","The Signal");
+    requestNode.put("async",true);
+    client.post(requestNode);
+    assertEquals(Status.SUCCESS_ACCEPTED,client.getResponse().getStatus());
+    client.release();
+    assertEquals(1,managementService.createJobQuery().jobWithoutTenantId().count());
+    requestNode.put("tenantId","my tenant");
+    client.post(requestNode);
+    assertEquals(Status.SUCCESS_ACCEPTED,client.getResponse().getStatus());
+    client.release();
+    assertEquals(1,managementService.createJobQuery().jobTenantId("my tenant").count());
+    ArrayNode vars=requestNode.putArray("variables");
+    ObjectNode var=vars.addObject();
+    var.put("name","testVar");
+    var.put("value","test");
+    try {
+      client.post(requestNode);
+      fail("Exception expected");
+    }
+ catch (    ResourceException re) {
+      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,re.getStatus());
+    }
+  }
+  finally {
+    if (tenantDeployment != null) {
+      repositoryService.deleteDeployment(tenantDeployment.getId(),true);
+    }
+    List<Job> jobs=managementService.createJobQuery().list();
+    for (    Job job : jobs) {
+      managementService.deleteJob(job.getId());
+    }
+  }
+}

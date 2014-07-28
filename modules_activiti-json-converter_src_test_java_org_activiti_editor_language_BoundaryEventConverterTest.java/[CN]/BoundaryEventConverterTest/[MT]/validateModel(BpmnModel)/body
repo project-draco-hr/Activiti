@@ -1,14 +1,18 @@
 {
-  FlowElement errorElement=model.getMainProcess().getFlowElement("errorEvent");
-  assertTrue(errorElement instanceof BoundaryEvent);
-  FlowElement signalElement=model.getMainProcess().getFlowElement("signalEvent");
-  assertTrue(signalElement instanceof BoundaryEvent);
-  FlowElement timerElement=model.getMainProcess().getFlowElement("timerEvent");
-  assertTrue(timerElement instanceof BoundaryEvent);
-  BoundaryEvent errorEvent=(BoundaryEvent)errorElement;
-  assertTrue(errorEvent.isCancelActivity());
-  BoundaryEvent signalEvent=(BoundaryEvent)signalElement;
-  assertFalse(signalEvent.isCancelActivity());
-  BoundaryEvent timerEvent=(BoundaryEvent)timerElement;
-  assertFalse(timerEvent.isCancelActivity());
+  BoundaryEvent errorElement=(BoundaryEvent)model.getMainProcess().getFlowElement("errorEvent");
+  ErrorEventDefinition errorEvent=(ErrorEventDefinition)extractEventDefinition(errorElement);
+  assertTrue(errorElement.isCancelActivity());
+  assertEquals("errorRef",errorEvent.getErrorCode());
+  BoundaryEvent signalElement=(BoundaryEvent)model.getMainProcess().getFlowElement("signalEvent");
+  SignalEventDefinition signalEvent=(SignalEventDefinition)extractEventDefinition(signalElement);
+  assertFalse(signalElement.isCancelActivity());
+  assertEquals("signalRef",signalEvent.getSignalRef());
+  BoundaryEvent messageElement=(BoundaryEvent)model.getMainProcess().getFlowElement("messageEvent");
+  MessageEventDefinition messageEvent=(MessageEventDefinition)extractEventDefinition(messageElement);
+  assertFalse(messageElement.isCancelActivity());
+  assertEquals("messageRef",messageEvent.getMessageRef());
+  BoundaryEvent timerElement=(BoundaryEvent)model.getMainProcess().getFlowElement("timerEvent");
+  TimerEventDefinition timerEvent=(TimerEventDefinition)extractEventDefinition(timerElement);
+  assertFalse(timerElement.isCancelActivity());
+  assertEquals("PT5M",timerEvent.getTimeDuration());
 }

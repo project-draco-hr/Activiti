@@ -5,7 +5,7 @@
     JsonNode startJSON=new ObjectMapper().readTree(startParams);
     ArrayNode jobIdsJSON=(ArrayNode)startJSON.get("jobIds");
     for (    JsonNode jobId : jobIdsJSON) {
-      ActivitiUtil.getManagementService().executeJob(jobId.getTextValue());
+      ActivitiUtil.getManagementService().executeJob(jobId.textValue());
     }
     ObjectNode successNode=new ObjectMapper().createObjectNode();
     successNode.put("success",true);

@@ -12,9 +12,9 @@
     Representation response=client.get();
     assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
     JsonNode responseNode=objectMapper.readTree(response.getStream());
-    assertEquals("key1",responseNode.get("key").getTextValue());
-    assertEquals("Value 1",responseNode.get("value").getTextValue());
-    assertTrue(responseNode.get("url").getTextValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")));
+    assertEquals("key1",responseNode.get("key").textValue());
+    assertEquals("Value 1",responseNode.get("value").textValue());
+    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")));
   }
   finally {
     if (savedUser != null) {

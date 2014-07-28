@@ -8,6 +8,8 @@
     dbSqlSessionFactory.setDbIdentityUsed(isDbIdentityUsed);
     dbSqlSessionFactory.setDbHistoryUsed(isDbHistoryUsed);
     dbSqlSessionFactory.setDatabaseTablePrefix(databaseTablePrefix);
+    dbSqlSessionFactory.setTablePrefixIsSchema(tablePrefixIsSchema);
+    dbSqlSessionFactory.setDatabaseCatalog(databaseCatalog);
     dbSqlSessionFactory.setDatabaseSchema(databaseSchema);
     addSessionFactory(dbSqlSessionFactory);
     addSessionFactory(new GenericManagerFactory(AttachmentEntityManager.class));
@@ -32,7 +34,8 @@
     addSessionFactory(new GenericManagerFactory(TaskEntityManager.class));
     addSessionFactory(new GenericManagerFactory(VariableInstanceEntityManager.class));
     addSessionFactory(new GenericManagerFactory(EventSubscriptionEntityManager.class));
-    addSessionFactory(new GenericManagerFactory(HistoryManager.class));
+    addSessionFactory(new GenericManagerFactory(EventLogEntryEntityManager.class));
+    addSessionFactory(new DefaultHistoryManagerSessionFactory());
     addSessionFactory(new UserEntityManagerFactory());
     addSessionFactory(new GroupEntityManagerFactory());
     addSessionFactory(new MembershipEntityManagerFactory());
