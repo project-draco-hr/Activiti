@@ -1,4 +1,6 @@
 {
+  String identityLinkType=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_NAME);
+  if (identityLinkType == null)   return;
   String resourceElement=XMLStreamReaderUtil.moveDown(xtr);
   if (StringUtils.isNotEmpty(resourceElement) && ELEMENT_RESOURCE_ASSIGNMENT.equals(resourceElement)) {
     String expression=XMLStreamReaderUtil.moveDown(xtr);
@@ -12,14 +14,14 @@
         String groupPrefix="group(";
         if (assignmentValue.startsWith(userPrefix)) {
           assignmentValue=assignmentValue.substring(userPrefix.length(),assignmentValue.length() - 1).trim();
-          ((UserTask)parentElement).getCandidateUsers().add(assignmentValue);
+          ((UserTask)parentElement).addCustomUserIdentityLink(assignmentValue,identityLinkType);
         }
  else         if (assignmentValue.startsWith(groupPrefix)) {
           assignmentValue=assignmentValue.substring(groupPrefix.length(),assignmentValue.length() - 1).trim();
-          ((UserTask)parentElement).getCandidateGroups().add(assignmentValue);
+          ((UserTask)parentElement).addCustomGroupIdentityLink(assignmentValue,identityLinkType);
         }
  else {
-          ((UserTask)parentElement).getCandidateGroups().add(assignmentValue);
+          ((UserTask)parentElement).addCustomGroupIdentityLink(assignmentValue,identityLinkType);
         }
       }
     }
