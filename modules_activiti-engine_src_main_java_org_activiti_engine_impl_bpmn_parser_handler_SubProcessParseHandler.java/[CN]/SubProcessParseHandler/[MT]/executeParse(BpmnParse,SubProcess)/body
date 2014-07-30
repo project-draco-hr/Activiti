@@ -13,7 +13,7 @@
   bpmnParse.setCurrentSubProcess(subProcess);
   bpmnParse.processFlowElements(subProcess.getFlowElements());
   processArtifacts(bpmnParse,subProcess.getArtifacts(),activity);
-  if (subProcess instanceof SubProcess) {
+  if (!(subProcess instanceof EventSubProcess)) {
     Map<String,Object> variables=processDataObjects(bpmnParse,subProcess.getDataObjects(),activity);
     activity.setVariables(variables);
   }
