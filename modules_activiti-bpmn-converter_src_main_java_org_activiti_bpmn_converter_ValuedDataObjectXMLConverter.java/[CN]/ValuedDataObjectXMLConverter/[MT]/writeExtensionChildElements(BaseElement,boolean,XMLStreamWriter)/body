@@ -9,8 +9,7 @@
     if (dataObject.getValue() != null) {
       String value=null;
       if (dataObject instanceof DateDataObject) {
-        DateTime dateTime=new DateTime((Date)dataObject.getValue());
-        value=ISODateTimeFormat.dateTimeNoMillis().print(dateTime);
+        value=sdf.format(dataObject.getValue());
       }
  else {
         value=dataObject.getValue().toString();
