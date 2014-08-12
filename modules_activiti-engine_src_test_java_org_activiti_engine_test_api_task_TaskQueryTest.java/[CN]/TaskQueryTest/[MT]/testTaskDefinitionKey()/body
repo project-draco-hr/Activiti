@@ -1,9 +1,5 @@
 {
   runtimeService.startProcessInstanceByKey("taskDefinitionKeyProcess");
-  List<Task> tasks2=taskService.createTaskQuery().list();
-  for (  Task task : tasks2) {
-    System.out.println("task " + task.getId() + " "+ task.getTaskDefinitionKey()+ " "+ task.getName());
-  }
   List<Task> tasks=taskService.createTaskQuery().taskDefinitionKey("taskKey1").list();
   assertNotNull(tasks);
   assertEquals(1,tasks.size());

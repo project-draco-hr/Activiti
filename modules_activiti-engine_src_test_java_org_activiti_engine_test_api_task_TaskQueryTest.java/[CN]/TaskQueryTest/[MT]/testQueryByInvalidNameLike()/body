@@ -4,7 +4,7 @@
   assertEquals(0,query.list().size());
   assertEquals(0,query.count());
   try {
-    taskService.createTaskQuery().taskNameLike(null).singleResult();
+    taskService.createTaskQuery().or().taskId("invalid").taskNameLike(null).singleResult();
     fail();
   }
  catch (  ActivitiIllegalArgumentException e) {

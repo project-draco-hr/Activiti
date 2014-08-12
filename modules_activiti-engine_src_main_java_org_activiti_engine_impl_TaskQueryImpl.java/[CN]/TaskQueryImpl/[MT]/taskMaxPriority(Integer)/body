@@ -2,6 +2,11 @@
   if (maxPriority == null) {
     throw new ActivitiIllegalArgumentException("Max Priority is null");
   }
-  this.maxPriority=maxPriority;
+  if (orActive) {
+    orQueryObject.maxPriority=maxPriority;
+  }
+ else {
+    this.maxPriority=maxPriority;
+  }
   return this;
 }

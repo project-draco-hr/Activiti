@@ -1,0 +1,10 @@
+{
+  TaskQuery query=taskService.createTaskQuery().or().taskId("invalid").taskAssignee("gonzo");
+  assertEquals(1,query.count());
+  assertEquals(1,query.list().size());
+  assertNotNull(query.singleResult());
+  query=taskService.createTaskQuery().or().taskId("invalid").taskAssignee("kermit");
+  assertEquals(0,query.count());
+  assertEquals(0,query.list().size());
+  assertNull(query.singleResult());
+}

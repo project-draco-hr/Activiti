@@ -2,6 +2,11 @@
   if (assignee == null) {
     throw new ActivitiIllegalArgumentException("Assignee is null");
   }
-  this.assignee=assignee;
+  if (orActive) {
+    orQueryObject.assignee=assignee;
+  }
+ else {
+    this.assignee=assignee;
+  }
   return this;
 }
