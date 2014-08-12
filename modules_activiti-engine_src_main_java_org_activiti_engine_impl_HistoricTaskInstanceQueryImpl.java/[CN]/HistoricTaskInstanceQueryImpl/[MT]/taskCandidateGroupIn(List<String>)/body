@@ -11,6 +11,11 @@
   if (candidateGroup != null) {
     throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateGroupIn and candidateGroup");
   }
-  this.candidateGroups=candidateGroups;
+  if (inOrStatement) {
+    this.orQueryObject.candidateGroups=candidateGroups;
+  }
+ else {
+    this.candidateGroups=candidateGroups;
+  }
   return this;
 }

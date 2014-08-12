@@ -1,3 +1,8 @@
 {
-  return variableValueLike(name,value,false);
+  if (inOrStatement) {
+    return orQueryObject.variableValueLike(name,value,false);
+  }
+ else {
+    return variableValueLike(name,value,false);
+  }
 }
