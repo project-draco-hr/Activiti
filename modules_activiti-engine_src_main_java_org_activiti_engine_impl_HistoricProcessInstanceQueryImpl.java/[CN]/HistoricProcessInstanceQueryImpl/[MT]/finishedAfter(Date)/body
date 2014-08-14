@@ -1,5 +1,10 @@
 {
-  finishedAfter=date;
-  finished=true;
+  if (inOrStatement) {
+    this.orQueryObject.finishedAfter=finishedAfter;
+  }
+ else {
+    this.finishedAfter=finishedAfter;
+    this.finished=true;
+  }
   return this;
 }

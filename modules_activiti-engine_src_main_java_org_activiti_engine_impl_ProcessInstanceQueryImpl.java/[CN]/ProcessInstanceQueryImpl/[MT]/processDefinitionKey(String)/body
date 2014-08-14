@@ -2,6 +2,11 @@
   if (processDefinitionKey == null) {
     throw new ActivitiIllegalArgumentException("Process definition key is null");
   }
-  this.processDefinitionKey=processDefinitionKey;
+  if (inOrStatement) {
+    this.orQueryObject.processDefinitionKey=processDefinitionKey;
+  }
+ else {
+    this.processDefinitionKey=processDefinitionKey;
+  }
   return this;
 }
