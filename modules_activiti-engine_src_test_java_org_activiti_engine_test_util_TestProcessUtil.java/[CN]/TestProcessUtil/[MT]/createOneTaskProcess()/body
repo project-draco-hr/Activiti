@@ -1,0 +1,19 @@
+{
+  org.activiti.bpmn.model.Process process=new org.activiti.bpmn.model.Process();
+  process.setId("oneTaskProcess");
+  process.setName("The one task process");
+  StartEvent startEvent=new StartEvent();
+  startEvent.setId("start");
+  process.addFlowElement(startEvent);
+  UserTask userTask=new UserTask();
+  userTask.setName("The Task");
+  userTask.setId("theTask");
+  userTask.setAssignee("kermit");
+  process.addFlowElement(userTask);
+  EndEvent endEvent=new EndEvent();
+  endEvent.setId("theEnd");
+  process.addFlowElement(endEvent);
+  process.addFlowElement(new SequenceFlow("start","theTask"));
+  process.addFlowElement(new SequenceFlow("theTask","theEnd"));
+  return process;
+}
