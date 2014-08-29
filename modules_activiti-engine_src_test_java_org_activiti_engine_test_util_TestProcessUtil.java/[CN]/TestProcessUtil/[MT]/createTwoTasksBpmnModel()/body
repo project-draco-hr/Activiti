@@ -1,0 +1,28 @@
+{
+  BpmnModel model=new BpmnModel();
+  org.activiti.bpmn.model.Process process=new org.activiti.bpmn.model.Process();
+  model.addProcess(process);
+  process.setId("twoTasksProcess");
+  process.setName("The two tasks process");
+  StartEvent startEvent=new StartEvent();
+  startEvent.setId("start");
+  process.addFlowElement(startEvent);
+  UserTask userTask=new UserTask();
+  userTask.setName("The First Task");
+  userTask.setId("task1");
+  userTask.setAssignee("kermit");
+  process.addFlowElement(userTask);
+  UserTask userTask2=new UserTask();
+  userTask2.setName("The Second Task");
+  userTask2.setId("task2");
+  userTask2.setAssignee("kermit");
+  process.addFlowElement(userTask2);
+  EndEvent endEvent=new EndEvent();
+  endEvent.setId("theEnd");
+  process.addFlowElement(endEvent);
+  process.addFlowElement(new SequenceFlow("start","task1"));
+  process.addFlowElement(new SequenceFlow("start","task2"));
+  process.addFlowElement(new SequenceFlow("task1","theEnd"));
+  process.addFlowElement(new SequenceFlow("task2","theEnd"));
+  return model;
+}

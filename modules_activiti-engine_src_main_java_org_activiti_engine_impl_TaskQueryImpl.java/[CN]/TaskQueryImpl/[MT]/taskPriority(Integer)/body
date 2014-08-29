@@ -2,6 +2,11 @@
   if (priority == null) {
     throw new ActivitiIllegalArgumentException("Priority is null");
   }
-  this.priority=priority;
+  if (orActive) {
+    orQueryObject.priority=priority;
+  }
+ else {
+    this.priority=priority;
+  }
   return this;
 }

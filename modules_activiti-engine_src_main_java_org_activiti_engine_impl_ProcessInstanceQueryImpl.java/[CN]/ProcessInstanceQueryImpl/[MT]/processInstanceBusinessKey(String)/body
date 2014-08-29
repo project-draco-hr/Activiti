@@ -2,6 +2,11 @@
   if (businessKey == null) {
     throw new ActivitiIllegalArgumentException("Business key is null");
   }
-  this.businessKey=businessKey;
+  if (inOrStatement) {
+    this.orQueryObject.businessKey=businessKey;
+  }
+ else {
+    this.businessKey=businessKey;
+  }
   return this;
 }

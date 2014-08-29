@@ -2,6 +2,11 @@
   if (description == null) {
     throw new ActivitiIllegalArgumentException("Description is null");
   }
-  this.description=description;
+  if (orActive) {
+    orQueryObject.description=description;
+  }
+ else {
+    this.description=description;
+  }
   return this;
 }

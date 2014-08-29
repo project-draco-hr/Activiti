@@ -2,6 +2,11 @@
   if (taskId == null) {
     throw new ActivitiIllegalArgumentException("Task id is null");
   }
-  this.taskId=taskId;
+  if (orActive) {
+    orQueryObject.taskId=taskId;
+  }
+ else {
+    this.taskId=taskId;
+  }
   return this;
 }

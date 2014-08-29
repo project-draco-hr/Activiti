@@ -2,6 +2,9 @@
   if (businessKey == null) {
     throw new ActivitiIllegalArgumentException("Business key is null");
   }
+  if (inOrStatement) {
+    throw new ActivitiIllegalArgumentException("This method is not supported in an OR statement");
+  }
   this.businessKey=businessKey;
   this.processDefinitionKey=processDefinitionKey;
   return this;

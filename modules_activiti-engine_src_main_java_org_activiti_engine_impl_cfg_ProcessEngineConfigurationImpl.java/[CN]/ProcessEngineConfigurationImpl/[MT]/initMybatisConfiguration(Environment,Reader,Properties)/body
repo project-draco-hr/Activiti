@@ -1,0 +1,9 @@
+{
+  XMLConfigBuilder parser=new XMLConfigBuilder(reader,"",properties);
+  Configuration configuration=parser.getConfiguration();
+  configuration.setEnvironment(environment);
+  initMybatisTypeHandlers(configuration);
+  initCustomMybatisMappers(configuration);
+  configuration=parseMybatisConfiguration(configuration,parser);
+  return configuration;
+}

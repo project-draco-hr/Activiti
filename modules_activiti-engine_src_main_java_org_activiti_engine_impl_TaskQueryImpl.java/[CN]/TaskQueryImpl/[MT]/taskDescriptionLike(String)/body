@@ -2,6 +2,11 @@
   if (descriptionLike == null) {
     throw new ActivitiIllegalArgumentException("Task descriptionlike is null");
   }
-  this.descriptionLike=descriptionLike;
+  if (orActive) {
+    orQueryObject.descriptionLike=descriptionLike;
+  }
+ else {
+    this.descriptionLike=descriptionLike;
+  }
   return this;
 }

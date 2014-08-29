@@ -1,0 +1,8 @@
+{
+  try {
+    taskService.createTaskQuery().or().taskId("invalid").taskCandidateUser(null).list();
+    fail();
+  }
+ catch (  ActivitiIllegalArgumentException e) {
+  }
+}

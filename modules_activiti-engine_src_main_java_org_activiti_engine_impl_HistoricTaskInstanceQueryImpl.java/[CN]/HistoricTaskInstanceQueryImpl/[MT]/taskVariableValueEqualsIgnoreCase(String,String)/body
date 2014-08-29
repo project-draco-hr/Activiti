@@ -1,3 +1,9 @@
 {
-  return variableValueEqualsIgnoreCase(name,value);
+  if (inOrStatement) {
+    orQueryObject.variableValueEqualsIgnoreCase(name,value);
+    return this;
+  }
+ else {
+    return variableValueEqualsIgnoreCase(name,value);
+  }
 }

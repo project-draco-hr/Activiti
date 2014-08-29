@@ -1,0 +1,10 @@
+{
+  if (orQueryObject != null) {
+    throw new ActivitiException("Only one OR statement is allowed");
+  }
+ else {
+    inOrStatement=true;
+    orQueryObject=new HistoricProcessInstanceQueryImpl();
+  }
+  return this;
+}
