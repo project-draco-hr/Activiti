@@ -1,0 +1,26 @@
+{
+  GraphicInfo subProcessGraphicInfo=bpmnModel.getLocationMap().get(subProcess.getId());
+  double subProcessX=subProcessGraphicInfo.getX();
+  double subProcessY=subProcessGraphicInfo.getY();
+  List<SubProcess> nestedSubProcesses=new ArrayList<SubProcess>();
+  for (  FlowElement flowElement : subProcess.getFlowElements()) {
+    if (flowElement instanceof SequenceFlow) {
+      List<GraphicInfo> graphicInfos=bpmnModel.getFlowLocationMap().get(flowElement.getId());
+      for (      GraphicInfo graphicInfo : graphicInfos) {
+        graphicInfo.setX(graphicInfo.getX() + subProcessX + subProcessMargin);
+        graphicInfo.setY(graphicInfo.getY() + subProcessY + subProcessMargin);
+      }
+    }
+ else {
+      GraphicInfo graphicInfo=bpmnModel.getLocationMap().get(flowElement.getId());
+      graphicInfo.setX(graphicInfo.getX() + subProcessX + subProcessMargin);
+      graphicInfo.setY(graphicInfo.getY() + subProcessY + subProcessMargin);
+    }
+    if (flowElement instanceof SubProcess) {
+      nestedSubProcesses.add((SubProcess)flowElement);
+    }
+  }
+  for (  SubProcess nestedSubProcess : nestedSubProcesses) {
+    translateNestedSubprocessElements(nestedSubProcess);
+  }
+}
