@@ -1,0 +1,20 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("timerOnNestedSubprocesses");
+  Job theJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(theJob);
+  Calendar timeToFire=Calendar.getInstance();
+  timeToFire.add(Calendar.HOUR,2);
+  timeToFire.add(Calendar.SECOND,5);
+  processEngineConfiguration.getClock().setCurrentTime(timeToFire.getTime());
+  waitForJobExecutorToProcessAllJobs(2000,100);
+  assertEquals(3,listener.getEventsReceived().size());
+  ActivitiActivityEventImpl timeOutEvent=(ActivitiActivityEventImpl)listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,timeOutEvent.getType());
+  assertEquals("innerTask1",timeOutEvent.getActivityId());
+  timeOutEvent=(ActivitiActivityEventImpl)listener.getEventsReceived().get(1);
+  assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,timeOutEvent.getType());
+  assertEquals("innerTask2",timeOutEvent.getActivityId());
+  timeOutEvent=(ActivitiActivityEventImpl)listener.getEventsReceived().get(2);
+  assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,timeOutEvent.getType());
+  assertEquals("innerFork",timeOutEvent.getActivityId());
+}

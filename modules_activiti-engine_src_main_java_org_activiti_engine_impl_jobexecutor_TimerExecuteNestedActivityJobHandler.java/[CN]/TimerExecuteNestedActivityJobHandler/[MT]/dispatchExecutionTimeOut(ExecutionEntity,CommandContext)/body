@@ -1,0 +1,13 @@
+{
+  for (  ExecutionEntity subExecution : execution.getExecutions()) {
+    dispatchExecutionTimeOut(subExecution,commandContext);
+  }
+  ExecutionEntity subProcessInstance=commandContext.getExecutionEntityManager().findSubProcessInstanceBySuperExecutionId(execution.getId());
+  if (subProcessInstance != null) {
+    dispatchExecutionTimeOut(subProcessInstance,commandContext);
+  }
+  ActivityImpl activity=execution.getActivity();
+  if (activity != null && activity.getActivityBehavior() != null) {
+    dispatchActivityTimeOut(activity,execution,commandContext);
+  }
+}
