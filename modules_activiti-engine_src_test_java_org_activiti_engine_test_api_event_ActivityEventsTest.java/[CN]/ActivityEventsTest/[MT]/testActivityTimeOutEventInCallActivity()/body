@@ -8,16 +8,13 @@
   processEngineConfiguration.getClock().setCurrentTime(timeToFire.getTime());
   waitForJobExecutorToProcessAllJobs(200000,100);
   assertEquals(4,listener.getEventsReceived().size());
-  ActivitiActivityEventImpl timeOutEvent=(ActivitiActivityEventImpl)listener.getEventsReceived().get(0);
-  assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,timeOutEvent.getType());
-  assertEquals("innerTask1",timeOutEvent.getActivityId());
-  timeOutEvent=(ActivitiActivityEventImpl)listener.getEventsReceived().get(1);
-  assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,timeOutEvent.getType());
-  assertEquals("innerTask2",timeOutEvent.getActivityId());
-  timeOutEvent=(ActivitiActivityEventImpl)listener.getEventsReceived().get(2);
-  assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,timeOutEvent.getType());
-  assertEquals("innerFork",timeOutEvent.getActivityId());
-  timeOutEvent=(ActivitiActivityEventImpl)listener.getEventsReceived().get(3);
-  assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,timeOutEvent.getType());
-  assertEquals("callActivity",timeOutEvent.getActivityId());
+  List<String> eventIdList=new ArrayList<String>();
+  for (  ActivitiEvent event : listener.getEventsReceived()) {
+    assertEquals(ActivitiEventType.ACTIVITY_TIMEOUT,event.getType());
+    eventIdList.add(((ActivitiActivityEventImpl)event).getActivityId());
+  }
+  assertTrue(eventIdList.indexOf("innerTask1") >= 0);
+  assertTrue(eventIdList.indexOf("innerTask2") >= 0);
+  assertTrue(eventIdList.indexOf("innerFork") >= 0);
+  assertTrue(eventIdList.indexOf("callActivity") >= 0);
 }
