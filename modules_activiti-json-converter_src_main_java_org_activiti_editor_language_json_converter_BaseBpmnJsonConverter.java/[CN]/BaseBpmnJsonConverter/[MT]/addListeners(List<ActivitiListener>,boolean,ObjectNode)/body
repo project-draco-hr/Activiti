@@ -25,9 +25,7 @@
     propertyItemNode.put(eventType,listener.getEvent());
     if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(listener.getImplementationType())) {
       propertyItemNode.put(listenerClass,listener.getImplementation());
-      if (!isExecutionListener) {
-        addTaskFieldExtensions(listener.getFieldExtensions(),propertyItemNode);
-      }
+      addFieldExtensions(listener.getFieldExtensions(),propertyItemNode,isExecutionListener);
     }
  else     if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equals(listener.getImplementationType())) {
       propertyItemNode.put(listenerExpression,listener.getImplementation());
