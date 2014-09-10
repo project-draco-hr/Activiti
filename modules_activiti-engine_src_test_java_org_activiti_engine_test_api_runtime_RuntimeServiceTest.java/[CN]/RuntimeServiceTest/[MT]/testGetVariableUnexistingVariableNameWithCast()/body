@@ -1,0 +1,5 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  String variableValue=runtimeService.getVariable(processInstance.getId(),"unexistingVariable",String.class);
+  assertNull(variableValue);
+}

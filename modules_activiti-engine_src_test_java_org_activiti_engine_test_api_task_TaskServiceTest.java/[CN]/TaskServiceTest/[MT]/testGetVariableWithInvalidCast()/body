@@ -1,0 +1,9 @@
+{
+  runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  Task currentTask=taskService.createTaskQuery().singleResult();
+  taskService.setVariable(currentTask.getId(),"variable1","value1");
+  catchException(taskService).getVariable(currentTask.getId(),"variable1",Boolean.class);
+  Exception e=caughtException();
+  assertNotNull(e);
+  assertTrue(e instanceof ClassCastException);
+}
