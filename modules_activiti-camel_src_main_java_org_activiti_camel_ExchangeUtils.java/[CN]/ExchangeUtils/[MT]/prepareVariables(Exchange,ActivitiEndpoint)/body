@@ -31,7 +31,11 @@
       camelVarMap.put(CAMELBODY,camelBody);
     }
     if (activitiEndpoint.isCopyVariablesFromHeader()) {
+      boolean isSetProcessInitiator=activitiEndpoint.isSetProcessInitiator();
       for (      Map.Entry<String,Object> header : exchange.getIn().getHeaders().entrySet()) {
+        if (isSetProcessInitiator && activitiEndpoint.getProcessInitiatorHeaderName().equals(header.getKey())) {
+          continue;
+        }
         camelVarMap.put(header.getKey(),header.getValue());
       }
     }
