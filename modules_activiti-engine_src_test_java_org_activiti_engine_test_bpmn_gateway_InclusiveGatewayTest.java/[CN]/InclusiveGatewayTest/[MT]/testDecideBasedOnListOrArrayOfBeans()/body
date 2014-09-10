@@ -3,15 +3,14 @@
   orders.add(new InclusiveGatewayTestOrder(50));
   orders.add(new InclusiveGatewayTestOrder(300));
   orders.add(new InclusiveGatewayTestOrder(175));
-  ProcessInstance pi=null;
   try {
-    pi=runtimeService.startProcessInstanceByKey("inclusiveDecisionBasedOnListOrArrayOfBeans",CollectionUtil.singletonMap("orders",orders));
+    runtimeService.startProcessInstanceByKey("inclusiveDecisionBasedOnListOrArrayOfBeans",CollectionUtil.singletonMap("orders",orders));
     fail();
   }
  catch (  ActivitiException e) {
   }
   orders.set(1,new InclusiveGatewayTestOrder(175));
-  pi=runtimeService.startProcessInstanceByKey("inclusiveDecisionBasedOnListOrArrayOfBeans",CollectionUtil.singletonMap("orders",orders));
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("inclusiveDecisionBasedOnListOrArrayOfBeans",CollectionUtil.singletonMap("orders",orders));
   Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
   assertNotNull(task);
   assertEquals(BEAN_TASK3_NAME,task.getName());

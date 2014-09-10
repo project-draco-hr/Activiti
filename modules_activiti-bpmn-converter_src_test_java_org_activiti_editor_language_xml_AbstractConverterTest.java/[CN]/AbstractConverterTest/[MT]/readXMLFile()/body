@@ -3,6 +3,5 @@
   XMLInputFactory xif=XMLInputFactory.newInstance();
   InputStreamReader in=new InputStreamReader(xmlStream,"UTF-8");
   XMLStreamReader xtr=xif.createXMLStreamReader(in);
-  BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xtr);
-  return bpmnModel;
+  return new BpmnXMLConverter().convertToBpmnModel(xtr);
 }
