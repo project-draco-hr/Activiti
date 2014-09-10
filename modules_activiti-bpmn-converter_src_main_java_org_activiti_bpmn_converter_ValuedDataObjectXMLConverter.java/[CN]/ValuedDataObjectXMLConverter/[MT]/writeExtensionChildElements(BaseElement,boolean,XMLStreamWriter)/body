@@ -14,7 +14,12 @@
  else {
         value=dataObject.getValue().toString();
       }
-      xtw.writeCharacters(value);
+      if (dataObject instanceof StringDataObject && xmlChars.matcher(value).find()) {
+        xtw.writeCData(value);
+      }
+ else {
+        xtw.writeCharacters(value);
+      }
     }
     xtw.writeEndElement();
   }
