@@ -6,6 +6,9 @@
  catch (    BpmnError error) {
       ErrorPropagation.propagateError(error,execution);
     }
+    if (resolveNrOfInstances(execution) == 0) {
+      leave(execution);
+    }
   }
  else {
     innerActivityBehavior.execute(execution);
