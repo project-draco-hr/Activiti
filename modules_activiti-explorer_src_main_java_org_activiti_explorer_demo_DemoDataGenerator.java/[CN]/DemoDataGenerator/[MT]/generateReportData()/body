@@ -32,7 +32,7 @@
           processEngine.getManagementService().executeJob(jobs.get(i).getId());
         }
         List<Task> tasks=processEngine.getTaskService().createTaskQuery().list();
-        while (tasks.size() > 0) {
+        while (!tasks.isEmpty()) {
           for (          Task task : tasks) {
             if (task.getAssignee() == null) {
               String assignee=random.nextBoolean() ? "kermit" : "fozzie";

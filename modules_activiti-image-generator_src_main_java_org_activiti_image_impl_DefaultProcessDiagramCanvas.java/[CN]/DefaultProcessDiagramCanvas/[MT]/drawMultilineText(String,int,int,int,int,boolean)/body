@@ -13,7 +13,7 @@
     layout=measurer.nextLayout(boxWidth);
     int height=((Float)(layout.getDescent() + layout.getAscent() + layout.getLeading())).intValue();
     if (currentHeight + height > boxHeight) {
-      if (layouts.size() > 0) {
+      if (!layouts.isEmpty()) {
         layouts.remove(layouts.size() - 1);
         if (lastLine.length() >= 4) {
           lastLine=lastLine.substring(0,lastLine.length() - 4) + "...";

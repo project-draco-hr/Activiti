@@ -9,7 +9,7 @@
     SignalAndMessageDefinitionExport.writeSignalsAndMessages(model,xtw);
     PoolExport.writePools(model,xtw);
     for (    Process process : model.getProcesses()) {
-      if (process.getFlowElements().size() == 0 && process.getLanes().size() == 0) {
+      if (process.getFlowElements().isEmpty() && process.getLanes().isEmpty()) {
         continue;
       }
       ProcessExport.writeProcess(process,xtw);

@@ -39,7 +39,7 @@
     assertResultsPresentInDataResponse(url,user3.getId());
   }
   finally {
-    if (savedUsers.size() > 0) {
+    if (!savedUsers.isEmpty()) {
       for (      User user : savedUsers) {
         identityService.deleteUser(user.getId());
       }

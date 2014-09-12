@@ -10,7 +10,7 @@
   stepButton.addListener(new ClickListener(){
     private static final long serialVersionUID=1L;
     @Override public void buttonClick(    ClickEvent event){
-      if (SimulationRunContext.getEventCalendar().getEvents().size() > 0) {
+      if (!SimulationRunContext.getEventCalendar().getEvents().isEmpty()) {
         simulationDebugger.step();
         refreshEvents();
       }

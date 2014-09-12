@@ -20,7 +20,7 @@
     }
     RuntimeService runtimeService=ActivitiUtil.getRuntimeService();
     Execution execution=runtimeService.createExecutionQuery().processInstanceId(processInstanceId).activityId(activityId).singleResult();
-    if (variables.size() > 0) {
+    if (!variables.isEmpty()) {
       runtimeService.signal(execution.getId(),variables);
     }
  else {

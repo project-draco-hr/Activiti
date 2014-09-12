@@ -61,11 +61,11 @@
     participantProcessJSON.put("height",pProc.getHeight());
     responseJSON.put("participantProcess",participantProcessJSON);
   }
-  if (processDefinition.getLaneSets() != null && processDefinition.getLaneSets().size() > 0) {
+  if (processDefinition.getLaneSets() != null && !processDefinition.getLaneSets().isEmpty()) {
     ArrayNode laneSetArray=new ObjectMapper().createArrayNode();
     for (    LaneSet laneSet : processDefinition.getLaneSets()) {
       ArrayNode laneArray=new ObjectMapper().createArrayNode();
-      if (laneSet.getLanes() != null && laneSet.getLanes().size() > 0) {
+      if (laneSet.getLanes() != null && !laneSet.getLanes().isEmpty()) {
         for (        Lane lane : laneSet.getLanes()) {
           ObjectNode laneJSON=new ObjectMapper().createObjectNode();
           laneJSON.put("id",lane.getId());
