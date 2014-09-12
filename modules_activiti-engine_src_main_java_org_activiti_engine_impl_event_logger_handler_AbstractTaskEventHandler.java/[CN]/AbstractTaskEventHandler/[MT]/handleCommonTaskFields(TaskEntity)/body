@@ -14,5 +14,8 @@
   putInMapIfNotNull(data,Fields.PROCESS_DEFINITION_ID,task.getProcessDefinitionId());
   putInMapIfNotNull(data,Fields.PROCESS_INSTANCE_ID,task.getProcessInstanceId());
   putInMapIfNotNull(data,Fields.EXECUTION_ID,task.getExecutionId());
+  if (task.getTenantId() != null && !ProcessEngineConfigurationImpl.NO_TENANT_ID.equals(task.getTenantId())) {
+    putInMapIfNotNull(data,Fields.TENANT_ID,task.getTenantId());
+  }
   return data;
 }

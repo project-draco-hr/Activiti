@@ -12,7 +12,7 @@
     eventLogEntry.setUserId(userId);
     putInMapIfNotNull(data,"userId",userId);
   }
-  if (processDefinitionId != null) {
+  if (!data.containsKey(Fields.TENANT_ID) && processDefinitionId != null) {
     DeploymentCache<ProcessDefinitionEntity> processDefinitionCache=Context.getProcessEngineConfiguration().getProcessDefinitionCache();
     if (processDefinitionCache != null) {
       ProcessDefinitionEntity processDefinitionEntity=processDefinitionCache.get(processDefinitionId);
