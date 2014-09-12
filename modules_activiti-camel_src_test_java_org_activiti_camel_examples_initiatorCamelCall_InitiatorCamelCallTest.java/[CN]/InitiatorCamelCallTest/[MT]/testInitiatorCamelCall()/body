@@ -1,0 +1,10 @@
+{
+  CamelContext ctx=applicationContext.getBean(CamelContext.class);
+  ProducerTemplate tpl=ctx.createProducerTemplate();
+  String body="body text";
+  String instanceId=(String)tpl.requestBody("direct:startWithInitiatorHeader",body);
+  String initiator=(String)runtimeService.getVariable(instanceId,"initiator");
+  assertEquals("kermit",initiator);
+  Object camelInitiatorHeader=runtimeService.getVariable(instanceId,"CamelProcessInitiatorHeader");
+  assertNull(camelInitiatorHeader);
+}

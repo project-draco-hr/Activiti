@@ -1,6 +1,6 @@
 {
   int processDefinitionCacheLimit=3;
-  DefaultDeploymentCache<ProcessDefinitionEntity> processDefinitionCache=(DefaultDeploymentCache<ProcessDefinitionEntity>)((ProcessEngineConfigurationImpl)processEngineConfiguration).getProcessDefinitionCache();
+  DefaultDeploymentCache<ProcessDefinitionEntity> processDefinitionCache=(DefaultDeploymentCache<ProcessDefinitionEntity>)processEngineConfiguration.getProcessDefinitionCache();
   assertEquals(0,processDefinitionCache.size());
   String processDefinitionTemplate=DeploymentCacheTestUtil.readTemplateFile("/org/activiti/standalone/deploy/deploymentCacheTest.bpmn20.xml");
   for (int i=1; i <= 5; i++) {

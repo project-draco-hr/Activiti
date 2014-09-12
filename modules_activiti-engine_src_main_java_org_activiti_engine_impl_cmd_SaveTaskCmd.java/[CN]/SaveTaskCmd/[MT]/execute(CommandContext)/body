@@ -4,6 +4,12 @@
   }
   if (task.getRevision() == 0) {
     task.insert(null);
+    if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_CREATED,task));
+      if (task.getAssignee() != null) {
+        Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_ASSIGNED,task));
+      }
+    }
   }
  else {
     task.update();

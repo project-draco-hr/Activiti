@@ -1,9 +1,20 @@
 {
+  ActivitiEndpoint endpoint=getActivitiEndpoint();
   String key=exchange.getProperty(PROCESS_KEY_PROPERTY,String.class);
-  if (key == null) {
-    return runtimeService.startProcessInstanceByKey(processKey,ExchangeUtils.prepareVariables(exchange,getActivitiEndpoint()));
-  }
+  try {
+    if (endpoint.isSetProcessInitiator()) {
+      setProcessInitiator(ExchangeUtils.prepareInitiator(exchange,endpoint));
+    }
+    if (key == null) {
+      return runtimeService.startProcessInstanceByKey(processKey,ExchangeUtils.prepareVariables(exchange,endpoint));
+    }
  else {
-    return runtimeService.startProcessInstanceByKey(processKey,key,ExchangeUtils.prepareVariables(exchange,getActivitiEndpoint()));
+      return runtimeService.startProcessInstanceByKey(processKey,key,ExchangeUtils.prepareVariables(exchange,endpoint));
+    }
+  }
+  finally {
+    if (endpoint.isSetProcessInitiator()) {
+      setProcessInitiator(null);
+    }
   }
 }

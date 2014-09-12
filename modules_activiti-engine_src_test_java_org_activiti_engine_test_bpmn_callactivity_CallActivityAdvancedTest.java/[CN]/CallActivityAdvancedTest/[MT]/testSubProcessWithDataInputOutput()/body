@@ -15,7 +15,7 @@
   assertEquals("Hello from sub process.",runtimeService.getVariable(processInstance.getId(),"superVariable"));
   assertEquals("Hello from sub process.",taskService.getVariable(taskAfterSubProcess.getId(),"superVariable"));
   vars.clear();
-  vars.put("x",new Long(5));
+  vars.put("x",5l);
   taskService.complete(taskAfterSubProcess.getId(),vars);
   Task taskInSecondSubProcess=taskQuery.singleResult();
   assertEquals("Task in subprocess",taskInSecondSubProcess.getName());
