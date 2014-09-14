@@ -1,0 +1,34 @@
+{
+  if (nameList == null) {
+    throw new ActivitiIllegalArgumentException("Task name list is null");
+  }
+  if (nameList.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Task name list is empty");
+  }
+  for (  String name : nameList) {
+    if (name == null) {
+      throw new ActivitiIllegalArgumentException("None of the given task names can be null");
+    }
+  }
+  if (name != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and name");
+  }
+  if (nameLike != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and nameLike");
+  }
+  if (nameLikeIgnoreCase != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and nameLikeIgnoreCase");
+  }
+  final int nameListSize=nameList.size();
+  final List<String> caseIgnoredNameList=new ArrayList<String>(nameListSize);
+  for (  String name : nameList) {
+    caseIgnoredNameList.add(name.toLowerCase());
+  }
+  if (orActive) {
+    this.orQueryObject.nameListIgnoreCase=caseIgnoredNameList;
+  }
+ else {
+    this.nameListIgnoreCase=caseIgnoredNameList;
+  }
+  return this;
+}
