@@ -8,7 +8,7 @@
   if (historicTask.getProcessInstanceId() != null) {
     attachments.addAll(taskService.getProcessInstanceAttachments(historicTask.getProcessInstanceId()));
   }
-  if (attachments.size() > 0) {
+  if (!attachments.isEmpty()) {
     Table table=initRelatedContentTable();
     populateRelatedContent(table,attachments);
   }

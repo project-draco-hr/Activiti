@@ -7,7 +7,7 @@
       if (startEvent.getFormKey() == null) {
         Module module=AlfrescoConversionUtil.getExtension(conversion).getModules().get(0);
         Configuration detailsForm=module.addConfiguration(EVALUATOR_STRING_COMPARE,MessageFormat.format(EVALUATOR_CONDITION_ACTIVITI,conversion.getProcess().getId()));
-        if (conversion.getWorkflowDefinition().getStartFormDefinition() != null && conversion.getWorkflowDefinition().getStartFormDefinition().getFormGroups().size() > 0) {
+        if (conversion.getWorkflowDefinition().getStartFormDefinition() != null && !conversion.getWorkflowDefinition().getStartFormDefinition().getFormGroups().isEmpty()) {
           M2Type type=new M2Type();
           model.getTypes().add(type);
           type.setName(AlfrescoConversionUtil.getQualifiedName(modelNamespace.getPrefix(),AlfrescoConversionConstants.START_TASK_SIMPLE_NAME));

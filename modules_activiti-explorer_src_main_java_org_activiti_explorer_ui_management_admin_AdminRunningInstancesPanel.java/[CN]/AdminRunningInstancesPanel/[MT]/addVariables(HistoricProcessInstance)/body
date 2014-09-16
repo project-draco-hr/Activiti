@@ -17,7 +17,7 @@
     mainPanel.removeComponent(variablesTable);
   }
   Map<String,Object> variables=new TreeMap<String,Object>(runtimeService.getVariables(processInstance.getId()));
-  if (variables.size() > 0) {
+  if (!variables.isEmpty()) {
     variablesTable=new Table();
     variablesTable.setWidth(60,UNITS_PERCENTAGE);
     variablesTable.setHeight(250,UNITS_PIXELS);

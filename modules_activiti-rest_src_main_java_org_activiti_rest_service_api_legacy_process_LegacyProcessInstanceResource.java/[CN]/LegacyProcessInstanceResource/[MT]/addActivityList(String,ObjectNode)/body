@@ -1,6 +1,6 @@
 {
   List<HistoricActivityInstance> activityList=ActivitiUtil.getHistoryService().createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().list();
-  if (activityList != null && activityList.size() > 0) {
+  if (activityList != null && !activityList.isEmpty()) {
     ArrayNode activitiesJSON=new ObjectMapper().createArrayNode();
     responseJSON.put("activities",activitiesJSON);
     for (    HistoricActivityInstance historicActivityInstance : activityList) {

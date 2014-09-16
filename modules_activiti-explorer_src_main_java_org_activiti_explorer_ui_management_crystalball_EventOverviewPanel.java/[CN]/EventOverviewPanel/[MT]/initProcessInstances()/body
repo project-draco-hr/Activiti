@@ -38,7 +38,7 @@
         String processInstanceId=(String)instanceTable.getValue();
         ExplorerApp.get().setCrystalBallCurrentInstanceId(processInstanceId);
         List<EventLogEntry> eventLogEntries=managementService.getEventLogEntriesByProcessInstanceId(processInstanceId);
-        if (eventLogEntries == null || eventLogEntries.size() == 0)         return;
+        if (eventLogEntries == null || eventLogEntries.isEmpty())         return;
         EventLogTransformer transformer=new EventLogTransformer(getTransformers());
         simulationEvents=transformer.transform(eventLogEntries);
         ExplorerApp.get().setCrystalBallSimulationEvents(simulationEvents);
@@ -49,7 +49,7 @@
         simulationDebugger.init(new NoExecutionVariableScope());
         simulationDebugger.step();
         List<HistoricProcessInstance> replayProcessInstanceList=historyService.createHistoricProcessInstanceQuery().processInstanceBusinessKey(SIMULATION_BUSINESS_KEY).orderByProcessInstanceStartTime().desc().list();
-        if (replayProcessInstanceList != null && replayProcessInstanceList.size() > 0) {
+        if (replayProcessInstanceList != null && !replayProcessInstanceList.isEmpty()) {
           replayHistoricInstance=replayProcessInstanceList.get(0);
         }
         refreshEvents();

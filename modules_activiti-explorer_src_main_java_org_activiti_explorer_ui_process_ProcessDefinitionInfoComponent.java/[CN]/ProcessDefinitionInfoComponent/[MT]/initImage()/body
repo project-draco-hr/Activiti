@@ -10,7 +10,7 @@
       XMLInputFactory xif=XMLInputFactory.newInstance();
       XMLStreamReader xtr=xif.createXMLStreamReader(definitionStream);
       BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xtr);
-      if (bpmnModel.getFlowLocationMap().size() > 0) {
+      if (!bpmnModel.getFlowLocationMap().isEmpty()) {
         int maxX=0;
         int maxY=0;
         for (        String key : bpmnModel.getLocationMap().keySet()) {

@@ -1,6 +1,6 @@
 {
   List<ProcessDefinition> processDefinitions=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).orderByProcessDefinitionName().asc().list();
-  if (processDefinitions.size() > 0) {
+  if (!processDefinitions.isEmpty()) {
     Label processDefinitionHeader=new Label(i18nManager.getMessage(Messages.DEPLOYMENT_HEADER_DEFINITIONS));
     processDefinitionHeader.addStyleName(ExplorerLayout.STYLE_H3);
     processDefinitionHeader.addStyleName(ExplorerLayout.STYLE_DETAIL_BLOCK);

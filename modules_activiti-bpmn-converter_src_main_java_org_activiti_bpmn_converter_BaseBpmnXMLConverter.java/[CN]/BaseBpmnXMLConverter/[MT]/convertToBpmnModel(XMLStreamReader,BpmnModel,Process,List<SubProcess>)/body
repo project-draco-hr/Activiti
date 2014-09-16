@@ -39,14 +39,14 @@
       gateway.setNotExclusive(notExclusive);
     }
     if (currentFlowElement instanceof DataObject) {
-      if (activeSubProcessList.size() > 0) {
+      if (!activeSubProcessList.isEmpty()) {
         activeSubProcessList.get(activeSubProcessList.size() - 1).getDataObjects().add((ValuedDataObject)parsedElement);
       }
  else {
         activeProcess.getDataObjects().add((ValuedDataObject)parsedElement);
       }
     }
-    if (activeSubProcessList.size() > 0) {
+    if (!activeSubProcessList.isEmpty()) {
       activeSubProcessList.get(activeSubProcessList.size() - 1).addFlowElement(currentFlowElement);
     }
  else {

@@ -5,13 +5,13 @@
   if (event.getType() == null) {
     throw new ActivitiIllegalArgumentException("Event type cannot be null.");
   }
-  if (eventListeners.size() > 0) {
+  if (!eventListeners.isEmpty()) {
     for (    ActivitiEventListener listener : eventListeners) {
       dispatchEvent(event,listener);
     }
   }
   List<ActivitiEventListener> typed=typedListeners.get(event.getType());
-  if (typed != null && typed.size() > 0) {
+  if (typed != null && !typed.isEmpty()) {
     for (    ActivitiEventListener listener : typed) {
       dispatchEvent(event,listener);
     }

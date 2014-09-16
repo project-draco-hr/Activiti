@@ -70,7 +70,7 @@
       }
  else       if (ELEMENT_DOCUMENTATION.equals(xtr.getLocalName())) {
         BaseElement parentElement=null;
-        if (activeSubProcessList.size() > 0) {
+        if (!activeSubProcessList.isEmpty()) {
           parentElement=activeSubProcessList.get(activeSubProcessList.size() - 1);
         }
  else         if (activeProcess != null) {
@@ -106,7 +106,7 @@
         bpmnEdgeParser.parse(xtr,model);
       }
  else {
-        if (activeSubProcessList.size() > 0 && ELEMENT_MULTIINSTANCE.equalsIgnoreCase(xtr.getLocalName())) {
+        if (!activeSubProcessList.isEmpty() && ELEMENT_MULTIINSTANCE.equalsIgnoreCase(xtr.getLocalName())) {
           new MultiInstanceParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1),model);
         }
  else         if (convertersToBpmnMap.containsKey(xtr.getLocalName())) {
