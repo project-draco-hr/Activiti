@@ -109,7 +109,7 @@
       ArrayNode processInstanceArray=new ObjectMapper().createArrayNode();
       if (processInstance != null) {
         List<Execution> executionList=runtimeService.createExecutionQuery().processInstanceId(processInstanceId).activityId(activity.getId()).list();
-        if (executionList.size() > 0) {
+        if (!executionList.isEmpty()) {
           for (          Execution execution : executionList) {
             ObjectNode processInstanceJSON=subProcessInstanceMap.get(execution.getId());
             processInstanceArray.add(processInstanceJSON);

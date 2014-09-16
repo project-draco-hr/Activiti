@@ -35,7 +35,7 @@
     assignmentNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,itemsNode);
     propertiesNode.put(PROPERTY_USERTASK_ASSIGNMENT,assignmentNode);
   }
-  if (userTask.getCustomUserIdentityLinks().size() > 0 || userTask.getCustomGroupIdentityLinks().size() > 0) {
+  if (!userTask.getCustomUserIdentityLinks().isEmpty() || !userTask.getCustomGroupIdentityLinks().isEmpty()) {
     ObjectNode customIdentityLinksNode=objectMapper.createObjectNode();
     ArrayNode itemsNode=objectMapper.createArrayNode();
     for (    String linkType : userTask.getCustomUserIdentityLinks().keySet()) {

@@ -1,5 +1,5 @@
 {
-  if (srcActivity.getOutgoingTransitions().size() == 0) {
+  if (srcActivity.getOutgoingTransitions().isEmpty()) {
     visitedActivities.add(srcActivity);
     if (!(srcActivity.getParent() instanceof PvmActivity)) {
       return false;
@@ -11,7 +11,7 @@
   }
   visitedActivities.add(srcActivity);
   List<PvmTransition> transitionList=srcActivity.getOutgoingTransitions();
-  if (transitionList != null && transitionList.size() > 0) {
+  if (transitionList != null && !transitionList.isEmpty()) {
     for (    PvmTransition pvmTransition : transitionList) {
       PvmActivity destinationActivity=pvmTransition.getDestination();
       if (destinationActivity != null && !visitedActivities.contains(destinationActivity)) {

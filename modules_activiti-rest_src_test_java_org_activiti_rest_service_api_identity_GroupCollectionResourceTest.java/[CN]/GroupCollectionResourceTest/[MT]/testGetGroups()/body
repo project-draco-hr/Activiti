@@ -29,7 +29,7 @@
     assertResultsPresentInDataResponse(url,group3.getId());
   }
   finally {
-    if (savedGroups.size() > 0) {
+    if (!savedGroups.isEmpty()) {
       for (      Group group : savedGroups) {
         identityService.deleteGroup(group.getId());
       }

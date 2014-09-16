@@ -26,11 +26,11 @@
   if (StringUtils.isNotEmpty(mainProcess.getDocumentation())) {
     propertiesNode.put(PROPERTY_DOCUMENTATION,mainProcess.getDocumentation());
   }
-  if (mainProcess.getDataObjects().size() > 0) {
+  if (!mainProcess.getDataObjects().isEmpty()) {
     convertDataPropertiesToJson(mainProcess.getDataObjects(),propertiesNode);
   }
   modelNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
-  if (model.getPools().size() > 0) {
+  if (!model.getPools().isEmpty()) {
     for (    Pool pool : model.getPools()) {
       GraphicInfo poolGraphicInfo=model.getGraphicInfo(pool.getId());
       ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,poolGraphicInfo.getX() + poolGraphicInfo.getWidth(),poolGraphicInfo.getY() + poolGraphicInfo.getHeight(),poolGraphicInfo.getX(),poolGraphicInfo.getY());

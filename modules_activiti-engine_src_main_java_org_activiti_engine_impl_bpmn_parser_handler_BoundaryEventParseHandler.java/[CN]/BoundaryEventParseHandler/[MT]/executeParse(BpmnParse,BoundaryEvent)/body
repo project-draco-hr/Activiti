@@ -7,7 +7,7 @@
   ActivityImpl nestedActivity=createActivityOnScope(bpmnParse,boundaryEvent,BpmnXMLConstants.ELEMENT_EVENT_BOUNDARY,parentActivity);
   bpmnParse.setCurrentActivity(nestedActivity);
   EventDefinition eventDefinition=null;
-  if (boundaryEvent.getEventDefinitions().size() > 0) {
+  if (!boundaryEvent.getEventDefinitions().isEmpty()) {
     eventDefinition=boundaryEvent.getEventDefinitions().get(0);
   }
   if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof org.activiti.bpmn.model.ErrorEventDefinition || eventDefinition instanceof SignalEventDefinition|| eventDefinition instanceof CancelEventDefinition|| eventDefinition instanceof MessageEventDefinition|| eventDefinition instanceof org.activiti.bpmn.model.CompensateEventDefinition) {
