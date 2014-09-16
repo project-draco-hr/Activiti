@@ -9,7 +9,9 @@
   TaskInfoQueryWrapper taskInfoQueryWrapper=new TaskInfoQueryWrapper(taskService.createTaskQuery());
   List<? extends TaskInfo> taskInfos=taskInfoQueryWrapper.getTaskInfoQuery().or().taskNameLike("%k1%").taskDueAfter(new Date(now.getTime() + (3 * 24L * 60L* 60L* 1000L))).endOr().list();
   assertEquals(3,taskInfos.size());
-  taskInfoQueryWrapper=new TaskInfoQueryWrapper(historyService.createHistoricTaskInstanceQuery());
-  taskInfos=taskInfoQueryWrapper.getTaskInfoQuery().or().taskNameLike("%k1%").taskDueAfter(new Date(now.getTime() + (3 * 24L * 60L* 60L* 1000L))).endOr().list();
-  assertEquals(3,taskInfos.size());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+    taskInfoQueryWrapper=new TaskInfoQueryWrapper(historyService.createHistoricTaskInstanceQuery());
+    taskInfos=taskInfoQueryWrapper.getTaskInfoQuery().or().taskNameLike("%k1%").taskDueAfter(new Date(now.getTime() + (3 * 24L * 60L* 60L* 1000L))).endOr().list();
+    assertEquals(3,taskInfos.size());
+  }
 }
