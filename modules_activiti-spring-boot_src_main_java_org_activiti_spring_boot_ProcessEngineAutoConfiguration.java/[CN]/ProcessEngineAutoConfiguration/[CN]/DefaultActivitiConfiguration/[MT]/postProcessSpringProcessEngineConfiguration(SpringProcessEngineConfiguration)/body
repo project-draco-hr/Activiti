@@ -1,5 +1,5 @@
 {
-  config.setDeploymentName(this.environment.getProperty("deploymentName",config.getDeploymentName()));
-  config.setDatabaseSchemaUpdate(this.environment.getProperty("databaseSchemaUpdate",config.getDatabaseSchemaUpdate()));
-  config.setDatabaseSchema(this.environment.getProperty("databaseSchema",config.getDatabaseSchema()));
+  config.setDeploymentName(defaultText(activitiProperties.getDeploymentName(),config.getDeploymentName()));
+  config.setDeploymentName(defaultText(activitiProperties.getDatabaseSchema(),config.getDatabaseSchema()));
+  config.setDeploymentName(defaultText(activitiProperties.getDatabaseSchemaUpdate(),config.getDatabaseSchemaUpdate()));
 }
