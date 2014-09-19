@@ -1,0 +1,26 @@
+{
+  EntityManagerSession entityManagerSession=Context.getCommandContext().getSession(EntityManagerSession.class);
+  if (entityManagerSession == null) {
+    throw new ActivitiException("Cannot set JPA variable: " + EntityManagerSession.class + " not configured");
+  }
+ else {
+    entityManagerSession.flush();
+  }
+  if (value instanceof List<?> && ((List<?>)value).size() > 0) {
+    List<?> list=(List<?>)value;
+    List<String> ids=new ArrayList<String>();
+    String type=mappings.getJPAClassString(list.get(0));
+    for (    Object entry : list) {
+      ids.add(mappings.getJPAIdString(entry));
+    }
+    valueFields.setBytes(serializeIds(ids));
+    valueFields.setTextValue(type);
+  }
+ else   if (value == null) {
+    valueFields.setBytes(null);
+    valueFields.setTextValue(null);
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Value is not a list of JPA entities: " + value);
+  }
+}

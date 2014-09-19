@@ -14,5 +14,9 @@
         variableTypes.addType(new JPAEntityVariableType());
       }
     }
+    jpaType=variableTypes.getVariableType(JPAEntityListVariableType.TYPE_NAME);
+    if (jpaType == null) {
+      variableTypes.addType(new JPAEntityListVariableType(),variableTypes.getTypeIndex(JPAEntityVariableType.TYPE_NAME));
+    }
   }
 }

@@ -1,0 +1,30 @@
+{
+  setupJPAEntities();
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("simpleEntityFieldAccess",Arrays.asList(simpleEntityFieldAccess,simpleEntityPropertyAccess));
+  try {
+    runtimeService.startProcessInstanceByKey("JPAVariableProcess",variables);
+    fail("Exception expected");
+  }
+ catch (  ActivitiException ae) {
+  }
+  variables=new HashMap<String,Object>();
+  variables.put("list",Arrays.asList(simpleEntityFieldAccess,simpleEntityFieldAccess));
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("JPAVariableProcess",variables);
+  runtimeService.setVariable(processInstance.getId(),"list",new ArrayList<String>());
+  assertEquals(0L,((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).size());
+  runtimeService.setVariable(processInstance.getId(),"list",Arrays.asList(simpleEntityFieldAccess,simpleEntityFieldAccess));
+  assertEquals(2L,((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).size());
+  assertTrue(((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).get(0) instanceof FieldAccessJPAEntity);
+  runtimeService.setVariable(processInstance.getId(),"list",Arrays.asList("TEST","TESTING"));
+  assertEquals(2L,((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).size());
+  assertTrue(((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).get(0) instanceof String);
+  runtimeService.setVariable(processInstance.getId(),"list",Arrays.asList(simpleEntityFieldAccess,simpleEntityFieldAccess));
+  assertEquals(2L,((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).size());
+  assertTrue(((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).get(0) instanceof FieldAccessJPAEntity);
+  runtimeService.setVariable(processInstance.getId(),"list",null);
+  assertNull(runtimeService.getVariable(processInstance.getId(),"list"));
+  runtimeService.setVariable(processInstance.getId(),"list",Arrays.asList(simpleEntityFieldAccess,simpleEntityFieldAccess));
+  assertEquals(2L,((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).size());
+  assertTrue(((List<?>)runtimeService.getVariable(processInstance.getId(),"list")).get(0) instanceof FieldAccessJPAEntity);
+}
