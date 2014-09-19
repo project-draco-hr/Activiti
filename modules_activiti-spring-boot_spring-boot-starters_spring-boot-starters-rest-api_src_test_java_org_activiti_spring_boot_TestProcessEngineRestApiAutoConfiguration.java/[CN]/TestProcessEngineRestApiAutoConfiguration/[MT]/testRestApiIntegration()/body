@@ -1,0 +1,9 @@
+{
+  for (  ServletRegistration servletRegistration : this.applicationContext.getBeansOfType(ServletRegistration.class).values()) {
+    System.out.println(servletRegistration);
+  }
+  String authenticationChallenge="http://localhost:8080/api/process-definitions";
+  RestTemplate restTemplate=this.applicationContext.getBean(RestTemplate.class);
+  ResponseEntity<Map> x=restTemplate.getForEntity(authenticationChallenge,Map.class);
+  org.junit.Assert.assertTrue(x.getStatusCode().equals(HttpStatus.FORBIDDEN));
+}
