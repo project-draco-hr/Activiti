@@ -1,0 +1,12 @@
+{
+  return new InitializingBean(){
+    @Override public void afterPropertiesSet() throws Exception {
+      if (activitiProperties.isEnableJpa()) {
+        processEngineAutoConfiguration.setJpaEntityManagerFactory(emf);
+        processEngineAutoConfiguration.setJpaHandleTransaction(false);
+        processEngineAutoConfiguration.setJpaCloseEntityManager(false);
+      }
+    }
+  }
+;
+}
