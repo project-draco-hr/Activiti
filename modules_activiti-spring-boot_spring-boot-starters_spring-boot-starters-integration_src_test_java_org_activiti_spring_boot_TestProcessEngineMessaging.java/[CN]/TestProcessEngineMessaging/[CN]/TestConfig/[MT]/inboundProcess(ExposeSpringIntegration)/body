@@ -1,0 +1,10 @@
+{
+  return IntegrationFlows.from(inboundActivitiProcessWaits).handle(new GenericHandler<ActivityExecution>(){
+    @Override public Object handle(    ActivityExecution execution,    Map<String,Object> headers){
+      System.out.println("received " + execution.getId() + " with headers "+ headers.toString());
+      execution.setVariable("spamId",123L);
+      return ("Replying to executionID # " + execution.getId());
+    }
+  }
+).get();
+}

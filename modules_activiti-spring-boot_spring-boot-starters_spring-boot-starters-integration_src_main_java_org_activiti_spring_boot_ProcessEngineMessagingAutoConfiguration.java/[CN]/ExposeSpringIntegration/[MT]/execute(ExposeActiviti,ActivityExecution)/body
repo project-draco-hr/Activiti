@@ -1,0 +1,7 @@
+{
+  MessageBuilder<?> mb=doBasicOutboundMessageConstruction(execution);
+  Message<?> reply=sendAndReceiveMessage(mb.build());
+  Map<String,Object> vars=new HashMap<String,Object>();
+  headerMapper.fromHeaders(reply.getHeaders(),vars);
+  receiveTaskActivityBehavior.leave(execution);
+}
