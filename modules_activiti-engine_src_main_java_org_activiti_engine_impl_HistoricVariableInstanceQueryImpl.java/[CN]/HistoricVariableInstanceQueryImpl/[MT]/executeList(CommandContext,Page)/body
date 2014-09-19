@@ -8,7 +8,7 @@
         HistoricVariableInstanceEntity variableEntity=(HistoricVariableInstanceEntity)historicVariableInstance;
         if (variableEntity != null && variableEntity.getVariableType() != null) {
           variableEntity.getValue();
-          if (JPAEntityVariableType.TYPE_NAME.equals(variableEntity.getVariableType().getTypeName())) {
+          if (JPAEntityVariableType.TYPE_NAME.equals(variableEntity.getVariableType().getTypeName()) || JPAEntityListVariableType.TYPE_NAME.equals(variableEntity.getVariableType().getTypeName())) {
             ((CacheableVariable)variableEntity.getVariableType()).setForceCacheable(true);
           }
         }

@@ -1,0 +1,12 @@
+{
+  try {
+    String[] toStore=ids.toArray(new String[]{});
+    ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    ObjectOutputStream out=new ObjectOutputStream(baos);
+    out.writeObject(toStore);
+    return baos.toByteArray();
+  }
+ catch (  IOException ioe) {
+    throw new ActivitiException("Unexpected exception when serializing JPA id's",ioe);
+  }
+}
