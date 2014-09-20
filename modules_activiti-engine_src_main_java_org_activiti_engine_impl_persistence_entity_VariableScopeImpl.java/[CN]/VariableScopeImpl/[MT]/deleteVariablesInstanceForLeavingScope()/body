@@ -1,8 +1,7 @@
 {
   ensureVariableInstancesInitialized();
-  for (  VariableInstanceEntity variableInstance : variableInstanceList) {
+  for (  VariableInstanceEntity variableInstance : variableInstances.values()) {
     Context.getCommandContext().getHistoryManager().recordVariableUpdate(variableInstance);
     variableInstance.delete();
   }
-  variableInstanceList.clear();
 }
