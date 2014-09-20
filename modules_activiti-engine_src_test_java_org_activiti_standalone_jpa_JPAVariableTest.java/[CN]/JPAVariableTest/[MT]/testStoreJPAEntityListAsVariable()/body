@@ -1,0 +1,33 @@
+{
+  setupJPAEntities();
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("simpleEntityFieldAccess",Arrays.asList(simpleEntityFieldAccess,simpleEntityFieldAccess,simpleEntityFieldAccess));
+  variables.put("simpleEntityPropertyAccess",Arrays.asList(simpleEntityPropertyAccess,simpleEntityPropertyAccess,simpleEntityPropertyAccess));
+  variables.put("subclassFieldAccess",Arrays.asList(subclassFieldAccess,subclassFieldAccess,subclassFieldAccess));
+  variables.put("subclassPropertyAccess",Arrays.asList(subclassPropertyAccess,subclassPropertyAccess,subclassPropertyAccess));
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("JPAVariableProcess",variables);
+  Object fieldAccessResult=runtimeService.getVariable(processInstance.getId(),"simpleEntityFieldAccess");
+  assertTrue(fieldAccessResult instanceof List<?>);
+  List<?> list=(List<?>)fieldAccessResult;
+  assertEquals(3L,list.size());
+  assertTrue(list.get(0) instanceof FieldAccessJPAEntity);
+  assertEquals(((FieldAccessJPAEntity)list.get(0)).getId(),simpleEntityFieldAccess.getId());
+  Object propertyAccessResult=runtimeService.getVariable(processInstance.getId(),"simpleEntityPropertyAccess");
+  assertTrue(propertyAccessResult instanceof List<?>);
+  list=(List<?>)propertyAccessResult;
+  assertEquals(3L,list.size());
+  assertTrue(list.get(0) instanceof PropertyAccessJPAEntity);
+  assertEquals(((PropertyAccessJPAEntity)list.get(0)).getId(),simpleEntityPropertyAccess.getId());
+  Object subclassFieldResult=runtimeService.getVariable(processInstance.getId(),"subclassFieldAccess");
+  assertTrue(subclassFieldResult instanceof List<?>);
+  list=(List<?>)subclassFieldResult;
+  assertEquals(3L,list.size());
+  assertTrue(list.get(0) instanceof SubclassFieldAccessJPAEntity);
+  assertEquals(((SubclassFieldAccessJPAEntity)list.get(0)).getId(),simpleEntityPropertyAccess.getId());
+  Object subclassPropertyResult=runtimeService.getVariable(processInstance.getId(),"subclassPropertyAccess");
+  assertTrue(subclassPropertyResult instanceof List<?>);
+  list=(List<?>)subclassPropertyResult;
+  assertEquals(3L,list.size());
+  assertTrue(list.get(0) instanceof SubclassPropertyAccessJPAEntity);
+  assertEquals(((SubclassPropertyAccessJPAEntity)list.get(0)).getId(),simpleEntityPropertyAccess.getId());
+}
