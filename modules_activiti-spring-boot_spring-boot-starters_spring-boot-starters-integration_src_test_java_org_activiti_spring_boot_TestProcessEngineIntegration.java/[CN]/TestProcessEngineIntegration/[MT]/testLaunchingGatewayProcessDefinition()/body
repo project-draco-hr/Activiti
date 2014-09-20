@@ -1,0 +1,14 @@
+{
+  init(InboundGatewayConfiguration1.class);
+  RepositoryService repositoryService=this.applicationContext.getBean(RepositoryService.class);
+  RuntimeService runtimeService=this.applicationContext.getBean(RuntimeService.class);
+  Assert.assertNotNull("we should have a default repositoryService included",repositoryService);
+  String integrationGatewayProcess="integrationGatewayProcess";
+  List<ProcessDefinition> processDefinitionList=repositoryService.createProcessDefinitionQuery().processDefinitionKey(integrationGatewayProcess).list();
+  ProcessDefinition processDefinition=processDefinitionList.iterator().next();
+  Assert.assertEquals(processDefinition.getKey(),integrationGatewayProcess);
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("customerId",232);
+  runtimeService.startProcessInstanceByKey(integrationGatewayProcess,vars);
+  System.out.println("finished " + integrationGatewayProcess);
+}
