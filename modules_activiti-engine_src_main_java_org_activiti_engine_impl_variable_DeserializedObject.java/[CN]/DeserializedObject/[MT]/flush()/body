@@ -1,6 +1,6 @@
 {
   if (deserializedObject == variableInstanceEntity.getCachedValue() && !variableInstanceEntity.isDeleted()) {
-    byte[] bytes=SerializableType.serialize(deserializedObject,variableInstanceEntity);
+    byte[] bytes=type.serialize(deserializedObject,variableInstanceEntity);
     if (!Arrays.equals(originalBytes,bytes)) {
       variableInstanceEntity.setBytes(bytes);
     }

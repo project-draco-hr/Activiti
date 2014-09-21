@@ -2,5 +2,11 @@
   SubProcess subProcess=new SubProcess();
   JsonNode childShapesArray=elementNode.get(EDITOR_CHILD_SHAPES);
   processor.processJsonElements(childShapesArray,modelNode,subProcess,shapeMap);
+  JsonNode processDataPropertiesNode=elementNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_DATA_PROPERTIES);
+  if (processDataPropertiesNode != null) {
+    List<ValuedDataObject> dataObjects=new BpmnJsonConverter().convertJsonToDataProperties(processDataPropertiesNode,subProcess);
+    subProcess.setDataObjects(dataObjects);
+    subProcess.getFlowElements().addAll(dataObjects);
+  }
   return subProcess;
 }

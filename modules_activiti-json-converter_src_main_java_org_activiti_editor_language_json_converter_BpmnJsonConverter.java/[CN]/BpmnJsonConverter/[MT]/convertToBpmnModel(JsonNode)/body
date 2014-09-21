@@ -66,6 +66,12 @@
     if (processEventListenerNode != null) {
       process.setEventListeners(convertJsonToEventListeners(processEventListenerNode));
     }
+    JsonNode processDataPropertiesNode=modelNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_DATA_PROPERTIES);
+    if (processDataPropertiesNode != null) {
+      List<ValuedDataObject> dataObjects=convertJsonToDataProperties(processDataPropertiesNode,process);
+      process.setDataObjects(dataObjects);
+      process.getFlowElements().addAll(dataObjects);
+    }
     processJsonElements(shapesArrayNode,modelNode,process,shapeMap);
   }
   Map<String,SubProcess> subShapesMap=new HashMap<String,SubProcess>();
@@ -74,7 +80,7 @@
       SubProcess subProcess=(SubProcess)flowElement;
       fillSubShapes(subShapesMap,subProcess);
     }
-    if (subShapesMap.size() > 0) {
+    if (!subShapesMap.isEmpty()) {
       List<String> removeSubFlowsList=new ArrayList<String>();
       List<SequenceFlow> sequenceFlowList=process.findFlowElementsOfType(SequenceFlow.class);
       for (      FlowElement flowElement : sequenceFlowList) {

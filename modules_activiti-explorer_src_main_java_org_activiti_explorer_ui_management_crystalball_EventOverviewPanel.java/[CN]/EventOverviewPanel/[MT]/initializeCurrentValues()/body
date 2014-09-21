@@ -11,7 +11,7 @@
       instanceTable.setValue(selectedInstanceId);
     }
     List<HistoricProcessInstance> replayProcessInstanceList=historyService.createHistoricProcessInstanceQuery().processInstanceBusinessKey(SIMULATION_BUSINESS_KEY).orderByProcessInstanceStartTime().desc().list();
-    if (replayProcessInstanceList != null && replayProcessInstanceList.size() > 0) {
+    if (replayProcessInstanceList != null && !replayProcessInstanceList.isEmpty()) {
       replayHistoricInstance=replayProcessInstanceList.get(0);
     }
     refreshEvents();

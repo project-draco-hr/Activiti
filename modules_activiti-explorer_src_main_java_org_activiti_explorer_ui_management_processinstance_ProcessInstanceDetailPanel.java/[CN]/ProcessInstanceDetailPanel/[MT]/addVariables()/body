@@ -6,7 +6,7 @@
   panelLayout.addComponent(header);
   panelLayout.addComponent(new Label("&nbsp;",Label.CONTENT_XHTML));
   Map<String,Object> variables=new TreeMap<String,Object>(runtimeService.getVariables(processInstance.getId()));
-  if (variables.size() > 0) {
+  if (!variables.isEmpty()) {
     Table variablesTable=new Table();
     variablesTable.setWidth(60,UNITS_PERCENTAGE);
     variablesTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_TASK_LIST);

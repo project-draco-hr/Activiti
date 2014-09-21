@@ -1,7 +1,7 @@
 {
   int nrOfInstances=resolveNrOfInstances(execution);
-  if (nrOfInstances <= 0) {
-    throw new ActivitiIllegalArgumentException("Invalid number of instances: must be positive integer value" + ", but was " + nrOfInstances);
+  if (nrOfInstances < 0) {
+    throw new ActivitiIllegalArgumentException("Invalid number of instances: must be non-negative integer value" + ", but was " + nrOfInstances);
   }
   setLoopVariable(execution,NUMBER_OF_INSTANCES,nrOfInstances);
   setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,0);

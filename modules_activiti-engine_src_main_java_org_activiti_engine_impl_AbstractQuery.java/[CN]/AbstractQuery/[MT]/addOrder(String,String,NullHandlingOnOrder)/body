@@ -1,0 +1,42 @@
+{
+  if (orderBy == null) {
+    orderBy="";
+  }
+ else {
+    orderBy=orderBy + ", ";
+  }
+  String defaultOrderByClause=column + " " + sortOrder;
+  if (nullHandlingOnOrder != null) {
+    if (nullHandlingOnOrder.equals(NullHandlingOnOrder.NULLS_FIRST)) {
+      if (ProcessEngineConfigurationImpl.DATABASE_TYPE_H2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_POSTGRES.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_ORACLE.equals(databaseType)) {
+        orderBy=orderBy + defaultOrderByClause + " NULLS FIRST";
+      }
+ else       if (ProcessEngineConfigurationImpl.DATABASE_TYPE_MYSQL.equals(databaseType)) {
+        orderBy=orderBy + "isnull(" + column+ ") desc,"+ defaultOrderByClause;
+      }
+ else       if (ProcessEngineConfigurationImpl.DATABASE_TYPE_DB2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_MSSQL.equals(databaseType)) {
+        orderBy=orderBy + "case when " + column+ " is null then 0 else 1 end,"+ defaultOrderByClause;
+      }
+ else {
+        orderBy=orderBy + defaultOrderByClause;
+      }
+    }
+ else     if (nullHandlingOnOrder.equals(NullHandlingOnOrder.NULLS_LAST)) {
+      if (ProcessEngineConfigurationImpl.DATABASE_TYPE_H2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_POSTGRES.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_ORACLE.equals(databaseType)) {
+        orderBy=orderBy + column + " "+ sortOrder+ " NULLS LAST";
+      }
+ else       if (ProcessEngineConfigurationImpl.DATABASE_TYPE_MYSQL.equals(databaseType)) {
+        orderBy=orderBy + "isnull(" + column+ ") asc,"+ defaultOrderByClause;
+      }
+ else       if (ProcessEngineConfigurationImpl.DATABASE_TYPE_DB2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_MSSQL.equals(databaseType)) {
+        orderBy=orderBy + "case when " + column+ " is null then 1 else 0 end,"+ defaultOrderByClause;
+      }
+ else {
+        orderBy=orderBy + defaultOrderByClause;
+      }
+    }
+  }
+ else {
+    orderBy=orderBy + defaultOrderByClause;
+  }
+}

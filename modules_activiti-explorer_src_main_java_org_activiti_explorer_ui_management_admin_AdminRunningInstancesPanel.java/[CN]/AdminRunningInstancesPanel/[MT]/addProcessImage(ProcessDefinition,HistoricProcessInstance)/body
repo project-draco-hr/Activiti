@@ -11,8 +11,9 @@
       imageHeader.addStyleName(ExplorerLayout.STYLE_NO_LINE);
       addDetailComponent(imageHeader);
     }
-    ProcessDiagramGenerator diagramGenerator=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration().getProcessDiagramGenerator();
-    StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processInstance.getId(),processInstance.getProcessDefinitionId(),repositoryService,runtimeService,diagramGenerator);
+    ProcessEngineConfiguration processEngineConfig=((ProcessEngineImpl)ProcessEngines.getDefaultProcessEngine()).getProcessEngineConfiguration();
+    ProcessDiagramGenerator diagramGenerator=processEngineConfig.getProcessDiagramGenerator();
+    StreamResource diagram=new ProcessDefinitionImageStreamResourceBuilder().buildStreamResource(processInstance.getId(),processInstance.getProcessDefinitionId(),repositoryService,runtimeService,diagramGenerator,processEngineConfig);
     currentEmbedded=new Embedded(null,diagram);
     currentEmbedded.setType(Embedded.TYPE_IMAGE);
     addDetailComponent(currentEmbedded);

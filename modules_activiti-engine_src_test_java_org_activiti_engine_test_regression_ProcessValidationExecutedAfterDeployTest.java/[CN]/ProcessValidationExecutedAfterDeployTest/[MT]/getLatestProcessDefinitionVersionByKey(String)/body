@@ -2,7 +2,7 @@
   List<ProcessDefinition> definitions=null;
   try {
     definitions=repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey).orderByProcessDefinitionVersion().latestVersion().desc().list();
-    if (definitions.size() == 0) {
+    if (definitions.isEmpty()) {
       return null;
     }
   }

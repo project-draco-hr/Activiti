@@ -17,7 +17,7 @@
     mainPanel.removeComponent(variablesTable);
   }
   List<HistoricDetail> variables=historyService.createHistoricDetailQuery().processInstanceId(processInstance.getId()).orderByTime().desc().list();
-  if (variables.size() > 0) {
+  if (!variables.isEmpty()) {
     variablesTable=new Table();
     variablesTable.setWidth(60,UNITS_PERCENTAGE);
     variablesTable.setHeight(250,UNITS_PIXELS);

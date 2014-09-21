@@ -23,7 +23,7 @@
       query.processDefinitionTenantId(tenantId);
     }
     List<ProcessDefinition> processDefinitions=query.list();
-    if (processDefinitions.size() == 0) {
+    if (processDefinitions.isEmpty()) {
       throw new ActivitiException("Cannot find process definition for key '" + processDefinitionKey + "'");
     }
     for (    ProcessDefinition processDefinition : processDefinitions) {

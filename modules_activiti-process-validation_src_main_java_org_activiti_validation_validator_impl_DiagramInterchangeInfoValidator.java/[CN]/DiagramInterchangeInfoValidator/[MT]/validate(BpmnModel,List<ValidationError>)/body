@@ -1,5 +1,5 @@
 {
-  if (bpmnModel.getLocationMap().size() > 0) {
+  if (!bpmnModel.getLocationMap().isEmpty()) {
     for (    String bpmnReference : bpmnModel.getLocationMap().keySet()) {
       if (bpmnModel.getFlowElement(bpmnReference) == null) {
         if (bpmnModel.getArtifact(bpmnReference) == null) {
@@ -13,7 +13,7 @@
       }
     }
   }
-  if (bpmnModel.getFlowLocationMap().size() > 0) {
+  if (!bpmnModel.getFlowLocationMap().isEmpty()) {
     for (    String bpmnReference : bpmnModel.getFlowLocationMap().keySet()) {
       if (bpmnModel.getFlowElement(bpmnReference) == null) {
         if (bpmnModel.getArtifact(bpmnReference) == null) {

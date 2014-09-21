@@ -9,13 +9,17 @@
     if (dataObject.getValue() != null) {
       String value=null;
       if (dataObject instanceof DateDataObject) {
-        DateTime dateTime=new DateTime((Date)dataObject.getValue());
-        value=ISODateTimeFormat.dateTimeNoMillis().print(dateTime);
+        value=sdf.format(dataObject.getValue());
       }
  else {
         value=dataObject.getValue().toString();
       }
-      xtw.writeCharacters(value);
+      if (dataObject instanceof StringDataObject && xmlChars.matcher(value).find()) {
+        xtw.writeCData(value);
+      }
+ else {
+        xtw.writeCharacters(value);
+      }
     }
     xtw.writeEndElement();
   }

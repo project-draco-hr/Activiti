@@ -2,10 +2,11 @@
   List<Resource> resources;
   String prefix, suffix;
   try {
-    prefix=this.environment.getProperty("prefix",PROCESS_DEFINITIONS_DEFAULT_PREFIX);
-    suffix=this.environment.getProperty("suffix",PROCESS_DEFINITIONS_DEFAULT_SUFFIX);
+    prefix=defaultText(activitiProperties.getProcessDefinitionLocationPrefix(),PROCESS_DEFINITIONS_DEFAULT_PREFIX);
+    suffix=defaultText(activitiProperties.getProcessDefinitionLocationSuffix(),PROCESS_DEFINITIONS_DEFAULT_SUFFIX);
     String path=prefix + suffix;
-    if (this.environment.getProperty("checkProcessDefinitions",Boolean.class,true)) {
+    boolean checkProcDefs=activitiProperties.isCheckProcessDefinitions();
+    if (checkProcDefs) {
       Assert.state(this.applicationContext.getResource(prefix).exists(),String.format("No process definitions were found deployed at %s. Are you actually using Activiti? ",path));
     }
     resources=Arrays.asList(this.applicationContext.getResources(path));

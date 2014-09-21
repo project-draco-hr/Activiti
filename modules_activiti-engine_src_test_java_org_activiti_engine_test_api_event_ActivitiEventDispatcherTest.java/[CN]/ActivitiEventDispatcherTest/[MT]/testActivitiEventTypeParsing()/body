@@ -20,7 +20,7 @@
   assertEquals(ActivitiEventType.ENTITY_CREATED,types[0]);
   assertEquals(ActivitiEventType.ENTITY_DELETED,types[1]);
   try {
-    types=ActivitiEventType.getTypesFromString("WHOOPS,ENTITY_DELETED");
+    ActivitiEventType.getTypesFromString("WHOOPS,ENTITY_DELETED");
     fail("Exception expected");
   }
  catch (  ActivitiIllegalArgumentException expected) {

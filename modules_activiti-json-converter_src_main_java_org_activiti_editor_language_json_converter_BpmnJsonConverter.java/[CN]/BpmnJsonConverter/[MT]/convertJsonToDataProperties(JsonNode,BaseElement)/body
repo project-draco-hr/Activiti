@@ -1,0 +1,64 @@
+{
+  List<ValuedDataObject> dataObjects=new ArrayList<ValuedDataObject>();
+  if (objectNode != null) {
+    if (objectNode.isValueNode() && StringUtils.isNotEmpty(objectNode.asText())) {
+      try {
+        objectNode=objectMapper.readTree(objectNode.asText());
+      }
+ catch (      Exception e) {
+        LOGGER.info("Data properties node cannot be read",e);
+      }
+    }
+    JsonNode itemsArrayNode=objectNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    if (itemsArrayNode != null) {
+      for (      JsonNode dataNode : itemsArrayNode) {
+        JsonNode dataIdNode=dataNode.get(PROPERTY_DATA_ID);
+        if (dataIdNode != null && StringUtils.isNotEmpty(dataIdNode.asText())) {
+          ValuedDataObject dataObject=null;
+          ItemDefinition itemSubjectRef=new ItemDefinition();
+          String dataType=dataNode.get(PROPERTY_DATA_TYPE).asText();
+          if (dataType.equals("string")) {
+            dataObject=new StringDataObject();
+          }
+ else           if (dataType.equals("int")) {
+            dataObject=new IntegerDataObject();
+          }
+ else           if (dataType.equals("long")) {
+            dataObject=new LongDataObject();
+          }
+ else           if (dataType.equals("double")) {
+            dataObject=new DoubleDataObject();
+          }
+ else           if (dataType.equals("boolean")) {
+            dataObject=new BooleanDataObject();
+          }
+ else           if (dataType.equals("datetime")) {
+            dataObject=new DateDataObject();
+          }
+ else {
+            LOGGER.error("Error converting {}",dataIdNode.asText());
+          }
+          if (null != dataObject) {
+            dataObject.setId(dataIdNode.asText());
+            dataObject.setName(dataNode.get(PROPERTY_DATA_NAME).asText());
+            itemSubjectRef.setStructureRef("xsd:" + dataType);
+            dataObject.setItemSubjectRef(itemSubjectRef);
+            if (dataObject instanceof DateDataObject) {
+              try {
+                dataObject.setValue(sdf.parse(dataNode.get(PROPERTY_DATA_VALUE).asText()));
+              }
+ catch (              Exception e) {
+                LOGGER.error("Error converting {}",dataObject.getName(),e);
+              }
+            }
+ else {
+              dataObject.setValue(dataNode.get(PROPERTY_DATA_VALUE).asText());
+            }
+            dataObjects.add(dataObject);
+          }
+        }
+      }
+    }
+  }
+  return dataObjects;
+}

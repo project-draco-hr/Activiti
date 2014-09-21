@@ -2,7 +2,7 @@
   List<StartEvent> startEvents=process.findFlowElementsOfType(StartEvent.class,false);
   List<StartEvent> nonMessageStartEvents=new ArrayList<StartEvent>();
   for (  StartEvent startEvent : startEvents) {
-    if (startEvent.getEventDefinitions() != null && startEvent.getEventDefinitions().size() > 0) {
+    if (startEvent.getEventDefinitions() != null && !startEvent.getEventDefinitions().isEmpty()) {
       EventDefinition eventDefinition=startEvent.getEventDefinitions().get(0);
       if (!(eventDefinition instanceof MessageEventDefinition)) {
         nonMessageStartEvents.add(startEvent);

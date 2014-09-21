@@ -11,7 +11,7 @@
   feedbackProvidersProperty.setRequired(true);
   feedbackProvidersProperty.setType("string");
   selectPeopleUserTask.setFormProperties(Arrays.asList(feedbackProvidersProperty));
-  if (feedbackStepDefinition.getFeedbackProviders() != null && feedbackStepDefinition.getFeedbackProviders().size() > 0) {
+  if (feedbackStepDefinition.getFeedbackProviders() != null && !feedbackStepDefinition.getFeedbackProviders().isEmpty()) {
     if (selectPeopleUserTask.getTaskListeners() == null) {
       selectPeopleUserTask.setTaskListeners(new ArrayList<ActivitiListener>());
     }

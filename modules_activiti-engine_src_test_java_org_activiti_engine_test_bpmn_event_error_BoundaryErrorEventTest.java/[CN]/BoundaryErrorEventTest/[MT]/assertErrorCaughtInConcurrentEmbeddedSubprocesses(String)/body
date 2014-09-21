@@ -9,7 +9,7 @@
   assertEquals("task D",task.getName());
   taskService.complete(task.getId());
   assertProcessEnded(procId);
-  procId=runtimeService.startProcessInstanceByKey(processDefinitionKey).getId();
+  runtimeService.startProcessInstanceByKey(processDefinitionKey).getId();
   tasks=taskService.createTaskQuery().orderByTaskName().asc().list();
   assertEquals(2,tasks.size());
   assertEquals("task A",tasks.get(0).getName());

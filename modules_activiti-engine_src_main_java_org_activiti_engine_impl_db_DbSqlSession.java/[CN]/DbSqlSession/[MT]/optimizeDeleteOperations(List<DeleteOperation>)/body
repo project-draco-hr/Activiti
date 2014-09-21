@@ -1,5 +1,5 @@
 {
-  if (deleteOperations.size() <= 1) {
+  if (!isOptimizeDeleteOperationsEnabled || deleteOperations.size() <= 1) {
     return deleteOperations;
   }
   List<DeleteOperation> optimizedDeleteOperations=new ArrayList<DbSqlSession.DeleteOperation>();

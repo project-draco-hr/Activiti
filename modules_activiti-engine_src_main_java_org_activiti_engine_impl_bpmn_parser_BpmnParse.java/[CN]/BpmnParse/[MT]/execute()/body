@@ -21,7 +21,7 @@
       }
  else {
         List<ValidationError> validationErrors=processValidator.validate(bpmnModel);
-        if (validationErrors != null && validationErrors.size() > 0) {
+        if (validationErrors != null && !validationErrors.isEmpty()) {
           StringBuilder warningBuilder=new StringBuilder();
           StringBuilder errorBuilder=new StringBuilder();
           for (          ValidationError error : validationErrors) {

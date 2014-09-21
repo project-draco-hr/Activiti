@@ -19,8 +19,8 @@
     }
   }
   assertTrue(superProcessFound);
-  assertTrue(subProcessFound == false);
-  assertTrue(nestedSubProcessFound == false);
+  assertFalse(subProcessFound);
+  assertFalse(nestedSubProcessFound);
   instanceList=runtimeService.createProcessInstanceQuery().excludeSubprocesses(false).list();
   assertEquals(8,instanceList.size());
 }

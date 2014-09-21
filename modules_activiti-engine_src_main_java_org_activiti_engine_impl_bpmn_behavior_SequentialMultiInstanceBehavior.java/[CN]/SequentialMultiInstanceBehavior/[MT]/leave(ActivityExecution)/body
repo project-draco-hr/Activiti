@@ -9,7 +9,7 @@
   setLoopVariable(execution,getCollectionElementIndexVariable(),loopCounter);
   setLoopVariable(execution,NUMBER_OF_COMPLETED_INSTANCES,nrOfCompletedInstances);
   logLoopDetails(execution,"instance completed",loopCounter,nrOfCompletedInstances,nrOfActiveInstances,nrOfInstances);
-  if (loopCounter == nrOfInstances || completionConditionSatisfied(execution)) {
+  if (loopCounter >= nrOfInstances || completionConditionSatisfied(execution)) {
     super.leave(execution);
   }
  else {

@@ -63,7 +63,7 @@
       if (!lastConcurrent.isScope()) {
         concurrentRoot.setActivity((ActivityImpl)lastConcurrent.getActivity());
         lastConcurrent.setReplacedBy(concurrentRoot);
-        if (lastConcurrent.getExecutions().size() > 0) {
+        if (!lastConcurrent.getExecutions().isEmpty()) {
           concurrentRoot.getExecutions().clear();
           for (          ActivityExecution childExecution : lastConcurrent.getExecutions()) {
             InterpretableExecution childInterpretableExecution=(InterpretableExecution)childExecution;

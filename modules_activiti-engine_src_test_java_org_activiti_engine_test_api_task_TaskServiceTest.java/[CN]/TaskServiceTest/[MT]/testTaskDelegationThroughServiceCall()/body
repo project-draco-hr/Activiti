@@ -4,7 +4,7 @@
   taskService.saveTask(task);
   String taskId=task.getId();
   task=taskService.createTaskQuery().taskId(taskId).singleResult();
-  taskService.delegateTask(taskId,"joesmoe");
+  taskService.delegateTask(task.getId(),"joesmoe");
   task=taskService.createTaskQuery().taskId(taskId).singleResult();
   assertEquals("johndoe",task.getOwner());
   assertEquals("joesmoe",task.getAssignee());
