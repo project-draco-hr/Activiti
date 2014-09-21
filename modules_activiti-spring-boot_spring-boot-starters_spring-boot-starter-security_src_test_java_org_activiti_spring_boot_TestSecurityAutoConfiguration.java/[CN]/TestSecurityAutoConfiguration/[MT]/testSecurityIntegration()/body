@@ -1,0 +1,6 @@
+{
+  UserDetailsService userDetailsService=this.applicationContext.getBean(UserDetailsService.class);
+  Assert.assertNotNull("the userDetailsService manager can't be null",userDetailsService);
+  UserDetails userDetails=userDetailsService.loadUserByUsername("jlong");
+  Assert.assertNotNull("userDetails for 'jlong' should not be null",userDetails);
+}

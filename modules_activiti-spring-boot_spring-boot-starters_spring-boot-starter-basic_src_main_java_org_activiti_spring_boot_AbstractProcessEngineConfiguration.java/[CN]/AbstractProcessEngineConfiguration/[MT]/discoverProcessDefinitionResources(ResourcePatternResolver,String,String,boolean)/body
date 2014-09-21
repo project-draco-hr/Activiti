@@ -2,6 +2,7 @@
   String path=prefix + suffix;
   if (checkPDs) {
     Assert.state(applicationContext.getResource(prefix).exists(),String.format("No process definitions were found using the specified " + "path (%s). Are you sure " + "you're using Activiti?",path));
+    return Arrays.asList(applicationContext.getResources(path));
   }
-  return Arrays.asList(applicationContext.getResources(path));
+  return new ArrayList<Resource>();
 }
