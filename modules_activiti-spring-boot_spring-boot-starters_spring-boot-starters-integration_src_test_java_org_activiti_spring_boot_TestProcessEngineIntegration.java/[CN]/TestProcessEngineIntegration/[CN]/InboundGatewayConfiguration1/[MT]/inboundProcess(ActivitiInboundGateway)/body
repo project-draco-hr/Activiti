@@ -1,8 +1,0 @@
-{
-  return IntegrationFlows.from(inboundGateway).handle(new GenericHandler<ActivityExecution>(){
-    @Override public Object handle(    ActivityExecution execution,    Map<String,Object> headers){
-      return MessageBuilder.withPayload(execution).setHeader("projectId","242453").setHeader("orderId","246").copyHeaders(headers).build();
-    }
-  }
-).get();
-}
