@@ -1,0 +1,7 @@
+{
+  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey).singleResult();
+  ProcessDiagramGenerator processDiagramGenerator=new DefaultProcessDiagramGenerator();
+  BpmnModel bpmnModel=repositoryService.getBpmnModel(processDefinition.getId());
+  InputStream is=processDiagramGenerator.generateJpgDiagram(bpmnModel);
+  return new InputStreamResource(is);
+}
