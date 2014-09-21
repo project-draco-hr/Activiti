@@ -1,0 +1,18 @@
+{
+  User user=null;
+  try {
+    user=this.identityService.createUserQuery().userEmail(username).singleResult();
+  }
+ catch (  ActivitiException ex) {
+  }
+  if (null == user) {
+    throw new UsernameNotFoundException(String.format("user (%s) could not be found",username));
+  }
+  boolean active=true;
+  List<GrantedAuthority> grantedAuthorityList=new ArrayList<GrantedAuthority>();
+  List<Group> groupsForUser=identityService.createGroupQuery().groupMember(user.getId()).list();
+  for (  Group g : groupsForUser) {
+    grantedAuthorityList.add(new GroupGrantedAuthority(g));
+  }
+  return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),active,active,active,active,grantedAuthorityList);
+}
