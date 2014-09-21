@@ -1,0 +1,18 @@
+{
+  Map<String,Object> stringObjectMap=new HashMap<String,Object>();
+  stringObjectMap.put("executionId",execution.getId());
+  stringObjectMap.put("processInstanceId",execution.getProcessInstanceId());
+  stringObjectMap.put("processDefinitionId",execution.getProcessDefinitionId());
+  stringObjectMap.putAll(headerMapper.toHeaders(execution.getVariables()));
+  Map<String,?> headers=stringObjectMap;
+  MessageBuilder<?> mb=MessageBuilder.withPayload(execution).copyHeaders(headers);
+  Message<?> reply=sendAndReceiveMessage(mb.build());
+  if (null != reply) {
+    Map<String,Object> vars=new HashMap<String,Object>();
+    headerMapper.fromHeaders(reply.getHeaders(),vars);
+    for (    String k : vars.keySet()) {
+      processEngine.getRuntimeService().setVariable(execution.getId(),k,vars.get(k));
+    }
+    receiveTaskActivityBehavior.leave(execution);
+  }
+}
