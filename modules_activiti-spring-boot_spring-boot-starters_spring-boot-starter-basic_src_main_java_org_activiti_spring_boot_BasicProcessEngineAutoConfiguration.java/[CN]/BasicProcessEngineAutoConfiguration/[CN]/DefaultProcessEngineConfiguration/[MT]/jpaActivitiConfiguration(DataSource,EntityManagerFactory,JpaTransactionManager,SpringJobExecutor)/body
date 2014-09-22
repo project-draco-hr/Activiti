@@ -1,0 +1,8 @@
+{
+  SpringProcessEngineConfiguration config=this.configuration(dataSource,transactionManager,springJobExecutor);
+  config.setJpaHandleTransaction(false);
+  config.setJpaCloseEntityManager(false);
+  config.setTransactionManager(transactionManager);
+  config.setJpaEntityManagerFactory(entityManagerFactory);
+  return config;
+}

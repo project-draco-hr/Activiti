@@ -2,6 +2,10 @@
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey).singleResult();
   ProcessDiagramGenerator processDiagramGenerator=new DefaultProcessDiagramGenerator();
   BpmnModel bpmnModel=repositoryService.getBpmnModel(processDefinition.getId());
+  if (bpmnModel.getLocationMap().size() == 0) {
+    BpmnAutoLayout autoLayout=new BpmnAutoLayout(bpmnModel);
+    autoLayout.execute();
+  }
   InputStream is=processDiagramGenerator.generateJpgDiagram(bpmnModel);
   return new InputStreamResource(is);
 }

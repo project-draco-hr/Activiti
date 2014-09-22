@@ -1,3 +1,29 @@
 {
-  return this.processEngine.getHistoryService().createHistoricDetailQuery().orderByTime().asc().list();
+  Map<String,Object> metrics=new HashMap<String,Object>();
+  metrics.put("processDefinitionCount",processEngine.getRepositoryService().createProcessDefinitionQuery().count());
+  List<ProcessDefinition> processDefinitions=processEngine.getRepositoryService().createProcessDefinitionQuery().orderByProcessDefinitionKey().asc().list();
+  List<String> processDefinitionKeys=new ArrayList<String>();
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    processDefinitionKeys.add(processDefinition.getKey() + " (v" + processDefinition.getVersion()+ ")");
+  }
+  metrics.put("deployedProcessDefinitions",processDefinitionKeys);
+  Map<String,Object> processInstanceCountMap=new HashMap<String,Object>();
+  metrics.put("runningProcessInstanceCount",processInstanceCountMap);
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    processInstanceCountMap.put(processDefinition.getKey() + " (v" + processDefinition.getVersion()+ ")",processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).count());
+  }
+  Map<String,Object> completedProcessInstanceCountMap=new HashMap<String,Object>();
+  metrics.put("completedProcessInstanceCount",completedProcessInstanceCountMap);
+  for (  ProcessDefinition processDefinition : processDefinitions) {
+    completedProcessInstanceCountMap.put(processDefinition.getKey() + " (v" + processDefinition.getVersion()+ ")",processEngine.getHistoryService().createHistoricProcessInstanceQuery().finished().processDefinitionId(processDefinition.getId()).count());
+  }
+  metrics.put("openTaskCount",processEngine.getTaskService().createTaskQuery().count());
+  metrics.put("completedTaskCount",processEngine.getHistoryService().createHistoricTaskInstanceQuery().finished().count());
+  metrics.put("completedTaskCountToday",processEngine.getHistoryService().createHistoricTaskInstanceQuery().finished().taskCompletedAfter(new Date(System.currentTimeMillis() - secondsForDays(1))).count());
+  metrics.put("completedActivities",processEngine.getHistoryService().createHistoricActivityInstanceQuery().finished().count());
+  DeploymentCache<ProcessDefinitionEntity> deploymentCache=((ProcessEngineConfigurationImpl)processEngine.getProcessEngineConfiguration()).getProcessDefinitionCache();
+  if (deploymentCache instanceof DefaultDeploymentCache) {
+    metrics.put("cachedProcessDefinitionCount",((DefaultDeploymentCache)deploymentCache).size());
+  }
+  return metrics;
 }

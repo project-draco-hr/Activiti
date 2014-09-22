@@ -1,7 +1,7 @@
 {
   ServerServlet servlet=new ServerServlet();
   ServletRegistrationBean registration=new ServletRegistrationBean(servlet,this.activitiProperties.getRestApiMapping());
-  registration.addInitParameter("org.restlet.application","org.activiti.rest.service.application.ActivitiRestServicesApplication");
+  registration.addInitParameter("org.restlet.application",DeferringActivitiRestServicesApplication.class.getName());
   registration.setName(this.activitiProperties.getRestApiServletName());
   return registration;
 }
