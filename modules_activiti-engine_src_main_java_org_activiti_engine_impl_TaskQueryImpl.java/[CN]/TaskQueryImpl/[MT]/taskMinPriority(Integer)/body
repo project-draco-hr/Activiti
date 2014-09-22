@@ -2,6 +2,11 @@
   if (minPriority == null) {
     throw new ActivitiIllegalArgumentException("Min Priority is null");
   }
-  this.minPriority=minPriority;
+  if (orActive) {
+    orQueryObject.minPriority=minPriority;
+  }
+ else {
+    this.minPriority=minPriority;
+  }
   return this;
 }

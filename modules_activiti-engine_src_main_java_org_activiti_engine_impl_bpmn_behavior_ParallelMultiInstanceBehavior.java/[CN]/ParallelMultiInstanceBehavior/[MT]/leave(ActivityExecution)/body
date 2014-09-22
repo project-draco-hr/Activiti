@@ -16,7 +16,7 @@
   executionEntity.inactivate();
   executionEntity.getParent().forceUpdate();
   List<ActivityExecution> joinedExecutions=executionEntity.findInactiveConcurrentExecutions(execution.getActivity());
-  if (joinedExecutions.size() == nrOfInstances || completionConditionSatisfied(execution)) {
+  if (joinedExecutions.size() >= nrOfInstances || completionConditionSatisfied(execution)) {
     List<ExecutionEntity> executionsToRemove=new ArrayList<ExecutionEntity>();
     for (    ActivityExecution childExecution : executionEntity.getParent().getExecutions()) {
       if (childExecution.isActive()) {

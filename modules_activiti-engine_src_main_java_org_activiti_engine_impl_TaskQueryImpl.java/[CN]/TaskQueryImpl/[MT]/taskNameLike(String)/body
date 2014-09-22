@@ -2,6 +2,11 @@
   if (nameLike == null) {
     throw new ActivitiIllegalArgumentException("Task namelike is null");
   }
-  this.nameLike=nameLike;
+  if (orActive) {
+    orQueryObject.nameLike=nameLike;
+  }
+ else {
+    this.nameLike=nameLike;
+  }
   return this;
 }

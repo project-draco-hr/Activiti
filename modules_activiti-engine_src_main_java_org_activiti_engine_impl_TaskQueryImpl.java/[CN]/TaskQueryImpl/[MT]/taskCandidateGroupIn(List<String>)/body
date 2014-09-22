@@ -2,7 +2,7 @@
   if (candidateGroups == null) {
     throw new ActivitiIllegalArgumentException("Candidate group list is null");
   }
-  if (candidateGroups.size() == 0) {
+  if (candidateGroups.isEmpty()) {
     throw new ActivitiIllegalArgumentException("Candidate group list is empty");
   }
   if (candidateUser != null) {
@@ -11,6 +11,11 @@
   if (candidateGroup != null) {
     throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateGroupIn and candidateGroup");
   }
-  this.candidateGroups=candidateGroups;
+  if (orActive) {
+    orQueryObject.candidateGroups=candidateGroups;
+  }
+ else {
+    this.candidateGroups=candidateGroups;
+  }
   return this;
 }

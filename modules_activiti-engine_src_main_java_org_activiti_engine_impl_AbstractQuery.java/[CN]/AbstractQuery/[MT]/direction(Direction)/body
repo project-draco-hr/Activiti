@@ -2,7 +2,8 @@
   if (orderProperty == null) {
     throw new ActivitiIllegalArgumentException("You should call any of the orderBy methods first before specifying a direction");
   }
-  addOrder(orderProperty.getName(),direction.getName());
+  addOrder(orderProperty.getName(),direction.getName(),nullHandlingOnOrder);
   orderProperty=null;
+  nullHandlingOnOrder=null;
   return (T)this;
 }

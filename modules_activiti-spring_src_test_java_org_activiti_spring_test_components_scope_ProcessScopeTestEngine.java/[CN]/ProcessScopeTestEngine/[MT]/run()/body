@@ -4,7 +4,7 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("component-waiter",vars);
   Map<String,Object> runtimeVars=runtimeService.getVariables(processInstance.getId());
   String statefulObjectVariableKey=keyForObjectType(runtimeVars,StatefulObject.class);
-  assertTrue(runtimeVars.size() > 0);
+  assertTrue(!runtimeVars.isEmpty());
   assertTrue(StringUtils.hasText(statefulObjectVariableKey));
   StatefulObject scopedObject=(StatefulObject)runtimeService.getVariable(processInstance.getId(),statefulObjectVariableKey);
   assertNotNull(scopedObject);

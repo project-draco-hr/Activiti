@@ -1,0 +1,8 @@
+{
+  if (orActive || orQueryObject != null) {
+    throw new ActivitiException("or() can only be called once");
+  }
+  orActive=true;
+  orQueryObject=new TaskQueryImpl();
+  return this;
+}

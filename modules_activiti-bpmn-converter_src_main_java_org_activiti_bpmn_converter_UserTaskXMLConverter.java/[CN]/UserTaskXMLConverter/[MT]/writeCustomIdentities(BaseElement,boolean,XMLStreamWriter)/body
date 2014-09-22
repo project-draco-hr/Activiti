@@ -1,0 +1,15 @@
+{
+  UserTask userTask=(UserTask)element;
+  if (userTask.getCustomUserIdentityLinks().isEmpty() && userTask.getCustomGroupIdentityLinks().isEmpty())   return didWriteExtensionStartElement;
+  if (didWriteExtensionStartElement == false) {
+    xtw.writeStartElement(ELEMENT_EXTENSIONS);
+    didWriteExtensionStartElement=true;
+  }
+  Set<String> identityLinkTypes=new HashSet<String>();
+  identityLinkTypes.addAll(userTask.getCustomUserIdentityLinks().keySet());
+  identityLinkTypes.addAll(userTask.getCustomGroupIdentityLinks().keySet());
+  for (  String identityType : identityLinkTypes) {
+    writeCustomIdentities(userTask,identityType,userTask.getCustomUserIdentityLinks().get(identityType),userTask.getCustomGroupIdentityLinks().get(identityType),xtw);
+  }
+  return didWriteExtensionStartElement;
+}

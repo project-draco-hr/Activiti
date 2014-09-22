@@ -38,6 +38,19 @@
   if (StringUtils.isNotEmpty(userTask.getFormKey())) {
     taskDefinition.setFormKeyExpression(expressionManager.createExpression(userTask.getFormKey()));
   }
-  parseCustomIdentityLinks(bpmnParse,userTask,taskDefinition);
+  for (  String customUserIdentityLinkType : userTask.getCustomUserIdentityLinks().keySet()) {
+    Set<Expression> userIdentityLinkExpression=new HashSet<Expression>();
+    for (    String userIdentityLink : userTask.getCustomUserIdentityLinks().get(customUserIdentityLinkType)) {
+      userIdentityLinkExpression.add(expressionManager.createExpression(userIdentityLink));
+    }
+    taskDefinition.addCustomUserIdentityLinkExpression(customUserIdentityLinkType,userIdentityLinkExpression);
+  }
+  for (  String customGroupIdentityLinkType : userTask.getCustomGroupIdentityLinks().keySet()) {
+    Set<Expression> groupIdentityLinkExpression=new HashSet<Expression>();
+    for (    String groupIdentityLink : userTask.getCustomGroupIdentityLinks().get(customGroupIdentityLinkType)) {
+      groupIdentityLinkExpression.add(expressionManager.createExpression(groupIdentityLink));
+    }
+    taskDefinition.addCustomGroupIdentityLinkExpression(customGroupIdentityLinkType,groupIdentityLinkExpression);
+  }
   return taskDefinition;
 }

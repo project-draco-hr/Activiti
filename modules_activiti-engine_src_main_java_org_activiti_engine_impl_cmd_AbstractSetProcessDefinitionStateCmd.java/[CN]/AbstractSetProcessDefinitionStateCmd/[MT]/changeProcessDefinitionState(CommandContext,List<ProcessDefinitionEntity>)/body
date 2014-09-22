@@ -5,7 +5,7 @@
     if (includeProcessInstances) {
       int currentStartIndex=0;
       List<ProcessInstance> processInstances=fetchProcessInstancesPage(commandContext,processDefinition,currentStartIndex);
-      while (processInstances.size() > 0) {
+      while (!processInstances.isEmpty()) {
         for (        ProcessInstance processInstance : processInstances) {
           AbstractSetProcessInstanceStateCmd processInstanceCmd=getProcessInstanceChangeStateCmd(processInstance);
           processInstanceCmd.execute(commandContext);

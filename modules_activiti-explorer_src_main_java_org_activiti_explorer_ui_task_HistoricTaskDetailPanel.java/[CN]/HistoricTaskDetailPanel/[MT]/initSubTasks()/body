@@ -4,7 +4,7 @@
   addComponent(subTasksLayout);
   initSubTaskTitle();
   List<HistoricTaskInstance> subTasks=historyService.createHistoricTaskInstanceQuery().taskParentTaskId(historicTask.getId()).list();
-  if (subTasks.size() > 0) {
+  if (!subTasks.isEmpty()) {
     initSubTaskGrid();
     populateSubTasks(subTasks);
   }

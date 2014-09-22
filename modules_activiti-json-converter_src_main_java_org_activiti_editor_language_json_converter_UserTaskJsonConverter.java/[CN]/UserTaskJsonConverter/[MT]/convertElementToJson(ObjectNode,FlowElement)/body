@@ -1,11 +1,18 @@
 {
   UserTask userTask=(UserTask)flowElement;
+  String owner=userTask.getOwner();
   String assignee=userTask.getAssignee();
   String candidateUsers=convertListToCommaSeparatedString(userTask.getCandidateUsers());
   String candidateGroups=convertListToCommaSeparatedString(userTask.getCandidateGroups());
-  if (StringUtils.isNotEmpty(assignee) || StringUtils.isNotEmpty(candidateUsers) || StringUtils.isNotEmpty(candidateGroups)) {
+  if (StringUtils.isNotEmpty(owner) || StringUtils.isNotEmpty(assignee) || StringUtils.isNotEmpty(candidateUsers)|| StringUtils.isNotEmpty(candidateGroups)) {
     ObjectNode assignmentNode=objectMapper.createObjectNode();
     ArrayNode itemsNode=objectMapper.createArrayNode();
+    if (StringUtils.isNotEmpty(owner)) {
+      ObjectNode assignmentItemNode=objectMapper.createObjectNode();
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_TYPE,PROPERTY_USERTASK_OWNER);
+      assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_EXPRESSION,owner);
+      itemsNode.add(assignmentItemNode);
+    }
     if (StringUtils.isNotEmpty(assignee)) {
       ObjectNode assignmentItemNode=objectMapper.createObjectNode();
       assignmentItemNode.put(PROPERTY_USERTASK_ASSIGNMENT_TYPE,PROPERTY_USERTASK_ASSIGNEE);
@@ -27,6 +34,29 @@
     assignmentNode.put("totalCount",itemsNode.size());
     assignmentNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,itemsNode);
     propertiesNode.put(PROPERTY_USERTASK_ASSIGNMENT,assignmentNode);
+  }
+  if (!userTask.getCustomUserIdentityLinks().isEmpty() || !userTask.getCustomGroupIdentityLinks().isEmpty()) {
+    ObjectNode customIdentityLinksNode=objectMapper.createObjectNode();
+    ArrayNode itemsNode=objectMapper.createArrayNode();
+    for (    String linkType : userTask.getCustomUserIdentityLinks().keySet()) {
+      ObjectNode identityItemNode=objectMapper.createObjectNode();
+      identityItemNode.put(PROPERTY_USERTASK_IDENTITY_TYPE,"user");
+      identityItemNode.put(PROPERTY_USERTASK_IDENTITY_LINK_TYPE,linkType);
+      String users=convertListToCommaSeparatedString(new ArrayList<String>(userTask.getCustomUserIdentityLinks().get(linkType)));
+      identityItemNode.put(PROPERTY_USERTASK_IDENTITY_LINK_EXPRESSION,users);
+      itemsNode.add(identityItemNode);
+    }
+    for (    String linkType : userTask.getCustomGroupIdentityLinks().keySet()) {
+      ObjectNode identityItemNode=objectMapper.createObjectNode();
+      identityItemNode.put(PROPERTY_USERTASK_IDENTITY_TYPE,"group");
+      identityItemNode.put(PROPERTY_USERTASK_IDENTITY_LINK_TYPE,linkType);
+      String groups=convertListToCommaSeparatedString(new ArrayList<String>(userTask.getCustomGroupIdentityLinks().get(linkType)));
+      identityItemNode.put(PROPERTY_USERTASK_IDENTITY_LINK_EXPRESSION,groups);
+      itemsNode.add(identityItemNode);
+    }
+    customIdentityLinksNode.put("totalCount",itemsNode.size());
+    customIdentityLinksNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,itemsNode);
+    propertiesNode.put(PROPERTY_USERTASK_CUSTOM_IDENTITY_LINKS,customIdentityLinksNode);
   }
   if (userTask.getPriority() != null) {
     setPropertyValue(PROPERTY_PRIORITY,userTask.getPriority().toString(),propertiesNode);

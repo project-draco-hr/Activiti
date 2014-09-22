@@ -20,8 +20,8 @@
   taskTable.addStyleName(ExplorerLayout.STYLE_PROCESS_INSTANCE_TASK_LIST);
   taskTable.setWidth(100,UNITS_PERCENTAGE);
   taskTable.setHeight(250,UNITS_PIXELS);
-  List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByHistoricTaskInstanceStartTime().desc().list();
-  if (tasks.size() > 0) {
+  List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricTaskInstanceEndTime().desc().orderByTaskCreateTime().desc().list();
+  if (!tasks.isEmpty()) {
     taskTable.addContainerProperty("finished",Component.class,null,i18nManager.getMessage(Messages.ADMIN_FINISHED),null,Table.ALIGN_CENTER);
     taskTable.setColumnWidth("finished",22);
     taskTable.addContainerProperty("name",String.class,null,i18nManager.getMessage(Messages.TASK_NAME),null,Table.ALIGN_LEFT);

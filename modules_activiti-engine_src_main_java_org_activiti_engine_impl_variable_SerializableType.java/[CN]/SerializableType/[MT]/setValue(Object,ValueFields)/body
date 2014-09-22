@@ -3,7 +3,7 @@
   valueFields.setCachedValue(value);
   if (valueFields.getBytes() == null) {
     if (valueFields instanceof VariableInstanceEntity) {
-      Context.getCommandContext().getDbSqlSession().addDeserializedObject(valueFields.getCachedValue(),byteArray,(VariableInstanceEntity)valueFields);
+      Context.getCommandContext().getDbSqlSession().addDeserializedObject(new DeserializedObject(this,valueFields.getCachedValue(),byteArray,(VariableInstanceEntity)valueFields));
     }
   }
   super.setValue(byteArray,valueFields);

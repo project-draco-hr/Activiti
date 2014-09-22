@@ -2,6 +2,11 @@
   if (name == null) {
     throw new ActivitiIllegalArgumentException("Task name is null");
   }
-  this.name=name;
+  if (orActive) {
+    orQueryObject.name=name;
+  }
+ else {
+    this.name=name;
+  }
   return this;
 }

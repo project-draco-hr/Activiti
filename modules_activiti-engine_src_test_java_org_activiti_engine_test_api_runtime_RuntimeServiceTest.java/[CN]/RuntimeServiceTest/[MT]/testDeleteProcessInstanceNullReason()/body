@@ -6,6 +6,6 @@
   if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricProcessInstance historicInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
     assertNotNull(historicInstance);
-    assertNull(historicInstance.getDeleteReason());
+    assertEquals("ACTIVITI_DELETED",historicInstance.getDeleteReason());
   }
 }

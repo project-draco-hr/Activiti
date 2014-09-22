@@ -1,0 +1,20 @@
+{
+  StreamResource imageResource=null;
+  ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
+  if (processDefinition != null && processDefinition.isGraphicalNotationDefined()) {
+    try {
+      BpmnModel bpmnModel=repositoryService.getBpmnModel(processInstance.getProcessDefinitionId());
+      InputStream definitionImageStream=diagramGenerator.generateDiagram(bpmnModel,"png",runtimeService.getActiveActivityIds(processInstance.getId()),Collections.<String>emptyList(),processEngineConfig.getActivityFontName(),processEngineConfig.getLabelFontName(),processEngineConfig.getClassLoader(),1.0);
+      if (definitionImageStream != null) {
+        StreamSource streamSource=new InputStreamStreamSource(definitionImageStream);
+        String imageExtension=extractImageExtension(processDefinition.getDiagramResourceName());
+        String fileName=processInstance.getId() + UUID.randomUUID() + "."+ imageExtension;
+        imageResource=new StreamResource(streamSource,fileName,ExplorerApp.get());
+      }
+    }
+ catch (    Throwable t) {
+      LOGGER.warn("Process image cannot be generated due to exception: {} - {}",t.getClass().getName(),t.getMessage());
+    }
+  }
+  return imageResource;
+}

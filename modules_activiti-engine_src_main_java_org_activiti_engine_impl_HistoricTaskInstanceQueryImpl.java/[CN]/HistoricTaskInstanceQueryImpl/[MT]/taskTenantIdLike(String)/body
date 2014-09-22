@@ -2,6 +2,11 @@
   if (tenantIdLike == null) {
     throw new ActivitiIllegalArgumentException("task tenant id is null");
   }
-  this.tenantIdLike=tenantIdLike;
+  if (inOrStatement) {
+    this.orQueryObject.tenantIdLike=tenantIdLike;
+  }
+ else {
+    this.tenantIdLike=tenantIdLike;
+  }
   return this;
 }

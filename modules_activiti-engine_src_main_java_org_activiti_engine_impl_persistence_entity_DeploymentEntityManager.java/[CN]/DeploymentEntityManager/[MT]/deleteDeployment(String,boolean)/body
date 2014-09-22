@@ -20,7 +20,7 @@
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
   for (  ProcessDefinition processDefinition : processDefinitions) {
     List<Job> timerStartJobs=Context.getCommandContext().getJobEntityManager().findJobsByConfiguration(TimerStartEventJobHandler.TYPE,processDefinition.getKey());
-    if (timerStartJobs != null && timerStartJobs.size() > 0) {
+    if (timerStartJobs != null && !timerStartJobs.isEmpty()) {
       long nrOfVersions=new ProcessDefinitionQueryImpl(Context.getCommandContext()).processDefinitionKey(processDefinition.getKey()).count();
       long nrOfProcessDefinitionsWithSameKey=0;
       for (      ProcessDefinition p : processDefinitions) {

@@ -2,6 +2,11 @@
   if (ownerLike == null) {
     throw new ActivitiIllegalArgumentException("Owner is null");
   }
-  this.ownerLike=ownerLike;
+  if (orActive) {
+    orQueryObject.ownerLike=ownerLike;
+  }
+ else {
+    this.ownerLike=ownerLike;
+  }
   return this;
 }

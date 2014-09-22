@@ -1,22 +1,31 @@
 {
-  try {
-    EventLogEntryEntity eventLogEntry=new EventLogEntryEntity();
-    eventLogEntry.setProcessDefinitionId(processDefinitionId);
-    eventLogEntry.setProcessInstanceId(processInstanceId);
-    eventLogEntry.setExecutionId(executionId);
-    eventLogEntry.setTaskId(taskId);
-    eventLogEntry.setType(type);
-    eventLogEntry.setTimeStamp(timeStamp);
-    putInMapIfNotNull(data,Fields.TIMESTAMP,timeStamp);
-    String userId=Authentication.getAuthenticatedUserId();
-    if (userId != null) {
-      eventLogEntry.setUserId(userId);
-      putInMapIfNotNull(data,"userId",userId);
+  EventLogEntryEntity eventLogEntry=new EventLogEntryEntity();
+  eventLogEntry.setProcessDefinitionId(processDefinitionId);
+  eventLogEntry.setProcessInstanceId(processInstanceId);
+  eventLogEntry.setExecutionId(executionId);
+  eventLogEntry.setTaskId(taskId);
+  eventLogEntry.setType(type);
+  eventLogEntry.setTimeStamp(timeStamp);
+  putInMapIfNotNull(data,Fields.TIMESTAMP,timeStamp);
+  String userId=Authentication.getAuthenticatedUserId();
+  if (userId != null) {
+    eventLogEntry.setUserId(userId);
+    putInMapIfNotNull(data,"userId",userId);
+  }
+  if (!data.containsKey(Fields.TENANT_ID) && processDefinitionId != null) {
+    DeploymentCache<ProcessDefinitionEntity> processDefinitionCache=Context.getProcessEngineConfiguration().getProcessDefinitionCache();
+    if (processDefinitionCache != null) {
+      ProcessDefinitionEntity processDefinitionEntity=processDefinitionCache.get(processDefinitionId);
+      if (processDefinitionEntity != null && !ProcessEngineConfigurationImpl.NO_TENANT_ID.equals(processDefinitionEntity.getTenantId())) {
+        putInMapIfNotNull(data,Fields.TENANT_ID,processDefinitionEntity.getTenantId());
+      }
     }
+  }
+  try {
     eventLogEntry.setData(objectMapper.writeValueAsBytes(data));
-    return eventLogEntry;
   }
  catch (  Exception e) {
+    logger.warn("Could not serialize event data. Data will not be written to the database",e);
   }
-  return null;
+  return eventLogEntry;
 }

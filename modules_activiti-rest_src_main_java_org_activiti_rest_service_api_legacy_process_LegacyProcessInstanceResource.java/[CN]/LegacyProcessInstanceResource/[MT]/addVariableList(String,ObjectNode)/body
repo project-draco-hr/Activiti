@@ -1,7 +1,7 @@
 {
   try {
     Map<String,Object> variableMap=ActivitiUtil.getRuntimeService().getVariables(processInstanceId);
-    if (variableMap != null && variableMap.size() > 0) {
+    if (variableMap != null && !variableMap.isEmpty()) {
       ArrayNode variablesJSON=new ObjectMapper().createArrayNode();
       responseJSON.put("variables",variablesJSON);
       for (      String key : variableMap.keySet()) {
@@ -38,7 +38,7 @@
  catch (  Exception e) {
   }
   List<HistoricDetail> historyVariableList=ActivitiUtil.getHistoryService().createHistoricDetailQuery().processInstanceId(processInstanceId).variableUpdates().orderByTime().desc().list();
-  if (historyVariableList != null && historyVariableList.size() > 0) {
+  if (historyVariableList != null && !historyVariableList.isEmpty()) {
     ArrayNode variablesJSON=new ObjectMapper().createArrayNode();
     responseJSON.put("historyVariables",variablesJSON);
     for (    HistoricDetail historicDetail : historyVariableList) {

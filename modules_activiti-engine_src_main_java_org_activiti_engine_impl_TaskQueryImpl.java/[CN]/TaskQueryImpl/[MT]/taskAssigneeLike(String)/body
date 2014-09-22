@@ -1,7 +1,12 @@
 {
   if (assigneeLike == null) {
-    throw new ActivitiIllegalArgumentException("Assignee is null");
+    throw new ActivitiIllegalArgumentException("AssigneeLike is null");
   }
-  this.assigneeLike=assigneeLike;
+  if (orActive) {
+    orQueryObject.assigneeLike=assignee;
+  }
+ else {
+    this.assigneeLike=assigneeLike;
+  }
   return this;
 }

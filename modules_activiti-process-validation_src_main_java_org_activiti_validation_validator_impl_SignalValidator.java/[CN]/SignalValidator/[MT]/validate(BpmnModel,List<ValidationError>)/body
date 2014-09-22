@@ -1,6 +1,6 @@
 {
   Collection<Signal> signals=bpmnModel.getSignals();
-  if (signals != null && signals.size() > 0) {
+  if (signals != null && !signals.isEmpty()) {
     for (    Signal signal : signals) {
       if (StringUtils.isEmpty(signal.getId())) {
         addError(errors,Problems.SIGNAL_MISSING_ID,signal,"Signal must have an id");

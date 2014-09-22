@@ -1,7 +1,7 @@
 {
   String deploymentName="Demo processes";
   List<Deployment> deploymentList=repositoryService.createDeploymentQuery().deploymentName(deploymentName).list();
-  if (deploymentList == null || deploymentList.size() == 0) {
+  if (deploymentList == null || deploymentList.isEmpty()) {
     repositoryService.createDeployment().name(deploymentName).addClasspathResource("createTimersProcess.bpmn20.xml").addClasspathResource("oneTaskProcess.bpmn20.xml").addClasspathResource("VacationRequest.bpmn20.xml").addClasspathResource("VacationRequest.png").addClasspathResource("FixSystemFailureProcess.bpmn20.xml").addClasspathResource("FixSystemFailureProcess.png").addClasspathResource("Helpdesk.bpmn20.xml").addClasspathResource("Helpdesk.png").addClasspathResource("reviewSalesLead.bpmn20.xml").deploy();
   }
 }

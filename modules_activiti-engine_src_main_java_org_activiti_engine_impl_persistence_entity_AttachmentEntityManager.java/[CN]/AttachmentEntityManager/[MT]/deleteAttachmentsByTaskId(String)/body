@@ -5,7 +5,7 @@
   String processInstanceId=null;
   String processDefinitionId=null;
   String executionId=null;
-  if (dispatchEvents && attachments != null && attachments.size() > 0) {
+  if (dispatchEvents && attachments != null && !attachments.isEmpty()) {
     Task task=getTaskManager().findTaskById(taskId);
     if (task != null) {
       processDefinitionId=task.getProcessDefinitionId();

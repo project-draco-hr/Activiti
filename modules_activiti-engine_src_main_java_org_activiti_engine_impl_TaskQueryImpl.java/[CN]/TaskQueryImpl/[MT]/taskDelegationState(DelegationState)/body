@@ -1,9 +1,19 @@
 {
-  if (delegationState == null) {
-    this.noDelegationState=true;
+  if (orActive) {
+    if (delegationState == null) {
+      orQueryObject.noDelegationState=true;
+    }
+ else {
+      orQueryObject.delegationState=delegationState;
+    }
   }
  else {
-    this.delegationState=delegationState;
+    if (delegationState == null) {
+      this.noDelegationState=true;
+    }
+ else {
+      this.delegationState=delegationState;
+    }
   }
   return this;
 }

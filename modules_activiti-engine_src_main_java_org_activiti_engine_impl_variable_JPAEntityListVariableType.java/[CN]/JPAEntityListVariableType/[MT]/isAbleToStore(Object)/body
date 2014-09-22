@@ -1,0 +1,17 @@
+{
+  boolean canStore=false;
+  if (value instanceof List<?>) {
+    List<?> list=(List<?>)value;
+    if (list.size() > 0) {
+      canStore=true;
+      Class<?> entityClass=list.get(0).getClass();
+      for (      Object entity : list) {
+        canStore=entity != null && mappings.isJPAEntity(entity) && entity.getClass().equals(entityClass);
+        if (!canStore) {
+          break;
+        }
+      }
+    }
+  }
+  return canStore;
+}

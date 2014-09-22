@@ -2,6 +2,11 @@
   if (involvedUser == null) {
     throw new ActivitiIllegalArgumentException("Involved user is null");
   }
-  this.involvedUser=involvedUser;
+  if (inOrStatement) {
+    this.orQueryObject.involvedUser=involvedUser;
+  }
+ else {
+    this.involvedUser=involvedUser;
+  }
   return this;
 }

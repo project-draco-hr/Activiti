@@ -1,0 +1,24 @@
+{
+  if (taskNameList == null) {
+    throw new ActivitiIllegalArgumentException("Task name list is null");
+  }
+  if (taskNameList.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Task name list is empty");
+  }
+  if (taskName != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskName");
+  }
+  if (taskNameLike != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskNameLike");
+  }
+  if (taskNameLikeIgnoreCase != null) {
+    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskNameLikeIgnoreCase");
+  }
+  if (inOrStatement) {
+    orQueryObject.taskNameList=taskNameList;
+  }
+ else {
+    this.taskNameList=taskNameList;
+  }
+  return this;
+}

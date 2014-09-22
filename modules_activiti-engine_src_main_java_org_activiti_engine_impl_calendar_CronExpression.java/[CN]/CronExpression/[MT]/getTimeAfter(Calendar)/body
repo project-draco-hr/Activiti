@@ -13,7 +13,7 @@
     int sec=cl.get(Calendar.SECOND);
     int min=cl.get(Calendar.MINUTE);
     st=seconds.tailSet(Integer.valueOf(sec));
-    if (st != null && st.size() != 0) {
+    if (st != null && !st.isEmpty()) {
       sec=((Integer)st.first()).intValue();
     }
  else {
@@ -26,7 +26,7 @@
     int hr=cl.get(Calendar.HOUR_OF_DAY);
     t=-1;
     st=minutes.tailSet(Integer.valueOf(min));
-    if (st != null && st.size() != 0) {
+    if (st != null && !st.isEmpty()) {
       t=min;
       min=((Integer)st.first()).intValue();
     }
@@ -45,7 +45,7 @@
     int day=cl.get(Calendar.DAY_OF_MONTH);
     t=-1;
     st=hours.tailSet(Integer.valueOf(hr));
-    if (st != null && st.size() != 0) {
+    if (st != null && !st.isEmpty()) {
       t=hr;
       hr=((Integer)st.first()).intValue();
     }
@@ -79,7 +79,7 @@
           t=day;
           day=getLastDayOfMonth(mon,cl.get(Calendar.YEAR));
           day-=lastdayOffset;
-          java.util.Calendar tcal=clockReader.getCurrentCalendar(getTimeZone());
+          Calendar tcal=clockReader.getCurrentCalendar(getTimeZone());
           tcal.set(Calendar.SECOND,0);
           tcal.set(Calendar.MINUTE,0);
           tcal.set(Calendar.HOUR_OF_DAY,0);
@@ -114,7 +114,7 @@
  else       if (nearestWeekday) {
         t=day;
         day=((Integer)daysOfMonth.first()).intValue();
-        java.util.Calendar tcal=clockReader.getCurrentCalendar(getTimeZone());
+        Calendar tcal=clockReader.getCurrentCalendar(getTimeZone());
         tcal.set(Calendar.SECOND,0);
         tcal.set(Calendar.MINUTE,0);
         tcal.set(Calendar.HOUR_OF_DAY,0);
@@ -145,7 +145,7 @@
           mon++;
         }
       }
- else       if (st != null && st.size() != 0) {
+ else       if (st != null && !st.isEmpty()) {
         t=day;
         day=((Integer)st.first()).intValue();
         int lastDay=getLastDayOfMonth(mon,cl.get(Calendar.YEAR));
@@ -242,7 +242,7 @@
         int cDow=cl.get(Calendar.DAY_OF_WEEK);
         int dow=((Integer)daysOfWeek.first()).intValue();
         st=daysOfWeek.tailSet(Integer.valueOf(cDow));
-        if (st != null && st.size() > 0) {
+        if (st != null && !st.isEmpty()) {
           dow=((Integer)st.first()).intValue();
         }
         int daysToAdd=0;
@@ -282,7 +282,7 @@
       return null;
     }
     st=months.tailSet(Integer.valueOf(mon));
-    if (st != null && st.size() != 0) {
+    if (st != null && !st.isEmpty()) {
       t=mon;
       mon=((Integer)st.first()).intValue();
     }
@@ -303,7 +303,7 @@
     year=cl.get(Calendar.YEAR);
     t=-1;
     st=years.tailSet(Integer.valueOf(year));
-    if (st != null && st.size() != 0) {
+    if (st != null && !st.isEmpty()) {
       t=year;
       year=((Integer)st.first()).intValue();
     }
