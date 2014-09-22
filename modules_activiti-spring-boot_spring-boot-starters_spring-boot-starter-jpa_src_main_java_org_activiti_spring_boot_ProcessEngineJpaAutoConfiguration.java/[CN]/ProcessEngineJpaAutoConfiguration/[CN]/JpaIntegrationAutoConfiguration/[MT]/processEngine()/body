@@ -1,0 +1,10 @@
+{
+  System.out.println("BLAH - JPA");
+  processEngineAutoConfiguration.setJpaEntityManagerFactory(emf);
+  processEngineAutoConfiguration.setJpaHandleTransaction(false);
+  processEngineAutoConfiguration.setJpaCloseEntityManager(false);
+  processEngineAutoConfiguration.setTransactionManager(jpaTransactionManager());
+  ProcessEngineFactoryBean processEngineFactoryBean=new ProcessEngineFactoryBean();
+  processEngineFactoryBean.setProcessEngineConfiguration(processEngineAutoConfiguration);
+  return processEngineFactoryBean;
+}
