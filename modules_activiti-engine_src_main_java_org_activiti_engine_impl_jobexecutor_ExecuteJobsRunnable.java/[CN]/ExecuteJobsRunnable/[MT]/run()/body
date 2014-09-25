@@ -1,8 +1,8 @@
 {
   final JobExecutorContext jobExecutorContext=new JobExecutorContext();
-  final List<String> currentProcessorJobQueue=jobExecutorContext.getCurrentProcessorJobQueue();
+  final List<JobEntity> currentProcessorJobQueue=jobExecutorContext.getCurrentProcessorJobQueue();
   final CommandExecutor commandExecutor=jobExecutor.getCommandExecutor();
-  currentProcessorJobQueue.addAll(jobIds);
+  currentProcessorJobQueue.addAll(jobs);
   Context.setJobExecutorContext(jobExecutorContext);
   try {
     while (!currentProcessorJobQueue.isEmpty()) {
