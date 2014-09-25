@@ -1,0 +1,14 @@
+{
+  return new InitializingBean(){
+    @Override public void afterPropertiesSet() throws Exception {
+      Group userGroup=group("user");
+      Group adminGroup=group("admin");
+      User joram=user("jbarrez","Joram","Barrez");
+      identityService.createMembership(joram.getId(),userGroup.getId());
+      identityService.createMembership(joram.getId(),adminGroup.getId());
+      User josh=user("jlong","Josh","Long");
+      identityService.createMembership(josh.getId(),userGroup.getId());
+    }
+  }
+;
+}

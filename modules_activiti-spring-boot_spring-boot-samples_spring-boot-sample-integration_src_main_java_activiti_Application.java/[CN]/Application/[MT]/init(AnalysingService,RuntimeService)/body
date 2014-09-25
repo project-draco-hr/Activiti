@@ -1,0 +1,10 @@
+{
+  return new CommandLineRunner(){
+    @Override public void run(    String... strings) throws Exception {
+      String integrationGatewayProcess="integrationGatewayProcess";
+      runtimeService.startProcessInstanceByKey(integrationGatewayProcess,Collections.singletonMap("customerId",(Object)232L));
+      System.out.println("projectId=" + analysingService.getStringAtomicReference().get());
+    }
+  }
+;
+}

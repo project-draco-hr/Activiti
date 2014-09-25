@@ -1,0 +1,10 @@
+{
+  List<Resource> procDefResources=this.discoverProcessDefinitionResources(this.resourceLoader,this.activitiProperties.getProcessDefinitionLocationPrefix(),this.activitiProperties.getProcessDefinitionLocationSuffix(),this.activitiProperties.isCheckProcessDefinitions());
+  SpringProcessEngineConfiguration conf=super.processEngineConfigurationBean(procDefResources.toArray(new Resource[procDefResources.size()]),dataSource,platformTransactionManager,springJobExecutor);
+  conf.setDeploymentName(defaultText(activitiProperties.getDeploymentName(),conf.getDeploymentName()));
+  conf.setDatabaseSchema(defaultText(activitiProperties.getDatabaseSchema(),conf.getDatabaseSchema()));
+  conf.setDatabaseSchemaUpdate(defaultText(activitiProperties.getDatabaseSchemaUpdate(),conf.getDatabaseSchemaUpdate()));
+  conf.setMailServerHost(activitiProperties.getMailServerHost());
+  conf.setMailServerPort(activitiProperties.getMailServerPort());
+  return conf;
+}

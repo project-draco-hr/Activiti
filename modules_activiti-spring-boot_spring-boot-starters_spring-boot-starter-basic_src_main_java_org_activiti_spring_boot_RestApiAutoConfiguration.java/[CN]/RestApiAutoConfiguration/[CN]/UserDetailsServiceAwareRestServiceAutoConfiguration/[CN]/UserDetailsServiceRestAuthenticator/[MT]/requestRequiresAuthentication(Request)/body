@@ -1,0 +1,16 @@
+{
+  SecurityContext securityContext=SecurityContextHolder.getContext();
+  if (null != securityContext) {
+    org.springframework.security.core.Authentication authentication=securityContext.getAuthentication();
+    if (null == authentication) {
+      return true;
+    }
+    String authenticationName=authentication.getName();
+    org.restlet.security.User restletUser=new org.restlet.security.User(authenticationName);
+    ClientInfo clientInfo=new ClientInfo();
+    clientInfo.setUser(restletUser);
+    request.setClientInfo(clientInfo);
+    Authentication.setAuthenticatedUserId(authenticationName);
+  }
+  return false;
+}
