@@ -1,12 +1,7 @@
 {
-  this.applicationContext=new AnnotationConfigEmbeddedWebApplicationContext();
-  this.applicationContext.register(EmbeddedContainerConfiguration.class,RestApiConfiguration.class);
-  this.applicationContext.refresh();
-  for (  ServletRegistration servletRegistration : this.applicationContext.getBeansOfType(ServletRegistration.class).values()) {
-    System.out.println(servletRegistration);
-  }
-  String authenticationChallenge="http://localhost:8080/api/process-definitions";
-  RestTemplate restTemplate=this.applicationContext.getBean(RestTemplate.class);
+  this.context=new AnnotationConfigEmbeddedWebApplicationContext(BaseConfiguration.class);
+  RestTemplate restTemplate=this.context.getBean(RestTemplate.class);
+  String authenticationChallenge="http://localhost:" + this.context.getEmbeddedServletContainer().getPort() + "/api/process-definitions";
   final AtomicBoolean received403=new AtomicBoolean();
   received403.set(false);
   restTemplate.setErrorHandler(new ResponseErrorHandler(){
