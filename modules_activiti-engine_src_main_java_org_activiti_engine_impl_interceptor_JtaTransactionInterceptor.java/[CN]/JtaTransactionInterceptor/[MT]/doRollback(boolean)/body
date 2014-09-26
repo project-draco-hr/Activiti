@@ -7,7 +7,7 @@
       transactionManager.setRollbackOnly();
     }
   }
- catch (  SystemException e) {
-    LOGGER.debug("Error when rolling back transaction",e);
+ catch (  Throwable e) {
+    LOGGER.error("Error when rolling back transaction",e);
   }
 }
