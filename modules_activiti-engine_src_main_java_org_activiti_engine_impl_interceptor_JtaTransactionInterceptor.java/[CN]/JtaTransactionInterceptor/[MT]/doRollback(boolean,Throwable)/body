@@ -1,0 +1,27 @@
+{
+  Throwable rollbackEx=null;
+  try {
+    if (isNew) {
+      transactionManager.rollback();
+    }
+ else {
+      transactionManager.setRollbackOnly();
+    }
+  }
+ catch (  SystemException e) {
+    LOGGER.debug("Error when rolling back transaction",e);
+  }
+catch (  RuntimeException e) {
+    rollbackEx=e;
+    throw e;
+  }
+catch (  Error e) {
+    rollbackEx=e;
+    throw e;
+  }
+ finally {
+    if (rollbackEx != null && originalException != null) {
+      LOGGER.error("Error when rolling back transaction caused by: " + originalException.getMessage(),originalException);
+    }
+  }
+}
