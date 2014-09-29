@@ -1,8 +1,6 @@
 {
-  this.applicationContext=new AnnotationConfigApplicationContext();
-  this.applicationContext.register(DataSourceAutoConfiguration.class,DataSourceProcessEngineAutoConfiguration.class);
-  this.applicationContext.refresh();
-  RepositoryService repositoryService=this.applicationContext.getBean(RepositoryService.class);
+  AnnotationConfigApplicationContext applicationContext=this.context(DataSourceAutoConfiguration.class,DataSourceProcessEngineAutoConfiguration.DataSourceConfiguration.class);
+  RepositoryService repositoryService=applicationContext.getBean(RepositoryService.class);
   Assert.assertNotNull("we should have a default repositoryService included",repositoryService);
   List<ProcessDefinition> processDefinitionList=repositoryService.createProcessDefinitionQuery().processDefinitionKey("waiter").list();
   Assert.assertNotNull(processDefinitionList);
