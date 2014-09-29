@@ -1,7 +1,12 @@
 {
-  CamelContext ctx=applicationContext.getBean(CamelContext.class);
-  service1=(MockEndpoint)ctx.getEndpoint("mock:service1");
+  camelContext.addRoutes(new RouteBuilder(){
+    @Override public void configure() throws Exception {
+      from("direct:startWithInitiatorHeader").setHeader("CamelProcessInitiatorHeader",constant("kermit")).to("activiti:InitiatorCamelCallProcess?processInitiatorHeaderName=CamelProcessInitiatorHeader");
+    }
+  }
+);
+  service1=(MockEndpoint)camelContext.getEndpoint("mock:service1");
   service1.reset();
-  service2=(MockEndpoint)ctx.getEndpoint("mock:service2");
+  service2=(MockEndpoint)camelContext.getEndpoint("mock:service2");
   service2.reset();
 }
