@@ -23,6 +23,7 @@
     assertTrue(responseNode.get("taskUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())));
     assertTrue(responseNode.get("contentUrl").isNull());
     assertTrue(responseNode.get("processInstanceUrl").isNull());
+    assertFalse(responseNode.get("time").isNull());
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();
