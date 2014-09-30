@@ -3,8 +3,6 @@
   service1.reset();
   service2=(MockEndpoint)camelContext.getEndpoint("mock:service2");
   service2.reset();
-  if (configured)   return;
-  configured=true;
   camelContext.addRoutes(new RouteBuilder(){
     @Override public void configure() throws Exception {
       from("direct:start").to("activiti:camelProcess");

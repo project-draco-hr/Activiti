@@ -1,6 +1,4 @@
 {
-  if (configured)   return;
-  configured=true;
   camelContext.addRoutes(new RouteBuilder(){
     @Override public void configure() throws Exception {
       from("direct:startEmpty").to("activiti:emptyProcess");

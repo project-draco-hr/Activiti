@@ -1,10 +1,10 @@
 {
-  ProcessInstance processInstance=activitiRule.getRuntimeService().startProcessInstanceByKey("asyncPingProcess");
-  List<Execution> executionList=activitiRule.getRuntimeService().createExecutionQuery().list();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("asyncPingProcess");
+  List<Execution> executionList=runtimeService.createExecutionQuery().list();
   Assert.assertEquals(1,executionList.size());
-  JobTestHelper.waitForJobExecutorToProcessAllJobs(activitiRule,3000,100);
+  waitForJobExecutorToProcessAllJobs(3000,100);
   Thread.sleep(1500);
-  executionList=activitiRule.getRuntimeService().createExecutionQuery().list();
+  executionList=runtimeService.createExecutionQuery().list();
   Assert.assertEquals(0,executionList.size());
-  Assert.assertEquals(0,activitiRule.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+  Assert.assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
 }
