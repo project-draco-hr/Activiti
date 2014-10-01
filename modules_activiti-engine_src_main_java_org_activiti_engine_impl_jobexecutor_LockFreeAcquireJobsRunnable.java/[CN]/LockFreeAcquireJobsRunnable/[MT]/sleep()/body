@@ -1,0 +1,26 @@
+{
+  long millisToWait=jobExecutor.getWaitTimeInMillis();
+  ;
+  if ((millisToWait > 0) && (!isJobAdded)) {
+    try {
+      log.info("job acquisition thread sleeping for {} millis",millisToWait);
+synchronized (MONITOR) {
+        if (!isInterrupted) {
+          isWaiting.set(true);
+          MONITOR.wait(millisToWait);
+        }
+      }
+      if (log.isDebugEnabled()) {
+        log.debug("job acquisition thread woke up");
+      }
+    }
+ catch (    InterruptedException e) {
+      if (log.isDebugEnabled()) {
+        log.debug("job acquisition wait interrupted");
+      }
+    }
+ finally {
+      isWaiting.set(false);
+    }
+  }
+}
