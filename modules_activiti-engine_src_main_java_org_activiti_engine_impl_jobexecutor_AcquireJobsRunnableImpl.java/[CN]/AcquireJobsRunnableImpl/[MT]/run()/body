@@ -6,7 +6,7 @@
     int maxJobsPerAcquisition=jobExecutor.getMaxJobsPerAcquisition();
     try {
       AcquiredJobs acquiredJobs=commandExecutor.execute(jobExecutor.getAcquireJobsCmd());
-      for (      List<JobEntity> jobIds : acquiredJobs.getJobIdBatches()) {
+      for (      List<String> jobIds : acquiredJobs.getJobIdBatches()) {
         jobExecutor.executeJobs(jobIds);
       }
       millisToWait=jobExecutor.getWaitTimeInMillis();

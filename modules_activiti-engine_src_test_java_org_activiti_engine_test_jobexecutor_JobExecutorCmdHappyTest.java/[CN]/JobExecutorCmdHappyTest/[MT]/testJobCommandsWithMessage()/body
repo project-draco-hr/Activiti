@@ -10,18 +10,14 @@
   }
 );
   AcquiredJobs acquiredJobs=commandExecutor.execute(new AcquireJobsCmd(jobExecutor));
-  List<List<JobEntity>> jobIdsList=acquiredJobs.getJobIdBatches();
+  List<List<String>> jobIdsList=acquiredJobs.getJobIdBatches();
   assertEquals(1,jobIdsList.size());
-  List<JobEntity> jobs=jobIdsList.get(0);
-  List<String> jobIds=new ArrayList<String>();
-  for (  JobEntity jobEntity : jobs) {
-    jobIds.add(jobEntity.getId());
-  }
+  List<String> jobIds=jobIdsList.get(0);
   List<String> expectedJobIds=new ArrayList<String>();
   expectedJobIds.add(jobId);
-  assertEquals(expectedJobIds,jobIds);
+  assertEquals(expectedJobIds,new ArrayList<String>(jobIds));
   assertEquals(0,tweetHandler.getMessages().size());
-  commandExecutor.execute(new ExecuteJobsCmd(jobIds.get(0)));
+  commandExecutor.execute(new ExecuteJobsCmd(jobId));
   assertEquals("i'm coding a test",tweetHandler.getMessages().get(0));
   assertEquals(1,tweetHandler.getMessages().size());
 }

@@ -1,15 +1,15 @@
 {
-  if (job == null && jobId == null) {
-    throw new ActivitiIllegalArgumentException("job is null");
-  }
-  if (log.isDebugEnabled()) {
-    log.debug("Executing job {}",jobId);
+  if (jobId == null && job == null) {
+    throw new ActivitiIllegalArgumentException("jobId and job is null");
   }
   if (job == null) {
     job=commandContext.getJobEntityManager().findJobById(jobId);
-    if (job == null) {
-      throw new JobNotFoundException(jobId);
-    }
+  }
+  if (job == null) {
+    throw new JobNotFoundException(jobId);
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Executing job {}",job.getId());
   }
   JobExecutorContext jobExecutorContext=Context.getJobExecutorContext();
   if (jobExecutorContext != null) {
@@ -23,7 +23,7 @@
   }
  catch (  Throwable exception) {
     CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutor();
-    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new FailedJobListener(commandExecutor,job.getId(),exception));
+    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new FailedJobListener(commandExecutor,jobId,exception));
     if (commandContext.getEventDispatcher().isEnabled()) {
       try {
         commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityExceptionEvent(ActivitiEventType.JOB_EXECUTION_FAILURE,job,exception));

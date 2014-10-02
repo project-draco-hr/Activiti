@@ -1,6 +1,5 @@
 {
   JobExecutor jobExecutor=Context.getProcessEngineConfiguration().getJobExecutor();
-  JobExecutorContext jobExecutorContext=Context.getJobExecutorContext();
   TransactionListener transactionListener=new JobAddedNotification(jobExecutor);
   Context.getCommandContext().getTransactionContext().addTransactionListener(TransactionState.COMMITTED,transactionListener);
 }
