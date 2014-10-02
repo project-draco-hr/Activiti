@@ -1,7 +1,9 @@
 {
+  ExceptionServiceMock.reset();
+  NoExceptionServiceMock.reset();
   camelContext.addRoutes(new RouteBuilder(){
     @Override public void configure() throws Exception {
-      from("activiti:exceptionInRoute:errorCamelTask").to("log:helloWorld");
+      from("activiti:exceptionInRouteSynchron:errorCamelTask").to("log:helloWorld").bean(ThrowBpmnExceptionBean.class);
     }
   }
 );

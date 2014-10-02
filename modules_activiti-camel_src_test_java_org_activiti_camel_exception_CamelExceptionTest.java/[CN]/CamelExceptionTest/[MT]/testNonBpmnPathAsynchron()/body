@@ -1,0 +1,16 @@
+{
+  ThrowBpmnExceptionBean.setExceptionType(ThrowBpmnExceptionBean.ExceptionType.NON_BPMN_EXCEPTION);
+  runtimeService.startProcessInstanceByKey("exceptionInRouteSynchron");
+  assertTrue(areJobsAvailable());
+  int nErrorJobs=(int)managementService.createJobQuery().count();
+  assertEquals(1,nErrorJobs);
+  Job camelJob=managementService.createJobQuery().singleResult();
+  System.out.println(camelJob.getExceptionMessage());
+  waitForJobExecutorToProcessAllJobs(10000000,100);
+  System.out.println(camelJob.getExceptionMessage());
+  nErrorJobs=(int)managementService.createJobQuery().exceptionMessage("arbitary non bpmn exception").count();
+  assertEquals(1,nErrorJobs);
+  assertFalse(ExceptionServiceMock.isCalled());
+  assertFalse(NoExceptionServiceMock.isCalled());
+  assertFalse(areJobsAvailable());
+}

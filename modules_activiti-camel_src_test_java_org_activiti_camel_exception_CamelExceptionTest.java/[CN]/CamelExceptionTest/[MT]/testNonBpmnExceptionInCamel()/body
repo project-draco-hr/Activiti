@@ -1,0 +1,14 @@
+{
+  ThrowBpmnExceptionBean.setExceptionType(ThrowBpmnExceptionBean.ExceptionType.NON_BPMN_EXCEPTION);
+  try {
+    runtimeService.startProcessInstanceByKey("exceptionInRouteSynchron");
+  }
+ catch (  ActivitiException e) {
+    assertEquals(Exception.class,e.getCause().getClass());
+    assertEquals("arbitary non bpmn exception",e.getCause().getMessage());
+    assertFalse(ExceptionServiceMock.isCalled());
+    assertFalse(NoExceptionServiceMock.isCalled());
+    return;
+  }
+  fail("Activiti exception expected");
+}

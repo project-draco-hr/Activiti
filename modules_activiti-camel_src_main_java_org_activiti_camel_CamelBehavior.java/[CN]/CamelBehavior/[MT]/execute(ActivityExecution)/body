@@ -9,6 +9,7 @@
           endpoint.process(exchange);
         }
  catch (        Exception e) {
+          System.out.println("*******************  Exception happened in camel asynchronous task");
           throw new RuntimeException("Unable to process camel endpint asynchronously.");
         }
         return null;
@@ -17,12 +18,16 @@
 );
     ExecutorService executor=Executors.newSingleThreadExecutor();
     executor.submit(future);
-    handleCamelException(exchange);
+    if (!handleCamelException(exchange,execution)) {
+      execution.setVariables(ExchangeUtils.prepareVariables(exchange,endpoint));
+      leave(execution);
+    }
   }
  else {
     endpoint.process(exchange);
-    handleCamelException(exchange);
-    execution.setVariables(ExchangeUtils.prepareVariables(exchange,endpoint));
+    if (!handleCamelException(exchange,execution)) {
+      execution.setVariables(ExchangeUtils.prepareVariables(exchange,endpoint));
+      leave(execution);
+    }
   }
-  leave(execution);
 }

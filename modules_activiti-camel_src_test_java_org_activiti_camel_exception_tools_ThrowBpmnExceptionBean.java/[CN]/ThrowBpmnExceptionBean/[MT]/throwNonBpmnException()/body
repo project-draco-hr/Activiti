@@ -1,0 +1,11 @@
+{
+  LOG.debug("throwing non bpmn bug");
+switch (getExceptionType()) {
+case NO_EXCEPTION:
+    break;
+case NON_BPMN_EXCEPTION:
+  throw new Exception("arbitary non bpmn exception");
+case BPMN_EXCEPTION:
+throw new BpmnError("testError");
+}
+}
