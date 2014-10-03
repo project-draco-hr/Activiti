@@ -1,0 +1,24 @@
+{
+  final SingleJobExecutorContext jobExecutorContext=new SingleJobExecutorContext();
+  final List<JobEntity> currentProcessorJobQueue=jobExecutorContext.getCurrentProcessorJobQueue();
+  final CommandExecutor commandExecutor=jobExecutor.getCommandExecutor();
+  currentProcessorJobQueue.add(job);
+  Context.setJobExecutorContext(jobExecutorContext);
+  try {
+    while (!currentProcessorJobQueue.isEmpty()) {
+      JobEntity currentJob=currentProcessorJobQueue.remove(0);
+      try {
+        commandExecutor.execute(new ExecuteJobsCmd(currentJob));
+      }
+ catch (      Throwable e) {
+        log.error("exception during job execution: {}",e.getMessage(),e);
+      }
+ finally {
+        jobExecutor.jobDone(currentJob);
+      }
+    }
+  }
+  finally {
+    Context.removeJobExecutorContext();
+  }
+}

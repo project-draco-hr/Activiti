@@ -1,0 +1,24 @@
+{
+  final MultipleJobsExecutorContext jobExecutorContext=new MultipleJobsExecutorContext();
+  final List<String> currentProcessorJobQueue=jobExecutorContext.getCurrentProcessorJobQueue();
+  final CommandExecutor commandExecutor=jobExecutor.getCommandExecutor();
+  currentProcessorJobQueue.addAll(jobIds);
+  Context.setJobExecutorContext(jobExecutorContext);
+  try {
+    while (!currentProcessorJobQueue.isEmpty()) {
+      String currentJobId=currentProcessorJobQueue.remove(0);
+      try {
+        commandExecutor.execute(new ExecuteJobsCmd(currentJobId));
+      }
+ catch (      Throwable e) {
+        log.error("exception during job execution: {}",e.getMessage(),e);
+      }
+ finally {
+        jobExecutor.jobDone(currentJobId);
+      }
+    }
+  }
+  finally {
+    Context.removeJobExecutorContext();
+  }
+}

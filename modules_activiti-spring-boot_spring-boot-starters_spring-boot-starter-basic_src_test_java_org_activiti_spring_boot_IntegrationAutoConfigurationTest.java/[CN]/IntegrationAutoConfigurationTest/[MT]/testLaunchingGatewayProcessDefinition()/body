@@ -1,0 +1,17 @@
+{
+  AnnotationConfigApplicationContext applicationContext=this.context(InboundGatewayConfiguration.class);
+  RepositoryService repositoryService=applicationContext.getBean(RepositoryService.class);
+  RuntimeService runtimeService=applicationContext.getBean(RuntimeService.class);
+  ProcessEngine processEngine=applicationContext.getBean(ProcessEngine.class);
+  Assert.assertNotNull("the process engine should not be null",processEngine);
+  Assert.assertNotNull("we should have a default repositoryService included",repositoryService);
+  String integrationGatewayProcess="integrationGatewayProcess";
+  List<ProcessDefinition> processDefinitionList=repositoryService.createProcessDefinitionQuery().processDefinitionKey(integrationGatewayProcess).list();
+  ProcessDefinition processDefinition=processDefinitionList.iterator().next();
+  Assert.assertEquals(processDefinition.getKey(),integrationGatewayProcess);
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("customerId",232);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey(integrationGatewayProcess,vars);
+  Assert.assertNotNull("the processInstance should not be null",processInstance);
+  org.junit.Assert.assertTrue(applicationContext.getBean(InboundGatewayConfiguration.AnalysingService.class).getStringAtomicReference().get().equals(projectId));
+}

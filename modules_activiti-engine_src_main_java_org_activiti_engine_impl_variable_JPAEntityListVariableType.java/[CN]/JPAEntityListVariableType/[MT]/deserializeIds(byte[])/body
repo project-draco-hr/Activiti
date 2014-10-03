@@ -1,0 +1,17 @@
+{
+  try {
+    ByteArrayInputStream bais=new ByteArrayInputStream(bytes);
+    ObjectInputStream in=new ObjectInputStream(bais);
+    Object read=in.readObject();
+    if (!(read instanceof String[])) {
+      throw new ActivitiIllegalArgumentException("Deserialized value is not an array of ID's: " + read);
+    }
+    return (String[])read;
+  }
+ catch (  IOException ioe) {
+    throw new ActivitiException("Unexpected exception when deserializing JPA id's",ioe);
+  }
+catch (  ClassNotFoundException e) {
+    throw new ActivitiException("Unexpected exception when deserializing JPA id's",e);
+  }
+}

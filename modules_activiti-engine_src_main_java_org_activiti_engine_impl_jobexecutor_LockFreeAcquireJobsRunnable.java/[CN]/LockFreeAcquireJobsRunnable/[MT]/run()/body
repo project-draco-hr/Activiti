@@ -1,0 +1,31 @@
+{
+  log.info("{} starting to acquire jobs",jobExecutor.getName());
+  final CommandExecutor commandExecutor=jobExecutor.getCommandExecutor();
+  while (!isInterrupted) {
+    isJobAdded=false;
+    Integer nrOfAquiredJobs=0;
+    try {
+      nrOfAquiredJobs=commandExecutor.execute(new Command<Integer>(){
+        public Integer execute(        CommandContext commandContext){
+          return commandContext.getJobEntityManager().updateJobLockForAllJobs(jobExecutor.getLockOwner(),getLockExpirationTime(commandContext,jobExecutor.getLockTimeInMillis()));
+        }
+        protected Date getLockExpirationTime(        CommandContext commandContext,        int lockTimeInMillis){
+          GregorianCalendar gregorianCalendar=new GregorianCalendar();
+          gregorianCalendar.setTime(commandContext.getProcessEngineConfiguration().getClock().getCurrentTime());
+          gregorianCalendar.add(Calendar.MILLISECOND,lockTimeInMillis);
+          return gregorianCalendar.getTime();
+        }
+      }
+);
+    }
+ catch (    Exception e) {
+      log.warn("Error while acquiring job",e);
+    }
+    if (nrOfAquiredJobs == 0) {
+      log.info("Wrote lock owner to {} jobs",nrOfAquiredJobs);
+      sleep();
+    }
+    putAcquiredJobsOnQueue();
+  }
+  log.info("{} stopped job acquisition",jobExecutor.getName());
+}

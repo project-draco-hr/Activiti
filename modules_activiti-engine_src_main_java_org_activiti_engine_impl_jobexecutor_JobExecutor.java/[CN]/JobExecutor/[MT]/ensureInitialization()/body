@@ -1,4 +1,8 @@
 {
-  acquireJobsCmd=new AcquireJobsCmd(this);
-  acquireJobsRunnable=new AcquireJobsRunnable(this);
+  if (acquireJobsCmd == null) {
+    acquireJobsCmd=new AcquireJobsCmd(this);
+  }
+  if (acquireJobsRunnable == null) {
+    acquireJobsRunnable=new AcquireJobsRunnableImpl(this);
+  }
 }

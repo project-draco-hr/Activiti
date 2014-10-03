@@ -3,7 +3,7 @@
     threadPoolQueue=new ArrayBlockingQueue<Runnable>(queueSize);
   }
   if (threadPoolExecutor == null) {
-    threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,0L,TimeUnit.MILLISECONDS,threadPoolQueue);
+    threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,TimeUnit.MILLISECONDS,threadPoolQueue);
     threadPoolExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
   }
   startJobAcquisitionThread();
