@@ -1,0 +1,20 @@
+{
+  ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
+  if (identityLink.getGroup() == null && identityLink.getUser() == null) {
+    throw new ActivitiIllegalArgumentException("A group or a user is required to create an identity link.");
+  }
+  if (identityLink.getGroup() != null && identityLink.getUser() != null) {
+    throw new ActivitiIllegalArgumentException("Only one of user or group can be used to create an identity link.");
+  }
+  if (identityLink.getGroup() != null) {
+    repositoryService.addCandidateStarterGroup(processDefinition.getId(),identityLink.getGroup());
+  }
+ else {
+    repositoryService.addCandidateStarterUser(processDefinition.getId(),identityLink.getUser());
+  }
+  identityLink.setType(IdentityLinkType.CANDIDATE);
+  response.setStatus(HttpStatus.SC_CREATED);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/process-definitions/"));
+  return restResponseFactory.createRestIdentityLink(identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),null,processDefinition.getId(),null,serverRootUrl);
+}

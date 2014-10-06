@@ -1,8 +1,7 @@
 {
   List<DeploymentResponse> responseList=new ArrayList<DeploymentResponse>();
-  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  Object deployment : list) {
-    responseList.add(restResponseFactory.createDeploymentResponse(resource,(Deployment)deployment));
+    responseList.add(restResponseFactory.createDeploymentResponse((Deployment)deployment,serverRootUrl));
   }
   return responseList;
 }

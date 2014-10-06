@@ -1,0 +1,10 @@
+{
+  User user=getUserFromRequest(userId);
+  List<UserInfoResponse> responses=new ArrayList<UserInfoResponse>();
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/users/"));
+  for (  String key : identityService.getUserInfoKeys(user.getId())) {
+    responses.add(restResponseFactory.createUserInfoResponse(key,null,user.getId(),serverRootUrl));
+  }
+  return responses;
+}

@@ -1,0 +1,7 @@
+{
+  Job job=managementService.createJobQuery().jobId(jobId).singleResult();
+  if (job == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a job with id '" + jobId + "'.",Job.class);
+  }
+  return job;
+}

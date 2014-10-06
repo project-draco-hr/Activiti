@@ -1,9 +1,7 @@
 {
-  ClientResource client=getAuthenticatedClient(url);
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
-  assertEquals(numberOfResultsExpected,dataNode.size());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),200);
+  JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+  Assert.assertEquals(numberOfResultsExpected,dataNode.size());
   if (expectedActivityIds != null) {
     List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedActivityIds));
     Iterator<JsonNode> it=dataNode.iterator();
@@ -11,7 +9,6 @@
       String activityId=it.next().get("activityId").textValue();
       toBeFound.remove(activityId);
     }
-    assertTrue("Not all entries have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());
+    Assert.assertTrue("Not all entries have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());
   }
-  client.release();
 }

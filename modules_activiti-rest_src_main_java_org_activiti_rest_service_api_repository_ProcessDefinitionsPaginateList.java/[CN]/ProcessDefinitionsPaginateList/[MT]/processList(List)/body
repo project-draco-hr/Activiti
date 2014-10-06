@@ -1,8 +1,8 @@
 {
   List<ProcessDefinitionResponse> responseList=new ArrayList<ProcessDefinitionResponse>();
-  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
-  for (  Object deployment : list) {
-    responseList.add(restResponseFactory.createProcessDefinitionResponse(resource,(ProcessDefinition)deployment));
+  for (  Object definition : list) {
+    ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)definition;
+    responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition,processDefinition.isGraphicalNotationDefined(),serverRootUrl));
   }
   return responseList;
 }

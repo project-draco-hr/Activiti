@@ -1,0 +1,29 @@
+{
+  DeploymentQuery deploymentQuery=repositoryService.createDeploymentQuery();
+  if (allRequestParams.containsKey("name")) {
+    deploymentQuery.deploymentName(allRequestParams.get("name"));
+  }
+  if (allRequestParams.containsKey("nameLike")) {
+    deploymentQuery.deploymentNameLike(allRequestParams.get("nameLike"));
+  }
+  if (allRequestParams.containsKey("category")) {
+    deploymentQuery.deploymentCategory(allRequestParams.get("category"));
+  }
+  if (allRequestParams.containsKey("categoryNotEquals")) {
+    deploymentQuery.deploymentCategoryNotEquals(allRequestParams.get("categoryNotEquals"));
+  }
+  if (allRequestParams.containsKey("tenantId")) {
+    deploymentQuery.deploymentTenantId(allRequestParams.get("tenantId"));
+  }
+  if (allRequestParams.containsKey("tenantIdLike")) {
+    deploymentQuery.deploymentTenantIdLike(allRequestParams.get("tenantIdLike"));
+  }
+  if (allRequestParams.containsKey("withoutTenantId")) {
+    Boolean withoutTenantId=Boolean.valueOf(allRequestParams.get("withoutTenantId"));
+    if (withoutTenantId) {
+      deploymentQuery.deploymentWithoutTenantId();
+    }
+  }
+  DataResponse response=new DeploymentsPaginateList(restResponseFactory,request.getRequestURL().toString().replace("/repository/deployments","")).paginateList(allRequestParams,deploymentQuery,"id",allowedSortProperties);
+  return response;
+}

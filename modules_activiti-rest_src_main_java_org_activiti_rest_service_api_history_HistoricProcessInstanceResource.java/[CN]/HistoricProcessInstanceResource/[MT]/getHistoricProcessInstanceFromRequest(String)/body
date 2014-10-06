@@ -1,0 +1,7 @@
+{
+  HistoricProcessInstance processInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+  if (processInstance == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a process instance with id '" + processInstanceId + "'.",HistoricProcessInstance.class);
+  }
+  return processInstance;
+}

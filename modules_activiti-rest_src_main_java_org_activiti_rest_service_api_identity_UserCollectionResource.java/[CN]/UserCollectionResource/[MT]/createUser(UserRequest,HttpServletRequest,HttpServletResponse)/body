@@ -1,0 +1,16 @@
+{
+  if (userRequest.getId() == null) {
+    throw new ActivitiIllegalArgumentException("Id cannot be null.");
+  }
+  if (identityService.createUserQuery().userId(userRequest.getId()).count() > 0) {
+    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT.getCode(),"A user with id '" + userRequest.getId() + "' already exists.",null,null);
+  }
+  User created=identityService.newUser(userRequest.getId());
+  created.setEmail(userRequest.getEmail());
+  created.setFirstName(userRequest.getFirstName());
+  created.setLastName(userRequest.getLastName());
+  created.setPassword(userRequest.getPassword());
+  identityService.saveUser(created);
+  response.setStatus(HttpStatus.SC_CREATED);
+  return restResponseFactory.createUserResponse(created,true,request.getRequestURL().toString().replace("/identity/users",""));
+}

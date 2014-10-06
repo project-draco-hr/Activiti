@@ -1,0 +1,7 @@
+{
+  HistoricTaskInstance taskInstance=historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+  if (taskInstance == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a task instance with id '" + taskId + "'.",HistoricTaskInstance.class);
+  }
+  return taskInstance;
+}

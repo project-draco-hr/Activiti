@@ -1,0 +1,28 @@
+{
+  if (submitRequest == null) {
+    throw new ActivitiException("A request body was expected when executing the form submit.");
+  }
+  if (submitRequest.getTaskId() == null && submitRequest.getProcessDefinitionId() == null) {
+    throw new ActivitiIllegalArgumentException("The taskId or processDefinitionId property has to be provided");
+  }
+  Map<String,String> propertyMap=new HashMap<String,String>();
+  if (submitRequest.getProperties() != null) {
+    for (    RestFormProperty formProperty : submitRequest.getProperties()) {
+      propertyMap.put(formProperty.getId(),formProperty.getValue());
+    }
+  }
+  if (submitRequest.getTaskId() != null) {
+    formService.submitTaskFormData(submitRequest.getTaskId(),propertyMap);
+    return null;
+  }
+ else {
+    ProcessInstance processInstance=null;
+    if (submitRequest.getBusinessKey() != null) {
+      processInstance=formService.submitStartFormData(submitRequest.getProcessDefinitionId(),submitRequest.getBusinessKey(),propertyMap);
+    }
+ else {
+      processInstance=formService.submitStartFormData(submitRequest.getProcessDefinitionId(),propertyMap);
+    }
+    return restResponseFactory.createProcessInstanceResponse(processInstance,request.getRequestURL().toString().replace("/form/form-data",""));
+  }
+}

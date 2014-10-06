@@ -1,0 +1,11 @@
+{
+  server=new Server(HTTP_SERVER_PORT);
+  HashSessionIdManager idmanager=new HashSessionIdManager();
+  server.setSessionIdManager(idmanager);
+  AnnotationConfigWebApplicationContext applicationContext=new AnnotationConfigWebApplicationContext();
+  applicationContext.register(ApplicationConfiguration.class);
+  applicationContext.refresh();
+  appContext=applicationContext;
+  server.setHandler(getServletContextHandler(applicationContext));
+  server.start();
+}

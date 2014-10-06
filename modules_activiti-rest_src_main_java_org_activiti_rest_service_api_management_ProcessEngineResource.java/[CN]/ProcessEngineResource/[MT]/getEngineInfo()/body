@@ -1,15 +1,19 @@
 {
-  if (authenticate() == false)   return null;
   ProcessEngineInfoResponse response=new ProcessEngineInfoResponse();
-  ProcessEngineInfo engineInfo=ActivitiUtil.getProcessEngineInfo();
-  if (engineInfo != null) {
-    response.setName(engineInfo.getName());
-    response.setResourceUrl(engineInfo.getResourceUrl());
-    response.setException(engineInfo.getException());
-  }
+  try {
+    ProcessEngineInfo engineInfo=ProcessEngines.getProcessEngineInfo(engineFactoryBean.getObject().getName());
+    if (engineInfo != null) {
+      response.setName(engineInfo.getName());
+      response.setResourceUrl(engineInfo.getResourceUrl());
+      response.setException(engineInfo.getException());
+    }
  else {
-    ProcessEngine engine=ActivitiUtil.getProcessEngine();
-    response.setName(engine.getName());
+      ProcessEngine engine=engineFactoryBean.getObject();
+      response.setName(engine.getName());
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error retrieving process info",e);
   }
   response.setVersion(ProcessEngine.VERSION);
   return response;

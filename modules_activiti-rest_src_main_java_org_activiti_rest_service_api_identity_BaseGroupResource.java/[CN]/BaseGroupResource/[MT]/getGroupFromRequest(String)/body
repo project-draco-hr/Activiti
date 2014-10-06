@@ -1,0 +1,7 @@
+{
+  Group group=identityService.createGroupQuery().groupId(groupId).singleResult();
+  if (group == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a group with id '" + groupId + "'.",User.class);
+  }
+  return group;
+}

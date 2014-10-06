@@ -1,0 +1,31 @@
+{
+  UserQuery query=identityService.createUserQuery();
+  if (allRequestParams.containsKey("id")) {
+    query.userId(allRequestParams.get("id"));
+  }
+  if (allRequestParams.containsKey("firstName")) {
+    query.userFirstName(allRequestParams.get("firstName"));
+  }
+  if (allRequestParams.containsKey("lastName")) {
+    query.userLastName(allRequestParams.get("lastName"));
+  }
+  if (allRequestParams.containsKey("email")) {
+    query.userEmail(allRequestParams.get("email"));
+  }
+  if (allRequestParams.containsKey("firstNameLike")) {
+    query.userFirstNameLike(allRequestParams.get("firstNameLike"));
+  }
+  if (allRequestParams.containsKey("lastNameLike")) {
+    query.userLastNameLike(allRequestParams.get("lastNameLike"));
+  }
+  if (allRequestParams.containsKey("emailLike")) {
+    query.userEmailLike(allRequestParams.get("emailLike"));
+  }
+  if (allRequestParams.containsKey("memberOfGroup")) {
+    query.memberOfGroup(allRequestParams.get("memberOfGroup"));
+  }
+  if (allRequestParams.containsKey("potentialStarter")) {
+    query.potentialStarter(allRequestParams.get("potentialStarter"));
+  }
+  return new UserPaginateList(restResponseFactory,request.getRequestURL().toString().replace("/identity/users","")).paginateList(allRequestParams,query,"id",properties);
+}

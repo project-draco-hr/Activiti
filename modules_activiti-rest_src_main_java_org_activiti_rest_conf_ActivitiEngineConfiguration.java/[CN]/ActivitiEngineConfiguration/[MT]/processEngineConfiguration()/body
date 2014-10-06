@@ -1,0 +1,8 @@
+{
+  SpringProcessEngineConfiguration processEngineConfiguration=new SpringProcessEngineConfiguration();
+  processEngineConfiguration.setDataSource(dataSource());
+  processEngineConfiguration.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+  processEngineConfiguration.setTransactionManager(annotationDrivenTransactionManager());
+  processEngineConfiguration.setJobExecutorActivate(false);
+  return processEngineConfiguration;
+}

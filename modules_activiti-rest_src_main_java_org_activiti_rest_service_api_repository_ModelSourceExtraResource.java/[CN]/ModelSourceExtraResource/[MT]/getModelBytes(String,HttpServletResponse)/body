@@ -1,0 +1,8 @@
+{
+  byte[] editorSource=repositoryService.getModelEditorSourceExtra(modelId);
+  if (editorSource == null) {
+    throw new ActivitiObjectNotFoundException("Model with id '" + modelId + "' does not have extra source available.",String.class);
+  }
+  response.setContentType("application/octet-stream");
+  return editorSource;
+}

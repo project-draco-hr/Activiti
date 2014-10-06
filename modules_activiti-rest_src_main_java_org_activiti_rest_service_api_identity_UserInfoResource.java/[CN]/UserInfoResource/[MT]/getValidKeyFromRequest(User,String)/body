@@ -1,0 +1,7 @@
+{
+  String existingValue=identityService.getUserInfo(user.getId(),key);
+  if (existingValue == null) {
+    throw new ActivitiObjectNotFoundException("User info with key '" + key + "' does not exists for user '"+ user.getId()+ "'.",null);
+  }
+  return key;
+}

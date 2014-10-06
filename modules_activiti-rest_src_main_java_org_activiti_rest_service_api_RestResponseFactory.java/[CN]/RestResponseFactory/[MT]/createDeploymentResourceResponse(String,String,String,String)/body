@@ -1,0 +1,12 @@
+{
+  String resourceUrl=formatUrl(serverRootUrl,RestUrls.URL_DEPLOYMENT_RESOURCE,deploymentId,resourceId);
+  String resourceContentUrl=formatUrl(serverRootUrl,RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deploymentId,resourceId);
+  DeploymentResourceType type=DeploymentResourceType.RESOURCE;
+  for (  String suffix : BpmnDeployer.BPMN_RESOURCE_SUFFIXES) {
+    if (resourceId.endsWith(suffix)) {
+      type=DeploymentResourceType.PROCESS_DEFINITION;
+      break;
+    }
+  }
+  return new DeploymentResourceResponse(resourceId,resourceUrl,resourceContentUrl,contentType,type);
+}

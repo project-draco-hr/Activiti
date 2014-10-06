@@ -1,0 +1,12 @@
+{
+  ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
+  validateIdentityLinkArguments(family,identityId);
+  IdentityLink link=getIdentityLink(family,identityId,processDefinition.getId());
+  if (link.getUserId() != null) {
+    repositoryService.deleteCandidateStarterUser(processDefinition.getId(),link.getUserId());
+  }
+ else {
+    repositoryService.deleteCandidateStarterGroup(processDefinition.getId(),link.getGroupId());
+  }
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

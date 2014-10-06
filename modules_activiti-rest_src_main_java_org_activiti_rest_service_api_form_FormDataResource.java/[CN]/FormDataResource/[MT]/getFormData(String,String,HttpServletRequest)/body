@@ -1,0 +1,22 @@
+{
+  if (taskId == null && processDefinitionId == null) {
+    throw new ActivitiIllegalArgumentException("The taskId or processDefinitionId parameter has to be provided");
+  }
+  if (taskId != null && processDefinitionId != null) {
+    throw new ActivitiIllegalArgumentException("Not both a taskId and a processDefinitionId parameter can be provided");
+  }
+  FormData formData=null;
+  String id=null;
+  if (taskId != null) {
+    formData=formService.getTaskFormData(taskId);
+    id=taskId;
+  }
+ else {
+    formData=formService.getStartFormData(processDefinitionId);
+    id=processDefinitionId;
+  }
+  if (formData == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a form data with id '" + id + "'.",FormData.class);
+  }
+  return restResponseFactory.createFormDataResponse(formData,request.getRequestURL().toString().replace("/form/form-data",""));
+}

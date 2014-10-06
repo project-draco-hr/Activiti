@@ -1,0 +1,10 @@
+{
+  User user=getUserFromRequest(userId);
+  String existingValue=identityService.getUserInfo(user.getId(),key);
+  if (existingValue == null) {
+    throw new ActivitiObjectNotFoundException("User info with key '" + key + "' does not exists for user '"+ user.getId()+ "'.",null);
+  }
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/users/"));
+  return restResponseFactory.createUserInfoResponse(key,existingValue,user.getId(),serverRootUrl);
+}

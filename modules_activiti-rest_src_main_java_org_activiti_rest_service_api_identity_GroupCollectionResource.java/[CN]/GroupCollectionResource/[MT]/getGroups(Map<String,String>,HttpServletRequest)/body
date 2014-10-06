@@ -1,0 +1,22 @@
+{
+  GroupQuery query=identityService.createGroupQuery();
+  if (allRequestParams.containsKey("id")) {
+    query.groupId(allRequestParams.get("id"));
+  }
+  if (allRequestParams.containsKey("name")) {
+    query.groupName(allRequestParams.get("name"));
+  }
+  if (allRequestParams.containsKey("nameLike")) {
+    query.groupNameLike(allRequestParams.get("nameLike"));
+  }
+  if (allRequestParams.containsKey("type")) {
+    query.groupType(allRequestParams.get("type"));
+  }
+  if (allRequestParams.containsKey("member")) {
+    query.groupMember(allRequestParams.get("member"));
+  }
+  if (allRequestParams.containsKey("potentialStarter")) {
+    query.potentialStarter(allRequestParams.get("potentialStarter"));
+  }
+  return new GroupPaginateList(restResponseFactory,request.getRequestURL().toString().replace("/identity/groups","")).paginateList(allRequestParams,query,"id",properties);
+}
