@@ -22,8 +22,10 @@
       log.warn("Error while acquiring job",e);
     }
     if (nrOfAquiredJobs == 0) {
-      log.info("Wrote lock owner to {} jobs",nrOfAquiredJobs);
       sleep();
+    }
+ else {
+      log.debug("Wrote lock owner to {} jobs. Putting them on the queue now.",nrOfAquiredJobs);
     }
     putAcquiredJobsOnQueue();
   }
