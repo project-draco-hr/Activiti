@@ -4,12 +4,10 @@
   assertTrue(areJobsAvailable());
   int nErrorJobs=(int)managementService.createJobQuery().count();
   assertEquals(1,nErrorJobs);
-  Job camelJob=managementService.createJobQuery().singleResult();
-  System.out.println(camelJob.getExceptionMessage());
+  nErrorJobs=(int)managementService.createJobQuery().count();
   waitForJobExecutorToProcessAllJobs(10000000,100);
-  System.out.println(camelJob.getExceptionMessage());
-  nErrorJobs=(int)managementService.createJobQuery().exceptionMessage("arbitary non bpmn exception").count();
-  assertEquals(1,nErrorJobs);
+  assertEquals(1,managementService.createJobQuery().count());
+  assertEquals("Unhandled exception on camel route",managementService.createJobQuery().singleResult().getExceptionMessage());
   assertFalse(ExceptionServiceMock.isCalled());
   assertFalse(NoExceptionServiceMock.isCalled());
   assertFalse(areJobsAvailable());

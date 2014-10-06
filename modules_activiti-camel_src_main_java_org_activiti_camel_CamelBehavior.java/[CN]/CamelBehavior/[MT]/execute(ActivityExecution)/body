@@ -2,32 +2,7 @@
   setAppropriateCamelContext(execution);
   final ActivitiEndpoint endpoint=createEndpoint(execution);
   final Exchange exchange=createExchange(execution,endpoint);
-  if (isASync(execution)) {
-    FutureTask<Void> future=new FutureTask<Void>(new Callable<Void>(){
-      public Void call(){
-        try {
-          endpoint.process(exchange);
-        }
- catch (        Exception e) {
-          System.out.println("*******************  Exception happened in camel asynchronous task");
-          throw new RuntimeException("Unable to process camel endpint asynchronously.");
-        }
-        return null;
-      }
-    }
-);
-    ExecutorService executor=Executors.newSingleThreadExecutor();
-    executor.submit(future);
-    if (!handleCamelException(exchange,execution)) {
-      execution.setVariables(ExchangeUtils.prepareVariables(exchange,endpoint));
-      leave(execution);
-    }
-  }
- else {
-    endpoint.process(exchange);
-    if (!handleCamelException(exchange,execution)) {
-      execution.setVariables(ExchangeUtils.prepareVariables(exchange,endpoint));
-      leave(execution);
-    }
-  }
+  endpoint.process(exchange);
+  execution.setVariables(ExchangeUtils.prepareVariables(exchange,endpoint));
+  if (!handleCamelException(exchange,execution))   leave(execution);
 }
