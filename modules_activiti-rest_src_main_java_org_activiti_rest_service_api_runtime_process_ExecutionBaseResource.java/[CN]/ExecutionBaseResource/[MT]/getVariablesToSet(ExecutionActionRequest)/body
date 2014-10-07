@@ -1,11 +1,10 @@
 {
   Map<String,Object> variablesToSet=new HashMap<String,Object>();
-  RestResponseFactory factory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  RestVariable var : actionRequest.getVariables()) {
     if (var.getName() == null) {
       throw new ActivitiIllegalArgumentException("Variable name is required");
     }
-    Object actualVariableValue=factory.getVariableValue(var);
+    Object actualVariableValue=restResponseFactory.getVariableValue(var);
     variablesToSet.put(var.getName(),actualVariableValue);
   }
   return variablesToSet;

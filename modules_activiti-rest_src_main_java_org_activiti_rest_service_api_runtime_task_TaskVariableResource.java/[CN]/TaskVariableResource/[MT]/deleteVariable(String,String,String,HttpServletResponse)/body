@@ -1,0 +1,17 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  RestVariableScope scope=RestVariableScope.LOCAL;
+  if (scopeString != null) {
+    scope=RestVariable.getScopeFromString(scopeString);
+  }
+  if (!hasVariableOnScope(task,variableName,scope)) {
+    throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have a variable '"+ variableName+ "' in scope "+ scope.name().toLowerCase(),VariableInstanceEntity.class);
+  }
+  if (scope == RestVariableScope.LOCAL) {
+    taskService.removeVariableLocal(task.getId(),variableName);
+  }
+ else {
+    runtimeService.removeVariable(task.getExecutionId(),variableName);
+  }
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

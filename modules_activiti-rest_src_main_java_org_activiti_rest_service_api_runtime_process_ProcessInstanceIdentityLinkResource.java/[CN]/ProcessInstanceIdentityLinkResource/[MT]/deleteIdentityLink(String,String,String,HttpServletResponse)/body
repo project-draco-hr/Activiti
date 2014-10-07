@@ -1,0 +1,7 @@
+{
+  ProcessInstance processInstance=getProcessInstanceFromRequest(processInstanceId);
+  validateIdentityLinkArguments(identityId,type);
+  getIdentityLink(identityId,type,processInstance.getId());
+  runtimeService.deleteUserIdentityLink(processInstance.getId(),identityId,type);
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

@@ -1,0 +1,9 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  Event event=taskService.getEvent(eventId);
+  if (event == null || event.getTaskId() == null || !event.getTaskId().equals(task.getId())) {
+    throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have an event with id '"+ event+ "'.",Event.class);
+  }
+  taskService.deleteComment(eventId);
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

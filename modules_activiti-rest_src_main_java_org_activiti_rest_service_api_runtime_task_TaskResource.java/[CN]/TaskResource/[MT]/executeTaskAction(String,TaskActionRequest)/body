@@ -1,0 +1,21 @@
+{
+  if (actionRequest == null) {
+    throw new ActivitiException("A request body was expected when executing a task action.");
+  }
+  Task task=getTaskFromRequest(taskId);
+  if (TaskActionRequest.ACTION_COMPLETE.equals(actionRequest.getAction())) {
+    completeTask(task,actionRequest);
+  }
+ else   if (TaskActionRequest.ACTION_CLAIM.equals(actionRequest.getAction())) {
+    claimTask(task,actionRequest);
+  }
+ else   if (TaskActionRequest.ACTION_DELEGATE.equals(actionRequest.getAction())) {
+    delegateTask(task,actionRequest);
+  }
+ else   if (TaskActionRequest.ACTION_RESOLVE.equals(actionRequest.getAction())) {
+    resolveTask(task,actionRequest);
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Invalid action: '" + actionRequest.getAction() + "'.");
+  }
+}

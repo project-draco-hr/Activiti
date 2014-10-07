@@ -1,0 +1,12 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  validateIdentityLinkArguments(family,identityId,type);
+  getIdentityLink(family,identityId,type,task.getId());
+  if (RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS.equals(family)) {
+    taskService.deleteUserIdentityLink(task.getId(),identityId,type);
+  }
+ else {
+    taskService.deleteGroupIdentityLink(task.getId(),identityId,type);
+  }
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

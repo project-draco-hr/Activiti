@@ -1,0 +1,9 @@
+{
+  if (processInstance.isSuspended()) {
+    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT.getCode(),"Process instance with id '" + processInstance.getId() + "' is already suspended.",null,null);
+  }
+  runtimeService.suspendProcessInstanceById(processInstance.getId());
+  ProcessInstanceResponse response=restResponseFactory.createProcessInstanceResponse(processInstance,serverRootUrl);
+  response.setSuspended(true);
+  return response;
+}

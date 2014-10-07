@@ -1,0 +1,46 @@
+{
+  Execution execution=getExecutionFromRequest(executionId);
+  if (ExecutionActionRequest.ACTION_SIGNAL.equals(actionRequest.getAction())) {
+    if (actionRequest.getVariables() != null) {
+      runtimeService.signal(execution.getId(),getVariablesToSet(actionRequest));
+    }
+ else {
+      runtimeService.signal(execution.getId());
+    }
+  }
+ else   if (ExecutionActionRequest.ACTION_SIGNAL_EVENT_RECEIVED.equals(actionRequest.getAction())) {
+    if (actionRequest.getSignalName() == null) {
+      throw new ActivitiIllegalArgumentException("Signal name is required");
+    }
+    if (actionRequest.getVariables() != null) {
+      runtimeService.signalEventReceived(actionRequest.getSignalName(),execution.getId(),getVariablesToSet(actionRequest));
+    }
+ else {
+      runtimeService.signalEventReceived(actionRequest.getSignalName(),execution.getId());
+    }
+  }
+ else   if (ExecutionActionRequest.ACTION_MESSAGE_EVENT_RECEIVED.equals(actionRequest.getAction())) {
+    if (actionRequest.getMessageName() == null) {
+      throw new ActivitiIllegalArgumentException("Message name is required");
+    }
+    if (actionRequest.getVariables() != null) {
+      runtimeService.messageEventReceived(actionRequest.getMessageName(),execution.getId(),getVariablesToSet(actionRequest));
+    }
+ else {
+      runtimeService.messageEventReceived(actionRequest.getMessageName(),execution.getId());
+    }
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Invalid action: '" + actionRequest.getAction() + "'.");
+  }
+  execution=runtimeService.createExecutionQuery().executionId(execution.getId()).singleResult();
+  if (execution == null) {
+    response.setStatus(HttpStatus.SC_NO_CONTENT);
+    return null;
+  }
+ else {
+    String serverRootUrl=request.getRequestURL().toString();
+    serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/executions/"));
+    return restResponseFactory.createExecutionResponse(execution,serverRootUrl);
+  }
+}

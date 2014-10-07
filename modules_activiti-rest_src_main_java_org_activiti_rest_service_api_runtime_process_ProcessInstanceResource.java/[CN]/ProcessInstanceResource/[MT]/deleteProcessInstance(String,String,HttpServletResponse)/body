@@ -1,0 +1,5 @@
+{
+  ProcessInstance processInstance=getProcessInstanceFromRequest(processInstanceId);
+  runtimeService.deleteProcessInstance(processInstance.getId(),deleteReason);
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

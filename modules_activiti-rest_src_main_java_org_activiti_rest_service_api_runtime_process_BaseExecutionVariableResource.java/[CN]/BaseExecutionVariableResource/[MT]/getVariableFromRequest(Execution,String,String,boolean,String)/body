@@ -1,0 +1,40 @@
+{
+  boolean variableFound=false;
+  Object value=null;
+  if (execution == null) {
+    throw new ActivitiObjectNotFoundException("Could not find an execution",Execution.class);
+  }
+  RestVariableScope variableScope=RestVariable.getScopeFromString(scope);
+  if (variableScope == null) {
+    if (runtimeService.hasVariableLocal(execution.getId(),variableName)) {
+      value=runtimeService.getVariableLocal(execution.getId(),variableName);
+      variableScope=RestVariableScope.LOCAL;
+      variableFound=true;
+    }
+ else {
+      if (execution.getParentId() != null) {
+        value=runtimeService.getVariable(execution.getParentId(),variableName);
+        variableScope=RestVariableScope.GLOBAL;
+        variableFound=true;
+      }
+    }
+  }
+ else   if (variableScope == RestVariableScope.GLOBAL) {
+    if (execution.getParentId() != null) {
+      value=runtimeService.getVariable(execution.getParentId(),variableName);
+      variableScope=RestVariableScope.GLOBAL;
+      variableFound=true;
+    }
+  }
+ else   if (variableScope == RestVariableScope.LOCAL) {
+    value=runtimeService.getVariableLocal(execution.getId(),variableName);
+    variableScope=RestVariableScope.LOCAL;
+    variableFound=true;
+  }
+  if (!variableFound) {
+    throw new ActivitiObjectNotFoundException("Execution '" + execution.getId() + "' doesn't have a variable with name: '"+ variableName+ "'.",VariableInstanceEntity.class);
+  }
+ else {
+    return constructRestVariable(variableName,value,variableScope,execution.getId(),includeBinary,serverRootUrl);
+  }
+}

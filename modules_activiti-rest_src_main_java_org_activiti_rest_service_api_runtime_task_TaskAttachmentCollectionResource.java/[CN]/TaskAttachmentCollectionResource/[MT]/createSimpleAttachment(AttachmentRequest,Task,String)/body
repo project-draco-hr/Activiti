@@ -1,0 +1,7 @@
+{
+  if (attachmentRequest.getName() == null) {
+    throw new ActivitiIllegalArgumentException("Attachment name is required.");
+  }
+  Attachment createdAttachment=taskService.createAttachment(attachmentRequest.getType(),task.getId(),task.getProcessInstanceId(),attachmentRequest.getName(),attachmentRequest.getDescription(),attachmentRequest.getExternalUrl());
+  return restResponseFactory.createAttachmentResponse(createdAttachment,serverRootUrl);
+}

@@ -1,0 +1,13 @@
+{
+  if (taskRequest == null) {
+    throw new ActivitiException("A request body was expected when creating the task.");
+  }
+  Task task=taskService.newTask();
+  populateTaskFromRequest(task,taskRequest);
+  if (taskRequest.isTenantIdSet()) {
+    ((TaskEntity)task).setTenantId(taskRequest.getTenantId());
+  }
+  taskService.saveTask(task);
+  response.setStatus(HttpStatus.SC_CREATED);
+  return restResponseFactory.createTaskResponse(task,request.getRequestURL().toString().replace("/runtime/tasks",""));
+}

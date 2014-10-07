@@ -1,8 +1,9 @@
 {
-  ClientResource client=getAuthenticatedClient(url);
-  Representation response=client.post(body);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + url);
+  httpPost.setEntity(new StringEntity(body.toString()));
+  HttpResponse response=executeHttpRequest(httpPost,200);
+  assertEquals(HttpStatus.SC_OK,response.getStatusLine().getStatusCode());
+  JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
   assertEquals(numberOfResultsExpected,dataNode.size());
   if (variableName != null) {
     boolean variableFound=false;
@@ -25,5 +26,4 @@
     }
     assertTrue("Variable " + variableName + " is missing",variableFound);
   }
-  client.release();
 }

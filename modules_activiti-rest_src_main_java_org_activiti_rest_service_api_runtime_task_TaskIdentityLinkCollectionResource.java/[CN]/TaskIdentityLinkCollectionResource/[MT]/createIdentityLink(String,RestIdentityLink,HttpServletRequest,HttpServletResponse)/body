@@ -1,0 +1,22 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  if (identityLink.getGroup() == null && identityLink.getUser() == null) {
+    throw new ActivitiIllegalArgumentException("A group or a user is required to create an identity link.");
+  }
+  if (identityLink.getGroup() != null && identityLink.getUser() != null) {
+    throw new ActivitiIllegalArgumentException("Only one of user or group can be used to create an identity link.");
+  }
+  if (identityLink.getType() == null) {
+    throw new ActivitiIllegalArgumentException("The identity link type is required.");
+  }
+  if (identityLink.getGroup() != null) {
+    taskService.addGroupIdentityLink(task.getId(),identityLink.getGroup(),identityLink.getType());
+  }
+ else {
+    taskService.addUserIdentityLink(task.getId(),identityLink.getUser(),identityLink.getType());
+  }
+  response.setStatus(HttpStatus.SC_CREATED);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
+  return restResponseFactory.createRestIdentityLink(identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),task.getId(),null,null,serverRootUrl);
+}

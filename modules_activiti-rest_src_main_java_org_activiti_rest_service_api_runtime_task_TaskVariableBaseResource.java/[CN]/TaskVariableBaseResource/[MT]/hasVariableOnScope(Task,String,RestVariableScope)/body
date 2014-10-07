@@ -1,12 +1,12 @@
 {
   boolean variableFound=false;
   if (scope == RestVariableScope.GLOBAL) {
-    if (task.getExecutionId() != null && ActivitiUtil.getRuntimeService().hasVariable(task.getExecutionId(),variableName)) {
+    if (task.getExecutionId() != null && runtimeService.hasVariable(task.getExecutionId(),variableName)) {
       variableFound=true;
     }
   }
  else   if (scope == RestVariableScope.LOCAL) {
-    if (ActivitiUtil.getTaskService().hasVariableLocal(task.getId(),variableName)) {
+    if (taskService.hasVariableLocal(task.getId(),variableName)) {
       variableFound=true;
     }
   }

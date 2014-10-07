@@ -1,0 +1,5 @@
+{
+  Collection<String> currentVariables=runtimeService.getVariablesLocal(execution.getId()).keySet();
+  runtimeService.removeVariablesLocal(execution.getId(),currentVariables);
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

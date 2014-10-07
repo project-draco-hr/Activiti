@@ -1,0 +1,13 @@
+{
+  Task taskToDelete=getTaskFromRequest(taskId);
+  if (taskToDelete.getExecutionId() != null) {
+    throw new ActivitiException("Cannot delete a task that is part of a process-instance.");
+  }
+  if (cascadeHistory != null) {
+    taskService.deleteTask(taskToDelete.getId(),cascadeHistory);
+  }
+ else {
+    taskService.deleteTask(taskToDelete.getId(),deleteReason);
+  }
+  response.setStatus(HttpStatus.SC_NO_CONTENT);
+}

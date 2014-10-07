@@ -1,0 +1,36 @@
+{
+  if (signalRequest.getSignalName() == null) {
+    throw new ActivitiIllegalArgumentException("signalName is required");
+  }
+  Map<String,Object> signalVariables=null;
+  if (signalRequest.getVariables() != null) {
+    signalVariables=new HashMap<String,Object>();
+    for (    RestVariable variable : signalRequest.getVariables()) {
+      if (variable.getName() == null) {
+        throw new ActivitiIllegalArgumentException("Variable name is required.");
+      }
+      signalVariables.put(variable.getName(),restResponseFactory.getVariableValue(variable));
+    }
+  }
+  if (signalRequest.isAsync()) {
+    if (signalVariables != null) {
+      throw new ActivitiIllegalArgumentException("Async signals cannot take variables as payload");
+    }
+    if (signalRequest.isCustomTenantSet()) {
+      runtimeService.signalEventReceivedAsyncWithTenantId(signalRequest.getSignalName(),signalRequest.getTenantId());
+    }
+ else {
+      runtimeService.signalEventReceivedAsync(signalRequest.getSignalName());
+    }
+    response.setStatus(HttpStatus.SC_ACCEPTED);
+  }
+ else {
+    if (signalRequest.isCustomTenantSet()) {
+      runtimeService.signalEventReceivedWithTenantId(signalRequest.getSignalName(),signalVariables,signalRequest.getTenantId());
+    }
+ else {
+      runtimeService.signalEventReceived(signalRequest.getSignalName(),signalVariables);
+    }
+    response.setStatus(HttpStatus.SC_OK);
+  }
+}
