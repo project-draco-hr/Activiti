@@ -35,19 +35,19 @@
       Circle2D eventCircle=new Circle2D(sourceInfo.getX() + sourceDockersX,sourceInfo.getY() + sourceDockersY,sourceDockersX);
       Collection<Point2D> intersections=eventCircle.intersections(firstLine);
       Point2D intersection=intersections.iterator().next();
-      graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
+      graphicInfoList.add(createGraphicInfo(intersection.x(),intersection.y()));
     }
  else     if (DI_RECTANGLES.contains(sourceRefStencilId)) {
       Polyline2D rectangle=createRectangle(sourceInfo);
       Collection<Point2D> intersections=rectangle.intersections(firstLine);
       Point2D intersection=intersections.iterator().next();
-      graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
+      graphicInfoList.add(createGraphicInfo(intersection.x(),intersection.y()));
     }
  else     if (DI_GATEWAY.contains(sourceRefStencilId)) {
       Polyline2D gatewayRectangle=createGateway(sourceInfo);
       Collection<Point2D> intersections=gatewayRectangle.intersections(firstLine);
       Point2D intersection=intersections.iterator().next();
-      graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
+      graphicInfoList.add(createGraphicInfo(intersection.x(),intersection.y()));
     }
     Line2D lastLine=null;
     if (dockersNode.size() > 2) {
@@ -71,7 +71,7 @@
       Polyline2D rectangle=createRectangle(targetInfo);
       Collection<Point2D> intersections=rectangle.intersections(lastLine);
       Point2D intersection=intersections.iterator().next();
-      graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
+      graphicInfoList.add(createGraphicInfo(intersection.x(),intersection.y()));
     }
  else     if (DI_CIRCLES.contains(targetRefStencilId)) {
       double targetDockersX=dockersNode.get(dockersNode.size() - 1).get(EDITOR_BOUNDS_X).doubleValue();
@@ -79,13 +79,13 @@
       Circle2D eventCircle=new Circle2D(targetInfo.getX() + targetDockersX,targetInfo.getY() + targetDockersY,targetDockersX);
       Collection<Point2D> intersections=eventCircle.intersections(lastLine);
       Point2D intersection=intersections.iterator().next();
-      graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
+      graphicInfoList.add(createGraphicInfo(intersection.x(),intersection.y()));
     }
  else     if (DI_GATEWAY.contains(targetRefStencilId)) {
       Polyline2D gatewayRectangle=createGateway(targetInfo);
       Collection<Point2D> intersections=gatewayRectangle.intersections(lastLine);
       Point2D intersection=intersections.iterator().next();
-      graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
+      graphicInfoList.add(createGraphicInfo(intersection.x(),intersection.y()));
     }
     bpmnModel.addFlowGraphicInfoList(edgeId,graphicInfoList);
     if (!"".equals(edgeNode.get("properties").get("name"))) {
