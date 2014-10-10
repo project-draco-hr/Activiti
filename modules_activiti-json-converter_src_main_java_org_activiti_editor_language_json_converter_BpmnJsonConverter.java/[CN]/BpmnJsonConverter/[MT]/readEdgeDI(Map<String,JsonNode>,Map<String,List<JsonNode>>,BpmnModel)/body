@@ -88,5 +88,8 @@
       graphicInfoList.add(createGraphicInfo(intersection.getX(),intersection.getY()));
     }
     bpmnModel.addFlowGraphicInfoList(edgeId,graphicInfoList);
+    if (!"".equals(edgeNode.get("properties").get("name"))) {
+      bpmnModel.addLabelGraphicInfo(edgeId,createGraphicInfo(0D,0D));
+    }
   }
 }
