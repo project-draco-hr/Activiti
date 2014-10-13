@@ -3,14 +3,11 @@
   originalSerializable.setSomeField("This is some field");
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne");
   runtimeService.setVariableLocal(processInstance.getId(),"var",originalSerializable);
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"var"));
-  client.get(MediaType.TEXT_PLAIN);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  ObjectInputStream stream=new ObjectInputStream(client.getResponse().getEntity().getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"var")),HttpStatus.SC_OK);
+  ObjectInputStream stream=new ObjectInputStream(response.getEntity().getContent());
   Object readSerializable=stream.readObject();
   assertNotNull(readSerializable);
   assertTrue(readSerializable instanceof TestSerializableVariable);
   assertEquals("This is some field",((TestSerializableVariable)readSerializable).getSomeField());
-  assertEquals(MediaType.APPLICATION_JAVA_OBJECT.getName(),getMediaType(client));
-  client.release();
+  assertEquals("application/x-java-serialized-object",response.getEntity().getContentType().getValue());
 }

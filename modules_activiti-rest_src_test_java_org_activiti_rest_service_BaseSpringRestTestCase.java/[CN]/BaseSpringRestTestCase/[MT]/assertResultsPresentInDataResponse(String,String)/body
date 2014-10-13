@@ -1,0 +1,13 @@
+{
+  int numberOfResultsExpected=expectedResourceIds.length;
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
+  JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+  assertEquals(numberOfResultsExpected,dataNode.size());
+  List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedResourceIds));
+  Iterator<JsonNode> it=dataNode.iterator();
+  while (it.hasNext()) {
+    String id=it.next().get("id").textValue();
+    toBeFound.remove(id);
+  }
+  assertTrue("Not all process-definitions have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());
+}

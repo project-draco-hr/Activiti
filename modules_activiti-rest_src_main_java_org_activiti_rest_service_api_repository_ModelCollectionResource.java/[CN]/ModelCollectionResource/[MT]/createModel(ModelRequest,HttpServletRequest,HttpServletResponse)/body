@@ -1,0 +1,13 @@
+{
+  Model model=repositoryService.newModel();
+  model.setCategory(modelRequest.getCategory());
+  model.setDeploymentId(modelRequest.getDeploymentId());
+  model.setKey(modelRequest.getKey());
+  model.setMetaInfo(modelRequest.getMetaInfo());
+  model.setName(modelRequest.getName());
+  model.setVersion(modelRequest.getVersion());
+  model.setTenantId(modelRequest.getTenantId());
+  repositoryService.saveModel(model);
+  response.setStatus(HttpStatus.CREATED.value());
+  return restResponseFactory.createModelResponse(model,request.getRequestURL().toString().replace("/repository/models",""));
+}

@@ -1,0 +1,168 @@
+{
+  HistoricTaskInstanceQuery query=historyService.createHistoricTaskInstanceQuery();
+  if (queryRequest.getTaskId() != null) {
+    query.taskId(queryRequest.getTaskId());
+  }
+  if (queryRequest.getProcessInstanceId() != null) {
+    query.processInstanceId(queryRequest.getProcessInstanceId());
+  }
+  if (queryRequest.getProcessBusinessKey() != null) {
+    query.processInstanceBusinessKey(queryRequest.getProcessBusinessKey());
+  }
+  if (queryRequest.getProcessBusinessKeyLike() != null) {
+    query.processInstanceBusinessKeyLike(queryRequest.getProcessBusinessKeyLike());
+  }
+  if (queryRequest.getProcessDefinitionKey() != null) {
+    query.processDefinitionKey(queryRequest.getProcessDefinitionKey());
+  }
+  if (queryRequest.getProcessDefinitionKeyLike() != null) {
+    query.processDefinitionKeyLike(queryRequest.getProcessDefinitionKeyLike());
+  }
+  if (queryRequest.getProcessDefinitionId() != null) {
+    query.processDefinitionId(queryRequest.getProcessDefinitionId());
+  }
+  if (queryRequest.getProcessDefinitionName() != null) {
+    query.processDefinitionName(queryRequest.getProcessDefinitionName());
+  }
+  if (queryRequest.getProcessDefinitionNameLike() != null) {
+    query.processDefinitionNameLike(queryRequest.getProcessDefinitionNameLike());
+  }
+  if (queryRequest.getExecutionId() != null) {
+    query.executionId(queryRequest.getExecutionId());
+  }
+  if (queryRequest.getTaskName() != null) {
+    query.taskName(queryRequest.getTaskName());
+  }
+  if (queryRequest.getTaskNameLike() != null) {
+    query.taskNameLike(queryRequest.getTaskNameLike());
+  }
+  if (queryRequest.getTaskDescription() != null) {
+    query.taskDescription(queryRequest.getTaskDescription());
+  }
+  if (queryRequest.getTaskDescriptionLike() != null) {
+    query.taskDescriptionLike(queryRequest.getTaskDescriptionLike());
+  }
+  if (queryRequest.getTaskDefinitionKey() != null) {
+    query.taskDefinitionKey(queryRequest.getTaskDefinitionKey());
+  }
+  if (queryRequest.getTaskDefinitionKeyLike() != null) {
+    query.taskDefinitionKeyLike(queryRequest.getTaskDefinitionKeyLike());
+  }
+  if (queryRequest.getTaskDeleteReason() != null) {
+    query.taskDeleteReason(queryRequest.getTaskDeleteReason());
+  }
+  if (queryRequest.getTaskDeleteReasonLike() != null) {
+    query.taskDeleteReasonLike(queryRequest.getTaskDeleteReasonLike());
+  }
+  if (queryRequest.getTaskAssignee() != null) {
+    query.taskAssignee(queryRequest.getTaskAssignee());
+  }
+  if (queryRequest.getTaskAssigneeLike() != null) {
+    query.taskAssigneeLike(queryRequest.getTaskAssigneeLike());
+  }
+  if (queryRequest.getTaskOwner() != null) {
+    query.taskOwner(queryRequest.getTaskOwner());
+  }
+  if (queryRequest.getTaskOwnerLike() != null) {
+    query.taskOwnerLike(queryRequest.getTaskOwnerLike());
+  }
+  if (queryRequest.getTaskInvolvedUser() != null) {
+    query.taskInvolvedUser(queryRequest.getTaskInvolvedUser());
+  }
+  if (queryRequest.getTaskPriority() != null) {
+    query.taskPriority(queryRequest.getTaskPriority());
+  }
+  if (queryRequest.getTaskMinPriority() != null) {
+    query.taskMinPriority(queryRequest.getTaskMinPriority());
+  }
+  if (queryRequest.getTaskMaxPriority() != null) {
+    query.taskMaxPriority(queryRequest.getTaskMaxPriority());
+  }
+  if (queryRequest.getTaskPriority() != null) {
+    query.taskPriority(queryRequest.getTaskPriority());
+  }
+  if (queryRequest.getFinished() != null) {
+    if (queryRequest.getFinished()) {
+      query.finished();
+    }
+ else {
+      query.unfinished();
+    }
+  }
+  if (queryRequest.getProcessFinished() != null) {
+    if (queryRequest.getProcessFinished()) {
+      query.processFinished();
+    }
+ else {
+      query.processUnfinished();
+    }
+  }
+  if (queryRequest.getParentTaskId() != null) {
+    query.taskParentTaskId(queryRequest.getParentTaskId());
+  }
+  if (queryRequest.getDueDate() != null) {
+    query.taskDueDate(queryRequest.getDueDate());
+  }
+  if (queryRequest.getDueDateAfter() != null) {
+    query.taskDueAfter(queryRequest.getDueDateAfter());
+  }
+  if (queryRequest.getDueDateBefore() != null) {
+    query.taskDueBefore(queryRequest.getDueDateBefore());
+  }
+  if (queryRequest.getWithoutDueDate() != null && queryRequest.getWithoutDueDate()) {
+    query.withoutTaskDueDate();
+  }
+  if (queryRequest.getTaskCreatedOn() != null) {
+    query.taskCreatedOn(queryRequest.getTaskCreatedOn());
+  }
+  if (queryRequest.getTaskCreatedBefore() != null) {
+    query.taskCreatedBefore(queryRequest.getTaskCreatedBefore());
+  }
+  if (queryRequest.getTaskCreatedAfter() != null) {
+    query.taskCreatedAfter(queryRequest.getTaskCreatedAfter());
+  }
+  if (queryRequest.getTaskCreatedOn() != null) {
+    query.taskCreatedOn(queryRequest.getTaskCreatedOn());
+  }
+  if (queryRequest.getTaskCreatedBefore() != null) {
+    query.taskCreatedBefore(queryRequest.getTaskCreatedBefore());
+  }
+  if (queryRequest.getTaskCreatedAfter() != null) {
+    query.taskCreatedAfter(queryRequest.getTaskCreatedAfter());
+  }
+  if (queryRequest.getTaskCompletedOn() != null) {
+    query.taskCompletedOn(queryRequest.getTaskCompletedOn());
+  }
+  if (queryRequest.getTaskCompletedBefore() != null) {
+    query.taskCompletedBefore(queryRequest.getTaskCompletedBefore());
+  }
+  if (queryRequest.getTaskCompletedAfter() != null) {
+    query.taskCompletedAfter(queryRequest.getTaskCompletedAfter());
+  }
+  if (queryRequest.getIncludeTaskLocalVariables() != null) {
+    if (queryRequest.getIncludeTaskLocalVariables()) {
+      query.includeTaskLocalVariables();
+    }
+  }
+  if (queryRequest.getIncludeProcessVariables() != null) {
+    if (queryRequest.getIncludeProcessVariables()) {
+      query.includeProcessVariables();
+    }
+  }
+  if (queryRequest.getTaskVariables() != null) {
+    addTaskVariables(query,queryRequest.getTaskVariables());
+  }
+  if (queryRequest.getProcessVariables() != null) {
+    addProcessVariables(query,queryRequest.getProcessVariables());
+  }
+  if (queryRequest.getTenantId() != null) {
+    query.taskTenantId(queryRequest.getTenantId());
+  }
+  if (queryRequest.getTenantIdLike() != null) {
+    query.taskTenantIdLike(queryRequest.getTenantIdLike());
+  }
+  if (Boolean.TRUE.equals(queryRequest.getWithoutTenantId())) {
+    query.taskWithoutTenantId();
+  }
+  return new HistoricTaskInstancePaginateList(restResponseFactory,serverRootUrl).paginateList(allRequestParams,queryRequest,query,"taskInstanceId",allowedSortProperties);
+}

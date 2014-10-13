@@ -5,10 +5,9 @@
     identityService.setAuthenticatedUserId("kermit");
     Comment comment=taskService.addComment(task.getId(),null,"This is a comment...");
     identityService.setAuthenticatedUserId(null);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId()));
+    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());
@@ -17,24 +16,10 @@
     assertEquals(task.getId(),responseNode.get("taskId").asText());
     assertTrue(responseNode.get("processInstanceUrl").isNull());
     assertTrue(responseNode.get("processInstanceId").isNull());
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,"unexistingtask","123"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
-    }
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),"unexistingcomment"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Task '" + task.getId() + "' doesn't have a comment with id 'unexistingcomment'.",expected.getStatus().getDescription());
-    }
+    httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,"unexistingtask","123"));
+    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),"unexistingcomment"));
+    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

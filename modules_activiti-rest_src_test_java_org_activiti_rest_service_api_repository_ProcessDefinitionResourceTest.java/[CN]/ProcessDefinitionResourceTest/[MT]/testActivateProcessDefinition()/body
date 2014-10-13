@@ -3,12 +3,12 @@
   repositoryService.suspendProcessDefinitionById(processDefinition.getId());
   processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   assertTrue(processDefinition.isSuspended());
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("action","activate");
-  Representation response=client.put(requestNode);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
+  httpPut.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertFalse(responseNode.get("suspended").booleanValue());
   processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   assertFalse(processDefinition.isSuspended());

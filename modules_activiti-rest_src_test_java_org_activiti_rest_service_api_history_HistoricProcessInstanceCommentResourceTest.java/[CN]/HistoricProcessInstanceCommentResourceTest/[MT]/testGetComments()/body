@@ -5,10 +5,9 @@
     identityService.setAuthenticatedUserId("kermit");
     Comment comment=taskService.addComment(null,pi.getId(),"This is a comment...");
     identityService.setAuthenticatedUserId(null);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT_COLLECTION,pi.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT_COLLECTION,pi.getId())),HttpStatus.SC_OK);
+    assertEquals(HttpStatus.SC_OK,response.getStatusLine().getStatusCode());
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertTrue(responseNode.isArray());
     assertEquals(1,responseNode.size());
@@ -20,15 +19,7 @@
     assertEquals(pi.getProcessInstanceId(),commentNode.get("processInstanceId").asText());
     assertTrue(commentNode.get("taskUrl").isNull());
     assertTrue(commentNode.get("taskId").isNull());
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,"unexistingtask"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
-    }
+    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,"unexistingtask")),HttpStatus.SC_NOT_FOUND);
   }
   finally {
     if (pi != null) {

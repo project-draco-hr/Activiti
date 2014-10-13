@@ -15,11 +15,11 @@
     assertNotNull(group3);
     String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION);
     assertResultsPresentInDataResponse(url,group1.getId(),group2.getId(),group3.getId());
-    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?name=Test group";
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?name=" + encode("Test group");
     assertResultsPresentInDataResponse(url,group1.getId());
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?nameLike=" + encode("% group");
     assertResultsPresentInDataResponse(url,group2.getId(),group1.getId());
-    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?type=Another type";
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?type=" + encode("Another type");
     assertResultsPresentInDataResponse(url,group2.getId());
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION) + "?member=kermit";
     assertResultsPresentInDataResponse(url,group3.getId());

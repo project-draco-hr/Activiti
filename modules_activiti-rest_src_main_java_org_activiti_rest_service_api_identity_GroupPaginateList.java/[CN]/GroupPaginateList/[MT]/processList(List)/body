@@ -1,8 +1,7 @@
 {
   List<GroupResponse> responseList=new ArrayList<GroupResponse>();
-  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  Object entity : list) {
-    responseList.add(restResponseFactory.createGroupResponse(resource,(Group)entity));
+    responseList.add(restResponseFactory.createGroupResponse((Group)entity,serverRootUrl));
   }
   return responseList;
 }

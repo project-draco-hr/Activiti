@@ -1,0 +1,7 @@
+{
+  log.info("Destroying Web application");
+  WebApplicationContext ac=WebApplicationContextUtils.getRequiredWebApplicationContext(sce.getServletContext());
+  AnnotationConfigWebApplicationContext gwac=(AnnotationConfigWebApplicationContext)ac;
+  gwac.close();
+  log.debug("Web application destroyed");
+}

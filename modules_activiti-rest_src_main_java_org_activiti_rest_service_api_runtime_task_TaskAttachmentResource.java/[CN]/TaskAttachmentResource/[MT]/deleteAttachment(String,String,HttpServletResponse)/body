@@ -1,0 +1,9 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  Attachment attachment=taskService.getAttachment(attachmentId);
+  if (attachment == null || !task.getId().equals(attachment.getTaskId())) {
+    throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have an attachment with id '"+ attachmentId+ "'.",Comment.class);
+  }
+  taskService.deleteAttachment(attachmentId);
+  response.setStatus(HttpStatus.NO_CONTENT.value());
+}

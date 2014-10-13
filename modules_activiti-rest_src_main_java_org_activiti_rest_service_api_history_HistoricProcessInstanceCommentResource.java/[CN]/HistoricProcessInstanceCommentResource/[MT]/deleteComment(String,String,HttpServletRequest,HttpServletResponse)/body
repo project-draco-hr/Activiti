@@ -1,0 +1,9 @@
+{
+  HistoricProcessInstance instance=getHistoricProcessInstanceFromRequest(processInstanceId);
+  Comment comment=taskService.getComment(commentId);
+  if (comment == null || comment.getProcessInstanceId() == null || !comment.getProcessInstanceId().equals(instance.getId())) {
+    throw new ActivitiObjectNotFoundException("Process instance '" + instance.getId() + "' doesn't have a comment with id '"+ commentId+ "'.",Comment.class);
+  }
+  taskService.deleteComment(commentId);
+  response.setStatus(HttpStatus.NO_CONTENT.value());
+}

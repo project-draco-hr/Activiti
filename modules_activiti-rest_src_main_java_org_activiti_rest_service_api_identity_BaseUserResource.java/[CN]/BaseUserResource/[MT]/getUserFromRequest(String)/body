@@ -1,0 +1,7 @@
+{
+  User user=identityService.createUserQuery().userId(userId).singleResult();
+  if (user == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a user with id '" + userId + "'.",User.class);
+  }
+  return user;
+}

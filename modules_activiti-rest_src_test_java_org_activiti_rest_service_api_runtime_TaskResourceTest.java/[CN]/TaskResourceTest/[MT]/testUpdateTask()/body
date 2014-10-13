@@ -4,7 +4,6 @@
     taskService.saveTask(task);
     Task parentTask=taskService.newTask();
     taskService.saveTask(parentTask);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
     ObjectNode requestNode=objectMapper.createObjectNode();
     Calendar dueDate=Calendar.getInstance();
     String dueDateString=getISODateString(dueDate.getTime());
@@ -16,8 +15,9 @@
     requestNode.put("delegationState","resolved");
     requestNode.put("dueDate",dueDateString);
     requestNode.put("parentTaskId",parentTask.getId());
-    client.put(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
+    httpPut.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPut,HttpStatus.SC_OK);
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertEquals("New task name",task.getName());
     assertEquals("New task description",task.getDescription());
@@ -25,7 +25,7 @@
     assertEquals("owner",task.getOwner());
     assertEquals(20,task.getPriority());
     assertEquals(DelegationState.RESOLVED,task.getDelegationState());
-    assertEquals(dueDate.getTime(),task.getDueDate());
+    assertEquals(dateFormat.parse(dueDateString),task.getDueDate());
     assertEquals(parentTask.getId(),task.getParentTaskId());
   }
   finally {

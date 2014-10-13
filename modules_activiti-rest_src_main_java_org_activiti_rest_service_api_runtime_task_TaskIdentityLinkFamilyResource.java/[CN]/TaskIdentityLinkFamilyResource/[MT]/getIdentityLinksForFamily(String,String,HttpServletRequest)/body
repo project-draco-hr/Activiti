@@ -1,0 +1,24 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  if (family == null || (!RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_GROUPS.equals(family) && !RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS.equals(family))) {
+    throw new ActivitiIllegalArgumentException("Identity link family should be 'users' or 'groups'.");
+  }
+  boolean isUser=family.equals(RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS);
+  List<RestIdentityLink> results=new ArrayList<RestIdentityLink>();
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
+  List<IdentityLink> allLinks=taskService.getIdentityLinksForTask(task.getId());
+  for (  IdentityLink link : allLinks) {
+    boolean match=false;
+    if (isUser) {
+      match=link.getUserId() != null;
+    }
+ else {
+      match=link.getGroupId() != null;
+    }
+    if (match) {
+      results.add(restResponseFactory.createRestIdentityLink(link,serverRootUrl));
+    }
+  }
+  return results;
+}

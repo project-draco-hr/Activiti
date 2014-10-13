@@ -9,11 +9,10 @@
     IOUtils.write("Testing REST-deployment with tenant",zipStream);
     zipStream.closeEntry();
     zipStream.close();
-    Representation uploadRepresentation=new HttpMultipartRepresentation("test-deployment.bar",new ByteArrayInputStream(zipOutput.toByteArray()));
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION));
-    Representation response=client.post(uploadRepresentation);
-    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION));
+    httpPost.setEntity(HttpMultipartHelper.getMultiPartEntity("test-deployment.bar","application/zip",new ByteArrayInputStream(zipOutput.toByteArray()),null));
+    HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     String deploymentId=responseNode.get("id").textValue();
     String name=responseNode.get("name").textValue();
     String category=responseNode.get("category").textValue();

@@ -4,15 +4,7 @@
     taskService.saveTask(task);
     Attachment urlAttachment=taskService.createAttachment("simpleType",task.getId(),null,"Simple attachment","Simple attachment description","http://activiti.org");
     taskService.saveAttachment(urlAttachment);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),urlAttachment.getId()));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Attachment with id '" + urlAttachment.getId() + "' doesn't have content associated with it.",expected.getStatus().getDescription());
-    }
+    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),urlAttachment.getId())),HttpStatus.SC_NOT_FOUND);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

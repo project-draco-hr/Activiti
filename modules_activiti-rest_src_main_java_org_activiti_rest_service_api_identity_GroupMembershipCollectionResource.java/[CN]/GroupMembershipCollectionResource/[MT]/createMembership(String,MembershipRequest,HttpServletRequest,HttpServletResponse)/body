@@ -1,0 +1,14 @@
+{
+  Group group=getGroupFromRequest(groupId);
+  if (memberShip.getUserId() == null) {
+    throw new ActivitiIllegalArgumentException("UserId cannot be null.");
+  }
+  if (identityService.createUserQuery().memberOfGroup(group.getId()).userId(memberShip.getUserId()).count() > 0) {
+    throw new ActivitiConflictException("User '" + memberShip.getUserId() + "' is already part of group '"+ group.getId()+ "'.");
+  }
+  identityService.createMembership(memberShip.getUserId(),group.getId());
+  response.setStatus(HttpStatus.CREATED.value());
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/groups/"));
+  return restResponseFactory.createMembershipResponse(memberShip.getUserId(),group.getId(),serverRootUrl);
+}

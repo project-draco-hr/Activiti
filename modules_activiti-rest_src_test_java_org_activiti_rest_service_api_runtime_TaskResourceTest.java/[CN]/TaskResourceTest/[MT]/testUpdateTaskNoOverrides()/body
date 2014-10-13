@@ -14,10 +14,10 @@
     task.setOwner("owner");
     task.setPriority(20);
     taskService.saveTask(task);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
     ObjectNode requestNode=objectMapper.createObjectNode();
-    client.put(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+    HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
+    httpPut.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPut,HttpStatus.SC_OK);
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertEquals("Task name",task.getName());
     assertEquals("Description",task.getDescription());

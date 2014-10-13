@@ -2,10 +2,9 @@
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   repositoryService.addCandidateStarterGroup(processDefinition.getId(),"admin");
   repositoryService.addCandidateStarterUser(processDefinition.getId(),"kermit");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINKS_COLLECTION,processDefinition.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINKS_COLLECTION,processDefinition.getId()));
+  HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(2,responseNode.size());
@@ -18,14 +17,14 @@
       assertEquals("kermit",link.get("user").textValue());
       assertEquals("candidate",link.get("type").textValue());
       assertTrue(link.get("group").isNull());
-      assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"users","kermit")));
+      assertTrue(link.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"users","kermit")));
       userCandidateFound=true;
     }
  else     if (!link.get("group").isNull()) {
       assertEquals("admin",link.get("group").textValue());
       assertEquals("candidate",link.get("type").textValue());
       assertTrue(link.get("user").isNull());
-      assertTrue(link.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,encode(processDefinition.getId()),"groups","admin")));
+      assertTrue(link.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"groups","admin")));
       groupCandidateFound=true;
     }
   }

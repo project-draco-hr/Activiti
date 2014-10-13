@@ -4,13 +4,10 @@
     taskService.saveTask(task);
     Attachment binaryAttachment=taskService.createAttachment("binaryType",task.getId(),null,"Binary attachment","Binary attachment description",new ByteArrayInputStream("This is binary content".getBytes()));
     taskService.saveAttachment(binaryAttachment);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),binaryAttachment.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    String responseBodyString=response.getText();
+    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),binaryAttachment.getId())),HttpStatus.SC_OK);
+    String responseBodyString=IOUtils.toString(response.getEntity().getContent());
     assertEquals("This is binary content",responseBodyString);
-    Series<Header> headers=(Series<Header>)client.getResponseAttributes().get(HeaderConstants.ATTRIBUTE_HEADERS);
-    assertEquals("application/octet-stream",headers.getFirstValue(HeaderConstants.HEADER_CONTENT_TYPE));
+    assertEquals("application/octet-stream",response.getEntity().getContentType().getValue());
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

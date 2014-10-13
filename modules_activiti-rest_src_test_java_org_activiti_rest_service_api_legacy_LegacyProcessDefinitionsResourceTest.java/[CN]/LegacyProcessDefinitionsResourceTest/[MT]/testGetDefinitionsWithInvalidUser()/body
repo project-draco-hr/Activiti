@@ -1,7 +1,0 @@
-{
-  ClientResource client=getAuthenticatedClient("process-definitions?startableByUser=test");
-  Representation response=client.get();
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
-  assertNotNull(responseNode);
-  assertEquals(0,responseNode.get("total").asInt());
-}

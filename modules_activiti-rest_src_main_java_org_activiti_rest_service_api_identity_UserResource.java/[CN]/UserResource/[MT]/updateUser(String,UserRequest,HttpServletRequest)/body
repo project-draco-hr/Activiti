@@ -1,0 +1,19 @@
+{
+  User user=getUserFromRequest(userId);
+  if (userRequest.isEmailChanged()) {
+    user.setEmail(userRequest.getEmail());
+  }
+  if (userRequest.isFirstNameChanged()) {
+    user.setFirstName(userRequest.getFirstName());
+  }
+  if (userRequest.isLastNameChanged()) {
+    user.setLastName(userRequest.getLastName());
+  }
+  if (userRequest.isPasswordChanged()) {
+    user.setPassword(userRequest.getPassword());
+  }
+  identityService.saveUser(user);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/users/"));
+  return restResponseFactory.createUserResponse(user,false,serverRootUrl);
+}

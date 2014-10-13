@@ -1,0 +1,8 @@
+{
+  StringBuilder urlBuilder=new StringBuilder(serverRootUrl);
+  for (  String urlFragment : fragments) {
+    urlBuilder.append("/");
+    urlBuilder.append(MessageFormat.format(urlFragment,arguments));
+  }
+  return urlBuilder.toString();
+}

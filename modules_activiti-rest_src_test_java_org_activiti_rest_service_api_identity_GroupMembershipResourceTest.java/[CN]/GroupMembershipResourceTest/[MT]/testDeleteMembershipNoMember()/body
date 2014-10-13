@@ -6,15 +6,8 @@
     identityService.saveGroup(testGroup);
     User testUser=identityService.newUser("testuser");
     identityService.saveUser(testUser);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,"testgroup","testuser"));
-    try {
-      client.delete();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("User 'testuser' is not part of group 'testgroup'.",expected.getStatus().getDescription());
-    }
+    HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,"testgroup","testuser"));
+    executeHttpRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
   }
   finally {
     try {

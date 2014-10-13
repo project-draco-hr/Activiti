@@ -7,10 +7,7 @@
     newUser.setEmail("no-reply@activiti.org");
     identityService.saveUser(newUser);
     savedUser=newUser;
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId()));
-    Representation response=client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-    assertEquals(0L,response.getSize());
+    executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId())),HttpStatus.SC_NO_CONTENT);
     assertEquals(0,identityService.createUserQuery().userId(newUser.getId()).count());
     savedUser=null;
   }

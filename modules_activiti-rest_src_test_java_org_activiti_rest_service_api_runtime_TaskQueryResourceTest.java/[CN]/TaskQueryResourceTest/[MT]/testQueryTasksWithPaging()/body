@@ -21,11 +21,11 @@
     String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_QUERY);
     ObjectNode requestNode=objectMapper.createObjectNode();
     String[] taskIds=new String[]{taskIdList.get(0),taskIdList.get(1),taskIdList.get(2)};
-    assertResultsPresentInDataResponse(url + "?size=3&sort=id&order=asc",requestNode,taskIds);
+    assertResultsPresentInPostDataResponse(url + "?size=3&sort=id&order=asc",requestNode,taskIds);
     taskIds=new String[]{taskIdList.get(4),taskIdList.get(5),taskIdList.get(6),taskIdList.get(7)};
-    assertResultsPresentInDataResponse(url + "?start=4&size=4&sort=id&order=asc",requestNode,taskIds);
+    assertResultsPresentInPostDataResponse(url + "?start=4&size=4&sort=id&order=asc",requestNode,taskIds);
     taskIds=new String[]{taskIdList.get(8),taskIdList.get(9)};
-    assertResultsPresentInDataResponse(url + "?start=8&size=10&sort=id&order=asc",requestNode,taskIds);
+    assertResultsPresentInPostDataResponse(url + "?start=8&size=10&sort=id&order=asc",requestNode,taskIds);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

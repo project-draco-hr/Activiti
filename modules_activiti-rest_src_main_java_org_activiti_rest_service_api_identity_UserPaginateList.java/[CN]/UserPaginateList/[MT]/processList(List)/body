@@ -1,8 +1,7 @@
 {
   List<UserResponse> responseList=new ArrayList<UserResponse>();
-  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  Object user : list) {
-    responseList.add(restResponseFactory.createUserResponse(resource,(User)user,false));
+    responseList.add(restResponseFactory.createUserResponse((User)user,false,serverRootUrl));
   }
   return responseList;
 }

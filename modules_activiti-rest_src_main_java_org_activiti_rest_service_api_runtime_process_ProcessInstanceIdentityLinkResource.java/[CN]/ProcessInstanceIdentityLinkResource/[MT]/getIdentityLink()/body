@@ -1,9 +1,0 @@
-{
-  if (!authenticate())   return null;
-  ProcessInstance processInstance=getProcessInstanceFromRequest();
-  String identityId=getAttribute("identityId");
-  String type=getAttribute("type");
-  validateIdentityLinkArguments(identityId,type);
-  IdentityLink link=getIdentityLink(identityId,type,processInstance.getId());
-  return getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestIdentityLink(this,link);
-}

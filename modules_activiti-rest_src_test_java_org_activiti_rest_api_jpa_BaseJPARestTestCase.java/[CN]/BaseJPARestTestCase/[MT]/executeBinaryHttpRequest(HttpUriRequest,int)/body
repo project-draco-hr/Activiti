@@ -1,0 +1,19 @@
+{
+  CredentialsProvider provider=new BasicCredentialsProvider();
+  UsernamePasswordCredentials credentials=new UsernamePasswordCredentials("kermit","kermit");
+  provider.setCredentials(AuthScope.ANY,credentials);
+  HttpClient client=HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
+  try {
+    HttpResponse response=client.execute(request);
+    Assert.assertNotNull(response.getStatusLine());
+    Assert.assertEquals(expectedStatusCode,response.getStatusLine().getStatusCode());
+    return response;
+  }
+ catch (  ClientProtocolException e) {
+    Assert.fail(e.getMessage());
+  }
+catch (  IOException e) {
+    Assert.fail(e.getMessage());
+  }
+  return null;
+}

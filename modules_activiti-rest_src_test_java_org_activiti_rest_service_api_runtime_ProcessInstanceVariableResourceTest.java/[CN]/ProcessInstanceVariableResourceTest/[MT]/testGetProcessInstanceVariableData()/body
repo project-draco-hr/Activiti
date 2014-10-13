@@ -1,10 +1,8 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   runtimeService.setVariableLocal(processInstance.getId(),"var","This is a binary piece of text".getBytes());
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_DATA,processInstance.getId(),"var"));
-  client.get(MediaType.TEXT_PLAIN);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  String actualResponseBytesAsText=client.getResponse().getEntityAsText();
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_DATA,processInstance.getId(),"var")),HttpStatus.SC_OK);
+  String actualResponseBytesAsText=IOUtils.toString(response.getEntity().getContent());
   assertEquals("This is a binary piece of text",actualResponseBytesAsText);
-  assertEquals(MediaType.APPLICATION_OCTET_STREAM.getName(),getMediaType(client));
+  assertEquals("application/octet-stream",response.getEntity().getContentType().getValue());
 }

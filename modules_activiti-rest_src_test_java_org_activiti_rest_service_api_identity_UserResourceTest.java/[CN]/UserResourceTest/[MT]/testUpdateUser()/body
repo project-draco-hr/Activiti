@@ -12,10 +12,10 @@
     taskUpdateRequest.put("lastName","Barrez");
     taskUpdateRequest.put("email","no-reply@alfresco.org");
     taskUpdateRequest.put("password","updatedpassword");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId()));
-    Representation response=client.put(taskUpdateRequest);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId()));
+    httpPut.setEntity(new StringEntity(taskUpdateRequest.toString()));
+    HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertEquals("testuser",responseNode.get("id").textValue());
     assertEquals("Tijs",responseNode.get("firstName").textValue());

@@ -1,0 +1,9 @@
+{
+  Deployment deployment=repositoryService.createDeploymentQuery().deploymentId(deploymentId).singleResult();
+  if (deployment == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.",Deployment.class);
+  }
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/deployments/"));
+  return restResponseFactory.createDeploymentResponse(deployment,serverRootUrl);
+}

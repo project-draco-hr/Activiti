@@ -1,0 +1,6 @@
+{
+  log.debug("Registering Spring Security Filter");
+  FilterRegistration.Dynamic springSecurityFilter=servletContext.addFilter("springSecurityFilterChain",new DelegatingFilterProxy());
+  springSecurityFilter.addMappingForUrlPatterns(disps,false,"/*");
+  springSecurityFilter.setAsyncSupported(true);
+}

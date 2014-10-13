@@ -8,10 +8,8 @@
   taskVariables.put("var2",123);
   taskService.setVariablesLocal(task.getId(),taskVariables);
   assertEquals(2,taskService.getVariablesLocal(task.getId()).size());
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-  Representation response=client.delete();
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-  assertEquals(0,response.getSize());
+  HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+  executeBinaryHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
   assertEquals(0,taskService.getVariablesLocal(task.getId()).size());
   assertEquals(1,taskService.getVariables(task.getId()).size());
 }

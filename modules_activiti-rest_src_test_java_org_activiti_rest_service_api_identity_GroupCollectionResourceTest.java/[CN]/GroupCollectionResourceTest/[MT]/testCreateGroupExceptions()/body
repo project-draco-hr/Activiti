@@ -1,24 +1,12 @@
 {
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION));
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("name","Test group");
   requestNode.put("type","Test type");
-  try {
-    client.post(requestNode);
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-    assertEquals("Id cannot be null.",expected.getStatus().getDescription());
-  }
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_COLLECTION));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
   requestNode=objectMapper.createObjectNode();
   requestNode.put("id","admin");
-  try {
-    client.post(requestNode);
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
-    assertEquals("A group with id 'admin' already exists.",expected.getStatus().getDescription());
-  }
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
 }

@@ -1,0 +1,10 @@
+{
+  MultipartEntityBuilder entityBuilder=MultipartEntityBuilder.create();
+  if (additionalFormFields != null && !additionalFormFields.isEmpty()) {
+    for (    Entry<String,String> field : additionalFormFields.entrySet()) {
+      entityBuilder.addTextBody(field.getKey(),field.getValue());
+    }
+  }
+  entityBuilder.addBinaryBody(fileName,IOUtils.toByteArray(fileStream),ContentType.create(contentType),fileName);
+  return entityBuilder.build();
+}

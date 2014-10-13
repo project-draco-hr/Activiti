@@ -5,35 +5,32 @@
     taskService.addCandidateUser(task.getId(),"newAssignee");
     assertEquals(1L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     String taskId=task.getId();
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     task.setAssignee("fred");
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("action","claim");
-    client.post(requestNode);
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPost,HttpStatus.SC_OK);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertNull(task.getAssignee());
     assertEquals(1L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     requestNode.put("assignee","newAssignee");
-    client.post(requestNode);
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPost,HttpStatus.SC_OK);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("newAssignee",task.getAssignee());
     assertEquals(0L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
-    client.post(requestNode);
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPost,HttpStatus.SC_OK);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("newAssignee",task.getAssignee());
     assertEquals(0L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     requestNode.put("assignee","anotherUser");
-    try {
-      client.post(requestNode);
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
-      assertEquals("Task '" + task.getId() + "' is already claimed by someone else.",expected.getStatus().getDescription());
-    }
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

@@ -5,11 +5,10 @@
     model.setName("Model name");
     repositoryService.saveModel(model);
     repositoryService.addModelEditorSource(model.getId(),"This is the editor source".getBytes());
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,model.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    assertEquals(MediaType.APPLICATION_OCTET_STREAM,response.getMediaType());
-    assertEquals("This is the editor source",response.getText());
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,model.getId()));
+    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    assertEquals("application/octet-stream",response.getEntity().getContentType().getValue());
+    assertEquals("This is the editor source",IOUtils.toString(response.getEntity().getContent()));
   }
   finally {
     try {

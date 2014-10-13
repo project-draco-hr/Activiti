@@ -1,0 +1,7 @@
+{
+  Execution execution=runtimeService.createExecutionQuery().executionId(executionId).singleResult();
+  if (execution == null) {
+    throw new ActivitiObjectNotFoundException("Could not find an execution with id '" + executionId + "'.",Execution.class);
+  }
+  return execution;
+}

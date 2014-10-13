@@ -2,10 +2,8 @@
   Execution parentExecution=runtimeService.startProcessInstanceByKey("processOne");
   Execution childExecution=runtimeService.createExecutionQuery().activityId("processTask").singleResult();
   assertNotNull(childExecution);
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId())),HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertEquals(parentExecution.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("activityId").isNull());
@@ -14,11 +12,8 @@
   assertFalse(responseNode.get("suspended").booleanValue());
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId())));
   assertTrue(responseNode.get("processInstanceUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,parentExecution.getId())));
-  client.release();
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,childExecution.getId()));
-  response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  responseNode=objectMapper.readTree(response.getStream());
+  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,childExecution.getId())),HttpStatus.SC_OK);
+  responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertEquals(childExecution.getId(),responseNode.get("id").textValue());
   assertEquals("processTask",responseNode.get("activityId").textValue());
@@ -27,5 +22,4 @@
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,childExecution.getId())));
   assertTrue(responseNode.get("parentUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId())));
   assertTrue(responseNode.get("processInstanceUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,parentExecution.getId())));
-  client.release();
 }

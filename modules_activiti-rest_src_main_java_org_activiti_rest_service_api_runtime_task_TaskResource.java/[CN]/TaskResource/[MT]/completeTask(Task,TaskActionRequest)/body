@@ -5,12 +5,12 @@
       if (var.getName() == null) {
         throw new ActivitiIllegalArgumentException("Variable name is required");
       }
-      Object actualVariableValue=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().getVariableValue(var);
+      Object actualVariableValue=restResponseFactory.getVariableValue(var);
       variablesToSet.put(var.getName(),actualVariableValue);
     }
-    ActivitiUtil.getTaskService().complete(task.getId(),variablesToSet);
+    taskService.complete(task.getId(),variablesToSet);
   }
  else {
-    ActivitiUtil.getTaskService().complete(task.getId());
+    taskService.complete(task.getId());
   }
 }

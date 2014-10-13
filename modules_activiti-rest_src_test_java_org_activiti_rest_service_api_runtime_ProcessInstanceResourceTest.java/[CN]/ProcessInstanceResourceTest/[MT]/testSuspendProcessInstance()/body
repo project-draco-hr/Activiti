@@ -2,20 +2,14 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey");
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("action","suspend");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
-  Representation response=client.put(requestNode);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
+  httpPut.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
   assertEquals(1,runtimeService.createProcessInstanceQuery().suspended().processInstanceId(processInstance.getId()).count());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("suspended").booleanValue());
-  try {
-    client.put(requestNode);
-    fail("Expected exception");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_CONFLICT,expected.getStatus());
-    assertEquals("Process instance with id '" + processInstance.getId() + "' is already suspended.",expected.getStatus().getDescription());
-  }
+  httpPut.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPut,HttpStatus.SC_CONFLICT);
 }

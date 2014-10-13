@@ -1,0 +1,7 @@
+{
+  ProcessDefinition processDefinition=repositoryService.getProcessDefinition(processDefinitionId);
+  if (processDefinition == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a process definition with id '" + processDefinitionId + "'.",ProcessDefinition.class);
+  }
+  return processDefinition;
+}

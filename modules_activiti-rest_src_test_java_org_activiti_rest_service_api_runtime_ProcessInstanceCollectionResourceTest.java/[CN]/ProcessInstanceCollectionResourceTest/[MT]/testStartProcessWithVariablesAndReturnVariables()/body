@@ -8,14 +8,14 @@
   integerVarNode.put("name","integerVariable");
   integerVarNode.put("value",1234);
   integerVarNode.put("type","integer");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("processDefinitionKey","processOne");
   requestNode.put("returnVariables",true);
   requestNode.put("variables",variablesNode);
-  client.post(requestNode);
-  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(client.getResponseEntity().getStream());
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertEquals("processTask",responseNode.get("activityId").asText());
   assertEquals(false,responseNode.get("ended").asBoolean());
   JsonNode variablesArrayNode=responseNode.get("variables");

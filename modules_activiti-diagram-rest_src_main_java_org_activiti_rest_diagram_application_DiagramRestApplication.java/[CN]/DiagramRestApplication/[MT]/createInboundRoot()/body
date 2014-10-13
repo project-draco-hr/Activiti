@@ -1,9 +1,0 @@
-{
-  initializeAuthentication();
-  Router router=new Router(getContext());
-  DiagramServicesInit.attachResources(router);
-  JsonpFilter jsonpFilter=new JsonpFilter(getContext());
-  jsonpFilter.setNext(router);
-  authenticator.setNext(jsonpFilter);
-  return authenticator;
-}

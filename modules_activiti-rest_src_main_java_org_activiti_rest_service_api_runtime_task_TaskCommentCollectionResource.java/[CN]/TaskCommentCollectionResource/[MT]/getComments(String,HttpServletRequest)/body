@@ -1,0 +1,10 @@
+{
+  List<CommentResponse> result=new ArrayList<CommentResponse>();
+  HistoricTaskInstance task=getHistoricTaskFromRequest(taskId);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
+  for (  Comment comment : taskService.getTaskComments(task.getId())) {
+    result.add(restResponseFactory.createRestComment(comment,serverRootUrl));
+  }
+  return result;
+}

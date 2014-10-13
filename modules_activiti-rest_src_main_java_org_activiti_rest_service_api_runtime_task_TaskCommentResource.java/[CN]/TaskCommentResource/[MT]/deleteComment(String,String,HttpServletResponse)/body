@@ -1,0 +1,9 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  Comment comment=taskService.getComment(commentId);
+  if (comment == null || comment.getTaskId() == null || !comment.getTaskId().equals(task.getId())) {
+    throw new ActivitiObjectNotFoundException("Task '" + task.getId() + "' doesn't have a comment with id '"+ commentId+ "'.",Comment.class);
+  }
+  taskService.deleteComment(commentId);
+  response.setStatus(HttpStatus.NO_CONTENT.value());
+}

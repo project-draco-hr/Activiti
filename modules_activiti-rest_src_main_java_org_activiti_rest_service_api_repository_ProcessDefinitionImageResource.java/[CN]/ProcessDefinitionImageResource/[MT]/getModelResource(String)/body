@@ -1,0 +1,10 @@
+{
+  ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
+  InputStream imageStream=repositoryService.getProcessDiagram(processDefinition.getId());
+  try {
+    return IOUtils.toByteArray(imageStream);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error reading image stream",e);
+  }
+}

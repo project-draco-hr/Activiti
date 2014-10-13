@@ -8,10 +8,7 @@
     identityService.saveUser(newUser);
     savedUser=newUser;
     identityService.setUserInfo(newUser.getId(),"key1","Value 1");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1"));
-    Representation response=client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-    assertEquals(0,response.getSize());
+    executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")),HttpStatus.SC_NO_CONTENT);
     assertNull(identityService.getUserInfo(newUser.getId(),"key1"));
   }
   finally {
