@@ -1,12 +1,3 @@
 {
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,"unexisting"));
-  try {
-    client.get();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-    assertEquals("Could not find an execution with id 'unexisting'.",expected.getStatus().getDescription());
-  }
-  client.release();
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,"unexisting")),HttpStatus.SC_NOT_FOUND);
 }

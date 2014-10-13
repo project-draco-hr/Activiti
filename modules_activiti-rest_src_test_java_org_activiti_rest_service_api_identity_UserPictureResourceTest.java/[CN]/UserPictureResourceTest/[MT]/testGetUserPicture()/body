@@ -7,15 +7,11 @@
     newUser.setEmail("no-reply@activiti.org");
     identityService.saveUser(newUser);
     savedUser=newUser;
-    MediaType mediaType=MediaType.IMAGE_PNG;
-    Picture thePicture=new Picture("this is the picture raw byte stream".getBytes(),mediaType.toString());
+    Picture thePicture=new Picture("this is the picture raw byte stream".getBytes(),"image/png");
     identityService.setUserPicture(newUser.getId(),thePicture);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_PICTURE,newUser.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    assertEquals("this is the picture raw byte stream",response.getText());
-    String typeFromResponse=getMediaType(client);
-    assertEquals(mediaType.toString(),typeFromResponse);
+    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_PICTURE,newUser.getId())),HttpStatus.SC_OK);
+    assertEquals("this is the picture raw byte stream",IOUtils.toString(response.getEntity().getContent()));
+    assertEquals("image/png",response.getEntity().getContentType().getValue());
   }
   finally {
     if (savedUser != null) {

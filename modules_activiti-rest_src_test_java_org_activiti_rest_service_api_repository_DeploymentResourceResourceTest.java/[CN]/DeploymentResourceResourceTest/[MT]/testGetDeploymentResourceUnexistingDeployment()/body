@@ -1,11 +1,5 @@
 {
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,"unexisting","resource.png"));
-  try {
-    client.get();
-    fail("Expected 404 status, but was: " + client.getStatus());
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-    assertEquals("Could not find a deployment with id 'unexisting'.",expected.getStatus().getDescription());
-  }
+  HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,"unexisting","resource.png"));
+  httpGet.addHeader(new BasicHeader(HttpHeaders.ACCEPT,"image/png,application/json"));
+  executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
 }

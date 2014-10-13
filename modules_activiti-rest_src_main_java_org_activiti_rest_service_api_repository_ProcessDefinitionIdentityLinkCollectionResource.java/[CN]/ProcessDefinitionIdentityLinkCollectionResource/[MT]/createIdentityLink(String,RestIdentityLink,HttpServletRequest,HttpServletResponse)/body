@@ -13,7 +13,7 @@
     repositoryService.addCandidateStarterUser(processDefinition.getId(),identityLink.getUser());
   }
   identityLink.setType(IdentityLinkType.CANDIDATE);
-  response.setStatus(HttpStatus.SC_CREATED);
+  response.setStatus(HttpStatus.CREATED.value());
   String serverRootUrl=request.getRequestURL().toString();
   serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/process-definitions/"));
   return restResponseFactory.createRestIdentityLink(identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),null,processDefinition.getId(),null,serverRootUrl);

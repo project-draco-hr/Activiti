@@ -7,10 +7,9 @@
     taskService.saveTask(task);
     taskService.addUserIdentityLink(task.getId(),"gonzo","someType");
     Event event=taskService.getTaskEvents(task.getId()).get(0);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,task.getId(),event.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,task.getId(),event.getId()));
+    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertEquals(event.getId(),responseNode.get("id").textValue());
     assertEquals(event.getAction(),responseNode.get("action").textValue());

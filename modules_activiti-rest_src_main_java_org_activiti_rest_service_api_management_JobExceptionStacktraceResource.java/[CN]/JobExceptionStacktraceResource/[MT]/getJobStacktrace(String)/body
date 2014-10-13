@@ -1,8 +1,0 @@
-{
-  Job job=getJobFromResponse(jobId);
-  String stackTrace=managementService.getJobExceptionStacktrace(job.getId());
-  if (stackTrace == null) {
-    throw new ActivitiObjectNotFoundException("Job with id '" + job.getId() + "' doesn't have an exception stacktrace.",String.class);
-  }
-  return new StringRepresentation(stackTrace,MediaType.TEXT_PLAIN);
-}

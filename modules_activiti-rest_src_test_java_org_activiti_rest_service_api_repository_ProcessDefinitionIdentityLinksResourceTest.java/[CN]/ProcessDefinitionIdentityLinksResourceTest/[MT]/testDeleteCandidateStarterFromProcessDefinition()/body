@@ -2,17 +2,13 @@
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   repositoryService.addCandidateStarterGroup(processDefinition.getId(),"admin");
   repositoryService.addCandidateStarterUser(processDefinition.getId(),"kermit");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"users","kermit"));
-  Representation response=client.delete();
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-  assertEquals(0,response.getSize());
+  HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"users","kermit"));
+  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
   List<IdentityLink> remainingLinks=repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
   assertEquals(1,remainingLinks.size());
   assertEquals("admin",remainingLinks.get(0).getGroupId());
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"groups","admin"));
-  response=client.delete();
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-  assertEquals(0,response.getSize());
+  httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINK,processDefinition.getId(),"groups","admin"));
+  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
   remainingLinks=repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
   assertEquals(0,remainingLinks.size());
 }

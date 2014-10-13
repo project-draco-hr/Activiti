@@ -4,13 +4,7 @@
   assertNotNull(timerJob);
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("action","unexistinAction");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
-  try {
-    client.post(requestNode);
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-    assertEquals("Invalid action, only 'execute' is supported.",expected.getStatus().getDescription());
-  }
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
 }

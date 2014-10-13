@@ -1,0 +1,20 @@
+{
+  Model model=getModelFromRequest(modelId);
+  if (model != null) {
+    if (request instanceof MultipartHttpServletRequest == false) {
+      throw new ActivitiIllegalArgumentException("Multipart request is required");
+    }
+    MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest)request;
+    if (multipartRequest.getFileMap().size() == 0) {
+      throw new ActivitiIllegalArgumentException("Multipart request with file content is required");
+    }
+    MultipartFile file=multipartRequest.getFileMap().values().iterator().next();
+    try {
+      repositoryService.addModelEditorSource(modelId,file.getBytes());
+      response.setStatus(HttpStatus.NO_CONTENT.value());
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Error adding model editor source extra",e);
+    }
+  }
+}

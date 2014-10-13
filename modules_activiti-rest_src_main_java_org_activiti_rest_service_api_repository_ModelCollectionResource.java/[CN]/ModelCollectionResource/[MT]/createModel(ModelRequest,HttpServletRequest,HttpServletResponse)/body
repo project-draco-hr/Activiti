@@ -8,6 +8,6 @@
   model.setVersion(modelRequest.getVersion());
   model.setTenantId(modelRequest.getTenantId());
   repositoryService.saveModel(model);
-  response.setStatus(HttpStatus.SC_CREATED);
+  response.setStatus(HttpStatus.CREATED.value());
   return restResponseFactory.createModelResponse(model,request.getRequestURL().toString().replace("/repository/models",""));
 }

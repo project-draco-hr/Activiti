@@ -1,9 +1,7 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_ACTIVITIES_COLLECTION,processInstance.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_ACTIVITIES_COLLECTION,processInstance.getId())),HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(2,responseNode.size());
@@ -12,5 +10,4 @@
   states.add(responseNode.get(1).textValue());
   assertTrue(states.contains("waitState"));
   assertTrue(states.contains("anotherWaitState"));
-  client.release();
 }

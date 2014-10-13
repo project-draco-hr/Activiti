@@ -22,7 +22,7 @@
  else {
       runtimeService.signalEventReceivedAsync(signalRequest.getSignalName());
     }
-    response.setStatus(HttpStatus.SC_ACCEPTED);
+    response.setStatus(HttpStatus.ACCEPTED.value());
   }
  else {
     if (signalRequest.isCustomTenantSet()) {
@@ -31,6 +31,6 @@
  else {
       runtimeService.signalEventReceived(signalRequest.getSignalName(),signalVariables);
     }
-    response.setStatus(HttpStatus.SC_OK);
+    response.setStatus(HttpStatus.NO_CONTENT.value());
   }
 }

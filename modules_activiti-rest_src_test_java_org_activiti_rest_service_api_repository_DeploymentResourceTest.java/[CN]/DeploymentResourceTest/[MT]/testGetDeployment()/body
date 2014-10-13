@@ -1,9 +1,8 @@
 {
   Deployment existingDeployment=repositoryService.createDeploymentQuery().singleResult();
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,existingDeployment.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,existingDeployment.getId()));
+  HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   String deploymentId=responseNode.get("id").textValue();
   String name=responseNode.get("name").textValue();
   String category=responseNode.get("category").textValue();

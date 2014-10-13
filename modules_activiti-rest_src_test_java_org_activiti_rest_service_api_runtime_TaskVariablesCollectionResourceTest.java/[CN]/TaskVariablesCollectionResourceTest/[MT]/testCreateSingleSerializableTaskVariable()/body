@@ -13,11 +13,10 @@
     additionalFields.put("name","serializableVariable");
     additionalFields.put("type","serializable");
     additionalFields.put("scope","local");
-    Representation uploadRepresentation=new HttpMultipartRepresentation("value",binaryContent,additionalFields);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-    Representation response=client.post(uploadRepresentation);
-    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+    httpPost.setEntity(HttpMultipartHelper.getMultiPartEntity("value","application/x-java-serialized-object",binaryContent,additionalFields));
+    HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertEquals("serializableVariable",responseNode.get("name").asText());
     assertTrue(responseNode.get("value").isNull());

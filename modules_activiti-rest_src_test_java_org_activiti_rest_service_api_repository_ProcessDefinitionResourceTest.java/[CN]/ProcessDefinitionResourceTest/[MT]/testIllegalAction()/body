@@ -1,14 +1,9 @@
 {
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
   assertFalse(processDefinition.isSuspended());
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("action","unexistingaction");
-  try {
-    client.put(requestNode);
-    fail("Expected exception");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-  }
+  HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
+  httpPut.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPut,HttpStatus.SC_BAD_REQUEST);
 }

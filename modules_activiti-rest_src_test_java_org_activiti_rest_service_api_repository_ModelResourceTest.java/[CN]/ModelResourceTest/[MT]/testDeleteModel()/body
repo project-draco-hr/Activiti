@@ -11,10 +11,8 @@
     model.setName("Model name");
     model.setVersion(2);
     repositoryService.saveModel(model);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
-    Representation response=client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-    assertEquals(0,response.getSize());
+    HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
+    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
     assertNull(repositoryService.createModelQuery().modelId(model.getId()).singleResult());
     model=null;
   }

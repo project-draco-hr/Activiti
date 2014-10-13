@@ -1,0 +1,13 @@
+{
+  LocalContainerEntityManagerFactoryBean entityManagerFactoryBean=new LocalContainerEntityManagerFactoryBean();
+  entityManagerFactoryBean.setDataSource(dataSource());
+  entityManagerFactoryBean.setPackagesToScan("org.activiti.rest.api.jpa.model");
+  entityManagerFactoryBean.setPersistenceUnitName("test");
+  HibernateJpaVendorAdapter hibernateJpaVendorAdapter=new HibernateJpaVendorAdapter();
+  hibernateJpaVendorAdapter.setShowSql(false);
+  hibernateJpaVendorAdapter.setGenerateDdl(true);
+  hibernateJpaVendorAdapter.setDatabase(Database.H2);
+  entityManagerFactoryBean.setJpaVendorAdapter(hibernateJpaVendorAdapter);
+  entityManagerFactoryBean.afterPropertiesSet();
+  return entityManagerFactoryBean.getObject();
+}

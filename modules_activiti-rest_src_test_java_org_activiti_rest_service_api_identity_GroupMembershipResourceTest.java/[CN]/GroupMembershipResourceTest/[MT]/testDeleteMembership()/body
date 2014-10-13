@@ -7,10 +7,8 @@
     User testUser=identityService.newUser("testuser");
     identityService.saveUser(testUser);
     identityService.createMembership("testuser","testgroup");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,"testgroup","testuser"));
-    Representation response=client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-    assertEquals(0,response.getSize());
+    HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,"testgroup","testuser"));
+    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
     assertNull(identityService.createUserQuery().memberOfGroup("testgroup").singleResult());
   }
   finally {

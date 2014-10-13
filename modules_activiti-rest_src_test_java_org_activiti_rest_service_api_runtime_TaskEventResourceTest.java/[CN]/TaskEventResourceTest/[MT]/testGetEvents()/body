@@ -4,10 +4,9 @@
     taskService.saveTask(task);
     taskService.setAssignee(task.getId(),"kermit");
     taskService.addUserIdentityLink(task.getId(),"gonzo","someType");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT_COLLECTION,task.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT_COLLECTION,task.getId()));
+    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertTrue(responseNode.isArray());
     assertEquals(2,responseNode.size());

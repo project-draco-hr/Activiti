@@ -1,14 +1,8 @@
 {
   try {
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION));
-    try {
-      client.post(null);
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_UNSUPPORTED_MEDIA_TYPE,expected.getStatus());
-      assertEquals("A request body was expected when creating the task.",expected.getStatus().getDescription());
-    }
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION));
+    httpPost.setEntity(null);
+    executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

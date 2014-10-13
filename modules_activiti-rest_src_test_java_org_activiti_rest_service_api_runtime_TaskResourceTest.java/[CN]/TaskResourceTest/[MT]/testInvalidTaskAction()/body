@@ -3,17 +3,11 @@
     Task task=taskService.newTask();
     taskService.saveTask(task);
     String taskId=task.getId();
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("action","unexistingaction");
-    try {
-      client.post(requestNode);
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-      assertEquals("Invalid action: 'unexistingaction'.",expected.getStatus().getDescription());
-    }
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

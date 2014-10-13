@@ -1,0 +1,29 @@
+{
+  Execution execution=getExecutionFromRequest(executionId);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/executions/"));
+  RestVariable result=null;
+  if (request instanceof MultipartHttpServletRequest) {
+    result=setBinaryVariable((MultipartHttpServletRequest)request,execution,RestResponseFactory.VARIABLE_EXECUTION,false,serverRootUrl);
+    if (!result.getName().equals(variableName)) {
+      throw new ActivitiIllegalArgumentException("Variable name in the body should be equal to the name used in the requested URL.");
+    }
+  }
+ else {
+    RestVariable restVariable=null;
+    try {
+      restVariable=objectMapper.readValue(request.getInputStream(),RestVariable.class);
+    }
+ catch (    Exception e) {
+      throw new ActivitiIllegalArgumentException("Error converting request body to RestVariable instance",e);
+    }
+    if (restVariable == null) {
+      throw new ActivitiException("Invalid body was supplied");
+    }
+    if (!restVariable.getName().equals(variableName)) {
+      throw new ActivitiIllegalArgumentException("Variable name in the body should be equal to the name used in the requested URL.");
+    }
+    result=setSimpleVariable(restVariable,execution,false,serverRootUrl);
+  }
+  return result;
+}

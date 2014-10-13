@@ -4,7 +4,7 @@
     throw new ActivitiIllegalArgumentException("Comment text is required.");
   }
   Comment createdComment=taskService.addComment(null,instance.getId(),comment.getMessage());
-  response.setStatus(HttpStatus.SC_CREATED);
+  response.setStatus(HttpStatus.CREATED.value());
   String serverRootUrl=request.getRequestURL().toString();
   serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/history/historic-process-instances/"));
   return restResponseFactory.createRestComment(createdComment,serverRootUrl);

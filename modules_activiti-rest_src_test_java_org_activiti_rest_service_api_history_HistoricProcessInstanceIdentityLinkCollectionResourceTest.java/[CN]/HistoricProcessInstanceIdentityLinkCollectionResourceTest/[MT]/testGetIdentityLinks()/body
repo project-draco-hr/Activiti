@@ -9,10 +9,8 @@
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.setOwner(task.getId(),"test");
   String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_IDENTITY_LINKS,processInstance.getId());
-  ClientResource client=getAuthenticatedClient(url);
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode linksArray=objectMapper.readTree(response.getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
+  JsonNode linksArray=objectMapper.readTree(response.getEntity().getContent());
   assertEquals(3,linksArray.size());
   Map<String,JsonNode> linksMap=new HashMap<String,JsonNode>();
   for (  JsonNode linkNode : linksArray) {

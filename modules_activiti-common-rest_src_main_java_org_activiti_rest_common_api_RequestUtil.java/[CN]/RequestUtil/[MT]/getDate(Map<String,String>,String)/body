@@ -1,7 +1,7 @@
 {
   Date value=null;
   if (requestParams.get(name) != null) {
-    String input=requestParams.get(name);
+    String input=requestParams.get(name).trim();
     if (input.endsWith("Z")) {
       input=input.substring(0,input.length() - 1) + "GMT-00:00";
     }

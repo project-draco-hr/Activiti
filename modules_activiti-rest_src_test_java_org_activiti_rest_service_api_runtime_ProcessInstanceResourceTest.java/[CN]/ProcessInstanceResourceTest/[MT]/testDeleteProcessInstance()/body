@@ -1,7 +1,5 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
-  client.delete();
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())),HttpStatus.SC_NO_CONTENT);
   assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
 }

@@ -8,10 +8,10 @@
   }
   String existingValue=identityService.getUserInfo(user.getId(),userRequest.getKey());
   if (existingValue != null) {
-    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT.getCode(),"User info with key '" + userRequest.getKey() + "' already exists for this user.",null,null);
+    throw new ActivitiConflictException("User info with key '" + userRequest.getKey() + "' already exists for this user.");
   }
   identityService.setUserInfo(user.getId(),userRequest.getKey(),userRequest.getValue());
-  response.setStatus(HttpStatus.SC_CREATED);
+  response.setStatus(HttpStatus.CREATED.value());
   String serverRootUrl=request.getRequestURL().toString();
   serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/users/"));
   return restResponseFactory.createUserInfoResponse(userRequest.getKey(),userRequest.getValue(),user.getId(),serverRootUrl);

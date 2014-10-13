@@ -7,10 +7,8 @@
   taskService.setOwner(task.getId(),"owner");
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(task);
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())),HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertEquals(task.getId(),responseNode.get("id").asText());
   assertEquals(task.getAssignee(),responseNode.get("assignee").asText());
   assertEquals(task.getOwner(),responseNode.get("owner").asText());
@@ -24,11 +22,9 @@
   assertEquals("",responseNode.get("tenantId").textValue());
   assertTrue(responseNode.get("executionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,task.getExecutionId())));
   assertTrue(responseNode.get("processInstanceUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,task.getProcessInstanceId())));
-  assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,encode(task.getProcessDefinitionId()))));
+  assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,task.getProcessDefinitionId())));
   managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
-  response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  responseNode=objectMapper.readTree(response.getStream());
+  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())),HttpStatus.SC_OK);
+  responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertEquals("myTenant",responseNode.get("tenantId").asText());
 }

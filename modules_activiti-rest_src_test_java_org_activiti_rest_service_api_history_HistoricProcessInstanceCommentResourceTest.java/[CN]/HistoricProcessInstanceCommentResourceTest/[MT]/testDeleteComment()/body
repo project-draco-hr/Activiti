@@ -5,28 +5,9 @@
     identityService.setAuthenticatedUserId("kermit");
     Comment comment=taskService.addComment(null,pi.getId(),"This is a comment...");
     identityService.setAuthenticatedUserId(null);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId()));
-    Representation response=client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-    assertEquals(0,response.getSize());
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,"unexistinginstance","123"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Could not find a process instance with id 'unexistinginstance'.",expected.getStatus().getDescription());
-    }
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),"unexistingcomment"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Process instance '" + pi.getId() + "' doesn't have a comment with id 'unexistingcomment'.",expected.getStatus().getDescription());
-    }
+    executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())),HttpStatus.SC_NO_CONTENT);
+    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,"unexistinginstance","123")),HttpStatus.SC_NOT_FOUND);
+    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),"unexistingcomment")),HttpStatus.SC_NOT_FOUND);
   }
   finally {
     if (pi != null) {

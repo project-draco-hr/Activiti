@@ -4,9 +4,8 @@
   assertNotNull(timerJob);
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("action","execute");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
-  Representation response=client.post(requestNode);
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-  assertEquals(0L,response.getSize());
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
   assertNull(managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult());
 }

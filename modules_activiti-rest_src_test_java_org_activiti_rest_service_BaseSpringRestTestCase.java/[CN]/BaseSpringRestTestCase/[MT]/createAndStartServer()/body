@@ -6,6 +6,11 @@
   applicationContext.register(ApplicationConfiguration.class);
   applicationContext.refresh();
   appContext=applicationContext;
-  server.setHandler(getServletContextHandler(applicationContext));
-  server.start();
+  try {
+    server.setHandler(getServletContextHandler(applicationContext));
+    server.start();
+  }
+ catch (  Exception e) {
+    log.error("Error starting server",e);
+  }
 }

@@ -1,12 +1,4 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_DIAGRAM,processInstance.getId()));
-  try {
-    client.get();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-    assertEquals("Process instance with id '" + processInstance.getId() + "' has no graphical notation defined.",expected.getStatus().getDescription());
-  }
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_DIAGRAM,processInstance.getId())),HttpStatus.SC_BAD_REQUEST);
 }

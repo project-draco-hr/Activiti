@@ -3,13 +3,13 @@
     throw new ActivitiIllegalArgumentException("Id cannot be null.");
   }
   if (identityService.createGroupQuery().groupId(groupRequest.getId()).count() > 0) {
-    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT.getCode(),"A group with id '" + groupRequest.getId() + "' already exists.",null,null);
+    throw new ActivitiConflictException("A group with id '" + groupRequest.getId() + "' already exists.");
   }
   Group created=identityService.newGroup(groupRequest.getId());
   created.setId(groupRequest.getId());
   created.setName(groupRequest.getName());
   created.setType(groupRequest.getType());
   identityService.saveGroup(created);
-  response.setStatus(HttpStatus.SC_CREATED);
+  response.setStatus(HttpStatus.CREATED.value());
   return restResponseFactory.createGroupResponse(created,httpRequest.getRequestURL().toString().replace("/identity/groups",""));
 }

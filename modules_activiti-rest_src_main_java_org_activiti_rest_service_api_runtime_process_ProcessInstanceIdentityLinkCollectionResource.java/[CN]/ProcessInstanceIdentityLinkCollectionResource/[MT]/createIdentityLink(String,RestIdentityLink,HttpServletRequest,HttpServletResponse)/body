@@ -10,7 +10,7 @@
     throw new ActivitiIllegalArgumentException("The identity link type is required.");
   }
   runtimeService.addUserIdentityLink(processInstance.getId(),identityLink.getUser(),identityLink.getType());
-  response.setStatus(HttpStatus.SC_CREATED);
+  response.setStatus(HttpStatus.CREATED.value());
   String serverRootUrl=request.getRequestURL().toString();
   serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/process-instances/"));
   return restResponseFactory.createRestIdentityLink(identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),null,null,processInstance.getId(),serverRootUrl);

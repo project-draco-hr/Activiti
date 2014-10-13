@@ -1,0 +1,18 @@
+{
+  Deployment deployment=repositoryService.createDeploymentQuery().deploymentId(deploymentId).singleResult();
+  if (deployment == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.");
+  }
+  String pathInfo=request.getPathInfo();
+  String resourceName=pathInfo.replace("/repository/deployments/" + deploymentId + "/resources/","");
+  List<String> resourceList=repositoryService.getDeploymentResourceNames(deploymentId);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/deployments/"));
+  if (resourceList.contains(resourceName)) {
+    DeploymentResourceResponse response=restResponseFactory.createDeploymentResourceResponse(deploymentId,resourceName,contentTypeResolver.resolveContentType(resourceName),serverRootUrl);
+    return response;
+  }
+ else {
+    throw new ActivitiObjectNotFoundException("Could not find a resource with id '" + resourceName + "' in deployment '"+ deploymentId+ "'.");
+  }
+}

@@ -1,17 +1,6 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",Collections.singletonMap("myVariable",(Object)"processValue"));
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"myVariable"));
-  Representation response=client.delete();
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-  assertEquals(0L,response.getSize());
+  executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"myVariable")),HttpStatus.SC_NO_CONTENT);
   assertFalse(runtimeService.hasVariable(processInstance.getId(),"myVariable"));
-  client.release();
-  try {
-    client.delete();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-    assertEquals("Execution '" + processInstance.getId() + "' doesn't have a variable 'myVariable' in scope local",expected.getStatus().getDescription());
-  }
+  executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"myVariable")),HttpStatus.SC_NOT_FOUND);
 }

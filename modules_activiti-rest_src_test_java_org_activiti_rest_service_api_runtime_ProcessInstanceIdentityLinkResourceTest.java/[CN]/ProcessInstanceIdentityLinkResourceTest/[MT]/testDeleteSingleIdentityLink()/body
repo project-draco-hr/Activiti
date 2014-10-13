@@ -1,25 +1,7 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   runtimeService.addUserIdentityLink(processInstance.getId(),"kermit","myType");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"kermit","myType"));
-  client.delete();
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"kermit","myType"));
-  try {
-    client.delete();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-    assertEquals("Could not find the requested identity link.",expected.getStatus().getDescription());
-  }
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,"unexistingprocess",RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType"));
-  try {
-    client.delete();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-    assertEquals("Could not find a process instance with id 'unexistingprocess'.",expected.getStatus().getDescription());
-  }
+  executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"kermit","myType")),HttpStatus.SC_NO_CONTENT);
+  executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,processInstance.getId(),"kermit","myType")),HttpStatus.SC_NOT_FOUND);
+  executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINK,"unexistingprocess",RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType")),HttpStatus.SC_NOT_FOUND);
 }

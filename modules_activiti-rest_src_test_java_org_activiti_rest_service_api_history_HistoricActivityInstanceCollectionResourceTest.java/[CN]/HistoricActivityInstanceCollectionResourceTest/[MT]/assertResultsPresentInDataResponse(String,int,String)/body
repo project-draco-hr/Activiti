@@ -1,5 +1,5 @@
 {
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),200);
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
   JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
   Assert.assertEquals(numberOfResultsExpected,dataNode.size());
   if (expectedActivityIds != null) {

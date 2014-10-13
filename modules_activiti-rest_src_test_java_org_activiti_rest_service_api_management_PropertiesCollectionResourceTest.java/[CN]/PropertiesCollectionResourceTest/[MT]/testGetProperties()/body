@@ -1,9 +1,7 @@
 {
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROPERTIES_COLLECTION));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROPERTIES_COLLECTION)),HttpStatus.SC_OK);
   Map<String,String> properties=managementService.getProperties();
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertEquals(properties.size(),responseNode.size());
   Iterator<Map.Entry<String,JsonNode>> nodes=responseNode.fields();

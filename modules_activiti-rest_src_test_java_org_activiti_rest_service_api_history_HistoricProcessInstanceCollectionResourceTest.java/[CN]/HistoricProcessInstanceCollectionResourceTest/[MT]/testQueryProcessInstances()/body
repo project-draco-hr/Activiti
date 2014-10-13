@@ -23,10 +23,9 @@
   assertResultsPresentInDataResponse(url + "?tenantId=anotherTenant");
   assertResultsPresentInDataResponse(url + "?tenantIdLike=" + encode("%enant"),processInstance3.getId());
   assertResultsPresentInDataResponse(url + "?tenantIdLike=anotherTenant");
-  ClientResource client=getAuthenticatedClient(url + "?processDefinitionKey=oneTaskProcess&sort=startTime");
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode dataNode=objectMapper.readTree(response.getStream()).get("data");
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url + "?processDefinitionKey=oneTaskProcess&sort=startTime"),200);
+  assertEquals(HttpStatus.SC_OK,response.getStatusLine().getStatusCode());
+  JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
   assertEquals(3,dataNode.size());
   assertEquals(processInstance.getId(),dataNode.get(0).get("id").asText());
   assertEquals(processInstance2.getId(),dataNode.get(1).get("id").asText());

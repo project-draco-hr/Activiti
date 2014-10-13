@@ -7,7 +7,7 @@
     ProcessDefinition twoTaskprocess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("twoTaskProcess").deploymentId(secondDeployment.getId()).singleResult();
     String baseUrl=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_COLLECTION);
     assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId());
-    String url=baseUrl + "?name=The Two Task Process";
+    String url=baseUrl + "?name=" + encode("The Two Task Process");
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
     url=baseUrl + "?nameLike=" + encode("The Two%");
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
@@ -15,7 +15,7 @@
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
     url=baseUrl + "?key=oneTaskProcess";
     assertResultsPresentInDataResponse(url,oneTaskProcess.getId(),latestOneTaskProcess.getId());
-    url=baseUrl + "?keyLike=two%";
+    url=baseUrl + "?keyLike=" + encode("two%");
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
     url=baseUrl + "?category=TwoTaskCategory";
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
@@ -43,15 +43,8 @@
     url=baseUrl + "?suspended=false";
     assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),oneTaskProcess.getId());
     url=baseUrl + "?latest=true&name=anyname";
-    try {
-      ClientResource client=getAuthenticatedClient(url);
-      client.get();
-      fail("400 status expected, but was: " + client.getResponse().getStatus());
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-      assertEquals("Calling latest() can only be used in combination with key(String) and keyLike(String)",expected.getStatus().getDescription());
-    }
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + url);
+    executeHttpRequest(httpGet,HttpStatus.SC_BAD_REQUEST);
   }
   finally {
     List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
