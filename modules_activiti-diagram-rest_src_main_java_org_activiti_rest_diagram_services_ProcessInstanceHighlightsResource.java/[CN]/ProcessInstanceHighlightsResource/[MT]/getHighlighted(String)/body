@@ -1,0 +1,25 @@
+{
+  ObjectNode responseJSON=objectMapper.createObjectNode();
+  responseJSON.put("processInstanceId",processInstanceId);
+  ArrayNode activitiesArray=objectMapper.createArrayNode();
+  ArrayNode flowsArray=objectMapper.createArrayNode();
+  try {
+    ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+    ProcessDefinitionEntity processDefinition=(ProcessDefinitionEntity)repositoryService.getProcessDefinition(processInstance.getProcessDefinitionId());
+    responseJSON.put("processDefinitionId",processInstance.getProcessDefinitionId());
+    List<String> highLightedActivities=runtimeService.getActiveActivityIds(processInstanceId);
+    List<String> highLightedFlows=getHighLightedFlows(processDefinition,processInstanceId);
+    for (    String activityId : highLightedActivities) {
+      activitiesArray.add(activityId);
+    }
+    for (    String flow : highLightedFlows) {
+      flowsArray.add(flow);
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  responseJSON.put("activities",activitiesArray);
+  responseJSON.put("flows",flowsArray);
+  return responseJSON;
+}

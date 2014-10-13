@@ -2,6 +2,7 @@
   String name=authentication.getName();
   String password=authentication.getCredentials().toString();
   boolean authenticated=identityService.checkPassword(name,password);
+  System.out.println("name " + name + " "+ authenticated);
   if (authenticated) {
     List<Group> groups=identityService.createGroupQuery().groupMember(name).list();
     Collection<GrantedAuthority> grantedAuthorities=new ArrayList<GrantedAuthority>();
@@ -9,6 +10,7 @@
       grantedAuthorities.add(new SimpleGrantedAuthority(group.getId()));
     }
     identityService.setAuthenticatedUserId(name);
+    System.out.println("authenticated " + name);
     return new UsernamePasswordAuthenticationToken(name,password,grantedAuthorities);
   }
  else {
