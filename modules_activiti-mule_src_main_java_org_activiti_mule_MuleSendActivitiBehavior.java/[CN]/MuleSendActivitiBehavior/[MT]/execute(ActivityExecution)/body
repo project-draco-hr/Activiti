@@ -17,35 +17,37 @@
     }
   }
  else {
-    HttpClient client=new HttpClient();
-    PostMethod request=new PostMethod(endpointUrlValue);
+    HttpClientBuilder clientBuilder=HttpClientBuilder.create();
+    if (usernameValue != null && passwordValue != null) {
+      CredentialsProvider provider=new BasicCredentialsProvider();
+      UsernamePasswordCredentials credentials=new UsernamePasswordCredentials(usernameValue,passwordValue);
+      provider.setCredentials(new AuthScope("localhost",-1,"mule-realm"),credentials);
+      clientBuilder.setDefaultCredentialsProvider(provider);
+    }
+    HttpClient client=clientBuilder.build();
+    HttpPost request=new HttpPost(endpointUrlValue);
     try {
       ByteArrayOutputStream baos=new ByteArrayOutputStream();
       ObjectOutputStream oos=new ObjectOutputStream(baos);
       oos.writeObject(payload);
       oos.flush();
       oos.close();
-      request.setRequestEntity(new ByteArrayRequestEntity(baos.toByteArray()));
+      request.setEntity(new ByteArrayEntity(baos.toByteArray()));
     }
  catch (    Exception e) {
       throw new ActivitiException("Error setting message payload",e);
     }
-    if (usernameValue != null && passwordValue != null) {
-      client.getParams().setAuthenticationPreemptive(true);
-      client.getState().setCredentials(new AuthScope("localhost",-1,"mule-realm"),new UsernamePasswordCredentials(usernameValue,passwordValue));
-      request.setDoAuthentication(true);
-    }
-    byte[] response=null;
+    byte[] responseBytes=null;
     try {
-      client.executeMethod(request);
-      response=request.getResponseBody();
+      HttpResponse response=client.execute(request);
+      responseBytes=IOUtils.toByteArray(response.getEntity().getContent());
     }
   finally {
       request.releaseConnection();
     }
-    if (response != null) {
+    if (responseBytes != null) {
       try {
-        ByteArrayInputStream in=new ByteArrayInputStream(response);
+        ByteArrayInputStream in=new ByteArrayInputStream(responseBytes);
         ObjectInputStream is=new ObjectInputStream(in);
         Object result=is.readObject();
         if (resultVariableValue != null) {

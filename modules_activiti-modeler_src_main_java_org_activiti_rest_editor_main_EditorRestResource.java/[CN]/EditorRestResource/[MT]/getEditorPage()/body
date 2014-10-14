@@ -1,6 +1,9 @@
 {
   InputStream editorStream=this.getClass().getClassLoader().getResourceAsStream("editor.html");
-  InputRepresentation editorResultRepresentation=new InputRepresentation(editorStream);
-  editorResultRepresentation.setMediaType(MediaType.APPLICATION_XHTML);
-  return editorResultRepresentation;
+  try {
+    return IOUtils.toString(editorStream);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error while loading editor page",e);
+  }
 }

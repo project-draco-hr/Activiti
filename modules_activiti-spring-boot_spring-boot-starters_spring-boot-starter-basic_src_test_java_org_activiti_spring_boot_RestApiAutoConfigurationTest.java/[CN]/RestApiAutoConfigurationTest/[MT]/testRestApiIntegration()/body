@@ -1,7 +1,9 @@
 {
-  this.context=new AnnotationConfigEmbeddedWebApplicationContext(BaseConfiguration.class);
+  this.context=new AnnotationConfigEmbeddedWebApplicationContext();
+  this.context.register(BaseConfiguration.class);
+  this.context.refresh();
   RestTemplate restTemplate=this.context.getBean(RestTemplate.class);
-  String authenticationChallenge="http://localhost:" + this.context.getEmbeddedServletContainer().getPort() + "/api/process-definitions";
+  String authenticationChallenge="http://localhost:" + this.context.getEmbeddedServletContainer().getPort() + "/repository/process-definitions";
   final AtomicBoolean received403=new AtomicBoolean();
   received403.set(false);
   restTemplate.setErrorHandler(new ResponseErrorHandler(){
@@ -13,6 +15,6 @@
     }
   }
 );
-  restTemplate.getForEntity(authenticationChallenge,Map.class);
+  ResponseEntity<String> response=restTemplate.getForEntity(authenticationChallenge,String.class);
   org.junit.Assert.assertTrue(received403.get());
 }
