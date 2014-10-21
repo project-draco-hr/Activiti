@@ -1,11 +1,3 @@
 {
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,"unexistingjob"));
-  try {
-    client.get();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-    assertEquals("Could not find a job with id 'unexistingjob'.",expected.getStatus().getDescription());
-  }
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,"unexistingjob")),HttpStatus.SC_NOT_FOUND);
 }

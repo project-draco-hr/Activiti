@@ -39,15 +39,7 @@
   assertResultsPresentInDataResponse(url,asyncJob.getId());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?timersOnly=true";
   assertResultsPresentInDataResponse(url,timerJob.getId());
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?timersOnly=true&messagesOnly=true");
-  try {
-    client.get();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,expected.getStatus());
-    assertEquals("Only one of 'timersOnly' or 'messagesOnly' can be provided.",expected.getStatus().getDescription());
-  }
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?timersOnly=true&messagesOnly=true"),HttpStatus.SC_BAD_REQUEST);
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?dueBefore=" + getISODateString(inAnHour.getTime());
   assertResultsPresentInDataResponse(url,timerJob.getId());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?dueBefore=" + getISODateString(hourAgo.getTime());
@@ -58,7 +50,7 @@
   assertResultsPresentInDataResponse(url);
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?withException=true";
   assertResultsPresentInDataResponse(url,timerJob.getId());
-  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?exceptionMessage=" + timerJob.getExceptionMessage();
+  url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?exceptionMessage=" + encode(timerJob.getExceptionMessage());
   assertResultsPresentInDataResponse(url,timerJob.getId());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_COLLECTION) + "?exceptionMessage=";
   assertResultsPresentInDataResponse(url);

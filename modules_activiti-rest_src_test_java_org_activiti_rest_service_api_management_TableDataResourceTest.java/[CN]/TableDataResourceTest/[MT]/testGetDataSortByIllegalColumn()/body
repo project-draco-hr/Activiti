@@ -1,11 +1,4 @@
 {
   String tableName=managementService.getTableName(VariableInstanceEntity.class);
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderAscendingColumn=unexistingColumn");
-  try {
-    client.get();
-    fail("404 expected, but was: " + client.getResponse().getStatus());
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.SERVER_ERROR_INTERNAL,client.getResponse().getStatus());
-  }
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderAscendingColumn=unexistingColumn"),HttpStatus.SC_INTERNAL_SERVER_ERROR);
 }

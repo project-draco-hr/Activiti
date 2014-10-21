@@ -2,10 +2,8 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   runtimeService.addUserIdentityLink(processInstance.getId(),"john","customType");
   runtimeService.addUserIdentityLink(processInstance.getId(),"paul","candidate");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINKS_COLLECTION,processInstance.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_IDENTITYLINKS_COLLECTION,processInstance.getId())),HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(2,responseNode.size());

@@ -1,0 +1,18 @@
+{
+  ServletContext servletContext=sce.getServletContext();
+  log.debug("Configuring Spring root application context");
+  AnnotationConfigWebApplicationContext rootContext=null;
+  if (context == null) {
+    rootContext=new AnnotationConfigWebApplicationContext();
+    rootContext.register(ApplicationConfiguration.class);
+    rootContext.refresh();
+  }
+ else {
+    rootContext=context;
+  }
+  servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,rootContext);
+  EnumSet<DispatcherType> disps=EnumSet.of(DispatcherType.REQUEST,DispatcherType.FORWARD,DispatcherType.ASYNC);
+  initSpring(servletContext,rootContext);
+  initSpringSecurity(servletContext,disps);
+  log.debug("Web application fully configured");
+}

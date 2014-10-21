@@ -1,0 +1,6 @@
+{
+  Task task=getTaskFromRequest(taskId);
+  Collection<String> currentVariables=taskService.getVariablesLocal(task.getId()).keySet();
+  taskService.removeVariablesLocal(task.getId(),currentVariables);
+  response.setStatus(HttpStatus.NO_CONTENT.value());
+}

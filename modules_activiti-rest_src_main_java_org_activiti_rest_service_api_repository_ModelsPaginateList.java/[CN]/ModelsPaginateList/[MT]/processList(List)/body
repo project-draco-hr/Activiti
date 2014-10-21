@@ -1,8 +1,7 @@
 {
   List<ModelResponse> responseList=new ArrayList<ModelResponse>();
-  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  Object entity : list) {
-    responseList.add(restResponseFactory.createModelResponse(resource,(Model)entity));
+    responseList.add(restResponseFactory.createModelResponse((Model)entity,serverRootUrl));
   }
   return responseList;
 }

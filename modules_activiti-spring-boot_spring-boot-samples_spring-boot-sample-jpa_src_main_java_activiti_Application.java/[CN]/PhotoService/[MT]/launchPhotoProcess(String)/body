@@ -1,0 +1,19 @@
+{
+  List<Photo> photos=new ArrayList<Photo>();
+  for (  String l : photoLabels) {
+    Photo x=this.photoRepository.save(new Photo(l));
+    photos.add(x);
+  }
+  Map<String,Object> procVars=new HashMap<String,Object>();
+  procVars.put("photos",photos);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("dogeProcess",procVars);
+  List<Execution> waitingExecutions=runtimeService.createExecutionQuery().activityId("wait").list();
+  System.out.println("--> # executions = " + waitingExecutions.size());
+  for (  Execution execution : waitingExecutions) {
+    runtimeService.signal(execution.getId());
+  }
+  Task reviewTask=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+  taskService.complete(reviewTask.getId(),Collections.singletonMap("approved",(Object)true));
+  long count=runtimeService.createProcessInstanceQuery().count();
+  System.out.println("Proc count " + count);
+}

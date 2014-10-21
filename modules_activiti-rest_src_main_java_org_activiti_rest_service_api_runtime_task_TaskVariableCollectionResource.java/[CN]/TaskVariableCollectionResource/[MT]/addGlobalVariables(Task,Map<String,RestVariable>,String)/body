@@ -1,0 +1,11 @@
+{
+  if (task.getExecutionId() != null) {
+    Map<String,Object> rawVariables=runtimeService.getVariables(task.getExecutionId());
+    List<RestVariable> globalVariables=restResponseFactory.createRestVariables(rawVariables,task.getId(),RestResponseFactory.VARIABLE_TASK,RestVariableScope.GLOBAL,serverRootUrl);
+    for (    RestVariable var : globalVariables) {
+      if (!variableMap.containsKey(var.getName())) {
+        variableMap.put(var.getName(),var);
+      }
+    }
+  }
+}

@@ -30,13 +30,13 @@
   dateVarNode.put("name","dateVariable");
   dateVarNode.put("value",isoString);
   dateVarNode.put("type","date");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("processDefinitionKey","processOne");
   requestNode.put("variables",variablesNode);
-  client.post(requestNode);
-  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(client.getResponseEntity().getStream());
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertEquals("processTask",responseNode.get("activityId").asText());
   assertEquals(false,responseNode.get("ended").asBoolean());
   JsonNode variablesArrayNode=responseNode.get("variables");
@@ -51,5 +51,5 @@
   assertEquals(4567890L,processVariables.get("longVariable"));
   assertEquals(123.456,processVariables.get("doubleVariable"));
   assertEquals(Boolean.TRUE,processVariables.get("booleanVariable"));
-  assertEquals(varCal.getTime(),processVariables.get("dateVariable"));
+  assertEquals(dateFormat.parse(isoString),processVariables.get("dateVariable"));
 }

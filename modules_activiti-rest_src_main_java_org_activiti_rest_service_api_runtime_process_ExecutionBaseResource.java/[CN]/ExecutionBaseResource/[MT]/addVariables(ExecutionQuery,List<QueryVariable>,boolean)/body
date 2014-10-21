@@ -1,5 +1,4 @@
 {
-  RestResponseFactory responseFacory=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  QueryVariable variable : variables) {
     if (variable.getVariableOperation() == null) {
       throw new ActivitiIllegalArgumentException("Variable operation is missing for variable: " + variable.getName());
@@ -8,7 +7,7 @@
       throw new ActivitiIllegalArgumentException("Variable value is missing for variable: " + variable.getName());
     }
     boolean nameLess=variable.getName() == null;
-    Object actualValue=responseFacory.getVariableValue(variable);
+    Object actualValue=restResponseFactory.getVariableValue(variable);
     if (nameLess && variable.getVariableOperation() != QueryVariableOperation.EQUALS) {
       throw new ActivitiIllegalArgumentException("Value-only query (without a variable-name) is only supported when using 'equals' operation.");
     }

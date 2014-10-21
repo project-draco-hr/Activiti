@@ -1,0 +1,12 @@
+{
+  if (taskRequest == null) {
+    throw new ActivitiException("A request body was expected when updating the task.");
+  }
+  Task task=getTaskFromRequest(taskId);
+  populateTaskFromRequest(task,taskRequest);
+  taskService.saveTask(task);
+  task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
+  return restResponseFactory.createTaskResponse(task,serverRootUrl);
+}

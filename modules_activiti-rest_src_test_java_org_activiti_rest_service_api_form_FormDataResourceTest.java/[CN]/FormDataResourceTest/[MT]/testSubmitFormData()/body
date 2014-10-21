@@ -7,7 +7,6 @@
   String processInstanceId=processInstance.getId();
   String processDefinitionId=processInstance.getProcessDefinitionId();
   Task task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA));
   ObjectNode requestNode=objectMapper.createObjectNode();
   requestNode.put("taskId",task.getId());
   ArrayNode propertyArray=objectMapper.createArrayNode();
@@ -16,19 +15,15 @@
   propNode.put("id","room");
   propNode.put("value",123l);
   propertyArray.add(propNode);
-  try {
-    client.post(requestNode);
-  }
- catch (  Exception e) {
-    assertEquals(Status.SERVER_ERROR_INTERNAL,client.getResponse().getStatus());
-  }
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_INTERNAL_SERVER_ERROR);
   propNode=objectMapper.createObjectNode();
   propNode.put("id","street");
   propNode.put("value","test");
   propertyArray.add(propNode);
-  client.release();
-  client.post(requestNode);
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
   task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
   assertNull(task);
   processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
@@ -48,17 +43,11 @@
   propNode.put("id","direction");
   propNode.put("value","nowhere");
   propertyArray.add(propNode);
-  try {
-    client.release();
-    client.post(requestNode);
-  }
- catch (  Exception e) {
-    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,client.getResponse().getStatus());
-  }
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
   propNode.put("value","up");
-  client.release();
-  client.post(requestNode);
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
   task=taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
   assertNull(task);
   processInstance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
@@ -79,10 +68,9 @@
   propNode.put("id","number");
   propNode.put("value",123);
   propertyArray.add(propNode);
-  client.release();
-  Representation response=client.post(requestNode);
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode.get("id").asText());
   assertEquals(processDefinitionId,responseNode.get("processDefinitionId").asText());
   task=taskService.createTaskQuery().processInstanceId(responseNode.get("id").asText()).singleResult();

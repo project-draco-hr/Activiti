@@ -4,8 +4,6 @@
   WorkflowDefinitionConversionFactory conversionFactory=new WorkflowDefinitionConversionFactory();
   WorkflowDefinitionConversion conversion=conversionFactory.createWorkflowDefinitionConversion(workflowDefinition);
   conversion.convert();
-  ProcessEngine processEngine=ActivitiUtil.getProcessEngine();
-  RepositoryService repositoryService=processEngine.getRepositoryService();
   BpmnModel bpmnModel=conversion.getBpmnModel();
   Deployment deployment=repositoryService.createDeployment().addBpmnModel(bpmnModel.getProcesses().get(0).getName() + ".bpmn20.xml",bpmnModel).deploy();
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();

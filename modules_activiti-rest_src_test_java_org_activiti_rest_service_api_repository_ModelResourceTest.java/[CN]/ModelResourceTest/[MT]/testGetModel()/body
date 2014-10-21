@@ -13,10 +13,9 @@
     model.setDeploymentId(deploymentId);
     model.setTenantId("myTenant");
     repositoryService.saveModel(model);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
+    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertEquals("Model name",responseNode.get("name").textValue());
     assertEquals("Model key",responseNode.get("key").textValue());

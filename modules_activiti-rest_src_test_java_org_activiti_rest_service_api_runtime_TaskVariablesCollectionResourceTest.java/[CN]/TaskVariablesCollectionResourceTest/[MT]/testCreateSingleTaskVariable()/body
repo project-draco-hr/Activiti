@@ -7,10 +7,10 @@
   variableNode.put("value","simple string value");
   variableNode.put("scope","local");
   variableNode.put("type","string");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-  Representation response=client.post(requestNode);
-  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream()).get(0);
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
   assertNotNull(responseNode);
   assertEquals("myVariable",responseNode.get("name").asText());
   assertEquals("simple string value",responseNode.get("value").asText());
@@ -19,15 +19,14 @@
   assertNull(responseNode.get("valueUrl"));
   assertTrue(taskService.hasVariableLocal(task.getId(),"myVariable"));
   assertEquals("simple string value",taskService.getVariableLocal(task.getId(),"myVariable"));
-  response.release();
   variableNode.put("name","myVariable");
   variableNode.put("value","Another simple string value");
   variableNode.put("scope","global");
   variableNode.put("type","string");
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-  response=client.post(requestNode);
-  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-  responseNode=objectMapper.readTree(response.getStream()).get(0);
+  httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
   assertNotNull(responseNode);
   assertEquals("myVariable",responseNode.get("name").asText());
   assertEquals("Another simple string value",responseNode.get("value").asText());
@@ -40,10 +39,10 @@
   variableNode.put("name","scopelessVariable");
   variableNode.put("value","simple string value");
   variableNode.put("type","string");
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-  response=client.post(requestNode);
-  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-  responseNode=objectMapper.readTree(response.getStream()).get(0);
+  httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
   assertNotNull(responseNode);
   assertEquals("scopelessVariable",responseNode.get("name").asText());
   assertEquals("simple string value",responseNode.get("value").asText());
@@ -52,5 +51,4 @@
   assertNull(responseNode.get("valueUrl"));
   assertTrue(taskService.hasVariableLocal(task.getId(),"scopelessVariable"));
   assertEquals("simple string value",taskService.getVariableLocal(task.getId(),"scopelessVariable"));
-  response.release();
 }

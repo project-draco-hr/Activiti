@@ -2,15 +2,16 @@
   ProcessInstance pi=null;
   try {
     pi=runtimeService.startProcessInstanceByKey("oneTaskProcess");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT_COLLECTION,pi.getId()));
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT_COLLECTION,pi.getId()));
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("message","This is a comment...");
-    Representation response=client.post(requestNode);
-    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    assertEquals(HttpStatus.SC_CREATED,response.getStatusLine().getStatusCode());
     List<Comment> commentsOnProcess=taskService.getProcessInstanceComments(pi.getId());
     assertNotNull(commentsOnProcess);
     assertEquals(1,commentsOnProcess.size());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());

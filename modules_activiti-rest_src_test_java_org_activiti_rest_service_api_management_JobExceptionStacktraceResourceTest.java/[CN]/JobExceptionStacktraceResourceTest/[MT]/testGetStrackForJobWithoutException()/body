@@ -2,13 +2,5 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("timerProcess",Collections.singletonMap("error",(Object)Boolean.FALSE));
   Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(timerJob);
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_EXCEPTION_STRACKTRACE,timerJob.getId()));
-  try {
-    client.get();
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-    assertEquals("Job with id '" + timerJob.getId() + "' doesn't have an exception stacktrace.",expected.getStatus().getDescription());
-  }
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_EXCEPTION_STRACKTRACE,timerJob.getId())),HttpStatus.SC_NOT_FOUND);
 }

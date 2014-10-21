@@ -6,19 +6,12 @@
   requestNode.put("signalName","unexisting");
   Execution waitingExecution=runtimeService.createExecutionQuery().activityId("waitState").singleResult();
   assertNotNull(waitingExecution);
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,waitingExecution.getId()));
-  try {
-    client.put(requestNode);
-    fail("Exception expected");
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.SERVER_ERROR_INTERNAL,expected.getStatus());
-    assertEquals("Execution '" + waitingExecution.getId() + "' has not subscribed to a signal event with name 'unexisting'.",expected.getStatus().getDescription());
-  }
+  HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,waitingExecution.getId()));
+  httpPut.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPut,HttpStatus.SC_INTERNAL_SERVER_ERROR);
   requestNode.put("signalName","alert");
-  client.put(requestNode);
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
-  client.release();
+  httpPut.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPut,HttpStatus.SC_NO_CONTENT);
   waitingExecution=runtimeService.createExecutionQuery().activityId("anotherWaitState").singleResult();
   assertNotNull(waitingExecution);
   assertEquals(signalExecution.getId(),waitingExecution.getId());

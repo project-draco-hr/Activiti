@@ -1,0 +1,12 @@
+{
+  ProcessInstance processInstance=getProcessInstanceFromRequest(processInstanceId);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/process-instances/"));
+  if (ProcessInstanceActionRequest.ACTION_ACTIVATE.equals(actionRequest.getAction())) {
+    return activateProcessInstance(processInstance,serverRootUrl);
+  }
+ else   if (ProcessInstanceActionRequest.ACTION_SUSPEND.equals(actionRequest.getAction())) {
+    return suspendProcessInstance(processInstance,serverRootUrl);
+  }
+  throw new ActivitiIllegalArgumentException("Invalid action: '" + actionRequest.getAction() + "'.");
+}

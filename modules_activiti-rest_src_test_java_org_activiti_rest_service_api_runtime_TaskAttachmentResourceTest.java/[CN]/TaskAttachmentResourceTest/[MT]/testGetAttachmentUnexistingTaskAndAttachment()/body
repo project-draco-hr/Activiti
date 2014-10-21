@@ -4,24 +4,8 @@
     taskService.saveTask(task);
     Attachment urlAttachment=taskService.createAttachment("simpleType",task.getId(),null,"Simple attachment","Simple attachment description","http://activiti.org");
     taskService.saveAttachment(urlAttachment);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,"unexistingtask",urlAttachment.getId()));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Could not find a task with id 'unexistingtask'.",expected.getStatus().getDescription());
-    }
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),"unexistingattachment"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Task '" + task.getId() + "' doesn't have an attachment with id 'unexistingattachment'.",expected.getStatus().getDescription());
-    }
+    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,"unexistingtask",urlAttachment.getId())),HttpStatus.SC_NOT_FOUND);
+    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),"unexistingattachment")),HttpStatus.SC_NOT_FOUND);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

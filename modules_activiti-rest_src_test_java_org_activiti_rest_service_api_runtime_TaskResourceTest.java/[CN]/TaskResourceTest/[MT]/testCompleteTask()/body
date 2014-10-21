@@ -3,16 +3,16 @@
     Task task=taskService.newTask();
     taskService.saveTask(task);
     String taskId=task.getId();
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("action","complete");
-    client.post(requestNode);
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPost,HttpStatus.SC_OK);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNull(task);
     ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
     task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
     taskId=task.getId();
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     requestNode=objectMapper.createObjectNode();
     ArrayNode variablesNode=objectMapper.createArrayNode();
     requestNode.put("action","complete");
@@ -25,7 +25,9 @@
     variablesNode.add(var2);
     var2.put("name","var2");
     var2.put("value","Second value");
-    client.post(requestNode);
+    httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    executeHttpRequest(httpPost,HttpStatus.SC_OK);
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {

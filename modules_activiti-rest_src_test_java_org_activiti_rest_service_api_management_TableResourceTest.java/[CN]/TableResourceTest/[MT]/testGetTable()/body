@@ -1,10 +1,8 @@
 {
   Map<String,Long> tableCounts=managementService.getTableCount();
   String tableNameToGet=tableCounts.keySet().iterator().next();
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,tableNameToGet));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE,tableNameToGet)),HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertEquals(tableNameToGet,responseNode.get("name").textValue());
   assertEquals(((Long)tableCounts.get(responseNode.get("name").textValue())).longValue(),responseNode.get("count").longValue());

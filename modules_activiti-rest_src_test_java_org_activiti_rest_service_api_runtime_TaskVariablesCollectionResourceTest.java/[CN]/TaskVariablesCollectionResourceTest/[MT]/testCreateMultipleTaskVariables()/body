@@ -40,10 +40,10 @@
     dateVarNode.put("value",isoString);
     dateVarNode.put("scope","local");
     dateVarNode.put("type","date");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-    Representation response=client.post(requestNode);
-    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertTrue(responseNode.isArray());
     assertEquals(7,responseNode.size());
@@ -55,7 +55,7 @@
     assertEquals(4567890L,taskVariables.get("longVariable"));
     assertEquals(123.456,taskVariables.get("doubleVariable"));
     assertEquals(Boolean.TRUE,taskVariables.get("booleanVariable"));
-    assertEquals(varCal.getTime(),taskVariables.get("dateVariable"));
+    assertEquals(dateFormat.parse(isoString),taskVariables.get("dateVariable"));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

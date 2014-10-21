@@ -1,0 +1,5 @@
+{
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/history/historic-task-instances/"));
+  return restResponseFactory.createHistoricTaskInstanceResponse(getHistoricTaskInstanceFromRequest(taskId),serverRootUrl);
+}

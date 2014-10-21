@@ -1,9 +1,0 @@
-{
-  if (!processInstance.isSuspended()) {
-    throw new ResourceException(Status.CLIENT_ERROR_CONFLICT.getCode(),"Process instance with id '" + processInstance.getId() + "' is already active.",null,null);
-  }
-  ActivitiUtil.getRuntimeService().activateProcessInstanceById(processInstance.getId());
-  ProcessInstanceResponse response=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createProcessInstanceResponse(this,processInstance);
-  response.setSuspended(false);
-  return response;
-}

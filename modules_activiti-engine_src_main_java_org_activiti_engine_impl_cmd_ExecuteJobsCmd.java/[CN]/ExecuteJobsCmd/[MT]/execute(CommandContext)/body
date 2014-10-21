@@ -1,13 +1,15 @@
 {
-  if (jobId == null) {
-    throw new ActivitiIllegalArgumentException("jobId is null");
+  if (jobId == null && job == null) {
+    throw new ActivitiIllegalArgumentException("jobId and job is null");
   }
-  if (log.isDebugEnabled()) {
-    log.debug("Executing job {}",jobId);
+  if (job == null) {
+    job=commandContext.getJobEntityManager().findJobById(jobId);
   }
-  JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
   if (job == null) {
     throw new JobNotFoundException(jobId);
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Executing job {}",job.getId());
   }
   JobExecutorContext jobExecutorContext=Context.getJobExecutorContext();
   if (jobExecutorContext != null) {

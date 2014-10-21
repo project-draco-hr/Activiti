@@ -1,8 +1,7 @@
 {
   List<HistoricActivityInstanceResponse> responseList=new ArrayList<HistoricActivityInstanceResponse>();
-  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  Object instance : list) {
-    responseList.add(restResponseFactory.createHistoricActivityInstanceResponse(resource,(HistoricActivityInstance)instance));
+    responseList.add(restResponseFactory.createHistoricActivityInstanceResponse((HistoricActivityInstance)instance,serverRootUrl));
   }
   return responseList;
 }

@@ -1,7 +1,0 @@
-{
-  byte[] editorSource=ActivitiUtil.getRepositoryService().getModelEditorSourceExtra(model.getId());
-  if (editorSource == null) {
-    throw new ActivitiObjectNotFoundException("Model with id '" + model.getId() + "' does not have extra source available.",String.class);
-  }
-  return new InputRepresentation(new ByteArrayInputStream(editorSource),MediaType.APPLICATION_OCTET_STREAM);
-}

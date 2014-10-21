@@ -1,0 +1,28 @@
+{
+  Model model=getModelFromRequest(modelId);
+  if (modelRequest.isCategoryChanged()) {
+    model.setCategory(modelRequest.getCategory());
+  }
+  if (modelRequest.isDeploymentChanged()) {
+    model.setDeploymentId(modelRequest.getDeploymentId());
+  }
+  if (modelRequest.isKeyChanged()) {
+    model.setKey(modelRequest.getKey());
+  }
+  if (modelRequest.isMetaInfoChanged()) {
+    model.setMetaInfo(modelRequest.getMetaInfo());
+  }
+  if (modelRequest.isNameChanged()) {
+    model.setName(modelRequest.getName());
+  }
+  if (modelRequest.isVersionChanged()) {
+    model.setVersion(modelRequest.getVersion());
+  }
+  if (modelRequest.isTenantIdChanged()) {
+    model.setTenantId(modelRequest.getTenantId());
+  }
+  repositoryService.saveModel(model);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/models/"));
+  return restResponseFactory.createModelResponse(model,serverRootUrl);
+}

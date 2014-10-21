@@ -1,0 +1,7 @@
+{
+  Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
+  if (task == null) {
+    throw new ActivitiObjectNotFoundException("Could not find a task with id '" + taskId + "'.",Task.class);
+  }
+  return task;
+}

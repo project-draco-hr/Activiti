@@ -1,0 +1,10 @@
+{
+  List<CommentResponse> result=new ArrayList<CommentResponse>();
+  HistoricProcessInstance instance=getHistoricProcessInstanceFromRequest(processInstanceId);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/history/historic-process-instances/"));
+  for (  Comment comment : taskService.getProcessInstanceComments(instance.getId())) {
+    result.add(restResponseFactory.createRestComment(comment,serverRootUrl));
+  }
+  return result;
+}

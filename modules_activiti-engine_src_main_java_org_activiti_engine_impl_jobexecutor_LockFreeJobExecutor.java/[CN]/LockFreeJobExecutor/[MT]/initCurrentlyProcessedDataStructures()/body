@@ -1,0 +1,12 @@
+{
+  final int size=Math.max(getQueueSize(),getJobFetchBatchSize());
+  this.currentlyProcessedJobs=Collections.synchronizedSet(new HashSet<String>(size));
+  final int recentlyRemovesJobsMaxSize=(size * 2) + 1;
+  this.recentlyRemovedJobs=Collections.synchronizedMap(new LinkedHashMap<String,JobEntity>(recentlyRemovesJobsMaxSize,0.75f,true){
+    private static final long serialVersionUID=1L;
+    protected boolean removeEldestEntry(    Map.Entry<String,JobEntity> eldest){
+      return size() > recentlyRemovesJobsMaxSize;
+    }
+  }
+);
+}

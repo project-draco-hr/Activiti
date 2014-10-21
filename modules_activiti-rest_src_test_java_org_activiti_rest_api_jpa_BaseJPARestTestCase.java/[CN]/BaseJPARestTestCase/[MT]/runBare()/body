@@ -1,0 +1,26 @@
+{
+  createUsers();
+  log.error(EMPTY_LINE);
+  try {
+    deploymentId=TestHelper.annotationDeploymentSetUp(processEngine,getClass(),getName());
+    super.runBare();
+  }
+ catch (  AssertionFailedError e) {
+    log.error(EMPTY_LINE);
+    log.error("ASSERTION FAILED: {}",e,e);
+    exception=e;
+    throw e;
+  }
+catch (  Throwable e) {
+    log.error(EMPTY_LINE);
+    log.error("EXCEPTION: {}",e,e);
+    exception=e;
+    throw e;
+  }
+ finally {
+    TestHelper.annotationDeploymentTearDown(processEngine,deploymentId,getClass(),getName());
+    dropUsers();
+    assertAndEnsureCleanDb();
+    processEngineConfiguration.getClock().reset();
+  }
+}

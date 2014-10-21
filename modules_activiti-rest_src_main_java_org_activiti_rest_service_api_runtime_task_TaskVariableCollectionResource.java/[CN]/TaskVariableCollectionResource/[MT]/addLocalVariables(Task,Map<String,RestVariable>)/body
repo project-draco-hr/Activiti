@@ -1,7 +1,0 @@
-{
-  Map<String,Object> rawVariables=ActivitiUtil.getTaskService().getVariablesLocal(task.getId());
-  List<RestVariable> localVariables=getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory().createRestVariables(this,rawVariables,task.getId(),RestResponseFactory.VARIABLE_TASK,RestVariableScope.LOCAL);
-  for (  RestVariable var : localVariables) {
-    variableMap.put(var.getName(),var);
-  }
-}

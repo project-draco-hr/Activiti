@@ -3,9 +3,8 @@
     Task task=taskService.newTask();
     taskService.saveTask(task);
     String taskId=task.getId();
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
-    client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
+    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
@@ -14,9 +13,8 @@
     task=taskService.newTask();
     taskService.saveTask(task);
     taskId=task.getId();
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?cascadeHistory=true");
-    client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?cascadeHistory=true");
+    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
@@ -25,9 +23,8 @@
     task=taskService.newTask();
     taskService.saveTask(task);
     taskId=task.getId();
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?deleteReason=fortestingpurposes");
-    client.delete();
-    assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+    httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?deleteReason=fortestingpurposes");
+    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {

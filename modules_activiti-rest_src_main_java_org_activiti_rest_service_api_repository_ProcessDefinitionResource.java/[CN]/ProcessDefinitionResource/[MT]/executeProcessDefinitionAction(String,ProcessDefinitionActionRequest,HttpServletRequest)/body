@@ -1,0 +1,26 @@
+{
+  if (actionRequest == null) {
+    throw new ActivitiIllegalArgumentException("No action found in request body.");
+  }
+  ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
+  boolean isGraphicalNotationDefined=((ProcessDefinitionEntity)processDefinition).isGraphicalNotationDefined();
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/process-definitions/"));
+  if (actionRequest.getCategory() != null) {
+    repositoryService.setProcessDefinitionCategory(processDefinition.getId(),actionRequest.getCategory());
+    ProcessDefinitionResponse response=restResponseFactory.createProcessDefinitionResponse(processDefinition,isGraphicalNotationDefined,serverRootUrl);
+    response.setCategory(actionRequest.getCategory());
+    return response;
+  }
+ else {
+    if (actionRequest.getAction() != null) {
+      if (ProcessDefinitionActionRequest.ACTION_SUSPEND.equals(actionRequest.getAction())) {
+        return suspendProcessDefinition(processDefinition,actionRequest.isIncludeProcessInstances(),actionRequest.getDate(),isGraphicalNotationDefined,serverRootUrl);
+      }
+ else       if (ProcessDefinitionActionRequest.ACTION_ACTIVATE.equals(actionRequest.getAction())) {
+        return activateProcessDefinition(processDefinition,actionRequest.isIncludeProcessInstances(),actionRequest.getDate(),isGraphicalNotationDefined,serverRootUrl);
+      }
+    }
+    throw new ActivitiIllegalArgumentException("Invalid action: '" + actionRequest.getAction() + "'.");
+  }
+}

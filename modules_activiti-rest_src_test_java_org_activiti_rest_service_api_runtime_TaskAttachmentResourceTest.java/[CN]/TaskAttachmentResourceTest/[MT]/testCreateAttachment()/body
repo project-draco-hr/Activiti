@@ -2,18 +2,18 @@
   try {
     Task task=taskService.newTask();
     taskService.saveTask(task);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId()));
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("name","Simple attachment");
     requestNode.put("description","Simple attachment description");
     requestNode.put("type","simpleType");
     requestNode.put("externalUrl","http://activiti.org");
-    Representation response=client.post(requestNode);
-    assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+    HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId()));
+    httpPost.setEntity(new StringEntity(requestNode.toString()));
+    HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
     List<Attachment> attachments=taskService.getTaskAttachments(task.getId());
     assertEquals(1,attachments.size());
     Attachment urlAttachment=attachments.get(0);
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertEquals(urlAttachment.getId(),responseNode.get("id").textValue());
     assertEquals("simpleType",responseNode.get("type").textValue());
     assertEquals("Simple attachment",responseNode.get("name").textValue());

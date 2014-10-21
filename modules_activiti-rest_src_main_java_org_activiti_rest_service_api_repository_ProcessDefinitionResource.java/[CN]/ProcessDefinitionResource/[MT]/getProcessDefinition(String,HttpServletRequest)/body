@@ -1,0 +1,6 @@
+{
+  ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/process-definitions/"));
+  return restResponseFactory.createProcessDefinitionResponse(processDefinition,((ProcessDefinitionEntity)processDefinition).isGraphicalNotationDefined(),serverRootUrl);
+}

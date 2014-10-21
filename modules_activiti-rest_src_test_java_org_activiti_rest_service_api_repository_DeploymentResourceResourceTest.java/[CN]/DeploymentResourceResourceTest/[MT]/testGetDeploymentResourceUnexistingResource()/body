@@ -1,15 +1,9 @@
 {
   try {
     Deployment deployment=repositoryService.createDeployment().name("Deployment 1").addInputStream("test.txt",new ByteArrayInputStream("Test content".getBytes())).deploy();
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),"unexisting-resource.png"));
-    try {
-      client.get();
-      fail("Expected 404 status, but was: " + client.getStatus());
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Could not find a resource with id 'unexisting-resource.png' in deployment '" + deployment.getId() + "'.",expected.getStatus().getDescription());
-    }
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),"unexisting-resource.png"));
+    httpGet.addHeader(new BasicHeader(HttpHeaders.ACCEPT,"image/png,application/json"));
+    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
   }
   finally {
     List<Deployment> deployments=repositoryService.createDeploymentQuery().list();

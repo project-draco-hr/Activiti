@@ -23,10 +23,10 @@
     requestNode.put("deploymentId",(String)null);
     requestNode.put("version",(String)null);
     requestNode.put("tenantId",(String)null);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
-    Representation response=client.put(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
+    httpPut.setEntity(new StringEntity(requestNode.toString()));
+    HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertNull(responseNode.get("name").textValue());
     assertNull(responseNode.get("key").textValue());

@@ -3,24 +3,10 @@
     Task task=taskService.newTask();
     taskService.saveTask(task);
     taskService.addUserIdentityLink(task.getId(),"gonzo","someType");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,task.getId(),"unexisting"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Task '" + task.getId() + "' doesn't have an event with id 'unexisting'.",expected.getStatus().getDescription());
-    }
-    client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,"unexisting","unexistingEvent"));
-    try {
-      client.get();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("Could not find a task with id 'unexisting'.",expected.getStatus().getDescription());
-    }
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,task.getId(),"unexisting"));
+    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,"unexisting","unexistingEvent"));
+    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

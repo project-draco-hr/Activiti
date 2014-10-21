@@ -5,10 +5,8 @@
   variableMap.put("address",address);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",variableMap);
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?taskId=" + task.getId());
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?taskId="+ task.getId()),HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertEquals(7,responseNode.get("formProperties").size());
   Map<String,JsonNode> mappedProperties=new HashMap<String,JsonNode>();
   for (  JsonNode propNode : responseNode.get("formProperties")) {
@@ -90,10 +88,8 @@
   assertEquals("Go Right",mappedEnums.get("right"));
   assertEquals("Go Up",mappedEnums.get("up"));
   assertEquals("Go Down",mappedEnums.get("down"));
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId=" + processInstance.getProcessDefinitionId());
-  response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  responseNode=objectMapper.readTree(response.getStream());
+  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId="+ processInstance.getProcessDefinitionId()),HttpStatus.SC_OK);
+  responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertEquals(2,responseNode.get("formProperties").size());
   mappedProperties.clear();
   for (  JsonNode propertyNode : responseNode.get("formProperties")) {
@@ -117,20 +113,6 @@
   assertTrue(propNode.get("readable").asBoolean());
   assertTrue(propNode.get("writable").asBoolean());
   assertTrue(propNode.get("required").asBoolean() == false);
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId=123");
-  try {
-    response=client.get();
-    fail();
-  }
- catch (  Exception e) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,client.getResponse().getStatus());
-  }
-  client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId2=123");
-  try {
-    response=client.get();
-    fail();
-  }
- catch (  Exception e) {
-    assertEquals(Status.CLIENT_ERROR_BAD_REQUEST,client.getResponse().getStatus());
-  }
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId=123"),HttpStatus.SC_NOT_FOUND);
+  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId2=123"),HttpStatus.SC_BAD_REQUEST);
 }

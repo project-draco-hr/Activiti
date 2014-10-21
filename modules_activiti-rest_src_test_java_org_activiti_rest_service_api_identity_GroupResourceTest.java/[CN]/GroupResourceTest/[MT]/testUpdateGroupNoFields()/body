@@ -4,11 +4,11 @@
     testGroup.setName("Test group");
     testGroup.setType("Test type");
     identityService.saveGroup(testGroup);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup"));
     ObjectNode requestNode=objectMapper.createObjectNode();
-    Representation response=client.put(requestNode);
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup"));
+    httpPut.setEntity(new StringEntity(requestNode.toString()));
+    HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertEquals("testgroup",responseNode.get("id").textValue());
     assertEquals("Test group",responseNode.get("name").textValue());

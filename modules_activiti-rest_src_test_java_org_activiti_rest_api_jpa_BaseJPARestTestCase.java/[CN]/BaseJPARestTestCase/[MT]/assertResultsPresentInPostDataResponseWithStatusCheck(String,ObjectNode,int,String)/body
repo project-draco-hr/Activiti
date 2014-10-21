@@ -1,0 +1,23 @@
+{
+  int numberOfResultsExpected=0;
+  if (expectedResourceIds != null) {
+    numberOfResultsExpected=expectedResourceIds.length;
+  }
+  HttpPost post=new HttpPost(SERVER_URL_PREFIX + url);
+  post.setEntity(new StringEntity(body.toString()));
+  HttpResponse response=executeHttpRequest(post,expectedStatusCode);
+  if (expectedStatusCode == HttpStatus.SC_OK) {
+    JsonNode rootNode=objectMapper.readTree(response.getEntity().getContent());
+    JsonNode dataNode=rootNode.get("data");
+    assertEquals(numberOfResultsExpected,dataNode.size());
+    if (expectedResourceIds != null) {
+      List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedResourceIds));
+      Iterator<JsonNode> it=dataNode.iterator();
+      while (it.hasNext()) {
+        String id=it.next().get("id").textValue();
+        toBeFound.remove(id);
+      }
+      assertTrue("Not all entries have been found in result, missing: " + StringUtils.join(toBeFound,", "),toBeFound.isEmpty());
+    }
+  }
+}

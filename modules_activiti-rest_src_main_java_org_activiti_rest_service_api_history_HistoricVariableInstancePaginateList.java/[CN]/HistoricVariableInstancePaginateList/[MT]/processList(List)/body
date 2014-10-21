@@ -1,8 +1,7 @@
 {
   List<HistoricVariableInstanceResponse> responseList=new ArrayList<HistoricVariableInstanceResponse>();
-  RestResponseFactory restResponseFactory=resource.getApplication(ActivitiRestServicesApplication.class).getRestResponseFactory();
   for (  Object instance : list) {
-    responseList.add(restResponseFactory.createHistoricVariableInstanceResponse(resource,(HistoricVariableInstance)instance));
+    responseList.add(restResponseFactory.createHistoricVariableInstanceResponse((HistoricVariableInstance)instance,serverRootUrl));
   }
   return responseList;
 }

@@ -1,17 +1,17 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   Task task=taskService.createTaskQuery().singleResult();
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,task.getId()));
   ObjectNode requestNode=objectMapper.createObjectNode();
   String message="test";
   requestNode.put("message",message);
   requestNode.put("saveProcessInstanceId",true);
-  Representation response=client.post(requestNode);
-  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,task.getId()));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
   List<Comment> commentsOnTask=taskService.getTaskComments(task.getId());
   assertNotNull(commentsOnTask);
   assertEquals(1,commentsOnTask.size());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertEquals(processInstance.getId(),responseNode.get("processInstanceId").asText());
   assertEquals(task.getId(),responseNode.get("taskId").asText());

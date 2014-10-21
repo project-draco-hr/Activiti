@@ -9,10 +9,8 @@
     savedUser=newUser;
     identityService.setUserInfo(newUser.getId(),"key1","Value 1");
     identityService.setUserInfo(newUser.getId(),"key2","Value 2");
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,newUser.getId()));
-    Representation response=client.get();
-    assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-    JsonNode responseNode=objectMapper.readTree(response.getStream());
+    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,newUser.getId())),HttpStatus.SC_OK);
+    JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     assertNotNull(responseNode);
     assertTrue(responseNode.isArray());
     assertEquals(2,responseNode.size());

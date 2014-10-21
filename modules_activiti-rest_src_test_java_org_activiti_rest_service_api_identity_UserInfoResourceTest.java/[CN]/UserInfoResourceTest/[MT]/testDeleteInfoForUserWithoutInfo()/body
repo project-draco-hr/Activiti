@@ -7,15 +7,7 @@
     newUser.setEmail("no-reply@activiti.org");
     identityService.saveUser(newUser);
     savedUser=newUser;
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,"testuser","key1"));
-    try {
-      client.delete();
-      fail("Exception expected");
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,expected.getStatus());
-      assertEquals("User info with key 'key1' does not exists for user 'testuser'.",expected.getStatus().getDescription());
-    }
+    executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,"testuser","key1")),HttpStatus.SC_NOT_FOUND);
   }
   finally {
     if (savedUser != null) {

@@ -1,0 +1,6 @@
+{
+  User user=getUserFromRequest(userId);
+  String validKey=getValidKeyFromRequest(user,key);
+  identityService.setUserInfo(user.getId(),validKey,null);
+  response.setStatus(HttpStatus.NO_CONTENT.value());
+}

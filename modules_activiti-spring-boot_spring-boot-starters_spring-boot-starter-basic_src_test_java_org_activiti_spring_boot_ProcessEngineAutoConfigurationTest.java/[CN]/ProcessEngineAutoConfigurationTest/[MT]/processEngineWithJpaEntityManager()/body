@@ -1,0 +1,8 @@
+{
+  AnnotationConfigApplicationContext context=this.context(DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class,JpaProcessEngineAutoConfiguration.JpaConfiguration.class);
+  Assert.assertNotNull("entityManagerFactory should not be null",context.getBean(EntityManagerFactory.class));
+  Assert.assertNotNull("the processEngine should not be null!",context.getBean(ProcessEngine.class));
+  SpringProcessEngineConfiguration configuration=context.getBean(SpringProcessEngineConfiguration.class);
+  Assert.assertNotNull("the " + SpringProcessEngineConfiguration.class.getName() + " should not be null",configuration);
+  Assert.assertNotNull(configuration.getJpaEntityManagerFactory());
+}

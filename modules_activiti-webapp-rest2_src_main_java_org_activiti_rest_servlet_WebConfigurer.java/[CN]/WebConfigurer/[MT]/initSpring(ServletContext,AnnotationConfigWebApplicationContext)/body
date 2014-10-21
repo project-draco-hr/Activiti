@@ -1,0 +1,12 @@
+{
+  log.debug("Configuring Spring Web application context");
+  AnnotationConfigWebApplicationContext dispatcherServletConfiguration=new AnnotationConfigWebApplicationContext();
+  dispatcherServletConfiguration.setParent(rootContext);
+  dispatcherServletConfiguration.register(DispatcherServletConfiguration.class);
+  log.debug("Registering Spring MVC Servlet");
+  ServletRegistration.Dynamic dispatcherServlet=servletContext.addServlet("dispatcher",new DispatcherServlet(dispatcherServletConfiguration));
+  dispatcherServlet.addMapping("/service/*");
+  dispatcherServlet.setLoadOnStartup(1);
+  dispatcherServlet.setAsyncSupported(true);
+  return dispatcherServlet;
+}

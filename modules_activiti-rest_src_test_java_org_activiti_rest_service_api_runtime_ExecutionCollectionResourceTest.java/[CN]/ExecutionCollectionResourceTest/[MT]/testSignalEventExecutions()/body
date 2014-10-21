@@ -6,11 +6,10 @@
   requestNode.put("signalName","alert");
   Execution waitingExecution=runtimeService.createExecutionQuery().activityId("waitState").singleResult();
   assertNotNull(waitingExecution);
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION));
-  client.put(requestNode);
-  assertEquals(Status.SUCCESS_NO_CONTENT,client.getResponse().getStatus());
+  HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_COLLECTION));
+  httpPut.setEntity(new StringEntity(requestNode.toString()));
+  executeHttpRequest(httpPut,HttpStatus.SC_NO_CONTENT);
   waitingExecution=runtimeService.createExecutionQuery().activityId("anotherWaitState").singleResult();
   assertNotNull(waitingExecution);
   assertEquals(signalExecution.getId(),waitingExecution.getId());
-  client.release();
 }

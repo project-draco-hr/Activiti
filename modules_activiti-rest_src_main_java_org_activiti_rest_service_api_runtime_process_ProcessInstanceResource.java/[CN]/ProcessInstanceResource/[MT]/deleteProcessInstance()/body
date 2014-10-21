@@ -1,9 +1,0 @@
-{
-  if (!authenticate()) {
-    return;
-  }
-  ProcessInstance processInstance=getProcessInstanceFromRequest();
-  String deleteReason=getQueryParameter("deleteReason",getQuery());
-  ActivitiUtil.getRuntimeService().deleteProcessInstance(processInstance.getId(),deleteReason);
-  setStatus(Status.SUCCESS_NO_CONTENT);
-}

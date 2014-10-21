@@ -1,0 +1,8 @@
+{
+  Group group=getGroupFromRequest(groupId);
+  if (identityService.createUserQuery().memberOfGroup(group.getId()).userId(userId).count() != 1) {
+    throw new ActivitiObjectNotFoundException("User '" + userId + "' is not part of group '"+ group.getId()+ "'.",null);
+  }
+  identityService.deleteMembership(userId,group.getId());
+  response.setStatus(HttpStatus.NO_CONTENT.value());
+}

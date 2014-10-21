@@ -6,17 +6,13 @@
   processVariables.put("message",message);
   ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceByKey("jpa-process",processVariables);
   assertNotNull(processInstance);
-  createUsers(processEngine);
   Task task=processEngine.getTaskService().createTaskQuery().singleResult();
   assertEquals("Activiti is awesome!",task.getName());
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream()).get(0);
+  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId())),HttpStatus.SC_OK);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
   assertNotNull(responseNode);
   assertEquals("message",responseNode.get("name").asText());
   assertEquals("global",responseNode.get("scope").asText());
   assertEquals("serializable",responseNode.get("type").asText());
   assertNotNull(responseNode.get("valueUrl"));
-  dropUsers(processEngine);
 }

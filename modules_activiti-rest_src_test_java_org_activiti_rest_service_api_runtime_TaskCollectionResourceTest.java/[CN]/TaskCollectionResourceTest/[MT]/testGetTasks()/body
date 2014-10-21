@@ -27,11 +27,11 @@
     taskService.saveTask(processTask);
     String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION);
     assertResultsPresentInDataResponse(url,adhocTask.getId(),processTask.getId());
-    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?name=Name one";
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?name=" + encode("Name one");
     assertResultsPresentInDataResponse(url,adhocTask.getId());
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?nameLike=" + encode("%one");
     assertResultsPresentInDataResponse(url,adhocTask.getId());
-    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?description=Description one";
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?description=" + encode("Description one");
     assertResultsPresentInDataResponse(url,adhocTask.getId());
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?descriptionLike=" + encode("%one");
     assertResultsPresentInDataResponse(url,adhocTask.getId());

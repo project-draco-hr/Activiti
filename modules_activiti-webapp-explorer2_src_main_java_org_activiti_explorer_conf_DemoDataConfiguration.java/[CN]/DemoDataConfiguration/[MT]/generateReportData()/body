@@ -1,0 +1,52 @@
+{
+  Thread thread=new Thread(new Runnable(){
+    public void run(){
+      processEngineConfiguration.getJobExecutor().shutdown();
+      Random random=new Random();
+      Date now=new Date(new Date().getTime() - (24 * 60 * 60* 1000));
+      processEngineConfiguration.getClock().setCurrentTime(now);
+      for (int i=0; i < 50; i++) {
+        if (random.nextBoolean()) {
+          runtimeService.startProcessInstanceByKey("fixSystemFailure");
+        }
+        if (random.nextBoolean()) {
+          identityService.setAuthenticatedUserId("kermit");
+          Map<String,Object> variables=new HashMap<String,Object>();
+          variables.put("customerName","testCustomer");
+          variables.put("details","Looks very interesting!");
+          variables.put("notEnoughInformation",false);
+          runtimeService.startProcessInstanceByKey("reviewSaledLead",variables);
+        }
+        if (random.nextBoolean()) {
+          runtimeService.startProcessInstanceByKey("escalationExample");
+        }
+        if (random.nextInt(100) < 20) {
+          now=new Date(now.getTime() - ((24 * 60 * 60* 1000) - (60 * 60 * 1000)));
+          processEngineConfiguration.getClock().setCurrentTime(now);
+        }
+      }
+      List<Job> jobs=managementService.createJobQuery().list();
+      for (int i=0; i < jobs.size() / 2; i++) {
+        processEngineConfiguration.getClock().setCurrentTime(jobs.get(i).getDuedate());
+        managementService.executeJob(jobs.get(i).getId());
+      }
+      List<Task> tasks=taskService.createTaskQuery().list();
+      while (!tasks.isEmpty()) {
+        for (        Task task : tasks) {
+          if (task.getAssignee() == null) {
+            String assignee=random.nextBoolean() ? "kermit" : "fozzie";
+            taskService.claim(task.getId(),assignee);
+          }
+          processEngineConfiguration.getClock().setCurrentTime(new Date(task.getCreateTime().getTime() + random.nextInt(60 * 60 * 1000)));
+          taskService.complete(task.getId());
+        }
+        tasks=taskService.createTaskQuery().list();
+      }
+      processEngineConfiguration.getClock().reset();
+      processEngineConfiguration.getJobExecutor().start();
+      LOGGER.info("Demo report data generated");
+    }
+  }
+);
+  thread.start();
+}

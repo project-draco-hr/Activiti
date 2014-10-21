@@ -1,0 +1,12 @@
+{
+  if (actionRequest == null || !EXECUTE_ACTION.equals(actionRequest.getAction())) {
+    throw new ActivitiIllegalArgumentException("Invalid action, only 'execute' is supported.");
+  }
+  try {
+    managementService.executeJob(jobId);
+  }
+ catch (  ActivitiObjectNotFoundException aonfe) {
+    throw new ActivitiObjectNotFoundException("Could not find a job with id '" + jobId + "'.",Job.class);
+  }
+  response.setStatus(HttpStatus.NO_CONTENT.value());
+}

@@ -1,6 +1,6 @@
 {
   boolean isUser=family.equals(RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS);
-  List<IdentityLink> allLinks=ActivitiUtil.getTaskService().getIdentityLinksForTask(taskId);
+  List<IdentityLink> allLinks=taskService.getIdentityLinksForTask(taskId);
   for (  IdentityLink link : allLinks) {
     boolean rightIdentity=false;
     if (isUser) {

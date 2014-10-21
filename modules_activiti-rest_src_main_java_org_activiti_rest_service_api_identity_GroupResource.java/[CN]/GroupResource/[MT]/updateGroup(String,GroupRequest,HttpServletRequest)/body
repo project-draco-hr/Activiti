@@ -1,0 +1,18 @@
+{
+  Group group=getGroupFromRequest(groupId);
+  if (groupRequest.getId() == null || groupRequest.getId().equals(group.getId())) {
+    if (groupRequest.isNameChanged()) {
+      group.setName(groupRequest.getName());
+    }
+    if (groupRequest.isTypeChanged()) {
+      group.setType(groupRequest.getType());
+    }
+    identityService.saveGroup(group);
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Key provided in request body doesn't match the key in the resource URL.");
+  }
+  String serverRootUrl=request.getRequestURL().toString();
+  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/groups/"));
+  return restResponseFactory.createGroupResponse(group,serverRootUrl);
+}

@@ -1,6 +1,9 @@
 {
   InputStream pluginStream=this.getClass().getClassLoader().getResourceAsStream("plugins.xml");
-  InputRepresentation pluginResultRepresentation=new InputRepresentation(pluginStream);
-  pluginResultRepresentation.setMediaType(MediaType.APPLICATION_XML);
-  return pluginResultRepresentation;
+  try {
+    return IOUtils.toString(pluginStream);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error while loading plugins",e);
+  }
 }

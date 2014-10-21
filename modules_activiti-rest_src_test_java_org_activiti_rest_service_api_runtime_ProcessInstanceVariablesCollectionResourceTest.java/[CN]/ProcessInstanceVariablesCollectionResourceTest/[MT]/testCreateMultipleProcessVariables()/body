@@ -31,10 +31,10 @@
   dateVarNode.put("name","dateVariable");
   dateVarNode.put("value",isoString);
   dateVarNode.put("type","date");
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
-  Representation response=client.post(requestNode);
-  assertEquals(Status.SUCCESS_CREATED,client.getResponse().getStatus());
-  JsonNode responseNode=objectMapper.readTree(response.getStream());
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(7,responseNode.size());
@@ -46,5 +46,5 @@
   assertEquals(4567890L,variables.get("longVariable"));
   assertEquals(123.456,variables.get("doubleVariable"));
   assertEquals(Boolean.TRUE,variables.get("booleanVariable"));
-  assertEquals(varCal.getTime(),variables.get("dateVariable"));
+  assertEquals(dateFormat.parse(isoString),variables.get("dateVariable"));
 }

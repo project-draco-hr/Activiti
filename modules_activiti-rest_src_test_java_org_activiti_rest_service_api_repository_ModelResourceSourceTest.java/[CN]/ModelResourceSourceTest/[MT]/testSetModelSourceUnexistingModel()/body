@@ -1,11 +1,5 @@
 {
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,"unexisting"));
-  try {
-    client.put("");
-    fail("404 expected, but was: " + client.getResponse().getStatus());
-  }
- catch (  ResourceException expected) {
-    assertEquals(Status.CLIENT_ERROR_NOT_FOUND,client.getResponse().getStatus());
-    assertEquals("Could not find a model with id 'unexisting'.",client.getResponse().getStatus().getDescription());
-  }
+  HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,"unexisting"));
+  httpPut.setEntity(new StringEntity(""));
+  executeBinaryHttpRequest(httpPut,HttpStatus.SC_NOT_FOUND);
 }

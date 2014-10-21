@@ -1,0 +1,26 @@
+{
+  HistoricDetailQuery query=historyService.createHistoricDetailQuery();
+  if (queryRequest.getProcessInstanceId() != null) {
+    query.processInstanceId(queryRequest.getProcessInstanceId());
+  }
+  if (queryRequest.getExecutionId() != null) {
+    query.executionId(queryRequest.getExecutionId());
+  }
+  if (queryRequest.getActivityInstanceId() != null) {
+    query.activityInstanceId(queryRequest.getActivityInstanceId());
+  }
+  if (queryRequest.getTaskId() != null) {
+    query.taskId(queryRequest.getTaskId());
+  }
+  if (queryRequest.getSelectOnlyFormProperties() != null) {
+    if (queryRequest.getSelectOnlyFormProperties()) {
+      query.formProperties();
+    }
+  }
+  if (queryRequest.getSelectOnlyVariableUpdates() != null) {
+    if (queryRequest.getSelectOnlyVariableUpdates()) {
+      query.variableUpdates();
+    }
+  }
+  return new HistoricDetailPaginateList(restResponseFactory,serverRootUrl).paginateList(allRequestParams,queryRequest,query,"processInstanceId",allowedSortProperties);
+}

@@ -1,5 +1,5 @@
 {
-  List<IdentityLink> allLinks=ActivitiUtil.getRuntimeService().getIdentityLinksForProcessInstance(processInstanceId);
+  List<IdentityLink> allLinks=runtimeService.getIdentityLinksForProcessInstance(processInstanceId);
   for (  IdentityLink link : allLinks) {
     if (identityId.equals(link.getUserId()) && link.getType().equals(type)) {
       return link;

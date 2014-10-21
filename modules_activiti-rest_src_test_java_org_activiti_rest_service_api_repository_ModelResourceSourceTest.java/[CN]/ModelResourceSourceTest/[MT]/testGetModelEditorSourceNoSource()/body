@@ -4,15 +4,8 @@
     model=repositoryService.newModel();
     model.setName("Model name");
     repositoryService.saveModel(model);
-    ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,model.getId()));
-    try {
-      client.get();
-      fail("404 expected, but was: " + client.getResponse().getStatus());
-    }
- catch (    ResourceException expected) {
-      assertEquals(Status.CLIENT_ERROR_NOT_FOUND,client.getResponse().getStatus());
-      assertEquals("Model with id '" + model.getId() + "' does not have source available.",client.getResponse().getStatus().getDescription());
-    }
+    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,model.getId()));
+    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
   }
   finally {
     try {

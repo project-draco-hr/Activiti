@@ -1,0 +1,10 @@
+{
+  ServletContextHandler contextHandler=new ServletContextHandler();
+  JPAWebConfigurer configurer=new JPAWebConfigurer();
+  configurer.setContext(context);
+  contextHandler.addEventListener(configurer);
+  HashSessionManager manager=new HashSessionManager();
+  SessionHandler sessions=new SessionHandler(manager);
+  contextHandler.setHandler(sessions);
+  return contextHandler;
+}

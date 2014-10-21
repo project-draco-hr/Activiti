@@ -1,0 +1,11 @@
+{
+  if (jobAcquisitionThread == null) {
+    if (this.acquireJobsRunnable == null) {
+      jobAcquisitionThread=new Thread(new LockFreeAcquireJobsRunnable(this));
+    }
+ else {
+      jobAcquisitionThread=new Thread(this.acquireJobsRunnable);
+    }
+  }
+  jobAcquisitionThread.start();
+}

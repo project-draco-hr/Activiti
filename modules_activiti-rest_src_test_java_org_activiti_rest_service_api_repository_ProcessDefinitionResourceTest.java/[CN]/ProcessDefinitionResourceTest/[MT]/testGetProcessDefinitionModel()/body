@@ -1,9 +1,8 @@
 {
   ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().singleResult();
-  ClientResource client=getAuthenticatedClient(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_MODEL,processDefinition.getId()));
-  Representation response=client.get();
-  assertEquals(Status.SUCCESS_OK,client.getResponse().getStatus());
-  JsonNode resultNode=objectMapper.readTree(response.getReader());
+  HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_MODEL,processDefinition.getId()));
+  HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+  JsonNode resultNode=objectMapper.readTree(response.getEntity().getContent());
   assertNotNull(resultNode);
   JsonNode processes=resultNode.get("processes");
   assertNotNull(processes);
