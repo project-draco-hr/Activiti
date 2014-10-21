@@ -1,0 +1,13 @@
+{
+  for (  ExecutionEntity subExecution : execution.getExecutions()) {
+    dispatchExecutionCancelled(eventSubscription,subExecution,commandContext);
+  }
+  ExecutionEntity subProcessInstance=commandContext.getExecutionEntityManager().findSubProcessInstanceBySuperExecutionId(execution.getId());
+  if (subProcessInstance != null) {
+    dispatchExecutionCancelled(eventSubscription,subProcessInstance,commandContext);
+  }
+  ActivityImpl activity=execution.getActivity();
+  if (activity != null && activity.getActivityBehavior() != null) {
+    dispatchActivityCancelled(eventSubscription,execution,activity,commandContext);
+  }
+}

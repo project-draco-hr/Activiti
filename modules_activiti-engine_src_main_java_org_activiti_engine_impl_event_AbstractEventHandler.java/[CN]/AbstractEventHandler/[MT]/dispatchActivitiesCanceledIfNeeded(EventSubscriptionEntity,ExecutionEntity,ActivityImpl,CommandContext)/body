@@ -1,0 +1,9 @@
+{
+  ActivityBehavior boundaryActivityBehavior=boundaryEventActivity.getActivityBehavior();
+  if (boundaryActivityBehavior instanceof BoundaryEventActivityBehavior) {
+    BoundaryEventActivityBehavior boundaryEventActivityBehavior=(BoundaryEventActivityBehavior)boundaryActivityBehavior;
+    if (boundaryEventActivityBehavior.isInterrupting()) {
+      dispatchExecutionCancelled(eventSubscription,execution,commandContext);
+    }
+  }
+}

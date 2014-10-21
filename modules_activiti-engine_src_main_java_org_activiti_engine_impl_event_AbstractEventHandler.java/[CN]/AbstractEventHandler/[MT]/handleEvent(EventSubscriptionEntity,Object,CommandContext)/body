@@ -11,6 +11,7 @@
   ActivityBehavior activityBehavior=activity.getActivityBehavior();
   if (activityBehavior instanceof BoundaryEventActivityBehavior || activityBehavior instanceof EventSubProcessStartEventActivityBehavior) {
     try {
+      dispatchActivitiesCanceledIfNeeded(eventSubscription,execution,activity,commandContext);
       activityBehavior.execute(execution);
     }
  catch (    RuntimeException e) {
