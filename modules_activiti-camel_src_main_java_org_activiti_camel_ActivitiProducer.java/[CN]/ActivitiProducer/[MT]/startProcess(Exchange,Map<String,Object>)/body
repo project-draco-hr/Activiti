@@ -5,12 +5,9 @@
     if (endpoint.isSetProcessInitiator()) {
       setProcessInitiator(ExchangeUtils.prepareInitiator(exchange,endpoint));
     }
-    if (key == null) {
-      return runtimeService.startProcessInstanceByKey(processKey,ExchangeUtils.prepareVariables(exchange,endpoint));
-    }
- else {
-      return runtimeService.startProcessInstanceByKey(processKey,key,ExchangeUtils.prepareVariables(exchange,endpoint));
-    }
+    Map<String,Object> variables=ExchangeUtils.prepareVariables(exchange,endpoint);
+    variables.put(ExchangeUtils.CAMELRETURN,camelReturnVar);
+    return runtimeService.startProcessInstanceByKey(processKey,key,variables);
   }
   finally {
     if (endpoint.isSetProcessInitiator()) {

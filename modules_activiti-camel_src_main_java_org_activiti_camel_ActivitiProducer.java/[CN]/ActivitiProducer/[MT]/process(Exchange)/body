@@ -1,8 +1,8 @@
 {
   if (shouldStartProcess()) {
-    ProcessInstance pi=startProcess(exchange);
-    exchange.setProperty(PROCESS_ID_PROPERTY,pi.getProcessInstanceId());
-    exchange.getOut().setBody(pi.getId());
+    Map<String,Object> camelReturnVar=new HashMap<String,Object>();
+    ProcessInstance pi=startProcess(exchange,camelReturnVar);
+    copyResultToCamel(exchange,pi,camelReturnVar);
   }
  else {
     signal(exchange);

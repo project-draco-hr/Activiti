@@ -1,0 +1,9 @@
+{
+  exchange.setProperty(PROCESS_ID_PROPERTY,pi.getProcessInstanceId());
+  for (  String key : camelReturnVar.keySet()) {
+    if (key.equals(ExchangeUtils.CAMELBODY)) {
+      exchange.getOut().setBody(camelReturnVar.get(key));
+    }
+ else     exchange.setProperty(key,camelReturnVar.get(key));
+  }
+}
