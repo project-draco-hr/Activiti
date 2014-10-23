@@ -1,0 +1,48 @@
+{
+  LOG.trace("Extracting attributes and operations from class: {}",managedClass);
+  for (  Method method : managedClass.getMethods()) {
+    if (method.getDeclaringClass() != managedClass) {
+      continue;
+    }
+    LOG.trace("Extracting attributes and operations from method: {}",method);
+    ManagedAttribute ma=method.getAnnotation(ManagedAttribute.class);
+    if (ma != null) {
+      String key;
+      String desc="";
+      Method getter=null;
+      Method setter=null;
+      boolean mask=false;
+      if (ReflectUtil.isGetter(method)) {
+        key=ReflectUtil.getGetterShorthandName(method);
+        getter=method;
+      }
+ else       if (ReflectUtil.isGetter(method)) {
+        key=ReflectUtil.getSetterShorthandName(method);
+        setter=method;
+      }
+ else {
+        throw new IllegalArgumentException("@ManagedAttribute can only be used on Java bean methods, was: " + cacheInfo.method + " on bean: "+ managedClass);
+      }
+      key=capitalize(key);
+      ManagedAttributeInfo info=attributes.get(key);
+      if (info == null) {
+        info=new ManagedAttributeInfo(key,desc);
+      }
+      if (getter != null) {
+        info.setGetter(getter);
+      }
+      if (setter != null) {
+        info.setSetter(setter);
+      }
+      info.setMask(mask);
+      attributes.put(key,info);
+    }
+    ManagedOperation mo=method.getAnnotation(ManagedOperation.class);
+    if (mo != null) {
+      String desc="";
+      Method operation=method;
+      boolean mask=false;
+      operations.add(new ManagedOperationInfo(desc,operation,mask));
+    }
+  }
+}
