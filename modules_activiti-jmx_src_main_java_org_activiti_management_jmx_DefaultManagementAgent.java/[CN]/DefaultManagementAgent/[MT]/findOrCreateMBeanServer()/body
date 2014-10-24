@@ -1,0 +1,10 @@
+{
+  List<MBeanServer> servers=MBeanServerFactory.findMBeanServer(null);
+  for (  MBeanServer server : servers) {
+    LOG.debug("Found MBeanServer with default domain {}",server.getDefaultDomain());
+    if (mBeanServerDefaultDomain.equals(server.getDefaultDomain())) {
+      return server;
+    }
+  }
+  return MBeanServerFactory.createMBeanServer(mBeanServerDefaultDomain);
+}
