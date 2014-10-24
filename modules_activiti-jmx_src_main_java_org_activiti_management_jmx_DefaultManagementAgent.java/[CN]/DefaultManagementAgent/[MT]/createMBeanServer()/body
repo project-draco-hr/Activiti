@@ -1,0 +1,34 @@
+{
+  String hostName;
+  boolean canAccessSystemProps=true;
+  try {
+    SecurityManager sm=System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPropertiesAccess();
+    }
+  }
+ catch (  SecurityException se) {
+    canAccessSystemProps=false;
+  }
+  if (canAccessSystemProps) {
+    try {
+      hostName=InetAddress.getLocalHost().getHostName();
+    }
+ catch (    UnknownHostException uhe) {
+      LOG.info("Cannot determine localhost name. Fallback to: " + DEFAULT_HOST,uhe);
+      hostName=DEFAULT_HOST;
+    }
+  }
+ else {
+    hostName=DEFAULT_HOST;
+  }
+  server=findOrCreateMBeanServer();
+  try {
+    if (createConnector) {
+      createJmxConnector(hostName);
+    }
+  }
+ catch (  IOException ioe) {
+    LOG.warn("Could not create and start JMX connector.",ioe);
+  }
+}
