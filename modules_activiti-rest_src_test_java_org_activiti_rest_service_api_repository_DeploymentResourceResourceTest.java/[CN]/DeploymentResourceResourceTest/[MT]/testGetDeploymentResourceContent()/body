@@ -3,8 +3,9 @@
     Deployment deployment=repositoryService.createDeployment().name("Deployment 1").addInputStream("test.txt",new ByteArrayInputStream("Test content".getBytes())).deploy();
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deployment.getId(),"test.txt"));
     httpGet.addHeader(new BasicHeader(HttpHeaders.ACCEPT,"text/plain"));
-    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     String responseAsString=IOUtils.toString(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseAsString);
     assertEquals("Test content",responseAsString);
   }

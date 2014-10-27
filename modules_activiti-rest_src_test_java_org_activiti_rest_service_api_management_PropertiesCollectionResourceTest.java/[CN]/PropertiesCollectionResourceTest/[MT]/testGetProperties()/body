@@ -1,7 +1,8 @@
 {
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROPERTIES_COLLECTION)),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROPERTIES_COLLECTION)),HttpStatus.SC_OK);
   Map<String,String> properties=managementService.getProperties();
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(properties.size(),responseNode.size());
   Iterator<Map.Entry<String,JsonNode>> nodes=responseNode.fields();

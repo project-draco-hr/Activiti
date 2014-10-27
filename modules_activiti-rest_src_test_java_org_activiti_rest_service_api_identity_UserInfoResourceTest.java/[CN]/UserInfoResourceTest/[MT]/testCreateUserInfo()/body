@@ -12,8 +12,9 @@
     requestNode.put("key","key1");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,"testuser"));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertEquals("key1",responseNode.get("key").textValue());
     assertEquals("Value 1",responseNode.get("value").textValue());
     assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")));

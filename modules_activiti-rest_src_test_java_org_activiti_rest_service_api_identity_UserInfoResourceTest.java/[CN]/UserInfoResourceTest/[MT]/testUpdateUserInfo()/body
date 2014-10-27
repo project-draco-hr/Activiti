@@ -12,8 +12,9 @@
     requestNode.put("value","Updated value");
     HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1"));
     httpPut.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertEquals("key1",responseNode.get("key").textValue());
     assertEquals("Updated value",responseNode.get("value").textValue());
     assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO,newUser.getId(),"key1")));

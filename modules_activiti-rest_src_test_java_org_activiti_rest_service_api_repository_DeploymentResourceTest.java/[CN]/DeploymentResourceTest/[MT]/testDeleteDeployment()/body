@@ -2,7 +2,8 @@
   Deployment existingDeployment=repositoryService.createDeploymentQuery().singleResult();
   assertNotNull(existingDeployment);
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT,existingDeployment.getId()));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  CloseableHttpResponse response=executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(response);
   existingDeployment=repositoryService.createDeploymentQuery().singleResult();
   assertNull(existingDeployment);
 }

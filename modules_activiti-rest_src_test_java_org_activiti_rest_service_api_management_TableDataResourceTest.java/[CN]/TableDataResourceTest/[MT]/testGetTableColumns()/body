@@ -6,8 +6,9 @@
     taskService.setVariable(task.getId(),"var2",456);
     taskService.setVariable(task.getId(),"var3",789);
     String tableName=managementService.getTableName(VariableInstanceEntity.class);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName)),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName)),HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals(3,responseNode.get("total").intValue());
     assertEquals(3,responseNode.get("size").intValue());
@@ -17,8 +18,9 @@
     ArrayNode rows=(ArrayNode)responseNode.get("data");
     assertNotNull(rows);
     assertEquals(3,rows.size());
-    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderAscendingColumn=LONG_"),HttpStatus.SC_OK);
+    response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderAscendingColumn=LONG_"),HttpStatus.SC_OK);
     responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals(3,responseNode.get("total").intValue());
     assertEquals(3,responseNode.get("size").intValue());
@@ -31,8 +33,9 @@
     assertEquals("var1",rows.get(0).get("NAME_").textValue());
     assertEquals("var2",rows.get(1).get("NAME_").textValue());
     assertEquals("var3",rows.get(2).get("NAME_").textValue());
-    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderDescendingColumn=LONG_"),HttpStatus.SC_OK);
+    response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderDescendingColumn=LONG_"),HttpStatus.SC_OK);
     responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals(3,responseNode.get("total").intValue());
     assertEquals(3,responseNode.get("size").intValue());
@@ -45,8 +48,9 @@
     assertEquals("var3",rows.get(0).get("NAME_").textValue());
     assertEquals("var2",rows.get(1).get("NAME_").textValue());
     assertEquals("var1",rows.get(2).get("NAME_").textValue());
-    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderAscendingColumn=LONG_&start=1&size=1"),HttpStatus.SC_OK);
+    response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_DATA,tableName) + "?orderAscendingColumn=LONG_&start=1&size=1"),HttpStatus.SC_OK);
     responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals(3,responseNode.get("total").intValue());
     assertEquals(1,responseNode.get("size").intValue());

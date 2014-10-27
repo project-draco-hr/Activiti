@@ -12,8 +12,9 @@
   anotherVariable.put("type","string");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_CREATED);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_CREATED);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(2,responseNode.size());

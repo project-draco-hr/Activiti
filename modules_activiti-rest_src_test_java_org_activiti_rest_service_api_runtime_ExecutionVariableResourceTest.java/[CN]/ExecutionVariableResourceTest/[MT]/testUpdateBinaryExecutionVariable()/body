@@ -10,8 +10,9 @@
   additionalFields.put("type","binary");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"binaryVariable"));
   httpPut.setEntity(HttpMultipartHelper.getMultiPartEntity("value","application/octet-stream",binaryContent,additionalFields));
-  HttpResponse response=executeBinaryHttpRequest(httpPut,HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeBinaryRequest(httpPut,HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("binaryVariable",responseNode.get("name").asText());
   assertTrue(responseNode.get("value").isNull());
@@ -27,8 +28,9 @@
   binaryContent=new ByteArrayInputStream("This is binary content global".getBytes());
   httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"binaryVariable"));
   httpPut.setEntity(HttpMultipartHelper.getMultiPartEntity("value","application/octet-stream",binaryContent,additionalFields));
-  response=executeBinaryHttpRequest(httpPut,HttpStatus.SC_OK);
+  response=executeBinaryRequest(httpPut,HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("binaryVariable",responseNode.get("name").asText());
   assertTrue(responseNode.get("value").isNull());

@@ -42,8 +42,9 @@
     dateVarNode.put("type","date");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeBinaryRequest(httpPost,HttpStatus.SC_CREATED);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertTrue(responseNode.isArray());
     assertEquals(7,responseNode.size());

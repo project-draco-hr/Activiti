@@ -3,7 +3,8 @@
   originalSerializable.setSomeField("This is some field");
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne");
   runtimeService.setVariableLocal(processInstance.getId(),"var",originalSerializable);
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"var")),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"var")),HttpStatus.SC_OK);
+  closeResponse(response);
   ObjectInputStream stream=new ObjectInputStream(response.getEntity().getContent());
   Object readSerializable=stream.readObject();
   assertNotNull(readSerializable);

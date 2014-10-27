@@ -5,7 +5,7 @@
     model.setName("Model name");
     repositoryService.saveModel(model);
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE_EXTRA,model.getId()));
-    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_NOT_FOUND));
   }
   finally {
     try {

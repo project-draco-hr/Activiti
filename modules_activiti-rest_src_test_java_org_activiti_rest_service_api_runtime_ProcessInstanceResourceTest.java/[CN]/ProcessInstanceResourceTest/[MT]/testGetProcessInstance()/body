@@ -1,7 +1,8 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey");
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())),HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertEquals("myBusinessKey",responseNode.get("businessKey").textValue());
@@ -11,8 +12,9 @@
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())));
   assertTrue(responseNode.get("processDefinitionUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processInstance.getProcessDefinitionId())));
   managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
-  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())),HttpStatus.SC_OK);
+  response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId())),HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("myTenant",responseNode.get("tenantId").textValue());
 }

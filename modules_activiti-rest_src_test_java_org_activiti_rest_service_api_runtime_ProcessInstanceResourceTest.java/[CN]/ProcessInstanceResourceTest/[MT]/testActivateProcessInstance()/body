@@ -5,12 +5,13 @@
   requestNode.put("action","activate");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
   assertEquals(1,runtimeService.createProcessInstanceQuery().active().processInstanceId(processInstance.getId()).count());
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertFalse(responseNode.get("suspended").booleanValue());
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_CONFLICT);
+  closeResponse(executeRequest(httpPut,HttpStatus.SC_CONFLICT));
 }

@@ -1,13 +1,14 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   runtimeService.setVariable(processInstance.getId(),"variable","processValue");
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"variable")),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"variable")),HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("processValue",responseNode.get("value").asText());
   assertEquals("variable",responseNode.get("name").asText());
   assertEquals("string",responseNode.get("type").asText());
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"variable") + "?scope=illegal"),HttpStatus.SC_BAD_REQUEST);
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,"unexisting","variable")),HttpStatus.SC_NOT_FOUND);
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"unexistingVariable")),HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"variable") + "?scope=illegal"),HttpStatus.SC_BAD_REQUEST));
+  closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,"unexisting","variable")),HttpStatus.SC_NOT_FOUND));
+  closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"unexistingVariable")),HttpStatus.SC_NOT_FOUND));
 }

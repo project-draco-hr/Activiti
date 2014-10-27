@@ -11,20 +11,20 @@
     requestNode.put("key","key1");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,"testuser"));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
     requestNode=objectMapper.createObjectNode();
     requestNode.put("value","The value");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
     identityService.setUserInfo(newUser.getId(),"key1","The value");
     requestNode=objectMapper.createObjectNode();
     requestNode.put("key","key1");
     requestNode.put("value","The value");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_CONFLICT));
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_INFO_COLLECTION,"unexistinguser"));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_NOT_FOUND));
   }
   finally {
     if (savedUser != null) {

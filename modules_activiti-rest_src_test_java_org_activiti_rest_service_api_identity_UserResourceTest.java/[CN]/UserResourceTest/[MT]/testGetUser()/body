@@ -7,8 +7,9 @@
     newUser.setEmail("no-reply@activiti.org");
     identityService.saveUser(newUser);
     savedUser=newUser;
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId())),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId())),HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("testuser",responseNode.get("id").textValue());
     assertEquals("Fred",responseNode.get("firstName").textValue());

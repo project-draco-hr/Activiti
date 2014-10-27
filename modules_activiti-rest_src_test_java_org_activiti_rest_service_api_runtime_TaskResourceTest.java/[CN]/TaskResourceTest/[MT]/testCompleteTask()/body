@@ -7,7 +7,7 @@
     requestNode.put("action","complete");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNull(task);
     ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
@@ -27,7 +27,7 @@
     var2.put("value","Second value");
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {

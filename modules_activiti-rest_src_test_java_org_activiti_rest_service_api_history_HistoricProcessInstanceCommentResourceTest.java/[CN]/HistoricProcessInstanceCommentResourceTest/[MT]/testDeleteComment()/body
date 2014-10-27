@@ -5,9 +5,9 @@
     identityService.setAuthenticatedUserId("kermit");
     Comment comment=taskService.addComment(null,pi.getId(),"This is a comment...");
     identityService.setAuthenticatedUserId(null);
-    executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())),HttpStatus.SC_NO_CONTENT);
-    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,"unexistinginstance","123")),HttpStatus.SC_NOT_FOUND);
-    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),"unexistingcomment")),HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())),HttpStatus.SC_NO_CONTENT));
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,"unexistinginstance","123")),HttpStatus.SC_NOT_FOUND));
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),"unexistingcomment")),HttpStatus.SC_NOT_FOUND));
   }
   finally {
     if (pi != null) {

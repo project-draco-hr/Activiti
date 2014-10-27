@@ -6,5 +6,6 @@
   requestNode.put("action","unexistinAction");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(response);
 }

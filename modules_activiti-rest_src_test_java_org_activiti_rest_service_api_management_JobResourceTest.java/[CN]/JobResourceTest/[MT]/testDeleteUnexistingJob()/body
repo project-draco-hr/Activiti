@@ -1,4 +1,5 @@
 {
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,"unexistingjob"));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+  CloseableHttpResponse response=executeRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
 }

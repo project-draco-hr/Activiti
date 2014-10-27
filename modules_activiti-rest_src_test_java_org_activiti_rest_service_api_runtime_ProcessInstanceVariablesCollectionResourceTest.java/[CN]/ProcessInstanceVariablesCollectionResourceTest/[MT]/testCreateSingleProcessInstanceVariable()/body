@@ -7,8 +7,9 @@
   variableNode.put("type","string");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  CloseableHttpResponse response=executeBinaryRequest(httpPost,HttpStatus.SC_CREATED);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("myVariable",responseNode.get("name").asText());
   assertEquals("simple string value",responseNode.get("value").asText());

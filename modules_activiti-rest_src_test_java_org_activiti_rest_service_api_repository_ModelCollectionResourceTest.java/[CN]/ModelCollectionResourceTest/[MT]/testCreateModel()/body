@@ -14,8 +14,9 @@
     requestNode.put("tenantId","myTenant");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_COLLECTION));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("Model name",responseNode.get("name").textValue());
     assertEquals("Model key",responseNode.get("key").textValue());

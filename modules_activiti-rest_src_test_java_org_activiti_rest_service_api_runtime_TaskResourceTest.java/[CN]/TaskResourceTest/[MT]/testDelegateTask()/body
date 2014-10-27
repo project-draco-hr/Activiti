@@ -8,10 +8,10 @@
     requestNode.put("action","delegate");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
     requestNode.put("assignee","newAssignee");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("newAssignee",task.getAssignee());
@@ -19,7 +19,7 @@
     assertEquals(DelegationState.PENDING,task.getDelegationState());
     requestNode.put("assignee","anotherAssignee");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("anotherAssignee",task.getAssignee());

@@ -11,8 +11,9 @@
     zipStream.close();
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION));
     httpPost.setEntity(HttpMultipartHelper.getMultiPartEntity("test-deployment.bar","application/zip",new ByteArrayInputStream(zipOutput.toByteArray()),Collections.singletonMap("tenantId","myTenant")));
-    HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeBinaryRequest(httpPost,HttpStatus.SC_CREATED);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     String tenantId=responseNode.get("tenantId").textValue();
     assertEquals("myTenant",tenantId);
     String id=responseNode.get("id").textValue();

@@ -1,5 +1,5 @@
 {
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_COLLECTION));
   httpPost.setEntity(HttpMultipartHelper.getMultiPartEntity("oneTaskProcess.invalidfile","application/xml",ReflectUtil.getResourceAsStream("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml"),null));
-  executeBinaryHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
 }

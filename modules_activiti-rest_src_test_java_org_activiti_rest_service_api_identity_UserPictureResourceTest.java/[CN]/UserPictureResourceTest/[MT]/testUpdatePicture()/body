@@ -9,7 +9,7 @@
     savedUser=newUser;
     HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_PICTURE,newUser.getId()));
     httpPut.setEntity(HttpMultipartHelper.getMultiPartEntity("myPicture.png","image/png",new ByteArrayInputStream("this is the picture raw byte stream".getBytes()),null));
-    executeBinaryHttpRequest(httpPut,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeBinaryRequest(httpPut,HttpStatus.SC_NO_CONTENT));
     Picture picture=identityService.getUserPicture(newUser.getId());
     assertNotNull(picture);
     assertEquals("image/png",picture.getMimeType());

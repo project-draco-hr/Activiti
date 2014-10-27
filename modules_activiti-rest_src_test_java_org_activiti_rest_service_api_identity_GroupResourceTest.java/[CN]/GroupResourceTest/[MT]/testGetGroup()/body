@@ -4,8 +4,9 @@
     testGroup.setName("Test group");
     testGroup.setType("Test type");
     identityService.saveGroup(testGroup);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup")),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup")),HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("testgroup",responseNode.get("id").textValue());
     assertEquals("Test group",responseNode.get("name").textValue());

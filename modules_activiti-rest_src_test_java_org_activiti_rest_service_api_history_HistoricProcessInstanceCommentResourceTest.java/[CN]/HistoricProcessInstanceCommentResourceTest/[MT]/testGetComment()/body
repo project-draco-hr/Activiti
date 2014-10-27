@@ -5,9 +5,10 @@
     identityService.setAuthenticatedUserId("kermit");
     Comment comment=taskService.addComment(null,pi.getId(),"This is a comment...");
     identityService.setAuthenticatedUserId(null);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())),200);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),comment.getId())),200);
     assertEquals(HttpStatus.SC_OK,response.getStatusLine().getStatusCode());
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());
@@ -16,8 +17,8 @@
     assertEquals(pi.getProcessInstanceId(),responseNode.get("processInstanceId").asText());
     assertTrue(responseNode.get("taskUrl").isNull());
     assertTrue(responseNode.get("taskId").isNull());
-    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,"unexistinginstance","123")),HttpStatus.SC_NOT_FOUND);
-    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),"unexistingcomment")),HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,"unexistinginstance","123")),HttpStatus.SC_NOT_FOUND));
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT,pi.getId(),"unexistingcomment")),HttpStatus.SC_NOT_FOUND));
   }
   finally {
     if (pi != null) {

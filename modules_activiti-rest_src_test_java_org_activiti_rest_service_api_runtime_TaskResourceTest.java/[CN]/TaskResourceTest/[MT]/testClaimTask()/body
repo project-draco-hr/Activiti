@@ -10,27 +10,27 @@
     requestNode.put("action","claim");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertNull(task.getAssignee());
     assertEquals(1L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     requestNode.put("assignee","newAssignee");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("newAssignee",task.getAssignee());
     assertEquals(0L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("newAssignee",task.getAssignee());
     assertEquals(0L,taskService.createTaskQuery().taskCandidateUser("newAssignee").count());
     requestNode.put("assignee","anotherUser");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_CONFLICT));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

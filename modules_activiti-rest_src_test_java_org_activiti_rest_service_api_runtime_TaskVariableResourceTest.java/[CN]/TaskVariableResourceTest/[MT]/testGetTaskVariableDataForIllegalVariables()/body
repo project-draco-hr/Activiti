@@ -3,8 +3,8 @@
     Task task=taskService.newTask();
     taskService.saveTask(task);
     taskService.setVariableLocal(task.getId(),"localTaskVariable","this is a plain string variable");
-    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable")),HttpStatus.SC_NOT_FOUND);
-    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"unexistingVariable")),HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable")),HttpStatus.SC_NOT_FOUND));
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"unexistingVariable")),HttpStatus.SC_NOT_FOUND));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

@@ -5,9 +5,10 @@
     identityService.setAuthenticatedUserId("kermit");
     Comment comment=taskService.addComment(null,pi.getId(),"This is a comment...");
     identityService.setAuthenticatedUserId(null);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT_COLLECTION,pi.getId())),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE_COMMENT_COLLECTION,pi.getId())),HttpStatus.SC_OK);
     assertEquals(HttpStatus.SC_OK,response.getStatusLine().getStatusCode());
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertTrue(responseNode.isArray());
     assertEquals(1,responseNode.size());
@@ -19,7 +20,7 @@
     assertEquals(pi.getProcessInstanceId(),commentNode.get("processInstanceId").asText());
     assertTrue(commentNode.get("taskUrl").isNull());
     assertTrue(commentNode.get("taskId").isNull());
-    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,"unexistingtask")),HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,"unexistingtask")),HttpStatus.SC_NOT_FOUND));
   }
   finally {
     if (pi != null) {

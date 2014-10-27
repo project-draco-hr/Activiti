@@ -7,8 +7,9 @@
     Attachment binaryAttachment=taskService.createAttachment("binaryType",task.getId(),null,"Binary attachment","Binary attachment description",new ByteArrayInputStream("This is binary content".getBytes()));
     taskService.saveAttachment(binaryAttachment);
     taskService.complete(task.getId());
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),urlAttachment.getId())),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),urlAttachment.getId())),HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertEquals(urlAttachment.getId(),responseNode.get("id").textValue());
     assertEquals("simpleType",responseNode.get("type").textValue());
     assertEquals("Simple attachment",responseNode.get("name").textValue());
@@ -18,8 +19,9 @@
     assertTrue(responseNode.get("taskUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())));
     assertTrue(responseNode.get("contentUrl").isNull());
     assertTrue(responseNode.get("processInstanceUrl").isNull());
-    response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),binaryAttachment.getId())),HttpStatus.SC_OK);
+    response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),binaryAttachment.getId())),HttpStatus.SC_OK);
     responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertEquals(binaryAttachment.getId(),responseNode.get("id").textValue());
     assertEquals("binaryType",responseNode.get("type").textValue());
     assertEquals("Binary attachment",responseNode.get("name").textValue());

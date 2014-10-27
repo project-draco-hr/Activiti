@@ -4,8 +4,9 @@
     taskService.saveTask(task);
     Attachment binaryAttachment=taskService.createAttachment("application/xml",task.getId(),null,"Binary attachment","Binary attachment description",new ByteArrayInputStream("<p>This is binary content</p>".getBytes()));
     taskService.saveAttachment(binaryAttachment);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),binaryAttachment.getId())),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_DATA,task.getId(),binaryAttachment.getId())),HttpStatus.SC_OK);
     assertEquals("application/xml",response.getEntity().getContentType().getValue());
+    closeResponse(response);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

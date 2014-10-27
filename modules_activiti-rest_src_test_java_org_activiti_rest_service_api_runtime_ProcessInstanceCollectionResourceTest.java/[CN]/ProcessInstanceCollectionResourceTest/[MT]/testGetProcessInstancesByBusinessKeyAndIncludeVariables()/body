@@ -4,8 +4,9 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne","myBusinessKey",variables);
   String processId=processInstance.getId();
   String url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?businessKey=myBusinessKey";
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
   JsonNode rootNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertTrue(rootNode.size() > 0);
   assertEquals(1,rootNode.get("data").size());
   JsonNode dataNode=rootNode.get("data").get(0);
@@ -15,8 +16,9 @@
   JsonNode variableNodes=dataNode.get("variables");
   assertEquals(0,variableNodes.size());
   url=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION) + "?businessKey=myBusinessKey&includeProcessVariables=true";
-  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
+  response=executeRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
   rootNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertTrue(rootNode.size() > 0);
   assertEquals(1,rootNode.get("data").size());
   dataNode=rootNode.get("data").get(0);

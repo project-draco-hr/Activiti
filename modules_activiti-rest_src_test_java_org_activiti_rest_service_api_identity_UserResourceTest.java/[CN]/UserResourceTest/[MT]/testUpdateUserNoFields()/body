@@ -10,8 +10,9 @@
     ObjectNode taskUpdateRequest=objectMapper.createObjectNode();
     HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER,newUser.getId()));
     httpPut.setEntity(new StringEntity(taskUpdateRequest.toString()));
-    HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("testuser",responseNode.get("id").textValue());
     assertEquals("Fred",responseNode.get("firstName").textValue());

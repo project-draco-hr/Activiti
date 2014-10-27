@@ -4,7 +4,7 @@
     testGroup.setName("Test group");
     testGroup.setType("Test type");
     identityService.saveGroup(testGroup);
-    executeHttpRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup")),HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup")),HttpStatus.SC_NO_CONTENT));
     assertNull(identityService.createGroupQuery().groupId("testgroup").singleResult());
   }
   finally {
