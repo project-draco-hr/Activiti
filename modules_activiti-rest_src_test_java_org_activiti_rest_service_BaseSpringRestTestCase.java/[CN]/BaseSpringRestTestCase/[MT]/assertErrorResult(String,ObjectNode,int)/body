@@ -1,5 +1,5 @@
 {
   HttpPost post=new HttpPost(SERVER_URL_PREFIX + url);
   post.setEntity(new StringEntity(body.toString()));
-  executeHttpRequest(post,statusCode);
+  closeResponse(executeRequest(post,statusCode));
 }

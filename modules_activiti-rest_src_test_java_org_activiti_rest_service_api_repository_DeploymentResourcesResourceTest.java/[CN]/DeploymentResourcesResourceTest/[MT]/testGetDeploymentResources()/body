@@ -2,8 +2,9 @@
   try {
     Deployment deployment=repositoryService.createDeployment().name("Deployment 1").addClasspathResource("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml").addInputStream("test.txt",new ByteArrayInputStream("Test content".getBytes())).deploy();
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCES,deployment.getId()));
-    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertTrue(responseNode.isArray());
     assertEquals(2,responseNode.size());
     JsonNode txtNode=null;

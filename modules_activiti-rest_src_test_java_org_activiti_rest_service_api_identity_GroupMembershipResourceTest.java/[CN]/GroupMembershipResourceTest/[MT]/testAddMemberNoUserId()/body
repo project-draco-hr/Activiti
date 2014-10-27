@@ -1,5 +1,5 @@
 {
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP_COLLECTION,"admin"));
   httpPost.setEntity(new StringEntity(objectMapper.createObjectNode().toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
 }

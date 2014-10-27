@@ -4,15 +4,16 @@
     taskService.saveTask(task);
     taskService.addUserIdentityLink(task.getId(),"kermit","myType");
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),"users","kermit","myType"));
-    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("kermit",responseNode.get("user").textValue());
     assertEquals("myType",responseNode.get("type").textValue());
     assertTrue(responseNode.get("group").isNull());
     assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,task.getId(),RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType")));
     httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_IDENTITYLINK,"unexistingtask",RestUrls.SEGMENT_IDENTITYLINKS_FAMILY_USERS,"kermit","myType"));
-    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_NOT_FOUND));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

@@ -5,22 +5,22 @@
     requestNode.put("signalName","The Signal");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_SIGNALS));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_NO_CONTENT));
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceWithoutTenantId().processDefinitionKey("processWithSignalStart1").count());
     requestNode.put("tenantId","my tenant");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_NO_CONTENT));
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceTenantId("my tenant").processDefinitionKey("processWithSignalStart1").count());
     ArrayNode vars=requestNode.putArray("variables");
     ObjectNode var=vars.addObject();
     var.put("name","testVar");
     var.put("value","test");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_NO_CONTENT));
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceTenantId("my tenant").processDefinitionKey("processWithSignalStart1").variableValueEquals("testVar","test").count());
     requestNode.remove("tenantId");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_NO_CONTENT));
     assertEquals(1,runtimeService.createProcessInstanceQuery().processInstanceWithoutTenantId().processDefinitionKey("processWithSignalStart1").variableValueEquals("testVar","test").count());
   }
   finally {

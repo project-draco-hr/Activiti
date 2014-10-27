@@ -1,0 +1,15 @@
+{
+  ObjectNode requestNode=objectMapper.createObjectNode();
+  requestNode.put("processDefinitionKey","processOne");
+  HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
+  httpPost.setEntity(new StringEntity(requestNode.toString()));
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CREATED));
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CREATED));
+  List<ProcessInstance> processInstances=runtimeService.createProcessInstanceQuery().list();
+  assertEquals(2,processInstances.size());
+  for (  ProcessInstance processInstance : processInstances) {
+    HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(historicProcessInstance);
+    assertEquals("kermit",historicProcessInstance.getStartUserId());
+  }
+}

@@ -1,0 +1,13 @@
+{
+  for (  CloseableHttpResponse response : httpResponses) {
+    if (response != null) {
+      try {
+        response.close();
+      }
+ catch (      IOException e) {
+        log.error("Could not close http connection",e);
+      }
+    }
+  }
+  httpResponses.clear();
+}

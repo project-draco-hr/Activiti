@@ -2,5 +2,5 @@
   ObjectNode requestNode=objectMapper.createObjectNode();
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,"unexistingtask"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPut,HttpStatus.SC_NOT_FOUND));
 }

@@ -3,6 +3,7 @@
   Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(timerJob);
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  CloseableHttpResponse response=executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(response);
   assertNull(managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult());
 }

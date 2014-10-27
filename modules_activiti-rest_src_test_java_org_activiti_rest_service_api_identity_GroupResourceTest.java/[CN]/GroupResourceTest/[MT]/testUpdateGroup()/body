@@ -9,8 +9,9 @@
     requestNode.put("type","Updated type");
     HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP,"testgroup"));
     httpPut.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("testgroup",responseNode.get("id").textValue());
     assertEquals("Updated group",responseNode.get("name").textValue());

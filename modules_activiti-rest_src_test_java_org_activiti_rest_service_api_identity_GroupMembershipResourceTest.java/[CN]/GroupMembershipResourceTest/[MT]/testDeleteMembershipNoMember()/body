@@ -7,7 +7,7 @@
     User testUser=identityService.newUser("testuser");
     identityService.saveUser(testUser);
     HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP,"testgroup","testuser"));
-    executeHttpRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpDelete,HttpStatus.SC_NOT_FOUND));
   }
   finally {
     try {

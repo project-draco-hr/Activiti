@@ -9,7 +9,7 @@
   taskService.setVariablesLocal(task.getId(),taskVariables);
   assertEquals(2,taskService.getVariablesLocal(task.getId()).size());
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
-  executeBinaryHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(executeBinaryRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
   assertEquals(0,taskService.getVariablesLocal(task.getId()).size());
   assertEquals(1,taskService.getVariables(task.getId()).size());
 }

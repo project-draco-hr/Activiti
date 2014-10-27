@@ -6,7 +6,7 @@
     repositoryService.saveModel(model);
     HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,model.getId()));
     httpPut.setEntity(HttpMultipartHelper.getMultiPartEntity("sourcefile","application/octet-stream",new ByteArrayInputStream("This is the new editor source".getBytes()),null));
-    executeBinaryHttpRequest(httpPut,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeBinaryRequest(httpPut,HttpStatus.SC_NO_CONTENT));
     assertEquals("This is the new editor source",new String(repositoryService.getModelEditorSource(model.getId())));
   }
   finally {

@@ -4,12 +4,15 @@
   assertNotNull(childExecution);
   runtimeService.setVariableLocal(childExecution.getId(),"myVariable","childValue");
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVariable"));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  CloseableHttpResponse response=executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(response);
   assertFalse(runtimeService.hasVariableLocal(childExecution.getId(),"myVariable"));
   assertTrue(runtimeService.hasVariable(childExecution.getId(),"myVariable"));
   httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVariable") + "?scope=global");
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  response=executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(response);
   assertFalse(runtimeService.hasVariableLocal(childExecution.getId(),"myVariable"));
   assertFalse(runtimeService.hasVariable(childExecution.getId(),"myVariable"));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+  response=executeRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
 }

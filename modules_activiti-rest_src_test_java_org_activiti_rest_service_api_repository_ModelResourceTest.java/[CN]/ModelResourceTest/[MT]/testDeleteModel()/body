@@ -12,7 +12,7 @@
     model.setVersion(2);
     repositoryService.saveModel(model);
     HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
-    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
     assertNull(repositoryService.createModelQuery().modelId(model.getId()).singleResult());
     model=null;
   }

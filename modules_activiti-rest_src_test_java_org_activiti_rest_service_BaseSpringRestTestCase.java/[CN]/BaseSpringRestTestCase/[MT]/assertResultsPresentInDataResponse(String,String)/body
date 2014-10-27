@@ -1,7 +1,8 @@
 {
   int numberOfResultsExpected=expectedResourceIds.length;
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
   JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+  closeResponse(response);
   assertEquals(numberOfResultsExpected,dataNode.size());
   List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedResourceIds));
   Iterator<JsonNode> it=dataNode.iterator();

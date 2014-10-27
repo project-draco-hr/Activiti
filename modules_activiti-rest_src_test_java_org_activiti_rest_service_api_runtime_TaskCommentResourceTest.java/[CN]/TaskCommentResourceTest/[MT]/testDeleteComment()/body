@@ -6,11 +6,11 @@
     Comment comment=taskService.addComment(task.getId(),null,"This is a comment...");
     identityService.setAuthenticatedUserId(null);
     HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId()));
-    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,"unexistingtask","123"));
-    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_NOT_FOUND));
     httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),"unexistingcomment"));
-    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_NOT_FOUND));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

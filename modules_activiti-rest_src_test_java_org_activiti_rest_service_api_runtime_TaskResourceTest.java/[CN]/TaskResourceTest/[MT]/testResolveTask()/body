@@ -9,14 +9,14 @@
     requestNode.put("action","resolve");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("initialAssignee",task.getAssignee());
     assertEquals("initialAssignee",task.getOwner());
     assertEquals(DelegationState.RESOLVED,task.getDelegationState());
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(taskId).singleResult();
     assertNotNull(task);
     assertEquals("initialAssignee",task.getAssignee());

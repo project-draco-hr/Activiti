@@ -6,22 +6,22 @@
   variableNode.put("type","string");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,"unexisting"));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_NOT_FOUND));
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
   runtimeService.setVariable(processInstance.getId(),"existingVariable","I already exist");
   httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CONFLICT));
   variableNode.removeAll();
   variableNode.put("value","simple string value");
   httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
   requestNode.removeAll();
   httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
   httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
   httpPost.setEntity(new StringEntity(objectMapper.createObjectNode().toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
 }

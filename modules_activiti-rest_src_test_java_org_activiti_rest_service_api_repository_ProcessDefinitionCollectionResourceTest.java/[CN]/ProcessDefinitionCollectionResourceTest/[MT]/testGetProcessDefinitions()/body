@@ -9,8 +9,9 @@
     ProcessDefinition oneTaskWithDiProcess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcessWithDi").deploymentId(thirdDeployment.getId()).singleResult();
     String baseUrl=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_COLLECTION);
     assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId(),oneTaskWithDiProcess.getId());
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + baseUrl),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + baseUrl),HttpStatus.SC_OK);
     JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+    closeResponse(response);
     for (int i=0; i < dataNode.size(); i++) {
       JsonNode processDefinitionJson=dataNode.get(i);
       String key=processDefinitionJson.get("key").asText();
@@ -59,7 +60,7 @@
     assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),oneTaskProcess.getId(),oneTaskWithDiProcess.getId());
     url=baseUrl + "?latest=true&name=anyname";
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + url);
-    executeHttpRequest(httpGet,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_BAD_REQUEST));
   }
   finally {
     List<Deployment> deployments=repositoryService.createDeploymentQuery().list();

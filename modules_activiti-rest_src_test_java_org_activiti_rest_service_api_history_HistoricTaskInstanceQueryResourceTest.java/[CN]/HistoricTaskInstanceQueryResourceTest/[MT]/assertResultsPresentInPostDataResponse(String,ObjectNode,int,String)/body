@@ -1,8 +1,9 @@
 {
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + url);
   httpPost.setEntity(new StringEntity(body.toString()));
-  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_OK);
   JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+  closeResponse(response);
   assertEquals(numberOfResultsExpected,dataNode.size());
   if (expectedTaskIds != null) {
     List<String> toBeFound=new ArrayList<String>(Arrays.asList(expectedTaskIds));

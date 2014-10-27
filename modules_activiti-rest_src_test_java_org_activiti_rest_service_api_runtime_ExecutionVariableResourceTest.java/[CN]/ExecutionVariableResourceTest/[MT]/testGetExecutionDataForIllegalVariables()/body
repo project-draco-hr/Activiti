@@ -1,6 +1,8 @@
 {
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("processOne");
   runtimeService.setVariableLocal(processInstance.getId(),"localTaskVariable","this is a plain string variable");
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"localTaskVariable")),HttpStatus.SC_NOT_FOUND);
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"unexistingVariable")),HttpStatus.SC_NOT_FOUND);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"localTaskVariable")),HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
+  response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,processInstance.getId(),"unexistingVariable")),HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
 }

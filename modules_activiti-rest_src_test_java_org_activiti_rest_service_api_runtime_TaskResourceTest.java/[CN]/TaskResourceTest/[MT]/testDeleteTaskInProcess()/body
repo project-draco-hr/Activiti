@@ -3,5 +3,5 @@
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   assertNotNull(task);
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
-  executeHttpRequest(httpDelete,HttpStatus.SC_FORBIDDEN);
+  closeResponse(executeRequest(httpDelete,HttpStatus.SC_FORBIDDEN));
 }

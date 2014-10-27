@@ -3,10 +3,14 @@
   requestNode.put("processDefinitionKey","processOne");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
   ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
   assertNotNull(processInstance);
+  HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+  assertNotNull(historicProcessInstance);
+  assertEquals("kermit",historicProcessInstance.getStartUserId());
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("businessKey").isNull());
@@ -18,10 +22,11 @@
   requestNode=objectMapper.createObjectNode();
   requestNode.put("processDefinitionId",repositoryService.createProcessDefinitionQuery().processDefinitionKey("processOne").singleResult().getId());
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  response=executeRequest(httpPost,HttpStatus.SC_CREATED);
   processInstance=runtimeService.createProcessInstanceQuery().singleResult();
   assertNotNull(processInstance);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("businessKey").isNull());
@@ -33,10 +38,11 @@
   requestNode=objectMapper.createObjectNode();
   requestNode.put("message","newInvoiceMessage");
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  response=executeRequest(httpPost,HttpStatus.SC_CREATED);
   processInstance=runtimeService.createProcessInstanceQuery().singleResult();
   assertNotNull(processInstance);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(processInstance.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("businessKey").isNull());
@@ -48,8 +54,9 @@
   requestNode.put("processDefinitionId",repositoryService.createProcessDefinitionQuery().processDefinitionKey("processOne").singleResult().getId());
   requestNode.put("businessKey","myBusinessKey");
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  response=executeRequest(httpPost,HttpStatus.SC_CREATED);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("myBusinessKey",responseNode.get("businessKey").textValue());
 }

@@ -8,8 +8,9 @@
     taskService.addUserIdentityLink(task.getId(),"gonzo","someType");
     Event event=taskService.getTaskEvents(task.getId()).get(0);
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,task.getId(),event.getId()));
-    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals(event.getId(),responseNode.get("id").textValue());
     assertEquals(event.getAction(),responseNode.get("action").textValue());

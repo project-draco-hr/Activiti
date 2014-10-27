@@ -7,14 +7,16 @@
     requestNode.put("tenantId","tenant1");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_COLLECTION));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
+    closeResponse(response);
     ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().singleResult();
     assertNotNull(processInstance);
     assertEquals("tenant1",processInstance.getTenantId());
     requestNode.put("processDefinitionKey","oneTaskProcess");
     requestNode.put("tenantId","tenantThatDoesntExist");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    response=executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(response);
   }
   finally {
     if (tenantDeployment != null) {

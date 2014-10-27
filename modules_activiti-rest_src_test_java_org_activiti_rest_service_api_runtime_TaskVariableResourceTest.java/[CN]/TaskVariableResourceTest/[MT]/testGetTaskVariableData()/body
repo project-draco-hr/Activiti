@@ -3,8 +3,9 @@
     Task task=taskService.newTask();
     taskService.saveTask(task);
     taskService.setVariableLocal(task.getId(),"localTaskVariable","This is a binary piece of text".getBytes());
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable")),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable")),HttpStatus.SC_OK);
     String actualResponseBytesAsText=IOUtils.toString(response.getEntity().getContent());
+    closeResponse(response);
     assertEquals("This is a binary piece of text",actualResponseBytesAsText);
     assertEquals("application/octet-stream",response.getEntity().getContentType().getValue());
   }

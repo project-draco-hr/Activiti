@@ -4,9 +4,9 @@
     taskService.saveTask(task);
     taskService.addUserIdentityLink(task.getId(),"gonzo","someType");
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,task.getId(),"unexisting"));
-    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_NOT_FOUND));
     httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,"unexisting","unexistingEvent"));
-    executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_NOT_FOUND));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

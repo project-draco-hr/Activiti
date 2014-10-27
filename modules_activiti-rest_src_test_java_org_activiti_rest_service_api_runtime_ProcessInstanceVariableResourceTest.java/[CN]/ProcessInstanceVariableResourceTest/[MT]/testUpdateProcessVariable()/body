@@ -7,15 +7,16 @@
   requestNode.put("type","string");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"myVar"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("updatedValue",responseNode.get("value").asText());
   requestNode.put("name","unexistingVariable");
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(httpPut,HttpStatus.SC_BAD_REQUEST));
   requestNode.put("name","unexistingVariable");
   httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE,processInstance.getId(),"unexistingVariable"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPut,HttpStatus.SC_NOT_FOUND));
 }

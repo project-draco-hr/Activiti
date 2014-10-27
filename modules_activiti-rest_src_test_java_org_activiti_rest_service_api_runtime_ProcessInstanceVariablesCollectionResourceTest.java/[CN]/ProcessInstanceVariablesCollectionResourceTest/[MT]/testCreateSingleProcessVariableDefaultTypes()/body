@@ -6,21 +6,21 @@
   varNode.put("value","String value");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CREATED));
   assertEquals("String value",runtimeService.getVariable(processInstance.getId(),"stringVar"));
   varNode.put("name","integerVar");
   varNode.put("value",123);
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CREATED));
   assertEquals(123,runtimeService.getVariable(processInstance.getId(),"integerVar"));
   varNode.put("name","doubleVar");
   varNode.put("value",123.456);
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CREATED));
   assertEquals(123.456,runtimeService.getVariable(processInstance.getId(),"doubleVar"));
   varNode.put("name","booleanVar");
   varNode.put("value",Boolean.TRUE);
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CREATED));
   assertEquals(Boolean.TRUE,runtimeService.getVariable(processInstance.getId(),"booleanVar"));
 }

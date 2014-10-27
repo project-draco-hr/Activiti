@@ -1,8 +1,9 @@
 {
   String tableName=managementService.getTableCount().keySet().iterator().next();
   TableMetaData metaData=managementService.getTableMetaData(tableName);
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_COLUMNS,tableName)),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TABLE_COLUMNS,tableName)),HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(tableName,responseNode.get("tableName").textValue());
   ArrayNode names=(ArrayNode)responseNode.get("columnNames");

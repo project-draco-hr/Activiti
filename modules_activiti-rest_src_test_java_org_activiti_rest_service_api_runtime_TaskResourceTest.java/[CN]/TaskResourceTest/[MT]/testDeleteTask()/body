@@ -4,7 +4,7 @@
     taskService.saveTask(task);
     String taskId=task.getId();
     HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId));
-    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
@@ -14,7 +14,7 @@
     taskService.saveTask(task);
     taskId=task.getId();
     httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?cascadeHistory=true");
-    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
@@ -24,7 +24,7 @@
     taskService.saveTask(task);
     taskId=task.getId();
     httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,taskId) + "?deleteReason=fortestingpurposes");
-    executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertNull(task);
     if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {

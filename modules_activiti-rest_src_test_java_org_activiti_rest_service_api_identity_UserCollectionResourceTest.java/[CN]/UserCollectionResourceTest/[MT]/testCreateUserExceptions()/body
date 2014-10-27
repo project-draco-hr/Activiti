@@ -5,12 +5,12 @@
   requestNode.put("email","no-reply@activiti.org");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_COLLECTION,"unexisting"));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
   requestNode=objectMapper.createObjectNode();
   requestNode.put("id","kermit");
   requestNode.put("firstName","Frederik");
   requestNode.put("lastName","Heremans");
   requestNode.put("email","no-reply@activiti.org");
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_CONFLICT));
 }

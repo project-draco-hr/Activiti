@@ -4,6 +4,6 @@
   processVariables.put("var2",123);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",processVariables);
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
   assertEquals(0,runtimeService.getVariablesLocal(processInstance.getId()).size());
 }

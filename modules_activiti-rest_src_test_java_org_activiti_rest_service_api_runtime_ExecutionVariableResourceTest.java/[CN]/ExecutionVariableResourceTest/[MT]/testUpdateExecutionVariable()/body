@@ -10,8 +10,9 @@
   requestNode.put("type","string");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVar"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("updatedValue",responseNode.get("value").asText());
   assertEquals("local",responseNode.get("scope").asText());
@@ -24,8 +25,9 @@
   requestNode.put("scope","global");
   httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"myVar"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  response=executeRequest(httpPut,HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("updatedValueGlobal",responseNode.get("value").asText());
   assertEquals("global",responseNode.get("scope").asText());
@@ -33,8 +35,10 @@
   assertEquals("updatedValue",runtimeService.getVariableLocal(childExecution.getId(),"myVar"));
   requestNode.put("name","unexistingVariable");
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_BAD_REQUEST);
+  response=executeRequest(httpPut,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(response);
   httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION_VARIABLE,childExecution.getId(),"unexistingVariable"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_NOT_FOUND);
+  response=executeRequest(httpPut,HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
 }

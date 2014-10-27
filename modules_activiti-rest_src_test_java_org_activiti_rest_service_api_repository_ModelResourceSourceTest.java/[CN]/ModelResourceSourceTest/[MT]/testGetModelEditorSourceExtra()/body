@@ -6,9 +6,10 @@
     repositoryService.saveModel(model);
     repositoryService.addModelEditorSourceExtra(model.getId(),"This is the extra editor source".getBytes());
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE_EXTRA,model.getId()));
-    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     assertEquals("application/octet-stream",response.getEntity().getContentType().getValue());
     assertEquals("This is the extra editor source",IOUtils.toString(response.getEntity().getContent()));
+    closeResponse(response);
   }
   finally {
     try {

@@ -15,8 +15,9 @@
     task.setOwner("owner");
     task.setPriority(20);
     taskService.saveTask(task);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())),HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertEquals(task.getId(),responseNode.get("id").asText());
     assertEquals(task.getAssignee(),responseNode.get("assignee").asText());
     assertEquals(task.getOwner(),responseNode.get("owner").asText());

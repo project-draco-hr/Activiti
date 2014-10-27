@@ -1,4 +1,5 @@
 {
   HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINKS_COLLECTION,"unexisting"));
-  executeHttpRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+  CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
 }

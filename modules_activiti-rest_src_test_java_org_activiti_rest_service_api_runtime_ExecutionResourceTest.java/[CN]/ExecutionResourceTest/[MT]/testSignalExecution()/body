@@ -6,10 +6,12 @@
   requestNode.put("action","signal");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,signalExecution.getId()));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertEquals("anotherWaitState",responseNode.get("activityId").textValue());
   assertEquals("anotherWaitState",runtimeService.createExecutionQuery().executionId(signalExecution.getId()).singleResult().getActivityId());
-  executeHttpRequest(httpPut,HttpStatus.SC_NO_CONTENT);
+  response=executeRequest(httpPut,HttpStatus.SC_NO_CONTENT);
+  closeResponse(response);
   assertNull(runtimeService.createExecutionQuery().executionId(signalExecution.getId()).singleResult());
 }

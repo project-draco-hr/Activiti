@@ -1,3 +1,4 @@
 {
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,"unexisting")),HttpStatus.SC_NOT_FOUND);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,"unexisting")),HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
 }

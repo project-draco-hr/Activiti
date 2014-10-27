@@ -15,8 +15,9 @@
   assertResultsPresentInDataResponse(url + "?taskId=" + task.getId(),1,"taskVariable","test");
   assertResultsPresentInDataResponse(url + "?processInstanceId=" + processInstance2.getId(),4,"intVar",67890);
   assertResultsPresentInDataResponse(url + "?processInstanceId=" + processInstance2.getId()+ "&selectOnlyVariableUpdates=true",4,"booleanVar",false);
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + url + "?processInstanceId="+ processInstance2.getId()),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + url + "?processInstanceId="+ processInstance2.getId()),HttpStatus.SC_OK);
   JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+  closeResponse(response);
   boolean byteVarFound=false;
   Iterator<JsonNode> it=dataNode.iterator();
   while (it.hasNext()) {
@@ -25,8 +26,9 @@
     if ("byteVar".equals(name)) {
       byteVarFound=true;
       String valueUrl=variableNode.get("valueUrl").textValue();
-      response=executeHttpRequest(new HttpGet(valueUrl),HttpStatus.SC_OK);
+      response=executeRequest(new HttpGet(valueUrl),HttpStatus.SC_OK);
       byte[] varInput=IOUtils.toByteArray(response.getEntity().getContent());
+      closeResponse(response);
       assertEquals("test",new String(varInput));
       break;
     }

@@ -2,8 +2,9 @@
   Execution parentExecution=runtimeService.startProcessInstanceByKey("processOne");
   Execution childExecution=runtimeService.createExecutionQuery().activityId("processTask").singleResult();
   assertNotNull(childExecution);
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId())),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId())),HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(parentExecution.getId(),responseNode.get("id").textValue());
   assertTrue(responseNode.get("activityId").isNull());
@@ -12,8 +13,9 @@
   assertFalse(responseNode.get("suspended").booleanValue());
   assertTrue(responseNode.get("url").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,parentExecution.getId())));
   assertTrue(responseNode.get("processInstanceUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE,parentExecution.getId())));
-  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,childExecution.getId())),HttpStatus.SC_OK);
+  response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,childExecution.getId())),HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals(childExecution.getId(),responseNode.get("id").textValue());
   assertEquals("processTask",responseNode.get("activityId").textValue());

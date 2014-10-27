@@ -9,12 +9,13 @@
     additionalFields.put("type","myType");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId()));
     httpPost.setEntity(HttpMultipartHelper.getMultiPartEntity("value","application/octet-stream",binaryContent,additionalFields));
-    HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeBinaryRequest(httpPost,HttpStatus.SC_CREATED);
     List<Attachment> attachments=taskService.getTaskAttachments(task.getId());
     assertEquals(1,attachments.size());
     Attachment binaryAttachment=attachments.get(0);
     assertEquals("This is binary content",IOUtils.toString(taskService.getAttachmentContent(binaryAttachment.getId())));
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertEquals(binaryAttachment.getId(),responseNode.get("id").textValue());
     assertEquals("myType",responseNode.get("type").textValue());
     assertEquals("An attachment",responseNode.get("name").textValue());

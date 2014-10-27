@@ -7,5 +7,6 @@
   requestNode.put("action","suspend");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_CONFLICT);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_CONFLICT);
+  closeResponse(response);
 }
