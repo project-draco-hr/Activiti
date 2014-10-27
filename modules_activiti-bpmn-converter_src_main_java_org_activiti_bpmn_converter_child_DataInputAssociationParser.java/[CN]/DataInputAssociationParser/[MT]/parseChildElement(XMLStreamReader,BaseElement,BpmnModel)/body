@@ -1,7 +1,7 @@
 {
-  if (parentElement instanceof ServiceTask == false && parentElement instanceof SendTask == false)   return;
+  if (parentElement instanceof Activity == false)   return;
   DataAssociation dataAssociation=new DataAssociation();
   BpmnXMLUtil.addXMLLocation(dataAssociation,xtr);
   DataAssociationParser.parseDataAssociation(dataAssociation,getElementName(),xtr);
-  ((Activity)parentElement).getDataOutputAssociations().add(dataAssociation);
+  ((Activity)parentElement).getDataInputAssociations().add(dataAssociation);
 }

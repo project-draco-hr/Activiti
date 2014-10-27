@@ -6,8 +6,9 @@
     XMLStreamWriter writer=xof.createXMLStreamWriter(out);
     XMLStreamWriter xtw=new IndentingXMLStreamWriter(writer);
     DefinitionsRootExport.writeRootElement(model,xtw,encoding);
+    CollaborationExport.writePools(model,xtw);
+    DataStoreExport.writeDataStores(model,xtw);
     SignalAndMessageDefinitionExport.writeSignalsAndMessages(model,xtw);
-    PoolExport.writePools(model,xtw);
     for (    Process process : model.getProcesses()) {
       if (process.getFlowElements().isEmpty() && process.getLanes().isEmpty()) {
         continue;
