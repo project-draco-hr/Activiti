@@ -1,0 +1,28 @@
+{
+  if (job == null) {
+    throw new ActivitiIllegalArgumentException("job is null");
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Executing async job {}",job.getId());
+  }
+  try {
+    job.execute(commandContext);
+    if (commandContext.getEventDispatcher().isEnabled()) {
+      commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_EXECUTION_SUCCESS,job));
+    }
+  }
+ catch (  Throwable exception) {
+    CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutor();
+    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new FailedJobListener(commandExecutor,job.getId(),exception));
+    if (commandContext.getEventDispatcher().isEnabled()) {
+      try {
+        commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityExceptionEvent(ActivitiEventType.JOB_EXECUTION_FAILURE,job,exception));
+      }
+ catch (      Throwable ignore) {
+        log.warn("Exception occured while dispatching job failure event, ignoring.",ignore);
+      }
+    }
+    throw new ActivitiException("Job " + job.getId() + " failed",exception);
+  }
+  return null;
+}

@@ -1,0 +1,8 @@
+{
+  if (threadPoolExecutor != null) {
+    threadPoolExecutor.execute(new ExecuteAsyncRunnable(job,commandExecutor));
+  }
+ else {
+    temporaryJobQueue.add(job);
+  }
+}

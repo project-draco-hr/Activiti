@@ -1,0 +1,5 @@
+{
+  AsyncExecutor asyncExecutor=Context.getProcessEngineConfiguration().getAsyncExecutor();
+  TransactionListener transactionListener=new AsyncJobAddedNotification(job,asyncExecutor);
+  Context.getCommandContext().getTransactionContext().addTransactionListener(TransactionState.COMMITTED,transactionListener);
+}

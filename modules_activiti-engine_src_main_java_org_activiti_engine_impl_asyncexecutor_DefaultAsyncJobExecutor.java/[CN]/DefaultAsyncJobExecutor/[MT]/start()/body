@@ -1,0 +1,11 @@
+{
+  if (isActive) {
+    return;
+  }
+  log.info("Starting up the default async job executor [{}].",getClass().getName());
+  startExecutingAsyncJobs();
+  for (  JobEntity job : temporaryJobQueue) {
+    executeAsyncJob(job);
+  }
+  isActive=true;
+}

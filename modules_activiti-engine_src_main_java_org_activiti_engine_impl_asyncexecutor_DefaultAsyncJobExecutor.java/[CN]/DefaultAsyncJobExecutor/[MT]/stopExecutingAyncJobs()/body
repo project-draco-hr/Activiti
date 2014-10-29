@@ -1,0 +1,12 @@
+{
+  threadPoolExecutor.shutdown();
+  try {
+    if (!threadPoolExecutor.awaitTermination(secondsToWaitOnShutdown,TimeUnit.SECONDS)) {
+      log.warn("Timeout during shutdown of async job executor. " + "The current running jobs could not end within " + secondsToWaitOnShutdown + " seconds after shutdown operation.");
+    }
+  }
+ catch (  InterruptedException e) {
+    log.warn("Interrupted while shutting down the async job executor. ",e);
+  }
+  threadPoolExecutor=null;
+}

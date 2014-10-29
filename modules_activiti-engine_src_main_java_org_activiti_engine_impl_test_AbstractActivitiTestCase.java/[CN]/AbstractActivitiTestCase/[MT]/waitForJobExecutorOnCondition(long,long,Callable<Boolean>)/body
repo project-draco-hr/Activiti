@@ -1,6 +1,8 @@
 {
   JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
   jobExecutor.start();
+  AsyncExecutor asyncExecutor=processEngineConfiguration.getAsyncExecutor();
+  asyncExecutor.start();
   try {
     Timer timer=new Timer();
     InteruptTask task=new InteruptTask(Thread.currentThread());
@@ -26,5 +28,6 @@ catch (    Exception e) {
   }
   finally {
     jobExecutor.shutdown();
+    asyncExecutor.shutdown();
   }
 }

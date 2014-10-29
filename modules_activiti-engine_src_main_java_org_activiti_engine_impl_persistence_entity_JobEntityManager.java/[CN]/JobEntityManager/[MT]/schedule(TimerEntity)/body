@@ -4,5 +4,7 @@
     throw new ActivitiIllegalArgumentException("duedate is null");
   }
   timer.insert();
-  pokeJobExecutor(timer);
+  if (timer.getDuedate().getTime() <= (Context.getProcessEngineConfiguration().getClock().getCurrentTime().getTime())) {
+    hintJobExecutor(timer);
+  }
 }
