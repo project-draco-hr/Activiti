@@ -3,6 +3,8 @@
     return;
   }
   log.info("Shutting down the default async job executor [{}].",getClass().getName());
+  asyncJobsDueRunnable.stop();
   stopExecutingAyncJobs();
+  asyncJobsDueRunnable=null;
   isActive=false;
 }

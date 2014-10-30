@@ -3,6 +3,9 @@
     return;
   }
   log.info("Starting up the default async job executor [{}].",getClass().getName());
+  if (asyncJobsDueRunnable == null) {
+    asyncJobsDueRunnable=new AcquireAsyncJobsDueRunnable(this);
+  }
   startExecutingAsyncJobs();
   isActive=true;
   while (temporaryJobQueue.isEmpty() == false) {

@@ -1,0 +1,12 @@
+{
+  AcquiredJobs acquiredJobs=new AcquiredJobs();
+  List<JobEntity> jobs=commandContext.getJobEntityManager().findAsyncJobsDueToExecute(new Page(0,10));
+  List<String> jobIds=new ArrayList<String>();
+  for (  JobEntity job : jobs) {
+    lockJob(commandContext,job,60000);
+    jobIds.add(job.getId());
+    asyncExecutor.executeAsyncJob(job);
+  }
+  acquiredJobs.addJobIdBatch(jobIds);
+  return acquiredJobs;
+}

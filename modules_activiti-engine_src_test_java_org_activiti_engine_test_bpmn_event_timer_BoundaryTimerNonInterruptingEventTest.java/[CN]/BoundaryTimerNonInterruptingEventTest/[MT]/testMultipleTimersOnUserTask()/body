@@ -7,7 +7,9 @@
   List<Job> jobs=jobQuery.list();
   assertEquals(2,jobs.size());
   processEngineConfiguration.getClock().setCurrentTime(new Date(startTime.getTime() + ((60 * 60 * 1000) + 5000)));
-  waitForJobExecutorToProcessAllJobs(5000L,25L);
+  Job job=managementService.createJobQuery().executable().singleResult();
+  assertNotNull(job);
+  managementService.executeJob(job.getId());
   assertEquals(1L,jobQuery.count());
   assertEquals(2L,taskService.createTaskQuery().count());
   List<Task> taskList=taskService.createTaskQuery().orderByTaskName().desc().list();

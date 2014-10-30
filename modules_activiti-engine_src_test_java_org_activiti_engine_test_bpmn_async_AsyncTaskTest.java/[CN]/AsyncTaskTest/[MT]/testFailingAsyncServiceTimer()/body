@@ -5,7 +5,12 @@
   if (!(job instanceof MessageEntity)) {
     fail("the job must be a message");
   }
-  waitForJobExecutorToProcessAllJobs(10000L,100L);
+  try {
+    managementService.executeJob(job.getId());
+    fail();
+  }
+ catch (  Exception e) {
+  }
   Execution execution=runtimeService.createExecutionQuery().singleResult();
   assertNotNull(execution);
   assertEquals("service",runtimeService.getActiveActivityIds(execution.getId()).get(0));

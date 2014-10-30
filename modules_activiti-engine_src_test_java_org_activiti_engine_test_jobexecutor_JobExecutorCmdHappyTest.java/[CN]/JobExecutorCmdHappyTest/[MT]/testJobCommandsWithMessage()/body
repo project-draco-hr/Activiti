@@ -1,6 +1,5 @@
 {
   CommandExecutor commandExecutor=processEngineConfiguration.getCommandExecutor();
-  JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
   String jobId=commandExecutor.execute(new Command<String>(){
     public String execute(    CommandContext commandContext){
       MessageEntity message=createTweetMessage("i'm coding a test");
@@ -9,15 +8,11 @@
     }
   }
 );
-  AcquiredJobs acquiredJobs=commandExecutor.execute(new AcquireJobsCmd(jobExecutor));
-  List<List<String>> jobIdsList=acquiredJobs.getJobIdBatches();
-  assertEquals(1,jobIdsList.size());
-  List<String> jobIds=jobIdsList.get(0);
-  List<String> expectedJobIds=new ArrayList<String>();
-  expectedJobIds.add(jobId);
-  assertEquals(expectedJobIds,new ArrayList<String>(jobIds));
+  Job job=managementService.createJobQuery().singleResult();
+  assertNotNull(job);
+  assertEquals(jobId,job.getId());
   assertEquals(0,tweetHandler.getMessages().size());
-  commandExecutor.execute(new ExecuteJobsCmd(jobId));
+  managementService.executeJob(job.getId());
   assertEquals("i'm coding a test",tweetHandler.getMessages().get(0));
   assertEquals(1,tweetHandler.getMessages().size());
 }

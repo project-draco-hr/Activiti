@@ -1,0 +1,8 @@
+{
+synchronized (MONITOR) {
+    isInterrupted=true;
+    if (isWaiting.compareAndSet(true,false)) {
+      MONITOR.notifyAll();
+    }
+  }
+}
