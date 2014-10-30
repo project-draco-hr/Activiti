@@ -9,6 +9,7 @@
   this.formService=processEngineConfiguration.getFormService();
   this.managementService=processEngineConfiguration.getManagementService();
   this.jobExecutor=processEngineConfiguration.getJobExecutor();
+  this.asyncExecutor=processEngineConfiguration.getAsyncExecutor();
   this.commandExecutor=processEngineConfiguration.getCommandExecutor();
   this.sessionFactories=processEngineConfiguration.getSessionFactories();
   this.transactionContextFactory=processEngineConfiguration.getTransactionContextFactory();
@@ -20,8 +21,11 @@
     log.info("ProcessEngine {} created",name);
   }
   ProcessEngines.registerProcessEngine(this);
-  if ((jobExecutor != null) && (jobExecutor.isAutoActivate())) {
+  if (jobExecutor != null && jobExecutor.isAutoActivate()) {
     jobExecutor.start();
+  }
+  if (asyncExecutor != null && asyncExecutor.isAutoActivate()) {
+    asyncExecutor.start();
   }
   if (processEngineConfiguration.getProcessEngineLifecycleListener() != null) {
     processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineBuilt(this);

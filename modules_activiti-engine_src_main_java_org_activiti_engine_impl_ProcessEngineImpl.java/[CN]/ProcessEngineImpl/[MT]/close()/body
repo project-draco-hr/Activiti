@@ -1,7 +1,10 @@
 {
   ProcessEngines.unregister(this);
-  if ((jobExecutor != null) && (jobExecutor.isActive())) {
+  if (jobExecutor != null && jobExecutor.isActive()) {
     jobExecutor.shutdown();
+  }
+  if (asyncExecutor != null && asyncExecutor.isActive()) {
+    asyncExecutor.shutdown();
   }
   commandExecutor.execute(processEngineConfiguration.getSchemaCommandConfig(),new SchemaOperationProcessEngineClose());
   if (processEngineConfiguration.getProcessEngineLifecycleListener() != null) {
