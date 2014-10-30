@@ -4,7 +4,9 @@
   }
   log.info("Starting up the default async job executor [{}].",getClass().getName());
   startExecutingAsyncJobs();
-  for (  JobEntity job : temporaryJobQueue) {
+  isActive=true;
+  while (temporaryJobQueue.isEmpty() == false) {
+    JobEntity job=temporaryJobQueue.pop();
     executeAsyncJob(job);
   }
   isActive=true;
