@@ -1,4 +1,5 @@
 {
+  if ((defaultManagedBean == null && customManagedBean == null) || objectName == null)   return null;
   if (defaultManagedBean != null && Proxy.isProxyClass(defaultManagedBean.getClass())) {
     LOG.trace("Skip creating ModelMBeanInfo due proxy class {}",defaultManagedBean.getClass());
     return null;

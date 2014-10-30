@@ -4,15 +4,9 @@
     Descriptor desc=mbeanAttribute.getDescriptor();
     if (info.getGetter() != null) {
       desc.setField("getMethod",info.getGetter().getName());
-      ModelMBeanOperationInfo mbeanOperation=new ModelMBeanOperationInfo(info.getKey(),info.getGetter());
-      Descriptor opDesc=mbeanOperation.getDescriptor();
-      mbeanOperation.setDescriptor(opDesc);
-      mBeanOperations.add(mbeanOperation);
     }
     if (info.getSetter() != null) {
       desc.setField("setMethod",info.getSetter().getName());
-      ModelMBeanOperationInfo mbeanOperation=new ModelMBeanOperationInfo(info.getKey(),info.getSetter());
-      mBeanOperations.add(mbeanOperation);
     }
     mbeanAttribute.setDescriptor(desc);
     mBeanAttributes.add(mbeanAttribute);
