@@ -1,13 +1,11 @@
 {
-  AnnotationConfigEmbeddedWebApplicationContext applicationContext=new AnnotationConfigEmbeddedWebApplicationContext();
-  applicationContext.register(EmbeddedContainerConfiguration.class,EndpointConfiguration.class);
-  applicationContext.refresh();
+  AnnotationConfigEmbeddedWebApplicationContext applicationContext=new AnnotationConfigEmbeddedWebApplicationContext(CallbackEmbeddedContainerCustomizer.class,EmbeddedContainerConfiguration.class,EndpointConfiguration.class);
   ProcessEngine processEngine=applicationContext.getBean(ProcessEngine.class);
   org.junit.Assert.assertNotNull("the processEngine should not be null",processEngine);
   ProcessEngineEndpoint processEngineEndpoint=applicationContext.getBean(ProcessEngineEndpoint.class);
   org.junit.Assert.assertNotNull("the processEngineEndpoint should not be null",processEngineEndpoint);
   RestTemplate restTemplate=applicationContext.getBean(RestTemplate.class);
-  ResponseEntity<Map> mapResponseEntity=restTemplate.getForEntity("http://localhost:8080/activiti/",Map.class);
+  ResponseEntity<Map> mapResponseEntity=restTemplate.getForEntity("http://localhost:9091/activiti/",Map.class);
   Map map=mapResponseEntity.getBody();
   String[] criticalKeys={"completedTaskCount","openTaskCount","cachedProcessDefinitionCount"};
   Map<?,?> invokedResults=processEngineEndpoint.invoke();
