@@ -1,0 +1,13 @@
+{
+  try {
+    executorService.shutdown();
+    executorService.awaitTermination(60,TimeUnit.SECONDS);
+  }
+ catch (  InterruptedException e) {
+    logger.warn("Exception while waiting for executor service shutdown",e);
+  }
+  LocalExecutorStats localExecutorStats=executorService.getLocalExecutorStats();
+  logger.info("This async job executor has processed " + localExecutorStats.getCompletedTaskCount() + " jobs. Total execution time = "+ localExecutorStats.getTotalExecutionLatency());
+  hazelcastInstance.shutdown();
+  isActive=false;
+}
