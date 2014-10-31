@@ -1,0 +1,6 @@
+{
+  when(processEngineConfiguration.isJobExecutorActivate()).thenReturn(false);
+  boolean result=jobExecutorMbean.isJobExecutorActivated();
+  verify(processEngineConfiguration).isJobExecutorActivate();
+  assertFalse(result);
+}
