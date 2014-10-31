@@ -5,8 +5,9 @@
     taskService.setAssignee(task.getId(),"kermit");
     taskService.addUserIdentityLink(task.getId(),"gonzo","someType");
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT_COLLECTION,task.getId()));
-    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertTrue(responseNode.isArray());
     assertEquals(2,responseNode.size());

@@ -9,9 +9,10 @@
     savedUser=newUser;
     Picture thePicture=new Picture("this is the picture raw byte stream".getBytes(),"image/png");
     identityService.setUserPicture(newUser.getId(),thePicture);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_PICTURE,newUser.getId())),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_USER_PICTURE,newUser.getId())),HttpStatus.SC_OK);
     assertEquals("this is the picture raw byte stream",IOUtils.toString(response.getEntity().getContent()));
     assertEquals("image/png",response.getEntity().getContentType().getValue());
+    closeResponse(response);
   }
   finally {
     if (savedUser != null) {

@@ -1,0 +1,9 @@
+{
+  if (isActive) {
+    return;
+  }
+  logger.info("Starting up the Hazelcast async job executor [{}].",getClass().getName());
+  hazelcastInstance=Hazelcast.newHazelcastInstance();
+  executorService=hazelcastInstance.getExecutorService(EXECUTOR_NAME);
+  isActive=true;
+}

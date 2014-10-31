@@ -11,9 +11,10 @@
   Calendar now=Calendar.getInstance();
   now.set(Calendar.MILLISECOND,0);
   processEngineConfiguration.getClock().setCurrentTime(now.getTime());
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_EXCEPTION_STRACKTRACE,timerJob.getId())),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB_EXCEPTION_STRACKTRACE,timerJob.getId())),HttpStatus.SC_OK);
   String stack=IOUtils.toString(response.getEntity().getContent());
   assertNotNull(stack);
   assertEquals(managementService.getJobExceptionStacktrace(timerJob.getId()),stack);
   assertEquals("text/plain",response.getEntity().getContentType().getValue());
+  closeResponse(response);
 }

@@ -6,11 +6,12 @@
     requestNode.put("message","This is a comment...");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
     List<Comment> commentsOnTask=taskService.getTaskComments(task.getId());
     assertNotNull(commentsOnTask);
     assertEquals(1,commentsOnTask.size());
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());

@@ -25,8 +25,9 @@
     requestNode.put("tenantId",(String)null);
     HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,model.getId()));
     httpPut.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertNull(responseNode.get("name").textValue());
     assertNull(responseNode.get("key").textValue());

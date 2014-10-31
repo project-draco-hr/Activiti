@@ -7,8 +7,9 @@
     identityService.setAuthenticatedUserId(null);
     taskService.complete(task.getId());
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COMMENT,task.getId(),comment.getId()));
-    HttpResponse response=executeHttpRequest(httpGet,HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());

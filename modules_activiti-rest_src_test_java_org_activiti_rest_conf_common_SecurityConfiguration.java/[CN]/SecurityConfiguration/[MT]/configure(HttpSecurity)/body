@@ -1,3 +1,3 @@
 {
-  http.authenticationProvider(authenticationProvider()).authorizeRequests().anyRequest().authenticated().and().csrf().disable().httpBasic();
+  http.authenticationProvider(authenticationProvider()).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic();
 }

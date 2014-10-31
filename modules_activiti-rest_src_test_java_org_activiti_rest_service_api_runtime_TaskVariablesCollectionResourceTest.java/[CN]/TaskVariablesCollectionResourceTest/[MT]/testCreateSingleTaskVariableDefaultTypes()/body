@@ -9,28 +9,28 @@
     varNode.put("scope","local");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_CREATED));
     assertEquals("String value",taskService.getVariable(task.getId(),"stringVar"));
     varNode.put("name","integerVar");
     varNode.put("value",123);
     varNode.put("scope","local");
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_CREATED));
     assertEquals(123,taskService.getVariable(task.getId(),"integerVar"));
     varNode.put("name","doubleVar");
     varNode.put("value",123.456);
     varNode.put("scope","local");
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_CREATED));
     assertEquals(123.456,taskService.getVariable(task.getId(),"doubleVar"));
     varNode.put("name","booleanVar");
     varNode.put("value",Boolean.TRUE);
     varNode.put("scope","local");
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_CREATED));
     assertEquals(Boolean.TRUE,taskService.getVariable(task.getId(),"booleanVar"));
   }
   finally {

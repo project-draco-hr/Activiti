@@ -1,0 +1,9 @@
+{
+  if (isAsyncExecutorEnabled()) {
+    if (asyncExecutor == null) {
+      asyncExecutor=new DefaultAsyncJobExecutor();
+    }
+    asyncExecutor.setCommandExecutor(commandExecutor);
+    asyncExecutor.setAutoActivate(asyncExecutorActivate);
+  }
+}

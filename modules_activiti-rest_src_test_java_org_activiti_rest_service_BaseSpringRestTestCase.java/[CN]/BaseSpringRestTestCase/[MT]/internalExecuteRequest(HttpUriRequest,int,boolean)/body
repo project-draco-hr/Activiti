@@ -1,0 +1,20 @@
+{
+  CloseableHttpResponse response=null;
+  try {
+    if (addJsonContentType && request.getFirstHeader(HttpHeaders.CONTENT_TYPE) == null) {
+      request.addHeader(new BasicHeader(HttpHeaders.CONTENT_TYPE,"application/json"));
+    }
+    response=client.execute(request);
+    Assert.assertNotNull(response.getStatusLine());
+    Assert.assertEquals(expectedStatusCode,response.getStatusLine().getStatusCode());
+    httpResponses.add(response);
+    return response;
+  }
+ catch (  ClientProtocolException e) {
+    Assert.fail(e.getMessage());
+  }
+catch (  IOException e) {
+    Assert.fail(e.getMessage());
+  }
+  return null;
+}

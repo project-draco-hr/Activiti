@@ -5,13 +5,14 @@
     Task task=taskService.newTask();
     taskService.saveTask(task);
     taskService.setVariableLocal(task.getId(),"localTaskVariable",originalSerializable);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable")),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE_DATA,task.getId(),"localTaskVariable")),HttpStatus.SC_OK);
     ObjectInputStream stream=new ObjectInputStream(response.getEntity().getContent());
     Object readSerializable=stream.readObject();
     assertNotNull(readSerializable);
     assertTrue(readSerializable instanceof TestSerializableVariable);
     assertEquals("This is some field",((TestSerializableVariable)readSerializable).getSomeField());
     assertEquals("application/x-java-serialized-object",response.getEntity().getContentType().getValue());
+    closeResponse(response);
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

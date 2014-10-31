@@ -5,9 +5,9 @@
     Attachment urlAttachment=taskService.createAttachment("simpleType",task.getId(),null,"Simple attachment","Simple attachment description","http://activiti.org");
     taskService.saveAttachment(urlAttachment);
     HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),urlAttachment.getId()));
-    executeBinaryHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+    closeResponse(executeBinaryRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
     assertNull(taskService.getAttachment(urlAttachment.getId()));
-    executeBinaryHttpRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeBinaryRequest(httpDelete,HttpStatus.SC_NOT_FOUND));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

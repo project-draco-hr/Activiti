@@ -4,15 +4,15 @@
   taskService.setVariableLocal(task.getId(),"overlappingVariable","taskValue");
   taskService.setVariableLocal(task.getId(),"anotherTaskVariable","taskValue");
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,task.getId(),"overlappingVariable"));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
   assertFalse(taskService.hasVariableLocal(task.getId(),"overlappingVariable"));
   assertTrue(taskService.hasVariable(task.getId(),"overlappingVariable"));
   httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,task.getId(),"anotherTaskVariable") + "?scope=local");
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
   assertFalse(taskService.hasVariableLocal(task.getId(),"anotherTaskVariable"));
   assertTrue(taskService.hasVariable(task.getId(),"overlappingVariable"));
   httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,task.getId(),"overlappingVariable") + "?scope=global");
-  executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+  closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
   assertFalse(taskService.hasVariable(task.getId(),"overlappingVariable"));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpDelete,HttpStatus.SC_NOT_FOUND));
 }

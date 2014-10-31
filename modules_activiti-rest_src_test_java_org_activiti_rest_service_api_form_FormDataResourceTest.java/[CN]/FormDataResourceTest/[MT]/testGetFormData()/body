@@ -5,8 +5,9 @@
   variableMap.put("address",address);
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess",variableMap);
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?taskId="+ task.getId()),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?taskId="+ task.getId()),HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertEquals(7,responseNode.get("formProperties").size());
   Map<String,JsonNode> mappedProperties=new HashMap<String,JsonNode>();
   for (  JsonNode propNode : responseNode.get("formProperties")) {
@@ -88,8 +89,9 @@
   assertEquals("Go Right",mappedEnums.get("right"));
   assertEquals("Go Up",mappedEnums.get("up"));
   assertEquals("Go Down",mappedEnums.get("down"));
-  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId="+ processInstance.getProcessDefinitionId()),HttpStatus.SC_OK);
+  response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId="+ processInstance.getProcessDefinitionId()),HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertEquals(2,responseNode.get("formProperties").size());
   mappedProperties.clear();
   for (  JsonNode propertyNode : responseNode.get("formProperties")) {
@@ -113,6 +115,6 @@
   assertTrue(propNode.get("readable").asBoolean());
   assertTrue(propNode.get("writable").asBoolean());
   assertTrue(propNode.get("required").asBoolean() == false);
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId=123"),HttpStatus.SC_NOT_FOUND);
-  executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId2=123"),HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId=123"),HttpStatus.SC_NOT_FOUND));
+  closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_FORM_DATA) + "?processDefinitionId2=123"),HttpStatus.SC_BAD_REQUEST));
 }

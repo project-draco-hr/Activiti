@@ -15,8 +15,9 @@
     additionalFields.put("scope","local");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(HttpMultipartHelper.getMultiPartEntity("value","application/x-java-serialized-object",binaryContent,additionalFields));
-    HttpResponse response=executeBinaryHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeBinaryRequest(httpPost,HttpStatus.SC_CREATED);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("serializableVariable",responseNode.get("name").asText());
     assertTrue(responseNode.get("value").isNull());

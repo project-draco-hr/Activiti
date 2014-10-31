@@ -8,7 +8,7 @@
     requestNode.put("externalUrl","http://activiti.org");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

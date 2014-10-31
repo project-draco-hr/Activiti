@@ -6,6 +6,7 @@
   requestNode.put("action","execute");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_NO_CONTENT);
+  CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_NO_CONTENT);
+  closeResponse(response);
   assertNull(managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult());
 }

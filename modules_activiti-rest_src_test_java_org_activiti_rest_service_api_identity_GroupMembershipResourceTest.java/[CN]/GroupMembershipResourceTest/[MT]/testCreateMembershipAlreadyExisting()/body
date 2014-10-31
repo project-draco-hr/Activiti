@@ -11,7 +11,7 @@
     requestNode.put("userId","testuser");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP_COLLECTION,"testgroup"));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_CONFLICT));
   }
   finally {
     try {

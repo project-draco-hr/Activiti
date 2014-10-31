@@ -1,0 +1,19 @@
+{
+  runtimeService.startProcessInstanceByKey("asyncService");
+  assertEquals(1,managementService.createJobQuery().count());
+  Job job=managementService.createJobQuery().singleResult();
+  if (!(job instanceof MessageEntity)) {
+    fail("the job must be a message");
+  }
+  try {
+    managementService.executeJob(job.getId());
+    fail();
+  }
+ catch (  Exception e) {
+  }
+  Execution execution=runtimeService.createExecutionQuery().singleResult();
+  assertNotNull(execution);
+  assertEquals("service",runtimeService.getActiveActivityIds(execution.getId()).get(0));
+  assertEquals(1,managementService.createJobQuery().count());
+  runtimeService.deleteProcessInstance(execution.getId(),"dead");
+}

@@ -23,8 +23,9 @@
   taskVariables.put("byteArrayTaskVar","Some raw bytes".getBytes());
   taskVariables.put("overlappingVariable","task-value");
   taskService.setVariablesLocal(task.getId(),taskVariables);
-  HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId())),HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId())),HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(17,responseNode.size());
@@ -39,8 +40,9 @@
     }
   }
   assertTrue(foundOverlapping);
-  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()) + "?scope=local"),HttpStatus.SC_OK);
+  response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()) + "?scope=local"),HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(9,responseNode.size());
@@ -48,8 +50,9 @@
     JsonNode var=responseNode.get(i);
     assertEquals("local",var.get("scope").asText());
   }
-  response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()) + "?scope=global"),HttpStatus.SC_OK);
+  response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()) + "?scope=global"),HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertTrue(responseNode.isArray());
   assertEquals(9,responseNode.size());

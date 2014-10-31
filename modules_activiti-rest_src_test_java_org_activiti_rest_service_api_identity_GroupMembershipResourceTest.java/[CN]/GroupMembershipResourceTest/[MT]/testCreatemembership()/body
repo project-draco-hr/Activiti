@@ -10,8 +10,9 @@
     requestNode.put("userId","testuser");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_GROUP_MEMBERSHIP_COLLECTION,"testgroup"));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("testuser",responseNode.get("userId").textValue());
     assertEquals("testgroup",responseNode.get("groupId").textValue());

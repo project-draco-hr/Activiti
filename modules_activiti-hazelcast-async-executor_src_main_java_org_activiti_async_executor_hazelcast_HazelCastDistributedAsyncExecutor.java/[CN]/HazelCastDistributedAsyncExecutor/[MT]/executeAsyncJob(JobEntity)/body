@@ -1,0 +1,9 @@
+{
+  try {
+    executorService.submit(new DistributedExecuteJobRunnable(job));
+  }
+ catch (  RejectedExecutionException e) {
+    logger.info("Async job execution rejected. Executing job in calling thread.");
+    commandExecutor.execute(new ExecuteAsyncJobCmd(job));
+  }
+}

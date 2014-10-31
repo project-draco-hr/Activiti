@@ -27,18 +27,20 @@
     }
     for (    SequenceFlow sequenceFlow : flowNode.getOutgoingFlows()) {
       List<GraphicInfo> graphicInfoList=bpmnModel.getFlowLocationGraphicInfo(sequenceFlow.getId());
-      for (      GraphicInfo graphicInfo : graphicInfoList) {
-        if (graphicInfo.getX() > maxX) {
-          maxX=graphicInfo.getX();
-        }
-        if (graphicInfo.getX() < minX) {
-          minX=graphicInfo.getX();
-        }
-        if (graphicInfo.getY() > maxY) {
-          maxY=graphicInfo.getY();
-        }
-        if (graphicInfo.getY() < minY) {
-          minY=graphicInfo.getY();
+      if (graphicInfoList != null) {
+        for (        GraphicInfo graphicInfo : graphicInfoList) {
+          if (graphicInfo.getX() > maxX) {
+            maxX=graphicInfo.getX();
+          }
+          if (graphicInfo.getX() < minX) {
+            minX=graphicInfo.getX();
+          }
+          if (graphicInfo.getY() > maxY) {
+            maxY=graphicInfo.getY();
+          }
+          if (graphicInfo.getY() < minY) {
+            minY=graphicInfo.getY();
+          }
         }
       }
     }

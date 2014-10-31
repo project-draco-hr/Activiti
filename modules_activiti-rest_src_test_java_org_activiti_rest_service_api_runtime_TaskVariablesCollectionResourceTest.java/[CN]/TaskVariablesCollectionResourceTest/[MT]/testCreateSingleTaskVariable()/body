@@ -9,8 +9,9 @@
   variableNode.put("type","string");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("myVariable",responseNode.get("name").asText());
   assertEquals("simple string value",responseNode.get("value").asText());
@@ -25,8 +26,9 @@
   variableNode.put("type","string");
   httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  response=executeRequest(httpPost,HttpStatus.SC_CREATED);
   responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("myVariable",responseNode.get("name").asText());
   assertEquals("Another simple string value",responseNode.get("value").asText());
@@ -41,8 +43,9 @@
   variableNode.put("type","string");
   httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+  response=executeRequest(httpPost,HttpStatus.SC_CREATED);
   responseNode=objectMapper.readTree(response.getEntity().getContent()).get(0);
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("scopelessVariable",responseNode.get("name").asText());
   assertEquals("simple string value",responseNode.get("value").asText());

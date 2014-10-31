@@ -5,5 +5,6 @@
   requestNode.put("action","badaction");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,execution.getId()));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_BAD_REQUEST);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(response);
 }

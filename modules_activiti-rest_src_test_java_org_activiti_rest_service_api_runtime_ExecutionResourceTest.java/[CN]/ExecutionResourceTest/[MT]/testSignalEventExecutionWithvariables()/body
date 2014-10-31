@@ -14,7 +14,8 @@
   assertNotNull(waitingExecution);
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_EXECUTION,waitingExecution.getId()));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPut,HttpStatus.SC_NO_CONTENT);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_NO_CONTENT);
+  closeResponse(response);
   waitingExecution=runtimeService.createExecutionQuery().activityId("anotherWaitState").singleResult();
   assertNotNull(waitingExecution);
   assertEquals(signalExecution.getId(),waitingExecution.getId());

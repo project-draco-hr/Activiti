@@ -6,12 +6,13 @@
     ObjectNode requestNode=objectMapper.createObjectNode();
     requestNode.put("message","This is a comment...");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    HttpResponse response=executeHttpRequest(httpPost,HttpStatus.SC_CREATED);
+    CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_CREATED);
     assertEquals(HttpStatus.SC_CREATED,response.getStatusLine().getStatusCode());
     List<Comment> commentsOnProcess=taskService.getProcessInstanceComments(pi.getId());
     assertNotNull(commentsOnProcess);
     assertEquals(1,commentsOnProcess.size());
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertNotNull(responseNode);
     assertEquals("kermit",responseNode.get("author").textValue());
     assertEquals("This is a comment...",responseNode.get("message").textValue());

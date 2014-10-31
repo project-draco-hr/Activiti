@@ -1,5 +1,5 @@
 {
-  if (parentElement instanceof ServiceTask == false && parentElement instanceof SendTask == false && parentElement instanceof SubProcess == false && parentElement instanceof Process == false)   return;
+  if (parentElement instanceof Activity == false && parentElement instanceof Process == false)   return;
   IOSpecification ioSpecification=new IOSpecification();
   BpmnXMLUtil.addXMLLocation(ioSpecification,xtr);
   boolean readyWithIOSpecification=false;
@@ -11,7 +11,7 @@
         BpmnXMLUtil.addXMLLocation(dataSpec,xtr);
         dataSpec.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
         dataSpec.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
-        dataSpec.setItemSubjectRef(parseItemSubjectRef(xtr.getAttributeValue(null,ATTRIBUTE_DATA_SUBJECT_REF),model));
+        dataSpec.setItemSubjectRef(parseItemSubjectRef(xtr.getAttributeValue(null,ATTRIBUTE_ITEM_SUBJECT_REF),model));
         ioSpecification.getDataInputs().add(dataSpec);
       }
  else       if (xtr.isStartElement() && ELEMENT_DATA_OUTPUT.equalsIgnoreCase(xtr.getLocalName())) {
@@ -19,7 +19,7 @@
         BpmnXMLUtil.addXMLLocation(dataSpec,xtr);
         dataSpec.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
         dataSpec.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
-        dataSpec.setItemSubjectRef(parseItemSubjectRef(xtr.getAttributeValue(null,ATTRIBUTE_DATA_SUBJECT_REF),model));
+        dataSpec.setItemSubjectRef(parseItemSubjectRef(xtr.getAttributeValue(null,ATTRIBUTE_ITEM_SUBJECT_REF),model));
         ioSpecification.getDataOutputs().add(dataSpec);
       }
  else       if (xtr.isStartElement() && ELEMENT_DATA_INPUT_REFS.equalsIgnoreCase(xtr.getLocalName())) {

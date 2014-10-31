@@ -8,32 +8,32 @@
     variableNode.put("type","string");
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,"unexisting"));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_NOT_FOUND));
     Task task=taskService.newTask();
     taskService.saveTask(task);
     taskService.setVariable(task.getId(),"existingVariable","Value 1");
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_CONFLICT);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_CONFLICT));
     variableNode.put("name","myVariable");
     variableNode.put("value","simple string value");
     variableNode.put("scope","global");
     variableNode.put("type","string");
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
     variableNode.removeAll();
     variableNode.put("value","simple string value");
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
     requestNode.removeAll();
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
     httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLES_COLLECTION,task.getId()));
     httpPost.setEntity(new StringEntity(objectMapper.createObjectNode().toString()));
-    executeBinaryHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeBinaryRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

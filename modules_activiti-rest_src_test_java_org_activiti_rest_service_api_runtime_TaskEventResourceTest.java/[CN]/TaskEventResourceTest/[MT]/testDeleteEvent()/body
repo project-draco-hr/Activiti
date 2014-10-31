@@ -8,7 +8,7 @@
     assertEquals(2,events.size());
     for (    Event event : events) {
       HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_EVENT,task.getId(),event.getId()));
-      executeHttpRequest(httpDelete,HttpStatus.SC_NO_CONTENT);
+      closeResponse(executeRequest(httpDelete,HttpStatus.SC_NO_CONTENT));
     }
     events=taskService.getTaskEvents(task.getId());
     assertEquals(0,events.size());

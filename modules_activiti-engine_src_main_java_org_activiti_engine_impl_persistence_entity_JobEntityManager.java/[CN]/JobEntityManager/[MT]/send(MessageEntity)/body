@@ -1,4 +1,9 @@
 {
   message.insert();
-  hintJobExecutor(message);
+  if (Context.getProcessEngineConfiguration().isAsyncExecutorEnabled()) {
+    hintAsyncExecutor(message);
+  }
+ else {
+    hintJobExecutor(message);
+  }
 }

@@ -8,8 +8,9 @@
   requestNode.put("type","string");
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,task.getId(),"overlappingVariable"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  HttpResponse response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  CloseableHttpResponse response=executeRequest(httpPut,HttpStatus.SC_OK);
   JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("updatedLocalValue",responseNode.get("value").asText());
   assertEquals("local",responseNode.get("scope").asText());
@@ -21,8 +22,9 @@
   requestNode.put("type","string");
   requestNode.put("scope","local");
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  response=executeRequest(httpPut,HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("updatedLocalValueOnceAgain",responseNode.get("value").asText());
   assertEquals("local",responseNode.get("scope").asText());
@@ -34,8 +36,9 @@
   requestNode.put("type","string");
   requestNode.put("scope","global");
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPut,HttpStatus.SC_OK);
+  response=executeRequest(httpPut,HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
+  closeResponse(response);
   assertNotNull(responseNode);
   assertEquals("updatedInGlobalScope",responseNode.get("value").asText());
   assertEquals("global",responseNode.get("scope").asText());
@@ -43,9 +46,9 @@
   assertEquals("updatedInGlobalScope",runtimeService.getVariable(task.getExecutionId(),"overlappingVariable"));
   requestNode.put("name","unexistingVariable");
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPut,HttpStatus.SC_BAD_REQUEST);
+  closeResponse(executeRequest(httpPut,HttpStatus.SC_BAD_REQUEST));
   requestNode.put("name","unexistingVariable");
   httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_VARIABLE,task.getId(),"unexistingVariable"));
   httpPut.setEntity(new StringEntity(requestNode.toString()));
-  response=executeHttpRequest(httpPut,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPut,HttpStatus.SC_NOT_FOUND));
 }

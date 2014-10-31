@@ -24,9 +24,29 @@
   log.info("Process instance (of process model " + instanceJava.getProcessDefinitionId() + ") started with id: "+ instanceJava.getId()+ ".");
   Execution executionJava=runtimeService.createExecutionQuery().processInstanceId(instanceJava.getProcessInstanceId()).singleResult();
   assertFalse(executionJava.isEnded());
-  waitForJobExecutorToProcessAllJobs(10000L,100L);
   Job jobJava=managementService.createJobQuery().processInstanceId(instanceJava.getId()).singleResult();
   assertNotNull(jobJava);
+  try {
+    managementService.executeJob(jobJava.getId());
+    fail("Expected exception");
+  }
+ catch (  Exception e) {
+  }
+  try {
+    managementService.executeJob(jobJava.getId());
+    fail("Expected exception");
+  }
+ catch (  Exception e) {
+  }
+  try {
+    managementService.executeJob(jobJava.getId());
+    fail("Expected exception");
+  }
+ catch (  Exception e) {
+  }
+  jobJava=managementService.createJobQuery().processInstanceId(instanceJava.getId()).singleResult();
+  assertNotNull(jobJava);
+  assertEquals(0,jobJava.getRetries());
   runtimeService.deleteProcessInstance(instanceJava.getId(),null);
   if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricProcessInstance hInstanceJava=historyService.createHistoricProcessInstanceQuery().processInstanceId(instanceJava.getId()).singleResult();

@@ -17,7 +17,7 @@
     ObjectNode requestNode=objectMapper.createObjectNode();
     HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId()));
     httpPut.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPut,HttpStatus.SC_OK);
+    closeResponse(executeRequest(httpPut,HttpStatus.SC_OK));
     task=taskService.createTaskQuery().taskId(task.getId()).singleResult();
     assertEquals("Task name",task.getName());
     assertEquals("Description",task.getDescription());

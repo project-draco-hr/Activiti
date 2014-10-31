@@ -3,5 +3,6 @@
   requestNode.put("user","kermit");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IDENTITYLINKS_COLLECTION,"unexisting"));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+  CloseableHttpResponse response=executeRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+  closeResponse(response);
 }

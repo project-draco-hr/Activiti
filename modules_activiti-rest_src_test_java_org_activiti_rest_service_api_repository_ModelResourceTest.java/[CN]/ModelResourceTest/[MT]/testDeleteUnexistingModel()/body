@@ -1,4 +1,4 @@
 {
   HttpDelete httpDelete=new HttpDelete(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL,"unexisting"));
-  executeHttpRequest(httpDelete,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpDelete,HttpStatus.SC_NOT_FOUND));
 }

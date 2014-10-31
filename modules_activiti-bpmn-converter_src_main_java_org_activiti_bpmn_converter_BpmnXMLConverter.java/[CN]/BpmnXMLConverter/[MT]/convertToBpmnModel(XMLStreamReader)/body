@@ -40,21 +40,20 @@
  else       if (ELEMENT_ITEM_DEFINITION.equals(xtr.getLocalName())) {
         itemDefinitionParser.parse(xtr,model);
       }
+ else       if (ELEMENT_DATA_STORE.equals(xtr.getLocalName())) {
+        dataStoreParser.parse(xtr,model);
+      }
  else       if (ELEMENT_INTERFACE.equals(xtr.getLocalName())) {
         interfaceParser.parse(xtr,model);
       }
  else       if (ELEMENT_IOSPECIFICATION.equals(xtr.getLocalName())) {
-        new IOSpecificationParser().parseChildElement(xtr,activeProcess,model);
+        ioSpecificationParser.parseChildElement(xtr,activeProcess,model);
       }
  else       if (ELEMENT_PARTICIPANT.equals(xtr.getLocalName())) {
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null,ATTRIBUTE_ID))) {
-          Pool pool=new Pool();
-          pool.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
-          pool.setName(xtr.getAttributeValue(null,ATTRIBUTE_NAME));
-          pool.setProcessRef(xtr.getAttributeValue(null,ATTRIBUTE_PROCESS_REF));
-          BpmnXMLUtil.parseChildElements(ELEMENT_PARTICIPANT,pool,xtr,model);
-          model.getPools().add(pool);
-        }
+        participantParser.parse(xtr,model);
+      }
+ else       if (ELEMENT_MESSAGE_FLOW.equals(xtr.getLocalName())) {
+        messageFlowParser.parse(xtr,model);
       }
  else       if (ELEMENT_PROCESS.equals(xtr.getLocalName())) {
         Process process=processParser.parse(xtr,model);
@@ -76,7 +75,7 @@
  else         if (activeProcess != null) {
           parentElement=activeProcess;
         }
-        new DocumentationParser().parseChildElement(xtr,parentElement,model);
+        documentationParser.parseChildElement(xtr,parentElement,model);
       }
  else       if (activeProcess == null && ELEMENT_TEXT_ANNOTATION.equals(xtr.getLocalName())) {
         String elementId=xtr.getAttributeValue(null,ATTRIBUTE_ID);
@@ -91,7 +90,7 @@
         model.getGlobalArtifacts().add(association);
       }
  else       if (ELEMENT_EXTENSIONS.equals(xtr.getLocalName())) {
-        new ExtensionElementsParser().parse(xtr,activeSubProcessList,activeProcess,model);
+        extensionElementsParser.parse(xtr,activeSubProcessList,activeProcess,model);
       }
  else       if (ELEMENT_SUBPROCESS.equals(xtr.getLocalName())) {
         subProcessParser.parse(xtr,activeSubProcessList,activeProcess);
@@ -107,7 +106,7 @@
       }
  else {
         if (!activeSubProcessList.isEmpty() && ELEMENT_MULTIINSTANCE.equalsIgnoreCase(xtr.getLocalName())) {
-          new MultiInstanceParser().parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1),model);
+          multiInstanceParser.parseChildElement(xtr,activeSubProcessList.get(activeSubProcessList.size() - 1),model);
         }
  else         if (convertersToBpmnMap.containsKey(xtr.getLocalName())) {
           if (activeProcess != null) {

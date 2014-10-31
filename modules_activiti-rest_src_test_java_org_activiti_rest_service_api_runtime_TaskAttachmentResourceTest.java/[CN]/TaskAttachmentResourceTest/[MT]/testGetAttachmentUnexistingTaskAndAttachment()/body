@@ -4,8 +4,8 @@
     taskService.saveTask(task);
     Attachment urlAttachment=taskService.createAttachment("simpleType",task.getId(),null,"Simple attachment","Simple attachment description","http://activiti.org");
     taskService.saveAttachment(urlAttachment);
-    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,"unexistingtask",urlAttachment.getId())),HttpStatus.SC_NOT_FOUND);
-    executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),"unexistingattachment")),HttpStatus.SC_NOT_FOUND);
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,"unexistingtask",urlAttachment.getId())),HttpStatus.SC_NOT_FOUND));
+    closeResponse(executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT,task.getId(),"unexistingattachment")),HttpStatus.SC_NOT_FOUND));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

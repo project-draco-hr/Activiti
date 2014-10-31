@@ -1,5 +1,5 @@
 {
   HttpPut httpPut=new HttpPut(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_MODEL_SOURCE,"unexisting"));
   httpPut.setEntity(new StringEntity(""));
-  executeBinaryHttpRequest(httpPut,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeBinaryRequest(httpPut,HttpStatus.SC_NOT_FOUND));
 }

@@ -3,14 +3,14 @@
   requestNode.put("action","complete");
   HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,"unexisting"));
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_NOT_FOUND));
   requestNode.put("action","claim");
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_NOT_FOUND));
   requestNode.put("action","delegate");
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_NOT_FOUND));
   requestNode.put("action","resolve");
   httpPost.setEntity(new StringEntity(requestNode.toString()));
-  executeHttpRequest(httpPost,HttpStatus.SC_NOT_FOUND);
+  closeResponse(executeRequest(httpPost,HttpStatus.SC_NOT_FOUND));
 }

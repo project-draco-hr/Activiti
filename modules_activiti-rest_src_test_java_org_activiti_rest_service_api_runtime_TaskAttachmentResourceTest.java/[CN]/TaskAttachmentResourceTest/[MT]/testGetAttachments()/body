@@ -6,8 +6,9 @@
     taskService.saveAttachment(urlAttachment);
     Attachment binaryAttachment=taskService.createAttachment("binaryType",task.getId(),null,"Binary attachment","Binary attachment description",new ByteArrayInputStream("This is binary content".getBytes()));
     taskService.saveAttachment(binaryAttachment);
-    HttpResponse response=executeHttpRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId())),HttpStatus.SC_OK);
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_ATTACHMENT_COLLECTION,task.getId())),HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
+    closeResponse(response);
     assertTrue(responseNode.isArray());
     assertEquals(2,responseNode.size());
   }

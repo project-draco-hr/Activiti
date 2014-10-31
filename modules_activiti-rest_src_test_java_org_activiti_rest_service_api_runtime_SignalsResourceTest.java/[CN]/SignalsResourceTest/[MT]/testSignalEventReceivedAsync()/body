@@ -6,18 +6,18 @@
     requestNode.put("async",true);
     HttpPost httpPost=new HttpPost(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_SIGNALS));
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_ACCEPTED);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_ACCEPTED));
     assertEquals(1,managementService.createJobQuery().jobWithoutTenantId().count());
     requestNode.put("tenantId","my tenant");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_ACCEPTED);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_ACCEPTED));
     assertEquals(1,managementService.createJobQuery().jobTenantId("my tenant").count());
     ArrayNode vars=requestNode.putArray("variables");
     ObjectNode var=vars.addObject();
     var.put("name","testVar");
     var.put("value","test");
     httpPost.setEntity(new StringEntity(requestNode.toString()));
-    executeHttpRequest(httpPost,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeRequest(httpPost,HttpStatus.SC_BAD_REQUEST));
   }
   finally {
     if (tenantDeployment != null) {

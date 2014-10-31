@@ -2,11 +2,27 @@
   try {
     Deployment firstDeployment=repositoryService.createDeployment().name("Deployment 1").addClasspathResource("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml").deploy();
     Deployment secondDeployment=repositoryService.createDeployment().name("Deployment 2").addClasspathResource("org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml").addClasspathResource("org/activiti/rest/service/api/repository/twoTaskProcess.bpmn20.xml").deploy();
+    Deployment thirdDeployment=repositoryService.createDeployment().name("Deployment 3").addClasspathResource("org/activiti/rest/service/api/repository/oneTaskProcessWithDi.bpmn20.xml").deploy();
     ProcessDefinition oneTaskProcess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").deploymentId(firstDeployment.getId()).singleResult();
     ProcessDefinition latestOneTaskProcess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").deploymentId(secondDeployment.getId()).singleResult();
     ProcessDefinition twoTaskprocess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("twoTaskProcess").deploymentId(secondDeployment.getId()).singleResult();
+    ProcessDefinition oneTaskWithDiProcess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcessWithDi").deploymentId(thirdDeployment.getId()).singleResult();
     String baseUrl=RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_COLLECTION);
-    assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId());
+    assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId(),oneTaskWithDiProcess.getId());
+    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + baseUrl),HttpStatus.SC_OK);
+    JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+    closeResponse(response);
+    for (int i=0; i < dataNode.size(); i++) {
+      JsonNode processDefinitionJson=dataNode.get(i);
+      String key=processDefinitionJson.get("key").asText();
+      JsonNode graphicalNotationNode=processDefinitionJson.get("graphicalNotationDefined");
+      if (key.equals("oneTaskProcessWithDi")) {
+        assertTrue(graphicalNotationNode.asBoolean());
+      }
+ else {
+        assertFalse(graphicalNotationNode.asBoolean());
+      }
+    }
     String url=baseUrl + "?name=" + encode("The Two Task Process");
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
     url=baseUrl + "?nameLike=" + encode("The Two%");
@@ -22,7 +38,7 @@
     url=baseUrl + "?categoryLike=" + encode("Two%");
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
     url=baseUrl + "?categoryNotEquals=OneTaskCategory";
-    assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
+    assertResultsPresentInDataResponse(url,twoTaskprocess.getId(),oneTaskWithDiProcess.getId());
     url=baseUrl + "?resourceName=org/activiti/rest/service/api/repository/twoTaskProcess.bpmn20.xml";
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
     url=baseUrl + "?resourceNameLike=" + encode("%twoTaskProcess%");
@@ -30,9 +46,9 @@
     url=baseUrl + "?version=2";
     assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId());
     url=baseUrl + "?latest=true";
-    assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),twoTaskprocess.getId());
+    assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),twoTaskprocess.getId(),oneTaskWithDiProcess.getId());
     url=baseUrl + "?latest=false";
-    assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId());
+    assertResultsPresentInDataResponse(baseUrl,oneTaskProcess.getId(),twoTaskprocess.getId(),latestOneTaskProcess.getId(),oneTaskWithDiProcess.getId());
     url=baseUrl + "?deploymentId=" + secondDeployment.getId();
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId(),latestOneTaskProcess.getId());
     url=baseUrl + "?startableByUser=kermit";
@@ -41,10 +57,10 @@
     url=baseUrl + "?suspended=true";
     assertResultsPresentInDataResponse(url,twoTaskprocess.getId());
     url=baseUrl + "?suspended=false";
-    assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),oneTaskProcess.getId());
+    assertResultsPresentInDataResponse(url,latestOneTaskProcess.getId(),oneTaskProcess.getId(),oneTaskWithDiProcess.getId());
     url=baseUrl + "?latest=true&name=anyname";
     HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + url);
-    executeHttpRequest(httpGet,HttpStatus.SC_BAD_REQUEST);
+    closeResponse(executeRequest(httpGet,HttpStatus.SC_BAD_REQUEST));
   }
   finally {
     List<Deployment> deployments=repositoryService.createDeploymentQuery().list();
