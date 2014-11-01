@@ -4,7 +4,7 @@
   Job job=managementService.createJobQuery().singleResult();
   assertNotNull(job);
   makeSureJobDue(job);
-  AcquiredJobs acquiredJobs=executeAcquireJobsCommand();
+  AcquiredJobEntities acquiredJobs=executeAcquireJobsCommand();
   assertEquals(1,acquiredJobs.size());
   runtimeService.suspendProcessInstanceById(pi.getId());
   acquiredJobs=executeAcquireJobsCommand();

@@ -1,10 +1,5 @@
 {
   ProcessEngineConfiguration processEngineConfig=Context.getProcessEngineConfiguration();
   Date now=processEngineConfig.getClock().getCurrentTime();
-  if (processEngineConfig.isAsyncExecutorEnabled()) {
-    return getDbSqlSession().selectList("selectNextTimerJobsToExecute",now,page);
-  }
- else {
-    return getDbSqlSession().selectList("selectNextJobsToExecute",now,page);
-  }
+  return getDbSqlSession().selectList("selectNextJobsToExecute",now,page);
 }

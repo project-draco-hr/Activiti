@@ -1,7 +1,6 @@
 {
   try {
-    JobExecutor jobExecutor=processEngineConfiguration.getJobExecutor();
-    processEngineConfiguration.getCommandExecutor().execute(new ControlledCommand(activeThread,new AcquireJobsCmd(jobExecutor)));
+    processEngineConfiguration.getCommandExecutor().execute(new ControlledCommand(activeThread,new AcquireTimerJobsCmd("testLockOwner",60000,5)));
   }
  catch (  ActivitiOptimisticLockingException e) {
     this.exception=e;

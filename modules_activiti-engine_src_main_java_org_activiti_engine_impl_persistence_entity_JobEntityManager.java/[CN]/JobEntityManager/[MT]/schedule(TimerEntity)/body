@@ -4,7 +4,8 @@
     throw new ActivitiIllegalArgumentException("duedate is null");
   }
   timer.insert();
-  if (timer.getDuedate().getTime() <= (Context.getProcessEngineConfiguration().getClock().getCurrentTime().getTime())) {
+  ProcessEngineConfiguration engineConfiguration=Context.getProcessEngineConfiguration();
+  if (engineConfiguration.isAsyncExecutorEnabled() == false && timer.getDuedate().getTime() <= (engineConfiguration.getClock().getCurrentTime().getTime())) {
     hintJobExecutor(timer);
   }
 }

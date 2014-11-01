@@ -2,12 +2,11 @@
   log.info("{} starting to acquire async jobs due");
   final CommandExecutor commandExecutor=asyncExecutor.getCommandExecutor();
   while (!isInterrupted) {
-    int maxJobsPerAcquisition=10;
     try {
-      AcquiredJobs acquiredJobs=commandExecutor.execute(new AcquireAsyncJobsDueCmd(asyncExecutor));
-      millisToWait=10000;
-      int jobsAcquired=acquiredJobs.getJobIdBatches().size();
-      if (jobsAcquired >= maxJobsPerAcquisition) {
+      AcquiredJobEntities acquiredJobs=commandExecutor.execute(new AcquireAsyncJobsDueCmd(asyncExecutor));
+      millisToWait=asyncExecutor.getDefaultAsyncJobAcquireWaitTimeInMillis();
+      int jobsAcquired=acquiredJobs.size();
+      if (jobsAcquired >= asyncExecutor.getMaxAsyncJobsDuePerAcquisition()) {
         millisToWait=0;
       }
     }
@@ -18,7 +17,7 @@
     }
 catch (    Throwable e) {
       log.error("exception during async job acquisition: {}",e.getMessage(),e);
-      millisToWait=10000;
+      millisToWait=asyncExecutor.getDefaultAsyncJobAcquireWaitTimeInMillis();
     }
     if (millisToWait > 0) {
       try {
