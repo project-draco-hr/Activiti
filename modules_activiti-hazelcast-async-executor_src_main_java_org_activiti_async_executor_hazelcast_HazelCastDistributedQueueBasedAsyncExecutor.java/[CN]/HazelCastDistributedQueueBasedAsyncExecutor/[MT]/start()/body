@@ -1,0 +1,14 @@
+{
+  if (isActive) {
+    return;
+  }
+  logger.info("Starting up the Hazelcast async job executor [{}].",getClass().getName());
+  hazelcastInstance=Hazelcast.newHazelcastInstance();
+  jobQueue=hazelcastInstance.getQueue(QUEUE_NAME);
+  threadPoolQueue=new ArrayBlockingQueue<Runnable>(queueSize);
+  ThreadPoolExecutor threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,TimeUnit.MILLISECONDS,threadPoolQueue);
+  threadPoolExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+  executorService=threadPoolExecutor;
+  isActive=true;
+  initJobQueueListener();
+}

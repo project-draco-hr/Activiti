@@ -1,0 +1,19 @@
+{
+  jobQueueListenerThread=new Thread(new Runnable(){
+    public void run(){
+      while (isActive) {
+        JobEntity job=null;
+        try {
+          job=jobQueue.take();
+        }
+ catch (        InterruptedException e1) {
+        }
+        if (job != null) {
+          executorService.execute(new ExecuteAsyncRunnable(job,commandExecutor));
+        }
+      }
+    }
+  }
+);
+  jobQueueListenerThread.start();
+}
