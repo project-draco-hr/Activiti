@@ -6,9 +6,11 @@
     log.debug("Unlocking exclusive job {}",job.getId());
   }
   if (job.isExclusive()) {
-    ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(job.getExecutionId());
-    if (execution != null) {
-      commandContext.getExecutionEntityManager().clearProcessInstanceLockTime(execution.getProcessInstanceId());
+    if (job.getExecutionId() != null) {
+      ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(job.getExecutionId());
+      if (execution != null) {
+        commandContext.getExecutionEntityManager().clearProcessInstanceLockTime(execution.getProcessInstanceId());
+      }
     }
   }
   return null;
