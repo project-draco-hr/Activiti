@@ -1,0 +1,21 @@
+{
+  commandExecutor.execute(new Command<Void>(){
+    @Override public Void execute(    CommandContext commandContext){
+      CommandConfig commandConfig=commandExecutor.getDefaultConfig().transactionRequiresNew();
+      FailedJobCommandFactory failedJobCommandFactory=commandContext.getFailedJobCommandFactory();
+      Command<Object> cmd=failedJobCommandFactory.getCommand(job.getId(),exception);
+      log.trace("Using FailedJobCommandFactory '" + failedJobCommandFactory.getClass() + "' and command of type '"+ cmd.getClass()+ "'");
+      commandExecutor.execute(commandConfig,cmd);
+      if (commandContext.getEventDispatcher().isEnabled()) {
+        try {
+          commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityExceptionEvent(ActivitiEventType.JOB_EXECUTION_FAILURE,job,exception));
+        }
+ catch (        Throwable ignore) {
+          log.warn("Exception occured while dispatching job failure event, ignoring.",ignore);
+        }
+      }
+      return null;
+    }
+  }
+);
+}

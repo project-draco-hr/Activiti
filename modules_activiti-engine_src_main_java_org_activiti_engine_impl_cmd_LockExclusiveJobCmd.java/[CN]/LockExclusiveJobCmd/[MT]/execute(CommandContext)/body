@@ -1,0 +1,16 @@
+{
+  if (job == null) {
+    throw new ActivitiIllegalArgumentException("job is null");
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Executing lock exclusive job {}",job.getId());
+  }
+  if (job.isExclusive()) {
+    ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(job.getExecutionId());
+    if (execution != null) {
+      commandContext.getExecutionEntityManager().updateProcessInstanceLockTime(execution.getProcessInstanceId());
+      System.out.println("!!!!!!!!! updating lock time " + execution.getProcessInstanceId());
+    }
+  }
+  return null;
+}
