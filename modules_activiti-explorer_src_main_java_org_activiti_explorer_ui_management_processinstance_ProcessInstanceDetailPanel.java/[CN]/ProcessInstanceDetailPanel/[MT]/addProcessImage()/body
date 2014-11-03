@@ -5,7 +5,7 @@
     if (ExplorerApp.get().isUseJavascriptDiagram()) {
       try {
         final InputStream definitionStream=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getResourceName());
-        XMLInputFactory xif=XMLInputFactory.newInstance();
+        XMLInputFactory xif=XmlUtil.createSafeXmlInputFactory();
         XMLStreamReader xtr=xif.createXMLStreamReader(definitionStream);
         BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xtr);
         if (!bpmnModel.getFlowLocationMap().isEmpty()) {

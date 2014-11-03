@@ -1,6 +1,7 @@
 {
   try {
     String deploymentId=repositoryService.createDeployment().addString("test.bpmn20.xml",UNSAFE_XML).deploy().getId();
+    assertEquals(1,repositoryService.createProcessDefinitionQuery().singleResult());
     repositoryService.deleteDeployment(deploymentId,true);
   }
  catch (  Exception e) {
