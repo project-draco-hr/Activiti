@@ -15,7 +15,7 @@
     public void buttonClick(    ClickEvent event){
       try {
         InputStream bpmnStream=repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),processDefinition.getResourceName());
-        XMLInputFactory xif=XMLInputFactory.newInstance();
+        XMLInputFactory xif=XmlUtil.createSafeXmlInputFactory();
         InputStreamReader in=new InputStreamReader(bpmnStream,"UTF-8");
         XMLStreamReader xtr=xif.createXMLStreamReader(in);
         BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xtr);
