@@ -33,7 +33,8 @@
         LOG.info("JMX Connector thread started and listening at: {}",url);
       }
  catch (      IOException ioe) {
-        LOG.warn("Could not start JMXConnector thread at: " + url + ". JMX Connector not in use.",ioe);
+        if (ioe.getCause() instanceof javax.naming.NameAlreadyBoundException)         LOG.warn("JMX connection:" + url + " already exists.");
+ else         LOG.warn("Could not start JMXConnector thread at: " + url + ". JMX Connector not in use.",ioe);
       }
     }
   }

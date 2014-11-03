@@ -4,12 +4,12 @@
   MBeanInfo beanInfo=modelBean.getMBeanInfo();
   assertNotNull(beanInfo);
   assertNotNull(beanInfo.getOperations());
-  assertEquals(6,beanInfo.getOperations().length);
+  assertEquals(9,beanInfo.getOperations().length);
   int counter=0;
   for (  MBeanOperationInfo op : beanInfo.getOperations()) {
     if (op.getName().equals("deleteDeployment")) {
       counter++;
-      assertEquals("undeploy given process ID",op.getDescription());
+      assertEquals("delete deployment",op.getDescription());
       assertEquals("void",op.getReturnType());
       assertEquals(1,op.getSignature().length);
       assertEquals("java.lang.String",op.getSignature()[0].getType());
