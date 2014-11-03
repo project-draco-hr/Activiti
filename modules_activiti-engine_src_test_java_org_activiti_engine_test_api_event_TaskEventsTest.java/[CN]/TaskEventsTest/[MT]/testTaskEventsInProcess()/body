@@ -51,6 +51,8 @@
   event=(ActivitiEntityEvent)listener.getEventsReceived().get(0);
   assertEquals(ActivitiEventType.TASK_COMPLETED,event.getType());
   assertExecutionDetails(event,processInstance);
+  TaskEntity taskEntity=(TaskEntity)event.getEntity();
+  assertNotNull(taskEntity.getDueDate());
   event=(ActivitiEntityEvent)listener.getEventsReceived().get(1);
   assertEquals(ActivitiEventType.ENTITY_DELETED,event.getType());
   assertExecutionDetails(event,processInstance);
