@@ -1,0 +1,13 @@
+{
+  SpringProcessEngineConfiguration engine=new SpringProcessEngineConfiguration();
+  if (processDefinitions != null && processDefinitions.length > 0) {
+    engine.setDeploymentResources(processDefinitions);
+  }
+  engine.setDataSource(dataSource);
+  engine.setTransactionManager(transactionManager);
+  if (null != springAsyncExecutor) {
+    engine.setAsyncExecutorEnabled(true);
+    engine.setAsyncExecutor(springAsyncExecutor);
+  }
+  return engine;
+}

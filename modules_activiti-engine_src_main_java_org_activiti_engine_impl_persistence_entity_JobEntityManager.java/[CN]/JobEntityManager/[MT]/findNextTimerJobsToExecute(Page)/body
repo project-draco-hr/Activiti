@@ -1,0 +1,5 @@
+{
+  ProcessEngineConfiguration processEngineConfig=Context.getProcessEngineConfiguration();
+  Date now=processEngineConfig.getClock().getCurrentTime();
+  return getDbSqlSession().selectList("selectNextTimerJobsToExecute",now,page);
+}

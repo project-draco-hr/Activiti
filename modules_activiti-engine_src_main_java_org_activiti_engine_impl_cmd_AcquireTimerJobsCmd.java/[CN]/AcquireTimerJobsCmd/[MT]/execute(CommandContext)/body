@@ -1,0 +1,11 @@
+{
+  AcquiredJobEntities acquiredJobs=new AcquiredJobEntities();
+  List<JobEntity> jobs=commandContext.getJobEntityManager().findNextTimerJobsToExecute(new Page(0,maxJobsPerAcquisition));
+  for (  JobEntity job : jobs) {
+    if (job != null && !acquiredJobs.contains(job.getId())) {
+      lockJob(commandContext,job,lockOwner,lockTimeInMillis);
+      acquiredJobs.addJob(job);
+    }
+  }
+  return acquiredJobs;
+}

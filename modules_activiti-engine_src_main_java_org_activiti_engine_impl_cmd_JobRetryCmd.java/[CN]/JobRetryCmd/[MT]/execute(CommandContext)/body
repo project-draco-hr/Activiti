@@ -1,22 +1,23 @@
 {
   JobEntity job=commandContext.getJobEntityManager().findJobById(jobId);
   ActivityImpl activity=getCurrentActivity(commandContext,job);
+  ProcessEngineConfiguration processEngineConfig=commandContext.getProcessEngineConfiguration();
   if (activity == null || activity.getFailedJobRetryTimeCycleValue() == null) {
     log.error("activitiy or FailedJobRetryTimerCycleValue is null in job " + jobId + "'. only decrementing retries.");
     job.setRetries(job.getRetries() - 1);
     job.setLockOwner(null);
     job.setLockExpirationTime(null);
     if (job.getDuedate() == null) {
-      job.setDuedate(calculateDueDate(commandContext,commandContext.getProcessEngineConfiguration().getAsyncFailedJobWaitTime(),null));
+      job.setDuedate(calculateDueDate(commandContext,processEngineConfig.getAsyncFailedJobWaitTime(),null));
     }
  else {
-      job.setDuedate(calculateDueDate(commandContext,commandContext.getProcessEngineConfiguration().getDefaultFailedJobWaitTime(),job.getDuedate()));
+      job.setDuedate(calculateDueDate(commandContext,processEngineConfig.getDefaultFailedJobWaitTime(),job.getDuedate()));
     }
   }
  else {
     String failedJobRetryTimeCycle=activity.getFailedJobRetryTimeCycleValue();
     try {
-      DurationHelper durationHelper=new DurationHelper(failedJobRetryTimeCycle,commandContext.getProcessEngineConfiguration().getClock());
+      DurationHelper durationHelper=new DurationHelper(failedJobRetryTimeCycle,processEngineConfig.getClock());
       job.setLockOwner(null);
       job.setLockExpirationTime(null);
       job.setDuedate(durationHelper.getDateAfter());
@@ -42,9 +43,11 @@
     eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,job));
     eventDispatcher.dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_RETRIES_DECREMENTED,job));
   }
-  JobExecutor jobExecutor=commandContext.getProcessEngineConfiguration().getJobExecutor();
-  JobAddedNotification messageAddedNotification=new JobAddedNotification(jobExecutor);
-  TransactionContext transactionContext=commandContext.getTransactionContext();
-  transactionContext.addTransactionListener(TransactionState.COMMITTED,messageAddedNotification);
+  if (processEngineConfig.isAsyncExecutorEnabled() == false) {
+    JobExecutor jobExecutor=processEngineConfig.getJobExecutor();
+    JobAddedNotification messageAddedNotification=new JobAddedNotification(jobExecutor);
+    TransactionContext transactionContext=commandContext.getTransactionContext();
+    transactionContext.addTransactionListener(TransactionState.COMMITTED,messageAddedNotification);
+  }
   return null;
 }

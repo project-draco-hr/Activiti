@@ -1,36 +1,18 @@
 {
-  if (jobExecutor == null) {
-    jobExecutor=new DefaultJobExecutor();
-  }
-  jobExecutor.setClockReader(this.clock);
-  jobHandlers=new HashMap<String,JobHandler>();
-  TimerExecuteNestedActivityJobHandler timerExecuteNestedActivityJobHandler=new TimerExecuteNestedActivityJobHandler();
-  jobHandlers.put(timerExecuteNestedActivityJobHandler.getType(),timerExecuteNestedActivityJobHandler);
-  TimerCatchIntermediateEventJobHandler timerCatchIntermediateEvent=new TimerCatchIntermediateEventJobHandler();
-  jobHandlers.put(timerCatchIntermediateEvent.getType(),timerCatchIntermediateEvent);
-  TimerStartEventJobHandler timerStartEvent=new TimerStartEventJobHandler();
-  jobHandlers.put(timerStartEvent.getType(),timerStartEvent);
-  AsyncContinuationJobHandler asyncContinuationJobHandler=new AsyncContinuationJobHandler();
-  jobHandlers.put(asyncContinuationJobHandler.getType(),asyncContinuationJobHandler);
-  ProcessEventJobHandler processEventJobHandler=new ProcessEventJobHandler();
-  jobHandlers.put(processEventJobHandler.getType(),processEventJobHandler);
-  TimerSuspendProcessDefinitionHandler suspendProcessDefinitionHandler=new TimerSuspendProcessDefinitionHandler();
-  jobHandlers.put(suspendProcessDefinitionHandler.getType(),suspendProcessDefinitionHandler);
-  TimerActivateProcessDefinitionHandler activateProcessDefinitionHandler=new TimerActivateProcessDefinitionHandler();
-  jobHandlers.put(activateProcessDefinitionHandler.getType(),activateProcessDefinitionHandler);
-  if (getCustomJobHandlers() != null) {
-    for (    JobHandler customJobHandler : getCustomJobHandlers()) {
-      jobHandlers.put(customJobHandler.getType(),customJobHandler);
+  if (isAsyncExecutorEnabled() == false) {
+    if (jobExecutor == null) {
+      jobExecutor=new DefaultJobExecutor();
     }
-  }
-  jobExecutor.setCommandExecutor(commandExecutor);
-  jobExecutor.setAutoActivate(jobExecutorActivate);
-  if (jobExecutor.getRejectedJobsHandler() == null) {
-    if (customRejectedJobsHandler != null) {
-      jobExecutor.setRejectedJobsHandler(customRejectedJobsHandler);
-    }
+    jobExecutor.setClockReader(this.clock);
+    jobExecutor.setCommandExecutor(commandExecutor);
+    jobExecutor.setAutoActivate(jobExecutorActivate);
+    if (jobExecutor.getRejectedJobsHandler() == null) {
+      if (customRejectedJobsHandler != null) {
+        jobExecutor.setRejectedJobsHandler(customRejectedJobsHandler);
+      }
  else {
-      jobExecutor.setRejectedJobsHandler(new CallerRunsRejectedJobsHandler());
+        jobExecutor.setRejectedJobsHandler(new CallerRunsRejectedJobsHandler());
+      }
     }
   }
 }

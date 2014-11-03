@@ -1,0 +1,17 @@
+{
+  if (job == null) {
+    throw new ActivitiIllegalArgumentException("job is null");
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Unlocking exclusive job {}",job.getId());
+  }
+  if (job.isExclusive()) {
+    if (job.getExecutionId() != null) {
+      ExecutionEntity execution=commandContext.getExecutionEntityManager().findExecutionById(job.getExecutionId());
+      if (execution != null) {
+        commandContext.getExecutionEntityManager().clearProcessInstanceLockTime(execution.getProcessInstanceId());
+      }
+    }
+  }
+  return null;
+}

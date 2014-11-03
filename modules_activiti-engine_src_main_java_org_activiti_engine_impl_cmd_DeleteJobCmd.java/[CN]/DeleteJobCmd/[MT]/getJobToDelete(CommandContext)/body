@@ -9,7 +9,7 @@
   if (job == null) {
     throw new ActivitiObjectNotFoundException("No job found with id '" + jobId + "'",Job.class);
   }
-  if (job.getLockOwner() != null || job.getLockExpirationTime() != null) {
+  if (job.getLockOwner() != null) {
     throw new ActivitiException("Cannot delete job when the job is being executed. Try again later.");
   }
   return job;

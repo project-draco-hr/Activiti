@@ -1,6 +1,10 @@
 {
-  if (jobAcquisitionThread == null) {
-    jobAcquisitionThread=new Thread(asyncJobsDueRunnable);
+  if (timerJobAcquisitionThread == null) {
+    timerJobAcquisitionThread=new Thread(timerJobRunnable);
   }
-  jobAcquisitionThread.start();
+  timerJobAcquisitionThread.start();
+  if (asyncJobAcquisitionThread == null) {
+    asyncJobAcquisitionThread=new Thread(asyncJobsDueRunnable);
+  }
+  asyncJobAcquisitionThread.start();
 }

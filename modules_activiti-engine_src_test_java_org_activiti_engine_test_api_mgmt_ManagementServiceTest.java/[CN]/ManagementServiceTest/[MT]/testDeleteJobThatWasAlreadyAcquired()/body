@@ -4,7 +4,7 @@
   Job timerJob=managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult();
   processEngineConfiguration.getClock().setCurrentTime(new Date(processEngineConfiguration.getClock().getCurrentTime().getTime() + 7200000L));
   ProcessEngineImpl processEngineImpl=(ProcessEngineImpl)processEngine;
-  AcquireJobsCmd acquireJobsCmd=new AcquireJobsCmd(processEngineImpl.getProcessEngineConfiguration().getJobExecutor());
+  AcquireTimerJobsCmd acquireJobsCmd=new AcquireTimerJobsCmd("testLockOwner",60000,5);
   CommandExecutor commandExecutor=processEngineImpl.getProcessEngineConfiguration().getCommandExecutor();
   commandExecutor.execute(acquireJobsCmd);
   try {

@@ -3,6 +3,11 @@
   message.setExecution(this);
   message.setExclusive(getActivity().isExclusive());
   message.setJobHandlerType(AsyncContinuationJobHandler.TYPE);
+  GregorianCalendar expireCal=new GregorianCalendar();
+  ProcessEngineConfiguration processEngineConfig=Context.getCommandContext().getProcessEngineConfiguration();
+  expireCal.setTime(processEngineConfig.getClock().getCurrentTime());
+  expireCal.add(Calendar.SECOND,processEngineConfig.getLockTimeAsyncJobWaitTime());
+  message.setLockExpirationTime(expireCal.getTime());
   if (getTenantId() != null) {
     message.setTenantId(getTenantId());
   }

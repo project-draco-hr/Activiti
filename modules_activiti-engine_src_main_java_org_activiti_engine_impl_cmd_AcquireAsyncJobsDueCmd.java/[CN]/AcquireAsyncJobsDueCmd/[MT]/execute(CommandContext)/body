@@ -1,12 +1,10 @@
 {
-  AcquiredJobs acquiredJobs=new AcquiredJobs();
-  List<JobEntity> jobs=commandContext.getJobEntityManager().findAsyncJobsDueToExecute(new Page(0,10));
-  List<String> jobIds=new ArrayList<String>();
+  AcquiredJobEntities acquiredJobs=new AcquiredJobEntities();
+  List<JobEntity> jobs=commandContext.getJobEntityManager().findAsyncJobsDueToExecute(new Page(0,asyncExecutor.getMaxAsyncJobsDuePerAcquisition()));
   for (  JobEntity job : jobs) {
-    lockJob(commandContext,job,60000);
-    jobIds.add(job.getId());
+    lockJob(commandContext,job,asyncExecutor.getAsyncJobLockTimeInMillis());
+    acquiredJobs.addJob(job);
     asyncExecutor.executeAsyncJob(job);
   }
-  acquiredJobs.addJobIdBatch(jobIds);
   return acquiredJobs;
 }

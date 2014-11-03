@@ -6,7 +6,7 @@
   timeToFire.add(Calendar.HOUR,2);
   timeToFire.add(Calendar.SECOND,5);
   processEngineConfiguration.getClock().setCurrentTime(timeToFire.getTime());
-  waitForJobExecutorToProcessAllJobs(2000,100);
+  waitForJobExecutorToProcessAllJobs(2000,200);
   assertEquals(3,listener.getEventsReceived().size());
   List<String> eventIdList=new ArrayList<String>();
   for (  ActivitiEvent event : listener.getEventsReceived()) {
