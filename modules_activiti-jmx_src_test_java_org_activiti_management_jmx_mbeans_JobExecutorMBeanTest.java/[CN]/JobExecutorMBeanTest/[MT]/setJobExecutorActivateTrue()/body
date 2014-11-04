@@ -1,6 +1,6 @@
 {
   jobExecutorMbean.setJobExecutorActivate(true);
-  verify(processEngineConfiguration).setJobExecutorActivate(true);
+  verify(jobExecutor).start();
   jobExecutorMbean.setJobExecutorActivate(false);
-  verify(processEngineConfiguration).setJobExecutorActivate(false);
+  verify(jobExecutor).shutdown();
 }
