@@ -5,5 +5,8 @@
   subProcessInstance.setProcessDefinition((ProcessDefinitionImpl)processDefinition);
   subProcessInstance.setProcessInstance(subProcessInstance);
   Context.getCommandContext().getHistoryManager().recordSubProcessInstanceStart(this,subProcessInstance);
+  if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,subProcessInstance));
+  }
   return subProcessInstance;
 }
