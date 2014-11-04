@@ -5,6 +5,7 @@
   comboBox.setEnabled(formProperty.isWritable());
   comboBox.setNullSelectionAllowed(false);
   Object firstItemId=null;
+  Object itemToSelect=null;
   Map<String,String> values=(Map<String,String>)formProperty.getType().getInformation("values");
   if (values != null) {
     for (    Entry<String,String> enumEntry : values.entrySet()) {
@@ -12,12 +13,19 @@
       if (firstItemId == null) {
         firstItemId=enumEntry.getKey();
       }
+      String selectedValue=formProperty.getValue();
+      if (selectedValue != null && selectedValue.equals(enumEntry.getKey())) {
+        itemToSelect=enumEntry.getKey();
+      }
       if (enumEntry.getValue() != null) {
         comboBox.setItemCaption(enumEntry.getKey(),enumEntry.getValue());
       }
     }
   }
-  if (firstItemId != null) {
+  if (itemToSelect != null) {
+    comboBox.select(itemToSelect);
+  }
+ else   if (firstItemId != null) {
     comboBox.select(firstItemId);
   }
   return comboBox;
