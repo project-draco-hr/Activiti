@@ -1,0 +1,5 @@
+{
+  ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
+  boolean useClassForName=processEngineConfiguration == null || processEngineConfiguration.isUseClassForNameClassLoading();
+  return useClassForName ? Class.forName(className,true,classLoader) : classLoader.loadClass(className);
+}

@@ -7,7 +7,7 @@
   for (  JobEntity job : jobs) {
     List<String> jobIds=new ArrayList<String>();
     if (job != null && !acquiredJobs.contains(job.getId())) {
-      if (job.isExclusive() && job.getProcessInstanceId() != null) {
+      if (job instanceof MessageEntity && job.isExclusive() && job.getProcessInstanceId() != null) {
         try {
           Thread.sleep(100);
         }

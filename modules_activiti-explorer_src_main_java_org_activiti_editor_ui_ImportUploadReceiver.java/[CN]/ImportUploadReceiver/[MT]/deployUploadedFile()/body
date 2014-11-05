@@ -4,7 +4,7 @@
       if (fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn")) {
         validFile=true;
         BpmnXMLConverter xmlConverter=new BpmnXMLConverter();
-        XMLInputFactory xif=XMLInputFactory.newInstance();
+        XMLInputFactory xif=XmlUtil.createSafeXmlInputFactory();
         InputStreamReader in=new InputStreamReader(new ByteArrayInputStream(outputStream.toByteArray()),"UTF-8");
         XMLStreamReader xtr=xif.createXMLStreamReader(in);
         BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xtr);
