@@ -1,0 +1,17 @@
+{
+  String hostName=Utils.getHostName();
+  JMXServiceURL url=new JMXServiceURL("service:jmx:rmi://" + hostName + ":10111/jndi/rmi://"+ hostName+ ":1099/jmxrmi/activiti");
+  ProcessEngineConfiguration processEngineConfig=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+  Thread.sleep(500);
+  JMXConnector jmxc=JMXConnectorFactory.connect(url,null);
+  MBeanServerConnection mbsc=jmxc.getMBeanServerConnection();
+  ObjectName jobExecutorBeanName=new ObjectName("org.activiti.jmx.Mbeans:type=JobExecutor");
+  processEngineConfig.getJobExecutor().shutdown();
+  assertFalse(processEngineConfig.isJobExecutorActivate());
+  assertFalse((Boolean)mbsc.getAttribute(jobExecutorBeanName,"JobExecutorActivated"));
+  mbsc.invoke(jobExecutorBeanName,"setJobExecutorActivate",new Boolean[]{true},new String[]{Boolean.class.getName()});
+  assertTrue((Boolean)mbsc.getAttribute(jobExecutorBeanName,"JobExecutorActivated"));
+  mbsc.invoke(jobExecutorBeanName,"setJobExecutorActivate",new Boolean[]{false},new String[]{Boolean.class.getName()});
+  assertFalse(processEngineConfig.isJobExecutorActivate());
+  assertFalse((Boolean)mbsc.getAttribute(jobExecutorBeanName,"JobExecutorActivated"));
+}

@@ -1,0 +1,17 @@
+{
+  when(repositoryService.createDeploymentQuery()).thenReturn(deploymentQuery);
+  DeploymentEntity deployment=new DeploymentEntity();
+  List<Deployment> deploymentList=new ArrayList<Deployment>();
+  deployment.setId("testDeploymentId");
+  deployment.setName("testDeploymentName");
+  deployment.setTenantId("tenantId");
+  deploymentList.add(deployment);
+  when(deploymentQuery.list()).thenReturn(deploymentList);
+  List<List<String>> result=processDefinitionsMBean.getDeployments();
+  assertNotNull(result);
+  assertEquals(1,result.size());
+  assertEquals(3,result.get(0).size());
+  assertEquals("testDeploymentId",result.get(0).get(0));
+  assertEquals("testDeploymentName",result.get(0).get(1));
+  assertEquals("tenantId",result.get(0).get(2));
+}

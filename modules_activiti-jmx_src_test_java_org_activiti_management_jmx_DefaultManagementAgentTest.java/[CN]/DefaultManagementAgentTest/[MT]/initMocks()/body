@@ -1,0 +1,8 @@
+{
+  MockitoAnnotations.initMocks(this);
+  sourceObjectName=new ObjectName("domain","key","value");
+  registeredObjectName=new ObjectName("domain","key","otherValue");
+  JMXConfigurator jmxConfigurator=new JMXConfigurator();
+  agent=new DefaultManagementAgent(jmxConfigurator);
+  agent.setMBeanServer(mbeanServer);
+}

@@ -1,0 +1,71 @@
+{
+  ModelMBean modelBean=assembler.assemble(processDefinitionsMBean,new ObjectName("domain","key","value"));
+  assertNotNull(modelBean);
+  MBeanInfo beanInfo=modelBean.getMBeanInfo();
+  assertNotNull(beanInfo);
+  assertNotNull(beanInfo.getOperations());
+  assertEquals(9,beanInfo.getOperations().length);
+  int counter=0;
+  for (  MBeanOperationInfo op : beanInfo.getOperations()) {
+    if (op.getName().equals("deleteDeployment")) {
+      counter++;
+      assertEquals("delete deployment",op.getDescription());
+      assertEquals("void",op.getReturnType());
+      assertEquals(1,op.getSignature().length);
+      assertEquals("java.lang.String",op.getSignature()[0].getType());
+    }
+ else     if (op.getName().equals("suspendProcessDefinitionById")) {
+      counter++;
+      assertEquals("Suspend given process ID",op.getDescription());
+      assertEquals("void",op.getReturnType());
+      assertEquals(1,op.getSignature().length);
+      assertEquals("java.lang.String",op.getSignature()[0].getType());
+    }
+ else     if (op.getName().equals("activatedProcessDefinitionById")) {
+      counter++;
+      assertEquals("Activate given process ID",op.getDescription());
+      assertEquals("void",op.getReturnType());
+      assertEquals(1,op.getSignature().length);
+      assertEquals("java.lang.String",op.getSignature()[0].getType());
+    }
+ else     if (op.getName().equals("suspendProcessDefinitionByKey")) {
+      counter++;
+      assertEquals("Suspend given process ID",op.getDescription());
+      assertEquals("void",op.getReturnType());
+      assertEquals(1,op.getSignature().length);
+      assertEquals("java.lang.String",op.getSignature()[0].getType());
+    }
+ else     if (op.getName().equals("activatedProcessDefinitionByKey")) {
+      counter++;
+      assertEquals("Activate given process ID",op.getDescription());
+      assertEquals("void",op.getReturnType());
+      assertEquals(1,op.getSignature().length);
+      assertEquals("java.lang.String",op.getSignature()[0].getType());
+    }
+ else     if (op.getName().equals("deployProcessDefinition")) {
+      counter++;
+      assertEquals("Deploy Process Definition",op.getDescription());
+      assertEquals("void",op.getReturnType());
+      assertEquals(2,op.getSignature().length);
+      assertEquals("java.lang.String",op.getSignature()[0].getType());
+      assertEquals("java.lang.String",op.getSignature()[1].getType());
+    }
+  }
+  assertEquals(6,counter);
+  assertNotNull(beanInfo.getAttributes());
+  assertEquals(2,beanInfo.getAttributes().length);
+  counter=0;
+  for (  MBeanAttributeInfo attr : beanInfo.getAttributes()) {
+    if (attr.getName().equals("ProcessDefinitions")) {
+      counter++;
+      assertEquals("List of Process definitions",attr.getDescription());
+      assertEquals("java.util.List",attr.getType());
+    }
+ else     if (attr.getName().equals("Deployments")) {
+      counter++;
+      assertEquals("List of deployed Processes",attr.getDescription());
+      assertEquals("java.util.List",attr.getType());
+    }
+  }
+  assertEquals(2,counter);
+}

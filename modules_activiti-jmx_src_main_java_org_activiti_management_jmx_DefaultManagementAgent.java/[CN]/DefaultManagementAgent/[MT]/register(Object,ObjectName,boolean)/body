@@ -1,0 +1,11 @@
+{
+  try {
+    Object mbean=assembler.assemble(obj,name);
+    if (mbean != null)     registerMBeanWithServer(mbean,name,forceRegistration);
+ else     registerMBeanWithServer(obj,name,forceRegistration);
+  }
+ catch (  NotCompliantMBeanException e) {
+    LOG.error("Mbean " + name + " is not compliant MBean.",e);
+    registerMBeanWithServer(obj,name,forceRegistration);
+  }
+}

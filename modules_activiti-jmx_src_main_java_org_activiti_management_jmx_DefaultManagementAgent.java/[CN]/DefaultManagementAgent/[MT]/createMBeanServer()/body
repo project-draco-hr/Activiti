@@ -1,0 +1,11 @@
+{
+  server=findOrCreateMBeanServer();
+  try {
+    if (jmxConfigurator.getCreateConnector()) {
+      createJmxConnector(Utils.getHostName());
+    }
+  }
+ catch (  IOException ioe) {
+    LOG.warn("Could not create and start JMX connector.",ioe);
+  }
+}

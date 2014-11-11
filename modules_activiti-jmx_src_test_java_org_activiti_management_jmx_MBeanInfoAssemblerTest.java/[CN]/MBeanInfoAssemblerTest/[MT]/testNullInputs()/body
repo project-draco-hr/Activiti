@@ -1,0 +1,7 @@
+{
+  assertNull(mbeanInfoAssembler.getMBeanInfo(null,null,""));
+  assertNull(mbeanInfoAssembler.getMBeanInfo(testMbean,testMbean,null));
+  NotManagedMBean notManagedMbean=new NotManagedMBean();
+  assertNotNull(mbeanInfoAssembler.getMBeanInfo(null,notManagedMbean,"someName"));
+  assertNotNull(mbeanInfoAssembler.getMBeanInfo(notManagedMbean,null,"someName"));
+}

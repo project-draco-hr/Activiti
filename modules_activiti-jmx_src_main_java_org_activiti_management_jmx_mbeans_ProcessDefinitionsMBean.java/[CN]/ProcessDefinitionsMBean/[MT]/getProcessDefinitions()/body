@@ -1,0 +1,14 @@
+{
+  List<ProcessDefinition> deployments=repositoryService.createProcessDefinitionQuery().list();
+  List<List<String>> result=new ArrayList<List<String>>(deployments.size());
+  for (  ProcessDefinition deployment : deployments) {
+    List<String> item=new ArrayList<String>(3);
+    item.add(deployment.getId());
+    item.add(deployment.getName());
+    item.add(Integer.toString(deployment.getVersion()));
+    item.add(Boolean.toString(deployment.isSuspended()));
+    item.add(deployment.getDescription());
+    result.add(item);
+  }
+  return result;
+}

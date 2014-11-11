@@ -1,0 +1,13 @@
+{
+  try {
+    this.processEngineConfig=processEngineConfig;
+    if (!disabled) {
+      managementAgent=new DefaultManagementAgent(this);
+      managementAgent.doStart();
+      managementAgent.findAndRegisterMbeans();
+    }
+  }
+ catch (  Exception e) {
+    LOG.warn("error in initializing jmx. Continue with partial or no JMX configuration",e);
+  }
+}

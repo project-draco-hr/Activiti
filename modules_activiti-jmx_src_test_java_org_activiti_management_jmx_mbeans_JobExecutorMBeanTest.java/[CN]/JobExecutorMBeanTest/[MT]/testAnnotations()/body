@@ -1,0 +1,30 @@
+{
+  ModelMBean modelBean=assembler.assemble(jobExecutorMbean,new ObjectName("domain","key","value"));
+  assertNotNull(modelBean);
+  MBeanInfo beanInfo=modelBean.getMBeanInfo();
+  assertNotNull(beanInfo);
+  assertNotNull(beanInfo.getOperations());
+  assertEquals(2,beanInfo.getOperations().length);
+  int counter=0;
+  for (  MBeanOperationInfo op : beanInfo.getOperations()) {
+    if (op.getName().equals("setJobExecutorActivate")) {
+      counter++;
+      assertEquals("set job executor activate",op.getDescription());
+      assertEquals("void",op.getReturnType());
+      assertEquals(1,op.getSignature().length);
+      assertEquals("java.lang.Boolean",op.getSignature()[0].getType());
+    }
+  }
+  assertEquals(1,counter);
+  assertNotNull(beanInfo.getAttributes());
+  assertEquals(1,beanInfo.getAttributes().length);
+  counter=0;
+  for (  MBeanAttributeInfo attr : beanInfo.getAttributes()) {
+    if (attr.getName().equals("JobExecutorActivated")) {
+      counter++;
+      assertEquals("check if the job executor is activated",attr.getDescription());
+      assertEquals("boolean",attr.getType());
+    }
+  }
+  assertEquals(1,counter);
+}

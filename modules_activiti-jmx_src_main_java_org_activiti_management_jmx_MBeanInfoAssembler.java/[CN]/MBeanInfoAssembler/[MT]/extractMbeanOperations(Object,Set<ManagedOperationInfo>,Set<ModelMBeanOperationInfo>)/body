@@ -1,0 +1,9 @@
+{
+  for (  ManagedOperationInfo info : operations) {
+    ModelMBeanOperationInfo mbean=new ModelMBeanOperationInfo(info.getDescription(),info.getOperation());
+    Descriptor opDesc=mbean.getDescriptor();
+    mbean.setDescriptor(opDesc);
+    mBeanOperations.add(mbean);
+    LOG.trace("Assembled operation: {}",mbean);
+  }
+}
