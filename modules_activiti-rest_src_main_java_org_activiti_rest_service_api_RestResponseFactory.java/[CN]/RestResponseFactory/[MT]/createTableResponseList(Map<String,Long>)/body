@@ -1,0 +1,8 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  List<TableResponse> tables=new ArrayList<TableResponse>();
+  for (  Entry<String,Long> entry : tableCounts.entrySet()) {
+    tables.add(createTableResponse(entry.getKey(),entry.getValue(),urlBuilder));
+  }
+  return tables;
+}

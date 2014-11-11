@@ -1,8 +1,3 @@
 {
-  List<TableResponse> tables=new ArrayList<TableResponse>();
-  Map<String,Long> tableCounts=managementService.getTableCount();
-  for (  Entry<String,Long> entry : tableCounts.entrySet()) {
-    tables.add(restResponseFactory.createTableResponse(entry.getKey(),entry.getValue(),request.getRequestURL().toString().replace("/management/tables","")));
-  }
-  return tables;
+  return restResponseFactory.createTableResponseList(managementService.getTableCount());
 }

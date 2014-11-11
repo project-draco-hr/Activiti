@@ -1,0 +1,7 @@
+{
+  String baseUrl=request.getRequestURL().toString();
+  if (StringUtils.isNotBlank(request.getPathInfo())) {
+    baseUrl=baseUrl.substring(0,decodeUrl(baseUrl).indexOf(request.getPathInfo()));
+  }
+  return baseUrl;
+}

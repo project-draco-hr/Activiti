@@ -1,0 +1,8 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  List<HistoricTaskInstanceResponse> responseList=new ArrayList<HistoricTaskInstanceResponse>();
+  for (  HistoricTaskInstance instance : taskInstances) {
+    responseList.add(createHistoricTaskInstanceResponse(instance,urlBuilder));
+  }
+  return responseList;
+}

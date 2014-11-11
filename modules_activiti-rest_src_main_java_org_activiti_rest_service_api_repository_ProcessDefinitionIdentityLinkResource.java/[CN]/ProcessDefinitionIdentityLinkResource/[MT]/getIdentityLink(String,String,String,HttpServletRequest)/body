@@ -2,7 +2,5 @@
   ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
   validateIdentityLinkArguments(family,identityId);
   IdentityLink link=getIdentityLink(family,identityId,processDefinition.getId());
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/process-definitions/"));
-  return restResponseFactory.createRestIdentityLink(link,serverRootUrl);
+  return restResponseFactory.createRestIdentityLink(link);
 }

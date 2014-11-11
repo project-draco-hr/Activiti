@@ -4,11 +4,5 @@
     throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.",Deployment.class);
   }
   List<String> resourceList=repositoryService.getDeploymentResourceNames(deploymentId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/deployments/"));
-  List<DeploymentResourceResponse> responseList=new ArrayList<DeploymentResourceResponse>();
-  for (  String resourceId : resourceList) {
-    responseList.add(restResponseFactory.createDeploymentResourceResponse(deploymentId,resourceId,contentTypeResolver.resolveContentType(resourceId),serverRootUrl));
-  }
-  return responseList;
+  return restResponseFactory.createDeploymentResourceResponseList(deploymentId,resourceList,contentTypeResolver);
 }

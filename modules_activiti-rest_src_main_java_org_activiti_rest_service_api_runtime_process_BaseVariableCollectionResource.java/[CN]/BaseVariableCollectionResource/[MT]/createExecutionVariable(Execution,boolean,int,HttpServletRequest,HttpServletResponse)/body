@@ -1,0 +1,63 @@
+{
+  Object result=null;
+  if (request instanceof MultipartHttpServletRequest) {
+    result=setBinaryVariable((MultipartHttpServletRequest)request,execution,variableType,true);
+  }
+ else {
+    List<RestVariable> inputVariables=new ArrayList<RestVariable>();
+    List<RestVariable> resultVariables=new ArrayList<RestVariable>();
+    result=resultVariables;
+    try {
+      @SuppressWarnings("unchecked") List<Object> variableObjects=(List<Object>)objectMapper.readValue(request.getInputStream(),List.class);
+      for (      Object restObject : variableObjects) {
+        RestVariable restVariable=objectMapper.convertValue(restObject,RestVariable.class);
+        inputVariables.add(restVariable);
+      }
+    }
+ catch (    Exception e) {
+      throw new ActivitiIllegalArgumentException("Failed to serialize to a RestVariable instance",e);
+    }
+    if (inputVariables == null || inputVariables.size() == 0) {
+      throw new ActivitiIllegalArgumentException("Request didn't contain a list of variables to create.");
+    }
+    RestVariableScope sharedScope=null;
+    RestVariableScope varScope=null;
+    Map<String,Object> variablesToSet=new HashMap<String,Object>();
+    for (    RestVariable var : inputVariables) {
+      varScope=var.getVariableScope();
+      if (var.getName() == null) {
+        throw new ActivitiIllegalArgumentException("Variable name is required");
+      }
+      if (varScope == null) {
+        varScope=RestVariableScope.LOCAL;
+      }
+      if (sharedScope == null) {
+        sharedScope=varScope;
+      }
+      if (varScope != sharedScope) {
+        throw new ActivitiIllegalArgumentException("Only allowed to update multiple variables in the same scope.");
+      }
+      if (!override && hasVariableOnScope(execution,var.getName(),varScope)) {
+        throw new ActivitiConflictException("Variable '" + var.getName() + "' is already present on execution '"+ execution.getId()+ "'.");
+      }
+      Object actualVariableValue=restResponseFactory.getVariableValue(var);
+      variablesToSet.put(var.getName(),actualVariableValue);
+      resultVariables.add(restResponseFactory.createRestVariable(var.getName(),actualVariableValue,varScope,execution.getId(),variableType,false));
+    }
+    if (!variablesToSet.isEmpty()) {
+      if (sharedScope == RestVariableScope.LOCAL) {
+        runtimeService.setVariablesLocal(execution.getId(),variablesToSet);
+      }
+ else {
+        if (execution.getParentId() != null) {
+          runtimeService.setVariables(execution.getParentId(),variablesToSet);
+        }
+ else {
+          throw new ActivitiIllegalArgumentException("Cannot set global variables on execution '" + execution.getId() + "', task is not part of process.");
+        }
+      }
+    }
+  }
+  response.setStatus(HttpStatus.CREATED.value());
+  return result;
+}

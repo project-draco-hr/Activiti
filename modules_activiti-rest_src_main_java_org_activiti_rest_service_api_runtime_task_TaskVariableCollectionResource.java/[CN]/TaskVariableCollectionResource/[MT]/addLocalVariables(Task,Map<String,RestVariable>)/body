@@ -1,0 +1,7 @@
+{
+  Map<String,Object> rawVariables=taskService.getVariablesLocal(task.getId());
+  List<RestVariable> localVariables=restResponseFactory.createRestVariables(rawVariables,task.getId(),RestResponseFactory.VARIABLE_TASK,RestVariableScope.LOCAL);
+  for (  RestVariable var : localVariables) {
+    variableMap.put(var.getName(),var);
+  }
+}

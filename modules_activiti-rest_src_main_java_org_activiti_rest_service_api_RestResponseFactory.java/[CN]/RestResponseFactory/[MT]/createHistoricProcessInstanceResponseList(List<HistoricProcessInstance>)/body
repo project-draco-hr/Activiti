@@ -1,0 +1,8 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  List<HistoricProcessInstanceResponse> responseList=new ArrayList<HistoricProcessInstanceResponse>();
+  for (  HistoricProcessInstance instance : processInstances) {
+    responseList.add(createHistoricProcessInstanceResponse(instance,urlBuilder));
+  }
+  return responseList;
+}

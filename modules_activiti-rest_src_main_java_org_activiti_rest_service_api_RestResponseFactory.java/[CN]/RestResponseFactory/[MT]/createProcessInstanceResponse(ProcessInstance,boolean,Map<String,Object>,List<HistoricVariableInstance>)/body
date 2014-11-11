@@ -1,0 +1,36 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  ProcessInstanceResponse result=new ProcessInstanceResponse();
+  result.setActivityId(processInstance.getActivityId());
+  result.setBusinessKey(processInstance.getBusinessKey());
+  result.setId(processInstance.getId());
+  result.setProcessDefinitionId(processInstance.getProcessDefinitionId());
+  result.setProcessDefinitionUrl(urlBuilder.buildUrl(RestUrls.URL_PROCESS_DEFINITION,processInstance.getProcessDefinitionId()));
+  result.setEnded(processInstance.isEnded());
+  result.setSuspended(processInstance.isSuspended());
+  result.setUrl(urlBuilder.buildUrl(RestUrls.URL_PROCESS_INSTANCE,processInstance.getId()));
+  result.setTenantId(processInstance.getTenantId());
+  if (processInstance.isEnded()) {
+    result.setCompleted(true);
+  }
+ else {
+    result.setCompleted(false);
+  }
+  if (returnVariables) {
+    if (processInstance.isEnded()) {
+      if (historicVariableList != null) {
+        for (        HistoricVariableInstance historicVariable : historicVariableList) {
+          result.addVariable(createRestVariable(historicVariable.getVariableName(),historicVariable.getValue(),RestVariableScope.LOCAL,processInstance.getId(),VARIABLE_PROCESS,false,urlBuilder));
+        }
+      }
+    }
+ else {
+      if (runtimeVariableMap != null) {
+        for (        String name : runtimeVariableMap.keySet()) {
+          result.addVariable(createRestVariable(name,runtimeVariableMap.get(name),RestVariableScope.LOCAL,processInstance.getId(),VARIABLE_PROCESS,false,urlBuilder));
+        }
+      }
+    }
+  }
+  return result;
+}

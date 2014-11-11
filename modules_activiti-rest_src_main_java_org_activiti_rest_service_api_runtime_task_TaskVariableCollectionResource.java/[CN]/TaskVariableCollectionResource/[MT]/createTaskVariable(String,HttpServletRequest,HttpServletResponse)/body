@@ -1,10 +1,8 @@
 {
   Task task=getTaskFromRequest(taskId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
   Object result=null;
   if (request instanceof MultipartHttpServletRequest) {
-    result=setBinaryVariable((MultipartHttpServletRequest)request,task,true,serverRootUrl);
+    result=setBinaryVariable((MultipartHttpServletRequest)request,task,true);
   }
  else {
     List<RestVariable> inputVariables=new ArrayList<RestVariable>();
@@ -45,7 +43,7 @@
       }
       Object actualVariableValue=restResponseFactory.getVariableValue(var);
       variablesToSet.put(var.getName(),actualVariableValue);
-      resultVariables.add(restResponseFactory.createRestVariable(var.getName(),actualVariableValue,varScope,task.getId(),RestResponseFactory.VARIABLE_TASK,false,serverRootUrl));
+      resultVariables.add(restResponseFactory.createRestVariable(var.getName(),actualVariableValue,varScope,task.getId(),RestResponseFactory.VARIABLE_TASK,false));
     }
     if (!variablesToSet.isEmpty()) {
       if (sharedScope == RestVariableScope.LOCAL) {

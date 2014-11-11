@@ -1,0 +1,8 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  List<DeploymentResourceResponse> responseList=new ArrayList<DeploymentResourceResponse>();
+  for (  String resourceId : resourceList) {
+    responseList.add(createDeploymentResourceResponse(deploymentId,resourceId,contentTypeResolver.resolveContentType(resourceId),urlBuilder));
+  }
+  return responseList;
+}

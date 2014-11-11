@@ -6,10 +6,8 @@
   String pathInfo=request.getPathInfo();
   String resourceName=pathInfo.replace("/repository/deployments/" + deploymentId + "/resources/","");
   List<String> resourceList=repositoryService.getDeploymentResourceNames(deploymentId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/deployments/"));
   if (resourceList.contains(resourceName)) {
-    DeploymentResourceResponse response=restResponseFactory.createDeploymentResourceResponse(deploymentId,resourceName,contentTypeResolver.resolveContentType(resourceName),serverRootUrl);
+    DeploymentResourceResponse response=restResponseFactory.createDeploymentResourceResponse(deploymentId,resourceName,contentTypeResolver.resolveContentType(resourceName));
     return response;
   }
  else {

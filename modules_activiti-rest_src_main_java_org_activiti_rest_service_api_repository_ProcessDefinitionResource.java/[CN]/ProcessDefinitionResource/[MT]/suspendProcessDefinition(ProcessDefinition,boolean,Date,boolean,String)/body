@@ -1,9 +1,0 @@
-{
-  if (processDefinition.isSuspended()) {
-    throw new ActivitiConflictException("Process definition with id '" + processDefinition.getId() + " ' is already suspended");
-  }
-  repositoryService.suspendProcessDefinitionById(processDefinition.getId(),suspendInstances,date);
-  ProcessDefinitionResponse response=restResponseFactory.createProcessDefinitionResponse(processDefinition,isGraphicalNotationDefined,serverRootUrl);
-  response.setSuspended(true);
-  return response;
-}

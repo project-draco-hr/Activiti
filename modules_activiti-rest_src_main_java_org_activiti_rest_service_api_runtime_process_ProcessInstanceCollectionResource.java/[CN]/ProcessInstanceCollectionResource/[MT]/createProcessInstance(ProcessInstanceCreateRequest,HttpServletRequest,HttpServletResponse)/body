@@ -53,10 +53,10 @@
  else {
         runtimeVariableMap=runtimeService.getVariables(instance.getId());
       }
-      return restResponseFactory.createProcessInstanceResponse(instance,true,runtimeVariableMap,historicVariableList,serverRootUrl);
+      return restResponseFactory.createProcessInstanceResponse(instance,true,runtimeVariableMap,historicVariableList);
     }
  else {
-      return restResponseFactory.createProcessInstanceResponse(instance,serverRootUrl);
+      return restResponseFactory.createProcessInstanceResponse(instance);
     }
   }
  catch (  ActivitiObjectNotFoundException aonfe) {

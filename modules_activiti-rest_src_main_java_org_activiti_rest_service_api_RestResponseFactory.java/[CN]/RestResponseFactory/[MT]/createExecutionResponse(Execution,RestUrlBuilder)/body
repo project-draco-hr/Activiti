@@ -1,0 +1,17 @@
+{
+  ExecutionResponse result=new ExecutionResponse();
+  result.setActivityId(execution.getActivityId());
+  result.setId(execution.getId());
+  result.setUrl(urlBuilder.buildUrl(RestUrls.URL_EXECUTION,execution.getId()));
+  result.setSuspended(execution.isSuspended());
+  result.setTenantId(execution.getTenantId());
+  result.setParentId(execution.getParentId());
+  if (execution.getParentId() != null) {
+    result.setParentUrl(urlBuilder.buildUrl(RestUrls.URL_EXECUTION,execution.getParentId()));
+  }
+  result.setProcessInstanceId(execution.getProcessInstanceId());
+  if (execution.getProcessInstanceId() != null) {
+    result.setProcessInstanceUrl(urlBuilder.buildUrl(RestUrls.URL_PROCESS_INSTANCE,execution.getProcessInstanceId()));
+  }
+  return result;
+}

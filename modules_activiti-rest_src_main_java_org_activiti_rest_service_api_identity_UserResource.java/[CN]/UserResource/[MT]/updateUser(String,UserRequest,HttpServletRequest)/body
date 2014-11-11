@@ -13,7 +13,5 @@
     user.setPassword(userRequest.getPassword());
   }
   identityService.saveUser(user);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/users/"));
-  return restResponseFactory.createUserResponse(user,false,serverRootUrl);
+  return restResponseFactory.createUserResponse(user,false);
 }

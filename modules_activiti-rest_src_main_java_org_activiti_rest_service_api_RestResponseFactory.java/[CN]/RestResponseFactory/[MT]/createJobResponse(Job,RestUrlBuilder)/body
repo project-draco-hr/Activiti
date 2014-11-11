@@ -1,0 +1,22 @@
+{
+  JobResponse response=new JobResponse();
+  response.setId(job.getId());
+  response.setDueDate(job.getDuedate());
+  response.setExceptionMessage(job.getExceptionMessage());
+  response.setExecutionId(job.getExecutionId());
+  response.setProcessDefinitionId(job.getProcessDefinitionId());
+  response.setProcessInstanceId(job.getProcessInstanceId());
+  response.setRetries(job.getRetries());
+  response.setTenantId(job.getTenantId());
+  response.setUrl(urlBuilder.buildUrl(RestUrls.URL_JOB,job.getId()));
+  if (job.getProcessDefinitionId() != null) {
+    response.setProcessDefinitionUrl(urlBuilder.buildUrl(RestUrls.URL_PROCESS_DEFINITION,job.getProcessDefinitionId()));
+  }
+  if (job.getProcessInstanceId() != null) {
+    response.setProcessInstanceUrl(urlBuilder.buildUrl(RestUrls.URL_PROCESS_INSTANCE,job.getProcessInstanceId()));
+  }
+  if (job.getExecutionId() != null) {
+    response.setExecutionUrl(urlBuilder.buildUrl(RestUrls.URL_EXECUTION,job.getExecutionId()));
+  }
+  return response;
+}
