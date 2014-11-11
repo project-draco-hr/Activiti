@@ -1,0 +1,14 @@
+{
+  MBeanAttributesAndOperations cached=cache.get(managedClass);
+  if (cached == null) {
+    doExtractAttributesAndOperations(managedClass,attributes,operations);
+    cached=new MBeanAttributesAndOperations();
+    cached.attributes=new LinkedHashMap<String,ManagedAttributeInfo>(attributes);
+    cached.operations=new LinkedHashSet<ManagedOperationInfo>(operations);
+    attributes.clear();
+    operations.clear();
+    cache.put(managedClass,cached);
+  }
+  attributes.putAll(cached.attributes);
+  operations.addAll(cached.operations);
+}

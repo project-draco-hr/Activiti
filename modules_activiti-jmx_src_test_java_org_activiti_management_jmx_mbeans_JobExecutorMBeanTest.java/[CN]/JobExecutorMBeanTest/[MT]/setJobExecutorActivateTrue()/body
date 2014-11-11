@@ -1,0 +1,6 @@
+{
+  jobExecutorMbean.setJobExecutorActivate(true);
+  verify(jobExecutor).start();
+  jobExecutorMbean.setJobExecutorActivate(false);
+  verify(jobExecutor).shutdown();
+}

@@ -1,0 +1,28 @@
+{
+  ModelMBeanInfo beanInfo=mbeanInfoAssembler.getMBeanInfo(testMbean,null,"someName");
+  assertNotNull(beanInfo);
+  assertEquals("test description",beanInfo.getDescription());
+  MBeanAttributeInfo[] testAttributes=beanInfo.getAttributes();
+  assertNotNull(testAttributes);
+  assertEquals(2,testAttributes.length);
+  int counter=0;
+  for (  MBeanAttributeInfo info : testAttributes) {
+    if (info.getName().equals("TestAttributeBoolean")) {
+      counter++;
+      assertEquals("test attribute Boolean description",info.getDescription());
+      assertEquals("java.lang.Boolean",info.getType());
+      assertTrue(info.isReadable());
+      assertFalse(info.isWritable());
+    }
+ else     if (info.getName().equals("TestAttributeString")) {
+      counter++;
+      assertEquals("test attribute String description",info.getDescription());
+      assertEquals("java.lang.String",info.getType());
+      assertTrue(info.isReadable());
+      assertFalse(info.isWritable());
+    }
+  }
+  assertEquals(2,counter);
+  assertNotNull(beanInfo.getOperations());
+  assertEquals(3,beanInfo.getOperations().length);
+}

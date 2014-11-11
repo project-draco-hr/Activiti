@@ -1,0 +1,24 @@
+{
+  when(repositoryService.createProcessDefinitionQuery()).thenReturn(processDefinitionQuery);
+  List<ProcessDefinition> processDefinitionList=new ArrayList<ProcessDefinition>();
+  ProcessDefinitionEntity pd=new ProcessDefinitionEntity();
+  pd.setId("testId");
+  pd.setName("testName");
+  pd.setVersion(175);
+  pd.setSuspensionState(1);
+  pd.setDescription("testDescription");
+  processDefinitionList.add(pd);
+  when(processDefinitionQuery.list()).thenReturn(processDefinitionList);
+  List<List<String>> result=processDefinitionsMBean.getProcessDefinitions();
+  assertNotNull(result);
+  assertEquals(1,result.size());
+  assertEquals(5,result.get(0).size());
+  assertEquals("testId",result.get(0).get(0));
+  assertEquals("testName",result.get(0).get(1));
+  assertEquals("175",result.get(0).get(2));
+  assertEquals("false",result.get(0).get(3));
+  assertEquals("testDescription",result.get(0).get(4));
+  pd.setSuspensionState(2);
+  result=processDefinitionsMBean.getProcessDefinitions();
+  assertEquals("true",result.get(0).get(3));
+}

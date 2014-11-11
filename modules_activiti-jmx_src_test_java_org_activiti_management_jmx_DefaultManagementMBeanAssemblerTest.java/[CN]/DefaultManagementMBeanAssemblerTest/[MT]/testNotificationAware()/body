@@ -1,0 +1,9 @@
+{
+  NotificationSenderAware mockedNotificationAwareMbean=mock(NotificationSenderAware.class);
+  ModelMBean modelBean=defaultManagementMBeanAssembler.assemble(mockedNotificationAwareMbean,new ObjectName("org.activiti.jmx.Mbeans:type=something"));
+  assertNotNull(modelBean);
+  ArgumentCaptor<NotificationSender> argument=ArgumentCaptor.forClass(NotificationSender.class);
+  verify(mockedNotificationAwareMbean).setNotificationSender(argument.capture());
+  assertNotNull(argument);
+  assertNotNull(argument.getValue());
+}

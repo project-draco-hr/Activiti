@@ -1,0 +1,47 @@
+{
+  String serviceUrlPath=jmxConfigurator.getServiceUrlPath();
+  Integer registryPort=jmxConfigurator.getRegistryPort();
+  Integer connectorPort=jmxConfigurator.getConnectorPort();
+  if (serviceUrlPath == null) {
+    LOG.warn("Service url path is null. JMX connector creation skipped");
+    return;
+  }
+  if (registryPort == null) {
+    LOG.warn("Registery port is null. JMX connector creation skipped.");
+    return;
+  }
+  try {
+    registry=LocateRegistry.createRegistry(registryPort);
+    LOG.debug("Created JMXConnector RMI registry on port {}",registryPort);
+  }
+ catch (  RemoteException ex) {
+  }
+  String path=serviceUrlPath.startsWith("/") ? serviceUrlPath : "/" + serviceUrlPath;
+  final JMXServiceURL url;
+  if (connectorPort > 0) {
+    url=new JMXServiceURL("service:jmx:rmi://" + host + ":"+ connectorPort+ "/jndi/rmi://"+ host+ ":"+ registryPort+ path);
+  }
+ else {
+    url=new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + host + ":"+ registryPort+ path);
+  }
+  cs=JMXConnectorServerFactory.newJMXConnectorServer(url,null,server);
+  Thread thread=new Thread(new Runnable(){
+    public void run(){
+      try {
+        LOG.debug("Staring JMX Connector thread to listen at: {}",url);
+        cs.start();
+        LOG.info("JMX Connector thread started and listening at: {}",url);
+      }
+ catch (      IOException ioe) {
+        if (ioe.getCause() instanceof javax.naming.NameAlreadyBoundException) {
+          LOG.warn("JMX connection:" + url + " already exists.");
+        }
+ else {
+          LOG.warn("Could not start JMXConnector thread at: " + url + ". JMX Connector not in use.",ioe);
+        }
+      }
+    }
+  }
+,"jmxConnectorStarterThread");
+  thread.start();
+}

@@ -1,0 +1,6 @@
+{
+  when(jobExecutor.isActive()).thenReturn(false);
+  boolean result=jobExecutorMbean.isJobExecutorActivated();
+  verify(jobExecutor).isActive();
+  assertFalse(result);
+}

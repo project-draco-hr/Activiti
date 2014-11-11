@@ -1,0 +1,9 @@
+{
+  reset(mbeanServer,instance);
+  when(mbeanServer.isRegistered(sourceObjectName)).thenReturn(false);
+  when(instance.getObjectName()).thenReturn(registeredObjectName);
+  agent.unregister(sourceObjectName);
+  verify(mbeanServer).isRegistered(sourceObjectName);
+  verify(mbeanServer,never()).unregisterMBean(registeredObjectName);
+  assertFalse(agent.isRegistered(sourceObjectName));
+}

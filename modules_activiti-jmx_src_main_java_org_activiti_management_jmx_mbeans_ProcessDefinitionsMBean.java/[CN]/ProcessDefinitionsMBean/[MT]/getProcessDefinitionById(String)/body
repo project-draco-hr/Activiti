@@ -1,0 +1,10 @@
+{
+  ProcessDefinition pd=repositoryService.createProcessDefinitionQuery().processDefinitionId(id).singleResult();
+  List<String> item=new ArrayList<String>(3);
+  item.add(pd.getId());
+  item.add(pd.getName());
+  item.add(Integer.toString(pd.getVersion()));
+  item.add(Boolean.toString(pd.isSuspended()));
+  item.add(pd.getDescription());
+  return item;
+}
