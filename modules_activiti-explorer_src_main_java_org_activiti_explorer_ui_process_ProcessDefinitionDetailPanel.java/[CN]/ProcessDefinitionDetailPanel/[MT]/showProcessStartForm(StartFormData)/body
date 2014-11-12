@@ -1,13 +1,13 @@
 {
   if (processDefinitionStartForm == null) {
     processDefinitionStartForm=new FormPropertiesForm();
-    processDefinitionStartForm.setSubmitButtonCaption("Start process");
-    processDefinitionStartForm.setCancelButtonCaption("Cancel");
+    processDefinitionStartForm.setSubmitButtonCaption(i18nManager.getMessage(Messages.PROCESS_START));
+    processDefinitionStartForm.setCancelButtonCaption(i18nManager.getMessage(Messages.BUTTON_CANCEL));
     processDefinitionStartForm.addListener(new FormPropertiesEventListener(){
       private static final long serialVersionUID=1L;
       protected void handleFormSubmit(      FormPropertiesEvent event){
         formService.submitStartFormData(processDefinition.getId(),event.getFormProperties());
-        ExplorerApp.get().getMainWindow().showNotification("Process '" + getProcessDisplayName(processDefinition) + "' started successfully");
+        ExplorerApp.get().getMainWindow().showNotification(MessageFormat.format(i18nManager.getMessage(Messages.PROCESS_STARTED_NOTIFICATION),getProcessDisplayName(processDefinition)));
         initProcessDefinitionInfo();
       }
       protected void handleFormCancel(      FormPropertiesEvent event){
