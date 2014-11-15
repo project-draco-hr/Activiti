@@ -1,0 +1,19 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("signalOnSubProcess");
+  assertNotNull(processInstance);
+  Execution executionWithSignal=runtimeService.createExecutionQuery().activityId("userTaskInsideProcess").singleResult();
+  assertNotNull(executionWithSignal);
+  runtimeService.signalEventReceived("signalName");
+  assertEquals(1,listener.getEventsReceived().size());
+  assertTrue(listener.getEventsReceived().get(0) instanceof ActivitiActivityCancelledEvent);
+  ActivitiActivityCancelledEvent signalEvent=(ActivitiActivityCancelledEvent)listener.getEventsReceived().get(0);
+  assertEquals(ActivitiEventType.ACTIVITY_CANCELLED,signalEvent.getType());
+  assertEquals("userTaskInsideProcess",signalEvent.getActivityId());
+  assertEquals(executionWithSignal.getId(),signalEvent.getExecutionId());
+  assertEquals(executionWithSignal.getProcessInstanceId(),signalEvent.getProcessInstanceId());
+  assertEquals(processInstance.getProcessDefinitionId(),signalEvent.getProcessDefinitionId());
+  assertNotNull(signalEvent.getCause());
+  assertTrue(signalEvent.getCause() instanceof SignalEventSubscriptionEntity);
+  SignalEventSubscriptionEntity cause=(SignalEventSubscriptionEntity)signalEvent.getCause();
+  assertEquals("signalName",cause.getEventName());
+}
