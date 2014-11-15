@@ -7,6 +7,8 @@
   g.draw(circle);
   g.setPaint(originalPaint);
   if (image != null) {
-    g.drawImage(image,(int)(graphicInfo.getX() + (graphicInfo.getWidth() / 4)),(int)(graphicInfo.getY() + (graphicInfo.getHeight() / 4)),(int)(image.getWidth() / scaleFactor),(int)(image.getHeight() / scaleFactor),null);
+    int imageX=(int)Math.round(graphicInfo.getX() + (graphicInfo.getWidth() / 2) - (image.getWidth() / 2 * scaleFactor));
+    int imageY=(int)Math.round(graphicInfo.getY() + (graphicInfo.getHeight() / 2) - (image.getHeight() / 2 * scaleFactor));
+    g.drawImage(image,imageX,imageY,(int)(image.getWidth() / scaleFactor),(int)(image.getHeight() / scaleFactor),null);
   }
 }

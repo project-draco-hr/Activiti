@@ -20,11 +20,11 @@
   g.setPaint(originalPaint);
   g.draw(innerCircle);
   if (image != null) {
-    int imageX=(int)(graphicInfo.getX() + (graphicInfo.getWidth() / 4));
-    int imageY=(int)(graphicInfo.getY() + (graphicInfo.getHeight() / 4));
+    int imageX=(int)(graphicInfo.getX() + (graphicInfo.getWidth() / 2) - (image.getWidth() / 2 * scaleFactor));
+    int imageY=(int)(graphicInfo.getY() + (graphicInfo.getHeight() / 2) - (image.getHeight() / 2 * scaleFactor));
     if (scaleFactor == 1.0 && "timer".equals(eventType)) {
-      imageX--;
-      imageY--;
+      imageX++;
+      imageY++;
     }
     g.drawImage(image,imageX,imageY,(int)(image.getWidth() / scaleFactor),(int)(image.getHeight() / scaleFactor),null);
   }
