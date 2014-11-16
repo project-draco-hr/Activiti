@@ -1,6 +1,3 @@
 {
-  StringBuilder urlBuilder=new StringBuilder(baseUrl);
-  urlBuilder.append("/");
-  urlBuilder.append(MessageFormat.format(StringUtils.join(fragments,'/'),arguments));
-  return urlBuilder.toString();
+  return new StringBuilder(baseUrl).append("/").append(MessageFormat.format(StringUtils.join(fragments,'/'),arguments)).toString();
 }
