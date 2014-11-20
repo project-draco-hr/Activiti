@@ -2,6 +2,7 @@
   String hostName=Utils.getHostName();
   JMXServiceURL url=new JMXServiceURL("service:jmx:rmi://" + hostName + ":10111/jndi/rmi://"+ hostName+ ":1099/jmxrmi/activiti");
   ProcessEngineConfiguration processEngineConfig=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+  processEngineConfig.buildProcessEngine();
   Thread.sleep(500);
   JMXConnector jmxc=JMXConnectorFactory.connect(url,null);
   MBeanServerConnection mbsc=jmxc.getMBeanServerConnection();
