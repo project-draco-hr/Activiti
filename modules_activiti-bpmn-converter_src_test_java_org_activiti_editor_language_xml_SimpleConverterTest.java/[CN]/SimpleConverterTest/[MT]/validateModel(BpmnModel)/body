@@ -31,4 +31,7 @@
   assertEquals("flow1Condition",flowElement.getId());
   SequenceFlow flow=(SequenceFlow)flowElement;
   assertEquals("${number <= 1}",flow.getConditionExpression());
+  flowElement=model.getMainProcess().getFlowElement("gateway1");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof ExclusiveGateway);
 }
