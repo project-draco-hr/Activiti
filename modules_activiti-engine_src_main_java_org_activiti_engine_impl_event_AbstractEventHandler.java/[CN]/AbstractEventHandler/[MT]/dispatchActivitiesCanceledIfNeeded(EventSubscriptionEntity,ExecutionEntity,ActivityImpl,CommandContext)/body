@@ -1,10 +1,9 @@
 {
-  ActivityImpl boundaryEventActivity=execution.getProcessDefinition().findActivity(timerEntity.getJobHandlerConfiguration());
   ActivityBehavior boundaryActivityBehavior=boundaryEventActivity.getActivityBehavior();
   if (boundaryActivityBehavior instanceof BoundaryEventActivityBehavior) {
     BoundaryEventActivityBehavior boundaryEventActivityBehavior=(BoundaryEventActivityBehavior)boundaryActivityBehavior;
     if (boundaryEventActivityBehavior.isInterrupting()) {
-      dispatchExecutionTimeOut(timerEntity,execution,commandContext);
+      dispatchExecutionCancelled(eventSubscription,execution,commandContext);
     }
   }
 }
