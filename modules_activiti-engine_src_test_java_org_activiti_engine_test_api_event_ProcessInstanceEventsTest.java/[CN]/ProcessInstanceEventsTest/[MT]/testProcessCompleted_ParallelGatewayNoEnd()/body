@@ -1,4 +1,4 @@
 {
   this.runtimeService.startProcessInstanceByKey("noEndProcess");
-  listener.checkEventCount(1,ActivitiEventType.PROCESS_COMPLETED);
+  assertEquals("ActivitiEventType.PROCESS_COMPLETED was expected 1 time.",1,listener.filterEvents(ActivitiEventType.PROCESS_COMPLETED).size());
 }

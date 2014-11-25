@@ -2,5 +2,5 @@
   ProcessInstance noEndProcess=this.runtimeService.startProcessInstanceByKey("noEndProcess");
   Task task=taskService.createTaskQuery().processInstanceId(noEndProcess.getId()).singleResult();
   taskService.complete(task.getId());
-  listener.checkEventCount(1,ActivitiEventType.PROCESS_COMPLETED);
+  assertEquals("ActivitiEventType.PROCESS_COMPLETED was expected 1 time.",1,listener.filterEvents(ActivitiEventType.PROCESS_COMPLETED).size());
 }
