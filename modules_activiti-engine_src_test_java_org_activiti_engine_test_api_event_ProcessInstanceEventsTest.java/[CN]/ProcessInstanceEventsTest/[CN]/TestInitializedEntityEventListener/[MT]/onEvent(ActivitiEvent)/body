@@ -3,4 +3,7 @@
     assertNotNull(((ExecutionEntity)((ActivitiEntityEvent)event).getEntity()).getId());
     eventsReceived.add(event);
   }
+ else   if (ActivitiEventType.PROCESS_CANCELLED.equals(event.getType())) {
+    eventsReceived.add(event);
+  }
 }

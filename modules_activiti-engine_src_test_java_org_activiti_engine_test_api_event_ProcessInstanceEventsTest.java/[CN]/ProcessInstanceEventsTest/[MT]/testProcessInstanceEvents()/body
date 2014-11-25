@@ -58,11 +58,11 @@
   assertEquals(processInstance.getProcessDefinitionId(),event.getProcessDefinitionId());
   listener.clearEventsReceived();
   runtimeService.deleteProcessInstance(processInstance.getId(),"Testing events");
-  event=(ActivitiEntityEvent)listener.getEventsReceived().get(0);
-  assertEquals(ActivitiEventType.ENTITY_DELETED,event.getType());
-  assertEquals(processInstance.getId(),((ProcessInstance)event.getEntity()).getId());
-  assertEquals(processInstance.getId(),event.getProcessInstanceId());
-  assertEquals(processInstance.getId(),event.getExecutionId());
-  assertEquals(processInstance.getProcessDefinitionId(),event.getProcessDefinitionId());
+  List<ActivitiEvent> processCancelledEvents=listener.filterEvents(ActivitiEventType.PROCESS_CANCELLED);
+  assertEquals(1,processCancelledEvents.size());
+  ActivitiCancelledEvent cancelledEvent=(ActivitiCancelledEvent)processCancelledEvents.get(0);
+  assertEquals(ActivitiEventType.PROCESS_CANCELLED,cancelledEvent.getType());
+  assertEquals(processInstance.getId(),cancelledEvent.getProcessInstanceId());
+  assertEquals(processInstance.getId(),cancelledEvent.getExecutionId());
   listener.clearEventsReceived();
 }
