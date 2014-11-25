@@ -1,0 +1,7 @@
+{
+  Map<String,Object> rawLocalvariables=runtimeService.getVariablesLocal(execution.getId());
+  List<RestVariable> localVariables=restResponseFactory.createRestVariables(rawLocalvariables,execution.getId(),variableType,RestVariableScope.LOCAL);
+  for (  RestVariable var : localVariables) {
+    variableMap.put(var.getName(),var);
+  }
+}

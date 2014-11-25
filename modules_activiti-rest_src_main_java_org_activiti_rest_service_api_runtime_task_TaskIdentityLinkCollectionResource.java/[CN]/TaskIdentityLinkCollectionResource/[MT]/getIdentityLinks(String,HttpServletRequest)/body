@@ -1,11 +1,4 @@
 {
-  List<RestIdentityLink> result=new ArrayList<RestIdentityLink>();
   Task task=getTaskFromRequest(taskId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
-  List<IdentityLink> identityLinks=taskService.getIdentityLinksForTask(task.getId());
-  for (  IdentityLink link : identityLinks) {
-    result.add(restResponseFactory.createRestIdentityLink(link,serverRootUrl));
-  }
-  return result;
+  return restResponseFactory.createRestIdentityLinks(taskService.getIdentityLinksForTask(task.getId()));
 }

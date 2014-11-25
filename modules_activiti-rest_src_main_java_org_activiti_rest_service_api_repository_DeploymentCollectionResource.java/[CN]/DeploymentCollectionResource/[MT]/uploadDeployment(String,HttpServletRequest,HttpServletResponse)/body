@@ -28,7 +28,7 @@
     }
     Deployment deployment=deploymentBuilder.deploy();
     response.setStatus(HttpStatus.CREATED.value());
-    return restResponseFactory.createDeploymentResponse(deployment,request.getRequestURL().toString().replace("/repository/deployments",""));
+    return restResponseFactory.createDeploymentResponse(deployment);
   }
  catch (  Exception e) {
     if (e instanceof ActivitiException) {

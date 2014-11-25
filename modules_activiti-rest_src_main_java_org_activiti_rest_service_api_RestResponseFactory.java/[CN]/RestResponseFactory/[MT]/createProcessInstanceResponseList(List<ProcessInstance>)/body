@@ -1,0 +1,8 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  List<ProcessInstanceResponse> responseList=new ArrayList<ProcessInstanceResponse>();
+  for (  ProcessInstance instance : processInstances) {
+    responseList.add(createProcessInstanceResponse(instance,urlBuilder));
+  }
+  return responseList;
+}

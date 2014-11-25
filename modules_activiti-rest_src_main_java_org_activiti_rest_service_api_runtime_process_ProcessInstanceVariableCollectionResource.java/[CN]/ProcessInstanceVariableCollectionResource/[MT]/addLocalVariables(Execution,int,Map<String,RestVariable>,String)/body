@@ -1,9 +1,0 @@
-{
-  Map<String,Object> rawVariables=runtimeService.getVariables(execution.getId());
-  List<RestVariable> globalVariables=restResponseFactory.createRestVariables(rawVariables,execution.getId(),variableType,RestVariableScope.LOCAL,serverRootUrl);
-  for (  RestVariable var : globalVariables) {
-    if (!variableMap.containsKey(var.getName())) {
-      variableMap.put(var.getName(),var);
-    }
-  }
-}

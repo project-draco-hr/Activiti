@@ -1,10 +1,8 @@
 {
   Execution execution=getExecutionFromRequest(executionId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/executions/"));
   RestVariable result=null;
   if (request instanceof MultipartHttpServletRequest) {
-    result=setBinaryVariable((MultipartHttpServletRequest)request,execution,RestResponseFactory.VARIABLE_EXECUTION,false,serverRootUrl);
+    result=setBinaryVariable((MultipartHttpServletRequest)request,execution,RestResponseFactory.VARIABLE_EXECUTION,false);
     if (!result.getName().equals(variableName)) {
       throw new ActivitiIllegalArgumentException("Variable name in the body should be equal to the name used in the requested URL.");
     }
@@ -23,7 +21,7 @@
     if (!restVariable.getName().equals(variableName)) {
       throw new ActivitiIllegalArgumentException("Variable name in the body should be equal to the name used in the requested URL.");
     }
-    result=setSimpleVariable(restVariable,execution,false,serverRootUrl);
+    result=setSimpleVariable(restVariable,execution,false);
   }
   return result;
 }

@@ -12,5 +12,5 @@
   created.setPassword(userRequest.getPassword());
   identityService.saveUser(created);
   response.setStatus(HttpStatus.CREATED.value());
-  return restResponseFactory.createUserResponse(created,true,request.getRequestURL().toString().replace("/identity/users",""));
+  return restResponseFactory.createUserResponse(created,true);
 }

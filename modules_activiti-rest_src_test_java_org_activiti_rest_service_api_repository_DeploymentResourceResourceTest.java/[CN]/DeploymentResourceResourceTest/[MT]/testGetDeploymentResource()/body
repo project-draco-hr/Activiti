@@ -2,13 +2,13 @@
   try {
     String rawResourceName="org/activiti/rest/service/api/repository/oneTaskProcess.bpmn20.xml";
     Deployment deployment=repositoryService.createDeployment().name("Deployment 1").addClasspathResource(rawResourceName).addInputStream("test.txt",new ByteArrayInputStream("Test content".getBytes())).deploy();
-    HttpGet httpGet=new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),encode(rawResourceName)));
+    HttpGet httpGet=new HttpGet(buildUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),encode(rawResourceName)));
     httpGet.addHeader(new BasicHeader(HttpHeaders.ACCEPT,"application/json"));
     CloseableHttpResponse response=executeRequest(httpGet,HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     closeResponse(response);
-    assertTrue(responseNode.get("url").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),rawResourceName)));
-    assertTrue(responseNode.get("contentUrl").textValue().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deployment.getId(),rawResourceName)));
+    assertTrue(responseNode.get("url").textValue().equals(buildUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,deployment.getId(),rawResourceName)));
+    assertTrue(responseNode.get("contentUrl").textValue().equals(buildUrl(RestUrls.URL_DEPLOYMENT_RESOURCE_CONTENT,deployment.getId(),rawResourceName)));
     assertEquals("text/xml",responseNode.get("mediaType").textValue());
     assertEquals("processDefinition",responseNode.get("type").textValue());
   }

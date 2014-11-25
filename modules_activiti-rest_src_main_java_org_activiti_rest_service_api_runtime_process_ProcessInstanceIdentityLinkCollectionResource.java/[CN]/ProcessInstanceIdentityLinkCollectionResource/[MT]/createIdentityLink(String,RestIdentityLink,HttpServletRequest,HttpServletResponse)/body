@@ -11,7 +11,5 @@
   }
   runtimeService.addUserIdentityLink(processInstance.getId(),identityLink.getUser(),identityLink.getType());
   response.setStatus(HttpStatus.CREATED.value());
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/process-instances/"));
-  return restResponseFactory.createRestIdentityLink(identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),null,null,processInstance.getId(),serverRootUrl);
+  return restResponseFactory.createRestIdentityLink(identityLink.getType(),identityLink.getUser(),identityLink.getGroup(),null,null,processInstance.getId());
 }

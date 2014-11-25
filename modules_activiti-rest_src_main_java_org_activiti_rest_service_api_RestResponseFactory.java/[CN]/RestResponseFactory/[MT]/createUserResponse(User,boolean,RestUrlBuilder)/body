@@ -1,0 +1,15 @@
+{
+  UserResponse response=new UserResponse();
+  response.setFirstName(user.getFirstName());
+  response.setLastName(user.getLastName());
+  response.setId(user.getId());
+  response.setEmail(user.getEmail());
+  response.setUrl(urlBuilder.buildUrl(RestUrls.URL_USER,user.getId()));
+  if (incudePassword) {
+    response.setPassword(user.getPassword());
+  }
+  if (user.isPictureSet()) {
+    response.setPictureUrl(urlBuilder.buildUrl(RestUrls.URL_USER_PICTURE,user.getId()));
+  }
+  return response;
+}

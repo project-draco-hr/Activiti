@@ -1,0 +1,39 @@
+{
+  boolean variableFound=false;
+  Object value=null;
+  RestVariableScope variableScope=RestVariable.getScopeFromString(scope);
+  if (variableScope == null) {
+    if (taskService.hasVariableLocal(taskId,variableName)) {
+      value=taskService.getVariableLocal(taskId,variableName);
+      variableScope=RestVariableScope.LOCAL;
+      variableFound=true;
+    }
+ else {
+      Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
+      if (task.getExecutionId() != null && runtimeService.hasVariable(task.getExecutionId(),variableName)) {
+        value=runtimeService.getVariable(task.getExecutionId(),variableName);
+        variableScope=RestVariableScope.GLOBAL;
+        variableFound=true;
+      }
+    }
+  }
+ else   if (variableScope == RestVariableScope.GLOBAL) {
+    Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
+    if (task.getExecutionId() != null && runtimeService.hasVariable(task.getExecutionId(),variableName)) {
+      value=runtimeService.getVariable(task.getExecutionId(),variableName);
+      variableFound=true;
+    }
+  }
+ else   if (variableScope == RestVariableScope.LOCAL) {
+    if (taskService.hasVariableLocal(taskId,variableName)) {
+      value=taskService.getVariableLocal(taskId,variableName);
+      variableFound=true;
+    }
+  }
+  if (!variableFound) {
+    throw new ActivitiObjectNotFoundException("Task '" + taskId + "' doesn't have a variable with name: '"+ variableName+ "'.",VariableInstanceEntity.class);
+  }
+ else {
+    return restResponseFactory.createRestVariable(variableName,value,variableScope,taskId,RestResponseFactory.VARIABLE_TASK,includeBinary);
+  }
+}

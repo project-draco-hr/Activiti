@@ -1,0 +1,17 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  RestVariable restVar=new RestVariable();
+  restVar.setVariableScope(scope);
+  restVar.setName(name);
+  restVar.setType(type);
+  if (taskId != null) {
+    restVar.setValueUrl(urlBuilder.buildUrl(RestUrls.URL_TASK_VARIABLE_DATA,taskId,name));
+  }
+  if (executionId != null) {
+    restVar.setValueUrl(urlBuilder.buildUrl(RestUrls.URL_EXECUTION_VARIABLE_DATA,executionId,name));
+  }
+  if (processInstanceId != null) {
+    restVar.setValueUrl(urlBuilder.buildUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_DATA,processInstanceId,name));
+  }
+  return restVar;
+}

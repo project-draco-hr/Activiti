@@ -1,0 +1,21 @@
+{
+  ProcessDefinitionResponse response=new ProcessDefinitionResponse();
+  response.setUrl(urlBuilder.buildUrl(RestUrls.URL_PROCESS_DEFINITION,processDefinition.getId()));
+  response.setId(processDefinition.getId());
+  response.setKey(processDefinition.getKey());
+  response.setVersion(processDefinition.getVersion());
+  response.setCategory(processDefinition.getCategory());
+  response.setName(processDefinition.getName());
+  response.setDescription(processDefinition.getDescription());
+  response.setSuspended(processDefinition.isSuspended());
+  response.setStartFormDefined(processDefinition.hasStartFormKey());
+  response.setGraphicalNotationDefined(processDefinition.hasGraphicalNotation());
+  response.setTenantId(processDefinition.getTenantId());
+  response.setDeploymentId(processDefinition.getDeploymentId());
+  response.setDeploymentUrl(urlBuilder.buildUrl(RestUrls.URL_DEPLOYMENT,processDefinition.getDeploymentId()));
+  response.setResource(urlBuilder.buildUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,processDefinition.getDeploymentId(),processDefinition.getResourceName()));
+  if (processDefinition.getDiagramResourceName() != null) {
+    response.setDiagramResource(urlBuilder.buildUrl(RestUrls.URL_DEPLOYMENT_RESOURCE,processDefinition.getDeploymentId(),processDefinition.getDiagramResourceName()));
+  }
+  return response;
+}

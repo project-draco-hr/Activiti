@@ -1,0 +1,5 @@
+{
+  if (baseUrl == null)   throw new ActivitiIllegalArgumentException("baseUrl can not be null");
+  if (baseUrl.endsWith("/"))   baseUrl=baseUrl.substring(0,baseUrl.length() - 1);
+  return new RestUrlBuilder(baseUrl);
+}

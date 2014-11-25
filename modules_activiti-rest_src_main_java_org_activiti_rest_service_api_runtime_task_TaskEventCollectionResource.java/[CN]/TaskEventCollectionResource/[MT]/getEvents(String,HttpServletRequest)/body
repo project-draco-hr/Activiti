@@ -1,10 +1,4 @@
 {
-  List<EventResponse> result=new ArrayList<EventResponse>();
   HistoricTaskInstance task=getHistoricTaskFromRequest(taskId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
-  for (  Event event : taskService.getTaskEvents(task.getId())) {
-    result.add(restResponseFactory.createEventResponse(event,serverRootUrl));
-  }
-  return result;
+  return restResponseFactory.createEventResponseList(taskService.getTaskEvents(task.getId()));
 }

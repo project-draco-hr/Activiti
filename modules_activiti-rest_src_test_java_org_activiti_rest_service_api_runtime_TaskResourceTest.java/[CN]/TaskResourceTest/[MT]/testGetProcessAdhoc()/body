@@ -15,7 +15,8 @@
     task.setOwner("owner");
     task.setPriority(20);
     taskService.saveTask(task);
-    CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,task.getId())),HttpStatus.SC_OK);
+    String url=buildUrl(RestUrls.URL_TASK,task.getId());
+    CloseableHttpResponse response=executeRequest(new HttpGet(url),HttpStatus.SC_OK);
     JsonNode responseNode=objectMapper.readTree(response.getEntity().getContent());
     closeResponse(response);
     assertEquals(task.getId(),responseNode.get("id").asText());
@@ -31,7 +32,8 @@
     assertTrue(responseNode.get("processInstanceId").isNull());
     assertTrue(responseNode.get("processDefinitionId").isNull());
     assertEquals("",responseNode.get("tenantId").textValue());
-    assertTrue(responseNode.get("parentTaskUrl").asText().endsWith(RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK,parentTask.getId())));
+    assertTrue(responseNode.get("parentTaskUrl").asText().equals(buildUrl(RestUrls.URL_TASK,parentTask.getId())));
+    assertTrue(responseNode.get("url").asText().equals(url));
   }
   finally {
     List<Task> tasks=taskService.createTaskQuery().list();

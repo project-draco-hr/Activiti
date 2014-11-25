@@ -1,0 +1,28 @@
+{
+  HistoricDetailResponse result=new HistoricDetailResponse();
+  result.setId(detail.getId());
+  result.setProcessInstanceId(detail.getProcessInstanceId());
+  if (StringUtils.isNotEmpty(detail.getProcessInstanceId())) {
+    result.setProcessInstanceUrl(urlBuilder.buildUrl(RestUrls.URL_HISTORIC_PROCESS_INSTANCE,detail.getProcessInstanceId()));
+  }
+  result.setExecutionId(detail.getExecutionId());
+  result.setActivityInstanceId(detail.getActivityInstanceId());
+  result.setTaskId(detail.getTaskId());
+  if (StringUtils.isNotEmpty(detail.getTaskId())) {
+    result.setTaskUrl(urlBuilder.buildUrl(RestUrls.URL_HISTORIC_TASK_INSTANCE,detail.getTaskId()));
+  }
+  result.setTime(detail.getTime());
+  if (detail instanceof HistoricFormProperty) {
+    HistoricFormProperty formProperty=(HistoricFormProperty)detail;
+    result.setDetailType(HistoricDetailResponse.FORM_PROPERTY);
+    result.setPropertyId(formProperty.getPropertyId());
+    result.setPropertyValue(formProperty.getPropertyValue());
+  }
+ else   if (detail instanceof HistoricVariableUpdate) {
+    HistoricVariableUpdate variableUpdate=(HistoricVariableUpdate)detail;
+    result.setDetailType(HistoricDetailResponse.VARIABLE_UPDATE);
+    result.setRevision(variableUpdate.getRevision());
+    result.setVariable(createRestVariable(variableUpdate.getVariableName(),variableUpdate.getValue(),null,detail.getId(),VARIABLE_HISTORY_DETAIL,false,urlBuilder));
+  }
+  return result;
+}

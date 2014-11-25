@@ -1,10 +1,8 @@
 {
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
   AttachmentResponse result=null;
   Task task=getTaskFromRequest(taskId);
   if (request instanceof MultipartHttpServletRequest) {
-    result=createBinaryAttachment((MultipartHttpServletRequest)request,task,serverRootUrl,response);
+    result=createBinaryAttachment((MultipartHttpServletRequest)request,task,response);
   }
  else {
     AttachmentRequest attachmentRequest=null;
@@ -17,7 +15,7 @@
     if (attachmentRequest == null) {
       throw new ActivitiIllegalArgumentException("AttachmentRequest properties not found in request");
     }
-    result=createSimpleAttachment(attachmentRequest,task,serverRootUrl);
+    result=createSimpleAttachment(attachmentRequest,task);
   }
   response.setStatus(HttpStatus.CREATED.value());
   return result;

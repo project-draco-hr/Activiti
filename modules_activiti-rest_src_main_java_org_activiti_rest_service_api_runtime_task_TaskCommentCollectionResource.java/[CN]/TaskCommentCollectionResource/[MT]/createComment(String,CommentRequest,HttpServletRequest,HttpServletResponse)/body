@@ -10,7 +10,5 @@
   }
   Comment createdComment=taskService.addComment(task.getId(),processInstanceId,comment.getMessage());
   response.setStatus(HttpStatus.CREATED.value());
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/tasks/"));
-  return restResponseFactory.createRestComment(createdComment,serverRootUrl);
+  return restResponseFactory.createRestComment(createdComment);
 }

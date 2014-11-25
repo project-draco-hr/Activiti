@@ -1,0 +1,12 @@
+{
+  if (restVariable.getName() == null) {
+    throw new ActivitiIllegalArgumentException("Variable name is required");
+  }
+  RestVariableScope scope=restVariable.getVariableScope();
+  if (scope == null) {
+    scope=RestVariableScope.LOCAL;
+  }
+  Object actualVariableValue=restResponseFactory.getVariableValue(restVariable);
+  setVariable(execution,restVariable.getName(),actualVariableValue,scope,isNew);
+  return constructRestVariable(restVariable.getName(),actualVariableValue,scope,execution.getId(),false);
+}

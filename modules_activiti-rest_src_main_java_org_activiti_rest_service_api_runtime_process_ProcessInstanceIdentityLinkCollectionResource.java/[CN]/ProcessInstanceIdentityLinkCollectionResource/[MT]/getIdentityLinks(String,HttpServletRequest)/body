@@ -1,11 +1,4 @@
 {
-  List<RestIdentityLink> result=new ArrayList<RestIdentityLink>();
   ProcessInstance processInstance=getProcessInstanceFromRequest(processInstanceId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/runtime/process-instances/"));
-  List<IdentityLink> identityLinks=runtimeService.getIdentityLinksForProcessInstance(processInstance.getId());
-  for (  IdentityLink link : identityLinks) {
-    result.add(restResponseFactory.createRestIdentityLink(link,serverRootUrl));
-  }
-  return result;
+  return restResponseFactory.createRestIdentityLinks(runtimeService.getIdentityLinksForProcessInstance(processInstance.getId()));
 }

@@ -1,0 +1,8 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  List<DeploymentResponse> responseList=new ArrayList<DeploymentResponse>();
+  for (  Deployment instance : deployments) {
+    responseList.add(createDeploymentResponse(instance,urlBuilder));
+  }
+  return responseList;
+}

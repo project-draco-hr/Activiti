@@ -10,7 +10,5 @@
  else {
     throw new ActivitiIllegalArgumentException("Key provided in request body doesn't match the key in the resource URL.");
   }
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/identity/users/"));
-  return restResponseFactory.createUserInfoResponse(key,userRequest.getValue(),user.getId(),serverRootUrl);
+  return restResponseFactory.createUserInfoResponse(key,userRequest.getValue(),user.getId());
 }

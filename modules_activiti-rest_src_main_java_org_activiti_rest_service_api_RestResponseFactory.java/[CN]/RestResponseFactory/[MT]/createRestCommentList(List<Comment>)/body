@@ -1,0 +1,8 @@
+{
+  RestUrlBuilder urlBuilder=createUrlBuilder();
+  List<CommentResponse> responseList=new ArrayList<CommentResponse>();
+  for (  Comment instance : comments) {
+    responseList.add(createRestComment(instance,urlBuilder));
+  }
+  return responseList;
+}

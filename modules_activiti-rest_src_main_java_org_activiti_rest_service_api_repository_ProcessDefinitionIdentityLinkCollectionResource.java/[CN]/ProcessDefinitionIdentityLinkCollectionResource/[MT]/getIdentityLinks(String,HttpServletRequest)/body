@@ -1,11 +1,4 @@
 {
-  List<RestIdentityLink> result=new ArrayList<RestIdentityLink>();
   ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/process-definitions/"));
-  List<IdentityLink> identityLinks=repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
-  for (  IdentityLink link : identityLinks) {
-    result.add(restResponseFactory.createRestIdentityLink(link,serverRootUrl));
-  }
-  return result;
+  return restResponseFactory.createRestIdentityLinks(repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId()));
 }

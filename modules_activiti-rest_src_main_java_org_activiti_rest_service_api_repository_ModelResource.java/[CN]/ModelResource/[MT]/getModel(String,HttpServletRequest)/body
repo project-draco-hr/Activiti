@@ -1,6 +1,4 @@
 {
   Model model=getModelFromRequest(modelId);
-  String serverRootUrl=request.getRequestURL().toString();
-  serverRootUrl=serverRootUrl.substring(0,serverRootUrl.indexOf("/repository/models/"));
-  return restResponseFactory.createModelResponse(model,serverRootUrl);
+  return restResponseFactory.createModelResponse(model);
 }

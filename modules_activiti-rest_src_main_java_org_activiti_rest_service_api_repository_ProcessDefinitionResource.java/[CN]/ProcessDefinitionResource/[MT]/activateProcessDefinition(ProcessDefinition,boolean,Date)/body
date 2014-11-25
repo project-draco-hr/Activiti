@@ -1,0 +1,9 @@
+{
+  if (!processDefinition.isSuspended()) {
+    throw new ActivitiConflictException("Process definition with id '" + processDefinition.getId() + " ' is already active");
+  }
+  repositoryService.activateProcessDefinitionById(processDefinition.getId(),suspendInstances,date);
+  ProcessDefinitionResponse response=restResponseFactory.createProcessDefinitionResponse(processDefinition);
+  response.setSuspended(false);
+  return response;
+}
