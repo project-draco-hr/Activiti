@@ -1,7 +1,11 @@
 {
   List<TaskEntity> tasks=(List)getDbSqlSession().createTaskQuery().processInstanceId(processInstanceId).list();
   String reason=(deleteReason == null || deleteReason.length() == 0) ? TaskEntity.DELETE_REASON_DELETED : deleteReason;
+  CommandContext commandContext=Context.getCommandContext();
   for (  TaskEntity task : tasks) {
+    if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createActivityCancelledEvent(task.getId(),task.getName(),task.getExecutionId(),task.getProcessInstanceId(),task.getProcessDefinitionId(),"userTask",UserTaskActivityBehavior.class.getName(),deleteReason));
+    }
     deleteTask(task,reason,cascade);
   }
 }
