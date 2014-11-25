@@ -9,7 +9,10 @@
   MultipartFile file=multipartRequest.getFileMap().values().iterator().next();
   try {
     DeploymentBuilder deploymentBuilder=repositoryService.createDeployment();
-    String fileName=file.getName();
+    String fileName=file.getOriginalFilename();
+    if (StringUtils.isEmpty(fileName) || !(fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn") || fileName.toLowerCase().endsWith(".bar")|| fileName.toLowerCase().endsWith(".zip"))) {
+      fileName=file.getName();
+    }
     if (fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn")) {
       deploymentBuilder.addInputStream(fileName,file.getInputStream());
     }
