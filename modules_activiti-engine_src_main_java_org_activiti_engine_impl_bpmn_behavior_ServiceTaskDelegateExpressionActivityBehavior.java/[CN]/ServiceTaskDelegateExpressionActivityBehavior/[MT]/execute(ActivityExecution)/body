@@ -1,16 +1,22 @@
 {
   try {
-    Object delegate=expression.getValue(execution);
-    ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
-    if (delegate instanceof ActivityBehavior) {
-      Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ActivityBehaviorInvocation((ActivityBehavior)delegate,execution));
-    }
- else     if (delegate instanceof JavaDelegate) {
-      Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation((JavaDelegate)delegate,execution));
-      leave(execution);
+    boolean isSkipExpressionEnabled=SkipExpressionUtil.isSkipExpressionEnabled(execution,skipExpression);
+    if (!isSkipExpressionEnabled || (isSkipExpressionEnabled && !SkipExpressionUtil.skipFlowElement(execution,skipExpression))) {
+      Object delegate=expression.getValue(execution);
+      ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
+      if (delegate instanceof ActivityBehavior) {
+        Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ActivityBehaviorInvocation((ActivityBehavior)delegate,execution));
+      }
+ else       if (delegate instanceof JavaDelegate) {
+        Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation((JavaDelegate)delegate,execution));
+        leave(execution);
+      }
+ else {
+        throw new ActivitiIllegalArgumentException("Delegate expression " + expression + " did neither resolve to an implementation of "+ ActivityBehavior.class+ " nor "+ JavaDelegate.class);
+      }
     }
  else {
-      throw new ActivitiIllegalArgumentException("Delegate expression " + expression + " did neither resolve to an implementation of "+ ActivityBehavior.class+ " nor "+ JavaDelegate.class);
+      leave(execution);
     }
   }
  catch (  Exception exc) {

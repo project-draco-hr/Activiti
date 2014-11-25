@@ -1,0 +1,9 @@
+{
+  Object value=skipExpression.getValue(execution);
+  if (value instanceof Boolean) {
+    return ((Boolean)value).booleanValue();
+  }
+ else {
+    throw new ActivitiIllegalArgumentException("Skip expression does not resolve to a boolean: " + skipExpression.getExpressionText());
+  }
+}

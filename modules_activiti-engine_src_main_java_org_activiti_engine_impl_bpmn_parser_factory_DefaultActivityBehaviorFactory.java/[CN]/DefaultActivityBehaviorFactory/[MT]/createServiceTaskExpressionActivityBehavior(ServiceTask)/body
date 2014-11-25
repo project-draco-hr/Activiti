@@ -1,4 +1,11 @@
 {
   Expression expression=expressionManager.createExpression(serviceTask.getImplementation());
-  return new ServiceTaskExpressionActivityBehavior(expression,serviceTask.getResultVariableName());
+  Expression skipExpression;
+  if (StringUtils.isNotEmpty(serviceTask.getSkipExpression())) {
+    skipExpression=expressionManager.createExpression(serviceTask.getSkipExpression());
+  }
+ else {
+    skipExpression=null;
+  }
+  return new ServiceTaskExpressionActivityBehavior(expression,skipExpression,serviceTask.getResultVariableName());
 }

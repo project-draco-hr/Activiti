@@ -71,4 +71,8 @@
     Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.TASK_CREATED,task));
   }
   task.fireEvent(TaskListener.EVENTNAME_CREATE);
+  Expression skipExpression=taskDefinition.getSkipExpression();
+  if (SkipExpressionUtil.isSkipExpressionEnabled(execution,skipExpression) && SkipExpressionUtil.skipFlowElement(execution,skipExpression)) {
+    leave(execution);
+  }
 }

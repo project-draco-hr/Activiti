@@ -1,0 +1,16 @@
+{
+  if (null == skipExpression) {
+    return false;
+  }
+  final String skipExpressionEnabledVariable="_ACTIVITI_SKIP_EXPRESSION_ENABLED";
+  Object isSkipExpressionEnabled=execution.getVariable(skipExpressionEnabledVariable);
+  if (null == isSkipExpressionEnabled) {
+    return false;
+  }
+ else   if (isSkipExpressionEnabled instanceof Boolean) {
+    return ((Boolean)isSkipExpressionEnabled).booleanValue();
+  }
+ else {
+    throw new ActivitiIllegalArgumentException(skipExpressionEnabledVariable + " variable does not resolve to a boolean. " + isSkipExpressionEnabled);
+  }
+}
