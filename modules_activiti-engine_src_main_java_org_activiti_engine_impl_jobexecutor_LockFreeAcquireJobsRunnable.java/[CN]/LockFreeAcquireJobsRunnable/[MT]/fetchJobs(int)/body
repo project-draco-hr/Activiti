@@ -1,8 +1,0 @@
-{
-  return jobExecutor.getCommandExecutor().execute(new Command<List<JobEntity>>(){
-    public List<JobEntity> execute(    CommandContext commandContext){
-      return commandContext.getJobEntityManager().findJobsByLockOwner(jobExecutor.getLockOwner(),start,jobExecutor.getJobFetchBatchSize());
-    }
-  }
-);
-}
