@@ -1,4 +1,11 @@
 {
   Expression delegateExpression=expressionManager.createExpression(serviceTask.getImplementation());
-  return new ServiceTaskDelegateExpressionActivityBehavior(delegateExpression,createFieldDeclarations(serviceTask.getFieldExtensions()));
+  Expression skipExpression;
+  if (StringUtils.isNotEmpty(serviceTask.getSkipExpression())) {
+    skipExpression=expressionManager.createExpression(serviceTask.getSkipExpression());
+  }
+ else {
+    skipExpression=null;
+  }
+  return new ServiceTaskDelegateExpressionActivityBehavior(delegateExpression,skipExpression,createFieldDeclarations(serviceTask.getFieldExtensions()));
 }

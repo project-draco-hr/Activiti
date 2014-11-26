@@ -24,6 +24,10 @@
     String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEGROUPS);
     userTask.getCandidateGroups().addAll(parseDelimitedList(expression));
   }
+  if (StringUtils.isNotEmpty(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_SKIP_EXPRESSION))) {
+    String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_SKIP_EXPRESSION);
+    userTask.setSkipExpression(expression);
+  }
   BpmnXMLUtil.addCustomAttributes(xtr,userTask,defaultElementAttributes,defaultActivityAttributes,defaultUserTaskAttributes);
   parseChildElements(getXMLElementName(),userTask,childParserMap,model,xtr);
   return userTask;
