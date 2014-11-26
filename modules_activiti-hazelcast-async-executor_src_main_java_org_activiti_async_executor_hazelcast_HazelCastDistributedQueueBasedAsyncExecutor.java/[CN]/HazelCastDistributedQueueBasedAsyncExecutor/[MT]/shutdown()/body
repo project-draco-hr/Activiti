@@ -1,17 +1,27 @@
 {
+  super.shutdown();
   try {
+    logger.info("Shutting down local executor service");
     executorService.shutdown();
     executorService.awaitTermination(secondsToWaitOnShutdown,TimeUnit.SECONDS);
   }
  catch (  InterruptedException e) {
     logger.warn("Exception while waiting for executor service shutdown",e);
   }
-  isActive=false;
-  LocalQueueStats localQueueStats=jobQueue.getLocalQueueStats();
-  logger.info("This async job executor has processed " + localQueueStats.getPollOperationCount());
   try {
+    LocalQueueStats localQueueStats=jobQueue.getLocalQueueStats();
+    logger.info("This async job executor has processed " + localQueueStats.getPollOperationCount());
     hazelcastInstance.shutdown();
   }
  catch (  HazelcastInstanceNotActiveException e) {
+  }
+  isActive=false;
+  try {
+    logger.info("Shutting down jobQueueListenerThread");
+    jobQueueListenerThread.interrupt();
+    jobQueueListenerThread.join();
+  }
+ catch (  InterruptedException e) {
+    logger.warn("jobQueueListenerThread join was interrupted",e);
   }
 }

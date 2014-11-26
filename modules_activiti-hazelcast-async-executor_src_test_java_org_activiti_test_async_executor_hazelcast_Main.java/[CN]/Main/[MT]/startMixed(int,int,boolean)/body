@@ -1,0 +1,34 @@
+{
+  createJobExecutorProcessEngine(true,dropDb);
+  Thread createJobsThread=new Thread(new Runnable(){
+    public void run(){
+      try {
+        startCreateJobs(nrOfJobs,nrOfThreads,false);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+        System.exit(-1);
+      }
+    }
+  }
+);
+  createJobsThread.start();
+  Thread executeJobsThread=new Thread(new Runnable(){
+    public void run(){
+      try {
+        startExecuteJobs(nrOfJobs,false);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+        System.exit(-1);
+      }
+    }
+  }
+);
+  executeJobsThread.start();
+  createJobsThread.join();
+  executeJobsThread.join();
+  processEngine.close();
+  System.out.println("Done.");
+  System.exit(0);
+}

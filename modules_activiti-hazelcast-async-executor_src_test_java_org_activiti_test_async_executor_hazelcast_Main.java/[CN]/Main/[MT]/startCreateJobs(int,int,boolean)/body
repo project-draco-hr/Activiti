@@ -1,0 +1,24 @@
+{
+  System.out.println(new Date() + " [Job Creator] Starting. Need to create " + nrOfJobs+ " job with "+ nrOfThreads+ " threads");
+  createJobCreatorProcessEngine(false,dropDb);
+  processEngine.getRepositoryService().createDeployment().name("job").addClasspathResource("job.bpmn20.xml").deploy();
+  ExecutorService executor=Executors.newFixedThreadPool(nrOfThreads);
+  for (int i=0; i < nrOfJobs; i++) {
+    Runnable worker=new StartTestProcessInstanceThread();
+    executor.execute(worker);
+  }
+  executor.shutdown();
+  System.out.println(new Date() + " [Job Creator] All StartProcessInstanceThreads handed off to executor service");
+  boolean finishedAllInstances=false;
+  long unfinishedCount=0;
+  long finishedCount=0;
+  while (finishedAllInstances == false) {
+    unfinishedCount=processEngine.getHistoryService().createHistoricProcessInstanceQuery().unfinished().count();
+    finishedCount=processEngine.getHistoryService().createHistoricProcessInstanceQuery().finished().count();
+    finishedAllInstances=finishedCount >= nrOfJobs;
+    if (!finishedAllInstances) {
+      System.out.println(new Date() + " [Job Creator] " + finishedCount+ " finished process instances in db, "+ unfinishedCount+ " unfinished process instances in db.");
+      Thread.sleep(10000L);
+    }
+  }
+}

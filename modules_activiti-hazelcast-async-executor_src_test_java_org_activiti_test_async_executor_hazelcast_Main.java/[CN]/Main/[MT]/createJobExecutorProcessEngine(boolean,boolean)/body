@@ -1,0 +1,10 @@
+{
+  if (processEngine == null || replaceExisting) {
+    System.out.println("Creating process engine with config activiti_with_jobexecutor.cfg.xml. Dropping db first = " + isDropDatabaseSchema);
+    ProcessEngineConfiguration processEngineConfiguration=ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti_with_jobexecutor.cfg.xml");
+    if (isDropDatabaseSchema) {
+      processEngineConfiguration.setDatabaseSchemaUpdate("drop-create");
+    }
+    processEngine=processEngineConfiguration.buildProcessEngine();
+  }
+}

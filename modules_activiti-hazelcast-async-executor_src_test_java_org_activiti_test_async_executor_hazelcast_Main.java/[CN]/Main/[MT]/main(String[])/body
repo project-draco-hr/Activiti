@@ -1,0 +1,33 @@
+{
+  if (args.length == 0) {
+    System.err.println("Arguments needed");
+    System.err.println("First argument: { job-creator | job-executor | mixed}, to determine what this Main program will be doing: creating jobs, executing them or both");
+    System.err.println("Arguments in case of job-creator: { nrOfJobs nrOfJobCreationThreads}");
+    System.err.println("Arguments in case of job-executor: { nrOfJobs }");
+    System.err.println("In case of mixed: { nrOfJobs nrOfJobCreationThreads } ");
+    System.err.println();
+    System.err.println("Example usage : java -XX:MaxPermSize=512m -Xmx2G -Xms512m -jar theJar.jar job-creator 1000 4");
+    System.err.println("Example usage : java -XX:MaxPermSize=512m -Xmx2G -Xms512m -jar theJar.jar job-executor 1000");
+    System.err.println("Example usage : java -XX:MaxPermSize=512m -Xmx2G -Xms512m -jar theJar.jar mixed 1000 4");
+    System.err.println();
+    System.err.println("The last argument can always be 'keepDb'. In that case, no drop of the database schema will be done, which is the default for job creation or mixed.");
+    System.exit(-1);
+  }
+  int nrOfJobs=Integer.valueOf(args[1]);
+  int nrOfThreads=args[2] != null ? Integer.valueOf(args[2]) : -1;
+  boolean keepDb="keepDb".equals(args[args.length - 1]);
+  boolean dropDb=!keepDb;
+  if ("job-creator".equals(args[0])) {
+    startCreateJobs(nrOfJobs,nrOfThreads,dropDb);
+  }
+ else   if ("job-executor".equals(args[0])) {
+    startExecuteJobs(nrOfJobs,dropDb);
+  }
+ else   if ("mixed".equals(args[0])) {
+    startMixed(nrOfJobs,nrOfThreads,dropDb);
+  }
+ else {
+    System.err.println("Unknown argument '" + args[0] + "'");
+    System.exit(-1);
+  }
+}

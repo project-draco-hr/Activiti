@@ -9,6 +9,6 @@
   ThreadPoolExecutor threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,TimeUnit.MILLISECONDS,threadPoolQueue);
   threadPoolExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
   executorService=threadPoolExecutor;
-  isActive=true;
+  super.start();
   initJobQueueListener();
 }

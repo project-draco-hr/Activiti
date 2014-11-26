@@ -1,0 +1,32 @@
+{
+  System.out.println(new Date() + " [Job Executor] Starting. Need to execute " + nrOfJobs+ " jobs in total.");
+  createJobExecutorProcessEngine(false,dropDb);
+  boolean finishedAllInstances=false;
+  long lastPrintTime=0;
+  long finishedCount=0;
+  long start=System.currentTimeMillis();
+  while (finishedAllInstances == false) {
+    finishedCount=processEngine.getHistoryService().createHistoricProcessInstanceQuery().finished().count();
+    if (finishedCount >= nrOfJobs) {
+      finishedAllInstances=true;
+    }
+ else {
+      if (System.currentTimeMillis() - lastPrintTime > 5000L) {
+        lastPrintTime=System.currentTimeMillis();
+        int percentage=(int)(((double)finishedCount / (double)nrOfJobs) * 100.0);
+        System.out.println(new Date() + " [Job Executor] Executed " + finishedCount+ "/"+ nrOfJobs+ " jobs ("+ percentage+ "%)");
+      }
+      Thread.sleep(1000L);
+    }
+  }
+  long end=System.currentTimeMillis();
+  System.out.println();
+  System.out.println();
+  System.out.println("Jobs executed by this node: " + SleepDelegate.nrOfExecutions.get());
+  long time=end - start;
+  System.out.println("Took " + time + " ms");
+  double perSecond=((double)SleepDelegate.nrOfExecutions.get() / (double)time) * 1000;
+  System.out.println("Which is " + perSecond + " jobs/second");
+  System.out.println();
+  System.out.println();
+}

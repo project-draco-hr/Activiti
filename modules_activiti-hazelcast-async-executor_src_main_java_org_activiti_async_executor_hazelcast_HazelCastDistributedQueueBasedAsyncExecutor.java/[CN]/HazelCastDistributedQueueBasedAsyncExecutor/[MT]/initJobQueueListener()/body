@@ -7,6 +7,10 @@
           job=jobQueue.take();
         }
  catch (        InterruptedException e1) {
+          logger.info("jobQueueListenerThread interrupted. This is fine if the job executor is shutting down");
+        }
+catch (        HazelcastInstanceNotActiveException notActiveException) {
+          logger.info("Hazel cast not active exception caught. This is fine if the job executor is shutting down");
         }
         if (job != null) {
           executorService.execute(new ExecuteAsyncRunnable(job,commandExecutor));
