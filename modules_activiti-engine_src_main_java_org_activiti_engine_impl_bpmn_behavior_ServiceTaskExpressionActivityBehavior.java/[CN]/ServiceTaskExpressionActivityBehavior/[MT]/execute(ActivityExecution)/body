@@ -2,7 +2,7 @@
   Object value=null;
   try {
     boolean isSkipExpressionEnabled=SkipExpressionUtil.isSkipExpressionEnabled(execution,skipExpression);
-    if (!isSkipExpressionEnabled || (isSkipExpressionEnabled && !SkipExpressionUtil.skipFlowElement(execution,skipExpression))) {
+    if (!isSkipExpressionEnabled || (isSkipExpressionEnabled && !SkipExpressionUtil.shouldSkipFlowElement(execution,skipExpression))) {
       value=expression.getValue(execution);
       if (resultVariable != null) {
         execution.setVariable(resultVariable,value);

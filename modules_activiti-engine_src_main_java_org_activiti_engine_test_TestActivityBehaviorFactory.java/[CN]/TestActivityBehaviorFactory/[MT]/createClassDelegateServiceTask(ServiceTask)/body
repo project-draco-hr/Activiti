@@ -3,7 +3,7 @@
     return createNoOpServiceTask(serviceTask);
   }
  else   if (serviceTask.getImplementation() != null && mockedClassDelegatesMapping.containsKey(serviceTask.getImplementation())) {
-    return new ClassDelegate(mockedClassDelegatesMapping.get(serviceTask.getImplementation()),createFieldDeclarations(serviceTask.getFieldExtensions()),null);
+    return new ClassDelegate(mockedClassDelegatesMapping.get(serviceTask.getImplementation()),createFieldDeclarations(serviceTask.getFieldExtensions()));
   }
   return wrappedActivityBehaviorFactory.createClassDelegateServiceTask(serviceTask);
 }
