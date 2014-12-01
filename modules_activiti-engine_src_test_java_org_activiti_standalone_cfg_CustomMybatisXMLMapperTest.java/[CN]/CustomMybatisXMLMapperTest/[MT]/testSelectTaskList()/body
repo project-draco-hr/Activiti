@@ -1,0 +1,18 @@
+{
+  for (int i=0; i < 5; i++) {
+    Task task=taskService.newTask();
+    task.setName(i + "");
+    taskService.saveTask(task);
+  }
+  List<Task> tasks=managementService.executeCommand(new Command<List<Task>>(){
+    @SuppressWarnings("unchecked") @Override public List<Task> execute(    CommandContext commandContext){
+      return (List<Task>)commandContext.getDbSqlSession().selectListWithRawParameter("customSelectTaskList",0,0,Integer.MAX_VALUE);
+    }
+  }
+);
+  assertEquals(5,tasks.size());
+  for (  Task taskToDelete : tasks) {
+    taskService.deleteTask(taskToDelete.getId());
+    historyService.deleteHistoricTaskInstance(taskToDelete.getId());
+  }
+}
