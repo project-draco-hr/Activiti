@@ -1,19 +1,11 @@
 {
   for (int i=0; i < 5; i++) {
-    Task task=taskService.newTask();
-    task.setName(i + "");
-    taskService.saveTask(task);
+    createTask(i + "",null,null,0);
   }
-  Task task=taskService.newTask();
-  task.setOwner("kermit");
-  task.setName("Owned task");
-  taskService.saveTask(task);
+  createTask("Owned task","kermit",null,0);
   CommandExecutor commandExecutor=((ManagementServiceImpl)managementService).getCommandExecutor();
-  task=new CustomTaskQuery(commandExecutor).taskOwner("kermit").singleResult();
+  Task task=new CustomTaskQuery(commandExecutor).taskOwner("kermit").singleResult();
   assertEquals("kermit",task.getOwner());
   List<Task> tasks=new CustomTaskQuery(commandExecutor).list();
-  for (  Task taskToDelete : tasks) {
-    taskService.deleteTask(taskToDelete.getId());
-    historyService.deleteHistoricTaskInstance(taskToDelete.getId());
-  }
+  deleteTasks(tasks);
 }

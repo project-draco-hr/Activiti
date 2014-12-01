@@ -1,8 +1,6 @@
 {
   for (int i=0; i < 5; i++) {
-    Task task=taskService.newTask();
-    task.setName(i + "");
-    taskService.saveTask(task);
+    createTask(i + "",null,null,0);
   }
   Task task=managementService.executeCommand(new Command<Task>(){
     @Override public Task execute(    CommandContext commandContext){
@@ -11,8 +9,5 @@
   }
 );
   assertEquals("2",task.getName());
-  for (  Task taskToDelete : taskService.createTaskQuery().list()) {
-    taskService.deleteTask(taskToDelete.getId());
-    historyService.deleteHistoricTaskInstance(taskToDelete.getId());
-  }
+  deleteTasks(taskService.createTaskQuery().list());
 }
