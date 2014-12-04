@@ -12,8 +12,10 @@
           }
         }
         subscriptionsForSameMessageName=commandContext.getDbSqlSession().pruneDeletedEntities(subscriptionsForSameMessageName);
-        if (!subscriptionsForSameMessageName.isEmpty()) {
-          throw new ActivitiException("Cannot deploy process definition '" + processDefinition.getResourceName() + "': there already is a message event subscription for the message with name '"+ eventDefinition.getEventName()+ "'.");
+        for (        EventSubscriptionEntity eventSubscriptionEntity : subscriptionsForSameMessageName) {
+          if (eventSubscriptionEntity.getProcessInstanceId() == null || eventSubscriptionEntity.getProcessInstanceId().isEmpty()) {
+            throw new ActivitiException("Cannot deploy process definition '" + processDefinition.getResourceName() + "': there already is a message event subscription for the message with name '"+ eventDefinition.getEventName()+ "'.");
+          }
         }
         MessageEventSubscriptionEntity newSubscription=new MessageEventSubscriptionEntity();
         newSubscription.setEventName(eventDefinition.getEventName());
