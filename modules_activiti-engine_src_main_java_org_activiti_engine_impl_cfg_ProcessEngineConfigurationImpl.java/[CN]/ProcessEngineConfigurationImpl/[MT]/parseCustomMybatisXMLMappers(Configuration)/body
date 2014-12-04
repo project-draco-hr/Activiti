@@ -1,0 +1,7 @@
+{
+  if (getCustomMybatisXMLMappers() != null)   for (  String resource : getCustomMybatisXMLMappers()) {
+    XMLMapperBuilder mapperParser=new XMLMapperBuilder(getResourceAsStream(resource),configuration,resource,configuration.getSqlFragments());
+    mapperParser.parse();
+  }
+  return configuration;
+}

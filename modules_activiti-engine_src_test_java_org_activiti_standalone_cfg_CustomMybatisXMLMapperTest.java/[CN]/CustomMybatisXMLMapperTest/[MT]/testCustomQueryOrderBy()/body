@@ -1,0 +1,19 @@
+{
+  for (int i=0; i < 5; i++) {
+    createTask(i + "",null,null,i * 20);
+  }
+  CommandExecutor commandExecutor=((ManagementServiceImpl)managementService).getCommandExecutor();
+  List<Task> tasks=new CustomTaskQuery(commandExecutor).orderByTaskPriority().desc().list();
+  assertEquals(5,tasks.size());
+  for (int i=0, j=4; i < 5; i++, j--) {
+    Task task=tasks.get(i);
+    assertEquals(j * 20,task.getPriority());
+  }
+  tasks=new CustomTaskQuery(commandExecutor).orderByTaskPriority().asc().list();
+  assertEquals(5,tasks.size());
+  for (int i=0; i < 5; i++) {
+    Task task=tasks.get(i);
+    assertEquals(i * 20,task.getPriority());
+  }
+  deleteTasks(tasks);
+}

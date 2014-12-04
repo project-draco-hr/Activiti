@@ -1,0 +1,12 @@
+{
+  for (int i=0; i < 5; i++) {
+    createTask(i + "",null,null,0);
+  }
+  createTask("Owned task","kermit",null,0);
+  CommandExecutor commandExecutor=((ManagementServiceImpl)managementService).getCommandExecutor();
+  List<Task> tasks=new CustomTaskQuery(commandExecutor).unOwned().list();
+  assertEquals(5,tasks.size());
+  assertEquals(5,new CustomTaskQuery(commandExecutor).unOwned().count());
+  tasks=new CustomTaskQuery(commandExecutor).list();
+  deleteTasks(tasks);
+}
