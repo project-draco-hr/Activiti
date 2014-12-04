@@ -1,0 +1,20 @@
+{
+  if (processCategoryNotInList == null) {
+    throw new ActivitiIllegalArgumentException("Process category list is null");
+  }
+  if (processCategoryNotInList.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Process category list is empty");
+  }
+  for (  String processCategory : processCategoryNotInList) {
+    if (processCategory == null) {
+      throw new ActivitiIllegalArgumentException("None of the given process categories can be null");
+    }
+  }
+  if (inOrStatement) {
+    orQueryObject.processCategoryNotInList=processCategoryNotInList;
+  }
+ else {
+    this.processCategoryNotInList=processCategoryNotInList;
+  }
+  return this;
+}
