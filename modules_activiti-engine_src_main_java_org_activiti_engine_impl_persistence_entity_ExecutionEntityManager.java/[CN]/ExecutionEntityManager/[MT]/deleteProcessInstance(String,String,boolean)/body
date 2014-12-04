@@ -3,10 +3,5 @@
   if (execution == null) {
     throw new ActivitiObjectNotFoundException("No process instance found for id '" + processInstanceId + "'",ProcessInstance.class);
   }
-  CommandContext commandContext=Context.getCommandContext();
-  commandContext.getTaskEntityManager().deleteTasksByProcessInstanceId(processInstanceId,deleteReason,cascade);
-  execution.deleteCascade(deleteReason);
-  if (cascade) {
-    commandContext.getHistoricProcessInstanceEntityManager().deleteHistoricProcessInstanceById(processInstanceId);
-  }
+  deleteProcessInstanceCascade(execution,deleteReason,cascade);
 }

@@ -1,0 +1,13 @@
+{
+  for (  ExecutionEntity subExecutionEntity : execution.getExecutions()) {
+    if (subExecutionEntity.getSubProcessInstance() != null) {
+      deleteProcessInstanceCascade(subExecutionEntity.getSubProcessInstance(),deleteReason,deleteHistory);
+    }
+  }
+  CommandContext commandContext=Context.getCommandContext();
+  commandContext.getTaskEntityManager().deleteTasksByProcessInstanceId(execution.getId(),deleteReason,deleteHistory);
+  execution.deleteCascade(deleteReason);
+  if (deleteHistory) {
+    commandContext.getHistoricProcessInstanceEntityManager().deleteHistoricProcessInstanceById(execution.getId());
+  }
+}
