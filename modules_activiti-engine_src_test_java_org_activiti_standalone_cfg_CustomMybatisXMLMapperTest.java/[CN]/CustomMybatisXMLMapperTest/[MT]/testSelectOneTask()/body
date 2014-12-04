@@ -9,5 +9,9 @@
   }
 );
   assertEquals("2",task.getName());
+  List<Task> tasks=taskService.createTaskQuery().list();
+  assertEquals(5,tasks.size());
+  task=taskService.createTaskQuery().taskName("2").singleResult();
+  assertEquals("2",task.getName());
   deleteTasks(taskService.createTaskQuery().list());
 }
