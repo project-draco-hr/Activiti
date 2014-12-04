@@ -53,6 +53,9 @@
     if (e instanceof ActivitiException) {
       throw (ActivitiException)e;
     }
+ else     if (e instanceof XMLException) {
+      throw (XMLException)e;
+    }
  else {
       throw new ActivitiException("Error parsing XML",e);
     }

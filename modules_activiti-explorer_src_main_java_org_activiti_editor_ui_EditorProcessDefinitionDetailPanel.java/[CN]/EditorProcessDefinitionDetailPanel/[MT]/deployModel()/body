@@ -9,7 +9,7 @@
     }
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    LOGGER.error("Failed to deploy model",e);
     ExplorerApp.get().getNotificationManager().showErrorNotification(Messages.PROCESS_TOXML_FAILED,e);
   }
 }
