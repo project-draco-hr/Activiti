@@ -7,8 +7,17 @@
   involvePeoplePopupWindow.addListener(new SubmitEventListener(){
     protected void submitted(    SubmitEvent event){
       String selectedUser=involvePeoplePopupWindow.getSelectedUserId();
+      String originAssignee=task.getAssignee();
       task.setAssignee(selectedUser);
-      ProcessEngines.getDefaultProcessEngine().getTaskService().setAssignee(task.getId(),selectedUser);
+      if (selectedUser != null) {
+        ProcessEngines.getDefaultProcessEngine().getTaskService().setAssignee(task.getId(),selectedUser);
+      }
+ else       if (originAssignee != null) {
+        ProcessEngines.getDefaultProcessEngine().getTaskService().deleteUserIdentityLink(task.getId(),originAssignee,IdentityLinkType.ASSIGNEE);
+      }
+ else {
+        return;
+      }
       taskDetailPanel.notifyAssigneeChanged();
     }
     protected void cancelled(    SubmitEvent event){
