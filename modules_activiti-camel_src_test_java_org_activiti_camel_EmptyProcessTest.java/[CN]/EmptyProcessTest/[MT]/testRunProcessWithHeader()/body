@@ -1,6 +1,5 @@
 {
-  CamelContext ctx=applicationContext.getBean(CamelContext.class);
-  ProducerTemplate tpl=ctx.createProducerTemplate();
+  ProducerTemplate tpl=camelContext.createProducerTemplate();
   String body="body text";
   String instanceId=(String)tpl.requestBody("direct:startEmptyWithHeader",body);
   assertProcessEnded(instanceId);
