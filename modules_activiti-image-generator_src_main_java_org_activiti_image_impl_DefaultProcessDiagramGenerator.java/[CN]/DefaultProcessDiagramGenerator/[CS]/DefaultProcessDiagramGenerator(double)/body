@@ -50,6 +50,9 @@
         if (throwEvent.getEventDefinitions().get(0) instanceof SignalEventDefinition) {
           processDiagramCanvas.drawThrowingSignalEvent(graphicInfo,scaleFactor);
         }
+ else         if (throwEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition) {
+          processDiagramCanvas.drawThrowingCompensateEvent(graphicInfo,scaleFactor);
+        }
  else {
           processDiagramCanvas.drawThrowingNoneEvent(graphicInfo,scaleFactor);
         }
@@ -187,6 +190,9 @@
         }
  else         if (boundaryEvent.getEventDefinitions().get(0) instanceof MessageEventDefinition) {
           processDiagramCanvas.drawCatchingMessageEvent(flowNode.getName(),graphicInfo,boundaryEvent.isCancelActivity(),scaleFactor);
+        }
+ else         if (boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition) {
+          processDiagramCanvas.drawCatchingCompensateEvent(graphicInfo,boundaryEvent.isCancelActivity(),scaleFactor);
         }
       }
     }
