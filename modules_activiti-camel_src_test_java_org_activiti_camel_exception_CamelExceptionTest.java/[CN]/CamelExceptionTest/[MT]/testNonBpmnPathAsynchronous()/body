@@ -1,0 +1,16 @@
+{
+  ThrowBpmnExceptionBean.setExceptionType(ThrowBpmnExceptionBean.ExceptionType.NON_BPMN_EXCEPTION);
+  runtimeService.startProcessInstanceByKey("exceptionInRouteSynchron");
+  assertTrue(areJobsAvailable());
+  Job job=managementService.createJobQuery().singleResult();
+  try {
+    managementService.executeJob(job.getId());
+    fail();
+  }
+ catch (  Exception e) {
+  }
+  job=managementService.createJobQuery().singleResult();
+  assertEquals("Unhandled exception on camel route",job.getExceptionMessage());
+  assertFalse(ExceptionServiceMock.isCalled());
+  assertFalse(NoExceptionServiceMock.isCalled());
+}

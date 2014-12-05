@@ -1,0 +1,6 @@
+{
+  ThrowBpmnExceptionBean.setExceptionType(ThrowBpmnExceptionBean.ExceptionType.NO_EXCEPTION);
+  runtimeService.startProcessInstanceByKey("exceptionInRouteSynchron");
+  assertFalse(ExceptionServiceMock.isCalled());
+  assertTrue(NoExceptionServiceMock.isCalled());
+}

@@ -1,0 +1,11 @@
+{
+  ThrowBpmnExceptionBean.setExceptionType(ThrowBpmnExceptionBean.ExceptionType.BPMN_EXCEPTION);
+  try {
+    runtimeService.startProcessInstanceByKey("exceptionInRouteSynchron");
+  }
+ catch (  ActivitiException e) {
+    fail("The exception should be handled by camel. No exception expected.");
+  }
+  assertTrue(ExceptionServiceMock.isCalled());
+  assertFalse(NoExceptionServiceMock.isCalled());
+}

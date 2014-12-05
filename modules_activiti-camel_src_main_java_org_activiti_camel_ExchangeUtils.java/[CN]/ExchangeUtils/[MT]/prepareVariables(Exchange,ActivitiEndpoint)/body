@@ -14,8 +14,12 @@
  else {
     camelVarMap=new HashMap<String,Object>();
     Object camelBody=null;
-    if (exchange.hasOut())     camelBody=exchange.getOut().getBody();
- else     camelBody=exchange.getIn().getBody();
+    if (exchange.hasOut()) {
+      camelBody=exchange.getOut().getBody();
+    }
+ else {
+      camelBody=exchange.getIn().getBody();
+    }
     if (camelBody instanceof Map<?,?>) {
       Map<?,?> camelBodyMap=(Map<?,?>)camelBody;
       for (      @SuppressWarnings("rawtypes") Map.Entry e : camelBodyMap.entrySet()) {
@@ -28,7 +32,9 @@
       if (activitiEndpoint.isCopyCamelBodyToBodyAsString() && !(camelBody instanceof String)) {
         camelBody=exchange.getContext().getTypeConverter().convertTo(String.class,exchange,camelBody);
       }
-      camelVarMap.put(CAMELBODY,camelBody);
+      if (camelBody != null) {
+        camelVarMap.put(CAMELBODY,camelBody);
+      }
     }
     if (activitiEndpoint.isCopyVariablesFromHeader()) {
       boolean isSetProcessInitiator=activitiEndpoint.isSetProcessInitiator();

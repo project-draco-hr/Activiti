@@ -2,7 +2,7 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("asyncPingProcess");
   List<Execution> executionList=runtimeService.createExecutionQuery().list();
   Assert.assertEquals(1,executionList.size());
-  waitForJobExecutorToProcessAllJobs(3000,100);
+  managementService.executeJob(managementService.createJobQuery().processInstanceId(processInstance.getId()).singleResult().getId());
   Thread.sleep(1500);
   executionList=runtimeService.createExecutionQuery().list();
   Assert.assertEquals(0,executionList.size());
