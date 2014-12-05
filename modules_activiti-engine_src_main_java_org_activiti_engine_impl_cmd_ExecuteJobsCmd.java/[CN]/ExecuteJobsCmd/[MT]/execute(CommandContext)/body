@@ -15,15 +15,17 @@
   if (jobExecutorContext != null) {
     jobExecutorContext.setCurrentJob(job);
   }
+  FailedJobListener failedJobListener=null;
   try {
+    failedJobListener=new FailedJobListener(commandContext.getProcessEngineConfiguration().getCommandExecutor(),jobId);
+    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,failedJobListener);
     job.execute(commandContext);
     if (commandContext.getEventDispatcher().isEnabled()) {
       commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_EXECUTION_SUCCESS,job));
     }
   }
  catch (  Throwable exception) {
-    CommandExecutor commandExecutor=Context.getProcessEngineConfiguration().getCommandExecutor();
-    commandContext.getTransactionContext().addTransactionListener(TransactionState.ROLLED_BACK,new FailedJobListener(commandExecutor,jobId,exception));
+    failedJobListener.setException(exception);
     if (commandContext.getEventDispatcher().isEnabled()) {
       try {
         commandContext.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityExceptionEvent(ActivitiEventType.JOB_EXECUTION_FAILURE,job,exception));
