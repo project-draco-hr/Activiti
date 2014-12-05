@@ -15,11 +15,11 @@ catch (  SystemException e) {
     throw new TransactionException("Unable to commit transaction",e);
   }
 catch (  RuntimeException e) {
-    doRollback(true);
+    doRollback(true,e);
     throw e;
   }
 catch (  Error e) {
-    doRollback(true);
+    doRollback(true,e);
     throw e;
   }
 }
