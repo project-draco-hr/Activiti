@@ -5,9 +5,13 @@
     if (StringUtils.isNotEmpty(expression) && ELEMENT_FORMAL_EXPRESSION.equals(expression)) {
       List<String> assignmentList=CommaSplitter.splitCommas(xtr.getElementText());
       for (      String assignmentValue : assignmentList) {
-        if (assignmentValue == null)         continue;
+        if (assignmentValue == null) {
+          continue;
+        }
         assignmentValue=assignmentValue.trim();
-        if (assignmentValue.length() == 0)         continue;
+        if (assignmentValue.length() == 0) {
+          continue;
+        }
         String userPrefix="user(";
         String groupPrefix="group(";
         if (assignmentValue.startsWith(userPrefix)) {
