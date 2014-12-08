@@ -1,0 +1,16 @@
+{
+  if (threadFactory == null) {
+    log.warn("A managed thread factory was not found, falling back to self-managed threads");
+    super.startExecutingJobs();
+  }
+ else {
+    if (threadPoolQueue == null) {
+      threadPoolQueue=new ArrayBlockingQueue<Runnable>(queueSize);
+    }
+    if (threadPoolExecutor == null) {
+      threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,TimeUnit.MILLISECONDS,threadPoolQueue,threadFactory);
+      threadPoolExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
+    }
+    startJobAcquisitionThread();
+  }
+}
