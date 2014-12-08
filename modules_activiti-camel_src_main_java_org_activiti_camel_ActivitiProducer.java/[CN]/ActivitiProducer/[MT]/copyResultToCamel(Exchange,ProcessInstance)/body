@@ -1,0 +1,12 @@
+{
+  exchange.setProperty(PROCESS_ID_PROPERTY,pi.getProcessInstanceId());
+  Map<String,Object> returnVars=getActivitiEndpoint().getReturnVarMap();
+  if (returnVars != null && returnVars.size() > 0) {
+    List<HistoricVariableInstance> processVariables=historyService.createHistoricVariableInstanceQuery().processInstanceId(pi.getProcessInstanceId()).list();
+    for (    HistoricVariableInstance variable : processVariables) {
+      if (returnVars.containsKey(variable.getVariableName())) {
+        exchange.setProperty(variable.getVariableName(),variable.getValue());
+      }
+    }
+  }
+}

@@ -2,7 +2,10 @@
   CamelContext ctx=applicationContext.getBean(CamelContext.class);
   ProducerTemplate tpl=ctx.createProducerTemplate();
   Object expectedObj=new Long(99);
-  String instanceId=(String)tpl.requestBody("direct:startEmptyBodyAsString",expectedObj);
+  Exchange exchange=ctx.getEndpoint("direct:startEmptyBodyAsString").createExchange();
+  exchange.getIn().setBody(expectedObj);
+  tpl.send("direct:startEmptyBodyAsString",exchange);
+  String instanceId=(String)exchange.getProperty("PROCESS_ID_PROPERTY");
   assertProcessEnded(instanceId);
   HistoricVariableInstance var=processEngine.getHistoryService().createHistoricVariableInstanceQuery().variableName("camelBody").singleResult();
   assertNotNull(var);

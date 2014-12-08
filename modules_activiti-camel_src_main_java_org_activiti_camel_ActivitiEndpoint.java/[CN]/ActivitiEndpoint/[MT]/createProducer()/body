@@ -1,7 +1,7 @@
 {
-  ActivitiProducer producer=new ActivitiProducer(this,runtimeService,getTimeout(),getTimeResolution());
-  if (isSetProcessInitiator()) {
-    producer.setIdentityService(identityService);
-  }
+  ActivitiProducer producer=new ActivitiProducer(this,getTimeout(),getTimeResolution());
+  producer.setRuntimeService(runtimeService);
+  producer.setIdentityService(identityService);
+  producer.setHistoryService(historyService);
   return producer;
 }
