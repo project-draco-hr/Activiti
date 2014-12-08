@@ -13,11 +13,11 @@
     String charSetStr=getStringFromField(charset,execution);
     email=createEmail(textStr,htmlStr);
     addTo(email,toStr);
-    setFrom(email,fromStr);
+    setFrom(email,fromStr,execution.getTenantId());
     addCc(email,ccStr);
     addBcc(email,bccStr);
     setSubject(email,subjectStr);
-    setMailServerProperties(email);
+    setMailServerProperties(email,execution.getTenantId());
     setCharset(email,charSetStr);
     email.send();
   }

@@ -1,0 +1,49 @@
+{
+  ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
+  boolean isMailServerSet=false;
+  if (tenantId != null && tenantId.length() > 0) {
+    if (processEngineConfiguration.getMailSessionJndi(tenantId) != null) {
+      setEmailSession(email,processEngineConfiguration.getMailSessionJndi(tenantId));
+      isMailServerSet=true;
+    }
+ else     if (processEngineConfiguration.getMailServer(tenantId) != null) {
+      MailServerInfo mailServerInfo=processEngineConfiguration.getMailServer(tenantId);
+      String host=mailServerInfo.getMailServerHost();
+      if (host == null) {
+        throw new ActivitiException("Could not send email: no SMTP host is configured for tenantId " + tenantId);
+      }
+      email.setHostName(host);
+      email.setSmtpPort(mailServerInfo.getMailServerPort());
+      email.setSSL(mailServerInfo.isMailServerUseSSL());
+      email.setTLS(mailServerInfo.isMailServerUseTLS());
+      String user=mailServerInfo.getMailServerUsername();
+      String password=mailServerInfo.getMailServerPassword();
+      if (user != null && password != null) {
+        email.setAuthentication(user,password);
+      }
+      isMailServerSet=true;
+    }
+  }
+  if (isMailServerSet == false) {
+    String mailSessionJndi=processEngineConfiguration.getMailSessionJndi();
+    if (mailSessionJndi != null) {
+      setEmailSession(email,mailSessionJndi);
+    }
+ else {
+      String host=processEngineConfiguration.getMailServerHost();
+      if (host == null) {
+        throw new ActivitiException("Could not send email: no SMTP host is configured");
+      }
+      email.setHostName(host);
+      int port=processEngineConfiguration.getMailServerPort();
+      email.setSmtpPort(port);
+      email.setSSL(processEngineConfiguration.getMailServerUseSSL());
+      email.setTLS(processEngineConfiguration.getMailServerUseTLS());
+      String user=processEngineConfiguration.getMailServerUsername();
+      String password=processEngineConfiguration.getMailServerPassword();
+      if (user != null && password != null) {
+        email.setAuthentication(user,password);
+      }
+    }
+  }
+}

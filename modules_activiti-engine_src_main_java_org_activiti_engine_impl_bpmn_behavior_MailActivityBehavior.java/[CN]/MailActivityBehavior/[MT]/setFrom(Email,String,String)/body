@@ -1,0 +1,24 @@
+{
+  String fromAddress=null;
+  if (from != null) {
+    fromAddress=from;
+  }
+ else {
+    if (tenantId != null && tenantId.length() > 0) {
+      Map<String,MailServerInfo> mailServers=Context.getProcessEngineConfiguration().getMailServers();
+      if (mailServers != null && mailServers.containsKey(tenantId)) {
+        MailServerInfo mailServerInfo=mailServers.get(tenantId);
+        fromAddress=mailServerInfo.getMailServerDefaultFrom();
+      }
+    }
+    if (fromAddress == null) {
+      fromAddress=Context.getProcessEngineConfiguration().getMailServerDefaultFrom();
+    }
+  }
+  try {
+    email.setFrom(fromAddress);
+  }
+ catch (  EmailException e) {
+    throw new ActivitiException("Could not set " + from + " as from address in email",e);
+  }
+}
