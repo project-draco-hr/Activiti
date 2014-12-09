@@ -1,10 +1,10 @@
 {
-  LOG.debug("Processing deployment {}",deployment.getName());
+  log.debug("Processing deployment {}",deployment.getName());
   List<ProcessDefinitionEntity> processDefinitions=new ArrayList<ProcessDefinitionEntity>();
   Map<String,ResourceEntity> resources=deployment.getResources();
   final ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
   for (  String resourceName : resources.keySet()) {
-    LOG.info("Processing resource {}",resourceName);
+    log.debug("Processing resource {}",resourceName);
     if (isBpmnResource(resourceName)) {
       ResourceEntity resource=resources.get(resourceName);
       byte[] bytes=resource.getBytes();
@@ -37,7 +37,7 @@
               createResource(diagramResourceName,diagramBytes,deployment);
             }
  catch (            Throwable t) {
-              LOG.warn("Error while generating process diagram, image will not be stored in repository",t);
+              log.warn("Error while generating process diagram, image will not be stored in repository",t);
             }
           }
         }

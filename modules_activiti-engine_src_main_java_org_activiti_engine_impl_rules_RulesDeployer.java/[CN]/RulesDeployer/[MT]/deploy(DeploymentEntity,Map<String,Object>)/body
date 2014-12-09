@@ -1,9 +1,10 @@
 {
+  log.debug("Processing deployment {}",deployment.getName());
   KnowledgeBuilder knowledgeBuilder=null;
   DeploymentManager deploymentManager=Context.getProcessEngineConfiguration().getDeploymentManager();
   Map<String,ResourceEntity> resources=deployment.getResources();
   for (  String resourceName : resources.keySet()) {
-    log.info("Processing resource {}",resourceName);
+    log.debug("Processing resource {}",resourceName);
     if (resourceName.endsWith(".drl")) {
       if (knowledgeBuilder == null) {
         knowledgeBuilder=KnowledgeBuilderFactory.newKnowledgeBuilder();
