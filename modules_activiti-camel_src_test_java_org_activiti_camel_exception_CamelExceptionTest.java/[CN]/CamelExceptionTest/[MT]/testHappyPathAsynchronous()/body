@@ -3,7 +3,7 @@
   runtimeService.startProcessInstanceByKey("exceptionInRouteSynchron");
   Job job=managementService.createJobQuery().singleResult();
   managementService.executeJob(job.getId());
-  assertFalse(areJobsAvailable());
+  assertFalse(JobTestHelper.areJobsAvailable(managementService));
   assertFalse(ExceptionServiceMock.isCalled());
   assertTrue(NoExceptionServiceMock.isCalled());
 }
