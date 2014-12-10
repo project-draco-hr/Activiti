@@ -1,12 +1,3 @@
 {
-  ensureVariableInstancesInitialized();
-  VariableInstanceEntity variableInstance=variableInstances.get(variableName);
-  if (variableInstance != null) {
-    return variableInstance.getValue();
-  }
-  VariableScope parentScope=getParentVariableScope();
-  if (parentScope != null) {
-    return parentScope.getVariable(variableName);
-  }
-  return null;
+  return getVariable(variableName,true);
 }

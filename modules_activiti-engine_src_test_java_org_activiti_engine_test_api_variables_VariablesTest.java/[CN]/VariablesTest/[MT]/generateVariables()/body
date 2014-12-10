@@ -1,0 +1,19 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  for (int i=0; i < 10; i++) {
+    vars.put("stringVar" + i,"stringVarValue-" + i);
+  }
+  for (int i=0; i < 10; i++) {
+    vars.put("intVar" + i,i * 100);
+  }
+  for (int i=0; i < 10; i++) {
+    vars.put("dateVar" + i,new Date());
+  }
+  for (int i=0; i < 10; i++) {
+    vars.put("booleanValue" + i,(i % 2 == 0));
+  }
+  for (int i=0; i < 10; i++) {
+    vars.put("serializableValue" + i,new TestSerializableVariable(i));
+  }
+  return vars;
+}

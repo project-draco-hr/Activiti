@@ -3,7 +3,9 @@
   VariableType type=variableTypes.findVariableType(value);
   VariableInstanceEntity variableInstance=VariableInstanceEntity.createAndInsert(variableName,type,value);
   initializeVariableInstanceBackPointer(variableInstance);
-  variableInstances.put(variableName,variableInstance);
+  if (variableInstances != null) {
+    variableInstances.put(variableName,variableInstance);
+  }
   Context.getCommandContext().getHistoryManager().recordVariableCreate(variableInstance);
   Context.getCommandContext().getHistoryManager().recordHistoricDetailVariableCreate(variableInstance,sourceActivityExecution,isActivityIdUsedForDetails());
   return variableInstance;

@@ -6,21 +6,20 @@
   if (execution == null) {
     throw new ActivitiObjectNotFoundException("execution " + executionId + " doesn't exist",Execution.class);
   }
-  Map<String,Object> executionVariables;
-  if (isLocal) {
-    executionVariables=execution.getVariablesLocal();
+  if (variableNames == null || variableNames.isEmpty()) {
+    if (isLocal) {
+      return execution.getVariablesLocal();
+    }
+ else {
+      return execution.getVariables();
+    }
   }
  else {
-    executionVariables=execution.getVariables();
-  }
-  if (variableNames != null && !variableNames.isEmpty()) {
-    Map<String,Object> tempVariables=new HashMap<String,Object>();
-    for (    String variableName : variableNames) {
-      if (executionVariables.containsKey(variableName)) {
-        tempVariables.put(variableName,executionVariables.get(variableName));
-      }
+    if (isLocal) {
+      return execution.getVariablesLocal(variableNames,false);
     }
-    executionVariables=tempVariables;
+ else {
+      return execution.getVariables(variableNames,false);
+    }
   }
-  return executionVariables;
 }

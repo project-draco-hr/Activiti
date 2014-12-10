@@ -1,0 +1,6 @@
+{
+  Map<String,String> params=new HashMap<String,String>(2);
+  params.put("executionId",executionId);
+  params.put("name",variableName);
+  return (VariableInstanceEntity)getDbSqlSession().selectOne("selectVariableInstanceByExecutionAndName",params);
+}

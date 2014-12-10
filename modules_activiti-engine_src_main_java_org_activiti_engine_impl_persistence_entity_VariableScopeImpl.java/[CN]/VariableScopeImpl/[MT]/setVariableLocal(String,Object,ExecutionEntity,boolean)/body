@@ -1,0 +1,38 @@
+{
+  if (fetchAllVariables == true) {
+    if (usedVariablesCache.containsKey(variableName)) {
+      updateVariableInstance(usedVariablesCache.get(variableName),value,sourceActivityExecution);
+    }
+    ensureVariableInstancesInitialized();
+    VariableInstanceEntity variableInstance=variableInstances.get(variableName);
+    if (variableInstance == null) {
+      variableInstance=usedVariablesCache.get(variableName);
+    }
+    if (variableInstance == null) {
+      createVariableLocal(variableName,value);
+    }
+ else {
+      updateVariableInstance(variableInstance,value,sourceActivityExecution);
+    }
+    return null;
+  }
+ else {
+    if (usedVariablesCache.containsKey(variableName)) {
+      updateVariableInstance(usedVariablesCache.get(variableName),value,sourceActivityExecution);
+    }
+ else     if (variableInstances != null && variableInstances.containsKey(variableName)) {
+      updateVariableInstance(variableInstances.get(variableName),value,sourceActivityExecution);
+    }
+ else {
+      VariableInstanceEntity variable=getSpecificVariable(variableName);
+      if (variable != null) {
+        updateVariableInstance(variable,value,sourceActivityExecution);
+      }
+ else {
+        variable=createVariableInstance(variableName,value,sourceActivityExecution);
+      }
+      usedVariablesCache.put(variableName,variable);
+    }
+    return null;
+  }
+}

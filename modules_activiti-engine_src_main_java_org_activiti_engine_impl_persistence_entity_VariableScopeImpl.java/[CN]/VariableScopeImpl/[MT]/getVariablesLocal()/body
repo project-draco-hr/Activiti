@@ -4,5 +4,8 @@
   for (  VariableInstanceEntity variableInstance : variableInstances.values()) {
     variables.put(variableInstance.getName(),variableInstance.getValue());
   }
+  for (  String variableName : usedVariablesCache.keySet()) {
+    variables.put(variableName,usedVariablesCache.get(variableName).getValue());
+  }
   return variables;
 }
