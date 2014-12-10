@@ -16,7 +16,7 @@
   assertEquals(timerJob.getProcessInstanceId(),responseNode.get("processInstanceId").textValue());
   assertEquals(timerJob.getRetries(),responseNode.get("retries").intValue());
   assertEquals(timerJob.getDuedate(),getDateFromISOString(responseNode.get("dueDate").textValue()));
-  assertEquals(responseNode.get("tenantId").textValue(),"");
+  assertEquals("",responseNode.get("tenantId").textValue());
   managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
   response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_JOB,timerJob.getId())),HttpStatus.SC_OK);
   responseNode=objectMapper.readTree(response.getEntity().getContent());
