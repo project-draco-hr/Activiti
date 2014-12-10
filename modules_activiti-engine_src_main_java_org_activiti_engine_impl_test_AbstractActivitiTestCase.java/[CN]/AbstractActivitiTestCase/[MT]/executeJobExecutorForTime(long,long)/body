@@ -1,35 +1,3 @@
 {
-  JobExecutor jobExecutor=null;
-  AsyncExecutor asyncExecutor=null;
-  if (processEngineConfiguration.isAsyncExecutorEnabled() == false) {
-    jobExecutor=processEngineConfiguration.getJobExecutor();
-    jobExecutor.start();
-  }
- else {
-    asyncExecutor=processEngineConfiguration.getAsyncExecutor();
-    asyncExecutor.start();
-  }
-  try {
-    Timer timer=new Timer();
-    InteruptTask task=new InteruptTask(Thread.currentThread());
-    timer.schedule(task,maxMillisToWait);
-    try {
-      while (!task.isTimeLimitExceeded()) {
-        Thread.sleep(intervalMillis);
-      }
-    }
- catch (    InterruptedException e) {
-    }
- finally {
-      timer.cancel();
-    }
-  }
-  finally {
-    if (processEngineConfiguration.isAsyncExecutorEnabled() == false) {
-      jobExecutor.shutdown();
-    }
- else {
-      asyncExecutor.shutdown();
-    }
-  }
+  JobTestHelper.executeJobExecutorForTime(processEngineConfiguration,maxMillisToWait,intervalMillis);
 }
