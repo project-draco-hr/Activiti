@@ -1,0 +1,6 @@
+{
+  super.setUp();
+  repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/api/variables/VariablesTest.bpmn20.xml").deploy();
+  Map<String,Object> vars=generateVariables();
+  processInstanceId=runtimeService.startProcessInstanceByKey("variablesTest",vars).getId();
+}

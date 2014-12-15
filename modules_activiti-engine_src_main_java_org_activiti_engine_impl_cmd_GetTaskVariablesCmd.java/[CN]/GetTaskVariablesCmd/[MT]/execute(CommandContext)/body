@@ -6,19 +6,20 @@
   if (task == null) {
     throw new ActivitiObjectNotFoundException("task " + taskId + " doesn't exist",Task.class);
   }
-  Map<String,Object> taskVariables;
-  if (isLocal) {
-    taskVariables=task.getVariablesLocal();
+  if (variableNames == null) {
+    if (isLocal) {
+      return task.getVariablesLocal();
+    }
+ else {
+      return task.getVariables();
+    }
   }
  else {
-    taskVariables=task.getVariables();
+    if (isLocal) {
+      return task.getVariablesLocal(variableNames,false);
+    }
+ else {
+      return task.getVariables(variableNames,false);
+    }
   }
-  if (variableNames == null) {
-    variableNames=taskVariables.keySet();
-  }
-  Map<String,Object> variables=new HashMap<String,Object>();
-  for (  String variableName : variableNames) {
-    variables.put(variableName,task.getVariable(variableName));
-  }
-  return variables;
 }

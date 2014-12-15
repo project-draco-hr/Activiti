@@ -1,0 +1,10 @@
+{
+  Map<String,Object> vars=execution.getVariables(Arrays.asList("testVar1","testVar2","testVar3"),false);
+  String testVar1=(String)vars.get("testVar1");
+  String testVar2=(String)vars.get("testVar2");
+  String testVar3=(String)vars.get("testVar3");
+  execution.setVariable("testVar1",testVar1 + "-CHANGED",false);
+  execution.setVariable("testVar2",testVar2 + "-CHANGED",false);
+  execution.setVariable("testVar3",testVar3 + "-CHANGED",false);
+  execution.setVariableLocal("localVar","localValue",false);
+}

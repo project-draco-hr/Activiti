@@ -1,9 +1,17 @@
 {
   if (isLocal) {
-    execution.setVariablesLocal(variables);
+    if (variables != null) {
+      for (      String variableName : variables.keySet()) {
+        execution.setVariableLocal(variableName,variables.get(variableName),false);
+      }
+    }
   }
  else {
-    execution.setVariables(variables);
+    if (variables != null) {
+      for (      String variableName : variables.keySet()) {
+        execution.setVariable(variableName,variables.get(variableName),false);
+      }
+    }
   }
   execution.forceUpdate();
   return null;

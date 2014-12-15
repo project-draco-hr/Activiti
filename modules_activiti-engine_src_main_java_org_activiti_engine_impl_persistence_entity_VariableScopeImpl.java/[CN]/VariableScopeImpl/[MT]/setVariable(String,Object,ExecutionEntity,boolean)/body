@@ -1,0 +1,46 @@
+{
+  if (fetchAllVariables == true) {
+    if (usedVariablesCache.containsKey(variableName)) {
+      updateVariableInstance(usedVariablesCache.get(variableName),value,sourceActivityExecution);
+    }
+    if (hasVariableLocal(variableName)) {
+      setVariableLocal(variableName,value,sourceActivityExecution,true);
+      return;
+    }
+    VariableScopeImpl parentVariableScope=getParentVariableScope();
+    if (parentVariableScope != null) {
+      if (sourceActivityExecution == null) {
+        parentVariableScope.setVariable(variableName,value);
+      }
+ else {
+        parentVariableScope.setVariable(variableName,value,sourceActivityExecution,true);
+      }
+      return;
+    }
+    createVariableLocal(variableName,value);
+  }
+ else {
+    if (usedVariablesCache.containsKey(variableName)) {
+      updateVariableInstance(usedVariablesCache.get(variableName),value,sourceActivityExecution);
+    }
+ else     if (variableInstances != null && variableInstances.containsKey(variableName)) {
+      updateVariableInstance(variableInstances.get(variableName),value,sourceActivityExecution);
+    }
+ else {
+      VariableInstanceEntity variable=getSpecificVariable(variableName);
+      if (variable != null) {
+        updateVariableInstance(variable,value,sourceActivityExecution);
+        usedVariablesCache.put(variableName,variable);
+      }
+ else {
+        VariableScopeImpl parent=getParentVariableScope();
+        if (parent != null) {
+          parent.setVariable(variableName,value,sourceActivityExecution,fetchAllVariables);
+          return;
+        }
+        variable=createVariableInstance(variableName,value,sourceActivityExecution);
+        usedVariablesCache.put(variableName,variable);
+      }
+    }
+  }
+}

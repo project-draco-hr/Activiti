@@ -1,0 +1,23 @@
+{
+  Map<String,Object> requestedVariables=new HashMap<String,Object>();
+  Set<String> variableNamesToFetch=new HashSet<String>(variableNames);
+  for (  String variableName : variableNames) {
+    if (usedVariablesCache.containsKey(variableName)) {
+      requestedVariables.put(variableName,usedVariablesCache.get(variableName).getValue());
+      variableNamesToFetch.remove(variableName);
+    }
+  }
+  if (fetchAllVariables == true) {
+    Map<String,Object> allVariables=getVariablesLocal();
+    for (    String variableName : variableNamesToFetch) {
+      requestedVariables.put(variableName,allVariables.get(variableName));
+    }
+  }
+ else {
+    List<VariableInstanceEntity> variables=getSpecificVariables(variableNamesToFetch);
+    for (    VariableInstanceEntity variable : variables) {
+      requestedVariables.put(variable.getName(),variable.getValue());
+    }
+  }
+  return requestedVariables;
+}
