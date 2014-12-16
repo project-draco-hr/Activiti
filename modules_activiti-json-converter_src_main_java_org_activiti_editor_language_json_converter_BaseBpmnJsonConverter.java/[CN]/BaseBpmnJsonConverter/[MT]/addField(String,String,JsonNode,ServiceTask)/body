@@ -1,0 +1,14 @@
+{
+  FieldExtension field=new FieldExtension();
+  field.setFieldName(name);
+  String value=getPropertyValueAsString(propertyName,elementNode);
+  if (StringUtils.isNotEmpty(value)) {
+    if ((value.contains("${") || value.contains("#{")) && value.contains("}")) {
+      field.setExpression(value);
+    }
+ else {
+      field.setStringValue(value);
+    }
+    task.getFieldExtensions().add(field);
+  }
+}

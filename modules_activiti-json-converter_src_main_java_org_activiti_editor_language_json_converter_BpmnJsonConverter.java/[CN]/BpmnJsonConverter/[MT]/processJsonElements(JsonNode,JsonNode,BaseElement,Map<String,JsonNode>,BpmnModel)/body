@@ -1,0 +1,13 @@
+{
+  for (  JsonNode shapeNode : shapesArrayNode) {
+    String stencilId=BpmnJsonConverterUtil.getStencilId(shapeNode);
+    Class<? extends BaseBpmnJsonConverter> converter=convertersToBpmnMap.get(stencilId);
+    try {
+      BaseBpmnJsonConverter converterInstance=converter.newInstance();
+      converterInstance.convertToBpmnModel(shapeNode,modelNode,this,parentElement,shapeMap,bpmnModel);
+    }
+ catch (    Exception e) {
+      LOGGER.error("Error converting {}",BpmnJsonConverterUtil.getStencilId(shapeNode),e);
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  StartEvent startEvent=(StartEvent)baseElement;
+  if (StringUtils.isNotEmpty(startEvent.getInitiator())) {
+    propertiesNode.put(PROPERTY_NONE_STARTEVENT_INITIATOR,startEvent.getInitiator());
+  }
+  if (StringUtils.isNotEmpty(startEvent.getFormKey())) {
+    propertiesNode.put(PROPERTY_FORMKEY,startEvent.getFormKey());
+  }
+  addFormProperties(startEvent.getFormProperties(),propertiesNode);
+  addEventProperties(startEvent,propertiesNode);
+}

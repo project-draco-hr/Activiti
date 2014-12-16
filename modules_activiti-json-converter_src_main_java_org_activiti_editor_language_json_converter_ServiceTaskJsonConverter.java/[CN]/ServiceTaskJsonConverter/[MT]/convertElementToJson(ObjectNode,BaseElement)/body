@@ -1,0 +1,37 @@
+{
+  ServiceTask serviceTask=(ServiceTask)baseElement;
+  if ("mail".equalsIgnoreCase(serviceTask.getType())) {
+    setPropertyFieldValue(PROPERTY_MAILTASK_TO,serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MAILTASK_FROM,serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MAILTASK_SUBJECT,serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MAILTASK_CC,serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MAILTASK_BCC,serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MAILTASK_TEXT,serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MAILTASK_HTML,serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MAILTASK_CHARSET,serviceTask,propertiesNode);
+  }
+ else   if ("camel".equalsIgnoreCase(serviceTask.getType())) {
+    setPropertyFieldValue(PROPERTY_CAMELTASK_CAMELCONTEXT,"camelContext",serviceTask,propertiesNode);
+  }
+ else   if ("mule".equalsIgnoreCase(serviceTask.getType())) {
+    setPropertyFieldValue(PROPERTY_MULETASK_ENDPOINT_URL,"endpointUrl",serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MULETASK_LANGUAGE,"language",serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MULETASK_PAYLOAD_EXPRESSION,"payloadExpression",serviceTask,propertiesNode);
+    setPropertyFieldValue(PROPERTY_MULETASK_RESULT_VARIABLE,"resultVariable",serviceTask,propertiesNode);
+  }
+ else {
+    if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(serviceTask.getImplementationType())) {
+      propertiesNode.put(PROPERTY_SERVICETASK_CLASS,serviceTask.getImplementation());
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equals(serviceTask.getImplementationType())) {
+      propertiesNode.put(PROPERTY_SERVICETASK_EXPRESSION,serviceTask.getImplementation());
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(serviceTask.getImplementationType())) {
+      propertiesNode.put(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION,serviceTask.getImplementation());
+    }
+    if (StringUtils.isNotEmpty(serviceTask.getResultVariableName())) {
+      propertiesNode.put(PROPERTY_SERVICETASK_RESULT_VARIABLE,serviceTask.getResultVariableName());
+    }
+    addFieldExtensions(serviceTask.getFieldExtensions(),propertiesNode);
+  }
+}

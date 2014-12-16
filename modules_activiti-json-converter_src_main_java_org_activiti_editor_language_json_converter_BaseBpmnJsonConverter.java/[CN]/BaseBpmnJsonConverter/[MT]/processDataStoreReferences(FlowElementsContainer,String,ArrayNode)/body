@@ -1,0 +1,17 @@
+{
+  for (  FlowElement flowElement : container.getFlowElements()) {
+    if (flowElement instanceof Activity) {
+      Activity activity=(Activity)flowElement;
+      if (CollectionUtils.isNotEmpty(activity.getDataInputAssociations())) {
+        for (        DataAssociation dataAssociation : activity.getDataInputAssociations()) {
+          if (dataStoreReferenceId.equals(dataAssociation.getSourceRef())) {
+            outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(dataAssociation.getId()));
+          }
+        }
+      }
+    }
+ else     if (flowElement instanceof SubProcess) {
+      processDataStoreReferences((SubProcess)flowElement,dataStoreReferenceId,outgoingArrayNode);
+    }
+  }
+}

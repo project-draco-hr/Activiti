@@ -1,0 +1,13 @@
+{
+  for (  Artifact artifact : container.getArtifacts()) {
+    Class<? extends BaseBpmnJsonConverter> converter=convertersToJsonMap.get(artifact.getClass());
+    if (converter != null) {
+      try {
+        converter.newInstance().convertToJson(artifact,this,model,container,shapesArrayNode,containerX,containerY);
+      }
+ catch (      Exception e) {
+        LOGGER.error("Error converting {}",artifact,e);
+      }
+    }
+  }
+}

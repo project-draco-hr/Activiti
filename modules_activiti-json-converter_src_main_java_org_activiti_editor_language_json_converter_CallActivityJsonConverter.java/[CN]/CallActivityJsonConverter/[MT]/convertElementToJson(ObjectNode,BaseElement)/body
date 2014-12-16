@@ -1,0 +1,8 @@
+{
+  CallActivity callActivity=(CallActivity)baseElement;
+  if (StringUtils.isNotEmpty(callActivity.getCalledElement())) {
+    propertiesNode.put(PROPERTY_CALLACTIVITY_CALLEDELEMENT,callActivity.getCalledElement());
+  }
+  addJsonParameters(PROPERTY_CALLACTIVITY_IN,"inParameters",callActivity.getInParameters(),propertiesNode);
+  addJsonParameters(PROPERTY_CALLACTIVITY_OUT,"outParameters",callActivity.getOutParameters(),propertiesNode);
+}

@@ -1,15 +1,20 @@
 {
-  for (  FlowElement flowElement : flowElementList) {
-    if (attachedToRefId.equals(flowElement.getId())) {
-      return (Activity)flowElement;
-    }
- else     if (flowElement instanceof SubProcess) {
-      SubProcess subProcess=(SubProcess)flowElement;
-      Activity activity=retrieveAttachedRefObject(attachedToRefId,subProcess.getFlowElements());
-      if (activity != null) {
-        return activity;
+  Activity activity=null;
+  if (StringUtils.isNotEmpty(attachedToRefId)) {
+    for (    FlowElement flowElement : flowElementList) {
+      if (attachedToRefId.equals(flowElement.getId())) {
+        activity=(Activity)flowElement;
+        break;
+      }
+ else       if (flowElement instanceof SubProcess) {
+        SubProcess subProcess=(SubProcess)flowElement;
+        Activity retrievedActivity=retrieveAttachedRefObject(attachedToRefId,subProcess.getFlowElements());
+        if (retrievedActivity != null) {
+          activity=retrievedActivity;
+          break;
+        }
       }
     }
   }
-  return null;
+  return activity;
 }

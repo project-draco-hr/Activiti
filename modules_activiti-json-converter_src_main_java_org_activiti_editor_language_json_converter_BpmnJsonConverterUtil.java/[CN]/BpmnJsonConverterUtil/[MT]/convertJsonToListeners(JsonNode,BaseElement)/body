@@ -1,0 +1,16 @@
+{
+  JsonNode executionListenersNode=getProperty(PROPERTY_EXECUTION_LISTENERS,objectNode);
+  if (executionListenersNode != null) {
+    executionListenersNode=validateIfNodeIsTextual(executionListenersNode);
+    JsonNode listenersNode=executionListenersNode.get("executionListeners");
+    parseListeners(listenersNode,element,false);
+  }
+  if (element instanceof UserTask) {
+    JsonNode taskListenersNode=getProperty(PROPERTY_TASK_LISTENERS,objectNode);
+    if (taskListenersNode != null) {
+      taskListenersNode=validateIfNodeIsTextual(taskListenersNode);
+      JsonNode listenersNode=taskListenersNode.get("taskListeners");
+      parseListeners(listenersNode,element,true);
+    }
+  }
+}

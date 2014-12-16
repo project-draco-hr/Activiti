@@ -2,6 +2,7 @@
   for (  FlowElement flowElement : subProcess.getFlowElements()) {
     if (flowElement instanceof SubProcess) {
       SubProcess childSubProcess=(SubProcess)flowElement;
+      subShapesMap.put(childSubProcess.getId(),subProcess);
       fillSubShapes(subShapesMap,childSubProcess);
     }
  else {

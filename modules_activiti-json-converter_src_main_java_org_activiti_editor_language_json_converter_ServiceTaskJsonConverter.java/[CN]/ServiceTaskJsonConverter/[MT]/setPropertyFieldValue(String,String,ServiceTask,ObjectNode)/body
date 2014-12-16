@@ -1,0 +1,12 @@
+{
+  for (  FieldExtension extension : task.getFieldExtensions()) {
+    if (fieldName.equalsIgnoreCase(extension.getFieldName())) {
+      if (StringUtils.isNotEmpty(extension.getStringValue())) {
+        setPropertyValue(propertyName,extension.getStringValue(),propertiesNode);
+      }
+ else       if (StringUtils.isNotEmpty(extension.getExpression())) {
+        setPropertyValue(propertyName,extension.getExpression(),propertiesNode);
+      }
+    }
+  }
+}

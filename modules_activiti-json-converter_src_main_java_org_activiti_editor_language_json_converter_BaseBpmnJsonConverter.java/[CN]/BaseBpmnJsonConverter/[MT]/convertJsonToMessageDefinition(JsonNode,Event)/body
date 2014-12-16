@@ -1,8 +1,6 @@
 {
   String messageRef=getPropertyValueAsString(PROPERTY_MESSAGEREF,objectNode);
-  if (StringUtils.isNotEmpty(messageRef)) {
-    MessageEventDefinition eventDefinition=new MessageEventDefinition();
-    eventDefinition.setMessageRef(messageRef);
-    event.getEventDefinitions().add(eventDefinition);
-  }
+  MessageEventDefinition eventDefinition=new MessageEventDefinition();
+  eventDefinition.setMessageRef(messageRef);
+  event.getEventDefinitions().add(eventDefinition);
 }

@@ -1,9 +1,12 @@
 {
   StartEvent startEvent=new StartEvent();
   startEvent.setInitiator(getPropertyValueAsString(PROPERTY_NONE_STARTEVENT_INITIATOR,elementNode));
-  startEvent.setFormKey(getPropertyValueAsString(PROPERTY_FORMKEY,elementNode));
   String stencilId=BpmnJsonConverterUtil.getStencilId(elementNode);
   if (STENCIL_EVENT_START_NONE.equals(stencilId)) {
+    String formKey=getPropertyValueAsString(PROPERTY_FORMKEY,elementNode);
+    if (StringUtils.isNotEmpty(formKey)) {
+      startEvent.setFormKey(formKey);
+    }
     convertJsonToFormProperties(elementNode,startEvent);
   }
  else   if (STENCIL_EVENT_START_TIMER.equals(stencilId)) {
