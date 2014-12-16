@@ -1,0 +1,7 @@
+{
+  AsyncExecutor asyncExecutor=processEngine.getProcessEngineConfiguration().getAsyncExecutor();
+  if (asyncExecutor != null) {
+    return ((CountingAsyncExecutor)asyncExecutor).getCounter().get();
+  }
+  return 0;
+}

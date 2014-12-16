@@ -1,0 +1,6 @@
+{
+  for (  org.activiti.engine.repository.Deployment deployment : processEngine.getRepositoryService().createDeploymentQuery().list()) {
+    processEngine.getRepositoryService().deleteDeployment(deployment.getId(),true);
+  }
+  processEngine.close();
+}

@@ -1,0 +1,18 @@
+{
+  ProcessEngineConfigurationImpl processEngineConfiguration=new StandaloneInMemProcessEngineConfiguration();
+  processEngineConfiguration.setJdbcUrl("jdbc:h2:mem:activiti-AsyncExecutorTest;DB_CLOSE_DELAY=1000");
+  processEngineConfiguration.setDatabaseSchemaUpdate("true");
+  processEngineConfiguration.setJobExecutorActivate(false);
+  if (enableAsyncExecutor) {
+    processEngineConfiguration.setAsyncExecutorEnabled(true);
+    processEngineConfiguration.setAsyncExecutorActivate(true);
+    CountingAsyncExecutor countingAsyncExecutor=new CountingAsyncExecutor();
+    countingAsyncExecutor.setDefaultAsyncJobAcquireWaitTimeInMillis(1);
+    processEngineConfiguration.setAsyncExecutor(countingAsyncExecutor);
+  }
+  ProcessEngine processEngine=processEngineConfiguration.buildProcessEngine();
+  if (time != null) {
+    processEngine.getProcessEngineConfiguration().getClock().setCurrentTime(time);
+  }
+  return processEngine;
+}

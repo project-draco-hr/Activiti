@@ -1,10 +1,10 @@
 {
   JobQuery query=managementService.createJobQuery().duedateHigherThan(testStartTime);
-  verifyQueryResults(query,3);
+  verifyQueryResults(query,4);
   query=managementService.createJobQuery().duedateHigherThan(timerOneFireTime);
-  verifyQueryResults(query,2);
+  verifyQueryResults(query,3);
   query=managementService.createJobQuery().duedateHigherThan(timerTwoFireTime);
-  verifyQueryResults(query,1);
+  verifyQueryResults(query,2);
   query=managementService.createJobQuery().duedateHigherThan(timerThreeFireTime);
   verifyQueryResults(query,0);
 }

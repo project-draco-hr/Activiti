@@ -1,6 +1,16 @@
 {
+  ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
+  if (processEngineConfiguration.isAsyncExecutorEnabled()) {
+    Date dueDate=new Date(processEngineConfiguration.getClock().getCurrentTime().getTime() + processEngineConfiguration.getAsyncExecutor().getAsyncJobLockTimeInMillis());
+    message.setDuedate(dueDate);
+    message.setLockExpirationTime(null);
+  }
+ else   if (!processEngineConfiguration.isJobExecutorActivate()) {
+    message.setDuedate(processEngineConfiguration.getClock().getCurrentTime());
+    message.setLockExpirationTime(null);
+  }
   message.insert();
-  if (Context.getProcessEngineConfiguration().isAsyncExecutorEnabled()) {
+  if (processEngineConfiguration.isAsyncExecutorEnabled()) {
     hintAsyncExecutor(message);
   }
  else {
