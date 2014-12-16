@@ -15,6 +15,7 @@
     byte[] bytes=IoUtil.readInputStream(content,attachmentName);
     ByteArrayEntity byteArray=ByteArrayEntity.createAndInsert(bytes);
     attachment.setContentId(byteArray.getId());
+    attachment.setContent(byteArray);
   }
   commandContext.getHistoryManager().createAttachmentComment(taskId,processInstanceId,attachmentName,true);
   if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
