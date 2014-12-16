@@ -1,0 +1,51 @@
+{
+  Association association=(Association)baseElement;
+  ObjectNode flowNode=BpmnJsonConverterUtil.createChildShape(association.getId(),STENCIL_ASSOCIATION,172,212,128,212);
+  ArrayNode dockersArrayNode=objectMapper.createArrayNode();
+  ObjectNode dockNode=objectMapper.createObjectNode();
+  dockNode.put(EDITOR_BOUNDS_X,model.getGraphicInfo(association.getSourceRef()).getWidth() / 2.0);
+  dockNode.put(EDITOR_BOUNDS_Y,model.getGraphicInfo(association.getSourceRef()).getHeight() / 2.0);
+  dockersArrayNode.add(dockNode);
+  List<GraphicInfo> graphicInfoList=model.getFlowLocationGraphicInfo(association.getId());
+  if (graphicInfoList.size() > 2) {
+    for (int i=1; i < graphicInfoList.size() - 1; i++) {
+      GraphicInfo graphicInfo=graphicInfoList.get(i);
+      dockNode=objectMapper.createObjectNode();
+      dockNode.put(EDITOR_BOUNDS_X,graphicInfo.getX());
+      dockNode.put(EDITOR_BOUNDS_Y,graphicInfo.getY());
+      dockersArrayNode.add(dockNode);
+    }
+  }
+  GraphicInfo targetGraphicInfo=model.getGraphicInfo(association.getTargetRef());
+  GraphicInfo flowGraphicInfo=graphicInfoList.get(graphicInfoList.size() - 1);
+  double diffTopY=Math.abs(flowGraphicInfo.getY() - targetGraphicInfo.getY());
+  double diffRightX=Math.abs(flowGraphicInfo.getX() - (targetGraphicInfo.getX() + targetGraphicInfo.getWidth()));
+  double diffBottomY=Math.abs(flowGraphicInfo.getY() - (targetGraphicInfo.getY() + targetGraphicInfo.getHeight()));
+  dockNode=objectMapper.createObjectNode();
+  if (diffTopY < 5) {
+    dockNode.put(EDITOR_BOUNDS_X,targetGraphicInfo.getWidth() / 2.0);
+    dockNode.put(EDITOR_BOUNDS_Y,0.0);
+  }
+ else   if (diffRightX < 5) {
+    dockNode.put(EDITOR_BOUNDS_X,targetGraphicInfo.getWidth());
+    dockNode.put(EDITOR_BOUNDS_Y,targetGraphicInfo.getHeight() / 2.0);
+  }
+ else   if (diffBottomY < 5) {
+    dockNode.put(EDITOR_BOUNDS_X,targetGraphicInfo.getWidth() / 2.0);
+    dockNode.put(EDITOR_BOUNDS_Y,targetGraphicInfo.getHeight());
+  }
+ else {
+    dockNode.put(EDITOR_BOUNDS_X,0.0);
+    dockNode.put(EDITOR_BOUNDS_Y,targetGraphicInfo.getHeight() / 2.0);
+  }
+  dockersArrayNode.add(dockNode);
+  flowNode.put("dockers",dockersArrayNode);
+  ArrayNode outgoingArrayNode=objectMapper.createArrayNode();
+  outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(association.getTargetRef()));
+  flowNode.put("outgoing",outgoingArrayNode);
+  flowNode.put("target",BpmnJsonConverterUtil.createResourceNode(association.getTargetRef()));
+  ObjectNode propertiesNode=objectMapper.createObjectNode();
+  propertiesNode.put(PROPERTY_OVERRIDE_ID,association.getId());
+  flowNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
+  shapesArrayNode.add(flowNode);
+}

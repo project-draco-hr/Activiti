@@ -1,0 +1,62 @@
+{
+  ObjectNode listenersNode=objectMapper.createObjectNode();
+  ArrayNode itemsNode=objectMapper.createArrayNode();
+  for (  EventListener listener : listeners) {
+    ObjectNode propertyItemNode=objectMapper.createObjectNode();
+    if (StringUtils.isNotEmpty(listener.getEvents())) {
+      ArrayNode eventArrayNode=objectMapper.createArrayNode();
+      String[] eventArray=listener.getEvents().split(",");
+      for (      String eventValue : eventArray) {
+        if (StringUtils.isNotEmpty(eventValue.trim())) {
+          ObjectNode eventNode=objectMapper.createObjectNode();
+          eventNode.put(PROPERTY_EVENTLISTENER_EVENT,eventValue.trim());
+          eventArrayNode.add(eventNode);
+        }
+      }
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_EVENT,listener.getEvents());
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_EVENTS,eventArrayNode);
+    }
+    String implementationText=null;
+    if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_CLASS_NAME,listener.getImplementation());
+      implementationText=listener.getImplementation();
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_DELEGATE_EXPRESSION,listener.getImplementation());
+      implementationText=listener.getImplementation();
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_EVENT,true);
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_TYPE,"error");
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_ERROR_CODE,listener.getImplementation());
+      implementationText="Rethrow as error " + listener.getImplementation();
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_EVENT,true);
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_TYPE,"message");
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_MESSAGE_NAME,listener.getImplementation());
+      implementationText="Rethrow as message " + listener.getImplementation();
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_EVENT,true);
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_TYPE,"signal");
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_SIGNAL_NAME,listener.getImplementation());
+      implementationText="Rethrow as signal " + listener.getImplementation();
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_EVENT,true);
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_RETHROW_TYPE,"globalSignal");
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_SIGNAL_NAME,listener.getImplementation());
+      implementationText="Rethrow as signal " + listener.getImplementation();
+    }
+    if (StringUtils.isNotEmpty(implementationText)) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_IMPLEMENTATION,implementationText);
+    }
+    if (StringUtils.isNotEmpty(listener.getEntityType())) {
+      propertyItemNode.put(PROPERTY_EVENTLISTENER_ENTITY_TYPE,listener.getEntityType());
+    }
+    itemsNode.add(propertyItemNode);
+  }
+  listenersNode.put(PROPERTY_EVENTLISTENER_VALUE,itemsNode);
+  propertiesNode.put(PROPERTY_EVENT_LISTENERS,listenersNode);
+}

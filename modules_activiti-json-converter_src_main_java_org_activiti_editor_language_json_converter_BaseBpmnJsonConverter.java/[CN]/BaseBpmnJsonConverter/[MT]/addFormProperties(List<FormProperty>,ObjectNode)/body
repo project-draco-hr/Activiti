@@ -1,6 +1,7 @@
 {
+  if (CollectionUtils.isEmpty(formProperties))   return;
   ObjectNode formPropertiesNode=objectMapper.createObjectNode();
-  ArrayNode itemsNode=objectMapper.createArrayNode();
+  ArrayNode propertiesArrayNode=objectMapper.createArrayNode();
   for (  FormProperty property : formProperties) {
     ObjectNode propertyItemNode=objectMapper.createObjectNode();
     propertyItemNode.put(PROPERTY_FORM_ID,property.getId());
@@ -18,23 +19,23 @@
  else {
       propertyItemNode.putNull(PROPERTY_FORM_VARIABLE);
     }
-    propertyItemNode.put(PROPERTY_FORM_REQUIRED,property.isRequired() ? PROPERTY_VALUE_YES : PROPERTY_VALUE_NO);
-    propertyItemNode.put(PROPERTY_FORM_READABLE,property.isReadable() ? PROPERTY_VALUE_YES : PROPERTY_VALUE_NO);
-    propertyItemNode.put(PROPERTY_FORM_WRITEABLE,property.isWriteable() ? PROPERTY_VALUE_YES : PROPERTY_VALUE_NO);
-    ObjectNode formValueNode=objectMapper.createObjectNode();
-    ArrayNode formValueItemNode=objectMapper.createArrayNode();
-    for (    FormValue formValue : property.getFormValues()) {
-      ObjectNode propertyFormValueNode=objectMapper.createObjectNode();
-      propertyFormValueNode.put(PROPERTY_FORM_FORM_VALUE_ID,formValue.getId());
-      propertyFormValueNode.put(PROPERTY_FORM_FORM_VALUE_NAME,formValue.getName());
-      formValueItemNode.add(propertyFormValueNode);
+    if (StringUtils.isNotEmpty(property.getDatePattern())) {
+      propertyItemNode.put(PROPERTY_FORM_DATE_PATTERN,property.getDatePattern());
     }
-    formValueNode.put("totalCount",formValueItemNode.size());
-    formValueNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,formValueItemNode);
-    propertyItemNode.put(PROPERTY_FORM_FORM_VALUES,formValueNode.toString());
-    itemsNode.add(propertyItemNode);
+    if (CollectionUtils.isNotEmpty(property.getFormValues())) {
+      ArrayNode valuesNode=objectMapper.createArrayNode();
+      for (      FormValue formValue : property.getFormValues()) {
+        ObjectNode valueNode=objectMapper.createObjectNode();
+        valueNode.put("value",formValue.getName());
+        valuesNode.add(valueNode);
+      }
+      propertyItemNode.put(PROPERTY_FORM_ENUM_VALUES,valuesNode);
+    }
+    propertyItemNode.put(PROPERTY_FORM_REQUIRED,property.isRequired());
+    propertyItemNode.put(PROPERTY_FORM_READABLE,property.isReadable());
+    propertyItemNode.put(PROPERTY_FORM_WRITABLE,property.isWriteable());
+    propertiesArrayNode.add(propertyItemNode);
   }
-  formPropertiesNode.put("totalCount",itemsNode.size());
-  formPropertiesNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,itemsNode);
-  propertiesNode.put("formproperties",formPropertiesNode);
+  formPropertiesNode.put("formProperties",propertiesArrayNode);
+  propertiesNode.put(PROPERTY_FORM_PROPERTIES,formPropertiesNode);
 }

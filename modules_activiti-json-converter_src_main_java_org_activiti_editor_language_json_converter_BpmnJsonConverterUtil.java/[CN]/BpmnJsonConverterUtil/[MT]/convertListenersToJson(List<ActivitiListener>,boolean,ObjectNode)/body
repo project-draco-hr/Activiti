@@ -1,0 +1,45 @@
+{
+  String propertyName=null;
+  String valueName=null;
+  if (isExecutionListener) {
+    propertyName=PROPERTY_EXECUTION_LISTENERS;
+    valueName="executionListeners";
+  }
+ else {
+    propertyName=PROPERTY_TASK_LISTENERS;
+    valueName="taskListeners";
+  }
+  ObjectNode listenersNode=objectMapper.createObjectNode();
+  ArrayNode itemsNode=objectMapper.createArrayNode();
+  for (  ActivitiListener listener : listeners) {
+    ObjectNode propertyItemNode=objectMapper.createObjectNode();
+    propertyItemNode.put(PROPERTY_LISTENER_EVENT,listener.getEvent());
+    if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_LISTENER_CLASS_NAME,listener.getImplementation());
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_LISTENER_EXPRESSION,listener.getImplementation());
+    }
+ else     if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(listener.getImplementationType())) {
+      propertyItemNode.put(PROPERTY_LISTENER_DELEGATE_EXPRESSION,listener.getImplementation());
+    }
+    if (CollectionUtils.isNotEmpty(listener.getFieldExtensions())) {
+      ArrayNode fieldsArray=objectMapper.createArrayNode();
+      for (      FieldExtension fieldExtension : listener.getFieldExtensions()) {
+        ObjectNode fieldNode=objectMapper.createObjectNode();
+        fieldNode.put(PROPERTY_FIELD_NAME,fieldExtension.getFieldName());
+        if (StringUtils.isNotEmpty(fieldExtension.getStringValue())) {
+          fieldNode.put(PROPERTY_FIELD_STRING_VALUE,fieldExtension.getStringValue());
+        }
+        if (StringUtils.isNotEmpty(fieldExtension.getExpression())) {
+          fieldNode.put(PROPERTY_FIELD_EXPRESSION,fieldExtension.getExpression());
+        }
+        fieldsArray.add(fieldNode);
+      }
+      propertyItemNode.put(PROPERTY_LISTENER_FIELDS,fieldsArray);
+    }
+    itemsNode.add(propertyItemNode);
+  }
+  listenersNode.put(valueName,itemsNode);
+  propertiesNode.put(propertyName,listenersNode);
+}

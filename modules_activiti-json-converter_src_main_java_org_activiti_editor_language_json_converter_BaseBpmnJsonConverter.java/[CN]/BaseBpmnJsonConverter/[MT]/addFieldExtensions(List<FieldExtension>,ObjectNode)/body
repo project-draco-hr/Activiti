@@ -5,14 +5,13 @@
     ObjectNode propertyItemNode=objectMapper.createObjectNode();
     propertyItemNode.put(PROPERTY_SERVICETASK_FIELD_NAME,extension.getFieldName());
     if (StringUtils.isNotEmpty(extension.getStringValue())) {
-      propertyItemNode.put(PROPERTY_SERVICETASK_FIELD_VALUE,extension.getStringValue());
+      propertyItemNode.put(PROPERTY_SERVICETASK_FIELD_STRING_VALUE,extension.getStringValue());
     }
     if (StringUtils.isNotEmpty(extension.getExpression())) {
       propertyItemNode.put(PROPERTY_SERVICETASK_FIELD_EXPRESSION,extension.getExpression());
     }
     itemsNode.add(propertyItemNode);
   }
-  fieldExtensionsNode.put("totalCount",itemsNode.size());
-  fieldExtensionsNode.put(EDITOR_PROPERTIES_GENERAL_ITEMS,itemsNode);
+  fieldExtensionsNode.put("fields",itemsNode);
   propertiesNode.put(PROPERTY_SERVICETASK_FIELDS,fieldExtensionsNode);
 }

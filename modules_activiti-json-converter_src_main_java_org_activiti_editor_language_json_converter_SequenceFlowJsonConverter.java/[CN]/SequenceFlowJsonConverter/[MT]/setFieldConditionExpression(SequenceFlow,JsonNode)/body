@@ -1,0 +1,20 @@
+{
+  String fieldId=null;
+  if (expressionNode.get("fieldId") != null && expressionNode.get("fieldId").isNull() == false) {
+    fieldId=expressionNode.get("fieldId").asText();
+  }
+  String operator=null;
+  if (expressionNode.get("operator") != null && expressionNode.get("operator").isNull() == false) {
+    operator=expressionNode.get("operator").asText();
+  }
+  String value=null;
+  if (expressionNode.get("value") != null && expressionNode.get("value").isNull() == false) {
+    value=expressionNode.get("value").asText();
+  }
+  if (fieldId != null && operator != null && value != null) {
+    flow.setConditionExpression("${" + fieldId + " "+ operator+ " "+ value+ "}");
+    addExtensionElement("conditionFieldId",fieldId,flow);
+    addExtensionElement("conditionOperator",operator,flow);
+    addExtensionElement("conditionValue",value,flow);
+  }
+}

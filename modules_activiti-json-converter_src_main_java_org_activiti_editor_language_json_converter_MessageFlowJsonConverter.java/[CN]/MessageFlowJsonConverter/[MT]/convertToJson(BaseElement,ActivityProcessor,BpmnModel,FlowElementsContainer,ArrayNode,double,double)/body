@@ -1,0 +1,34 @@
+{
+  MessageFlow messageFlow=(MessageFlow)baseElement;
+  ObjectNode flowNode=BpmnJsonConverterUtil.createChildShape(messageFlow.getId(),STENCIL_MESSAGE_FLOW,172,212,128,212);
+  ArrayNode dockersArrayNode=objectMapper.createArrayNode();
+  ObjectNode dockNode=objectMapper.createObjectNode();
+  dockNode.put(EDITOR_BOUNDS_X,model.getGraphicInfo(messageFlow.getSourceRef()).getWidth() / 2.0);
+  dockNode.put(EDITOR_BOUNDS_Y,model.getGraphicInfo(messageFlow.getSourceRef()).getHeight() / 2.0);
+  dockersArrayNode.add(dockNode);
+  if (model.getFlowLocationGraphicInfo(messageFlow.getId()).size() > 2) {
+    for (int i=1; i < model.getFlowLocationGraphicInfo(messageFlow.getId()).size() - 1; i++) {
+      GraphicInfo graphicInfo=model.getFlowLocationGraphicInfo(messageFlow.getId()).get(i);
+      dockNode=objectMapper.createObjectNode();
+      dockNode.put(EDITOR_BOUNDS_X,graphicInfo.getX());
+      dockNode.put(EDITOR_BOUNDS_Y,graphicInfo.getY());
+      dockersArrayNode.add(dockNode);
+    }
+  }
+  dockNode=objectMapper.createObjectNode();
+  dockNode.put(EDITOR_BOUNDS_X,model.getGraphicInfo(messageFlow.getTargetRef()).getWidth() / 2.0);
+  dockNode.put(EDITOR_BOUNDS_Y,model.getGraphicInfo(messageFlow.getTargetRef()).getHeight() / 2.0);
+  dockersArrayNode.add(dockNode);
+  flowNode.put("dockers",dockersArrayNode);
+  ArrayNode outgoingArrayNode=objectMapper.createArrayNode();
+  outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(messageFlow.getTargetRef()));
+  flowNode.put("outgoing",outgoingArrayNode);
+  flowNode.put("target",BpmnJsonConverterUtil.createResourceNode(messageFlow.getTargetRef()));
+  ObjectNode propertiesNode=objectMapper.createObjectNode();
+  propertiesNode.put(PROPERTY_OVERRIDE_ID,messageFlow.getId());
+  if (StringUtils.isNotEmpty(messageFlow.getName())) {
+    propertiesNode.put(PROPERTY_NAME,messageFlow.getName());
+  }
+  flowNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
+  shapesArrayNode.add(flowNode);
+}

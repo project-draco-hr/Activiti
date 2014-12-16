@@ -1,0 +1,28 @@
+{
+  List<IOParameter> ioParameters=new ArrayList<IOParameter>();
+  JsonNode parametersNode=getProperty(propertyName,elementNode);
+  if (parametersNode != null) {
+    parametersNode=BpmnJsonConverterUtil.validateIfNodeIsTextual(parametersNode);
+    JsonNode itemsArrayNode=parametersNode.get(valueName);
+    if (itemsArrayNode != null) {
+      for (      JsonNode itemNode : itemsArrayNode) {
+        JsonNode sourceNode=itemNode.get(PROPERTY_IOPARAMETER_SOURCE);
+        JsonNode sourceExpressionNode=itemNode.get(PROPERTY_IOPARAMETER_SOURCE_EXPRESSION);
+        if ((sourceNode != null && StringUtils.isNotEmpty(sourceNode.asText())) || (sourceExpressionNode != null && StringUtils.isNotEmpty(sourceExpressionNode.asText()))) {
+          IOParameter parameter=new IOParameter();
+          if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_IOPARAMETER_SOURCE,itemNode))) {
+            parameter.setSource(getValueAsString(PROPERTY_IOPARAMETER_SOURCE,itemNode));
+          }
+ else           if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_IOPARAMETER_SOURCE_EXPRESSION,itemNode))) {
+            parameter.setSourceExpression(getValueAsString(PROPERTY_IOPARAMETER_SOURCE_EXPRESSION,itemNode));
+          }
+          if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_IOPARAMETER_TARGET,itemNode))) {
+            parameter.setTarget(getValueAsString(PROPERTY_IOPARAMETER_TARGET,itemNode));
+          }
+          ioParameters.add(parameter);
+        }
+      }
+    }
+  }
+  return ioParameters;
+}

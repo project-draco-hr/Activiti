@@ -1,0 +1,10 @@
+{
+  Association association=new Association();
+  String sourceRef=BpmnJsonConverterUtil.lookForSourceRef(elementNode.get(EDITOR_SHAPE_ID).asText(),modelNode.get(EDITOR_CHILD_SHAPES));
+  if (sourceRef != null) {
+    association.setSourceRef(sourceRef);
+    String targetId=elementNode.get("target").get(EDITOR_SHAPE_ID).asText();
+    association.setTargetRef(BpmnJsonConverterUtil.getElementId(shapeMap.get(targetId)));
+  }
+  return association;
+}

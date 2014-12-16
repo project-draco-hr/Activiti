@@ -1,19 +1,39 @@
 {
   SequenceFlow flow=new SequenceFlow();
-  String sourceRef=lookForSourceRef(elementNode.get(EDITOR_SHAPE_ID).asText(),modelNode.get(EDITOR_CHILD_SHAPES));
+  String sourceRef=BpmnJsonConverterUtil.lookForSourceRef(elementNode.get(EDITOR_SHAPE_ID).asText(),modelNode.get(EDITOR_CHILD_SHAPES));
   if (sourceRef != null) {
     flow.setSourceRef(sourceRef);
     JsonNode targetNode=elementNode.get("target");
-    if (targetNode != null) {
-      JsonNode targetResourceIdNode=targetNode.get(EDITOR_SHAPE_ID);
-      if (targetResourceIdNode != null) {
-        String targetRefId=targetResourceIdNode.asText();
-        if (targetRefId != null && shapeMap.containsKey(targetRefId)) {
-          flow.setTargetRef(BpmnJsonConverterUtil.getElementId(shapeMap.get(targetRefId)));
+    if (targetNode != null && targetNode.isNull() == false) {
+      String targetId=targetNode.get(EDITOR_SHAPE_ID).asText();
+      if (shapeMap.get(targetId) != null) {
+        flow.setTargetRef(BpmnJsonConverterUtil.getElementId(shapeMap.get(targetId)));
+      }
+    }
+  }
+  JsonNode conditionNode=getProperty(PROPERTY_SEQUENCEFLOW_CONDITION,elementNode);
+  if (conditionNode != null) {
+    if (conditionNode.isTextual() && conditionNode.isNull() == false) {
+      flow.setConditionExpression(conditionNode.asText());
+    }
+ else     if (conditionNode.get("expression") != null) {
+      JsonNode expressionNode=conditionNode.get("expression");
+      if (expressionNode.get("type") != null) {
+        String expressionType=expressionNode.get("type").asText();
+        if ("variables".equalsIgnoreCase(expressionType) && expressionNode.get("fieldType") != null) {
+          String fieldType=expressionNode.get("fieldType").asText();
+          if ("field".equalsIgnoreCase(fieldType)) {
+            setFieldConditionExpression(flow,expressionNode);
+          }
+ else           if ("outcome".equalsIgnoreCase(fieldType)) {
+            setOutcomeConditionExpression(flow,expressionNode);
+          }
+        }
+ else         if (expressionNode.get("staticValue") != null && expressionNode.get("staticValue").isNull() == false) {
+          flow.setConditionExpression(expressionNode.get("staticValue").asText());
         }
       }
     }
   }
-  flow.setConditionExpression(getPropertyValueAsString(PROPERTY_SEQUENCEFLOW_CONDITION,elementNode));
   return flow;
 }

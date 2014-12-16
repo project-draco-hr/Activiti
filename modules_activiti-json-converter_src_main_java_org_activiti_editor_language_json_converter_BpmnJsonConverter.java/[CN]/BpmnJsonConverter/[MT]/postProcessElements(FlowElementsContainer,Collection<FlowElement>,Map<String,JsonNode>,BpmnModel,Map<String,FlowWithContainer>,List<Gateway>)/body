@@ -1,0 +1,74 @@
+{
+  for (  FlowElement flowElement : flowElementList) {
+    if (flowElement instanceof Event) {
+      Event event=(Event)flowElement;
+      if (CollectionUtils.isNotEmpty(event.getEventDefinitions())) {
+        EventDefinition eventDef=event.getEventDefinitions().get(0);
+        if (eventDef instanceof SignalEventDefinition) {
+          SignalEventDefinition signalEventDef=(SignalEventDefinition)eventDef;
+          if (StringUtils.isNotEmpty(signalEventDef.getSignalRef())) {
+            if (bpmnModel.getSignal(signalEventDef.getSignalRef()) == null) {
+              bpmnModel.addSignal(new Signal(signalEventDef.getSignalRef(),signalEventDef.getSignalRef()));
+            }
+          }
+        }
+ else         if (eventDef instanceof MessageEventDefinition) {
+          MessageEventDefinition messageEventDef=(MessageEventDefinition)eventDef;
+          if (StringUtils.isNotEmpty(messageEventDef.getMessageRef())) {
+            if (bpmnModel.getMessage(messageEventDef.getMessageRef()) == null) {
+              bpmnModel.addMessage(new Message(messageEventDef.getMessageRef(),messageEventDef.getMessageRef(),null));
+            }
+          }
+        }
+      }
+    }
+    if (flowElement instanceof BoundaryEvent) {
+      BoundaryEvent boundaryEvent=(BoundaryEvent)flowElement;
+      Activity activity=retrieveAttachedRefObject(boundaryEvent.getAttachedToRefId(),parentContainer.getFlowElements());
+      if (activity == null) {
+        LOGGER.warn("Boundary event " + boundaryEvent.getId() + " is not attached to any activity");
+      }
+ else {
+        boundaryEvent.setAttachedToRef(activity);
+        activity.getBoundaryEvents().add(boundaryEvent);
+      }
+    }
+ else     if (flowElement instanceof Gateway) {
+      if (flowElement.getExtensionElements().containsKey("EDITOR_FLOW_ORDER")) {
+        gatewayWithOrderList.add((Gateway)flowElement);
+      }
+    }
+ else     if (flowElement instanceof SubProcess) {
+      SubProcess subProcess=(SubProcess)flowElement;
+      postProcessElements(subProcess,subProcess.getFlowElements(),edgeMap,bpmnModel,allFlowMap,gatewayWithOrderList);
+    }
+ else     if (flowElement instanceof SequenceFlow) {
+      SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
+      FlowElement sourceFlowElement=parentContainer.getFlowElement(sequenceFlow.getSourceRef());
+      if (sourceFlowElement != null && sourceFlowElement instanceof FlowNode) {
+        FlowWithContainer flowWithContainer=new FlowWithContainer(sequenceFlow,parentContainer);
+        if (sequenceFlow.getExtensionElements().get("EDITOR_RESOURCEID") != null && sequenceFlow.getExtensionElements().get("EDITOR_RESOURCEID").size() > 0) {
+          allFlowMap.put(sequenceFlow.getExtensionElements().get("EDITOR_RESOURCEID").get(0).getElementText(),flowWithContainer);
+          sequenceFlow.getExtensionElements().remove("EDITOR_RESOURCEID");
+        }
+        ((FlowNode)sourceFlowElement).getOutgoingFlows().add(sequenceFlow);
+        JsonNode edgeNode=edgeMap.get(sequenceFlow.getId());
+        if (edgeNode != null) {
+          boolean isDefault=JsonConverterUtil.getPropertyValueAsBoolean("defaultflow",edgeNode);
+          if (isDefault) {
+            if (sourceFlowElement instanceof Activity) {
+              ((Activity)sourceFlowElement).setDefaultFlow(sequenceFlow.getId());
+            }
+ else             if (sourceFlowElement instanceof Gateway) {
+              ((Gateway)sourceFlowElement).setDefaultFlow(sequenceFlow.getId());
+            }
+          }
+        }
+      }
+      FlowElement targetFlowElement=parentContainer.getFlowElement(sequenceFlow.getTargetRef());
+      if (targetFlowElement != null && targetFlowElement instanceof FlowNode) {
+        ((FlowNode)targetFlowElement).getIncomingFlows().add(sequenceFlow);
+      }
+    }
+  }
+}

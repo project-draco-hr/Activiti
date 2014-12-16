@@ -1,0 +1,57 @@
+{
+  if (listenersNode == null)   return;
+  for (  JsonNode listenerNode : listenersNode) {
+    JsonNode eventNode=listenerNode.get(PROPERTY_LISTENER_EVENT);
+    if (eventNode != null && eventNode.isNull() == false && StringUtils.isNotEmpty(eventNode.asText())) {
+      ActivitiListener listener=new ActivitiListener();
+      listener.setEvent(eventNode.asText());
+      if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_LISTENER_CLASS_NAME,listenerNode))) {
+        listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
+        listener.setImplementation(getValueAsString(PROPERTY_LISTENER_CLASS_NAME,listenerNode));
+      }
+ else       if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_LISTENER_EXPRESSION,listenerNode))) {
+        listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
+        listener.setImplementation(getValueAsString(PROPERTY_LISTENER_EXPRESSION,listenerNode));
+      }
+ else       if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_LISTENER_DELEGATE_EXPRESSION,listenerNode))) {
+        listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
+        listener.setImplementation(getValueAsString(PROPERTY_LISTENER_DELEGATE_EXPRESSION,listenerNode));
+      }
+      JsonNode fieldsNode=listenerNode.get(PROPERTY_LISTENER_FIELDS);
+      if (fieldsNode != null) {
+        for (        JsonNode fieldNode : fieldsNode) {
+          JsonNode nameNode=fieldNode.get(PROPERTY_FIELD_NAME);
+          if (nameNode != null && nameNode.isNull() == false && StringUtils.isNotEmpty(nameNode.asText())) {
+            FieldExtension fieldExtension=new FieldExtension();
+            fieldExtension.setFieldName(nameNode.asText());
+            fieldExtension.setStringValue(getValueAsString(PROPERTY_FIELD_STRING_VALUE,fieldNode));
+            if (StringUtils.isEmpty(fieldExtension.getStringValue())) {
+              fieldExtension.setStringValue(getValueAsString(PROPERTY_FIELD_STRING,fieldNode));
+            }
+            if (StringUtils.isEmpty(fieldExtension.getStringValue())) {
+              fieldExtension.setExpression(getValueAsString(PROPERTY_FIELD_EXPRESSION,fieldNode));
+            }
+            listener.getFieldExtensions().add(fieldExtension);
+          }
+        }
+      }
+      if (element instanceof Process) {
+        ((Process)element).getExecutionListeners().add(listener);
+      }
+ else       if (element instanceof SequenceFlow) {
+        ((SequenceFlow)element).getExecutionListeners().add(listener);
+      }
+ else       if (element instanceof UserTask) {
+        if (isTaskListener) {
+          ((UserTask)element).getTaskListeners().add(listener);
+        }
+ else {
+          ((UserTask)element).getExecutionListeners().add(listener);
+        }
+      }
+ else       if (element instanceof Activity) {
+        ((Activity)element).getExecutionListeners().add(listener);
+      }
+    }
+  }
+}

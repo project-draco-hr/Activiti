@@ -1,6 +1,24 @@
 {
   ObjectNode modelNode=objectMapper.createObjectNode();
-  modelNode.put("bounds",BpmnJsonConverterUtil.createBoundsNode(1485,1050,0,0));
+  double maxX=0.0;
+  double maxY=0.0;
+  for (  GraphicInfo flowInfo : model.getLocationMap().values()) {
+    if ((flowInfo.getX() + flowInfo.getWidth()) > maxX) {
+      maxX=flowInfo.getX() + flowInfo.getWidth();
+    }
+    if ((flowInfo.getY() + flowInfo.getHeight()) > maxY) {
+      maxY=flowInfo.getY() + flowInfo.getHeight();
+    }
+  }
+  maxX+=50;
+  maxY+=50;
+  if (maxX < 1485) {
+    maxX=1485;
+  }
+  if (maxY < 700) {
+    maxY=700;
+  }
+  modelNode.put("bounds",BpmnJsonConverterUtil.createBoundsNode(maxX,maxY,0,0));
   modelNode.put("resourceId","canvas");
   ObjectNode stencilNode=objectMapper.createObjectNode();
   stencilNode.put("id","BPMNDiagram");
@@ -10,7 +28,13 @@
   stencilsetNode.put("url","../editor/stencilsets/bpmn2.0/bpmn2.0.json");
   modelNode.put("stencilset",stencilsetNode);
   ArrayNode shapesArrayNode=objectMapper.createArrayNode();
-  Process mainProcess=model.getMainProcess();
+  Process mainProcess=null;
+  if (model.getPools().size() > 0) {
+    mainProcess=model.getProcess(model.getPools().get(0).getId());
+  }
+ else {
+    mainProcess=model.getMainProcess();
+  }
   ObjectNode propertiesNode=objectMapper.createObjectNode();
   if (StringUtils.isNotEmpty(mainProcess.getId())) {
     propertiesNode.put(PROPERTY_PROCESS_ID,mainProcess.getId());
@@ -18,22 +42,33 @@
   if (StringUtils.isNotEmpty(mainProcess.getName())) {
     propertiesNode.put(PROPERTY_NAME,mainProcess.getName());
   }
-  if (mainProcess.isExecutable() == false) {
-    propertiesNode.put(PROPERTY_PROCESS_EXECUTABLE,PROPERTY_VALUE_NO);
-  }
-  propertiesNode.put(PROPERTY_PROCESS_NAMESPACE,model.getTargetNamespace());
-  convertListenersToJson(mainProcess.getEventListeners(),propertiesNode);
   if (StringUtils.isNotEmpty(mainProcess.getDocumentation())) {
     propertiesNode.put(PROPERTY_DOCUMENTATION,mainProcess.getDocumentation());
   }
-  if (!mainProcess.getDataObjects().isEmpty()) {
-    convertDataPropertiesToJson(mainProcess.getDataObjects(),propertiesNode);
+  if (mainProcess.isExecutable() == false) {
+    propertiesNode.put(PROPERTY_PROCESS_EXECUTABLE,"No");
+  }
+  BpmnJsonConverterUtil.convertListenersToJson(mainProcess.getExecutionListeners(),true,propertiesNode);
+  BpmnJsonConverterUtil.convertEventListenersToJson(mainProcess.getEventListeners(),propertiesNode);
+  if (CollectionUtils.isNotEmpty(mainProcess.getDataObjects())) {
+    BpmnJsonConverterUtil.convertDataPropertiesToJson(mainProcess.getDataObjects(),propertiesNode);
   }
   modelNode.put(EDITOR_SHAPE_PROPERTIES,propertiesNode);
-  if (!model.getPools().isEmpty()) {
+  boolean poolHasDI=false;
+  if (model.getPools().size() > 0) {
     for (    Pool pool : model.getPools()) {
-      GraphicInfo poolGraphicInfo=model.getGraphicInfo(pool.getId());
-      ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,poolGraphicInfo.getX() + poolGraphicInfo.getWidth(),poolGraphicInfo.getY() + poolGraphicInfo.getHeight(),poolGraphicInfo.getX(),poolGraphicInfo.getY());
+      GraphicInfo graphicInfo=model.getGraphicInfo(pool.getId());
+      if (graphicInfo != null) {
+        poolHasDI=true;
+        break;
+      }
+    }
+  }
+  if (model.getPools().size() > 0 && poolHasDI) {
+    for (    Pool pool : model.getPools()) {
+      GraphicInfo graphicInfo=model.getGraphicInfo(pool.getId());
+      if (graphicInfo == null)       continue;
+      ObjectNode poolNode=BpmnJsonConverterUtil.createChildShape(pool.getId(),STENCIL_POOL,graphicInfo.getX() + graphicInfo.getWidth(),graphicInfo.getY() + graphicInfo.getHeight(),graphicInfo.getX(),graphicInfo.getY());
       shapesArrayNode.add(poolNode);
       ObjectNode poolPropertiesNode=objectMapper.createObjectNode();
       poolPropertiesNode.put(PROPERTY_OVERRIDE_ID,pool.getId());
@@ -45,14 +80,16 @@
         poolPropertiesNode.put(PROPERTY_NAME,pool.getName());
       }
       poolNode.put(EDITOR_SHAPE_PROPERTIES,poolPropertiesNode);
-      poolNode.put(EDITOR_OUTGOING,objectMapper.createArrayNode());
       ArrayNode laneShapesArrayNode=objectMapper.createArrayNode();
       poolNode.put(EDITOR_CHILD_SHAPES,laneShapesArrayNode);
+      ArrayNode outgoingArrayNode=objectMapper.createArrayNode();
+      poolNode.put("outgoing",outgoingArrayNode);
       Process process=model.getProcess(pool.getId());
       if (process != null) {
-        processFlowElements(process.findFlowElementsOfType(SequenceFlow.class),model,shapesArrayNode,poolGraphicInfo.getX(),poolGraphicInfo.getY());
+        Map<String,ArrayNode> laneMap=new HashMap<String,ArrayNode>();
         for (        Lane lane : process.getLanes()) {
           GraphicInfo laneGraphicInfo=model.getGraphicInfo(lane.getId());
+          if (laneGraphicInfo == null)           continue;
           ObjectNode laneNode=BpmnJsonConverterUtil.createChildShape(lane.getId(),STENCIL_LANE,laneGraphicInfo.getX() + laneGraphicInfo.getWidth(),laneGraphicInfo.getY() + laneGraphicInfo.getHeight(),laneGraphicInfo.getX(),laneGraphicInfo.getY());
           laneShapesArrayNode.add(laneNode);
           ObjectNode lanePropertiesNode=objectMapper.createObjectNode();
@@ -63,26 +100,46 @@
           laneNode.put(EDITOR_SHAPE_PROPERTIES,lanePropertiesNode);
           ArrayNode elementShapesArrayNode=objectMapper.createArrayNode();
           laneNode.put(EDITOR_CHILD_SHAPES,elementShapesArrayNode);
-          laneNode.put(EDITOR_OUTGOING,objectMapper.createArrayNode());
-          for (          FlowElement flowElement : process.getFlowElements()) {
-            if (lane.getFlowReferences().contains(flowElement.getId())) {
-              Class<? extends BaseBpmnJsonConverter> converter=convertersToJsonMap.get(flowElement.getClass());
-              if (converter != null) {
-                try {
-                  converter.newInstance().convertToJson(flowElement,this,model,elementShapesArrayNode,laneGraphicInfo.getX(),laneGraphicInfo.getY());
-                }
- catch (                Exception e) {
-                  LOGGER.error("Error converting {}",flowElement,e);
-                }
+          laneNode.put("outgoing",objectMapper.createArrayNode());
+          laneMap.put(lane.getId(),elementShapesArrayNode);
+        }
+        for (        FlowElement flowElement : process.getFlowElements()) {
+          Lane laneForElement=null;
+          GraphicInfo laneGraphicInfo=null;
+          FlowElement lookForElement=null;
+          if (flowElement instanceof SequenceFlow) {
+            SequenceFlow sequenceFlow=(SequenceFlow)flowElement;
+            lookForElement=model.getFlowElement(sequenceFlow.getSourceRef());
+          }
+ else {
+            lookForElement=flowElement;
+          }
+          for (          Lane lane : process.getLanes()) {
+            if (lane.getFlowReferences().contains(lookForElement.getId())) {
+              laneGraphicInfo=model.getGraphicInfo(lane.getId());
+              if (laneGraphicInfo != null) {
+                laneForElement=lane;
               }
+              break;
             }
           }
+          if (flowElement instanceof SequenceFlow || laneForElement != null) {
+            processFlowElement(flowElement,process,model,laneMap.get(laneForElement.getId()),laneGraphicInfo.getX(),laneGraphicInfo.getY());
+          }
+        }
+        processArtifacts(process,model,shapesArrayNode,0.0,0.0);
+      }
+      for (      MessageFlow messageFlow : model.getMessageFlows().values()) {
+        if (messageFlow.getSourceRef().equals(pool.getId())) {
+          outgoingArrayNode.add(BpmnJsonConverterUtil.createResourceNode(messageFlow.getId()));
         }
       }
     }
+    processMessageFlows(model,shapesArrayNode);
   }
  else {
-    processFlowElements(model.getMainProcess().getFlowElements(),model,shapesArrayNode,0.0,0.0);
+    processFlowElements(model.getMainProcess(),model,shapesArrayNode,0.0,0.0);
+    processMessageFlows(model,shapesArrayNode);
   }
   modelNode.put(EDITOR_CHILD_SHAPES,shapesArrayNode);
   return modelNode;

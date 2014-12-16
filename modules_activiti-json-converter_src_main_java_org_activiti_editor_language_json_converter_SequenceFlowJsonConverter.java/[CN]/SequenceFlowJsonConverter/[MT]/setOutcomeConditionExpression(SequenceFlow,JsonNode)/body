@@ -1,0 +1,20 @@
+{
+  Long formId=null;
+  if (expressionNode.get("outcomeFormId") != null && expressionNode.get("outcomeFormId").isNull() == false) {
+    formId=expressionNode.get("outcomeFormId").asLong();
+  }
+  String operator=null;
+  if (expressionNode.get("operator") != null && expressionNode.get("operator").isNull() == false) {
+    operator=expressionNode.get("operator").asText();
+  }
+  String outcomeName=null;
+  if (expressionNode.get("outcomeName") != null && expressionNode.get("outcomeName").isNull() == false) {
+    outcomeName=expressionNode.get("outcomeName").asText();
+  }
+  if (formId != null && operator != null && outcomeName != null) {
+    flow.setConditionExpression("${form" + formId + "outcome "+ operator+ " "+ outcomeName+ "}");
+    addExtensionElement("conditionFormId",String.valueOf(formId),flow);
+    addExtensionElement("conditionOperator",operator,flow);
+    addExtensionElement("conditionOutcomeName",outcomeName,flow);
+  }
+}

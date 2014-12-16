@@ -3,7 +3,7 @@
   if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_CALLACTIVITY_CALLEDELEMENT,elementNode))) {
     callActivity.setCalledElement(getPropertyValueAsString(PROPERTY_CALLACTIVITY_CALLEDELEMENT,elementNode));
   }
-  callActivity.getInParameters().addAll(convertToIOParameters(PROPERTY_CALLACTIVITY_IN,elementNode));
-  callActivity.getOutParameters().addAll(convertToIOParameters(PROPERTY_CALLACTIVITY_OUT,elementNode));
+  callActivity.getInParameters().addAll(convertToIOParameters(PROPERTY_CALLACTIVITY_IN,"inParameters",elementNode));
+  callActivity.getOutParameters().addAll(convertToIOParameters(PROPERTY_CALLACTIVITY_OUT,"outParameters",elementNode));
   return callActivity;
 }

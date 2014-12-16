@@ -17,15 +17,18 @@
   }
   JsonNode fieldsNode=getProperty(PROPERTY_SERVICETASK_FIELDS,elementNode);
   if (fieldsNode != null) {
-    JsonNode itemsArrayNode=fieldsNode.get(EDITOR_PROPERTIES_GENERAL_ITEMS);
+    JsonNode itemsArrayNode=fieldsNode.get("fields");
     if (itemsArrayNode != null) {
       for (      JsonNode itemNode : itemsArrayNode) {
         JsonNode nameNode=itemNode.get(PROPERTY_SERVICETASK_FIELD_NAME);
         if (nameNode != null && StringUtils.isNotEmpty(nameNode.asText())) {
           FieldExtension field=new FieldExtension();
           field.setFieldName(nameNode.asText());
-          if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_SERVICETASK_FIELD_VALUE,itemNode))) {
-            field.setStringValue(getValueAsString(PROPERTY_SERVICETASK_FIELD_VALUE,itemNode));
+          if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_SERVICETASK_FIELD_STRING_VALUE,itemNode))) {
+            field.setStringValue(getValueAsString(PROPERTY_SERVICETASK_FIELD_STRING_VALUE,itemNode));
+          }
+ else           if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_SERVICETASK_FIELD_STRING,itemNode))) {
+            field.setStringValue(getValueAsString(PROPERTY_SERVICETASK_FIELD_STRING,itemNode));
           }
  else           if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_SERVICETASK_FIELD_EXPRESSION,itemNode))) {
             field.setExpression(getValueAsString(PROPERTY_SERVICETASK_FIELD_EXPRESSION,itemNode));

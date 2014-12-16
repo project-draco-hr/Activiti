@@ -1,0 +1,11 @@
+{
+  Class<? extends BaseBpmnJsonConverter> converter=convertersToJsonMap.get(flowElement.getClass());
+  if (converter != null) {
+    try {
+      converter.newInstance().convertToJson(flowElement,this,model,container,shapesArrayNode,containerX,containerY);
+    }
+ catch (    Exception e) {
+      LOGGER.error("Error converting {}",flowElement,e);
+    }
+  }
+}

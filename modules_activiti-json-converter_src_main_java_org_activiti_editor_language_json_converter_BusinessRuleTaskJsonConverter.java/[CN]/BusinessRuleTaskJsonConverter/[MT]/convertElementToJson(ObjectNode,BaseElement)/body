@@ -1,0 +1,10 @@
+{
+  BusinessRuleTask ruleTask=(BusinessRuleTask)baseElement;
+  propertiesNode.put(PROPERTY_RULETASK_CLASS,ruleTask.getClassName());
+  propertiesNode.put(PROPERTY_RULETASK_VARIABLES_INPUT,convertListToCommaSeparatedString(ruleTask.getInputVariables()));
+  propertiesNode.put(PROPERTY_RULETASK_RESULT,ruleTask.getResultVariableName());
+  propertiesNode.put(PROPERTY_RULETASK_RULES,convertListToCommaSeparatedString(ruleTask.getRuleNames()));
+  if (ruleTask.isExclude()) {
+    propertiesNode.put(PROPERTY_RULETASK_EXCLUDE,PROPERTY_VALUE_YES);
+  }
+}

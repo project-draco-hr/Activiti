@@ -1,8 +1,6 @@
 {
   String errorRef=getPropertyValueAsString(PROPERTY_ERRORREF,objectNode);
-  if (StringUtils.isNotEmpty(errorRef)) {
-    ErrorEventDefinition eventDefinition=new ErrorEventDefinition();
-    eventDefinition.setErrorCode(errorRef);
-    event.getEventDefinitions().add(eventDefinition);
-  }
+  ErrorEventDefinition eventDefinition=new ErrorEventDefinition();
+  eventDefinition.setErrorCode(errorRef);
+  event.getEventDefinitions().add(eventDefinition);
 }

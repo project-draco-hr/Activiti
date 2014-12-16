@@ -1,0 +1,76 @@
+{
+  if (listenersNode == null)   return;
+  listenersNode=validateIfNodeIsTextual(listenersNode);
+  for (  JsonNode listenerNode : listenersNode) {
+    JsonNode eventsNode=listenerNode.get(PROPERTY_EVENTLISTENER_EVENTS);
+    if (eventsNode != null && eventsNode.isArray() && eventsNode.size() > 0) {
+      EventListener listener=new EventListener();
+      StringBuilder eventsBuilder=new StringBuilder();
+      for (      JsonNode eventNode : eventsNode) {
+        JsonNode eventValueNode=eventNode.get(PROPERTY_EVENTLISTENER_EVENT);
+        if (eventValueNode != null && eventValueNode.isNull() == false && StringUtils.isNotEmpty(eventValueNode.asText())) {
+          if (eventsBuilder.length() > 0) {
+            eventsBuilder.append(",");
+          }
+          eventsBuilder.append(eventValueNode.asText());
+        }
+      }
+      if (eventsBuilder.length() == 0)       continue;
+      listener.setEvents(eventsBuilder.toString());
+      JsonNode rethrowEventNode=listenerNode.get("rethrowEvent");
+      if (rethrowEventNode != null && rethrowEventNode.asBoolean()) {
+        JsonNode rethrowTypeNode=listenerNode.get("rethrowType");
+        if (rethrowTypeNode != null) {
+          if ("error".equalsIgnoreCase(rethrowTypeNode.asText())) {
+            String errorCode=getValueAsString("errorcode",listenerNode);
+            if (StringUtils.isNotEmpty(errorCode)) {
+              listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT);
+              listener.setImplementation(errorCode);
+            }
+          }
+ else           if ("message".equalsIgnoreCase(rethrowTypeNode.asText())) {
+            String messageName=getValueAsString("messagename",listenerNode);
+            if (StringUtils.isNotEmpty(messageName)) {
+              listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT);
+              listener.setImplementation(messageName);
+            }
+          }
+ else           if ("signal".equalsIgnoreCase(rethrowTypeNode.asText())) {
+            String signalName=getValueAsString("signalname",listenerNode);
+            if (StringUtils.isNotEmpty(signalName)) {
+              listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT);
+              listener.setImplementation(signalName);
+            }
+          }
+ else           if ("globalSignal".equalsIgnoreCase(rethrowTypeNode.asText())) {
+            String signalName=getValueAsString("signalname",listenerNode);
+            if (StringUtils.isNotEmpty(signalName)) {
+              listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT);
+              listener.setImplementation(signalName);
+            }
+          }
+        }
+        if (StringUtils.isEmpty(listener.getImplementation())) {
+          continue;
+        }
+      }
+ else {
+        if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_EVENTLISTENER_CLASS_NAME,listenerNode))) {
+          listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
+          listener.setImplementation(getValueAsString(PROPERTY_EVENTLISTENER_CLASS_NAME,listenerNode));
+        }
+ else         if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_EVENTLISTENER_DELEGATE_EXPRESSION,listenerNode))) {
+          listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
+          listener.setImplementation(getValueAsString(PROPERTY_EVENTLISTENER_DELEGATE_EXPRESSION,listenerNode));
+        }
+        if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_EVENTLISTENER_ENTITY_TYPE,listenerNode))) {
+          listener.setEntityType(getValueAsString(PROPERTY_EVENTLISTENER_ENTITY_TYPE,listenerNode));
+        }
+        if (StringUtils.isEmpty(listener.getImplementation())) {
+          continue;
+        }
+      }
+      process.getEventListeners().add(listener);
+    }
+  }
+}
