@@ -1,18 +1,25 @@
 {
-  ProcessEngine firstProcessEngine=createProcessEngine(false);
-  Date now=setClockToCurrentTime(firstProcessEngine);
-  deploy(firstProcessEngine,"AsyncExecutorTest.testAsyncScriptExecution.bpmn20.xml");
-  firstProcessEngine.getRuntimeService().startProcessInstanceByKey("asyncScript");
-  Assert.assertEquals(0,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after script").count());
-  Assert.assertEquals(1,firstProcessEngine.getManagementService().createJobQuery().count());
-  ProcessEngine secondProcessEngine=createProcessEngine(true,now);
-  Assert.assertEquals(0,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after script").count());
-  Assert.assertEquals(1,firstProcessEngine.getManagementService().createJobQuery().count());
-  addSecondsToCurrentTime(secondProcessEngine,1);
-  waitForAllJobsBeingExecuted(secondProcessEngine,10000L);
-  Assert.assertEquals(1,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after script").count());
-  Assert.assertEquals(0,firstProcessEngine.getManagementService().createJobQuery().count());
-  Assert.assertEquals(0,getAsyncExecutorJobCount(firstProcessEngine));
-  Assert.assertEquals(1,getAsyncExecutorJobCount(secondProcessEngine));
-  cleanup(firstProcessEngine);
+  ProcessEngine firstProcessEngine=null;
+  ProcessEngine secondProcessEngine=null;
+  try {
+    firstProcessEngine=createProcessEngine(false);
+    Date now=setClockToCurrentTime(firstProcessEngine);
+    deploy(firstProcessEngine,"AsyncExecutorTest.testAsyncScriptExecution.bpmn20.xml");
+    firstProcessEngine.getRuntimeService().startProcessInstanceByKey("asyncScript");
+    Assert.assertEquals(0,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after script").count());
+    Assert.assertEquals(1,firstProcessEngine.getManagementService().createJobQuery().count());
+    secondProcessEngine=createProcessEngine(true,now);
+    Assert.assertEquals(0,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after script").count());
+    Assert.assertEquals(1,firstProcessEngine.getManagementService().createJobQuery().count());
+    addSecondsToCurrentTime(secondProcessEngine,1);
+    waitForAllJobsBeingExecuted(secondProcessEngine,10000L);
+    Assert.assertEquals(1,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after script").count());
+    Assert.assertEquals(0,firstProcessEngine.getManagementService().createJobQuery().count());
+    Assert.assertEquals(0,getAsyncExecutorJobCount(firstProcessEngine));
+    Assert.assertEquals(1,getAsyncExecutorJobCount(secondProcessEngine));
+  }
+  finally {
+    cleanup(firstProcessEngine);
+    cleanup(secondProcessEngine);
+  }
 }
