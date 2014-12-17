@@ -1,4 +1,6 @@
 {
+  logger.info("About to execute job " + job.getId());
   counter.incrementAndGet();
   super.executeAsyncJob(job);
+  logger.info("Handed off job " + job.getId() + " to async executor (retries="+ job.getRetries()+ ")");
 }

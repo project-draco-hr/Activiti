@@ -1,0 +1,46 @@
+{
+  JobExecutor jobExecutor=null;
+  AsyncExecutor asyncExecutor=null;
+  if (processEngineConfiguration.isAsyncExecutorEnabled() == false) {
+    jobExecutor=processEngineConfiguration.getJobExecutor();
+    jobExecutor.start();
+  }
+ else {
+    asyncExecutor=processEngineConfiguration.getAsyncExecutor();
+    asyncExecutor.start();
+  }
+  try {
+    Timer timer=new Timer();
+    InteruptTask task=new InteruptTask(Thread.currentThread());
+    timer.schedule(task,maxMillisToWait);
+    boolean areJobsAvailable=true;
+    try {
+      while (areJobsAvailable && !task.isTimeLimitExceeded()) {
+        Thread.sleep(intervalMillis);
+        try {
+          areJobsAvailable=areJobsAvailable(managementService);
+        }
+ catch (        Throwable t) {
+        }
+      }
+    }
+ catch (    InterruptedException e) {
+    }
+ finally {
+      timer.cancel();
+    }
+    if (areJobsAvailable) {
+      throw new ActivitiException("time limit of " + maxMillisToWait + " was exceeded");
+    }
+  }
+  finally {
+    if (shutdownExecutorWhenFinished) {
+      if (processEngineConfiguration.isAsyncExecutorEnabled() == false) {
+        jobExecutor.shutdown();
+      }
+ else {
+        asyncExecutor.shutdown();
+      }
+    }
+  }
+}
