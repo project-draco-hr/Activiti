@@ -1,0 +1,15 @@
+{
+  Map<String,Object> variableMap=new HashMap<String,Object>();
+  if (variableInstances != null) {
+    for (    String varName : variableInstances.keySet()) {
+      VariableInstanceEntity variableEntity=variableInstances.get(varName);
+      if (variableEntity != null) {
+        variableMap.put(varName,variableEntity.getValue());
+      }
+ else {
+        variableMap.put(varName,null);
+      }
+    }
+  }
+  return variableMap;
+}
