@@ -11,7 +11,7 @@
     Assert.assertEquals(0,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after timer").count());
     Assert.assertEquals(1,firstProcessEngine.getManagementService().createJobQuery().count());
     secondProcessEngine=createProcessEngine(true,now);
-    addSecondsToCurrentTime(secondProcessEngine,301);
+    addSecondsToCurrentTime(secondProcessEngine,361);
     waitForAllJobsBeingExecuted(secondProcessEngine);
     Assert.assertEquals(0,firstProcessEngine.getTaskService().createTaskQuery().taskName("The Task").count());
     Assert.assertEquals(1,firstProcessEngine.getTaskService().createTaskQuery().taskName("Task after timer").count());
