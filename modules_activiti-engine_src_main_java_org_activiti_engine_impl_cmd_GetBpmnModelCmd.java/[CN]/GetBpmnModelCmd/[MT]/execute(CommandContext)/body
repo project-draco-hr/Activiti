@@ -2,20 +2,5 @@
   if (processDefinitionId == null) {
     throw new ActivitiIllegalArgumentException("processDefinitionId is null");
   }
-  ProcessDefinitionEntity processDefinitionEntity=commandContext.getProcessDefinitionEntityManager().findProcessDefinitionById(processDefinitionId);
-  if (processDefinitionEntity == null) {
-    throw new ActivitiObjectNotFoundException("Process definition does not exist: " + processDefinitionId,ProcessDefinitionEntity.class);
-  }
-  String resourceName=processDefinitionEntity.getResourceName();
-  ResourceEntity resource=commandContext.getResourceEntityManager().findResourceByDeploymentIdAndResourceName(processDefinitionEntity.getDeploymentId(),resourceName);
-  if (resource == null) {
-    if (commandContext.getDeploymentEntityManager().findDeploymentById(processDefinitionEntity.getDeploymentId()) == null) {
-      throw new ActivitiObjectNotFoundException("deployment for process definition does not exist: " + processDefinitionEntity.getDeploymentId(),Deployment.class);
-    }
- else {
-      throw new ActivitiObjectNotFoundException("no resource found with name '" + resourceName + "' in deployment '"+ processDefinitionEntity.getDeploymentId()+ "'",InputStream.class);
-    }
-  }
-  BpmnXMLConverter bpmnXMLConverter=new BpmnXMLConverter();
-  return bpmnXMLConverter.convertToBpmnModel(new BytesStreamSource(resource.getBytes()),false,false);
+  return commandContext.getProcessEngineConfiguration().getDeploymentManager().getBpmnModelById(processDefinitionId);
 }

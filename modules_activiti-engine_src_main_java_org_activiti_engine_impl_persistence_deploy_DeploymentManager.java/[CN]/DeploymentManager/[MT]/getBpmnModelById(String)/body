@@ -1,0 +1,26 @@
+{
+  if (processDefinitionId == null) {
+    throw new ActivitiIllegalArgumentException("Invalid process definition id : null");
+  }
+  BpmnModel bpmnModel=bpmnModelCache.get(processDefinitionId);
+  if (bpmnModel == null) {
+    ProcessDefinitionEntity processDefinition=findDeployedProcessDefinitionById(processDefinitionId);
+    if (processDefinition == null) {
+      throw new ActivitiObjectNotFoundException("no deployed process definition found with id '" + processDefinitionId + "'",ProcessDefinition.class);
+    }
+    String resourceName=processDefinition.getResourceName();
+    ResourceEntity resource=Context.getCommandContext().getResourceEntityManager().findResourceByDeploymentIdAndResourceName(processDefinition.getDeploymentId(),resourceName);
+    if (resource == null) {
+      if (Context.getCommandContext().getDeploymentEntityManager().findDeploymentById(processDefinition.getDeploymentId()) == null) {
+        throw new ActivitiObjectNotFoundException("deployment for process definition does not exist: " + processDefinition.getDeploymentId(),Deployment.class);
+      }
+ else {
+        throw new ActivitiObjectNotFoundException("no resource found with name '" + resourceName + "' in deployment '"+ processDefinition.getDeploymentId()+ "'",InputStream.class);
+      }
+    }
+    BpmnXMLConverter bpmnXMLConverter=new BpmnXMLConverter();
+    bpmnModel=bpmnXMLConverter.convertToBpmnModel(new BytesStreamSource(resource.getBytes()),false,false);
+    bpmnModelCache.add(processDefinition.getId(),bpmnModel);
+  }
+  return bpmnModel;
+}
