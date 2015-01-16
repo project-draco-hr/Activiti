@@ -73,6 +73,6 @@
   task.fireEvent(TaskListener.EVENTNAME_CREATE);
   Expression skipExpression=taskDefinition.getSkipExpression();
   if (SkipExpressionUtil.isSkipExpressionEnabled(execution,skipExpression) && SkipExpressionUtil.shouldSkipFlowElement(execution,skipExpression)) {
-    leave(execution);
+    task.complete(null,false);
   }
 }
