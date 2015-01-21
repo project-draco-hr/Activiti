@@ -1,0 +1,10 @@
+{
+  String piName="Customized Process Instance Name";
+  ProcessInstanceBuilder builder=runtimeService.createProcessInstanceBuilder();
+  builder.processDefinitionKey("oneTaskProcess");
+  builder.processInstanceName(piName);
+  ProcessInstance processInstance1=builder.start();
+  HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance1.getProcessInstanceId()).singleResult();
+  assertEquals(piName,historicProcessInstance.getName());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().processInstanceName(piName).list().size());
+}
