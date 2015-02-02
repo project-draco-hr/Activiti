@@ -1,0 +1,15 @@
+{
+  if (processDefinitionIds == null) {
+    throw new ActivitiIllegalArgumentException("Set of process definition ids is null");
+  }
+  if (processDefinitionIds.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Set of process definition ids is empty");
+  }
+  if (inOrStatement) {
+    this.orQueryObject.processDefinitionIds=processDefinitionIds;
+  }
+ else {
+    this.processDefinitionIds=processDefinitionIds;
+  }
+  return this;
+}
