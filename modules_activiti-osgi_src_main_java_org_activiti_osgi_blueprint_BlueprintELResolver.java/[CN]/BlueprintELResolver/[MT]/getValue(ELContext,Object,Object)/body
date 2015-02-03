@@ -7,6 +7,12 @@
         return delegateMap.get(name);
       }
     }
+    for (    String name : activityBehaviourMap.keySet()) {
+      if (name.equalsIgnoreCase(key)) {
+        context.setPropertyResolved(true);
+        return activityBehaviourMap.get(name);
+      }
+    }
   }
   return null;
 }

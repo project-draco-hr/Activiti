@@ -4,4 +4,6 @@
   assertTrue(processInstance.isEnded());
   HistoricVariableInstance variable=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("visited").singleResult();
   assertTrue((Boolean)variable.getValue());
+  HistoricVariableInstance activityBehaviourVisited=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("visitedActivityBehaviour").singleResult();
+  assertTrue((Boolean)activityBehaviourVisited.getValue());
 }
