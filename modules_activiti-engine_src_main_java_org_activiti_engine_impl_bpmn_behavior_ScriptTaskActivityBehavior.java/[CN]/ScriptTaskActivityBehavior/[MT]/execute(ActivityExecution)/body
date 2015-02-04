@@ -10,8 +10,9 @@
  catch (  ActivitiException e) {
     LOGGER.warn("Exception while executing " + execution.getActivity().getId() + " : "+ e.getMessage());
     noErrors=false;
-    if (e.getCause() instanceof ScriptException && e.getCause().getCause() instanceof ScriptException && e.getCause().getCause().getCause() instanceof BpmnError) {
-      ErrorPropagation.propagateError((BpmnError)e.getCause().getCause().getCause(),execution);
+    Throwable rootCause=ExceptionUtils.getRootCause(e);
+    if (rootCause instanceof BpmnError) {
+      ErrorPropagation.propagateError((BpmnError)rootCause,execution);
     }
  else {
       throw e;
