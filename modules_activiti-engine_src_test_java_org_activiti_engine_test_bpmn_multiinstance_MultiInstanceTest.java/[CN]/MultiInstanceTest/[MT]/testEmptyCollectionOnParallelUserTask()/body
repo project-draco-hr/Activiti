@@ -1,0 +1,6 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("messages",Collections.EMPTY_LIST);
+  runtimeService.startProcessInstanceByKey("parallelUserTaskMi",vars);
+  assertEquals(1L,historyService.createHistoricProcessInstanceQuery().finished().count());
+}
