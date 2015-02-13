@@ -1,0 +1,26 @@
+{
+  EntityManager em=entityManagerFactory.createEntityManager();
+  em.getTransaction().begin();
+  fieldEntity=new FieldAccessJPAEntity();
+  fieldEntity.setId(1L);
+  fieldEntity.setValue("fieldEntity");
+  em.persist(fieldEntity);
+  propertyEntity=new PropertyAccessJPAEntity();
+  propertyEntity.setId(1L);
+  propertyEntity.setValue("propertyEntity");
+  em.persist(propertyEntity);
+  em.flush();
+  em.getTransaction().commit();
+  em.close();
+  em=entityManagerFactory.createEntityManager();
+  fieldEntity=em.find(FieldAccessJPAEntity.class,fieldEntity.getId());
+  propertyEntity=em.find(PropertyAccessJPAEntity.class,propertyEntity.getId());
+  em.getTransaction().begin();
+  fieldEntity2=new FieldAccessJPAEntity();
+  fieldEntity2.setId(2L);
+  fieldEntity2.setValue("fieldEntity2");
+  em.persist(fieldEntity2);
+  em.flush();
+  em.getTransaction().commit();
+  em.close();
+}
