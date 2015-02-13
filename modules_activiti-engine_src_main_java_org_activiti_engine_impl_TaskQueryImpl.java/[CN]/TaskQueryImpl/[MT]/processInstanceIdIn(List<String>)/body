@@ -1,0 +1,20 @@
+{
+  if (processInstanceIds == null) {
+    throw new ActivitiIllegalArgumentException("Process instance id list is null");
+  }
+  if (processInstanceIds.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Process instance id list is empty");
+  }
+  for (  String processInstanceId : processInstanceIds) {
+    if (processInstanceId == null) {
+      throw new ActivitiIllegalArgumentException("None of the given process instance ids can be null");
+    }
+  }
+  if (orActive) {
+    orQueryObject.processInstanceIds=processInstanceIds;
+  }
+ else {
+    this.processInstanceIds=processInstanceIds;
+  }
+  return this;
+}
