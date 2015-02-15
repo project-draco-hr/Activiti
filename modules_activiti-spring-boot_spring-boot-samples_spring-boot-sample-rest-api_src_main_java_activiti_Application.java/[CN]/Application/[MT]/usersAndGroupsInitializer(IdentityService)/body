@@ -1,6 +1,6 @@
 {
-  return new CommandLineRunner(){
-    @Override public void run(    String... strings) throws Exception {
+  return new InitializingBean(){
+    @Override public void afterPropertiesSet() throws Exception {
       Group group=identityService.newGroup("user");
       group.setName("users");
       group.setType("security-role");
