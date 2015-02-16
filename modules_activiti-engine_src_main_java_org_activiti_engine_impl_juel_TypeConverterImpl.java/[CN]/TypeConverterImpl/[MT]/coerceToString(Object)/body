@@ -8,5 +8,10 @@
   if (value instanceof Enum<?>) {
     return ((Enum<?>)value).name();
   }
+  if (value instanceof Date) {
+    DateTimeFormatter fmt=ISODateTimeFormat.dateTime();
+    DateTime dt=new DateTime(value);
+    return fmt.print(dt);
+  }
   return value.toString();
 }
