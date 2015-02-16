@@ -1,0 +1,8 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  final Task task=taskService.createTaskQuery().processInstanceIdIn(Arrays.asList(processInstance.getId())).singleResult();
+  assertNotNull(task);
+  assertEquals("theTask",task.getTaskDefinitionKey());
+  assertEquals(processInstance.getId(),task.getProcessInstanceId());
+  assertEquals(0,taskService.createTaskQuery().processInstanceIdIn(Arrays.asList("unexisting")).count());
+}
