@@ -1,4 +1,6 @@
 {
-  String procId=runtimeService.startProcessInstanceByKey("catchErrorOnScriptTask").getId();
-  assertProcessEnded(procId);
+  if (JvmUtil.isAtLeastJDK7()) {
+    String procId=runtimeService.startProcessInstanceByKey("catchErrorOnScriptTask").getId();
+    assertProcessEnded(procId);
+  }
 }
