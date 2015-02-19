@@ -1,0 +1,13 @@
+{
+  resourceName="mapException/mapExceptionNoExceptionClass.bpmn";
+  try {
+    BpmnModel bpmnModel=readXMLFile();
+    fail("No exception is thrown for mapExecution with no exception class");
+  }
+ catch (  XMLException x) {
+    assertTrue(x.getMessage().indexOf("No exception code defined") != -1);
+  }
+catch (  Exception e) {
+    fail("wrong exception thrown. XmlException expected, " + e.getClass() + " thrown");
+  }
+}
