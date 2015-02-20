@@ -3,7 +3,12 @@
     return createHtmlEmail(text,html);
   }
  else   if (text != null) {
-    return createTextOnlyEmail(text);
+    if (!attachmentsExist) {
+      return createTextOnlyEmail(text);
+    }
+ else {
+      return createMultiPartEmail(text);
+    }
   }
  else {
     throw new ActivitiIllegalArgumentException("'html' or 'text' is required to be defined when using the mail activity");

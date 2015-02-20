@@ -14,8 +14,8 @@
       }
       email.setHostName(host);
       email.setSmtpPort(mailServerInfo.getMailServerPort());
-      email.setSSL(mailServerInfo.isMailServerUseSSL());
-      email.setTLS(mailServerInfo.isMailServerUseTLS());
+      email.setSSLOnConnect(processEngineConfiguration.getMailServerUseSSL());
+      email.setStartTLSEnabled(processEngineConfiguration.getMailServerUseTLS());
       String user=mailServerInfo.getMailServerUsername();
       String password=mailServerInfo.getMailServerPassword();
       if (user != null && password != null) {
@@ -24,7 +24,7 @@
       isMailServerSet=true;
     }
   }
-  if (isMailServerSet == false) {
+  if (!isMailServerSet) {
     String mailSessionJndi=processEngineConfiguration.getMailSessionJndi();
     if (mailSessionJndi != null) {
       setEmailSession(email,mailSessionJndi);
@@ -37,8 +37,8 @@
       email.setHostName(host);
       int port=processEngineConfiguration.getMailServerPort();
       email.setSmtpPort(port);
-      email.setSSL(processEngineConfiguration.getMailServerUseSSL());
-      email.setTLS(processEngineConfiguration.getMailServerUseTLS());
+      email.setSSLOnConnect(processEngineConfiguration.getMailServerUseSSL());
+      email.setStartTLSEnabled(processEngineConfiguration.getMailServerUseTLS());
       String user=processEngineConfiguration.getMailServerUsername();
       String password=processEngineConfiguration.getMailServerPassword();
       if (user != null && password != null) {

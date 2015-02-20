@@ -1,0 +1,16 @@
+{
+  String fileName="file-name-to-be-displayed";
+  String fileContent="This is the file content";
+  HashMap<String,Object> vars=new HashMap<String,Object>();
+  vars.put("attachmentsBean",new AttachmentsBean());
+  vars.put("fileContent",fileContent);
+  vars.put("fileName",fileName);
+  runtimeService.startProcessInstanceByKey("textMailWithDataSourceAttachment",vars);
+  List<WiserMessage> messages=wiser.getMessages();
+  assertEquals(1,messages.size());
+  WiserMessage message=messages.get(0);
+  MimeMultipart mm=(MimeMultipart)message.getMimeMessage().getContent();
+  assertEquals(2,mm.getCount());
+  String attachmentFileName=mm.getBodyPart(1).getDataHandler().getName();
+  assertEquals(fileName,attachmentFileName);
+}

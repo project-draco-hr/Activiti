@@ -1,0 +1,9 @@
+{
+  HashMap<String,Object> vars=new HashMap<String,Object>();
+  vars.put("attachmentsBean",new AttachmentsBean());
+  runtimeService.startProcessInstanceByKey("textMailWithNotExistingFileAttachment",vars);
+  List<WiserMessage> messages=wiser.getMessages();
+  assertEquals(1,messages.size());
+  WiserMessage message=messages.get(0);
+  assertFalse(message.getMimeMessage().getContent() instanceof MimeMultipart);
+}

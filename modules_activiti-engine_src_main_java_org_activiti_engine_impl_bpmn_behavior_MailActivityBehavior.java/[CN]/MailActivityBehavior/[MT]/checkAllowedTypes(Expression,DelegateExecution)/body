@@ -1,0 +1,15 @@
+{
+  if (expression == null) {
+    return null;
+  }
+  Object value=expression.getValue(execution);
+  if (value == null) {
+    return null;
+  }
+  for (  Class<?> allowedType : ALLOWED_ATT_TYPES) {
+    if (allowedType.isInstance(value)) {
+      return value;
+    }
+  }
+  throw new ActivitiException("Invalid attachment type: " + value.getClass());
+}

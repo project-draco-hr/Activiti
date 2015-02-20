@@ -1,0 +1,11 @@
+{
+  File[] files=new File[3];
+  String[] testNames=new String[]{"testTextMailWithFileAttachment","testHtmlMailWithFileAttachment","testTextMailWithFileAttachments"};
+  for (int i=0; i < files.length; i++) {
+    String fileName="EmailServiceTaskTest." + testNames[i] + ".bpmn20.xml";
+    File file=new File(PACKAGE_DIR,fileName);
+    Validate.isTrue(file.exists(),"file <" + fileName + "> does not exist in dir "+ PACKAGE_DIR.getAbsolutePath());
+    files[i]=file;
+  }
+  return files;
+}

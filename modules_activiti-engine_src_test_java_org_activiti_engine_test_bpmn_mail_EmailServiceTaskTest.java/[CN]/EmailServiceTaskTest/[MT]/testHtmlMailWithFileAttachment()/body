@@ -1,0 +1,13 @@
+{
+  HashMap<String,Object> vars=new HashMap<String,Object>();
+  vars.put("attachmentsBean",new AttachmentsBean());
+  vars.put("gender","male");
+  runtimeService.startProcessInstanceByKey("htmlMailWithFileAttachment",vars);
+  List<WiserMessage> messages=wiser.getMessages();
+  assertEquals(1,messages.size());
+  WiserMessage message=messages.get(0);
+  MimeMultipart mm=(MimeMultipart)message.getMimeMessage().getContent();
+  assertEquals(2,mm.getCount());
+  String attachmentFileName=mm.getBodyPart(1).getDataHandler().getName();
+  assertEquals(new AttachmentsBean().getFile().getName(),attachmentFileName);
+}

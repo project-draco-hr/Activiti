@@ -1,0 +1,14 @@
+{
+  if (!(email instanceof MultiPartEmail && attachmentsExist(files,dataSources))) {
+    return;
+  }
+  MultiPartEmail mpEmail=(MultiPartEmail)email;
+  for (  File file : files) {
+    mpEmail.attach(file);
+  }
+  for (  DataSource ds : dataSources) {
+    if (ds != null) {
+      mpEmail.attach(ds,ds.getName(),null);
+    }
+  }
+}

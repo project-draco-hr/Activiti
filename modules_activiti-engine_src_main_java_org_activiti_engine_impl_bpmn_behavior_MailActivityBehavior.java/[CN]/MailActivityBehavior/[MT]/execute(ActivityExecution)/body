@@ -11,7 +11,10 @@
     String textStr=textVar == null ? getStringFromField(text,execution) : getStringFromField(getExpression(execution,textVar),execution);
     String htmlStr=htmlVar == null ? getStringFromField(html,execution) : getStringFromField(getExpression(execution,htmlVar),execution);
     String charSetStr=getStringFromField(charset,execution);
-    email=createEmail(textStr,htmlStr);
+    List<File> files=new LinkedList<File>();
+    List<DataSource> dataSources=new LinkedList<DataSource>();
+    getFilesFromFields(attachments,execution,files,dataSources);
+    email=createEmail(textStr,htmlStr,attachmentsExist(files,dataSources));
     addTo(email,toStr);
     setFrom(email,fromStr,execution.getTenantId());
     addCc(email,ccStr);
@@ -19,6 +22,7 @@
     setSubject(email,subjectStr);
     setMailServerProperties(email,execution.getTenantId());
     setCharset(email,charSetStr);
+    attach(email,files,dataSources);
     email.send();
   }
  catch (  ActivitiException e) {

@@ -1,0 +1,15 @@
+{
+  HashMap<String,Object> vars=new HashMap<String,Object>();
+  vars.put("attachmentsBean",new AttachmentsBean());
+  runtimeService.startProcessInstanceByKey("textMailWithFileAttachments",vars);
+  List<WiserMessage> messages=wiser.getMessages();
+  assertEquals(1,messages.size());
+  WiserMessage message=messages.get(0);
+  MimeMultipart mm=(MimeMultipart)message.getMimeMessage().getContent();
+  File[] files=new AttachmentsBean().getFiles();
+  assertEquals(1 + files.length,mm.getCount());
+  for (int i=0; i < files.length; i++) {
+    String attachmentFileName=mm.getBodyPart(1 + i).getDataHandler().getName();
+    assertEquals(files[i].getName(),attachmentFileName);
+  }
+}

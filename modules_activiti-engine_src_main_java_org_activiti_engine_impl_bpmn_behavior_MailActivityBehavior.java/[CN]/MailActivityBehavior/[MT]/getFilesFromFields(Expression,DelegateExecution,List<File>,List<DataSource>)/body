@@ -1,0 +1,36 @@
+{
+  Object value=checkAllowedTypes(expression,execution);
+  if (value != null) {
+    if (value instanceof File) {
+      files.add((File)value);
+    }
+ else     if (value instanceof String) {
+      files.add(new File((String)value));
+    }
+ else     if (value instanceof File[]) {
+      Collections.addAll(files,(File[])value);
+    }
+ else     if (value instanceof String[]) {
+      String[] paths=(String[])value;
+      for (      String path : paths) {
+        files.add(new File(path));
+      }
+    }
+ else     if (value instanceof DataSource) {
+      dataSources.add((DataSource)value);
+    }
+ else     if (value instanceof DataSource[]) {
+      for (      DataSource ds : (DataSource[])value) {
+        if (ds != null) {
+          dataSources.add(ds);
+        }
+      }
+    }
+  }
+  for (Iterator<File> it=files.iterator(); it.hasNext(); ) {
+    File file=it.next();
+    if (!fileExists(file)) {
+      it.remove();
+    }
+  }
+}
