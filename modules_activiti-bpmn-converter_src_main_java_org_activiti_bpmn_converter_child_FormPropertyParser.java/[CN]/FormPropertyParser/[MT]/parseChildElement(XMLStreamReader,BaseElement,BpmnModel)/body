@@ -1,5 +1,5 @@
 {
-  if (parentElement instanceof UserTask == false && parentElement instanceof StartEvent == false)   return;
+  if (!accepts(parentElement))   return;
   FormProperty property=new FormProperty();
   BpmnXMLUtil.addXMLLocation(property,xtr);
   property.setId(xtr.getAttributeValue(null,ATTRIBUTE_FORM_ID));
