@@ -1,0 +1,13 @@
+{
+  FlagDelegate.reset();
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("exceptionClass",BoundaryEventChildException.class.getName());
+  assertEquals(0,ServiceTaskTestMock.CALL_COUNT.get());
+  try {
+    runtimeService.startProcessInstanceByKey("processWithSingleExceptionMap",vars);
+    fail("exception expected, as there is no matching exceptio map");
+  }
+ catch (  Exception e) {
+    assertFalse(FlagDelegate.isVisited());
+  }
+}
