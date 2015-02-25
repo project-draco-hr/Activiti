@@ -1,0 +1,6 @@
+{
+  InputStream xmlStream=this.getClass().getClassLoader().getResourceAsStream(bpmnModelFilePath);
+  StreamSource xmlSource=new InputStreamSource(xmlStream);
+  BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xmlSource,false,false,processEngineConfiguration.getXmlEncoding());
+  return bpmnModel;
+}

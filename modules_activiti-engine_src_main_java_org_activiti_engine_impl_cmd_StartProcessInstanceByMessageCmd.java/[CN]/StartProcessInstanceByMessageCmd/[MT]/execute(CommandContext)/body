@@ -15,6 +15,9 @@
   if (processDefinition == null) {
     throw new ActivitiObjectNotFoundException("No process definition found for id '" + processDefinitionId + "'",ProcessDefinition.class);
   }
+  if (processDefinition.isSuspended()) {
+    throw new ActivitiException("Cannot start process instance. Process definition " + processDefinition.getName() + " (id = "+ processDefinition.getId()+ ") is suspended");
+  }
   ActivityImpl startActivity=processDefinition.findActivity(messageEventSubscription.getActivityId());
   ExecutionEntity processInstance=processDefinition.createProcessInstance(businessKey,startActivity);
   if (processVariables != null) {

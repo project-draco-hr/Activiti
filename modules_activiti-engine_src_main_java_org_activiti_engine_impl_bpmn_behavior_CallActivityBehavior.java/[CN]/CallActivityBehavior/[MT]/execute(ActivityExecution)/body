@@ -3,12 +3,15 @@
   if (processDefinitionExpression != null) {
     processDefinitonKey=(String)processDefinitionExpression.getValue(execution);
   }
-  ProcessDefinitionImpl processDefinition=null;
+  ProcessDefinitionEntity processDefinition=null;
   if (execution.getTenantId() == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(execution.getTenantId())) {
     processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedLatestProcessDefinitionByKey(processDefinitonKey);
   }
  else {
     processDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().findDeployedLatestProcessDefinitionByKeyAndTenantId(processDefinitonKey,execution.getTenantId());
+  }
+  if (processDefinition.isSuspended()) {
+    throw new ActivitiException("Cannot start process instance. Process definition " + processDefinition.getName() + " (id = "+ processDefinition.getId()+ ") is suspended");
   }
   PvmProcessInstance subProcessInstance=execution.createSubProcessInstance(processDefinition);
   for (  AbstractDataAssociation dataInputAssociation : dataInputAssociations) {
