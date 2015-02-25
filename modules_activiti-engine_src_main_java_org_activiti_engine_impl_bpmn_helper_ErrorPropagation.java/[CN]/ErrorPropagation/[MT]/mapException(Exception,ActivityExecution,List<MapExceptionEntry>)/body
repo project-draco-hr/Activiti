@@ -1,0 +1,15 @@
+{
+  if (exceptionMap == null)   return false;
+  String defaultException=null;
+  for (  MapExceptionEntry me : exceptionMap) {
+    String exceptionClass=me.getClassName();
+    String errorCode=me.getErrorCode();
+    if (StringUtils.isNotEmpty(errorCode) && StringUtils.isEmpty(exceptionClass) && defaultException == null)     defaultException=errorCode;
+    if (StringUtils.isEmpty(errorCode) || StringUtils.isEmpty(exceptionClass))     continue;
+    if (e.getClass().getName().equals(exceptionClass)) {
+      propagateError(errorCode,execution);
+      return true;
+    }
+  }
+  return false;
+}
