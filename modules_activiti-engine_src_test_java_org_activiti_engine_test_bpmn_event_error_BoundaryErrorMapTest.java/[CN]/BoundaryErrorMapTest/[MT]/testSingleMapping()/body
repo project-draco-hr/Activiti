@@ -1,0 +1,7 @@
+{
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("exceptionClass",BoundaryErrorParentException.class.getName());
+  assertEquals(0,ServiceTaskTestMock.CALL_COUNT.get());
+  runtimeService.startProcessInstanceByKey("processWithSingleExceptionMap",vars);
+  assertEquals(1,ServiceTaskTestMock.CALL_COUNT.get());
+}
