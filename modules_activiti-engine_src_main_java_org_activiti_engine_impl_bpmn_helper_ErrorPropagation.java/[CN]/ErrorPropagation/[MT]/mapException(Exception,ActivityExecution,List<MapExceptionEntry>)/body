@@ -1,10 +1,13 @@
 {
   if (exceptionMap == null)   return false;
-  String defaultException=null;
+  String defaultMap=null;
   for (  MapExceptionEntry me : exceptionMap) {
     String exceptionClass=me.getClassName();
     String errorCode=me.getErrorCode();
-    if (StringUtils.isNotEmpty(errorCode) && StringUtils.isEmpty(exceptionClass) && defaultException == null)     defaultException=errorCode;
+    if (StringUtils.isNotEmpty(errorCode) && StringUtils.isEmpty(exceptionClass) && defaultMap == null) {
+      defaultMap=errorCode;
+      continue;
+    }
     if (StringUtils.isEmpty(errorCode) || StringUtils.isEmpty(exceptionClass))     continue;
     if (e.getClass().getName().equals(exceptionClass)) {
       propagateError(errorCode,execution);
@@ -17,6 +20,10 @@
         return true;
       }
     }
+  }
+  if (defaultMap != null) {
+    propagateError(defaultMap,execution);
+    return true;
   }
   return false;
 }
