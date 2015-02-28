@@ -1,0 +1,12 @@
+{
+  String propertyName="messages";
+  ArrayNode messagesNode=objectMapper.createArrayNode();
+  for (  Message message : messages) {
+    ObjectNode propertyItemNode=objectMapper.createObjectNode();
+    propertyItemNode.put(PROPERTY_MESSAGE_ID,message.getId());
+    propertyItemNode.put(PROPERTY_MESSAGE_NAME,message.getName());
+    propertyItemNode.put(PROPERTY_MESSAGE_ITEM_REF,message.getItemRef());
+    messagesNode.add(propertyItemNode);
+  }
+  propertiesNode.put(propertyName,messagesNode);
+}

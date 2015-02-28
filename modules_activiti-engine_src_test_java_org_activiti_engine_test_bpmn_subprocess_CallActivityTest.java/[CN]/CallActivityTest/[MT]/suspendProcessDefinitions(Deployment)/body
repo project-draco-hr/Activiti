@@ -1,0 +1,6 @@
+{
+  List<ProcessDefinition> childProcessDefinitionList=repositoryService.createProcessDefinitionQuery().deploymentId(childDeployment.getId()).list();
+  for (  ProcessDefinition processDefinition : childProcessDefinitionList) {
+    repositoryService.suspendProcessDefinitionById(processDefinition.getId());
+  }
+}

@@ -1,0 +1,6 @@
+{
+  byte[] xml=new BpmnXMLConverter().convertToXML(bpmnModel,processEngineConfiguration.getXmlEncoding());
+  StreamSource xmlSource=new InputStreamSource(new ByteArrayInputStream(xml));
+  BpmnModel parsedModel=new BpmnXMLConverter().convertToBpmnModel(xmlSource,false,false,processEngineConfiguration.getXmlEncoding());
+  return parsedModel;
+}

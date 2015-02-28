@@ -48,6 +48,10 @@
   if (mainProcess.isExecutable() == false) {
     propertiesNode.put(PROPERTY_PROCESS_EXECUTABLE,"No");
   }
+  if (StringUtils.isNoneEmpty(model.getTargetNamespace())) {
+    propertiesNode.put(PROPERTY_PROCESS_NAMESPACE,model.getTargetNamespace());
+  }
+  BpmnJsonConverterUtil.convertMessagesToJson(model.getMessages(),propertiesNode);
   BpmnJsonConverterUtil.convertListenersToJson(mainProcess.getExecutionListeners(),true,propertiesNode);
   BpmnJsonConverterUtil.convertEventListenersToJson(mainProcess.getEventListeners(),propertiesNode);
   if (CollectionUtils.isNotEmpty(mainProcess.getDataObjects())) {

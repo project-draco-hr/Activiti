@@ -3,12 +3,10 @@
     try {
       if (fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn")) {
         validFile=true;
-        BpmnXMLConverter xmlConverter=new BpmnXMLConverter();
         XMLInputFactory xif=XmlUtil.createSafeXmlInputFactory();
         InputStreamReader in=new InputStreamReader(new ByteArrayInputStream(outputStream.toByteArray()),"UTF-8");
         XMLStreamReader xtr=xif.createXMLStreamReader(in);
         BpmnModel bpmnModel=new BpmnXMLConverter().convertToBpmnModel(xtr);
-        xmlConverter.convertToBpmnModel(xtr);
         if (bpmnModel.getMainProcess() == null || bpmnModel.getMainProcess().getId() == null) {
           notificationManager.showErrorNotification(Messages.MODEL_IMPORT_FAILED,i18nManager.getMessage(Messages.MODEL_IMPORT_INVALID_BPMN_EXPLANATION));
         }

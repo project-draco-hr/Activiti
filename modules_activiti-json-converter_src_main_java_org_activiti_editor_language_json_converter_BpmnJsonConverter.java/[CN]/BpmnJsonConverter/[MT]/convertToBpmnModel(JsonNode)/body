@@ -60,6 +60,7 @@
     if (processExecutableNode != null && StringUtils.isNotEmpty(processExecutableNode.asText())) {
       process.setExecutable(JsonConverterUtil.getPropertyValueAsBoolean(PROPERTY_PROCESS_EXECUTABLE,modelNode));
     }
+    BpmnJsonConverterUtil.convertJsonToMessages(modelNode,bpmnModel);
     BpmnJsonConverterUtil.convertJsonToListeners(modelNode,process);
     JsonNode eventListenersNode=BpmnJsonConverterUtil.getProperty(PROPERTY_EVENT_LISTENERS,modelNode);
     if (eventListenersNode != null) {
