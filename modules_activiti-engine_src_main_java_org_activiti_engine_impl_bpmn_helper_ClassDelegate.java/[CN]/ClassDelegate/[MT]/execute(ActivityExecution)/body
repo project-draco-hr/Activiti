@@ -10,5 +10,8 @@
  catch (    BpmnError error) {
       ErrorPropagation.propagateError(error,execution);
     }
+catch (    Exception e) {
+      if (!ErrorPropagation.mapException(e,execution,mapExceptions))       throw e;
+    }
   }
 }

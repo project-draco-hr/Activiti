@@ -1,0 +1,25 @@
+{
+  FlowElement flowElement=model.getMainProcess().getFlowElement("servicetaskWithAndTrueAndChildren");
+  assertNotNull(flowElement);
+  assertTrue(flowElement instanceof ServiceTask);
+  assertEquals("servicetaskWithAndTrueAndChildren",flowElement.getId());
+  ServiceTask serviceTask=(ServiceTask)flowElement;
+  assertNotNull(serviceTask.getMapExceptions());
+  assertEquals(3,serviceTask.getMapExceptions().size());
+  assertEquals("myErrorCode1",serviceTask.getMapExceptions().get(0).getErrorCode());
+  assertEquals("com.activiti.Something1",serviceTask.getMapExceptions().get(0).getClassName());
+  assertTrue(serviceTask.getMapExceptions().get(0).isAndChildren());
+  assertEquals("myErrorCode2",serviceTask.getMapExceptions().get(1).getErrorCode());
+  assertEquals("com.activiti.Something2",serviceTask.getMapExceptions().get(1).getClassName());
+  assertFalse(serviceTask.getMapExceptions().get(1).isAndChildren());
+  assertEquals("myErrorCode3",serviceTask.getMapExceptions().get(2).getErrorCode());
+  assertEquals("com.activiti.Something3",serviceTask.getMapExceptions().get(2).getClassName());
+  assertFalse(serviceTask.getMapExceptions().get(2).isAndChildren());
+  FlowElement flowElement1=model.getMainProcess().getFlowElement("servicetaskWithNoMapException");
+  assertNotNull(flowElement1);
+  assertTrue(flowElement1 instanceof ServiceTask);
+  assertEquals("servicetaskWithNoMapException",flowElement1.getId());
+  ServiceTask serviceTask1=(ServiceTask)flowElement1;
+  assertNotNull(serviceTask1.getMapExceptions());
+  assertEquals(0,serviceTask1.getMapExceptions().size());
+}
