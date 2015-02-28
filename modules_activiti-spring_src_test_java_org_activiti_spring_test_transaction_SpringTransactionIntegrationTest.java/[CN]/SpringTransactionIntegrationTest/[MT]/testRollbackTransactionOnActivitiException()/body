@@ -1,6 +1,6 @@
 {
   JdbcTemplate jdbcTemplate=new JdbcTemplate(dataSource);
-  jdbcTemplate.execute("create table MY_TABLE (MY_TEXT varchar);");
+  jdbcTemplate.execute("create table MY_TABLE (MY_TEXT varchar(255));");
   userBean.hello();
   assertEquals(0,jdbcTemplate.queryForLong("select count(*) from MY_TABLE"));
   try {
