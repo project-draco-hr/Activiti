@@ -14,7 +14,7 @@
       return true;
     }
     if (me.isAndChildren()) {
-      Class<?> exceptionClassClass=Class.forName(exceptionClass);
+      Class<?> exceptionClassClass=ReflectUtil.loadClass(exceptionClass);
       if (exceptionClassClass.isAssignableFrom(e.getClass())) {
         propagateError(errorCode,execution);
         return true;
