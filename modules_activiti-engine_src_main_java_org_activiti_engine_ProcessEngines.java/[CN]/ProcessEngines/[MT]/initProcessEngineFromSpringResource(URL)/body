@@ -2,7 +2,6 @@
   try {
     Class<?> springConfigurationHelperClass=ReflectUtil.loadClass("org.activiti.spring.SpringConfigurationHelper");
     Method method=springConfigurationHelperClass.getDeclaredMethod("buildProcessEngine",new Class<?>[]{URL.class});
-    method.setAccessible(true);
     ProcessEngine processEngine=(ProcessEngine)method.invoke(null,new Object[]{resource});
     String processEngineName=processEngine.getName();
     ProcessEngineInfo processEngineInfo=new ProcessEngineInfoImpl(processEngineName,resource.toString(),null);
