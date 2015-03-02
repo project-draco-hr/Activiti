@@ -1,6 +1,7 @@
 {
   TimerDeclarationType type=null;
   Expression expression=null;
+  Expression endDate=null;
   ExpressionManager expressionManager=bpmnParse.getExpressionManager();
   if (StringUtils.isNotEmpty(timerEventDefinition.getTimeDate())) {
     type=TimerDeclarationType.DATE;
@@ -9,6 +10,9 @@
  else   if (StringUtils.isNotEmpty(timerEventDefinition.getTimeCycle())) {
     type=TimerDeclarationType.CYCLE;
     expression=expressionManager.createExpression(timerEventDefinition.getTimeCycle());
+    if (StringUtils.isNotEmpty(timerEventDefinition.getEndDate())) {
+      endDate=expressionManager.createExpression(timerEventDefinition.getEndDate());
+    }
   }
  else   if (StringUtils.isNotEmpty(timerEventDefinition.getTimeDuration())) {
     type=TimerDeclarationType.DURATION;
@@ -17,8 +21,12 @@
   if (expression == null) {
     logger.warn("Timer needs configuration (either timeDate, timeCycle or timeDuration is needed) (" + timerActivity.getId() + ")");
   }
-  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(expression,type,jobHandlerType);
-  timerDeclaration.setJobHandlerConfiguration(timerActivity.getId());
+  String jobHandlerConfiguration=timerActivity.getId();
+  if (jobHandlerType.equalsIgnoreCase(TimerExecuteNestedActivityJobHandler.TYPE)) {
+    jobHandlerConfiguration=TimerExecuteNestedActivityJobHandler.createConfiguration(timerActivity.getId(),endDate);
+  }
+  TimerDeclarationImpl timerDeclaration=new TimerDeclarationImpl(expression,type,jobHandlerType,endDate);
+  timerDeclaration.setJobHandlerConfiguration(jobHandlerConfiguration);
   timerDeclaration.setExclusive(true);
   return timerDeclaration;
 }

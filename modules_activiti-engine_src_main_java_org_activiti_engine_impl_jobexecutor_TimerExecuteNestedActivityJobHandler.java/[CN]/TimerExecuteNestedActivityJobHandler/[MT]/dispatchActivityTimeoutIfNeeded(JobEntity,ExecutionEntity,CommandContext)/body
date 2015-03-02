@@ -1,5 +1,7 @@
 {
-  ActivityImpl boundaryEventActivity=execution.getProcessDefinition().findActivity(timerEntity.getJobHandlerConfiguration());
+  JSONObject cfgJson=new JSONObject(timerEntity.getJobHandlerConfiguration());
+  String nestedActivityId=(String)cfgJson.get(PROPERTYNAME_TIMER_ACTIVITY_ID);
+  ActivityImpl boundaryEventActivity=execution.getProcessDefinition().findActivity(nestedActivityId);
   ActivityBehavior boundaryActivityBehavior=boundaryEventActivity.getActivityBehavior();
   if (boundaryActivityBehavior instanceof BoundaryEventActivityBehavior) {
     BoundaryEventActivityBehavior boundaryEventActivityBehavior=(BoundaryEventActivityBehavior)boundaryActivityBehavior;

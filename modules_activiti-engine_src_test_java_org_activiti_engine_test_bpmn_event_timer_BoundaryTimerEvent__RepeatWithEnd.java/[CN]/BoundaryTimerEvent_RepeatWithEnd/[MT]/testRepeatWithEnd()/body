@@ -1,0 +1,35 @@
+{
+  AsyncExecutor asyncExecutor=processEngineConfiguration.getAsyncExecutor();
+  asyncExecutor.start();
+  System.out.println("Starting test at " + new Date());
+  int minutes=0;
+  int seconds=20;
+  Calendar c=Calendar.getInstance();
+  c.setTime(new Date());
+  c.add(Calendar.MINUTE,minutes);
+  c.add(Calendar.SECOND,seconds);
+  DateTimeFormatter fmt=ISODateTimeFormat.dateTime();
+  DateTime dt=new DateTime(c.getTime());
+  String dateStr=fmt.print(dt);
+  System.out.println("Setting end date For Boundary : " + dateStr);
+  System.out.println("Setting end date For Catch : " + dateStr);
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("repeatWithEnd");
+  System.out.println("Setting end date process variable: " + dateStr);
+  runtimeService.setVariable(processInstance.getId(),"EndDateForBoundary",dateStr);
+  runtimeService.setVariable(processInstance.getId(),"EndDateForCatch",dateStr);
+  List<Task> tasks=taskService.createTaskQuery().list();
+  assertEquals(1,tasks.size());
+  Task task=tasks.get(0);
+  assertEquals("Task A",task.getName());
+  taskService.complete(task.getId());
+  Thread.sleep(10 * 1000);
+  tasks=taskService.createTaskQuery().list();
+  assertEquals(1,tasks.size());
+  task=tasks.get(0);
+  assertEquals("Task B",task.getName());
+  taskService.complete(task.getId());
+  Thread.sleep(((minutes + 1) * 60 + seconds) * 1000);
+  DateTime dt1=new DateTime(Calendar.getInstance());
+  String dateStr1=fmt.print(dt1);
+  System.out.println("Thread Execution finished @: " + dateStr1);
+}

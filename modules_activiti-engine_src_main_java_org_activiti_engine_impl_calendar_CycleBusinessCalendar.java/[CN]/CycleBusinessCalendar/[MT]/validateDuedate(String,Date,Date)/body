@@ -1,0 +1,16 @@
+{
+  if (endDate != null) {
+    return super.validateDuedate(duedateDescription,endDate,newTimer);
+  }
+  try {
+    if (duedateDescription.startsWith("R")) {
+      return new DurationHelper(duedateDescription,clockReader).isValidDate(newTimer);
+    }
+ else {
+      return true;
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Failed to parse cron expression: " + duedateDescription,e);
+  }
+}
