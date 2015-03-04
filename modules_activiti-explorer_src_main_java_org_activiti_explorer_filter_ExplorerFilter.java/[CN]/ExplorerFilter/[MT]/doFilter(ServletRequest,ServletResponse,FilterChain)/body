@@ -10,6 +10,10 @@
     firstPart=path;
   }
   if (ignoreList.contains(firstPart)) {
+    if ("/service".equals(firstPart) && req.getRemoteUser() == null && (req.getSession(false) == null || req.getSession().getAttribute(Constants.AUTHENTICATED_USER_ID) == null)) {
+      ((HttpServletResponse)response).sendError(HttpServletResponse.SC_FORBIDDEN);
+      return;
+    }
     chain.doFilter(request,response);
   }
  else {
