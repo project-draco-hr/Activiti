@@ -1,8 +1,7 @@
 {
   super.execute(commandContext);
-  if (jobHandlerType.equalsIgnoreCase(TimerExecuteNestedActivityJobHandler.TYPE)) {
+  if (jobHandlerType.equalsIgnoreCase(TimerExecuteNestedActivityJobHandler.TYPE) || jobHandlerType.equalsIgnoreCase(TimerCatchIntermediateEventJobHandler.TYPE)) {
     JSONObject cfgJson=new JSONObject(jobHandlerConfiguration);
-    String nestedActivityId=(String)cfgJson.get(TimerExecuteNestedActivityJobHandler.PROPERTYNAME_TIMER_ACTIVITY_ID);
     if (cfgJson.has(TimerExecuteNestedActivityJobHandler.PROPERTYNAME_END_DATE_EXPRESSION)) {
       String endDateExpressionString=(String)cfgJson.get(TimerExecuteNestedActivityJobHandler.PROPERTYNAME_END_DATE_EXPRESSION);
       Expression endDateExpression=Context.getProcessEngineConfiguration().getExpressionManager().createExpression(endDateExpressionString);

@@ -54,6 +54,12 @@
     boolean repeat=!isInterruptingTimer;
     if (TimerCatchIntermediateEventJobHandler.TYPE.equals(jobHandlerType)) {
       repeat=false;
+      if (endDate != null) {
+        long endDateMiliss=endDate.getTime();
+        long dueDateMiliss=duedate.getTime();
+        long dueDate=Math.min(endDateMiliss,dueDateMiliss);
+        timer.setDuedate(new Date(dueDate));
+      }
     }
     if (repeat) {
       String prepared=prepareRepeat(dueDateString);
