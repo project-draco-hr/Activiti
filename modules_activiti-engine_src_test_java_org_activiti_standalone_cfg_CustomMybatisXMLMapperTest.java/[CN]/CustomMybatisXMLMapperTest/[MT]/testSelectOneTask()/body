@@ -2,16 +2,16 @@
   for (int i=0; i < 5; i++) {
     createTask(i + "",null,null,0);
   }
-  Task task=managementService.executeCommand(new Command<Task>(){
-    @Override public Task execute(    CommandContext commandContext){
-      return (Task)commandContext.getDbSqlSession().selectOne("customSelectOneTask","2");
+  CustomTask customTask=managementService.executeCommand(new Command<CustomTask>(){
+    @Override public CustomTask execute(    CommandContext commandContext){
+      return (CustomTask)commandContext.getDbSqlSession().selectOne("customSelectOneTask","2");
     }
   }
 );
-  assertEquals("2",task.getName());
+  assertEquals("2",customTask.getName());
   List<Task> tasks=taskService.createTaskQuery().list();
   assertEquals(5,tasks.size());
-  task=taskService.createTaskQuery().taskName("2").singleResult();
+  Task task=taskService.createTaskQuery().taskName("2").singleResult();
   assertEquals("2",task.getName());
   deleteTasks(taskService.createTaskQuery().list());
 }
