@@ -30,6 +30,8 @@
   assertEquals(0,historyService.createHistoricProcessInstanceQuery().or().finished().count());
   assertEquals(1,historyService.createHistoricProcessInstanceQuery().or().processInstanceId(processInstance.getId()).processDefinitionId("undefined").endOr().count());
   assertEquals(1,historyService.createHistoricProcessInstanceQuery().or().processDefinitionId(processInstance.getProcessDefinitionId()).processDefinitionKey("undefined").count());
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().or().processDefinitionId("undefined").processDefinitionKeyIn(Arrays.asList("undefined","oneTaskProcess")).endOr().count());
+  assertEquals(0,historyService.createHistoricProcessInstanceQuery().or().processDefinitionId("undefined").processDefinitionKeyIn(Arrays.asList("undefined1","undefined2")).endOr().count());
   assertEquals(1,historyService.createHistoricProcessInstanceQuery().or().processDefinitionKey("oneTaskProcess").processDefinitionId("undefined").endOr().count());
   assertEquals(1,historyService.createHistoricProcessInstanceQuery().or().processInstanceBusinessKey("businessKey123").processDefinitionId("undefined").endOr().count());
   List<String> exludeIds=new ArrayList<String>();
