@@ -7,7 +7,8 @@
       return true;
     }
  else {
-      throw new ActivitiException("Unhandled exception on camel route",camelException);
+      if (ErrorPropagation.mapException(camelException,execution,mapExceptions))       return true;
+ else       throw new ActivitiException("Unhandled exception on camel route",camelException);
     }
   }
   return false;
