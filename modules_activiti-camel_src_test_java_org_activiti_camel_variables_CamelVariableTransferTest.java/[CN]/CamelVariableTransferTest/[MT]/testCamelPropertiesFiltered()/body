@@ -1,0 +1,13 @@
+{
+  ProducerTemplate tpl=camelContext.createProducerTemplate();
+  Exchange exchange=camelContext.getEndpoint("direct:startFiltered").createExchange();
+  tpl.send("direct:startFiltered",exchange);
+  assertNotNull(taskService);
+  assertNotNull(runtimeService);
+  assertEquals(1,taskService.createTaskQuery().count());
+  Task task=taskService.createTaskQuery().singleResult();
+  Map<String,Object> variables=runtimeService.getVariables(task.getExecutionId());
+  assertEquals("sampleValueForProperty1",variables.get("property1"));
+  assertEquals("sampleValueForProperty2",variables.get("property2"));
+  assertNull(variables.get("property3"));
+}
