@@ -1,8 +1,12 @@
 {
   camelContext.addRoutes(new RouteBuilder(){
     @Override public void configure() throws Exception {
-      from("direct:startAll").setProperty("property1",simple("sampleValueForProperty1")).setProperty("property2",simple("sampleValueForProperty2")).setProperty("property3",simple("sampleValueForProperty3")).transform(simple("sampleBody")).to("log:testVariables?showProperties=true").to("activiti:testPropertiesProcess?copyVariablesFromProperties=true");
-      from("direct:startFiltered").setProperty("property1",simple("sampleValueForProperty1")).setProperty("property2",simple("sampleValueForProperty2")).setProperty("property3",simple("sampleValueForProperty3")).to("log:testVariables?showProperties=true").to("activiti:testPropertiesProcess?copyVariablesFromProperties=(property1|property2)");
+      from("direct:startAllProperties").setProperty("property1",simple("sampleValueForProperty1")).setProperty("property2",simple("sampleValueForProperty2")).setProperty("property3",simple("sampleValueForProperty3")).transform(simple("sampleBody")).to("log:testVariables?showProperties=true").to("activiti:testPropertiesProcess?copyVariablesFromProperties=true");
+      from("direct:startNoProperties").setProperty("property1",simple("sampleValueForProperty1")).setProperty("property2",simple("sampleValueForProperty2")).setProperty("property3",simple("sampleValueForProperty3")).transform(simple("sampleBody")).to("log:testVariables?showProperties=true").to("activiti:testPropertiesProcess?copyVariablesFromProperties=false");
+      from("direct:startFilteredProperties").setProperty("property1",simple("sampleValueForProperty1")).setProperty("property2",simple("sampleValueForProperty2")).setProperty("property3",simple("sampleValueForProperty3")).to("log:testVariables?showProperties=true").to("activiti:testPropertiesProcess?copyVariablesFromProperties=(property1|property2)");
+      from("direct:startAllHeaders").setHeader("property1",simple("sampleValueForProperty1")).setHeader("property2",simple("sampleValueForProperty2")).setHeader("property3",simple("sampleValueForProperty3")).to("log:testVariables?showProperties=true");
+      from("direct:startNoHeaders").setHeader("property1",simple("sampleValueForProperty1")).setHeader("property2",simple("sampleValueForProperty2")).setHeader("property3",simple("sampleValueForProperty3")).to("log:testVariables?showProperties=true").to("activiti:testPropertiesProcess?copyVariablesFromHeader=false");
+      from("direct:startFilteredHeaders").setHeader("property1",simple("sampleValueForProperty1")).setHeader("property2",simple("sampleValueForProperty2")).setHeader("property3",simple("sampleValueForProperty3")).to("log:testVariables?showProperties=true").to("activiti:testPropertiesProcess?copyVariablesFromHeader=(property1|property2)");
     }
   }
 );
