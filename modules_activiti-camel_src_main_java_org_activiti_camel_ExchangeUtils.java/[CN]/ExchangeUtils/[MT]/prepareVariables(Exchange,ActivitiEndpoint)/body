@@ -1,7 +1,8 @@
 {
   Map<String,Object> camelVarMap=new HashMap<String,Object>();
-  if (!StringUtils.isEmpty(activitiEndpoint.getCopyVariablesFromProperties()) && (!activitiEndpoint.isCopyVariablesFromPropertiesBoolean() || activitiEndpoint.CopyVariablesFromPropertiesAsBoolean())) {
-    Pattern pattern=createPattern(activitiEndpoint.getCopyVariablesFromProperties(),activitiEndpoint.CopyVariablesFromPropertiesAsBoolean());
+  String copyProperties=activitiEndpoint.getCopyVariablesFromProperties();
+  if (!StringUtils.isEmpty(copyProperties) && (!BooleanStringUtils.isBoolean(copyProperties) || Boolean.parseBoolean(copyProperties))) {
+    Pattern pattern=createPattern(copyProperties,Boolean.parseBoolean(copyProperties));
     Map<String,Object> exchangeVarMap=exchange.getProperties();
     for (    String s : exchangeVarMap.keySet()) {
       if (IGNORE_MESSAGE_PROPERTY.equalsIgnoreCase(s) == false) {
@@ -9,8 +10,9 @@
       }
     }
   }
-  if (!StringUtils.isEmpty(activitiEndpoint.getCopyVariablesFromHeader()) && (!activitiEndpoint.isCopyVariablesFromHeaderBoolean() || activitiEndpoint.copyVariablesFromHeaderAsBoolean())) {
-    Pattern pattern=createPattern(activitiEndpoint.getCopyVariablesFromHeader(),activitiEndpoint.copyVariablesFromHeaderAsBoolean());
+  String copyHeader=activitiEndpoint.getCopyVariablesFromHeader();
+  if (!StringUtils.isEmpty(copyHeader) && (!BooleanStringUtils.isBoolean(copyHeader) || Boolean.parseBoolean(copyHeader))) {
+    Pattern pattern=createPattern(copyHeader,Boolean.parseBoolean(copyHeader));
     boolean isSetProcessInitiator=activitiEndpoint.isSetProcessInitiator();
     for (    Map.Entry<String,Object> header : exchange.getIn().getHeaders().entrySet()) {
       if ((!isSetProcessInitiator || activitiEndpoint.getProcessInitiatorHeaderName().equals(header.getKey())) && (pattern == null || pattern.matcher(header.getKey()).matches())) {
