@@ -1,0 +1,14 @@
+{
+  Pattern pattern=null;
+  if (!StringUtils.isEmpty(propertyString) && (!isBoolean || asBoolean)) {
+    if (!asBoolean) {
+      String copyVariablesFromProperties=propertyString;
+      pattern=patternsCache.get(copyVariablesFromProperties);
+      if (pattern == null) {
+        pattern=Pattern.compile(copyVariablesFromProperties);
+        patternsCache.put(copyVariablesFromProperties,pattern);
+      }
+    }
+  }
+  return pattern;
+}
