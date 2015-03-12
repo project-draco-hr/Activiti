@@ -1,0 +1,15 @@
+{
+  List<ActivityImpl> activities=((ProcessDefinitionEntity)def).getActivities();
+  for (  ActivityImpl activity : activities) {
+    List<TimerDeclarationImpl> activityTimerDeclarations=(List<TimerDeclarationImpl>)activity.getProperty("timerDeclarations");
+    if (activityTimerDeclarations != null) {
+      for (      TimerDeclarationImpl timerDeclaration : activityTimerDeclarations) {
+        String definitionActivityId=TimerEventHandler.getActivityIdFromConfiguration(timerDeclaration.getJobHandlerConfiguration());
+        if (timerDeclaration.getJobHandlerType().equalsIgnoreCase(jobHandlerType) && (definitionActivityId.equalsIgnoreCase(embededActivityId))) {
+          return calculateMaxIterationsValue(timerDeclaration.getDescription().getExpressionText());
+        }
+      }
+    }
+  }
+  return 1;
+}

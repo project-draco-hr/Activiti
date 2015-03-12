@@ -1,0 +1,64 @@
+{
+  Clock previousClock=processEngineConfiguration.getClock();
+  Clock testClock=new DefaultClockImpl();
+  processEngineConfiguration.setClock(testClock);
+  Date now=new Date();
+  testClock.setCurrentTime(now);
+  listener.clearEventsReceived();
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job");
+  }
+ catch (  Exception e) {
+  }
+  moveByMinutes(60);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job");
+  }
+ catch (  Exception e) {
+  }
+  moveByMinutes(60);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job");
+  }
+ catch (  Exception e) {
+  }
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job");
+  }
+ catch (  Exception e) {
+  }
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job");
+  }
+ catch (  Exception e) {
+  }
+  moveByMinutes(60);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job");
+  }
+ catch (  Exception e) {
+  }
+  moveByMinutes(60);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+  }
+ catch (  Exception e) {
+    fail("this is supposed to be the last execution.");
+  }
+  int timerFiredCount=0;
+  List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
+  for (  ActivitiEvent eventReceived : eventsReceived) {
+    if (ActivitiEventType.TIMER_FIRED.equals(eventReceived.getType())) {
+      timerFiredCount++;
+    }
+  }
+  listener.clearEventsReceived();
+  processEngineConfiguration.setClock(previousClock);
+  assertEquals(4,timerFiredCount);
+}

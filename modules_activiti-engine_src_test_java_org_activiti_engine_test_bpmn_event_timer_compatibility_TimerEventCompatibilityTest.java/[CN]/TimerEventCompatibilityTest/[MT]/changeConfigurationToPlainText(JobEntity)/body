@@ -1,0 +1,29 @@
+{
+  String activityId=TimerEventHandler.getActivityIdFromConfiguration(job.getJobHandlerConfiguration());
+  final JobEntity finalJob=job;
+  CommandExecutor commandExecutor=((ProcessEngineImpl)processEngine).getProcessEngineConfiguration().getCommandExecutor();
+  CommandConfig config=new CommandConfig().transactionNotSupported();
+  final String finalActivityId=activityId;
+  commandExecutor.execute(config,new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      DbSqlSession session=commandContext.getSession(DbSqlSession.class);
+      session.delete(finalJob);
+      session.flush();
+      session.commit();
+      return null;
+    }
+  }
+);
+  commandExecutor.execute(config,new Command<Object>(){
+    public Object execute(    CommandContext commandContext){
+      DbSqlSession session=commandContext.getSession(DbSqlSession.class);
+      finalJob.setJobHandlerConfiguration(finalActivityId);
+      finalJob.setId(null);
+      session.insert(finalJob);
+      session.flush();
+      session.commit();
+      return null;
+    }
+  }
+);
+}

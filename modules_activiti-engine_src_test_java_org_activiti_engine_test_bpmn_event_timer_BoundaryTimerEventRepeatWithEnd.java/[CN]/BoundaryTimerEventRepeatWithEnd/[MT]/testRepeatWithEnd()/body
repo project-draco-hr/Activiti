@@ -5,22 +5,11 @@
   DateTimeFormatter fmt=ISODateTimeFormat.dateTime();
   DateTime dt=new DateTime(calendar.getTime());
   String dateStr=fmt.print(dt);
-  calendar.setTime(baseTime);
-  calendar.add(Calendar.HOUR,2);
-  dt=new DateTime(calendar.getTime());
-  String dateStr1=fmt.print(dt);
-  calendar.setTime(baseTime);
-  calendar.add(Calendar.HOUR,1);
-  calendar.add(Calendar.MINUTE,30);
-  dt=new DateTime(calendar.getTime());
-  String dateStr2=fmt.print(dt);
   Calendar nextTimeCal=Calendar.getInstance();
   nextTimeCal.setTime(baseTime);
   processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("repeatWithEnd");
   runtimeService.setVariable(processInstance.getId(),"EndDateForBoundary",dateStr);
-  runtimeService.setVariable(processInstance.getId(),"EndDateForCatch1",dateStr1);
-  runtimeService.setVariable(processInstance.getId(),"EndDateForCatch2",dateStr2);
   List<Task> tasks=taskService.createTaskQuery().list();
   assertEquals(1,tasks.size());
   Task task=tasks.get(0);
@@ -28,44 +17,38 @@
   taskService.complete(task.getId());
   List<Job> jobs=managementService.createJobQuery().list();
   assertEquals(1,jobs.size());
-  managementService.executeJob(jobs.get(0).getId());
-  jobs=managementService.createJobQuery().list();
-  assertEquals(1,jobs.size());
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,100);
+    fail("a new job must be prepared because there are 20 repeats 2 seconds interval");
+  }
+ catch (  Exception ex) {
+  }
   nextTimeCal.add(Calendar.MINUTE,15);
   processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
-  managementService.executeJob(jobs.get(0).getId());
-  jobs=managementService.createJobQuery().list();
-  assertEquals(1,jobs.size());
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,100);
+    fail("a new job must be prepared because there are 20 repeats 2 seconds interval");
+  }
+ catch (  Exception ex) {
+  }
   nextTimeCal.add(Calendar.MINUTE,5);
   nextTimeCal.add(Calendar.SECOND,1);
   processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
-  managementService.executeJob(jobs.get(0).getId());
-  jobs=managementService.createJobQuery().list();
-  assertEquals(0,jobs.size());
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,100);
+  }
+ catch (  Exception ex) {
+    fail("Should not have any other jobs because the endDate is reached");
+  }
   tasks=taskService.createTaskQuery().list();
-  assertEquals(1,tasks.size());
   task=tasks.get(0);
   assertEquals("Task B",task.getName());
+  assertEquals(1,tasks.size());
   taskService.complete(task.getId());
   try {
     waitForJobExecutorToProcessAllJobs(2000,500);
-    fail("Expected that job isn't executed because the timer is in t0");
   }
  catch (  Exception e) {
+    fail("No jobs should be active here.");
   }
-  nextTimeCal.add(Calendar.HOUR,1);
-  processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
-  waitForJobExecutorToProcessAllJobs(2000,500);
-  jobs=managementService.createJobQuery().list();
-  assertEquals(0,jobs.size());
-  tasks=taskService.createTaskQuery().list();
-  assertEquals(1,tasks.size());
-  task=tasks.get(0);
-  assertEquals("Task C",task.getName());
-  taskService.complete(task.getId());
-  nextTimeCal.add(Calendar.MINUTE,10);
-  processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
-  waitForJobExecutorToProcessAllJobs(2000,500);
-  HistoricProcessInstance historicInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
-  assertNotNull(historicInstance.getEndTime());
 }

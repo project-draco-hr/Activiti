@@ -1,0 +1,52 @@
+{
+  Clock previousClock=processEngineConfiguration.getClock();
+  Clock testClock=new DefaultClockImpl();
+  processEngineConfiguration.setClock(testClock);
+  Date now=new Date();
+  testClock.setCurrentTime(now);
+  listener.clearEventsReceived();
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job but will not execute since the endDate is overdue");
+  }
+ catch (  Exception e) {
+  }
+  moveByMinutes(60 * 24);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+  }
+ catch (  Exception e) {
+    fail("Because the endDate is reached it will not be executed");
+  }
+  moveByMinutes(60 * 24);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+  }
+ catch (  Exception e) {
+    fail("Because the endDate is reached it will not be executed");
+  }
+  moveByMinutes(60 * 24);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+  }
+ catch (  Exception e) {
+    fail("Because the endDate is reached it will not be executed");
+  }
+  moveByMinutes(60 * 24);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+  }
+ catch (  Exception e) {
+    fail("Because the endDate is reached it will not be executed");
+  }
+  int timerFiredCount=0;
+  List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
+  for (  ActivitiEvent eventReceived : eventsReceived) {
+    if (ActivitiEventType.TIMER_FIRED.equals(eventReceived.getType())) {
+      timerFiredCount++;
+    }
+  }
+  listener.clearEventsReceived();
+  processEngineConfiguration.setClock(previousClock);
+  assertEquals(0,timerFiredCount);
+}

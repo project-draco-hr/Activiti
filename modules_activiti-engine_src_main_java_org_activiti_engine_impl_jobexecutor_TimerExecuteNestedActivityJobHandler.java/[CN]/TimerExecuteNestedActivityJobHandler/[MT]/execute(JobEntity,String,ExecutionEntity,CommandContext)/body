@@ -1,6 +1,5 @@
 {
-  JSONObject cfgJson=new JSONObject(configuration);
-  String nestedActivityId=(String)cfgJson.get(PROPERTYNAME_TIMER_ACTIVITY_ID);
+  String nestedActivityId=TimerEventHandler.getActivityIdFromConfiguration(configuration);
   ActivityImpl borderEventActivity=execution.getProcessDefinition().findActivity(nestedActivityId);
   if (borderEventActivity == null) {
     throw new ActivitiException("Error while firing timer: border event activity " + nestedActivityId + " not found");

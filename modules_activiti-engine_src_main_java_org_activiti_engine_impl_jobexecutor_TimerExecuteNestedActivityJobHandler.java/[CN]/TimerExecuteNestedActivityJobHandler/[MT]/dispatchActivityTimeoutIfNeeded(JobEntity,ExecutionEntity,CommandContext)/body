@@ -1,6 +1,5 @@
 {
-  JSONObject cfgJson=new JSONObject(timerEntity.getJobHandlerConfiguration());
-  String nestedActivityId=(String)cfgJson.get(PROPERTYNAME_TIMER_ACTIVITY_ID);
+  String nestedActivityId=TimerEventHandler.getActivityIdFromConfiguration(timerEntity.getJobHandlerConfiguration());
   ActivityImpl boundaryEventActivity=execution.getProcessDefinition().findActivity(nestedActivityId);
   ActivityBehavior boundaryActivityBehavior=boundaryEventActivity.getActivityBehavior();
   if (boundaryActivityBehavior instanceof BoundaryEventActivityBehavior) {
