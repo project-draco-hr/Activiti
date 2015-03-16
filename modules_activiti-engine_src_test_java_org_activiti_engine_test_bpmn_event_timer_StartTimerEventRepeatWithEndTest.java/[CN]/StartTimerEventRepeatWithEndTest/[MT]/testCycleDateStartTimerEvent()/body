@@ -2,12 +2,22 @@
   Clock previousClock=processEngineConfiguration.getClock();
   Clock testClock=new DefaultClockImpl();
   processEngineConfiguration.setClock(testClock);
-  Date now=new Date();
-  testClock.setCurrentTime(now);
+  Calendar calendar=Calendar.getInstance();
+  calendar.set(2025,Calendar.DECEMBER,10,0,0,0);
+  testClock.setCurrentTime(calendar.getTime());
+  repositoryService.createDeployment().addClasspathResource("org/activiti/engine/test/bpmn/event/timer/StartTimerEventRepeatWithEndTest.testCycleDateStartTimerEvent.bpmn20.xml").deploy();
+  assertEquals(1,repositoryService.createProcessDefinitionQuery().count());
   listener.clearEventsReceived();
   try {
     waitForJobExecutorToProcessAllJobs(2000,500);
-    fail("there must be a pending job but will not execute since the endDate is overdue");
+    fail("there must be a pending job because the endDate is not reached yet");
+  }
+ catch (  Exception e) {
+  }
+  moveByMinutes(60 * 24);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,500);
+    fail("there must be a pending job because the endDate is not reached yet");
   }
  catch (  Exception e) {
   }
@@ -16,28 +26,14 @@
     waitForJobExecutorToProcessAllJobs(2000,500);
   }
  catch (  Exception e) {
-    fail("Because the endDate is reached it will not be executed");
+    fail("Because the endDate is reached it will not be executed other jobs");
   }
   moveByMinutes(60 * 24);
   try {
     waitForJobExecutorToProcessAllJobs(2000,500);
   }
  catch (  Exception e) {
-    fail("Because the endDate is reached it will not be executed");
-  }
-  moveByMinutes(60 * 24);
-  try {
-    waitForJobExecutorToProcessAllJobs(2000,500);
-  }
- catch (  Exception e) {
-    fail("Because the endDate is reached it will not be executed");
-  }
-  moveByMinutes(60 * 24);
-  try {
-    waitForJobExecutorToProcessAllJobs(2000,500);
-  }
- catch (  Exception e) {
-    fail("Because the endDate is reached it will not be executed");
+    fail("Because the endDate is reached it will not be executed other jobs");
   }
   int timerFiredCount=0;
   List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
@@ -48,5 +44,6 @@
   }
   listener.clearEventsReceived();
   processEngineConfiguration.setClock(previousClock);
-  assertEquals(0,timerFiredCount);
+  assertEquals(2,timerFiredCount);
+  repositoryService.deleteDeployment(repositoryService.createDeploymentQuery().singleResult().getId(),true);
 }
