@@ -54,4 +54,10 @@
  catch (  Exception e) {
     fail("No jobs should be active here.");
   }
+  List<ProcessInstance> processInstances=runtimeService.createProcessInstanceQuery().list();
+  assertEquals(0,processInstances.size());
+  jobs=managementService.createJobQuery().list();
+  assertEquals(0,jobs.size());
+  tasks=taskService.createTaskQuery().list();
+  assertEquals(0,tasks.size());
 }
