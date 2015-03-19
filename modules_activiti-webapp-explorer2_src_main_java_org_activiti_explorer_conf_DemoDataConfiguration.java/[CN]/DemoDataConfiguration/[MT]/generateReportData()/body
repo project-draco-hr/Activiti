@@ -1,7 +1,12 @@
 {
   Thread thread=new Thread(new Runnable(){
     public void run(){
-      processEngineConfiguration.getJobExecutor().shutdown();
+      if (processEngineConfiguration.isAsyncExecutorEnabled() && processEngineConfiguration.getAsyncExecutor() != null) {
+        processEngineConfiguration.getAsyncExecutor().shutdown();
+      }
+ else       if (processEngineConfiguration.isAsyncExecutorEnabled() == false && processEngineConfiguration.getJobExecutor() != null) {
+        processEngineConfiguration.getJobExecutor().shutdown();
+      }
       Random random=new Random();
       Date now=new Date(new Date().getTime() - (24 * 60 * 60* 1000));
       processEngineConfiguration.getClock().setCurrentTime(now);
@@ -43,7 +48,12 @@
         tasks=taskService.createTaskQuery().list();
       }
       processEngineConfiguration.getClock().reset();
-      processEngineConfiguration.getJobExecutor().start();
+      if (processEngineConfiguration.isAsyncExecutorEnabled() && processEngineConfiguration.getAsyncExecutor() != null) {
+        processEngineConfiguration.getAsyncExecutor().start();
+      }
+ else       if (processEngineConfiguration.isAsyncExecutorEnabled() == false && processEngineConfiguration.getJobExecutor() != null) {
+        processEngineConfiguration.getJobExecutor().start();
+      }
       LOGGER.info("Demo report data generated");
     }
   }

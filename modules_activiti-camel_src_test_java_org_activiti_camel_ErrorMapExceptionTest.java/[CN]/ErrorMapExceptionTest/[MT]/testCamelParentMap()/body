@@ -1,0 +1,11 @@
+{
+  camelContext.addRoutes(new RouteBuilder(){
+    @Override public void configure() throws Exception {
+      from("activiti:mapExceptionParentProcess:exceptionRoute").throwException(new MapExceptionChild("test exception"));
+    }
+  }
+);
+  FlagJavaDelegate.reset();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("mapExceptionParentProcess");
+  assertTrue(FlagJavaDelegate.isFlagSet());
+}

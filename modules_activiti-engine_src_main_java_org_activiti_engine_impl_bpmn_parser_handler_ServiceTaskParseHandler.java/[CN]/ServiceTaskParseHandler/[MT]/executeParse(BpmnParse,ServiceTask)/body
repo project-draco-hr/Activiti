@@ -3,6 +3,7 @@
   activity.setAsync(serviceTask.isAsynchronous());
   activity.setFailedJobRetryTimeCycleValue(serviceTask.getFailedJobRetryTimeCycleValue());
   activity.setExclusive(!serviceTask.isNotExclusive());
+  activity.setMapExceptions(serviceTask.getMapExceptions());
   if (StringUtils.isNotEmpty(serviceTask.getType())) {
     if (serviceTask.getType().equalsIgnoreCase("mail")) {
       activity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createMailActivityBehavior(serviceTask));

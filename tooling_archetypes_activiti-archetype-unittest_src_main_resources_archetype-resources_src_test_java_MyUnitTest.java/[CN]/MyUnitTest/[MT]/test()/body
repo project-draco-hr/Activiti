@@ -1,0 +1,6 @@
+{
+  ProcessInstance processInstance=activitiRule.getRuntimeService().startProcessInstanceByKey("my-process");
+  assertNotNull(processInstance);
+  Task task=activitiRule.getTaskService().createTaskQuery().singleResult();
+  assertEquals("Activiti is awesome!",task.getName());
+}

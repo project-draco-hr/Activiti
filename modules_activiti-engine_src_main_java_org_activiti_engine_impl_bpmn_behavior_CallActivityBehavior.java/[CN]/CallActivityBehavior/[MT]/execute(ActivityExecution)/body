@@ -24,5 +24,10 @@
     }
     subProcessInstance.setVariable(dataInputAssociation.getTarget(),value);
   }
-  subProcessInstance.start();
+  try {
+    subProcessInstance.start();
+  }
+ catch (  Exception e) {
+    if (!ErrorPropagation.mapException(e,execution,mapExceptions,true))     throw e;
+  }
 }

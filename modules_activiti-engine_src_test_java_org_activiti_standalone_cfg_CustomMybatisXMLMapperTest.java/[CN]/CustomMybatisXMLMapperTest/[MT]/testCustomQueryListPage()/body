@@ -2,9 +2,8 @@
   for (int i=0; i < 15; i++) {
     createTask(i + "",null,null,0);
   }
-  CommandExecutor commandExecutor=((ManagementServiceImpl)managementService).getCommandExecutor();
-  List<Task> tasks=new CustomTaskQuery(commandExecutor).listPage(0,10);
+  List<CustomTask> tasks=new CustomTaskQuery(managementService).listPage(0,10);
   assertEquals(10,tasks.size());
-  tasks=new CustomTaskQuery(commandExecutor).list();
-  deleteTasks(tasks);
+  tasks=new CustomTaskQuery(managementService).list();
+  deleteCustomTasks(tasks);
 }

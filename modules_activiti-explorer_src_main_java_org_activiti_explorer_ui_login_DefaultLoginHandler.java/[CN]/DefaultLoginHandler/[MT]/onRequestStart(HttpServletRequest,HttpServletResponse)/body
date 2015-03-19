@@ -1,2 +1,5 @@
 {
+  if (ExplorerApp.get().getLoggedInUser() != null && request.getSession(false) != null) {
+    request.getSession().setAttribute(Constants.AUTHENTICATED_USER_ID,ExplorerApp.get().getLoggedInUser().getId());
+  }
 }

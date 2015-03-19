@@ -8,7 +8,7 @@
   String defaultOrderByClause=column + " " + sortOrder;
   if (nullHandlingOnOrder != null) {
     if (nullHandlingOnOrder.equals(NullHandlingOnOrder.NULLS_FIRST)) {
-      if (ProcessEngineConfigurationImpl.DATABASE_TYPE_H2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_POSTGRES.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_ORACLE.equals(databaseType)) {
+      if (ProcessEngineConfigurationImpl.DATABASE_TYPE_H2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_HSQL.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_POSTGRES.equals(databaseType)|| ProcessEngineConfigurationImpl.DATABASE_TYPE_ORACLE.equals(databaseType)) {
         orderBy=orderBy + defaultOrderByClause + " NULLS FIRST";
       }
  else       if (ProcessEngineConfigurationImpl.DATABASE_TYPE_MYSQL.equals(databaseType)) {
@@ -22,7 +22,7 @@
       }
     }
  else     if (nullHandlingOnOrder.equals(NullHandlingOnOrder.NULLS_LAST)) {
-      if (ProcessEngineConfigurationImpl.DATABASE_TYPE_H2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_POSTGRES.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_ORACLE.equals(databaseType)) {
+      if (ProcessEngineConfigurationImpl.DATABASE_TYPE_H2.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_HSQL.equals(databaseType) || ProcessEngineConfigurationImpl.DATABASE_TYPE_POSTGRES.equals(databaseType)|| ProcessEngineConfigurationImpl.DATABASE_TYPE_ORACLE.equals(databaseType)) {
         orderBy=orderBy + column + " "+ sortOrder+ " NULLS LAST";
       }
  else       if (ProcessEngineConfigurationImpl.DATABASE_TYPE_MYSQL.equals(databaseType)) {
