@@ -18,7 +18,7 @@
   List<Job> jobs=managementService.createJobQuery().list();
   assertEquals(1,jobs.size());
   try {
-    waitForJobExecutorToProcessAllJobs(2000,100);
+    waitForJobExecutorToProcessAllJobs(2000,200);
     fail("a new job must be prepared because there are 20 repeats 2 seconds interval");
   }
  catch (  Exception ex) {
@@ -26,7 +26,7 @@
   nextTimeCal.add(Calendar.MINUTE,15);
   processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
   try {
-    waitForJobExecutorToProcessAllJobs(2000,100);
+    waitForJobExecutorToProcessAllJobs(2000,200);
     fail("a new job must be prepared because there are 20 repeats 2 seconds interval");
   }
  catch (  Exception ex) {
@@ -35,7 +35,7 @@
   nextTimeCal.add(Calendar.SECOND,1);
   processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
   try {
-    waitForJobExecutorToProcessAllJobs(2000,100);
+    waitForJobExecutorToProcessAllJobs(2000,200);
   }
  catch (  Exception ex) {
     fail("Should not have any other jobs because the endDate is reached");

@@ -32,7 +32,7 @@
   }
   nextTimeCal.add(Calendar.HOUR,1);
   processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
-  waitForJobExecutorToProcessAllJobs(2000,500);
+  waitForJobExecutorToProcessAllJobs(2000,200);
   List<Job> jobs=managementService.createJobQuery().list();
   assertEquals(0,jobs.size());
   tasks=taskService.createTaskQuery().list();
