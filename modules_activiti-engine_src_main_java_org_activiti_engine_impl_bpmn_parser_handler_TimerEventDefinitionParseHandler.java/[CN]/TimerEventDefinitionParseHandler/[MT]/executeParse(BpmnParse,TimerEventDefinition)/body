@@ -4,7 +4,11 @@
     ProcessDefinitionEntity processDefinition=bpmnParse.getCurrentProcessDefinition();
     timerActivity.setProperty("type","startTimerEvent");
     TimerDeclarationImpl timerDeclaration=createTimer(bpmnParse,timerEventDefinition,timerActivity,TimerStartEventJobHandler.TYPE);
-    timerDeclaration.setJobHandlerConfiguration(processDefinition.getKey());
+    String jobHandlerConfiguration=timerDeclaration.getJobHandlerConfiguration();
+    Map<String,JobHandler> jobHandlers=Context.getProcessEngineConfiguration().getJobHandlers();
+    JobHandler jobHandler=jobHandlers.get(TimerStartEventJobHandler.TYPE);
+    jobHandlerConfiguration=((TimerEventHandler)jobHandler).setActivityIdToConfiguration(jobHandlerConfiguration,processDefinition.getKey());
+    timerDeclaration.setJobHandlerConfiguration(jobHandlerConfiguration);
     List<TimerDeclarationImpl> timerDeclarations=(List<TimerDeclarationImpl>)processDefinition.getProperty(PROPERTYNAME_START_TIMER);
     if (timerDeclarations == null) {
       timerDeclarations=new ArrayList<TimerDeclarationImpl>();

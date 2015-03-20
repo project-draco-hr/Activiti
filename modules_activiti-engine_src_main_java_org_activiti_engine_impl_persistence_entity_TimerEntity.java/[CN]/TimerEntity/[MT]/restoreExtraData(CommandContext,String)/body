@@ -1,0 +1,41 @@
+{
+  String embededActivityId=jobHandlerConfiguration;
+  if (jobHandlerType.equalsIgnoreCase(TimerExecuteNestedActivityJobHandler.TYPE) || jobHandlerType.equalsIgnoreCase(TimerCatchIntermediateEventJobHandler.TYPE) || jobHandlerType.equalsIgnoreCase(TimerStartEventJobHandler.TYPE)) {
+    embededActivityId=TimerEventHandler.getActivityIdFromConfiguration(jobHandlerConfiguration);
+    String endDateExpressionString=TimerEventHandler.getEndDateFromConfiguration(jobHandlerConfiguration);
+    if (endDateExpressionString != null) {
+      Expression endDateExpression=Context.getProcessEngineConfiguration().getExpressionManager().createExpression(endDateExpressionString);
+      String endDateString=null;
+      BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(CycleBusinessCalendar.NAME);
+      VariableScope executionEntity=commandContext.getExecutionEntityManager().findExecutionById(this.getExecutionId());
+      if (executionEntity == null) {
+        executionEntity=NoExecutionVariableScope.getSharedInstance();
+      }
+      if (endDateExpression != null) {
+        Object endDateValue=endDateExpression.getValue(executionEntity);
+        if (endDateValue instanceof String) {
+          endDateString=(String)endDateValue;
+        }
+ else         if (endDateValue instanceof Date) {
+          endDate=(Date)endDateValue;
+        }
+ else {
+          throw new ActivitiException("Timer '" + ((ExecutionEntity)executionEntity).getActivityId() + "' was not configured with a valid duration/time, either hand in a java.util.Date or a String in format 'yyyy-MM-dd'T'hh:mm:ss'");
+        }
+        if (endDate == null) {
+          endDate=businessCalendar.resolveEndDate(endDateString);
+        }
+      }
+    }
+  }
+  if (processDefinitionId != null) {
+    ProcessDefinition def=Context.getProcessEngineConfiguration().getRepositoryService().getProcessDefinition(processDefinitionId);
+    maxIterations=checkStartEventDefinitions(def,embededActivityId);
+    if (maxIterations <= 1) {
+      maxIterations=checkBoundaryEventsDefinitions(def,embededActivityId);
+    }
+  }
+ else {
+    maxIterations=1;
+  }
+}

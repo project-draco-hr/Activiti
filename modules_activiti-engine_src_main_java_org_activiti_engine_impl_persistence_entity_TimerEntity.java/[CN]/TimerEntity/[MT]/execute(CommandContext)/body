@@ -1,20 +1,25 @@
 {
-  super.execute(commandContext);
-  if (repeat == null) {
+  restoreExtraData(commandContext,jobHandlerConfiguration);
+  if (this.getDuedate() != null && !isValidTime(this.getDuedate())) {
     if (log.isDebugEnabled()) {
-      log.debug("Timer {} fired. Deleting timer.",getId());
+      log.debug("Timer {} fired. but the dueDate is after the endDate.  Deleting timer.",getId());
     }
     delete();
+    return;
   }
- else {
-    delete();
+  super.execute(commandContext);
+  if (log.isDebugEnabled()) {
+    log.debug("Timer {} fired. Deleting timer.",getId());
+  }
+  delete();
+  if (repeat != null) {
     int repeatValue=calculateRepeatValue();
     if (repeatValue != 0) {
       if (repeatValue > 0) {
         setNewRepeat(repeatValue);
       }
-      Date newTimer=calculateRepeat();
-      if (newTimer != null) {
+      Date newTimer=calculateNextTimer();
+      if (newTimer != null && isValidTime(newTimer)) {
         TimerEntity te=new TimerEntity(this);
         te.setDuedate(newTimer);
         Context.getCommandContext().getJobEntityManager().schedule(te);

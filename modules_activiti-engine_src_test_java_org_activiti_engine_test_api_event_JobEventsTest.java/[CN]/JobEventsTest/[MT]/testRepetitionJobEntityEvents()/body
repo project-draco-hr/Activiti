@@ -15,12 +15,33 @@
   assertEquals(ActivitiEventType.ENTITY_INITIALIZED,event.getType());
   checkEventContext(event,theJob,false);
   listener.clearEventsReceived();
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,100);
+    fail("a new job must be prepared because there are 2 repeats");
+  }
+ catch (  Exception ex) {
+  }
   testClock.setCurrentTime(new Date(now.getTime() + 10000L));
-  waitForJobExecutorToProcessAllJobs(20000,100);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,100);
+    fail("a new job must be prepared because there are 2 repeats");
+  }
+ catch (  Exception ex) {
+  }
   testClock.setCurrentTime(new Date(now.getTime() + 20000L));
-  waitForJobExecutorToProcessAllJobs(20000,100);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,100);
+  }
+ catch (  Exception ex) {
+    fail("There must be no jobs remaining");
+  }
   testClock.setCurrentTime(new Date(now.getTime() + 30000L));
-  waitForJobExecutorToProcessAllJobs(20000,100);
+  try {
+    waitForJobExecutorToProcessAllJobs(2000,100);
+  }
+ catch (  Exception ex) {
+    fail("There must be no jobs remaining");
+  }
   int timerFiredCount=0;
   List<ActivitiEvent> eventsReceived=listener.getEventsReceived();
   for (  ActivitiEvent eventReceived : eventsReceived) {

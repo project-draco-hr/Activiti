@@ -3,11 +3,28 @@
   if (description == null) {
     throw new ActivitiIllegalArgumentException("Timer '" + executionEntity.getActivityId() + "' was not configured with a valid duration/time");
   }
+  String endDateString=null;
   String dueDateString=null;
   Date duedate=null;
+  Date endDate=null;
   VariableScope scopeForExpression=executionEntity;
   if (scopeForExpression == null) {
     scopeForExpression=NoExecutionVariableScope.getSharedInstance();
+  }
+  if (endDateExpression != null && !(scopeForExpression instanceof NoExecutionVariableScope)) {
+    Object endDateValue=endDateExpression.getValue(scopeForExpression);
+    if (endDateValue instanceof String) {
+      endDateString=(String)endDateValue;
+    }
+ else     if (endDateValue instanceof Date) {
+      endDate=(Date)endDateValue;
+    }
+ else {
+      throw new ActivitiException("Timer '" + executionEntity.getActivityId() + "' was not configured with a valid duration/time, either hand in a java.util.Date or a String in format 'yyyy-MM-dd'T'hh:mm:ss'");
+    }
+    if (endDate == null) {
+      endDate=businessCalendar.resolveEndDate(endDateString);
+    }
   }
   Object dueDateValue=description.getValue(scopeForExpression);
   if (dueDateValue instanceof String) {
@@ -24,6 +41,7 @@
   }
   TimerEntity timer=new TimerEntity(this);
   timer.setDuedate(duedate);
+  timer.setEndDate(endDate);
   if (executionEntity != null) {
     timer.setExecution(executionEntity);
     timer.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
@@ -36,6 +54,12 @@
     boolean repeat=!isInterruptingTimer;
     if (TimerCatchIntermediateEventJobHandler.TYPE.equals(jobHandlerType)) {
       repeat=false;
+      if (endDate != null) {
+        long endDateMiliss=endDate.getTime();
+        long dueDateMiliss=duedate.getTime();
+        long dueDate=Math.min(endDateMiliss,dueDateMiliss);
+        timer.setDuedate(new Date(dueDate));
+      }
     }
     if (repeat) {
       String prepared=prepareRepeat(dueDateString);

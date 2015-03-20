@@ -8,10 +8,17 @@
     if (indexOfP != -1) {
       String prefix=eventDefinition.getMessageRef().substring(0,indexOfP);
       String resolvedNamespace=model.getNamespace(prefix);
-      eventDefinition.setMessageRef(resolvedNamespace + ":" + eventDefinition.getMessageRef().substring(indexOfP + 1));
+      String messageRef=eventDefinition.getMessageRef().substring(indexOfP + 1);
+      if (resolvedNamespace == null) {
+        messageRef=prefix + ":" + messageRef;
+      }
+ else       if (!resolvedNamespace.equalsIgnoreCase(model.getTargetNamespace())) {
+        messageRef=resolvedNamespace + ":" + messageRef;
+      }
+      eventDefinition.setMessageRef(messageRef);
     }
  else {
-      eventDefinition.setMessageRef(model.getTargetNamespace() + ":" + eventDefinition.getMessageRef());
+      eventDefinition.setMessageRef(eventDefinition.getMessageRef());
     }
   }
   BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_MESSAGEDEFINITION,eventDefinition,xtr,model);

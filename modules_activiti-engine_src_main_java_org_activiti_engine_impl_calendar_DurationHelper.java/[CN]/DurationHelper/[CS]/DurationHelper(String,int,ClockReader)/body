@@ -1,0 +1,31 @@
+{
+  this.clockReader=clockReader;
+  this.maxIterations=maxIterations;
+  List<String> expression=Arrays.asList(expressionS.split("/"));
+  datatypeFactory=DatatypeFactory.newInstance();
+  if (expression.size() > 3 || expression.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Cannot parse duration");
+  }
+  if (expression.get(0).startsWith("R")) {
+    isRepeat=true;
+    times=expression.get(0).length() == 1 ? Integer.MAX_VALUE - 1 : Integer.parseInt(expression.get(0).substring(1));
+    expression=expression.subList(1,expression.size());
+  }
+  if (isDuration(expression.get(0))) {
+    period=parsePeriod(expression.get(0));
+    end=expression.size() == 1 ? null : parseDate(expression.get(1));
+  }
+ else {
+    start=parseDate(expression.get(0));
+    if (isDuration(expression.get(1))) {
+      period=parsePeriod(expression.get(1));
+    }
+ else {
+      end=parseDate(expression.get(1));
+      period=datatypeFactory.newDuration(end.getTimeInMillis() - start.getTimeInMillis());
+    }
+  }
+  if (start == null) {
+    start=clockReader.getCurrentCalendar();
+  }
+}
