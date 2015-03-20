@@ -5,11 +5,15 @@
     if (indexOfP != -1) {
       String prefix=messageRef.substring(0,indexOfP);
       String resolvedNamespace=model.getNamespace(prefix);
-      result=resolvedNamespace + ":" + messageRef.substring(indexOfP + 1);
+      messageRef=messageRef.substring(indexOfP + 1);
+      if (resolvedNamespace == null) {
+        messageRef=prefix + ":" + messageRef;
+      }
+ else       if (!resolvedNamespace.equalsIgnoreCase(model.getTargetNamespace())) {
+        messageRef=resolvedNamespace + ":" + messageRef;
+      }
     }
- else {
-      result=model.getTargetNamespace() + ":" + messageRef;
-    }
+    result=messageRef;
   }
   return result;
 }
