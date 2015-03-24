@@ -1,0 +1,14 @@
+{
+  JSONObject cfgJson=null;
+  try {
+    cfgJson=new JSONObject(jobHandlerConfiguration);
+  }
+ catch (  JSONException ex) {
+    cfgJson=new JSONObject();
+    cfgJson.put(PROPERTYNAME_TIMER_ACTIVITY_ID,jobHandlerConfiguration);
+  }
+  if (endDate != null) {
+    cfgJson.put(PROPERTYNAME_END_DATE_EXPRESSION,endDate);
+  }
+  return cfgJson.toString();
+}

@@ -1,7 +1,8 @@
 {
-  ActivityImpl borderEventActivity=execution.getProcessDefinition().findActivity(configuration);
+  String nestedActivityId=TimerEventHandler.getActivityIdFromConfiguration(configuration);
+  ActivityImpl borderEventActivity=execution.getProcessDefinition().findActivity(nestedActivityId);
   if (borderEventActivity == null) {
-    throw new ActivitiException("Error while firing timer: border event activity " + configuration + " not found");
+    throw new ActivitiException("Error while firing timer: border event activity " + nestedActivityId + " not found");
   }
   try {
     if (commandContext.getEventDispatcher().isEnabled()) {

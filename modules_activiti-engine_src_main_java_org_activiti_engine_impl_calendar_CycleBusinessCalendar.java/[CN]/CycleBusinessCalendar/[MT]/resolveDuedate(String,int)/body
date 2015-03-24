@@ -1,0 +1,14 @@
+{
+  try {
+    if (duedateDescription != null && duedateDescription.startsWith("R")) {
+      return new DurationHelper(duedateDescription,maxIterations,clockReader).getDateAfter();
+    }
+ else {
+      CronExpression ce=new CronExpression(duedateDescription,clockReader);
+      return ce.getTimeAfter(clockReader.getCurrentTime());
+    }
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Failed to parse cron expression: " + duedateDescription,e);
+  }
+}

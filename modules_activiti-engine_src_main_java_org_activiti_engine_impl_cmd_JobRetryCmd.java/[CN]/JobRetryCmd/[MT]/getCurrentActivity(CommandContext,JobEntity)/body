@@ -9,7 +9,11 @@
   }
  else   if (TimerStartEventJobHandler.TYPE.equals(type)) {
     DeploymentManager deploymentManager=commandContext.getProcessEngineConfiguration().getDeploymentManager();
-    ProcessDefinitionEntity processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKeyAndTenantId(job.getJobHandlerConfiguration(),job.getTenantId());
+    String processId=job.getJobHandlerConfiguration();
+    if (job instanceof TimerEntity) {
+      processId=TimerEventHandler.getActivityIdFromConfiguration(job.getJobHandlerConfiguration());
+    }
+    ProcessDefinitionEntity processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKeyAndTenantId(processId,job.getTenantId());
     if (processDefinition != null) {
       activity=processDefinition.getInitial();
     }

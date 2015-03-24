@@ -2,6 +2,7 @@
   String timeDate=getPropertyValueAsString(PROPERTY_TIMER_DATE,objectNode);
   String timeCycle=getPropertyValueAsString(PROPERTY_TIMER_CYCLE,objectNode);
   String timeDuration=getPropertyValueAsString(PROPERTY_TIMER_DURATON,objectNode);
+  String endDate=getPropertyValueAsString(PROPERTY_TIMER_CYCLE_END_DATE,objectNode);
   TimerEventDefinition eventDefinition=new TimerEventDefinition();
   if (StringUtils.isNotEmpty(timeDate)) {
     eventDefinition.setTimeDate(timeDate);
@@ -11,6 +12,9 @@
   }
  else   if (StringUtils.isNotEmpty(timeDuration)) {
     eventDefinition.setTimeDuration(timeDuration);
+  }
+  if (StringUtils.isNotEmpty(endDate)) {
+    eventDefinition.setEndDate(endDate);
   }
   event.getEventDefinitions().add(eventDefinition);
 }
