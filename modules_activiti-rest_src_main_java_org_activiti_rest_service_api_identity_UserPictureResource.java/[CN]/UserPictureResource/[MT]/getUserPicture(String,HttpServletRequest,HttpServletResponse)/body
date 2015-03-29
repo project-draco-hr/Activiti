@@ -4,13 +4,15 @@
   if (userPicture == null) {
     throw new ActivitiObjectNotFoundException("The user with id '" + user.getId() + "' does not have a picture.",Picture.class);
   }
-  String mediaType="image/jpeg";
+  HttpHeaders responseHeaders=new HttpHeaders();
   if (userPicture.getMimeType() != null) {
-    mediaType=userPicture.getMimeType();
+    responseHeaders.set("Content-Type",userPicture.getMimeType());
   }
-  response.setContentType(mediaType);
+ else {
+    responseHeaders.set("Content-Type","image/jpeg");
+  }
   try {
-    return IOUtils.toByteArray(userPicture.getInputStream());
+    return new ResponseEntity<byte[]>(IOUtils.toByteArray(userPicture.getInputStream()),responseHeaders,HttpStatus.OK);
   }
  catch (  Exception e) {
     throw new ActivitiException("Error exporting picture: " + e.getMessage(),e);

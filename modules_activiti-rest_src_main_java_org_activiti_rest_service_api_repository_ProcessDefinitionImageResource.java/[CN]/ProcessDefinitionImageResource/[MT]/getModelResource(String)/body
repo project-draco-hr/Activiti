@@ -1,10 +1,17 @@
 {
   ProcessDefinition processDefinition=getProcessDefinitionFromRequest(processDefinitionId);
   InputStream imageStream=repositoryService.getProcessDiagram(processDefinition.getId());
-  try {
-    return IOUtils.toByteArray(imageStream);
+  if (imageStream != null) {
+    HttpHeaders responseHeaders=new HttpHeaders();
+    responseHeaders.set("Content-Type","image/png");
+    try {
+      return new ResponseEntity<byte[]>(IOUtils.toByteArray(imageStream),responseHeaders,HttpStatus.OK);
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Error reading image stream",e);
+    }
   }
- catch (  Exception e) {
-    throw new ActivitiException("Error reading image stream",e);
+ else {
+    throw new ActivitiIllegalArgumentException("Process definition with id '" + processDefinition.getId() + "' has no image.");
   }
 }

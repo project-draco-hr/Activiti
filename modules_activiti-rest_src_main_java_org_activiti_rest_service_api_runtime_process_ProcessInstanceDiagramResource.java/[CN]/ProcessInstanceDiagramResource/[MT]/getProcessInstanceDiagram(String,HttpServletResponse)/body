@@ -1,22 +1,20 @@
 {
   ProcessInstance processInstance=getProcessInstanceFromRequest(processInstanceId);
-  ProcessDefinitionEntity pde=(ProcessDefinitionEntity)((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
-  if (pde != null && pde.isGraphicalNotationDefined()) {
+  ProcessDefinition pde=repositoryService.getProcessDefinition(processInstance.getProcessDefinitionId());
+  if (pde != null && pde.hasGraphicalNotation()) {
     BpmnModel bpmnModel=repositoryService.getBpmnModel(pde.getId());
     ProcessDiagramGenerator diagramGenerator=processEngineConfiguration.getProcessDiagramGenerator();
     InputStream resource=diagramGenerator.generateDiagram(bpmnModel,"png",runtimeService.getActiveActivityIds(processInstance.getId()),Collections.<String>emptyList(),processEngineConfiguration.getActivityFontName(),processEngineConfiguration.getLabelFontName(),processEngineConfiguration.getClassLoader(),1.0);
+    HttpHeaders responseHeaders=new HttpHeaders();
+    responseHeaders.set("Content-Type","image/png");
     try {
-      byte[] responseBytes=IOUtils.toByteArray(resource);
-      response.setContentType("image/png");
-      return responseBytes;
+      return new ResponseEntity<byte[]>(IOUtils.toByteArray(resource),responseHeaders,HttpStatus.OK);
     }
  catch (    Exception e) {
-      response.setContentType("application/json");
       throw new ActivitiIllegalArgumentException("Error exporting diagram",e);
     }
   }
  else {
-    response.setContentType("application/json");
     throw new ActivitiIllegalArgumentException("Process instance with id '" + processInstance.getId() + "' has no graphical notation defined.");
   }
 }
