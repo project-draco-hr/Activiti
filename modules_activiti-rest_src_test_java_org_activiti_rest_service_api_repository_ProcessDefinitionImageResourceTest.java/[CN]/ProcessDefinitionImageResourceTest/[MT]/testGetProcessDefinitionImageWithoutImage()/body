@@ -1,0 +1,6 @@
+{
+  ProcessDefinition oneTaskProcess=repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").singleResult();
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_DEFINITION_IMAGE,oneTaskProcess.getId())),HttpStatus.SC_BAD_REQUEST);
+  assertEquals("application/json",response.getEntity().getContentType().getValue().split(";")[0]);
+  closeResponse(response);
+}
