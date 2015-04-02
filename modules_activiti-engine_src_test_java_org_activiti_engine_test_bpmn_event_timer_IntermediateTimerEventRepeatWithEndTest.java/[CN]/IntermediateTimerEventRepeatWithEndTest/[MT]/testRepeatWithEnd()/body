@@ -43,8 +43,10 @@
   nextTimeCal.add(Calendar.MINUTE,30);
   processEngineConfiguration.getClock().setCurrentTime(nextTimeCal.getTime());
   waitForJobExecutorToProcessAllJobs(2000,500);
-  HistoricProcessInstance historicInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
-  assertNotNull(historicInstance.getEndTime());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricProcessInstance historicInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(historicInstance.getEndTime());
+  }
   List<ProcessInstance> processInstances=runtimeService.createProcessInstanceQuery().list();
   assertEquals(0,processInstances.size());
   jobs=managementService.createJobQuery().list();
