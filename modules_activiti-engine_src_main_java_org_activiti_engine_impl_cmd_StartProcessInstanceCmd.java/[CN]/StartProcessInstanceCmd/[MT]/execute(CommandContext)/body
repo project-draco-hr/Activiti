@@ -26,9 +26,7 @@
     throw new ActivitiException("Cannot start process instance. Process definition " + processDefinition.getName() + " (id = "+ processDefinition.getId()+ ") is suspended");
   }
   ExecutionEntity processInstance=processDefinition.createProcessInstance(businessKey);
-  if (variables != null) {
-    processInstance.setVariables(variables);
-  }
+  initializeVariables(processInstance);
   if (processInstanceName != null) {
     processInstance.setName(processInstanceName);
     commandContext.getHistoryManager().recordProcessInstanceNameChange(processInstance.getId(),processInstanceName);
