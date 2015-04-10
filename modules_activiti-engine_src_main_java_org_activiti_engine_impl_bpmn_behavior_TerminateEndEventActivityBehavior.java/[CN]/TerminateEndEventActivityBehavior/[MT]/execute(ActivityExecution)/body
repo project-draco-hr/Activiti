@@ -1,7 +1,18 @@
 {
-  PvmActivity terminateEndEventActivity=execution.getActivity();
+  ActivityImpl terminateEndEventActivity=(ActivityImpl)execution.getActivity();
   ActivityExecution scopeExecution=ScopeUtil.findScopeExecution(execution);
-  scopeExecution.destroyScope("terminate end event fired");
-  ((InterpretableExecution)scopeExecution).setActivity((ActivityImpl)terminateEndEventActivity);
-  scopeExecution.end();
+  boolean loop=true;
+  while (scopeExecution.getSuperExecutionId() != null && loop) {
+    ActivityExecution superExecution=(ActivityExecution)Context.getProcessEngineConfiguration().getRuntimeService().createExecutionQuery().executionId(scopeExecution.getSuperExecutionId()).singleResult();
+    if (superExecution != null) {
+      while (superExecution.getParent() != null) {
+        superExecution=superExecution.getParent();
+      }
+      scopeExecution=superExecution;
+    }
+ else {
+      loop=false;
+    }
+  }
+  terminateExecution(execution,terminateEndEventActivity,scopeExecution);
 }
