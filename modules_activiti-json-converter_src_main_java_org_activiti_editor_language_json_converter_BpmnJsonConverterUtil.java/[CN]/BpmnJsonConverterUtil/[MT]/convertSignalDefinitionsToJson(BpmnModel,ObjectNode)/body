@@ -1,0 +1,12 @@
+{
+  if (bpmnModel.getSignals() != null) {
+    ArrayNode signalDefinitions=objectMapper.createArrayNode();
+    for (    Signal signal : bpmnModel.getSignals()) {
+      ObjectNode signalNode=signalDefinitions.addObject();
+      signalNode.put(PROPERTY_SIGNAL_DEFINITION_ID,signal.getId());
+      signalNode.put(PROPERTY_SIGNAL_DEFINITION_NAME,signal.getName());
+      signalNode.put(PROPERTY_SIGNAL_DEFINITION_SCOPE,signal.getScope());
+    }
+    propertiesNode.put(PROPERTY_SIGNAL_DEFINITIONS,signalDefinitions);
+  }
+}

@@ -1,7 +1,7 @@
 {
   if (node != null && node.isNull() == false && node.isTextual() && StringUtils.isNotEmpty(node.asText())) {
     try {
-      node=objectMapper.readTree(node.asText());
+      node=validateIfNodeIsTextual(objectMapper.readTree(node.asText()));
     }
  catch (    Exception e) {
       logger.error("Error converting textual node",e);
