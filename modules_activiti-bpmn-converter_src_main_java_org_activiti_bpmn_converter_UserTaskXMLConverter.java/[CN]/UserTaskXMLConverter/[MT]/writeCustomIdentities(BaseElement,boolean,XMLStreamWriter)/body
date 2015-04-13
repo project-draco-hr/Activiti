@@ -1,6 +1,8 @@
 {
   UserTask userTask=(UserTask)element;
-  if (userTask.getCustomUserIdentityLinks().isEmpty() && userTask.getCustomGroupIdentityLinks().isEmpty())   return didWriteExtensionStartElement;
+  if (userTask.getCustomUserIdentityLinks().isEmpty() && userTask.getCustomGroupIdentityLinks().isEmpty()) {
+    return didWriteExtensionStartElement;
+  }
   if (didWriteExtensionStartElement == false) {
     xtw.writeStartElement(ELEMENT_EXTENSIONS);
     didWriteExtensionStartElement=true;
