@@ -1,0 +1,11 @@
+{
+  if (bpmnModel.getMessages() != null) {
+    ArrayNode messageDefinitions=objectMapper.createArrayNode();
+    for (    Message message : bpmnModel.getMessages()) {
+      ObjectNode messageNode=messageDefinitions.addObject();
+      messageNode.put(PROPERTY_MESSAGE_DEFINITION_ID,message.getId());
+      messageNode.put(PROPERTY_MESSAGE_DEFINITION_NAME,message.getName());
+    }
+    propertiesNode.put(PROPERTY_MESSAGE_DEFINITIONS,messageDefinitions);
+  }
+}

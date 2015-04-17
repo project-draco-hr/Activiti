@@ -10,6 +10,9 @@
   if (userTask.getPriority() != null) {
     writeQualifiedAttribute(ATTRIBUTE_TASK_USER_PRIORITY,userTask.getPriority().toString(),xtw);
   }
+  if (StringUtils.isNotEmpty(userTask.getExtensionId())) {
+    writeQualifiedAttribute(ATTRIBUTE_TASK_SERVICE_EXTENSIONID,userTask.getExtensionId(),xtw);
+  }
   if (userTask.getSkipExpression() != null) {
     writeQualifiedAttribute(ATTRIBUTE_TASK_USER_SKIP_EXPRESSION,userTask.getSkipExpression(),xtw);
   }
