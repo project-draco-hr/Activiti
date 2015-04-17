@@ -1,5 +1,4 @@
 {
-  CommandContext commandContext=Context.getCommandContext();
   try {
     if (job.isExclusive()) {
       commandExecutor.execute(new LockExclusiveJobCmd(job));
@@ -9,7 +8,13 @@
     if (log.isDebugEnabled()) {
       log.debug("Optimistic locking exception during exclusive job acquisition. If you have multiple job executors running against the same database, " + "this exception means that this thread tried to acquire an exclusive job, which already was changed by another async executor thread." + "This is expected behavior in a clustered environment. "+ "You can ignore this message if you indeed have multiple job executor acquisition threads running against the same database. "+ "Exception message: {}",optimisticLockingException.getMessage());
     }
-    commandContext.getJobEntityManager().retryAsyncJob(job);
+    commandExecutor.execute(new Command<Void>(){
+      public Void execute(      CommandContext commandContext){
+        commandContext.getJobEntityManager().retryAsyncJob(job);
+        return null;
+      }
+    }
+);
     return;
   }
 catch (  Throwable t) {
