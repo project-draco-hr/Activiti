@@ -3,11 +3,5 @@
   JDefinedClass theClass=(JDefinedClass)mapping.getType().getTypeClass();
   SimpleStructureDefinition structure=new SimpleStructureDefinition(this.namespace + qname.getLocalPart());
   this.structures.put(structure.getId(),structure);
-  Map<String,JFieldVar> fields=theClass.fields();
-  int index=0;
-  for (  Entry<String,JFieldVar> entry : fields.entrySet()) {
-    Class<?> fieldClass=ReflectUtil.loadClass(entry.getValue().type().boxify().fullName());
-    structure.setFieldName(index,entry.getKey(),fieldClass);
-    index++;
-  }
+  importFields(theClass,structure);
 }
