@@ -1,7 +1,7 @@
 {
   Map<String,Object> camelVarMap=new HashMap<String,Object>();
   String copyProperties=activitiEndpoint.getCopyVariablesFromProperties();
-  if (!StringUtils.isEmpty(copyProperties) && (!BooleanStringUtils.isBoolean(copyProperties) || Boolean.parseBoolean(copyProperties))) {
+  if (!StringUtils.isEmpty(copyProperties) && (!isBoolean(copyProperties) || Boolean.parseBoolean(copyProperties))) {
     Pattern pattern=createPattern(copyProperties,Boolean.parseBoolean(copyProperties));
     Map<String,Object> exchangeVarMap=exchange.getProperties();
     for (    String s : exchangeVarMap.keySet()) {
@@ -11,7 +11,7 @@
     }
   }
   String copyHeader=activitiEndpoint.getCopyVariablesFromHeader();
-  if (!StringUtils.isEmpty(copyHeader) && (!BooleanStringUtils.isBoolean(copyHeader) || Boolean.parseBoolean(copyHeader))) {
+  if (!StringUtils.isEmpty(copyHeader) && (!isBoolean(copyHeader) || Boolean.parseBoolean(copyHeader))) {
     Pattern pattern=createPattern(copyHeader,Boolean.parseBoolean(copyHeader));
     boolean isSetProcessInitiator=activitiEndpoint.isSetProcessInitiator();
     for (    Map.Entry<String,Object> header : exchange.getIn().getHeaders().entrySet()) {
