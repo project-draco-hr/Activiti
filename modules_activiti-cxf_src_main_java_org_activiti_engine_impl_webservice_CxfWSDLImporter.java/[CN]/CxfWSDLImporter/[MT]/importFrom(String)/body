@@ -5,20 +5,33 @@
   this.wsdlLocation=url;
   try {
     Bus bus=BusFactory.getDefaultBus();
-    DynamicClientFactory.newInstance(bus).createClient(url);
-    WSDLManager wsdlManager=bus.getExtension(WSDLManager.class);
-    Definition def=wsdlManager.getDefinition(url);
-    WSDLServiceBuilder builder=new WSDLServiceBuilder(bus);
-    List<ServiceInfo> services=builder.buildServices(def);
-    for (    ServiceInfo service : services) {
-      WSService wsService=this.importService(service);
-      this.wsServices.put(this.namespace + wsService.getName(),wsService);
+    final Enumeration<URL> xjcBindingUrls=Thread.currentThread().getContextClassLoader().getResources(JAXB_BINDINGS_RESOURCE);
+    if (xjcBindingUrls.hasMoreElements()) {
+      final URL xjcBindingUrl=xjcBindingUrls.nextElement();
+      if (xjcBindingUrls.hasMoreElements()) {
+        throw new ActivitiException("Several JAXB binding definitions found for activiti-cxf: " + JAXB_BINDINGS_RESOURCE);
+      }
+      DynamicClientFactory.newInstance(bus).createClient(url,Arrays.asList(new String[]{xjcBindingUrl.toString()}));
+      WSDLManager wsdlManager=bus.getExtension(WSDLManager.class);
+      Definition def=wsdlManager.getDefinition(url);
+      WSDLServiceBuilder builder=new WSDLServiceBuilder(bus);
+      List<ServiceInfo> services=builder.buildServices(def);
+      for (      ServiceInfo service : services) {
+        WSService wsService=this.importService(service);
+        this.wsServices.put(this.namespace + wsService.getName(),wsService);
+      }
+      if (def != null && def.getTypes() != null) {
+        this.importTypes(def.getTypes());
+      }
     }
-    if (def != null && def.getTypes() != null) {
-      this.importTypes(def.getTypes());
+ else {
+      throw new ActivitiException("The JAXB binding definitions are not found for activiti-cxf: " + JAXB_BINDINGS_RESOURCE);
     }
   }
  catch (  WSDLException e) {
     e.printStackTrace();
+  }
+catch (  IOException e) {
+    throw new ActivitiException("Error retrieveing the JAXB binding definitions",e);
   }
 }
