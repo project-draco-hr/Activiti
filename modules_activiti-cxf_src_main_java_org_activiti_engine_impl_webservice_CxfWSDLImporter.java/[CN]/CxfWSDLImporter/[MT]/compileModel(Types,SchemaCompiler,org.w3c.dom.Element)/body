@@ -1,10 +1,4 @@
 {
-  final InputStream isBindingsXjc=Thread.currentThread().getContextClassLoader().getResourceAsStream("bindings.xjc");
-  if (isBindingsXjc != null) {
-    final InputSource bindingsXjcSource=new InputSource(isBindingsXjc);
-    bindingsXjcSource.setSystemId("bindings.xjc");
-    compiler.parseSchema(bindingsXjcSource);
-  }
   Schema schema=(Schema)types.getExtensibilityElements().get(0);
   compiler.parseSchema(schema.getDocumentBaseURI() + "#types1",rootTypes);
   S2JJAXBModel intermediateModel=compiler.bind();
