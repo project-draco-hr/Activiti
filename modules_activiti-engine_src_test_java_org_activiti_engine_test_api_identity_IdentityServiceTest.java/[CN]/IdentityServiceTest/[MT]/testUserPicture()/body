@@ -1,12 +1,2 @@
 {
-  User user=identityService.newUser("johndoe");
-  identityService.saveUser(user);
-  String userId=user.getId();
-  Picture picture=new Picture("niceface".getBytes(),"image/string");
-  identityService.setUserPicture(userId,picture);
-  picture=identityService.getUserPicture(userId);
-  user=identityService.createUserQuery().userId("johndoe").singleResult();
-  assertTrue("byte arrays differ",Arrays.equals("niceface".getBytes(),picture.getBytes()));
-  assertEquals("image/string",picture.getMimeType());
-  identityService.deleteUser(user.getId());
 }
