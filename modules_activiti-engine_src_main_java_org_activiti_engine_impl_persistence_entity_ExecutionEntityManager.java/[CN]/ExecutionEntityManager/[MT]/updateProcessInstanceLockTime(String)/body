@@ -9,5 +9,8 @@
   params.put("id",processInstanceId);
   params.put("lockTime",lockCal.getTime());
   params.put("expirationTime",expirationTime);
-  getDbSqlSession().update("updateProcessInstanceLockTime",params);
+  int result=getDbSqlSession().update("updateProcessInstanceLockTime",params);
+  if (result == 0) {
+    throw new ActivitiOptimisticLockingException("Could not lock process instance");
+  }
 }

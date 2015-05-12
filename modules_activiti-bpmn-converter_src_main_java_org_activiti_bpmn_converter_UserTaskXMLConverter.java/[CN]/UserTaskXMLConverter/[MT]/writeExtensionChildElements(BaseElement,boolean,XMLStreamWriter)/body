@@ -2,5 +2,19 @@
   UserTask userTask=(UserTask)element;
   didWriteExtensionStartElement=writeFormProperties(userTask,didWriteExtensionStartElement,xtw);
   didWriteExtensionStartElement=writeCustomIdentities(element,didWriteExtensionStartElement,xtw);
+  if (!userTask.getCustomProperties().isEmpty()) {
+    for (    CustomProperty customProperty : userTask.getCustomProperties()) {
+      if (StringUtils.isEmpty(customProperty.getSimpleValue())) {
+        continue;
+      }
+      if (didWriteExtensionStartElement == false) {
+        xtw.writeStartElement(ELEMENT_EXTENSIONS);
+        didWriteExtensionStartElement=true;
+      }
+      xtw.writeStartElement(ACTIVITI_EXTENSIONS_PREFIX,customProperty.getName(),ACTIVITI_EXTENSIONS_NAMESPACE);
+      xtw.writeCharacters(customProperty.getSimpleValue());
+      xtw.writeEndElement();
+    }
+  }
   return didWriteExtensionStartElement;
 }

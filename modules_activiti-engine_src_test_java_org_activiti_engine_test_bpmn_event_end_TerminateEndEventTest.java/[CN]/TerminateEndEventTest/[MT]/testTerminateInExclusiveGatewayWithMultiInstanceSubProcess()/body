@@ -1,0 +1,10 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("terminateEndEventExample-terminateAfterExclusiveGateway");
+  long executionEntities=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).count();
+  assertEquals(14,executionEntities);
+  Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).taskDefinitionKey("preTerminateEnd").singleResult();
+  Map<String,Object> variables=new HashMap<String,Object>();
+  variables.put("input",1);
+  taskService.complete(task.getId(),variables);
+  assertProcessEnded(pi.getId());
+}

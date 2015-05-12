@@ -2,15 +2,15 @@
   if (messagesNode == null)   return;
   for (  JsonNode messageNode : messagesNode) {
     Message message=new Message();
-    String messageId=getValueAsString(PROPERTY_MESSAGE_ID,messageNode);
+    String messageId=getValueAsString(PROPERTY_MESSAGE_DEFINITION_ID,messageNode);
     if (StringUtils.isNotEmpty(messageId)) {
       message.setId(messageId);
     }
-    String messageName=getValueAsString(PROPERTY_MESSAGE_NAME,messageNode);
+    String messageName=getValueAsString(PROPERTY_MESSAGE_DEFINITION_NAME,messageNode);
     if (StringUtils.isNotEmpty(messageName)) {
       message.setName(messageName);
     }
-    String messageItemRef=getValueAsString(PROPERTY_MESSAGE_ITEM_REF,messageNode);
+    String messageItemRef=getValueAsString(PROPERTY_MESSAGE_DEFINITION_ITEM_REF,messageNode);
     if (StringUtils.isNotEmpty(messageItemRef)) {
       message.setItemRef(messageItemRef);
     }

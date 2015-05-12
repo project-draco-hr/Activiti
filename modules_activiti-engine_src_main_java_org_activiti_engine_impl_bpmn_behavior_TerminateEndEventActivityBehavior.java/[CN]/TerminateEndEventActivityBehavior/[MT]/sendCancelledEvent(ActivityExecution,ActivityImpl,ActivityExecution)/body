@@ -1,0 +1,6 @@
+{
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createCancelledEvent(execution.getId(),execution.getProcessInstanceId(),execution.getProcessDefinitionId(),terminateEndEventActivity));
+  }
+  dispatchExecutionCancelled(scopeExecution,terminateEndEventActivity);
+}

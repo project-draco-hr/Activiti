@@ -1,0 +1,20 @@
+{
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("terminateEndEventExample");
+  long executionEntities=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).count();
+  assertEquals(3,executionEntities);
+  Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).taskDefinitionKey("preTerminateTask").singleResult();
+  taskService.complete(task.getId());
+  List<ActivitiEvent> processTerminatedEvents=listener.filterEvents(ActivitiEventType.PROCESS_CANCELLED);
+  assertEquals("There should be exactly one ActivitiEventType.PROCESS_CANCELLED event after the task complete.",1,processTerminatedEvents.size());
+  ActivitiProcessCancelledEventImpl activitiEvent=(ActivitiProcessCancelledEventImpl)processTerminatedEvents.get(0);
+  assertThat(activitiEvent.getProcessInstanceId(),is(pi.getProcessInstanceId()));
+  assertThat(((ActivityImpl)activitiEvent.getCause()).getId(),is("EndEvent_2"));
+  List<ActivitiEvent> activityTerminatedEvents=listener.filterEvents(ActivitiEventType.ACTIVITY_CANCELLED);
+  assertThat("There should be exactly two ActivitiEventType.ACTIVITY_CANCELLED event after the task complete.",activityTerminatedEvents.size(),is(2));
+  ActivitiActivityCancelledEventImpl activityEvent=(ActivitiActivityCancelledEventImpl)activityTerminatedEvents.get(0);
+  assertThat("The user task must be terminated",activityEvent.getActivityId(),is("preNormalTerminateTask"));
+  assertThat("The cause must be terminate end event",((ActivityImpl)activityEvent.getCause()).getId(),is("EndEvent_2"));
+  activityEvent=(ActivitiActivityCancelledEventImpl)activityTerminatedEvents.get(1);
+  assertThat("The gateway must be terminated",activityEvent.getActivityId(),is("ParallelGateway_1"));
+  assertThat("The cause must be terminate end event",((ActivityImpl)activityEvent.getCause()).getId(),is("EndEvent_2"));
+}

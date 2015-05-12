@@ -24,6 +24,7 @@
     String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_CANDIDATEGROUPS);
     userTask.getCandidateGroups().addAll(parseDelimitedList(expression));
   }
+  userTask.setExtensionId(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_SERVICE_EXTENSIONID));
   if (StringUtils.isNotEmpty(xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_SKIP_EXPRESSION))) {
     String expression=xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE,ATTRIBUTE_TASK_USER_SKIP_EXPRESSION);
     userTask.setSkipExpression(expression);
