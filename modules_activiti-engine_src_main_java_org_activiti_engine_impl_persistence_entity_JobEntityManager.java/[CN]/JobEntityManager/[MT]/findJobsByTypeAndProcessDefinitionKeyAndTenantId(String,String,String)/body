@@ -1,0 +1,7 @@
+{
+  Map<String,String> params=new HashMap<String,String>(3);
+  params.put("handlerType",jobHandlerType);
+  params.put("processDefinitionKey",processDefinitionKey);
+  params.put("tenantId",tenantId);
+  return getDbSqlSession().selectList("selectJobByTypeAndProcessDefinitionKeyAndTenantId",params);
+}
