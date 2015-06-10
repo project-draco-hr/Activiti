@@ -8,6 +8,9 @@
   if (eventDefinition instanceof ErrorEventDefinition) {
     return STENCIL_EVENT_END_ERROR;
   }
+ else   if (eventDefinition instanceof TerminateEventDefinition) {
+    return STENCIL_EVENT_END_CANCEL;
+  }
  else {
     return STENCIL_EVENT_END_NONE;
   }

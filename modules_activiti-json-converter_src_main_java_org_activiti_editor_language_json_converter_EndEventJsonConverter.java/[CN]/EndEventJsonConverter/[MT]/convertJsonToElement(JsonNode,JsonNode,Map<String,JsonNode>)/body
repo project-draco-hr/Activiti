@@ -4,5 +4,9 @@
   if (STENCIL_EVENT_END_ERROR.equals(stencilId)) {
     convertJsonToErrorDefinition(elementNode,endEvent);
   }
+ else   if (STENCIL_EVENT_END_CANCEL.equals(stencilId)) {
+    TerminateEventDefinition eventDefinition=new TerminateEventDefinition();
+    endEvent.getEventDefinitions().add(eventDefinition);
+  }
   return endEvent;
 }
