@@ -6,7 +6,7 @@
     g.setPaint(LABEL_COLOR);
     g.setFont(LABEL_FONT);
     int wrapWidth=100;
-    int textY=(int)(graphicInfo.getY() + graphicInfo.getHeight());
+    int textY=(int)graphicInfo.getY();
     AttributedString as=new AttributedString(text);
     as.addAttribute(TextAttribute.FOREGROUND,g.getPaint());
     as.addAttribute(TextAttribute.FONT,g.getFont());
@@ -18,7 +18,9 @@
       textY+=tl.getAscent();
       Rectangle2D bb=tl.getBounds();
       double tX=graphicInfo.getX();
-      if (centered)       tX+=(int)(graphicInfo.getWidth() / 2 - bb.getWidth() / 2);
+      if (centered) {
+        tX+=(int)(graphicInfo.getWidth() / 2 - bb.getWidth() / 2);
+      }
       tl.draw(g,(float)tX,textY);
       textY+=tl.getDescent() + tl.getLeading() + (interline - 1.0f) * tl.getAscent();
     }
