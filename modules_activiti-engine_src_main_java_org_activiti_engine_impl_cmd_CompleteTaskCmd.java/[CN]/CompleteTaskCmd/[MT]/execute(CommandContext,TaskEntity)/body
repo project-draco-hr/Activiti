@@ -3,8 +3,11 @@
     if (localScope) {
       task.setVariablesLocal(variables);
     }
- else {
+ else     if (task.getExecutionId() != null) {
       task.setExecutionVariables(variables);
+    }
+ else {
+      task.setVariables(variables);
     }
   }
   task.complete(variables,localScope);
