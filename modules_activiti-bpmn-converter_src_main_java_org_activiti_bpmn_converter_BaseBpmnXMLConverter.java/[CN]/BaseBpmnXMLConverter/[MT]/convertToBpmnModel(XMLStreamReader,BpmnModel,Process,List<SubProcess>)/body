@@ -21,22 +21,23 @@
     FlowElement currentFlowElement=(FlowElement)parsedElement;
     currentFlowElement.setId(elementId);
     currentFlowElement.setName(elementName);
-    if (currentFlowElement instanceof Activity) {
-      Activity activity=(Activity)currentFlowElement;
-      activity.setAsynchronous(async);
-      activity.setNotExclusive(notExclusive);
-      activity.setForCompensation(isForCompensation);
-      if (StringUtils.isNotEmpty(defaultFlow)) {
-        activity.setDefaultFlow(defaultFlow);
+    if (currentFlowElement instanceof FlowNode) {
+      FlowNode flowNode=(FlowNode)currentFlowElement;
+      flowNode.setAsynchronous(async);
+      flowNode.setNotExclusive(notExclusive);
+      if (currentFlowElement instanceof Activity) {
+        Activity activity=(Activity)currentFlowElement;
+        activity.setForCompensation(isForCompensation);
+        if (StringUtils.isNotEmpty(defaultFlow)) {
+          activity.setDefaultFlow(defaultFlow);
+        }
       }
-    }
-    if (currentFlowElement instanceof Gateway) {
-      Gateway gateway=(Gateway)currentFlowElement;
-      if (StringUtils.isNotEmpty(defaultFlow)) {
-        gateway.setDefaultFlow(defaultFlow);
+      if (currentFlowElement instanceof Gateway) {
+        Gateway gateway=(Gateway)currentFlowElement;
+        if (StringUtils.isNotEmpty(defaultFlow)) {
+          gateway.setDefaultFlow(defaultFlow);
+        }
       }
-      gateway.setAsynchronous(async);
-      gateway.setNotExclusive(notExclusive);
     }
     if (currentFlowElement instanceof DataObject) {
       if (!activeSubProcessList.isEmpty()) {

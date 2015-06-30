@@ -27,9 +27,13 @@
     }
   }
  else   if (eventDefinition instanceof TerminateEventDefinition) {
+    endEventActivity.setAsync(endEvent.isAsynchronous());
+    endEventActivity.setExclusive(!endEvent.isNotExclusive());
     endEventActivity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createTerminateEndEventActivityBehavior(endEvent));
   }
  else   if (eventDefinition == null) {
+    endEventActivity.setAsync(endEvent.isAsynchronous());
+    endEventActivity.setExclusive(!endEvent.isNotExclusive());
     endEventActivity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createNoneEndEventActivityBehavior(endEvent));
   }
 }
