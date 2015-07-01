@@ -4,6 +4,9 @@
   while (!isInterrupted) {
     try {
       AcquiredJobEntities acquiredJobs=commandExecutor.execute(new AcquireAsyncJobsDueCmd(asyncExecutor));
+      for (      JobEntity job : acquiredJobs.getJobs()) {
+        asyncExecutor.executeAsyncJob(job);
+      }
       millisToWait=asyncExecutor.getDefaultAsyncJobAcquireWaitTimeInMillis();
       int jobsAcquired=acquiredJobs.size();
       if (jobsAcquired >= asyncExecutor.getMaxAsyncJobsDuePerAcquisition()) {
