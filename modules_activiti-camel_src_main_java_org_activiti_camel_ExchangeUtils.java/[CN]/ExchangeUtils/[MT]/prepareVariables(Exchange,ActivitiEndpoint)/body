@@ -1,12 +1,14 @@
 {
   Map<String,Object> camelVarMap=new HashMap<String,Object>();
   String copyProperties=activitiEndpoint.getCopyVariablesFromProperties();
-  if (!StringUtils.isEmpty(copyProperties) && (!isBoolean(copyProperties) || Boolean.parseBoolean(copyProperties))) {
+  if (StringUtils.isNotEmpty(copyProperties) && (!isBoolean(copyProperties) || Boolean.parseBoolean(copyProperties))) {
     Pattern pattern=createPattern(copyProperties,Boolean.parseBoolean(copyProperties));
     Map<String,Object> exchangeVarMap=exchange.getProperties();
     for (    String s : exchangeVarMap.keySet()) {
       if (IGNORE_MESSAGE_PROPERTY.equalsIgnoreCase(s) == false) {
-        if (pattern == null || pattern.matcher(s).matches())         camelVarMap.put(s,exchangeVarMap.get(s));
+        if (pattern == null || pattern.matcher(s).matches()) {
+          camelVarMap.put(s,exchangeVarMap.get(s));
+        }
       }
     }
   }
