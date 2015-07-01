@@ -9,7 +9,7 @@
       ResourceEntity resource=resources.get(resourceName);
       byte[] bytes=resource.getBytes();
       ByteArrayInputStream inputStream=new ByteArrayInputStream(bytes);
-      BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).deployment(deployment).name(resourceName);
+      BpmnParse bpmnParse=bpmnParser.createParse().sourceInputStream(inputStream).setSourceSystemId(resourceName).deployment(deployment).name(resourceName);
       if (deploymentSettings != null) {
         if (deploymentSettings.containsKey(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED)) {
           bpmnParse.setValidateSchema((Boolean)deploymentSettings.get(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED));
