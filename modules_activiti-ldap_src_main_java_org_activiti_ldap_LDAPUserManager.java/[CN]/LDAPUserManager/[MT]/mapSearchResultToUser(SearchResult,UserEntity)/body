@@ -19,6 +19,11 @@
     }
   }
   if (ldapConfigurator.getUserEmailAttribute() != null) {
-    user.setEmail(result.getAttributes().get(ldapConfigurator.getUserEmailAttribute()).get().toString());
+    try {
+      user.setEmail(result.getAttributes().get(ldapConfigurator.getUserEmailAttribute()).get().toString());
+    }
+ catch (    NullPointerException e) {
+      user.setEmail("");
+    }
   }
 }
