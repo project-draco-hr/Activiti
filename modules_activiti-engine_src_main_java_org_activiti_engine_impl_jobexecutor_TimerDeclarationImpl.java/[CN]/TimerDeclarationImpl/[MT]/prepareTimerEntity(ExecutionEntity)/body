@@ -33,37 +33,43 @@
  else   if (dueDateValue instanceof Date) {
     duedate=(Date)dueDateValue;
   }
- else {
+ else   if (dueDateValue instanceof DateTime) {
+    duedate=((DateTime)dueDateValue).toDate();
+  }
+ else   if (dueDateValue != null) {
     throw new ActivitiException("Timer '" + executionEntity.getActivityId() + "' was not configured with a valid duration/time, either hand in a java.util.Date or a String in format 'yyyy-MM-dd'T'hh:mm:ss'");
   }
-  if (duedate == null) {
+  if (duedate == null && dueDateString != null) {
     duedate=businessCalendar.resolveDuedate(dueDateString);
   }
-  TimerEntity timer=new TimerEntity(this);
-  timer.setDuedate(duedate);
-  timer.setEndDate(endDate);
-  if (executionEntity != null) {
-    timer.setExecution(executionEntity);
-    timer.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
-    timer.setProcessInstanceId(executionEntity.getProcessInstanceId());
-    if (executionEntity != null && executionEntity.getTenantId() != null) {
-      timer.setTenantId(executionEntity.getTenantId());
-    }
-  }
-  if (type == TimerDeclarationType.CYCLE) {
-    boolean repeat=!isInterruptingTimer;
-    if (TimerCatchIntermediateEventJobHandler.TYPE.equals(jobHandlerType)) {
-      repeat=false;
-      if (endDate != null) {
-        long endDateMiliss=endDate.getTime();
-        long dueDateMiliss=duedate.getTime();
-        long dueDate=Math.min(endDateMiliss,dueDateMiliss);
-        timer.setDuedate(new Date(dueDate));
+  TimerEntity timer=null;
+  if (duedate != null) {
+    timer=new TimerEntity(this);
+    timer.setDuedate(duedate);
+    timer.setEndDate(endDate);
+    if (executionEntity != null) {
+      timer.setExecution(executionEntity);
+      timer.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
+      timer.setProcessInstanceId(executionEntity.getProcessInstanceId());
+      if (executionEntity != null && executionEntity.getTenantId() != null) {
+        timer.setTenantId(executionEntity.getTenantId());
       }
     }
-    if (repeat) {
-      String prepared=prepareRepeat(dueDateString);
-      timer.setRepeat(prepared);
+    if (type == TimerDeclarationType.CYCLE) {
+      boolean repeat=!isInterruptingTimer;
+      if (TimerCatchIntermediateEventJobHandler.TYPE.equals(jobHandlerType)) {
+        repeat=false;
+        if (endDate != null) {
+          long endDateMiliss=endDate.getTime();
+          long dueDateMiliss=duedate.getTime();
+          long dueDate=Math.min(endDateMiliss,dueDateMiliss);
+          timer.setDuedate(new Date(dueDate));
+        }
+      }
+      if (repeat) {
+        String prepared=prepareRepeat(dueDateString);
+        timer.setRepeat(prepared);
+      }
     }
   }
   return timer;
