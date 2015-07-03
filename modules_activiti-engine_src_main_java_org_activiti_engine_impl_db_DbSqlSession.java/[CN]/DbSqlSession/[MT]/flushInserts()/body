@@ -1,21 +1,14 @@
 {
-  LinkedHashMap<Class<? extends PersistentObject>,List<PersistentObject>> bulkInsertHandledMap=new LinkedHashMap<Class<? extends PersistentObject>,List<PersistentObject>>();
-  for (  PersistentObject insertedObject : insertedObjects) {
-    if (!bulkInsertHandledMap.containsKey(insertedObject.getClass())) {
-      bulkInsertHandledMap.put(insertedObject.getClass(),new ArrayList<PersistentObject>());
+  for (  Class<? extends PersistentObject> persistentObjectClass : EntityDependencyOrder.INSERT_ORDER) {
+    if (insertedObjects.containsKey(persistentObjectClass)) {
+      flushBulkInserts(insertedObjects.get(persistentObjectClass),persistentObjectClass);
+      insertedObjects.remove(persistentObjectClass);
     }
-    bulkInsertHandledMap.get(insertedObject.getClass()).add(insertedObject);
   }
-  log.info("Insert queries collection formed: " + bulkInsertHandledMap);
-  for (  EntityDependencyOrder entityName : EntityDependencyOrder.values()) {
-    if (!bulkInsertHandledMap.containsKey(entityName.getClazz())) {
-      continue;
+  if (insertedObjects.size() > 0) {
+    for (    Class<? extends PersistentObject> clazz : insertedObjects.keySet()) {
+      flushBulkInserts(insertedObjects.get(clazz),clazz);
     }
-    flushBulkInserts(bulkInsertHandledMap.get(entityName.getClazz()),entityName.getClazz());
-    bulkInsertHandledMap.remove(entityName.getClazz());
-  }
-  for (  Class<? extends PersistentObject> clazz : bulkInsertHandledMap.keySet()) {
-    flushBulkInserts(bulkInsertHandledMap.get(clazz),clazz);
   }
   insertedObjects.clear();
 }
