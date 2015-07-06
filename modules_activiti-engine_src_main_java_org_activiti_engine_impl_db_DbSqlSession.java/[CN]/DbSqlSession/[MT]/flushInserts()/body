@@ -1,13 +1,25 @@
 {
   for (  Class<? extends PersistentObject> persistentObjectClass : EntityDependencyOrder.INSERT_ORDER) {
     if (insertedObjects.containsKey(persistentObjectClass)) {
-      flushBulkInserts(insertedObjects.get(persistentObjectClass),persistentObjectClass);
+      List<PersistentObject> persistentObjectsToInsert=insertedObjects.get(persistentObjectClass);
+      if (persistentObjectsToInsert.size() == 1) {
+        flushRegularInsert(persistentObjectsToInsert.get(0),persistentObjectClass);
+      }
+ else {
+        flushBulkInsert(insertedObjects.get(persistentObjectClass),persistentObjectClass);
+      }
       insertedObjects.remove(persistentObjectClass);
     }
   }
   if (insertedObjects.size() > 0) {
     for (    Class<? extends PersistentObject> clazz : insertedObjects.keySet()) {
-      flushBulkInserts(insertedObjects.get(clazz),clazz);
+      List<PersistentObject> persistentObjectsToInsert=insertedObjects.get(clazz);
+      if (persistentObjectsToInsert.size() == 1) {
+        flushRegularInsert(persistentObjectsToInsert.get(0),clazz);
+      }
+ else {
+        flushBulkInsert(insertedObjects.get(clazz),clazz);
+      }
     }
   }
   insertedObjects.clear();
