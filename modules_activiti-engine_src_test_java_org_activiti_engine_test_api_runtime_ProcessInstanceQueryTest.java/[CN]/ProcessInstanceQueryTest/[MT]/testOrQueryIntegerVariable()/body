@@ -13,6 +13,10 @@
   List<ProcessInstance> processInstances=query.list();
   assertNotNull(processInstances);
   assertEquals(2,processInstances.size());
+  query=runtimeService.createProcessInstanceQuery().or().variableValueEquals("integerVar",12345).processDefinitionId("undefined").endOr().or().processDefinitionKey("oneTaskProcess").processDefinitionId("undefined").endOr();
+  processInstances=query.list();
+  assertNotNull(processInstances);
+  assertEquals(2,processInstances.size());
   query=runtimeService.createProcessInstanceQuery().variableValueEquals("integerVar",12345).or().variableValueEquals("integerVar2",67890).processDefinitionId("undefined").endOr();
   ProcessInstance resultInstance=query.singleResult();
   assertNotNull(resultInstance);
@@ -23,6 +27,9 @@
   assertNotNull(resultInstance);
   assertEquals(processInstance3.getId(),resultInstance.getId());
   resultInstance=runtimeService.createProcessInstanceQuery().or().variableValueGreaterThan("integerVar",44444).processDefinitionId("undefined").endOr().singleResult();
+  assertNotNull(resultInstance);
+  assertEquals(processInstance3.getId(),resultInstance.getId());
+  resultInstance=runtimeService.createProcessInstanceQuery().or().variableValueGreaterThan("integerVar",44444).processDefinitionId("undefined").endOr().or().processDefinitionKey("oneTaskProcess").processDefinitionId("undefined").endOr().singleResult();
   assertNotNull(resultInstance);
   assertEquals(processInstance3.getId(),resultInstance.getId());
   assertEquals(0,runtimeService.createProcessInstanceQuery().or().variableValueGreaterThan("integerVar",55555).processDefinitionId("undefined").endOr().count());

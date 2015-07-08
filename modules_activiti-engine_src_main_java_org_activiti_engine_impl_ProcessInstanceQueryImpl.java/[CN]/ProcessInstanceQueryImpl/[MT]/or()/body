@@ -1,10 +1,9 @@
 {
-  if (orQueryObject != null) {
-    throw new ActivitiException("Only one OR statement is allowed");
+  if (inOrStatement) {
+    throw new ActivitiException("the query is already in an or statement");
   }
- else {
-    inOrStatement=true;
-    orQueryObject=new ProcessInstanceQueryImpl();
-  }
+  inOrStatement=true;
+  currentOrQueryObject=new ProcessInstanceQueryImpl();
+  orQueryObjects.add(currentOrQueryObject);
   return this;
 }

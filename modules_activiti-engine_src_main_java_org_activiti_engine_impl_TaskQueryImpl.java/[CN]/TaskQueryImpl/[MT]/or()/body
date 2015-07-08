@@ -1,8 +1,9 @@
 {
-  if (orActive || orQueryObject != null) {
-    throw new ActivitiException("or() can only be called once");
+  if (orActive) {
+    throw new ActivitiException("the query is already in an or statement");
   }
   orActive=true;
-  orQueryObject=new TaskQueryImpl();
+  currentOrQueryObject=new TaskQueryImpl();
+  orQueryObjects.add(currentOrQueryObject);
   return this;
 }
