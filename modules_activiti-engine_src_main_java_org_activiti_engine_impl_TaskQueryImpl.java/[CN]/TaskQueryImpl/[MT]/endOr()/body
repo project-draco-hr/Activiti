@@ -1,7 +1,8 @@
 {
-  if (!orActive || orQueryObject == null) {
+  if (!orActive) {
     throw new ActivitiException("endOr() can only be called after calling or()");
   }
   orActive=false;
+  currentOrQueryObject=null;
   return this;
 }

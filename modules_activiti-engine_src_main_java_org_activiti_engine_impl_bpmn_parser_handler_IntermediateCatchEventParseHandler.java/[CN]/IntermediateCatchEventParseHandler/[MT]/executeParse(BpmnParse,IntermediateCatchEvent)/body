@@ -1,5 +1,4 @@
 {
-  BpmnModel bpmnModel=bpmnParse.getBpmnModel();
   ActivityImpl nestedActivity=null;
   EventDefinition eventDefinition=null;
   if (!event.getEventDefinitions().isEmpty()) {
@@ -7,6 +6,8 @@
   }
   if (eventDefinition == null) {
     nestedActivity=createActivityOnCurrentScope(bpmnParse,event,BpmnXMLConstants.ELEMENT_EVENT_CATCH);
+    nestedActivity.setAsync(event.isAsynchronous());
+    nestedActivity.setExclusive(!event.isNotExclusive());
   }
  else {
     ScopeImpl scope=bpmnParse.getCurrentScope();

@@ -20,6 +20,11 @@
     assertEquals(1,task.getProcessVariables().size());
     assertEquals(0,task.getTaskLocalVariables().size());
     assertTrue((Boolean)task.getProcessVariables().get("processVar"));
+    task=historyService.createHistoricTaskInstanceQuery().includeProcessVariables().or().taskAssignee("kermit").taskVariableValueEquals("localVar","nonExisting").endOr().or().processDefinitionKey("oneTaskProcess").taskVariableValueEquals("localVar","nonExisting").endOr().singleResult();
+    assertNotNull(task);
+    assertEquals(1,task.getProcessVariables().size());
+    assertEquals(0,task.getTaskLocalVariables().size());
+    assertTrue((Boolean)task.getProcessVariables().get("processVar"));
     taskService.setVariable(task.getId(),"anotherProcessVar",123);
     taskService.setVariableLocal(task.getId(),"localVar","test");
     task=historyService.createHistoricTaskInstanceQuery().includeTaskLocalVariables().or().taskAssignee("kermit").taskVariableValueEquals("localVar","nonExisting").endOr().singleResult();
@@ -31,12 +36,12 @@
     assertEquals(0,task.getTaskLocalVariables().size());
     assertEquals(true,task.getProcessVariables().get("processVar"));
     assertEquals(123,task.getProcessVariables().get("anotherProcessVar"));
-    tasks=historyService.createHistoricTaskInstanceQuery().includeTaskLocalVariables().or().taskInvolvedUser("kermit").taskVariableValueEquals("localVar","nonExisting").endOr().orderByHistoricTaskInstanceStartTime().asc().list();
+    tasks=historyService.createHistoricTaskInstanceQuery().includeTaskLocalVariables().or().taskInvolvedUser("kermit").taskVariableValueEquals("localVar","nonExisting").endOr().orderByTaskCreateTime().asc().list();
     assertEquals(3,tasks.size());
     assertEquals(1,tasks.get(0).getTaskLocalVariables().size());
     assertEquals("test",tasks.get(0).getTaskLocalVariables().get("test"));
     assertEquals(0,tasks.get(0).getProcessVariables().size());
-    tasks=historyService.createHistoricTaskInstanceQuery().includeProcessVariables().or().taskInvolvedUser("kermit").taskVariableValueEquals("localVar","nonExisting").endOr().orderByHistoricTaskInstanceStartTime().asc().list();
+    tasks=historyService.createHistoricTaskInstanceQuery().includeProcessVariables().or().taskInvolvedUser("kermit").taskVariableValueEquals("localVar","nonExisting").endOr().orderByTaskCreateTime().asc().list();
     assertEquals(3,tasks.size());
     assertEquals(0,tasks.get(0).getProcessVariables().size());
     assertEquals(0,tasks.get(0).getTaskLocalVariables().size());

@@ -7,8 +7,8 @@
  catch (    TypeConversionException e) {
       throw new ActivitiException("Initiator header '" + activitiEndpoint.getProcessInitiatorHeaderName() + "': Value must be of type String.",e);
     }
-    if (!StringUtils.hasText(initiator)) {
-      throw new RuntimeException("Initiator header '" + activitiEndpoint.getProcessInitiatorHeaderName() + "': Value must be provided");
+    if (StringUtils.isEmpty(initiator)) {
+      throw new ActivitiException("Initiator header '" + activitiEndpoint.getProcessInitiatorHeaderName() + "': Value must be provided");
     }
   }
   return initiator;

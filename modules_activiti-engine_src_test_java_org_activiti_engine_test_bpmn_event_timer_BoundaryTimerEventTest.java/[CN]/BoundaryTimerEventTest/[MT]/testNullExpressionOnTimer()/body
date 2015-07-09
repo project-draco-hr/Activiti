@@ -1,0 +1,10 @@
+{
+  HashMap<String,Object> variables=new HashMap<String,Object>();
+  variables.put("duration",null);
+  ProcessInstance pi=runtimeService.startProcessInstanceByKey("testNullExpressionOnTimer",variables);
+  JobQuery jobQuery=managementService.createJobQuery().processInstanceId(pi.getId());
+  List<Job> jobs=jobQuery.list();
+  assertEquals(0,jobs.size());
+  ProcessInstance processInstance=processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
+  assertNotNull(processInstance);
+}

@@ -3,11 +3,13 @@
   if (timerDeclarations != null) {
     for (    TimerDeclarationImpl timerDeclaration : timerDeclarations) {
       TimerEntity timer=timerDeclaration.prepareTimerEntity(null);
-      timer.setProcessDefinitionId(processDefinition.getId());
-      if (processDefinition.getTenantId() != null) {
-        timer.setTenantId(processDefinition.getTenantId());
+      if (timer != null) {
+        timer.setProcessDefinitionId(processDefinition.getId());
+        if (processDefinition.getTenantId() != null) {
+          timer.setTenantId(processDefinition.getTenantId());
+        }
+        timers.add(timer);
       }
-      timers.add(timer);
     }
   }
 }
