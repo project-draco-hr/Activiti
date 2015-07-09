@@ -3,16 +3,23 @@
   flushDeserializedObjects();
   List<PersistentObject> updatedObjects=getUpdatedObjects();
   if (log.isDebugEnabled()) {
-    log.debug("flush summary: {} insert, {} update, {} delete.",insertedObjects.size(),updatedObjects.size(),deleteOperations.size());
-    for (    PersistentObject insertedObject : insertedObjects) {
-      log.debug("  insert {}",insertedObject);
+    Collection<List<PersistentObject>> insertedObjectLists=insertedObjects.values();
+    int nrOfInserts=0, nrOfUpdates=0, nrOfDeletes=0;
+    for (    List<PersistentObject> insertedObjectList : insertedObjectLists) {
+      for (      PersistentObject insertedObject : insertedObjectList) {
+        log.debug("  insert {}",insertedObject);
+        nrOfInserts++;
+      }
     }
     for (    PersistentObject updatedObject : updatedObjects) {
       log.debug("  update {}",updatedObject);
+      nrOfUpdates++;
     }
     for (    DeleteOperation deleteOperation : deleteOperations) {
       log.debug("  {}",deleteOperation);
+      nrOfDeletes++;
     }
+    log.debug("flush summary: {} insert, {} update, {} delete.",nrOfInserts,nrOfUpdates,nrOfDeletes);
     log.debug("now executing flush...");
   }
   flushInserts();
