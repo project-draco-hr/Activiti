@@ -1,0 +1,15 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("miProcessExample");
+  List<Job> jobList=managementService.createJobQuery().list();
+  assertEquals(5,jobList.size());
+  assertEquals(5,runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).activityId("serviceTask1").count());
+  waitForJobExecutorToProcessAllJobs(3000,500);
+  int counter=0;
+  long processInstanceCount=1;
+  while (processInstanceCount == 1 && counter < 20) {
+    Thread.sleep(500);
+    processInstanceCount=runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count();
+    counter++;
+  }
+  assertEquals(0,runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+}
