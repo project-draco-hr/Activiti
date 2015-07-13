@@ -5,6 +5,11 @@
       executeCatch(eventHandlerId,execution,errorCode);
       break;
     }
+    if (execution.isProcessInstanceType()) {
+      if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+        Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.PROCESS_COMPLETED,execution));
+      }
+    }
     execution=getSuperExecution(execution);
   }
   if (execution == null) {
