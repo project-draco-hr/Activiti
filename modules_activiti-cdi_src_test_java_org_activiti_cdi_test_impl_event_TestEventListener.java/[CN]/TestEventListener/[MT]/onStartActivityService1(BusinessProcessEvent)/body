@@ -1,3 +1,9 @@
 {
-  startActivityService1+=1;
+  Integer loopCounter=(Integer)businessProcessEvent.getVariableScope().getVariable("loopCounter");
+  if (loopCounter != null) {
+    startActivityService1WithLoopCounter+=1;
+  }
+ else {
+    startActivityService1WithoutLoopCounter+=1;
+  }
 }

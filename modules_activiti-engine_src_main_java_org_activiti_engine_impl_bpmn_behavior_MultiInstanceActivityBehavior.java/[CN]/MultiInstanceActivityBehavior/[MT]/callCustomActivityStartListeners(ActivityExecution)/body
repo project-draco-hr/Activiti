@@ -1,0 +1,13 @@
+{
+  List<ExecutionListener> listeners=activity.getExecutionListeners(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_START);
+  List<ExecutionListener> filteredExecutionListeners=new ArrayList<ExecutionListener>(listeners.size());
+  if (listeners != null) {
+    for (    ExecutionListener executionListener : listeners) {
+      if (!(executionListener instanceof ActivityInstanceStartHandler)) {
+        filteredExecutionListeners.add(executionListener);
+      }
+    }
+    CallActivityListenersOperation atomicOperation=new CallActivityListenersOperation(filteredExecutionListeners);
+    Context.getCommandContext().performOperation(atomicOperation,(InterpretableExecution)execution);
+  }
+}
