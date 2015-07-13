@@ -62,6 +62,14 @@
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().processDefinitionName("unexistingdefinitionname").endOr().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("HistoricTaskQueryTest").endOr().count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("unexistingdefinitionkey").endOr().count());
+  List<String> includeIds=new ArrayList<String>();
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("unexistingdefinitionkey").processDefinitionKeyIn(includeIds).endOr().count());
+  includeIds.add("unexistingProcessDefinition");
+  assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("unexistingdefinitionkey").processDefinitionKeyIn(includeIds).endOr().count());
+  includeIds.add("unexistingProcessDefinition");
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("HistoricTaskQueryTest").processDefinitionKeyIn(includeIds).endOr().count());
+  includeIds.add("HistoricTaskQueryTest");
+  assertEquals(1,historyService.createHistoricProcessInstanceQuery().or().processDefinitionKey("unexistingdefinitionkey").processDefinitionKeyIn(includeIds).endOr().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().or().taskAssignee("kermit").endOr().count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().taskAssignee("johndoe").endOr().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().or().taskAssigneeLike("%ermit").endOr().count());

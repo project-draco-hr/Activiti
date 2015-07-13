@@ -1,0 +1,10 @@
+{
+  Set<String> includeIds=new HashSet<String>();
+  assertEquals(13,runtimeService.createExecutionQuery().processDefinitionKeys(includeIds).list().size());
+  includeIds.add(CONCURRENT_PROCESS_KEY);
+  assertEquals(12,runtimeService.createExecutionQuery().processDefinitionKeys(includeIds).list().size());
+  includeIds.add(SEQUENTIAL_PROCESS_KEY);
+  assertEquals(13,runtimeService.createExecutionQuery().processDefinitionKeys(includeIds).list().size());
+  includeIds.add("invalid");
+  assertEquals(13,runtimeService.createExecutionQuery().processDefinitionKeys(includeIds).list().size());
+}
