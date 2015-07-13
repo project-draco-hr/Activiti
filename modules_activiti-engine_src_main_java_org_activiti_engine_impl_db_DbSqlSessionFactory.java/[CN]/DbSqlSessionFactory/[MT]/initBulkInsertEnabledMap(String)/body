@@ -1,0 +1,9 @@
+{
+  bulkInsertableMap=new HashMap<Class<? extends PersistentObject>,Boolean>();
+  for (  Class<? extends PersistentObject> clazz : EntityDependencyOrder.INSERT_ORDER) {
+    bulkInsertableMap.put(clazz,Boolean.TRUE);
+  }
+  if ("oracle".equals(databaseType)) {
+    bulkInsertableMap.put(EventLogEntryEntity.class,Boolean.FALSE);
+  }
+}
