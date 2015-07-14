@@ -1,0 +1,18 @@
+{
+  super(entity,variables,localScope,ActivitiEventType.PROCESS_STARTED);
+  if (entity instanceof ExecutionEntity) {
+    final ExecutionEntity superExecution=((ExecutionEntity)entity).getSuperExecution();
+    if (superExecution != null) {
+      this.nestedProcessDefinitionId=superExecution.getProcessDefinitionId();
+      this.nestedProcessInstanceId=superExecution.getProcessInstanceId();
+    }
+ else {
+      this.nestedProcessDefinitionId=null;
+      this.nestedProcessInstanceId=null;
+    }
+  }
+ else {
+    this.nestedProcessDefinitionId=null;
+    this.nestedProcessInstanceId=null;
+  }
+}
