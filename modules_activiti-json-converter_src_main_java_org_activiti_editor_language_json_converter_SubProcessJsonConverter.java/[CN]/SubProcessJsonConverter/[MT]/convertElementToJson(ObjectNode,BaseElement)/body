@@ -6,5 +6,8 @@
   GraphicInfo graphicInfo=model.getGraphicInfo(subProcess.getId());
   processor.processFlowElements(subProcess,model,subProcessShapesArrayNode,graphicInfo.getX(),graphicInfo.getY());
   flowElementNode.put("childShapes",subProcessShapesArrayNode);
+  if (subProcess instanceof Transaction) {
+    propertiesNode.put("istransaction",true);
+  }
   BpmnJsonConverterUtil.convertDataPropertiesToJson(subProcess.getDataObjects(),propertiesNode);
 }
