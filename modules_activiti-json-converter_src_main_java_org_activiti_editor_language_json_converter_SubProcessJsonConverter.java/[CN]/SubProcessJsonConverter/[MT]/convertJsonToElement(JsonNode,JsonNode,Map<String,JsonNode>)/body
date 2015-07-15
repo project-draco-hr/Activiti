@@ -1,5 +1,11 @@
 {
-  SubProcess subProcess=new SubProcess();
+  SubProcess subProcess=null;
+  if (getPropertyValueAsBoolean("istransaction",elementNode)) {
+    subProcess=new Transaction();
+  }
+ else {
+    subProcess=new SubProcess();
+  }
   JsonNode childShapesArray=elementNode.get(EDITOR_CHILD_SHAPES);
   processor.processJsonElements(childShapesArray,modelNode,subProcess,shapeMap,model);
   JsonNode processDataPropertiesNode=elementNode.get(EDITOR_SHAPE_PROPERTIES).get(PROPERTY_DATA_PROPERTIES);

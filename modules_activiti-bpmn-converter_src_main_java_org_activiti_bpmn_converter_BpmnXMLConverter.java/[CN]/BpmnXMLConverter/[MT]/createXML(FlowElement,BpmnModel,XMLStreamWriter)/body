@@ -1,7 +1,12 @@
 {
   if (flowElement instanceof SubProcess) {
     SubProcess subProcess=(SubProcess)flowElement;
-    xtw.writeStartElement(ELEMENT_SUBPROCESS);
+    if (flowElement instanceof Transaction) {
+      xtw.writeStartElement(ELEMENT_TRANSACTION);
+    }
+ else {
+      xtw.writeStartElement(ELEMENT_SUBPROCESS);
+    }
     xtw.writeAttribute(ATTRIBUTE_ID,subProcess.getId());
     if (StringUtils.isNotEmpty(subProcess.getName())) {
       xtw.writeAttribute(ATTRIBUTE_NAME,subProcess.getName());

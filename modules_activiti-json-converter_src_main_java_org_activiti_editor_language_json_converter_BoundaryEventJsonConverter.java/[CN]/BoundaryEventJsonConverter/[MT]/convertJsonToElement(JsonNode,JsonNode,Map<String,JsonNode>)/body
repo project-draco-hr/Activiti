@@ -16,6 +16,16 @@
     convertJsonToMessageDefinition(elementNode,boundaryEvent);
     boundaryEvent.setCancelActivity(getPropertyValueAsBoolean(PROPERTY_CANCEL_ACTIVITY,elementNode));
   }
+ else   if (STENCIL_EVENT_BOUNDARY_CANCEL.equals(stencilId)) {
+    CancelEventDefinition cancelEventDefinition=new CancelEventDefinition();
+    boundaryEvent.getEventDefinitions().add(cancelEventDefinition);
+    boundaryEvent.setCancelActivity(getPropertyValueAsBoolean(PROPERTY_CANCEL_ACTIVITY,elementNode));
+  }
+ else   if (STENCIL_EVENT_BOUNDARY_COMPENSATION.equals(stencilId)) {
+    CompensateEventDefinition compensateEventDefinition=new CompensateEventDefinition();
+    boundaryEvent.getEventDefinitions().add(compensateEventDefinition);
+    boundaryEvent.setCancelActivity(getPropertyValueAsBoolean(PROPERTY_CANCEL_ACTIVITY,elementNode));
+  }
   boundaryEvent.setAttachedToRefId(lookForAttachedRef(elementNode.get(EDITOR_SHAPE_ID).asText(),modelNode.get(EDITOR_CHILD_SHAPES)));
   return boundaryEvent;
 }
