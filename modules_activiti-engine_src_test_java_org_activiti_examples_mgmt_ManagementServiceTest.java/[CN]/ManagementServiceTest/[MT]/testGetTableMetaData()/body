@@ -1,13 +1,6 @@
 {
   String tablePrefix=processEngineConfiguration.getDatabaseTablePrefix();
-  String schema=processEngineConfiguration.getDatabaseSchema();
-  if (StringUtils.isEmpty(schema)) {
-    schema="";
-  }
- else {
-    schema+=".";
-  }
-  TableMetaData tableMetaData=managementService.getTableMetaData(schema + tablePrefix + "ACT_RU_TASK");
+  TableMetaData tableMetaData=managementService.getTableMetaData(tablePrefix + "ACT_RU_TASK");
   assertEquals(tableMetaData.getColumnNames().size(),tableMetaData.getColumnTypes().size());
   assertEquals(19,tableMetaData.getColumnNames().size());
   int assigneeIndex=tableMetaData.getColumnNames().indexOf("ASSIGNEE_");
