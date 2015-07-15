@@ -16,13 +16,16 @@
   assertEquals(0,processInstances.size());
   List<Task> tasks=taskService.createTaskQuery().list();
   assertEquals(0,tasks.size());
-  moveByMinutes((60 * 24) + 10);
+  moveByMinutes(60 * 25);
   try {
-    waitForJobExecutorToProcessAllJobs(4000,400);
+    waitForJobExecutorToProcessAllJobs(10000,400);
     fail("there must be a pending job because the endDate is not reached yet");
   }
  catch (  Exception e) {
   }
+  jobs=managementService.createJobQuery().list();
+  assertEquals(1,jobs.size());
+  log.error("TESTFORJOBERROR " + jobs.get(0).getProcessDefinitionId() + " "+ jobs.get(0).getDuedate());
   processInstances=runtimeService.createProcessInstanceQuery().list();
   assertEquals(1,processInstances.size());
   tasks=taskService.createTaskQuery().list();
