@@ -18,14 +18,13 @@
   assertEquals(0,tasks.size());
   moveByMinutes(60 * 25);
   try {
-    waitForJobExecutorToProcessAllJobs(10000,400);
+    waitForJobExecutorToProcessAllJobs(2000,200);
     fail("there must be a pending job because the endDate is not reached yet");
   }
  catch (  Exception e) {
   }
   jobs=managementService.createJobQuery().list();
   assertEquals(1,jobs.size());
-  log.error("TESTFORJOBERROR " + jobs.get(0).getProcessDefinitionId() + " "+ jobs.get(0).getDuedate());
   processInstances=runtimeService.createProcessInstanceQuery().list();
   assertEquals(1,processInstances.size());
   tasks=taskService.createTaskQuery().list();
@@ -35,7 +34,7 @@
   dueDateCalendar=Calendar.getInstance();
   dueDateCalendar.set(2025,Calendar.DECEMBER,12,0,0,0);
   assertEquals(true,Math.abs(dueDateCalendar.getTime().getTime() - jobs.get(0).getDuedate().getTime()) < 2000);
-  moveByMinutes((60 * 24) + 10);
+  moveByMinutes(60 * 25);
   try {
     waitForJobExecutorToProcessAllJobs(2000,200);
   }
