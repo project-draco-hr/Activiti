@@ -13,7 +13,13 @@
     if (job instanceof TimerEntity) {
       processId=TimerEventHandler.getActivityIdFromConfiguration(job.getJobHandlerConfiguration());
     }
-    ProcessDefinitionEntity processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKeyAndTenantId(processId,job.getTenantId());
+    ProcessDefinitionEntity processDefinition=null;
+    if (job.getTenantId() != null && job.getTenantId().length() > 0) {
+      processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKeyAndTenantId(processId,job.getTenantId());
+    }
+ else {
+      processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKey(processId);
+    }
     if (processDefinition != null) {
       activity=processDefinition.getInitial();
     }
