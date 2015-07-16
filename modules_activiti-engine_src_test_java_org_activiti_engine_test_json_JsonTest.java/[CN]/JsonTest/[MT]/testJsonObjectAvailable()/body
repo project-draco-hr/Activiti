@@ -36,16 +36,18 @@
   task=taskService.createTaskQuery().active().singleResult();
   assertNotNull(task);
   assertEquals("userTaskSuccess",task.getTaskDefinitionKey());
-  List<HistoricVariableInstance> historicVariableInstances=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getProcessInstanceId()).orderByVariableName().asc().list();
-  assertEquals(2,historicVariableInstances.size());
-  assertEquals("bigJsonObj",historicVariableInstances.get(0).getVariableName());
-  value=(ObjectNode)historicVariableInstances.get(0).getValue();
-  assertNotNull(value);
-  assertEquals(createBigJsonObject().toString(),value.toString());
-  assertEquals("myJsonObj",historicVariableInstances.get(1).getVariableName());
-  value=(ObjectNode)historicVariableInstances.get(1).getValue();
-  assertNotNull(value);
-  assertEquals("myValue",value.get("var").asText());
-  assertEquals("myOtherValue",value.get("var2").asText());
-  assertEquals("myThirdValue",value.get("var3").asText());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+    List<HistoricVariableInstance> historicVariableInstances=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getProcessInstanceId()).orderByVariableName().asc().list();
+    assertEquals(2,historicVariableInstances.size());
+    assertEquals("bigJsonObj",historicVariableInstances.get(0).getVariableName());
+    value=(ObjectNode)historicVariableInstances.get(0).getValue();
+    assertNotNull(value);
+    assertEquals(createBigJsonObject().toString(),value.toString());
+    assertEquals("myJsonObj",historicVariableInstances.get(1).getVariableName());
+    value=(ObjectNode)historicVariableInstances.get(1).getValue();
+    assertNotNull(value);
+    assertEquals("myValue",value.get("var").asText());
+    assertEquals("myOtherValue",value.get("var2").asText());
+    assertEquals("myThirdValue",value.get("var3").asText());
+  }
 }
