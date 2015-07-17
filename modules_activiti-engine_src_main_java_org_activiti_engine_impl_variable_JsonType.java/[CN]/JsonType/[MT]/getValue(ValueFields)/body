@@ -1,0 +1,12 @@
+{
+  JsonNode jsonValue=null;
+  if (valueFields.getTextValue() != null && valueFields.getTextValue().length() > 0) {
+    try {
+      jsonValue=objectMapper.readTree(valueFields.getTextValue());
+    }
+ catch (    Exception e) {
+      logger.error("Error reading json variable " + valueFields.getName(),e);
+    }
+  }
+  return jsonValue;
+}

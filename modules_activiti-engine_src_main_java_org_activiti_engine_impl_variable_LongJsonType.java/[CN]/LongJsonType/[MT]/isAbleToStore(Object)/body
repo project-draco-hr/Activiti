@@ -1,0 +1,10 @@
+{
+  if (value == null) {
+    return true;
+  }
+  if (JsonNode.class.isAssignableFrom(value.getClass())) {
+    JsonNode jsonValue=(JsonNode)value;
+    return jsonValue.toString().length() >= minLength;
+  }
+  return false;
+}

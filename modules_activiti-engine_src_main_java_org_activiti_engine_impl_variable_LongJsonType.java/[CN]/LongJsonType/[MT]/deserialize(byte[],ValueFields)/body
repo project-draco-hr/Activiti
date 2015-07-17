@@ -1,0 +1,10 @@
+{
+  JsonNode valueNode=null;
+  try {
+    valueNode=objectMapper.readTree(bytes);
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error reading json variable",e);
+  }
+  return valueNode;
+}

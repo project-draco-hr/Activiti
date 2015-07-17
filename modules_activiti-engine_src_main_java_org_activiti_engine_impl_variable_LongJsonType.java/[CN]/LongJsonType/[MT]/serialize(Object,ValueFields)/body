@@ -1,0 +1,12 @@
+{
+  if (value == null) {
+    return null;
+  }
+  JsonNode valueNode=(JsonNode)value;
+  try {
+    return valueNode.toString().getBytes("utf-8");
+  }
+ catch (  Exception e) {
+    throw new ActivitiException("Error getting bytes from json variable",e);
+  }
+}
