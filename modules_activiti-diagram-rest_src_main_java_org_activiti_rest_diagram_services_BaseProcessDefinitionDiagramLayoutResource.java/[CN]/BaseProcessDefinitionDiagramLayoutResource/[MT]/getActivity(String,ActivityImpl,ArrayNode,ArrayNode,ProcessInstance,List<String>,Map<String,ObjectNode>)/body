@@ -116,7 +116,7 @@
           }
         }
       }
-      if (processInstanceArray.size() == 0) {
+      if (processInstanceArray.size() == 0 && StringUtils.isNotEmpty(callActivityBehavior.getProcessDefinitonKey())) {
         ProcessDefinition lastProcessDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey(callActivityBehavior.getProcessDefinitonKey()).latestVersion().singleResult();
         if (lastProcessDefinition != null) {
           ObjectNode processInstanceJSON=new ObjectMapper().createObjectNode();
