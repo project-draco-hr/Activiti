@@ -6,7 +6,7 @@
     if (endDateExpressionString != null) {
       Expression endDateExpression=Context.getProcessEngineConfiguration().getExpressionManager().createExpression(endDateExpressionString);
       String endDateString=null;
-      BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(CycleBusinessCalendar.NAME);
+      BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(getBusinessCalendarName(TimerEventHandler.geCalendarNameFromConfiguration(jobHandlerConfiguration)));
       VariableScope executionEntity=null;
       if (executionId != null) {
         executionEntity=commandContext.getExecutionEntityManager().findExecutionById(executionId);

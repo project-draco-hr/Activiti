@@ -1,3 +1,7 @@
 {
-  return businessCalendars.get(businessCalendarRef);
+  BusinessCalendar businessCalendar=businessCalendars.get(businessCalendarRef);
+  if (businessCalendar == null) {
+    throw new ActivitiException("Requested business calendar " + businessCalendarRef + " does not exist. Allowed calendars are "+ this.businessCalendars.keySet()+ ".");
+  }
+  return businessCalendar;
 }

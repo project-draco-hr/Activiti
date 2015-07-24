@@ -1,5 +1,13 @@
 {
-  BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(type.calendarName);
+  VariableScope scopeForExpression=executionEntity;
+  if (scopeForExpression == null) {
+    scopeForExpression=NoExecutionVariableScope.getSharedInstance();
+  }
+  String calendarName=type.calendarName;
+  if (this.calendarName != null) {
+    calendarName=(String)this.calendarName.getValue(scopeForExpression);
+  }
+  BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(calendarName);
   if (description == null) {
     throw new ActivitiIllegalArgumentException("Timer '" + executionEntity.getActivityId() + "' was not configured with a valid duration/time");
   }
@@ -7,10 +15,6 @@
   String dueDateString=null;
   Date duedate=null;
   Date endDate=null;
-  VariableScope scopeForExpression=executionEntity;
-  if (scopeForExpression == null) {
-    scopeForExpression=NoExecutionVariableScope.getSharedInstance();
-  }
   if (endDateExpression != null && !(scopeForExpression instanceof NoExecutionVariableScope)) {
     Object endDateValue=endDateExpression.getValue(scopeForExpression);
     if (endDateValue instanceof String) {
