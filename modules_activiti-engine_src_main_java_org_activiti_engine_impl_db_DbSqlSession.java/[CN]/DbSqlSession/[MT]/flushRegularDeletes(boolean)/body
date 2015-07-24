@@ -1,6 +1,5 @@
 {
-  List<DeleteOperation> optimizedDeleteOperations=optimizeDeleteOperations(deleteOperations);
-  for (  DeleteOperation delete : optimizedDeleteOperations) {
+  for (  DeleteOperation delete : deleteOperations) {
     log.debug("executing: {}",delete);
     delete.execute();
     if (dispatchEvent) {
