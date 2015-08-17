@@ -1,5 +1,5 @@
 {
-  Exchange ex=new DefaultExchange(camelContextObj);
+  Exchange ex=endpoint.createExchange();
   ex.setProperty(ActivitiProducer.PROCESS_ID_PROPERTY,activityExecution.getProcessInstanceId());
   ex.setProperty(ActivitiProducer.EXECUTION_ID_PROPERTY,activityExecution.getId());
   Map<String,Object> variables=activityExecution.getVariables();
