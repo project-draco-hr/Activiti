@@ -3,6 +3,6 @@
     return new ByteArrayInputStream(byteArrayEncoding == null ? string.getBytes() : string.getBytes(byteArrayEncoding));
   }
  catch (  UnsupportedEncodingException e) {
-    throw new RuntimeException(e);
+    throw new ActivitiException("Unsupported enconding for string",e);
   }
 }

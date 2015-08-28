@@ -2,14 +2,8 @@
   if (candidateUser == null) {
     throw new ActivitiIllegalArgumentException("Candidate user is null");
   }
-  if (candidateGroup != null) {
-    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateUser and candidateGroup");
-  }
-  if (candidateGroups != null) {
-    throw new ActivitiIllegalArgumentException("Invalid query usage: cannot set both candidateUser and candidateGroupIn");
-  }
   if (orActive) {
-    orQueryObject.candidateUser=candidateUser;
+    currentOrQueryObject.candidateUser=candidateUser;
   }
  else {
     this.candidateUser=candidateUser;

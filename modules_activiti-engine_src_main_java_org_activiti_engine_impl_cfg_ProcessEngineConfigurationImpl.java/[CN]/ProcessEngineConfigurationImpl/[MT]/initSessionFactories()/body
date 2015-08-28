@@ -13,7 +13,8 @@
     dbSqlSessionFactory.setTablePrefixIsSchema(tablePrefixIsSchema);
     dbSqlSessionFactory.setDatabaseCatalog(databaseCatalog);
     dbSqlSessionFactory.setDatabaseSchema(databaseSchema);
-    dbSqlSessionFactory.setOptimizeDeleteOperationsEnabled(isOptimizeDeleteOperationsEnabled);
+    dbSqlSessionFactory.setBulkInsertEnabled(isBulkInsertEnabled,databaseType);
+    dbSqlSessionFactory.setMaxNrOfStatementsInBulkInsert(maxNrOfStatementsInBulkInsert);
     addSessionFactory(dbSqlSessionFactory);
     addSessionFactory(new GenericManagerFactory(AttachmentEntityManager.class));
     addSessionFactory(new GenericManagerFactory(CommentEntityManager.class));

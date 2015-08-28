@@ -116,13 +116,15 @@
           }
         }
       }
-      if (processInstanceArray.size() == 0) {
+      if (processInstanceArray.size() == 0 && StringUtils.isNotEmpty(callActivityBehavior.getProcessDefinitonKey())) {
         ProcessDefinition lastProcessDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey(callActivityBehavior.getProcessDefinitonKey()).latestVersion().singleResult();
-        ObjectNode processInstanceJSON=new ObjectMapper().createObjectNode();
-        processInstanceJSON.put("processDefinitionId",lastProcessDefinition.getId());
-        processInstanceJSON.put("processDefinitionKey",lastProcessDefinition.getKey());
-        processInstanceJSON.put("processDefinitionName",lastProcessDefinition.getName());
-        processInstanceArray.add(processInstanceJSON);
+        if (lastProcessDefinition != null) {
+          ObjectNode processInstanceJSON=new ObjectMapper().createObjectNode();
+          processInstanceJSON.put("processDefinitionId",lastProcessDefinition.getId());
+          processInstanceJSON.put("processDefinitionKey",lastProcessDefinition.getKey());
+          processInstanceJSON.put("processDefinitionName",lastProcessDefinition.getName());
+          processInstanceArray.add(processInstanceJSON);
+        }
       }
       if (processInstanceArray.size() > 0) {
         propertiesJSON.put("processDefinitons",processInstanceArray);

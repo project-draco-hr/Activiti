@@ -1,0 +1,10 @@
+{
+  for (  ExecutionListener executionListener : listeners) {
+    try {
+      Context.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation(executionListener,execution));
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Couldn't execute listener",e);
+    }
+  }
+}

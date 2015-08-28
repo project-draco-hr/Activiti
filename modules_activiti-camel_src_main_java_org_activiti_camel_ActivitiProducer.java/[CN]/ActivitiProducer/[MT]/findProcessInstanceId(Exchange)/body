@@ -6,7 +6,7 @@
   String processInstanceKey=exchange.getProperty(PROCESS_KEY_PROPERTY,String.class);
   ProcessInstance processInstance=runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(processInstanceKey).singleResult();
   if (processInstance == null) {
-    throw new RuntimeException("Could not find activiti with key " + processInstanceKey);
+    throw new ActivitiException("Could not find activiti with key " + processInstanceKey);
   }
   return processInstance.getId();
 }

@@ -1,5 +1,5 @@
 {
   List<ExecutionListener> listeners=activity.getExecutionListeners(org.activiti.engine.impl.pvm.PvmEvent.EVENTNAME_END);
-  CallActivityEndListenersOperation atomicOperation=new CallActivityEndListenersOperation(listeners);
+  CallActivityListenersOperation atomicOperation=new CallActivityListenersOperation(listeners);
   Context.getCommandContext().performOperation(atomicOperation,(InterpretableExecution)execution);
 }

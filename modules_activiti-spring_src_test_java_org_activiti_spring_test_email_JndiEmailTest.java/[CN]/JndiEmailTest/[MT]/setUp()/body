@@ -14,9 +14,9 @@
     builder.bind("java:comp/env/Session",mailSession);
   }
  catch (  NamingException e) {
-    logger.error(e);
+    logger.error("Naming error in email setup",e);
   }
 catch (  NoSuchProviderException e) {
-    logger.error(e);
+    logger.error("provider error in email setup",e);
   }
 }

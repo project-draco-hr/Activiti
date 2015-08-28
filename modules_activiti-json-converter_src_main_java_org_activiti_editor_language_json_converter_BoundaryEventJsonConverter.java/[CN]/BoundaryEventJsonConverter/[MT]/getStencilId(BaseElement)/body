@@ -14,6 +14,12 @@
  else   if (eventDefinition instanceof MessageEventDefinition) {
     return STENCIL_EVENT_BOUNDARY_MESSAGE;
   }
+ else   if (eventDefinition instanceof CancelEventDefinition) {
+    return STENCIL_EVENT_BOUNDARY_CANCEL;
+  }
+ else   if (eventDefinition instanceof CompensateEventDefinition) {
+    return STENCIL_EVENT_BOUNDARY_COMPENSATION;
+  }
  else {
     return STENCIL_EVENT_BOUNDARY_TIMER;
   }

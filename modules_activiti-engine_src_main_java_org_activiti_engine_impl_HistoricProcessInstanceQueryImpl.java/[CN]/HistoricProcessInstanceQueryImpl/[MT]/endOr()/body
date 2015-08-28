@@ -1,9 +1,8 @@
 {
-  if (orQueryObject == null || inOrStatement == false) {
-    throw new ActivitiException("OR statement hasn't started, so it can't be ended");
+  if (!inOrStatement) {
+    throw new ActivitiException("endOr() can only be called after calling or()");
   }
- else {
-    inOrStatement=false;
-  }
+  inOrStatement=false;
+  currentOrQueryObject=null;
   return this;
 }

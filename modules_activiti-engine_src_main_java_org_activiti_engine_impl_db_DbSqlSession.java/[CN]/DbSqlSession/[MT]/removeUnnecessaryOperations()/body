@@ -1,19 +1,28 @@
 {
   List<DeleteOperation> removedDeleteOperations=new ArrayList<DeleteOperation>();
-  for (Iterator<DeleteOperation> deleteIt=deleteOperations.iterator(); deleteIt.hasNext(); ) {
-    DeleteOperation deleteOperation=deleteIt.next();
-    for (Iterator<PersistentObject> insertIt=insertedObjects.iterator(); insertIt.hasNext(); ) {
-      PersistentObject insertedObject=insertIt.next();
-      if (deleteOperation.sameIdentity(insertedObject)) {
-        insertIt.remove();
-        deleteIt.remove();
-        removedDeleteOperations.add(deleteOperation);
+  for (Iterator<DeleteOperation> deleteIterator=deleteOperations.iterator(); deleteIterator.hasNext(); ) {
+    DeleteOperation deleteOperation=deleteIterator.next();
+    Class<? extends PersistentObject> deletedPersistentObjectClass=deleteOperation.getPersistentObjectClass();
+    List<PersistentObject> insertedObjectsOfSameClass=insertedObjects.get(deletedPersistentObjectClass);
+    if (insertedObjectsOfSameClass != null && insertedObjectsOfSameClass.size() > 0) {
+      for (Iterator<PersistentObject> insertIterator=insertedObjectsOfSameClass.iterator(); insertIterator.hasNext(); ) {
+        PersistentObject insertedObject=insertIterator.next();
+        if (deleteOperation.sameIdentity(insertedObject)) {
+          insertIterator.remove();
+          deleteIterator.remove();
+          removedDeleteOperations.add(deleteOperation);
+        }
+      }
+      if (insertedObjects.get(deletedPersistentObjectClass).size() == 0) {
+        insertedObjects.remove(deletedPersistentObjectClass);
       }
     }
     deleteOperation.clearCache();
   }
-  for (  PersistentObject insertedObject : insertedObjects) {
-    cacheRemove(insertedObject.getClass(),insertedObject.getId());
+  for (  Class<? extends PersistentObject> persistentObjectClass : insertedObjects.keySet()) {
+    for (    PersistentObject insertedObject : insertedObjects.get(persistentObjectClass)) {
+      cacheRemove(insertedObject.getClass(),insertedObject.getId());
+    }
   }
   return removedDeleteOperations;
 }

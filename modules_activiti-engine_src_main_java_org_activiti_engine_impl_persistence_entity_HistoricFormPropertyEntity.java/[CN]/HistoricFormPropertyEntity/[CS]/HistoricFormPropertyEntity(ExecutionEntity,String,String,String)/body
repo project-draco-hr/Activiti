@@ -5,6 +5,7 @@
   this.propertyId=propertyId;
   this.propertyValue=propertyValue;
   this.time=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
+  this.detailType="FormProperty";
   HistoricActivityInstanceEntity historicActivityInstance=Context.getCommandContext().getHistoryManager().findActivityInstance(execution);
   if (historicActivityInstance != null) {
     this.activityInstanceId=historicActivityInstance.getId();

@@ -3,6 +3,10 @@
     String id=dbSqlSessionFactory.getIdGenerator().getNextId();
     persistentObject.setId(id);
   }
-  insertedObjects.add(persistentObject);
+  Class<? extends PersistentObject> clazz=persistentObject.getClass();
+  if (!insertedObjects.containsKey(clazz)) {
+    insertedObjects.put(clazz,new ArrayList<PersistentObject>());
+  }
+  insertedObjects.get(clazz).add(persistentObject);
   cachePut(persistentObject,false);
 }

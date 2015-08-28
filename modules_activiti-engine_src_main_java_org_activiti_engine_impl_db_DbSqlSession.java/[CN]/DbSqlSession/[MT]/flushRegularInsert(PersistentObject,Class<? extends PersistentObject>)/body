@@ -1,0 +1,12 @@
+{
+  String insertStatement=dbSqlSessionFactory.getInsertStatement(persistentObject);
+  insertStatement=dbSqlSessionFactory.mapStatement(insertStatement);
+  if (insertStatement == null) {
+    throw new ActivitiException("no insert statement for " + persistentObject.getClass() + " in the ibatis mapping files");
+  }
+  log.debug("inserting: {}",persistentObject);
+  sqlSession.insert(insertStatement,persistentObject);
+  if (persistentObject instanceof HasRevision) {
+    ((HasRevision)persistentObject).setRevision(((HasRevision)persistentObject).getRevisionNext());
+  }
+}

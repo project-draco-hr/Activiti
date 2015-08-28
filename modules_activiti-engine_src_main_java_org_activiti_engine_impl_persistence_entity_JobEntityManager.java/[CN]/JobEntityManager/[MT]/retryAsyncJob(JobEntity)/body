@@ -1,4 +1,9 @@
 {
   AsyncExecutor asyncExecutor=Context.getProcessEngineConfiguration().getAsyncExecutor();
+  try {
+    Thread.sleep(asyncExecutor.getRetryWaitTimeInMillis());
+  }
+ catch (  InterruptedException e) {
+  }
   asyncExecutor.executeAsyncJob(job);
 }

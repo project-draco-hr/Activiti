@@ -19,6 +19,8 @@
  else {
       nestedActivity=createActivityOnScope(bpmnParse,event,BpmnXMLConstants.ELEMENT_EVENT_CATCH,scope);
     }
+    nestedActivity.setAsync(event.isAsynchronous());
+    nestedActivity.setExclusive(!event.isNotExclusive());
     nestedActivity.setActivityBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateCatchEventActivityBehavior(event));
     if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof SignalEventDefinition || eventDefinition instanceof MessageEventDefinition) {
       bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse,eventDefinition);

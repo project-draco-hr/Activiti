@@ -7,7 +7,10 @@
       Expression endDateExpression=Context.getProcessEngineConfiguration().getExpressionManager().createExpression(endDateExpressionString);
       String endDateString=null;
       BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(CycleBusinessCalendar.NAME);
-      VariableScope executionEntity=commandContext.getExecutionEntityManager().findExecutionById(this.getExecutionId());
+      VariableScope executionEntity=null;
+      if (executionId != null) {
+        executionEntity=commandContext.getExecutionEntityManager().findExecutionById(executionId);
+      }
       if (executionEntity == null) {
         executionEntity=NoExecutionVariableScope.getSharedInstance();
       }

@@ -1,0 +1,14 @@
+{
+  if (persistentObjectsToInsert.size() == 1) {
+    flushRegularInsert(persistentObjectsToInsert.get(0),persistentObjectClass);
+  }
+ else   if (Boolean.FALSE.equals(dbSqlSessionFactory.isBulkInsertable(persistentObjectClass))) {
+    for (    PersistentObject persistentObject : persistentObjectsToInsert) {
+      flushRegularInsert(persistentObject,persistentObjectClass);
+    }
+  }
+ else {
+    flushBulkInsert(insertedObjects.get(persistentObjectClass),persistentObjectClass);
+  }
+  insertedObjects.remove(persistentObjectClass);
+}

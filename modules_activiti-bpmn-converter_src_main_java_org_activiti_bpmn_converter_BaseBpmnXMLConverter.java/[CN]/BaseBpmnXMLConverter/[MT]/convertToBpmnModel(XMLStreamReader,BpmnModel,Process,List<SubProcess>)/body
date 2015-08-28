@@ -9,9 +9,8 @@
   if (parsedElement instanceof Artifact) {
     Artifact currentArtifact=(Artifact)parsedElement;
     currentArtifact.setId(elementId);
-    if (isInSubProcess(activeSubProcessList)) {
-      final SubProcess currentSubProcess=activeSubProcessList.get(activeSubProcessList.size() - 2);
-      currentSubProcess.addArtifact(currentArtifact);
+    if (!activeSubProcessList.isEmpty()) {
+      activeSubProcessList.get(activeSubProcessList.size() - 1).addArtifact(currentArtifact);
     }
  else {
       activeProcess.addArtifact(currentArtifact);
