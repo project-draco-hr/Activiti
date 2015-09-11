@@ -1,0 +1,10 @@
+{
+  AnnotationConfigApplicationContext annotationConfigApplicationContext=new AnnotationConfigApplicationContext();
+  annotationConfigApplicationContext.register(clzz);
+  File springBootPropertiesFile=new File("src/test/resources/config/application.properties");
+  Properties springBootProperties=new Properties();
+  springBootProperties.load(new FileInputStream(springBootPropertiesFile));
+  annotationConfigApplicationContext.getEnvironment().getPropertySources().addFirst(new PropertiesPropertySource("testProperties",springBootProperties));
+  annotationConfigApplicationContext.refresh();
+  return annotationConfigApplicationContext;
+}
