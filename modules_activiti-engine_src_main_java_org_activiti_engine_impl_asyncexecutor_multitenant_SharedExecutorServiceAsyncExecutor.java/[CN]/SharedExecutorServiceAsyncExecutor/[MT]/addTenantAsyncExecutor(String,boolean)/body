@@ -1,0 +1,12 @@
+{
+  TenantAwareAcquireTimerJobsRunnable timerRunnable=new TenantAwareAcquireTimerJobsRunnable(this,tenantInfoHolder,tenantId);
+  timerJobAcquisitionRunnables.put(tenantId,timerRunnable);
+  timerJobAcquisitionThreads.put(tenantId,new Thread(timerRunnable));
+  TenantAwareAcquireAsyncJobsDueRunnable asyncJobsRunnable=new TenantAwareAcquireAsyncJobsDueRunnable(this,tenantInfoHolder,tenantId);
+  asyncJobAcquisitionRunnables.put(tenantId,asyncJobsRunnable);
+  asyncJobAcquisitionThreads.put(tenantId,new Thread(asyncJobsRunnable));
+  if (startExecutor) {
+    startTimerJobAcquisitionForTenant(tenantId);
+    startAsyncJobAcquisitionForTenant(tenantId);
+  }
+}

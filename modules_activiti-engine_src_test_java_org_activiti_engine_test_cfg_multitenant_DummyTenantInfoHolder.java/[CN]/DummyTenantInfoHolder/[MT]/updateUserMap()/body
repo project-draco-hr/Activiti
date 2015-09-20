@@ -1,0 +1,9 @@
+{
+  userToTenantMapping.clear();
+  for (  String tenantId : tenantToUserMapping.keySet()) {
+    List<String> userIds=tenantToUserMapping.get(tenantId);
+    for (    String tenantUserId : userIds) {
+      userToTenantMapping.put(tenantUserId,tenantId);
+    }
+  }
+}

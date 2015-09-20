@@ -1,0 +1,17 @@
+{
+  config=new MultiSchemaMultiTenantProcessEngineConfiguration(tenantInfoHolder);
+  config.setDatabaseType(MultiSchemaMultiTenantProcessEngineConfiguration.DATABASE_TYPE_H2);
+  config.setDatabaseSchemaUpdate(MultiSchemaMultiTenantProcessEngineConfiguration.DB_SCHEMA_UPDATE_DROP_CREATE);
+  config.setAsyncExecutorEnabled(true);
+  config.setAsyncExecutorActivate(true);
+  if (sharedExecutor) {
+    config.setAsyncExecutor(new SharedExecutorServiceAsyncExecutor(tenantInfoHolder));
+  }
+ else {
+    config.setAsyncExecutor(new ExecutorPerTenantAsyncExecutor(tenantInfoHolder));
+  }
+  config.registerTenant("alfresco",createDataSource("jdbc:h2:mem:activiti-mt-alfresco;DB_CLOSE_DELAY=1000","sa",""));
+  config.registerTenant("acme",createDataSource("jdbc:h2:mem:activiti-mt-acme;DB_CLOSE_DELAY=1000","sa",""));
+  config.registerTenant("starkindustries",createDataSource("jdbc:h2:mem:activiti-mt-stark;DB_CLOSE_DELAY=1000","sa",""));
+  processEngine=config.buildProcessEngine();
+}

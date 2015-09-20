@@ -1,0 +1,11 @@
+{
+  if (asyncExecutor == null) {
+    asyncExecutor=new ExecutorPerTenantAsyncExecutor(tenantInfoHolder);
+  }
+  super.initAsyncExecutor();
+  if (asyncExecutor instanceof TenantAwareAsyncExecutor) {
+    for (    String tenantId : tenantInfoHolder.getAllTenants()) {
+      ((TenantAwareAsyncExecutor)asyncExecutor).addTenantAsyncExecutor(tenantId,false);
+    }
+  }
+}

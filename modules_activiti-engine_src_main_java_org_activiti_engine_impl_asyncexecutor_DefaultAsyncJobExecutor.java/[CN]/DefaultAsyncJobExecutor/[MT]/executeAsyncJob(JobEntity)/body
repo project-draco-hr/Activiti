@@ -1,6 +1,13 @@
 {
+  Runnable runnable=null;
   if (isActive) {
-    executorService.execute(new ExecuteAsyncRunnable(job,commandExecutor));
+    if (executeAsyncRunnableFactory == null) {
+      runnable=new ExecuteAsyncRunnable(job,commandExecutor);
+    }
+ else {
+      runnable=executeAsyncRunnableFactory.createExecuteAsyncRunnable(job,commandExecutor);
+    }
+    executorService.execute(runnable);
   }
  else {
     temporaryJobQueue.add(job);

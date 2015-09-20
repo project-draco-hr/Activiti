@@ -1,0 +1,16 @@
+{
+  System.out.println();
+  System.out.println("Starting process instance for user " + userId);
+  tenantInfoHolder.setCurrentUserId(userId);
+  Deployment deployment=processEngine.getRepositoryService().createDeployment().addClasspathResource("org/activiti/engine/test/cfg/multitenant/oneTaskProcess.bpmn20.xml").addClasspathResource("org/activiti/engine/test/cfg/multitenant/jobTest.bpmn20.xml").deploy();
+  System.out.println("Process deployed! Deployment id is " + deployment.getId());
+  Map<String,Object> vars=new HashMap<String,Object>();
+  vars.put("data","Hello from " + userId);
+  ProcessInstance processInstance=processEngine.getRuntimeService().startProcessInstanceByKey("oneTaskProcess",vars);
+  List<Task> tasks=processEngine.getTaskService().createTaskQuery().processInstanceId(processInstance.getId()).list();
+  System.out.println("Got " + tasks.size() + " tasks");
+  System.out.println("Got " + processEngine.getHistoryService().createHistoricProcessInstanceQuery().count() + " process instances in the system");
+  processEngine.getRuntimeService().startProcessInstanceByKey("jobTest");
+  tenantInfoHolder.clearCurrentUserId();
+  tenantInfoHolder.clearCurrentTenantId();
+}
