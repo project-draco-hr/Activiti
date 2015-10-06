@@ -1,0 +1,9 @@
+{
+  ((TenantAwareDataSource)super.getDataSource()).addDataSource(tenantId,dataSource);
+  if (booted) {
+    createTenantSchema(tenantId);
+    if (isAsyncExecutorEnabled()) {
+      createTenantAsyncJobExecutor(tenantId);
+    }
+  }
+}

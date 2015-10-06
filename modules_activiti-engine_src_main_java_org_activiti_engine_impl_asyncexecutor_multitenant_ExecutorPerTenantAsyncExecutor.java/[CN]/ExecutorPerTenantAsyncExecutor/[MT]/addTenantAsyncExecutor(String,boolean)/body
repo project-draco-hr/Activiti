@@ -1,0 +1,20 @@
+{
+  AsyncExecutor tenantExecutor=null;
+  if (tenantAwareAyncExecutorFactory == null) {
+    tenantExecutor=new DefaultAsyncJobExecutor();
+  }
+ else {
+    tenantExecutor=tenantAwareAyncExecutorFactory.createAsyncExecutor(tenantId);
+  }
+  if (tenantExecutor instanceof DefaultAsyncJobExecutor) {
+    DefaultAsyncJobExecutor defaultAsyncJobExecutor=(DefaultAsyncJobExecutor)tenantExecutor;
+    defaultAsyncJobExecutor.setAsyncJobsDueRunnable(new TenantAwareAcquireAsyncJobsDueRunnable(defaultAsyncJobExecutor,tenantInfoHolder,tenantId));
+    defaultAsyncJobExecutor.setTimerJobRunnable(new TenantAwareAcquireTimerJobsRunnable(defaultAsyncJobExecutor,tenantInfoHolder,tenantId));
+    defaultAsyncJobExecutor.setExecuteAsyncRunnableFactory(new TenantAwareExecuteAsyncRunnableFactory(tenantInfoHolder,tenantId));
+  }
+  tenantExecutor.setCommandExecutor(commandExecutor);
+  tenantExecutors.put(tenantId,tenantExecutor);
+  if (startExecutor) {
+    tenantExecutor.start();
+  }
+}

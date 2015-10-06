@@ -1,0 +1,8 @@
+{
+  String tenantId=tenantInfoHolder.getCurrentTenantId();
+  DataSource dataSource=dataSources.get(tenantId);
+  if (dataSource == null) {
+    throw new ActivitiException("Could not find a dataSource for tenant " + tenantId);
+  }
+  return dataSource;
+}

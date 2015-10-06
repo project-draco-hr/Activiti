@@ -1,0 +1,6 @@
+{
+  logger.info("creating/validating database schema for tenant " + tenantId);
+  tenantInfoHolder.setCurrentTenantId(tenantId);
+  getCommandExecutor().execute(getSchemaCommandConfig(),new ExecuteSchemaOperationCommand(databaseSchemaUpdate));
+  tenantInfoHolder.clearCurrentTenantId();
+}

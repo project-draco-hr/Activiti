@@ -1,0 +1,8 @@
+{
+  tenantInfoHolder.setCurrentUserId(userId);
+  Assert.assertEquals(nrOfActiveProcessInstances,processEngine.getRuntimeService().createProcessInstanceQuery().count());
+  Assert.assertEquals(nrOfActiveProcessInstances,processEngine.getHistoryService().createHistoricProcessInstanceQuery().unfinished().count());
+  Assert.assertEquals(nrOfActiveJobs,processEngine.getManagementService().createJobQuery().count());
+  tenantInfoHolder.clearCurrentUserId();
+  tenantInfoHolder.clearCurrentTenantId();
+}
