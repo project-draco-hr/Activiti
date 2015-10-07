@@ -1,0 +1,8 @@
+{
+  tenantInfoHolder.setCurrentUserId(userId);
+  for (  Task task : processEngine.getTaskService().createTaskQuery().list()) {
+    processEngine.getTaskService().complete(task.getId());
+  }
+  tenantInfoHolder.clearCurrentUserId();
+  tenantInfoHolder.clearCurrentTenantId();
+}

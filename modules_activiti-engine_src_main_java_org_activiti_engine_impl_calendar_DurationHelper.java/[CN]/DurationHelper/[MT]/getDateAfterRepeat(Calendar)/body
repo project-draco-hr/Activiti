@@ -1,11 +1,22 @@
 {
-  Calendar cur=TimeZoneUtil.convertToTimeZone(start,date.getTimeZone());
-  int maxLoops=times;
-  if (maxIterations > 0) {
-    maxLoops=maxIterations - times;
+  Calendar current=TimeZoneUtil.convertToTimeZone(start,date.getTimeZone());
+  if (repeatWithNoBounds) {
+    while (current.before(date) || current.equals(date)) {
+      Calendar newTime=add(current,period);
+      if (newTime.equals(current) || newTime.before(current)) {
+        break;
+      }
+      current=newTime;
+    }
   }
-  for (int i=0; i < maxLoops + 1 && !cur.after(date); i++) {
-    cur=add(cur,period);
+ else {
+    int maxLoops=times;
+    if (maxIterations > 0) {
+      maxLoops=maxIterations - times;
+    }
+    for (int i=0; i < maxLoops + 1 && !current.after(date); i++) {
+      current=add(current,period);
+    }
   }
-  return cur.before(date) ? date : TimeZoneUtil.convertToTimeZone(cur,clockReader.getCurrentTimeZone());
+  return current.before(date) ? date : TimeZoneUtil.convertToTimeZone(current,clockReader.getCurrentTimeZone());
 }

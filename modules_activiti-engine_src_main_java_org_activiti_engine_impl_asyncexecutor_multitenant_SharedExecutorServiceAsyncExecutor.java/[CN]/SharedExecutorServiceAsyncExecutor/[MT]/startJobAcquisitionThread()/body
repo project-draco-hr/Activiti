@@ -1,0 +1,8 @@
+{
+  for (  String tenantId : timerJobAcquisitionThreads.keySet()) {
+    startTimerJobAcquisitionForTenant(tenantId);
+  }
+  for (  String tenantId : asyncJobAcquisitionThreads.keySet()) {
+    asyncJobAcquisitionThreads.get(tenantId).start();
+  }
+}

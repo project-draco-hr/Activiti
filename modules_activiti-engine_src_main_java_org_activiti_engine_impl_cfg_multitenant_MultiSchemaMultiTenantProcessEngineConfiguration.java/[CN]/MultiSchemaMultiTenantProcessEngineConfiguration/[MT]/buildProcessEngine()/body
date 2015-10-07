@@ -1,0 +1,17 @@
+{
+  String originalDatabaseSchemaUpdate=this.databaseSchemaUpdate;
+  this.databaseSchemaUpdate=null;
+  boolean originalIsAutoActivateAsyncExecutor=this.asyncExecutorActivate;
+  this.asyncExecutorActivate=false;
+  ProcessEngine processEngine=super.buildProcessEngine();
+  this.databaseSchemaUpdate=originalDatabaseSchemaUpdate;
+  this.asyncExecutorActivate=originalIsAutoActivateAsyncExecutor;
+  for (  String tenantId : tenantInfoHolder.getAllTenants()) {
+    createTenantSchema(tenantId);
+  }
+  if (asyncExecutor != null && originalIsAutoActivateAsyncExecutor) {
+    asyncExecutor.start();
+  }
+  booted=true;
+  return processEngine;
+}

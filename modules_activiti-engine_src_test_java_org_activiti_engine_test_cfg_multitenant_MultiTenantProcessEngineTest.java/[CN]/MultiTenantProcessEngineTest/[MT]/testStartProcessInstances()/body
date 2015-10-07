@@ -1,0 +1,26 @@
+{
+  setupProcessEngine(true);
+  startProcessInstances("joram");
+  startProcessInstances("joram");
+  startProcessInstances("joram");
+  startProcessInstances("raphael");
+  startProcessInstances("raphael");
+  completeTasks("raphael");
+  startProcessInstances("tony");
+  assertData("joram",6,3);
+  assertData("raphael",0,0);
+  assertData("tony",2,1);
+  tenantInfoHolder.addTenant("dailyplanet");
+  tenantInfoHolder.addUser("dailyplanet","louis");
+  tenantInfoHolder.addUser("dailyplanet","clark");
+  config.registerTenant("dailyplanet",createDataSource("jdbc:h2:mem:activiti-mt-daily;DB_CLOSE_DELAY=1000","sa",""));
+  startProcessInstances("clark");
+  startProcessInstances("clark");
+  assertData("clark",4,2);
+  config.getClock().setCurrentTime(new Date(config.getClock().getCurrentTime().getTime() + (2 * 60 * 60* 1000)));
+  Thread.sleep(15000L);
+  assertData("joram",6,0);
+  assertData("raphael",0,0);
+  assertData("tony",2,0);
+  assertData("clark",4,0);
+}

@@ -1,0 +1,9 @@
+{
+  this.tenantInfoHolder=tenantInfoHolder;
+  setExecuteAsyncRunnableFactory(new ExecuteAsyncRunnableFactory(){
+    public Runnable createExecuteAsyncRunnable(    JobEntity jobEntity,    CommandExecutor commandExecutor){
+      return new TenantAwareExecuteAsyncRunnable(jobEntity,commandExecutor,SharedExecutorServiceAsyncExecutor.this.tenantInfoHolder,SharedExecutorServiceAsyncExecutor.this.tenantInfoHolder.getCurrentTenantId());
+    }
+  }
+);
+}

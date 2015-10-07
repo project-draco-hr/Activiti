@@ -9,6 +9,9 @@
   if (expression.get(0).startsWith("R")) {
     isRepeat=true;
     times=expression.get(0).length() == 1 ? Integer.MAX_VALUE - 1 : Integer.parseInt(expression.get(0).substring(1));
+    if (expression.get(0).equals("R")) {
+      repeatWithNoBounds=true;
+    }
     expression=expression.subList(1,expression.size());
   }
   if (isDuration(expression.get(0))) {

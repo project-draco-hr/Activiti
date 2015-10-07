@@ -1,0 +1,7 @@
+{
+  for (  String tenantId : tenantExecutors.keySet()) {
+    logger.info("Shutting down async executor for tenant " + tenantId);
+    tenantExecutors.get(tenantId).shutdown();
+  }
+  active=false;
+}

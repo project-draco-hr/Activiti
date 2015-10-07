@@ -14,8 +14,8 @@
       }
       email.setHostName(host);
       email.setSmtpPort(mailServerInfo.getMailServerPort());
-      email.setSSLOnConnect(processEngineConfiguration.getMailServerUseSSL());
-      email.setStartTLSEnabled(processEngineConfiguration.getMailServerUseTLS());
+      email.setSSLOnConnect(mailServerInfo.isMailServerUseSSL());
+      email.setStartTLSEnabled(mailServerInfo.isMailServerUseTLS());
       String user=mailServerInfo.getMailServerUsername();
       String password=mailServerInfo.getMailServerPassword();
       if (user != null && password != null) {
