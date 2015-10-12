@@ -1,0 +1,28 @@
+{
+  if (processDefinitionId == null) {
+    throw new ActivitiIllegalArgumentException("process definition id is null");
+  }
+  if (infoNode == null) {
+    throw new ActivitiIllegalArgumentException("process definition info node is null");
+  }
+  ProcessDefinitionInfoEntityManager definitionInfoEntityManager=commandContext.getProcessDefinitionInfoEntityManager();
+  ProcessDefinitionInfoEntity definitionInfoEntity=definitionInfoEntityManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinitionId);
+  if (definitionInfoEntity == null) {
+    definitionInfoEntity=new ProcessDefinitionInfoEntity();
+    definitionInfoEntity.setProcessDefinitionId(processDefinitionId);
+    commandContext.getProcessDefinitionInfoEntityManager().insertProcessDefinitionInfo(definitionInfoEntity);
+  }
+ else {
+    commandContext.getProcessDefinitionInfoEntityManager().updateProcessDefinitionInfo(definitionInfoEntity);
+  }
+  if (infoNode != null) {
+    try {
+      ObjectWriter writer=commandContext.getProcessEngineConfiguration().getObjectMapper().writer();
+      commandContext.getProcessDefinitionInfoEntityManager().updateInfoJson(definitionInfoEntity.getId(),writer.writeValueAsBytes(infoNode));
+    }
+ catch (    Exception e) {
+      throw new ActivitiException("Unable to serialize info node " + infoNode);
+    }
+  }
+  return null;
+}

@@ -1,0 +1,8 @@
+{
+  CommandContext commandContext=Context.getCommandContext();
+  DbSqlSession dbSqlSession=commandContext.getDbSqlSession();
+  dbSqlSession.update(updatedProcessDefinitionInfo);
+  if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+    Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_UPDATED,updatedProcessDefinitionInfo));
+  }
+}

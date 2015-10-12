@@ -1,0 +1,7 @@
+{
+  ObjectNode bpmnNode=createOrGetBpmnNode(infoNode);
+  if (bpmnNode.has(id) == false) {
+    bpmnNode.put(id,objectMapper.createObjectNode());
+  }
+  ((ObjectNode)bpmnNode.get(id)).put(propertyName,propertyValue);
+}

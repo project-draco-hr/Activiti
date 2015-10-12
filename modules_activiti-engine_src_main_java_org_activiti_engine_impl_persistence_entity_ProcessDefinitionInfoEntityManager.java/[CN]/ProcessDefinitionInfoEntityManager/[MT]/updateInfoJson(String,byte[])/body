@@ -1,0 +1,11 @@
+{
+  ProcessDefinitionInfoEntity processDefinitionInfo=getDbSqlSession().selectById(ProcessDefinitionInfoEntity.class,id);
+  if (processDefinitionInfo != null) {
+    ByteArrayRef ref=new ByteArrayRef(processDefinitionInfo.getInfoJsonId());
+    ref.setValue("json",json);
+    if (processDefinitionInfo.getInfoJsonId() == null) {
+      processDefinitionInfo.setInfoJsonId(ref.getId());
+      updateProcessDefinitionInfo(processDefinitionInfo);
+    }
+  }
+}

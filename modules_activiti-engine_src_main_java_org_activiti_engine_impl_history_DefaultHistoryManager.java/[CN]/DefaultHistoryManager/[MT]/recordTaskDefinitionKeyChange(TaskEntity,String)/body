@@ -4,13 +4,11 @@
     if (historicTaskInstance != null) {
       historicTaskInstance.setTaskDefinitionKey(taskDefinitionKey);
       if (taskDefinitionKey != null) {
-        TaskFormHandler taskFormHandler=task.getTaskDefinition().getTaskFormHandler();
-        if (taskFormHandler != null) {
-          if (taskFormHandler.getFormKey() != null) {
-            Object formValue=taskFormHandler.getFormKey().getValue(task.getExecution());
-            if (formValue != null) {
-              historicTaskInstance.setFormKey(formValue.toString());
-            }
+        Expression taskFormExpression=task.getTaskDefinition().getFormKeyExpression();
+        if (taskFormExpression != null) {
+          Object formValue=taskFormExpression.getValue(task.getExecution());
+          if (formValue != null) {
+            historicTaskInstance.setFormKey(formValue.toString());
           }
         }
       }

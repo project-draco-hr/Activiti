@@ -1,0 +1,10 @@
+{
+  ProcessDefinitionInfoEntity processDefinitionInfo=findProcessDefinitionInfoByProcessDefinitionId(processDefinitionId);
+  if (processDefinitionInfo != null) {
+    getDbSqlSession().delete(processDefinitionInfo);
+    deleteInfoJson(processDefinitionInfo);
+    if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+      Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_DELETED,processDefinitionInfo));
+    }
+  }
+}

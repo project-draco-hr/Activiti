@@ -1,6 +1,9 @@
 {
   TaskEntity task=TaskEntity.createAndInsert(execution);
   task.setExecution(execution);
+  ObjectNode taskElementProperties=Context.getBpmnOverrideElementProperties(userTaskId,execution.getProcessDefinitionId());
+  Expression activeFormExpression=getActiveValue(taskDefinition.getFormKeyExpression(),BpmnCacheUtil.USER_TASK_FORM_KEY,taskElementProperties);
+  taskDefinition.setFormKeyExpression(activeFormExpression);
   task.setTaskDefinition(taskDefinition);
   if (taskDefinition.getNameExpression() != null) {
     String name=null;
@@ -69,14 +72,14 @@
       }
     }
   }
-  if (taskDefinition.getFormKeyExpression() != null) {
-    final Object formKey=taskDefinition.getFormKeyExpression().getValue(execution);
+  if (activeFormExpression != null) {
+    final Object formKey=activeFormExpression.getValue(execution);
     if (formKey != null) {
       if (formKey instanceof String) {
         task.setFormKey((String)formKey);
       }
  else {
-        throw new ActivitiIllegalArgumentException("FormKey expression does not resolve to a string: " + taskDefinition.getFormKeyExpression().getExpressionText());
+        throw new ActivitiIllegalArgumentException("FormKey expression does not resolve to a string: " + activeFormExpression.getExpressionText());
       }
     }
   }

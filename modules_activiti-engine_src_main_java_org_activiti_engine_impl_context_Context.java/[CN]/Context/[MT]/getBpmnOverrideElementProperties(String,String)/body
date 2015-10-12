@@ -1,0 +1,13 @@
+{
+  Map<String,ObjectNode> bpmnOverrideMap=getBpmnOverrideContext();
+  if (bpmnOverrideMap.containsKey(processDefinitionId) == false) {
+    ProcessDefinitionInfoCacheObject cacheObject=getProcessEngineConfiguration().getDeploymentManager().getProcessDefinitionInfoCache().get(processDefinitionId);
+    addBpmnOverrideElement(processDefinitionId,cacheObject.getInfoNode());
+  }
+  ObjectNode definitionInfoNode=getBpmnOverrideContext().get(processDefinitionId);
+  ObjectNode elementProperties=null;
+  if (definitionInfoNode != null) {
+    elementProperties=BpmnCacheUtil.getElementProperties(id,definitionInfoNode);
+  }
+  return elementProperties;
+}
