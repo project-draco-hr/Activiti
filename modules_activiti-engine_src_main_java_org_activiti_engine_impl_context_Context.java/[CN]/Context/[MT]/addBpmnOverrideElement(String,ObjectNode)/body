@@ -1,0 +1,8 @@
+{
+  Map<String,ObjectNode> bpmnOverrideMap=bpmnOverrideContextThreadLocal.get();
+  if (bpmnOverrideMap == null) {
+    bpmnOverrideMap=new HashMap<String,ObjectNode>();
+    bpmnOverrideContextThreadLocal.set(bpmnOverrideMap);
+  }
+  bpmnOverrideMap.put(id,infoNode);
+}

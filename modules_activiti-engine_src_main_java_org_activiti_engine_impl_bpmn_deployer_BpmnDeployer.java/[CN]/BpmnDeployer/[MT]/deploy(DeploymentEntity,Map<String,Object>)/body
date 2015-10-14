@@ -113,7 +113,9 @@
         processDefinition.setSuspensionState(persistedProcessDefinition.getSuspensionState());
       }
     }
-    processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache().add(processDefinition.getId(),processDefinition);
+    DeploymentManager deploymentManager=processEngineConfiguration.getDeploymentManager();
+    deploymentManager.getProcessDefinitionCache().add(processDefinition.getId(),processDefinition);
+    addDefinitionInfoToCache(processDefinition,processEngineConfiguration,commandContext);
     deployment.addDeployedArtifact(processDefinition);
   }
 }

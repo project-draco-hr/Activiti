@@ -1,5 +1,5 @@
 {
   super.setUp();
-  databaseEventLogger=new EventLogger(processEngineConfiguration.getClock());
+  databaseEventLogger=new EventLogger(processEngineConfiguration.getClock(),processEngineConfiguration.getObjectMapper());
   runtimeService.addEventListener(databaseEventLogger);
 }

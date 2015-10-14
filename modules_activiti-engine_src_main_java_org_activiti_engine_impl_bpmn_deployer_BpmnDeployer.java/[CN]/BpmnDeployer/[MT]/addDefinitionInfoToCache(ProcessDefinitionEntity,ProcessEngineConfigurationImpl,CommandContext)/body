@@ -1,0 +1,34 @@
+{
+  if (processEngineConfiguration.isEnableProcessDefinitionInfoCache() == false) {
+    return;
+  }
+  DeploymentManager deploymentManager=processEngineConfiguration.getDeploymentManager();
+  ProcessDefinitionInfoEntityManager definitionInfoEntityManager=commandContext.getProcessDefinitionInfoEntityManager();
+  ObjectMapper objectMapper=commandContext.getProcessEngineConfiguration().getObjectMapper();
+  ProcessDefinitionInfoEntity definitionInfoEntity=definitionInfoEntityManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinition.getId());
+  ObjectNode infoNode=null;
+  if (definitionInfoEntity != null && definitionInfoEntity.getInfoJsonId() != null) {
+    byte[] infoBytes=definitionInfoEntityManager.findInfoJsonById(definitionInfoEntity.getInfoJsonId());
+    if (infoBytes != null) {
+      try {
+        infoNode=(ObjectNode)objectMapper.readTree(infoBytes);
+      }
+ catch (      Exception e) {
+        throw new ActivitiException("Error deserializing json info for process definition " + processDefinition.getId());
+      }
+    }
+  }
+  ProcessDefinitionInfoCacheObject definitionCacheObject=new ProcessDefinitionInfoCacheObject();
+  if (definitionInfoEntity == null) {
+    definitionCacheObject.setRevision(0);
+  }
+ else {
+    definitionCacheObject.setId(definitionInfoEntity.getId());
+    definitionCacheObject.setRevision(definitionInfoEntity.getRevision());
+  }
+  if (infoNode == null) {
+    infoNode=objectMapper.createObjectNode();
+  }
+  definitionCacheObject.setInfoNode(infoNode);
+  deploymentManager.getProcessDefinitionInfoCache().add(processDefinition.getId(),definitionCacheObject);
+}
