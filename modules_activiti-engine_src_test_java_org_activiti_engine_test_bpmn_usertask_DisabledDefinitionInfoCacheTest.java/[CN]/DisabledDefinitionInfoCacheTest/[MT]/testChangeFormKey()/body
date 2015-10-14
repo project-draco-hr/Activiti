@@ -9,7 +9,7 @@
   dynamicBpmnService.saveProcessDefinitionInfo(processDefinitionId,infoNode);
   processInstance=runtimeService.startProcessInstanceByKey("dynamicUserTask");
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-  assertEquals("test2",task.getFormKey());
+  assertEquals("test",task.getFormKey());
   taskService.complete(task.getId());
   assertProcessEnded(processInstance.getId());
 }

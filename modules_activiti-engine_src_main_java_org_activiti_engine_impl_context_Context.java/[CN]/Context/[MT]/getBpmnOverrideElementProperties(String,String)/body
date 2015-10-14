@@ -7,7 +7,7 @@
   ObjectNode definitionInfoNode=getBpmnOverrideContext().get(processDefinitionId);
   ObjectNode elementProperties=null;
   if (definitionInfoNode != null) {
-    elementProperties=BpmnCacheUtil.getElementProperties(id,definitionInfoNode);
+    elementProperties=getProcessEngineConfiguration().getDynamicBpmnService().getElementProperties(id,definitionInfoNode);
   }
   return elementProperties;
 }

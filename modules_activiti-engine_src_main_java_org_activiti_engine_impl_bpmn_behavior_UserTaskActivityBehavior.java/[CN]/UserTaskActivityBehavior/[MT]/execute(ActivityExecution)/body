@@ -1,9 +1,15 @@
 {
   TaskEntity task=TaskEntity.createAndInsert(execution);
   task.setExecution(execution);
-  ObjectNode taskElementProperties=Context.getBpmnOverrideElementProperties(userTaskId,execution.getProcessDefinitionId());
-  Expression activeFormExpression=getActiveValue(taskDefinition.getFormKeyExpression(),BpmnCacheUtil.USER_TASK_FORM_KEY,taskElementProperties);
-  taskDefinition.setFormKeyExpression(activeFormExpression);
+  Expression activeFormExpression=null;
+  if (Context.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
+    ObjectNode taskElementProperties=Context.getBpmnOverrideElementProperties(userTaskId,execution.getProcessDefinitionId());
+    activeFormExpression=getActiveValue(taskDefinition.getFormKeyExpression(),DynamicBpmnConstants.USER_TASK_FORM_KEY,taskElementProperties);
+    taskDefinition.setFormKeyExpression(activeFormExpression);
+  }
+ else {
+    activeFormExpression=taskDefinition.getFormKeyExpression();
+  }
   task.setTaskDefinition(taskDefinition);
   if (taskDefinition.getNameExpression() != null) {
     String name=null;
