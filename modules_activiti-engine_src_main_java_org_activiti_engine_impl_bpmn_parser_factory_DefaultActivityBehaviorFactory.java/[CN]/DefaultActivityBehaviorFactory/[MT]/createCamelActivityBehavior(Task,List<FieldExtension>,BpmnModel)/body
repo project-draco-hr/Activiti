@@ -17,7 +17,7 @@
     }
     List<FieldDeclaration> fieldDeclarations=createFieldDeclarations(fieldExtensions);
     addExceptionMapAsFieldDeclaraion(fieldDeclarations,task.getMapExceptions());
-    return (ActivityBehavior)ClassDelegate.instantiateDelegate(theClass,fieldDeclarations);
+    return (ActivityBehavior)ClassDelegate.defaultInstantiateDelegate(theClass,fieldDeclarations);
   }
  catch (  ClassNotFoundException e) {
     throw new ActivitiException("Could not find org.activiti.camel.CamelBehavior: ",e);
