@@ -1,0 +1,16 @@
+{
+  ArrayNode valuesNode=null;
+  if (overwriteOtherChangedEntries) {
+    valuesNode=processEngineConfiguration.getObjectMapper().createArrayNode();
+  }
+ else {
+    if (doesElementPropertyExist(id,USER_TASK_CANDIDATE_GROUPS,infoNode)) {
+      valuesNode=(ArrayNode)infoNode.get(BPMN_NODE).get(id).get(USER_TASK_CANDIDATE_GROUPS);
+    }
+    if (valuesNode == null || valuesNode.isNull()) {
+      valuesNode=processEngineConfiguration.getObjectMapper().createArrayNode();
+    }
+  }
+  valuesNode.add(candidateGroup);
+  setElementProperty(id,USER_TASK_CANDIDATE_GROUPS,valuesNode,infoNode);
+}

@@ -7,7 +7,7 @@
   assertEquals("test",task.getFormKey());
   taskService.complete(task.getId());
   assertProcessEnded(processInstance.getId());
-  ObjectNode infoNode=dynamicBpmnService.changeFormKey("task1","${anotherKey}");
+  ObjectNode infoNode=dynamicBpmnService.changeUserTaskFormKey("task1","${anotherKey}");
   dynamicBpmnService.saveProcessDefinitionInfo(processDefinitionId,infoNode);
   varMap=new HashMap<String,Object>();
   varMap.put("anotherKey","test2");

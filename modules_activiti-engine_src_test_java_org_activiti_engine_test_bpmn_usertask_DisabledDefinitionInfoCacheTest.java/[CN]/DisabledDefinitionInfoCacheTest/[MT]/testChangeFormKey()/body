@@ -5,7 +5,7 @@
   assertEquals("test",task.getFormKey());
   taskService.complete(task.getId());
   assertProcessEnded(processInstance.getId());
-  ObjectNode infoNode=dynamicBpmnService.changeFormKey("task1","test2");
+  ObjectNode infoNode=dynamicBpmnService.changeUserTaskFormKey("task1","test2");
   dynamicBpmnService.saveProcessDefinitionInfo(processDefinitionId,infoNode);
   processInstance=runtimeService.startProcessInstanceByKey("dynamicUserTask");
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();

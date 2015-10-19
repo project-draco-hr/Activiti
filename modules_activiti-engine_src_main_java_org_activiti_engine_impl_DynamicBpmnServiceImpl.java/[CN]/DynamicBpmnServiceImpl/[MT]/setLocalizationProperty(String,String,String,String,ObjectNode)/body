@@ -1,0 +1,11 @@
+{
+  ObjectNode localizationNode=createOrGetLocalizationNode(infoNode);
+  if (localizationNode.has(language) == false) {
+    localizationNode.put(language,processEngineConfiguration.getObjectMapper().createObjectNode());
+  }
+  ObjectNode languageNode=(ObjectNode)localizationNode.get(language);
+  if (languageNode.has(id) == false) {
+    languageNode.put(id,processEngineConfiguration.getObjectMapper().createObjectNode());
+  }
+  ((ObjectNode)languageNode.get(id)).put(propertyName,propertyValue);
+}

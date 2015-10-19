@@ -1,0 +1,20 @@
+{
+  task.setLocalizedName(null);
+  task.setLocalizedDescription(null);
+  if (locale != null) {
+    String processDefinitionId=task.getProcessDefinitionId();
+    if (processDefinitionId != null) {
+      ObjectNode languageNode=Context.getLocalizationElementProperties(locale,task.getTaskDefinitionKey(),processDefinitionId);
+      if (languageNode != null) {
+        JsonNode languageNameNode=languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+        if (languageNameNode != null && languageNameNode.isNull() == false) {
+          task.setLocalizedName(languageNameNode.asText());
+        }
+        JsonNode languageDescriptionNode=languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+        if (languageDescriptionNode != null && languageDescriptionNode.isNull() == false) {
+          task.setLocalizedDescription(languageDescriptionNode.asText());
+        }
+      }
+    }
+  }
+}

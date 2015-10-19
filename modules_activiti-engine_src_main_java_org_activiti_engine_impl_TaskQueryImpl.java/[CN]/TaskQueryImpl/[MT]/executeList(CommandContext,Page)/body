@@ -1,10 +1,17 @@
 {
   ensureVariablesInitialized();
   checkQueryOk();
+  List<Task> tasks=null;
   if (includeTaskLocalVariables || includeProcessVariables) {
-    return commandContext.getTaskEntityManager().findTasksAndVariablesByQueryCriteria(this);
+    tasks=commandContext.getTaskEntityManager().findTasksAndVariablesByQueryCriteria(this);
   }
  else {
-    return commandContext.getTaskEntityManager().findTasksByQueryCriteria(this);
+    tasks=commandContext.getTaskEntityManager().findTasksByQueryCriteria(this);
   }
+  if (tasks != null) {
+    for (    Task task : tasks) {
+      localize(task);
+    }
+  }
+  return tasks;
 }
