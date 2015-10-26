@@ -2,7 +2,7 @@
   try {
     Class<?> theClass=Class.forName("org.activiti.mule.MuleSendActivitiBehavior");
     List<FieldDeclaration> fieldDeclarations=createFieldDeclarations(fieldExtensions);
-    return (ActivityBehavior)ClassDelegate.instantiateDelegate(theClass,fieldDeclarations);
+    return (ActivityBehavior)ClassDelegate.defaultInstantiateDelegate(theClass,fieldDeclarations);
   }
  catch (  ClassNotFoundException e) {
     throw new ActivitiException("Could not find org.activiti.mule.MuleSendActivitiBehavior: ",e);

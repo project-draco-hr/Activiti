@@ -1,10 +1,17 @@
 {
   ensureVariablesInitialized();
   checkQueryOk();
+  List<HistoricTaskInstance> tasks=null;
   if (includeTaskLocalVariables || includeProcessVariables) {
-    return commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesAndVariablesByQueryCriteria(this);
+    tasks=commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesAndVariablesByQueryCriteria(this);
   }
  else {
-    return commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesByQueryCriteria(this);
+    tasks=commandContext.getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesByQueryCriteria(this);
   }
+  if (tasks != null) {
+    for (    HistoricTaskInstance task : tasks) {
+      localize(task);
+    }
+  }
+  return tasks;
 }

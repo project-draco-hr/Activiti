@@ -1,0 +1,19 @@
+{
+  Set<Expression> activeValues=originalValues;
+  if (taskElementProperties != null) {
+    JsonNode overrideValuesNode=taskElementProperties.get(propertyName);
+    if (overrideValuesNode != null) {
+      if (overrideValuesNode.isNull() || overrideValuesNode.isArray() == false || overrideValuesNode.size() == 0) {
+        activeValues=null;
+      }
+ else {
+        ExpressionManager expressionManager=Context.getProcessEngineConfiguration().getExpressionManager();
+        activeValues=new HashSet<Expression>();
+        for (        JsonNode valueNode : overrideValuesNode) {
+          activeValues.add(expressionManager.createExpression(valueNode.asText()));
+        }
+      }
+    }
+  }
+  return activeValues;
+}

@@ -1,0 +1,8 @@
+{
+  ObjectNode definitionInfoNode=getProcessDefinitionInfoNode(processDefinitionId);
+  ObjectNode elementProperties=null;
+  if (definitionInfoNode != null) {
+    elementProperties=getProcessEngineConfiguration().getDynamicBpmnService().getBpmnElementProperties(id,definitionInfoNode);
+  }
+  return elementProperties;
+}

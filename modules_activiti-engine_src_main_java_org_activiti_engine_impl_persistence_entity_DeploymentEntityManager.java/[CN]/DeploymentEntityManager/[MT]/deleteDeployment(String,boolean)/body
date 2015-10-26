@@ -16,6 +16,7 @@
     String processDefinitionId=processDefinition.getId();
     getIdentityLinkManager().deleteIdentityLinksByProcDef(processDefinitionId);
     getEventSubscriptionManager().deleteEventSubscriptionsForProcessDefinition(processDefinitionId);
+    getProcessDefinitionInfoManager().deleteProcessDefinitionInfo(processDefinitionId);
   }
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
   for (  ProcessDefinition processDefinition : processDefinitions) {

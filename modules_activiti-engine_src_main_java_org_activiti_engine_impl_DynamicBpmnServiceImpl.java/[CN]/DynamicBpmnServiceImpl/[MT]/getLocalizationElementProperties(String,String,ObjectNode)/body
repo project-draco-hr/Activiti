@@ -1,0 +1,11 @@
+{
+  ObjectNode propertiesNode=null;
+  ObjectNode localizationNode=getLocalizationNode(infoNode);
+  if (localizationNode != null) {
+    JsonNode languageNode=localizationNode.get(language);
+    if (languageNode != null) {
+      propertiesNode=(ObjectNode)languageNode.get(id);
+    }
+  }
+  return propertiesNode;
+}

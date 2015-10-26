@@ -1,0 +1,10 @@
+{
+  boolean exists=false;
+  if (infoNode.get(BPMN_NODE) != null && infoNode.get(BPMN_NODE).get(id) != null && infoNode.get(BPMN_NODE).get(id).get(propertyName) != null) {
+    JsonNode propNode=infoNode.get(BPMN_NODE).get(id).get(propertyName);
+    if (propNode.isNull() == false) {
+      exists=true;
+    }
+  }
+  return exists;
+}

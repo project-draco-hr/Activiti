@@ -1,0 +1,15 @@
+{
+  Expression activeValue=originalValue;
+  if (taskElementProperties != null) {
+    JsonNode overrideValueNode=taskElementProperties.get(propertyName);
+    if (overrideValueNode != null) {
+      if (overrideValueNode.isNull()) {
+        activeValue=null;
+      }
+ else {
+        activeValue=Context.getProcessEngineConfiguration().getExpressionManager().createExpression(overrideValueNode.asText());
+      }
+    }
+  }
+  return activeValue;
+}
