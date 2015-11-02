@@ -1,9 +1,9 @@
 {
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("terminateEndEventExample");
-  long remainingExecutions=runtimeService.createExecutionQuery().count();
-  assertEquals(1,remainingExecutions);
-  assertEquals(3,serviceTaskInvokedCount2);
   Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).taskDefinitionKey("preNormalEnd").singleResult();
+  taskService.complete(task.getId());
+  task=taskService.createTaskQuery().processInstanceId(pi.getId()).taskDefinitionKey("preTerminateEnd").singleResult();
+  assertNotNull(task);
   taskService.complete(task.getId());
   assertProcessEnded(pi.getId());
 }
