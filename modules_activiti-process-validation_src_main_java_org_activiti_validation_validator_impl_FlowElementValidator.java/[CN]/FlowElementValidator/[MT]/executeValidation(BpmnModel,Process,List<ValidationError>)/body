@@ -2,6 +2,7 @@
   for (  FlowElement flowElement : process.getFlowElements()) {
     if (flowElement instanceof Activity) {
       Activity activity=(Activity)flowElement;
+      handleConstraints(process,activity,errors);
       handleMultiInstanceLoopCharacteristics(process,activity,errors);
       handleDataAssociations(process,activity,errors);
     }
