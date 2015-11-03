@@ -1,0 +1,15 @@
+{
+  String activeValue=originalValue;
+  if (elementProperties != null) {
+    JsonNode overrideValueNode=elementProperties.get(propertyName);
+    if (overrideValueNode != null) {
+      if (overrideValueNode.isNull()) {
+        activeValue=null;
+      }
+ else {
+        activeValue=overrideValueNode.asText();
+      }
+    }
+  }
+  return activeValue;
+}
