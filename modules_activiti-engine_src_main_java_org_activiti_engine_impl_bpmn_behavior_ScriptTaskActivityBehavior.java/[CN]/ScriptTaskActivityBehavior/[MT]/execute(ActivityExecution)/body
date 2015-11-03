@@ -1,5 +1,14 @@
 {
   ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
+  if (Context.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
+    ObjectNode taskElementProperties=Context.getBpmnOverrideElementProperties(scriptTaskId,execution.getProcessDefinitionId());
+    if (taskElementProperties != null && taskElementProperties.has(DynamicBpmnConstants.SCRIPT_TASK_SCRIPT)) {
+      String overrideScript=taskElementProperties.get(DynamicBpmnConstants.SCRIPT_TASK_SCRIPT).asText();
+      if (StringUtils.isNotEmpty(overrideScript) && overrideScript.equals(script) == false) {
+        script=overrideScript;
+      }
+    }
+  }
   boolean noErrors=true;
   try {
     Object result=scriptingEngines.evaluate(script,language,execution,storeScriptVariables);
