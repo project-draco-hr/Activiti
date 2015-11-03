@@ -1,0 +1,12 @@
+{
+  orderedExecutions.add(rootExecution);
+  if (rootExecution.getExecutions() != null && rootExecution.getExecutions().size() > 0) {
+    for (    ExecutionEntity childExecution : rootExecution.getExecutions()) {
+      orderExecutionsRootToLeaf(childExecution,orderedExecutions);
+    }
+  }
+  if (rootExecution.getSubProcessInstance() != null) {
+    orderExecutionsRootToLeaf(rootExecution.getSubProcessInstance(),orderedExecutions);
+  }
+  return orderedExecutions;
+}
