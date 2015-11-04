@@ -1,0 +1,13 @@
+{
+  Set<Class<?>> mybatisMappers=new HashSet<Class<?>>();
+  for (  String customMybatisMapperClassName : customMyBatisMappers) {
+    try {
+      Class customMybatisClass=Class.forName(customMybatisMapperClassName);
+      mybatisMappers.add(customMybatisClass);
+    }
+ catch (    ClassNotFoundException e) {
+      throw new IllegalArgumentException("Class " + customMybatisMapperClassName + " has not been found.",e);
+    }
+  }
+  return mybatisMappers;
+}
