@@ -1,3 +1,14 @@
 {
   this.endEvent=endEvent.clone();
+  if (endEvent.getEventDefinitions() != null) {
+    for (    EventDefinition eventDefinition : endEvent.getEventDefinitions()) {
+      if (eventDefinition instanceof TerminateEventDefinition) {
+        TerminateEventDefinition terminateEventDefinition=(TerminateEventDefinition)eventDefinition;
+        if (terminateEventDefinition.isTerminateAll()) {
+          this.terminateAll=true;
+          break;
+        }
+      }
+    }
+  }
 }
