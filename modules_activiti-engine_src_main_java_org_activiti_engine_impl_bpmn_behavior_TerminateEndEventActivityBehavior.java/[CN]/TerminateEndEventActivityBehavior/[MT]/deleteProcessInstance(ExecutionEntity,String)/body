@@ -1,0 +1,11 @@
+{
+  List<ExecutionEntity> orderedExecutions=orderExecutionsRootToLeaf(processInstanceExecution);
+  Collections.reverse(orderedExecutions);
+  for (  ExecutionEntity executionToDelete : orderedExecutions) {
+    executionToDelete.setDeleteReason(deleteReason);
+    executionToDelete.setEnded(true);
+    executionToDelete.setActive(false);
+    executionToDelete.setDeleteRoot(true);
+    executionToDelete.remove();
+  }
+}

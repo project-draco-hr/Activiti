@@ -1,5 +1,4 @@
 {
-  serviceTaskInvokedCount=0;
   ProcessInstance pi=runtimeService.startProcessInstanceByKey("terminateEndEventExample");
   long executionEntities=runtimeService.createExecutionQuery().processInstanceId(pi.getId()).count();
   assertEquals(1,executionEntities);
