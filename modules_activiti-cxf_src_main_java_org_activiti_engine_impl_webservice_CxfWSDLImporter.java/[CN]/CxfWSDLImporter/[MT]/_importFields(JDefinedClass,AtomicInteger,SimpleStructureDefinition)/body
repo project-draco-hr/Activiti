@@ -7,7 +7,7 @@
     Class<?> fieldClass=ReflectUtil.loadClass(entry.getValue().type().boxify().fullName());
     String fieldName=entry.getKey();
     if (fieldName.startsWith("_")) {
-      if (!reservedKeywords.contains(fieldName.substring(1)))       fieldName=fieldName.substring(1);
+      if (reservedKeywords.contains(fieldName.substring(1)))       fieldName=fieldName.substring(1);
     }
     structure.setFieldName(index.getAndIncrement(),fieldName,fieldClass);
   }
