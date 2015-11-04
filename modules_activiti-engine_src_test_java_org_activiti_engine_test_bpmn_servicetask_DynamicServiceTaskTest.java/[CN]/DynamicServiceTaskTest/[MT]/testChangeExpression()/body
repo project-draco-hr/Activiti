@@ -5,9 +5,11 @@
   ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("dynamicServiceTask",varMap);
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.complete(task.getId());
-  HistoricVariableInstance historicVariableInstance=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("executed").singleResult();
-  assertNotNull(historicVariableInstance);
-  assertTrue((Boolean)historicVariableInstance.getValue());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricVariableInstance historicVariableInstance=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("executed").singleResult();
+    assertNotNull(historicVariableInstance);
+    assertTrue((Boolean)historicVariableInstance.getValue());
+  }
   assertProcessEnded(processInstance.getId());
   testBean=new DummyTestBean();
   varMap=new HashMap<String,Object>();
@@ -18,8 +20,10 @@
   dynamicBpmnService.saveProcessDefinitionInfo(processDefinitionId,infoNode);
   task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
   taskService.complete(task.getId());
-  historicVariableInstance=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("executed").singleResult();
-  assertNotNull(historicVariableInstance);
-  assertTrue((Boolean)historicVariableInstance.getValue());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricVariableInstance historicVariableInstance=historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).variableName("executed").singleResult();
+    assertNotNull(historicVariableInstance);
+    assertTrue((Boolean)historicVariableInstance.getValue());
+  }
   assertProcessEnded(processInstance.getId());
 }
