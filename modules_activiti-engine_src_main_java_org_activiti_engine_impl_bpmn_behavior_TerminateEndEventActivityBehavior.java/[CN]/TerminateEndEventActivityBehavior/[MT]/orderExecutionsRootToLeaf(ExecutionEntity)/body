@@ -1,0 +1,7 @@
+{
+  ExecutionEntity rootExecution=execution;
+  while (rootExecution.getParent() != null || rootExecution.getSuperExecution() != null) {
+    rootExecution=rootExecution.getParent() != null ? rootExecution.getParent() : rootExecution.getSuperExecution();
+  }
+  return orderExecutionsRootToLeaf(rootExecution,new ArrayList<ExecutionEntity>());
+}

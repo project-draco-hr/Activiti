@@ -14,5 +14,11 @@
   conf.setMailServerDefaultFrom(activitiProperties.getMailServerDefaultFrom());
   conf.setMailServerUseSSL(activitiProperties.isMailServerUseSsl());
   conf.setMailServerUseTLS(activitiProperties.isMailServerUseTls());
+  if (activitiProperties.getCustomMybatisMappers() != null) {
+    conf.setCustomMybatisMappers(getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
+  }
+  if (activitiProperties.getCustomMybatisXMLMappers() != null) {
+    conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
+  }
   return conf;
 }

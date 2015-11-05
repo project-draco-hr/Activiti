@@ -1,0 +1,14 @@
+{
+  return new CommandLineRunner(){
+    @Override public void run(    String... args) throws Exception {
+      String processDefinitionDeploymentId=managementService.executeCommand(new Command<String>(){
+        @Override public String execute(        CommandContext commandContext){
+          return (String)commandContext.getDbSqlSession().selectOne("selectProcessDefinitionDeploymentIdByKey","waiter");
+        }
+      }
+);
+      logger.info("Process definition deployment id = {}",processDefinitionDeploymentId);
+    }
+  }
+;
+}

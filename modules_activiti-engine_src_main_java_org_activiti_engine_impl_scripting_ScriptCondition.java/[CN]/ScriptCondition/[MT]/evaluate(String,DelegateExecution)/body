@@ -1,0 +1,19 @@
+{
+  String conditionExpression=null;
+  if (Context.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
+    ObjectNode elementProperties=Context.getBpmnOverrideElementProperties(sequenceFlowId,execution.getProcessDefinitionId());
+    conditionExpression=getActiveValue(expression,DynamicBpmnConstants.SEQUENCE_FLOW_CONDITION,elementProperties);
+  }
+ else {
+    conditionExpression=expression;
+  }
+  ScriptingEngines scriptingEngines=Context.getProcessEngineConfiguration().getScriptingEngines();
+  Object result=scriptingEngines.evaluate(conditionExpression,language,execution);
+  if (result == null) {
+    throw new ActivitiException("condition script returns null: " + expression);
+  }
+  if (!(result instanceof Boolean)) {
+    throw new ActivitiException("condition script returns non-Boolean: " + result + " ("+ result.getClass().getName()+ ")");
+  }
+  return (Boolean)result;
+}
