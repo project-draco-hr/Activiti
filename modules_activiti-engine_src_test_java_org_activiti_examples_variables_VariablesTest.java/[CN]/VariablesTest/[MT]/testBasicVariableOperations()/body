@@ -16,10 +16,6 @@
     long2001StringBuilder.append("a");
   }
   long2001StringBuilder.append("a");
-  StringBuilder long4000StringBuilder=new StringBuilder();
-  for (int i=0; i < 2000; i++) {
-    long4000StringBuilder.append("\uD841\uDF31");
-  }
   StringBuilder long4001StringBuilder=new StringBuilder();
   for (int i=0; i < 4000; i++) {
     long4001StringBuilder.append("a");
@@ -29,7 +25,6 @@
   variables.put("longVar",928374L);
   variables.put("shortVar",(short)123);
   variables.put("integerVar",1234);
-  variables.put("longString4000chars",long4000StringBuilder.toString());
   variables.put("longString2000chars",long2000StringBuilder.toString());
   variables.put("stringVar","coca-cola");
   variables.put("dateVar",now);
@@ -45,14 +40,13 @@
   assertEquals(1234,variables.get("integerVar"));
   assertEquals("coca-cola",variables.get("stringVar"));
   assertEquals(long2000StringBuilder.toString(),variables.get("longString2000chars"));
-  assertEquals(long4000StringBuilder.toString(),variables.get("longString4000chars"));
   assertEquals(now,variables.get("dateVar"));
   assertEquals(null,variables.get("nullVar"));
   assertEquals(serializable,variables.get("serializableVar"));
   assertTrue(Arrays.equals(bytes1,(byte[])variables.get("bytesVar")));
   assertEquals(new CustomType(bytes2),variables.get("customVar1"));
   assertEquals(null,variables.get("customVar2"));
-  assertEquals(12,variables.size());
+  assertEquals(11,variables.size());
   runtimeService.setVariable(processInstance.getId(),"longVar",null);
   runtimeService.setVariable(processInstance.getId(),"shortVar",null);
   runtimeService.setVariable(processInstance.getId(),"integerVar",null);
