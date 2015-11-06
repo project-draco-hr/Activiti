@@ -35,5 +35,9 @@
         propertiesNode.put(PROPERTY_TIMER_CYCLE_END_DATE,timerDefinition.getEndDate());
       }
     }
+ else     if (eventDefinition instanceof TerminateEventDefinition) {
+      TerminateEventDefinition terminateEventDefinition=(TerminateEventDefinition)eventDefinition;
+      propertiesNode.put(PROPERTY_TERMINATE_ALL,terminateEventDefinition.isTerminateAll());
+    }
   }
 }

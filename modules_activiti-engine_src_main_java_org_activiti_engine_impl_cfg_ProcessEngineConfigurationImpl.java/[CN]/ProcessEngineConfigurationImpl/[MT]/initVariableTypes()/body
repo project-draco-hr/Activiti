@@ -7,8 +7,8 @@
       }
     }
     variableTypes.addType(new NullType());
-    variableTypes.addType(new StringType(maxLengthStringVariableType));
-    variableTypes.addType(new LongStringType(maxLengthStringVariableType + 1));
+    variableTypes.addType(new StringType(getMaxLengthString()));
+    variableTypes.addType(new LongStringType(getMaxLengthString() + 1));
     variableTypes.addType(new BooleanType());
     variableTypes.addType(new ShortType());
     variableTypes.addType(new IntegerType());
@@ -16,8 +16,8 @@
     variableTypes.addType(new DateType());
     variableTypes.addType(new DoubleType());
     variableTypes.addType(new UUIDType());
-    variableTypes.addType(new JsonType(maxLengthStringVariableType,objectMapper));
-    variableTypes.addType(new LongJsonType(maxLengthStringVariableType + 1,objectMapper));
+    variableTypes.addType(new JsonType(getMaxLengthString(),objectMapper));
+    variableTypes.addType(new LongJsonType(getMaxLengthString() + 1,objectMapper));
     variableTypes.addType(new ByteArrayType());
     variableTypes.addType(new SerializableType());
     variableTypes.addType(new CustomObjectType("item",ItemInstance.class));
