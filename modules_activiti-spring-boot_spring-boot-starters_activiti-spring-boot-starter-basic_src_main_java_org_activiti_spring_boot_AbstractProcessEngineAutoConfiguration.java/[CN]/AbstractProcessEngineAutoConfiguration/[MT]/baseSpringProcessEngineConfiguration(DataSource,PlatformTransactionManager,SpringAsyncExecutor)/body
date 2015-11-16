@@ -20,5 +20,8 @@
   if (activitiProperties.getCustomMybatisXMLMappers() != null) {
     conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
   }
+  if (processEngineConfigurationConfigurer != null) {
+    processEngineConfigurationConfigurer.configure(conf);
+  }
   return conf;
 }
