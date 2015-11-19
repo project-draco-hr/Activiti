@@ -4,7 +4,17 @@
   assertEquals(1,variableMap.size());
   assertEquals(123,variableMap.get("anothertest"));
   List<ProcessInstance> instanceList=runtimeService.createProcessInstanceQuery().includeProcessVariables().list();
-  assertEquals(5,instanceList.size());
+  assertEquals(6,instanceList.size());
+  processInstance=runtimeService.createProcessInstanceQuery().includeProcessVariables().variableValueLike("casetest","MyCase%").singleResult();
+  variableMap=processInstance.getProcessVariables();
+  assertEquals(1,variableMap.size());
+  assertEquals("MyCaseTest",variableMap.get("casetest"));
+  processInstance=runtimeService.createProcessInstanceQuery().includeProcessVariables().variableValueLikeIgnoreCase("casetest","mycase%").singleResult();
+  variableMap=processInstance.getProcessVariables();
+  assertEquals(1,variableMap.size());
+  assertEquals("MyCaseTest",variableMap.get("casetest"));
+  processInstance=runtimeService.createProcessInstanceQuery().includeProcessVariables().variableValueLikeIgnoreCase("casetest","mycase2%").singleResult();
+  assertNull(processInstance);
   instanceList=runtimeService.createProcessInstanceQuery().includeProcessVariables().processDefinitionKey(PROCESS_DEFINITION_KEY).list();
   assertEquals(4,instanceList.size());
   processInstance=instanceList.get(0);
