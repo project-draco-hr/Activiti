@@ -1,36 +1,36 @@
 {
-  assertEquals("formPropertiesProcess",model.getMainProcess().getId());
-  assertEquals("User registration",model.getMainProcess().getName());
+  assertEquals("process",model.getMainProcess().getId());
+  assertEquals("formPropsProcess",model.getMainProcess().getName());
   assertEquals(true,model.getMainProcess().isExecutable());
-  FlowElement startFlowElement=model.getMainProcess().getFlowElement("register");
+  FlowElement startFlowElement=model.getMainProcess().getFlowElement("startNode");
   assertNotNull(startFlowElement);
   assertTrue(startFlowElement instanceof StartEvent);
   StartEvent startEvent=(StartEvent)startFlowElement;
   for (  FormProperty formProperty : startEvent.getFormProperties()) {
     assertEquals(true,formProperty.isRequired());
   }
-  FlowElement userFlowElement=model.getMainProcess().getFlowElement("edit");
+  FlowElement userFlowElement=model.getMainProcess().getFlowElement("userTask");
   assertNotNull(userFlowElement);
   assertTrue(userFlowElement instanceof UserTask);
   UserTask userTask=(UserTask)userFlowElement;
-  for (  FormProperty formProperty : userTask.getFormProperties()) {
-    if (formProperty.getId().equals("duplicated")) {
-      checkFormProperty(formProperty,false,true,true);
+  List<FormProperty> formProperties=userTask.getFormProperties();
+  assertNotNull(formProperties);
+  assertEquals("Invalid form properties list: ",8,formProperties.size());
+  for (  FormProperty formProperty : formProperties) {
+    if (formProperty.getId().equals("new_property_1")) {
+      checkFormProperty(formProperty,false,false,false);
     }
-    if (formProperty.getId().equals("name")) {
-      checkFormProperty(formProperty,false,true,true);
-    }
-    if (formProperty.getId().equals("age")) {
-      checkFormProperty(formProperty,false,true,false);
-    }
-    if (formProperty.getId().equals("isMan")) {
+ else     if (formProperty.getId().equals("new_property_2")) {
       checkFormProperty(formProperty,false,false,true);
     }
-    if (formProperty.getId().equals("remove")) {
-      checkFormProperty(formProperty,true,true,true);
+ else     if (formProperty.getId().equals("new_property_3")) {
+      checkFormProperty(formProperty,false,true,false);
     }
-    if (formProperty.getId().equals("testEnum")) {
+ else     if (formProperty.getId().equals("new_property_4")) {
       checkFormProperty(formProperty,false,true,true);
+    }
+ else     if (formProperty.getId().equals("new_property_5")) {
+      checkFormProperty(formProperty,true,false,false);
       List<Map<String,Object>> formValues=new ArrayList<Map<String,Object>>();
       for (      FormValue formValue : formProperty.getFormValues()) {
         Map<String,Object> formValueMap=new HashMap<String,Object>();
@@ -39,6 +39,15 @@
         formValues.add(formValueMap);
       }
       checkFormPropertyFormValues(formValues);
+    }
+ else     if (formProperty.getId().equals("new_property_6")) {
+      checkFormProperty(formProperty,true,false,true);
+    }
+ else     if (formProperty.getId().equals("new_property_7")) {
+      checkFormProperty(formProperty,true,true,false);
+    }
+ else     if (formProperty.getId().equals("new_property_8")) {
+      checkFormProperty(formProperty,true,true,true);
     }
   }
 }
