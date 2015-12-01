@@ -21,7 +21,13 @@
             if (enumValuesNode != null) {
               List<FormValue> formValueList=new ArrayList<FormValue>();
               for (              JsonNode enumNode : enumValuesNode) {
-                if (enumNode.get("value") != null && enumNode.get("value").isNull() == false) {
+                if (enumNode.get(PROPERTY_FORM_ENUM_VALUES_ID) != null && enumNode.get(PROPERTY_FORM_ENUM_VALUES_ID).isNull() == false && enumNode.get(PROPERTY_FORM_ENUM_VALUES_NAME) != null && enumNode.get(PROPERTY_FORM_ENUM_VALUES_NAME).isNull() == false) {
+                  FormValue formValue=new FormValue();
+                  formValue.setId(enumNode.get(PROPERTY_FORM_ENUM_VALUES_ID).asText());
+                  formValue.setName(enumNode.get(PROPERTY_FORM_ENUM_VALUES_NAME).asText());
+                  formValueList.add(formValue);
+                }
+ else                 if (enumNode.get("value") != null && enumNode.get("value").isNull() == false) {
                   FormValue formValue=new FormValue();
                   formValue.setId(enumNode.get("value").asText());
                   formValue.setName(enumNode.get("value").asText());

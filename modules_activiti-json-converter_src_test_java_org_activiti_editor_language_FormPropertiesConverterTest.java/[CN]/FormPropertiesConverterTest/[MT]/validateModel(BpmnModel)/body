@@ -6,14 +6,51 @@
   assertNotNull(startFlowElement);
   assertTrue(startFlowElement instanceof StartEvent);
   StartEvent startEvent=(StartEvent)startFlowElement;
-  for (  FormProperty formProperty : startEvent.getFormProperties()) {
-    assertEquals(true,formProperty.isRequired());
+  List<FormProperty> formProperties=startEvent.getFormProperties();
+  assertNotNull(formProperties);
+  assertEquals("Invalid form properties list: ",8,formProperties.size());
+  for (  FormProperty formProperty : formProperties) {
+    if (formProperty.getId().equals("new_property_1")) {
+      checkFormProperty(formProperty,"v000",true,false,false);
+    }
+ else     if (formProperty.getId().equals("new_property_2")) {
+      checkFormProperty(formProperty,"v001",true,false,true);
+    }
+ else     if (formProperty.getId().equals("new_property_3")) {
+      checkFormProperty(formProperty,"v010",true,true,false);
+    }
+ else     if (formProperty.getId().equals("new_property_4")) {
+      checkFormProperty(formProperty,"v011",true,true,true);
+    }
+ else     if (formProperty.getId().equals("new_property_5")) {
+      checkFormProperty(formProperty,"v100",true,false,false);
+      List<Map<String,Object>> formValues=new ArrayList<Map<String,Object>>();
+      for (      FormValue formValue : formProperty.getFormValues()) {
+        Map<String,Object> formValueMap=new HashMap<String,Object>();
+        formValueMap.put("id",formValue.getId());
+        formValueMap.put("name",formValue.getName());
+        formValues.add(formValueMap);
+      }
+      checkFormPropertyFormValues(formValues);
+    }
+ else     if (formProperty.getId().equals("new_property_6")) {
+      checkFormProperty(formProperty,"v101",true,false,true);
+    }
+ else     if (formProperty.getId().equals("new_property_7")) {
+      checkFormProperty(formProperty,"v110",true,true,false);
+    }
+ else     if (formProperty.getId().equals("new_property_8")) {
+      checkFormProperty(formProperty,"v111",true,true,true);
+    }
+ else {
+      fail("unexpected form property id " + formProperty.getId());
+    }
   }
   FlowElement userFlowElement=model.getMainProcess().getFlowElement("userTask");
   assertNotNull(userFlowElement);
   assertTrue(userFlowElement instanceof UserTask);
   UserTask userTask=(UserTask)userFlowElement;
-  List<FormProperty> formProperties=userTask.getFormProperties();
+  formProperties=userTask.getFormProperties();
   assertNotNull(formProperties);
   assertEquals("Invalid form properties list: ",8,formProperties.size());
   for (  FormProperty formProperty : formProperties) {
@@ -48,6 +85,9 @@
     }
  else     if (formProperty.getId().equals("new_property_8")) {
       checkFormProperty(formProperty,"v111",true,true,true);
+    }
+ else {
+      fail("unexpected form property id " + formProperty.getId());
     }
   }
 }
