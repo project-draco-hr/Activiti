@@ -1,0 +1,18 @@
+{
+  processInstance.setLocalizedName(null);
+  processInstance.setLocalizedDescription(null);
+  if (locale != null && processInstance.getProcessDefinitionId() != null) {
+    ProcessDefinitionEntity processDefinition=commandContext.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processInstance.getProcessDefinitionId());
+    ObjectNode languageNode=Context.getLocalizationElementProperties(locale,processDefinition.getKey(),processInstance.getProcessDefinitionId(),withLocalizationFallback);
+    if (languageNode != null) {
+      JsonNode languageNameNode=languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+      if (languageNameNode != null && languageNameNode.isNull() == false) {
+        processInstance.setLocalizedName(languageNameNode.asText());
+      }
+      JsonNode languageDescriptionNode=languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+      if (languageDescriptionNode != null && languageDescriptionNode.isNull() == false) {
+        processInstance.setLocalizedDescription(languageDescriptionNode.asText());
+      }
+    }
+  }
+}

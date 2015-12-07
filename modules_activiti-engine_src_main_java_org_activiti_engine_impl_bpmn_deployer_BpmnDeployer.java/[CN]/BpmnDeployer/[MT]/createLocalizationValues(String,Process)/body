@@ -1,0 +1,41 @@
+{
+  if (process == null)   return;
+  CommandContext commandContext=Context.getCommandContext();
+  DynamicBpmnService dynamicBpmnService=commandContext.getProcessEngineConfiguration().getDynamicBpmnService();
+  ObjectNode infoNode=dynamicBpmnService.getProcessDefinitionInfo(processDefinitionId);
+  boolean localizationValuesChanged=false;
+  List<ExtensionElement> localizationElements=process.getExtensionElements().get("localization");
+  if (localizationElements != null) {
+    for (    ExtensionElement localizationElement : localizationElements) {
+      if (BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
+        String locale=localizationElement.getAttributeValue(null,"locale");
+        String name=localizationElement.getAttributeValue(null,"name");
+        String documentation=null;
+        List<ExtensionElement> documentationElements=localizationElement.getChildElements().get("documentation");
+        if (documentationElements != null) {
+          for (          ExtensionElement documentationElement : documentationElements) {
+            documentation=StringUtils.trimToNull(documentationElement.getElementText());
+            break;
+          }
+        }
+        String processId=process.getId();
+        if (isEqualToCurrentLocalizationValue(locale,processId,"name",name,infoNode) == false) {
+          dynamicBpmnService.changeLocalizationName(locale,processId,name,infoNode);
+          localizationValuesChanged=true;
+        }
+        if (documentation != null && isEqualToCurrentLocalizationValue(locale,processId,"description",documentation,infoNode) == false) {
+          dynamicBpmnService.changeLocalizationDescription(locale,processId,documentation,infoNode);
+          localizationValuesChanged=true;
+        }
+        break;
+      }
+    }
+  }
+  boolean isFlowElementLocalizationChanged=localizeFlowElements(process.getFlowElements(),infoNode);
+  if (isFlowElementLocalizationChanged) {
+    localizationValuesChanged=true;
+  }
+  if (localizationValuesChanged) {
+    dynamicBpmnService.saveProcessDefinitionInfo(processDefinitionId,infoNode);
+  }
+}
