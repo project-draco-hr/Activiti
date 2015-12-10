@@ -1,11 +1,11 @@
 {
-  server=new Server(HTTP_SERVER_PORT);
+  int port=NEXT_PORT.incrementAndGet();
+  Server server=new Server(port);
   HashSessionIdManager idmanager=new HashSessionIdManager();
   server.setSessionIdManager(idmanager);
   AnnotationConfigWebApplicationContext applicationContext=new AnnotationConfigWebApplicationContext();
-  applicationContext.register(ApplicationConfiguration.class);
+  applicationContext.register(configClasses);
   applicationContext.refresh();
-  appContext=applicationContext;
   try {
     server.setHandler(getServletContextHandler(applicationContext));
     server.start();
@@ -13,4 +13,5 @@
  catch (  Exception e) {
     log.error("Error starting server",e);
   }
+  return new TestServer(server,applicationContext,port);
 }

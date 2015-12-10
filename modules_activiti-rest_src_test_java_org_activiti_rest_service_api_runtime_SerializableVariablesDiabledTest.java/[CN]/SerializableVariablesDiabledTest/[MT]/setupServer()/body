@@ -1,0 +1,20 @@
+{
+  if (serverUrlPrefix == null) {
+    TestServer testServer=TestServerUtil.createAndStartServer(ObjectVariableSerializationDisabledApplicationConfiguration.class);
+    serverUrlPrefix=testServer.getServerUrlPrefix();
+    this.repositoryService=testServer.getApplicationContext().getBean(RepositoryService.class);
+    this.runtimeService=testServer.getApplicationContext().getBean(RuntimeService.class);
+    this.identityService=testServer.getApplicationContext().getBean(IdentityService.class);
+    User user=identityService.newUser("kermit");
+    user.setFirstName("Kermit");
+    user.setLastName("the Frog");
+    user.setPassword("kermit");
+    identityService.saveUser(user);
+    Group group=identityService.newGroup("admin");
+    group.setName("Administrators");
+    identityService.saveGroup(group);
+    identityService.createMembership(user.getId(),group.getId());
+    this.testUserId=user.getId();
+    this.testGroupId=group.getId();
+  }
+}
