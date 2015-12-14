@@ -1,0 +1,8 @@
+{
+  identityService.deleteMembership(testUserId,testGroupId);
+  identityService.deleteGroup(testGroupId);
+  identityService.deleteUser(testUserId);
+  for (  Deployment deployment : repositoryService.createDeploymentQuery().list()) {
+    repositoryService.deleteDeployment(deployment.getId(),true);
+  }
+}

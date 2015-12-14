@@ -4,6 +4,10 @@
     if (historicProcessInstance != null) {
       historicProcessInstance.markEnded(deleteReason);
       historicProcessInstance.setEndActivityId(activityId);
+      ProcessEngineConfigurationImpl config=Context.getProcessEngineConfiguration();
+      if (config != null && config.getEventDispatcher().isEnabled()) {
+        config.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.HISTORIC_PROCESS_INSTANCE_ENDED,historicProcessInstance));
+      }
     }
   }
 }

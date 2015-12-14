@@ -18,6 +18,10 @@
         historicActivityInstance.setTenantId(executionEntity.getTenantId());
       }
       getDbSqlSession().insert(historicActivityInstance);
+      ProcessEngineConfigurationImpl config=Context.getProcessEngineConfiguration();
+      if (config != null && config.getEventDispatcher().isEnabled()) {
+        config.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.HISTORIC_ACTIVITY_INSTANCE_CREATED,historicActivityInstance));
+      }
     }
   }
 }

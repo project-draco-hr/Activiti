@@ -2,13 +2,13 @@
   URL url=ReflectUtil.getResource("org/activiti/engine/impl/webservice/counter.wsdl");
   importer.importFrom(url.toString());
   List<WSService> services=new ArrayList<WSService>(importer.getServices());
-  Assert.assertEquals(1,services.size());
+  assertEquals(1,services.size());
   WSService service=services.get(0);
-  Assert.assertEquals("Counter",service.getName());
-  Assert.assertEquals("http://localhost:63081/webservicemock",service.getLocation());
+  assertEquals("Counter",service.getName());
+  assertEquals("http://localhost:63081/webservicemock",service.getLocation());
   List<StructureDefinition> structures=sortStructures();
   List<WSOperation> operations=sortOperations();
-  Assert.assertEquals(7,operations.size());
+  assertEquals(7,operations.size());
   this.assertOperation(operations.get(0),"getCount",service);
   this.assertOperation(operations.get(1),"inc",service);
   this.assertOperation(operations.get(2),"noNameResult",service);
@@ -16,7 +16,7 @@
   this.assertOperation(operations.get(4),"reservedWordAsName",service);
   this.assertOperation(operations.get(5),"reset",service);
   this.assertOperation(operations.get(6),"setTo",service);
-  Assert.assertEquals(14,structures.size());
+  assertEquals(14,structures.size());
   this.assertStructure(structures.get(0),"getCount",new String[]{},new Class<?>[]{});
   this.assertStructure(structures.get(1),"getCountResponse",new String[]{"count"},new Class<?>[]{Integer.class});
   this.assertStructure(structures.get(2),"inc",new String[]{},new Class<?>[]{});

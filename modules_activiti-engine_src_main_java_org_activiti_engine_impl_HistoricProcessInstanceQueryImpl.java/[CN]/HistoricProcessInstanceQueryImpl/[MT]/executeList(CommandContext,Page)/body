@@ -1,10 +1,15 @@
 {
   checkQueryOk();
   ensureVariablesInitialized();
+  List<HistoricProcessInstance> results=null;
   if (includeProcessVariables) {
-    return commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstancesAndVariablesByQueryCriteria(this);
+    results=commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstancesAndVariablesByQueryCriteria(this);
   }
  else {
-    return commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstancesByQueryCriteria(this);
+    results=commandContext.getHistoricProcessInstanceEntityManager().findHistoricProcessInstancesByQueryCriteria(this);
   }
+  for (  HistoricProcessInstance processInstance : results) {
+    localize(processInstance,commandContext);
+  }
+  return results;
 }
