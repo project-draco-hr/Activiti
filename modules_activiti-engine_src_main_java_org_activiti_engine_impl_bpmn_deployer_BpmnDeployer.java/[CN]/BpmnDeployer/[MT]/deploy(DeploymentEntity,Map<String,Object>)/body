@@ -2,6 +2,7 @@
   log.debug("Processing deployment {}",deployment.getName());
   List<ProcessDefinitionEntity> processDefinitions=new ArrayList<ProcessDefinitionEntity>();
   Map<String,ResourceEntity> resources=deployment.getResources();
+  Map<String,BpmnModel> bpmnModelMap=new HashMap<String,BpmnModel>();
   final ProcessEngineConfigurationImpl processEngineConfiguration=Context.getProcessEngineConfiguration();
   for (  String resourceName : resources.keySet()) {
     log.info("Processing resource {}",resourceName);
@@ -43,6 +44,7 @@
         }
         processDefinition.setDiagramResourceName(diagramResourceName);
         processDefinitions.add(processDefinition);
+        bpmnModelMap.put(processDefinition.getKey(),bpmnParse.getBpmnModel());
       }
     }
   }
@@ -117,5 +119,6 @@
     deploymentManager.getProcessDefinitionCache().add(processDefinition.getId(),processDefinition);
     addDefinitionInfoToCache(processDefinition,processEngineConfiguration,commandContext);
     deployment.addDeployedArtifact(processDefinition);
+    createLocalizationValues(processDefinition.getId(),bpmnModelMap.get(processDefinition.getKey()).getProcessById(processDefinition.getKey()));
   }
 }

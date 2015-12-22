@@ -1,0 +1,11 @@
+{
+  AnnotationConfigApplicationContext applicationContext=this.context(Application.class);
+  ManagementService managementService=applicationContext.getBean(ManagementService.class);
+  String processDefinitionId=managementService.executeCustomSql(new AbstractCustomSqlExecution<CustomMybatisMapper,String>(CustomMybatisMapper.class){
+    @Override public String execute(    CustomMybatisMapper customMybatisMapper){
+      return customMybatisMapper.loadProcessDefinitionIdByKey("waiter");
+    }
+  }
+);
+  Assert.assertNotNull("the processDefinitionId should not be null!",processDefinitionId);
+}

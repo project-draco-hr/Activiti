@@ -3,6 +3,10 @@
     HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(executionEntity);
     if (historicActivityInstance != null) {
       historicActivityInstance.markEnded(null);
+      ProcessEngineConfigurationImpl config=Context.getProcessEngineConfiguration();
+      if (config != null && config.getEventDispatcher().isEnabled()) {
+        config.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED,historicActivityInstance));
+      }
     }
   }
 }

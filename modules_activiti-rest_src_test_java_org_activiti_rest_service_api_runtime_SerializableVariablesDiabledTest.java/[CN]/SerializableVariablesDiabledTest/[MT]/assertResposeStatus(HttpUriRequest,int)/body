@@ -1,0 +1,22 @@
+{
+  CloseableHttpResponse response=null;
+  try {
+    CredentialsProvider provider=new BasicCredentialsProvider();
+    UsernamePasswordCredentials credentials=new UsernamePasswordCredentials("kermit","kermit");
+    provider.setCredentials(AuthScope.ANY,credentials);
+    HttpClient client=HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
+    response=(CloseableHttpResponse)client.execute(request);
+    int statusCode=response.getStatusLine().getStatusCode();
+    Assert.assertEquals(expectedStatusCode,statusCode);
+    if (client instanceof CloseableHttpClient) {
+      ((CloseableHttpClient)client).close();
+    }
+    response.close();
+  }
+ catch (  ClientProtocolException e) {
+    Assert.fail(e.getMessage());
+  }
+catch (  IOException e) {
+    Assert.fail(e.getMessage());
+  }
+}

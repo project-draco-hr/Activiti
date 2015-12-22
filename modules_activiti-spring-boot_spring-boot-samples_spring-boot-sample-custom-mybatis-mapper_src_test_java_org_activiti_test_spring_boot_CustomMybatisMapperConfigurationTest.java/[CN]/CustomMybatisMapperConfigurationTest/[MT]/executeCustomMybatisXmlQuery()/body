@@ -1,0 +1,11 @@
+{
+  AnnotationConfigApplicationContext applicationContext=this.context(Application.class);
+  ManagementService managementService=applicationContext.getBean(ManagementService.class);
+  String processDefinitionDeploymentId=managementService.executeCommand(new Command<String>(){
+    @Override public String execute(    CommandContext commandContext){
+      return (String)commandContext.getDbSqlSession().selectOne("selectProcessDefinitionDeploymentIdByKey","waiter");
+    }
+  }
+);
+  Assert.assertNotNull("the processDefinitionDeploymentId should not be null!",processDefinitionDeploymentId);
+}

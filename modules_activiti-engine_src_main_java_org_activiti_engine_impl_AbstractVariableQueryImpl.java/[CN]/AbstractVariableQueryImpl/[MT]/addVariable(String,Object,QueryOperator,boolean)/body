@@ -19,7 +19,7 @@ throw new ActivitiIllegalArgumentException("Only string values can be used with 
 if (operator == QueryOperator.NOT_EQUALS_IGNORE_CASE && !(value instanceof String)) {
 throw new ActivitiIllegalArgumentException("Only string values can be used with 'not equals ignore case' condition");
 }
-if (operator == QueryOperator.LIKE && !(value instanceof String)) {
+if ((operator == QueryOperator.LIKE || operator == QueryOperator.LIKE_IGNORE_CASE) && !(value instanceof String)) {
 throw new ActivitiIllegalArgumentException("Only string values can be used with 'like' condition");
 }
 }

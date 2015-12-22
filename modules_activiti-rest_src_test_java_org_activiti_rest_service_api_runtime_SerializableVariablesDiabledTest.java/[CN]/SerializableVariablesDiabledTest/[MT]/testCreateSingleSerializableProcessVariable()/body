@@ -1,0 +1,17 @@
+{
+  repositoryService.createDeployment().addClasspathResource("org/activiti/rest/service/api/runtime/ProcessInstanceVariablesCollectionResourceTest.testProcess.bpmn20.xml").deploy();
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("oneTaskProcess");
+  TestSerializableVariable serializable=new TestSerializableVariable();
+  serializable.setSomeField("some value");
+  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+  ObjectOutputStream output=new ObjectOutputStream(buffer);
+  output.writeObject(serializable);
+  output.close();
+  InputStream binaryContent=new ByteArrayInputStream(buffer.toByteArray());
+  Map<String,String> additionalFields=new HashMap<String,String>();
+  additionalFields.put("name","serializableVariable");
+  additionalFields.put("type","serializable");
+  HttpPost httpPost=new HttpPost(serverUrlPrefix + RestUrls.createRelativeResourceUrl(RestUrls.URL_PROCESS_INSTANCE_VARIABLE_COLLECTION,processInstance.getId()));
+  httpPost.setEntity(HttpMultipartHelper.getMultiPartEntity("value","application/x-java-serialized-object",binaryContent,additionalFields));
+  assertResposeStatus(httpPost,HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
+}

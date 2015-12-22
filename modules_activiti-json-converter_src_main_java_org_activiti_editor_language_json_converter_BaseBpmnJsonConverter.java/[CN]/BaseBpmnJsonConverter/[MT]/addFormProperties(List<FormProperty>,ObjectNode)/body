@@ -26,7 +26,8 @@
       ArrayNode valuesNode=objectMapper.createArrayNode();
       for (      FormValue formValue : property.getFormValues()) {
         ObjectNode valueNode=objectMapper.createObjectNode();
-        valueNode.put("value",formValue.getName());
+        valueNode.put(PROPERTY_FORM_ENUM_VALUES_NAME,formValue.getName());
+        valueNode.put(PROPERTY_FORM_ENUM_VALUES_ID,formValue.getId());
         valuesNode.add(valueNode);
       }
       propertyItemNode.put(PROPERTY_FORM_ENUM_VALUES,valuesNode);

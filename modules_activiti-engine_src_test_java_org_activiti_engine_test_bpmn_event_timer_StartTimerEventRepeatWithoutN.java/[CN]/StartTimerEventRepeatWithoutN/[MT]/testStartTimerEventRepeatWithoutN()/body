@@ -1,0 +1,11 @@
+{
+  counter=0;
+  try {
+    waitForJobExecutorToProcessAllJobs(5500,500);
+    fail("job is finished sooner than expected");
+  }
+ catch (  ActivitiException e) {
+    assertTrue(e.getMessage().startsWith("time limit"));
+    assertTrue(counter >= 2);
+  }
+}

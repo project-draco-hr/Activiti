@@ -1,0 +1,14 @@
+{
+  return new CommandLineRunner(){
+    @Override public void run(    String... args) throws Exception {
+      String processDefinitionId=managementService.executeCustomSql(new AbstractCustomSqlExecution<CustomMybatisMapper,String>(CustomMybatisMapper.class){
+        @Override public String execute(        CustomMybatisMapper customMybatisMapper){
+          return customMybatisMapper.loadProcessDefinitionIdByKey("waiter");
+        }
+      }
+);
+      logger.info("Process definition id = {}",processDefinitionId);
+    }
+  }
+;
+}

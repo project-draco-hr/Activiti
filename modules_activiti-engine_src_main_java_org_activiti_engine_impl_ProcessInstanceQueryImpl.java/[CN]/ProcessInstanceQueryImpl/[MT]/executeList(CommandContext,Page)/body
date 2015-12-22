@@ -1,10 +1,15 @@
 {
   checkQueryOk();
   ensureVariablesInitialized();
+  List<ProcessInstance> processInstances=null;
   if (includeProcessVariables) {
-    return commandContext.getExecutionEntityManager().findProcessInstanceAndVariablesByQueryCriteria(this);
+    processInstances=commandContext.getExecutionEntityManager().findProcessInstanceAndVariablesByQueryCriteria(this);
   }
  else {
-    return commandContext.getExecutionEntityManager().findProcessInstanceByQueryCriteria(this);
+    processInstances=commandContext.getExecutionEntityManager().findProcessInstanceByQueryCriteria(this);
   }
+  for (  ProcessInstance processInstance : processInstances) {
+    localize(processInstance);
+  }
+  return processInstances;
 }
