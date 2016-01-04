@@ -1,8 +1,8 @@
 {
-  while (!execution.isScope()) {
+  while (execution.getParentId() != null && !execution.isScope()) {
     execution=execution.getParent();
   }
-  if (execution.isConcurrent()) {
+  if (execution != null && execution.isConcurrent()) {
     execution=execution.getParent();
   }
   return execution;
