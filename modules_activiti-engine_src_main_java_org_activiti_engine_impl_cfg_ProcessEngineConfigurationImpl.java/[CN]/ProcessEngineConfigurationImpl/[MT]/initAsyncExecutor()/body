@@ -1,7 +1,24 @@
 {
   if (isAsyncExecutorEnabled()) {
     if (asyncExecutor == null) {
-      asyncExecutor=new DefaultAsyncJobExecutor();
+      DefaultAsyncJobExecutor defaultAsyncExecutor=new DefaultAsyncJobExecutor();
+      defaultAsyncExecutor.setCorePoolSize(asyncExecutorCorePoolSize);
+      defaultAsyncExecutor.setMaxPoolSize(asyncExecutorMaxPoolSize);
+      defaultAsyncExecutor.setKeepAliveTime(asyncExecutorThreadKeepAliveTime);
+      if (asyncExecutorThreadPoolQueue != null) {
+        defaultAsyncExecutor.setThreadPoolQueue(asyncExecutorThreadPoolQueue);
+      }
+      defaultAsyncExecutor.setQueueSize(asyncExecutorThreadPoolQueueSize);
+      defaultAsyncExecutor.setDefaultTimerJobAcquireWaitTimeInMillis(asyncExecutorTimerJobAcquireWaitTime);
+      defaultAsyncExecutor.setDefaultAsyncJobAcquireWaitTimeInMillis(asyncExecutorDefaultAsyncJobAcquireWaitTime);
+      defaultAsyncExecutor.setTimerLockTimeInMillis(asyncExecutorTimerLockTimeInMillis);
+      defaultAsyncExecutor.setAsyncJobLockTimeInMillis(asyncExecutorAsyncJobLockTimeInMillis);
+      if (asyncExecutorLockOwner != null) {
+        defaultAsyncExecutor.setLockOwner(asyncExecutorLockOwner);
+      }
+      defaultAsyncExecutor.setRetryWaitTimeInMillis(asyncExecutorLockRetryWaitTimeInMillis);
+      defaultAsyncExecutor.setSecondsToWaitOnShutdown(asyncExecutorSecondsToWaitOnShutdown);
+      asyncExecutor=defaultAsyncExecutor;
     }
     asyncExecutor.setCommandExecutor(commandExecutor);
     asyncExecutor.setAutoActivate(asyncExecutorActivate);

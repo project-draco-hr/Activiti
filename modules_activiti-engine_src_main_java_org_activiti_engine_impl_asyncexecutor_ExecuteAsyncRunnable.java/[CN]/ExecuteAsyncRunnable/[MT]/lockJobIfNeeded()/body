@@ -1,0 +1,21 @@
+{
+  try {
+    if (job.isExclusive()) {
+      commandExecutor.execute(new LockExclusiveJobCmd(job));
+    }
+  }
+ catch (  Throwable lockException) {
+    if (log.isDebugEnabled()) {
+      log.debug("Exception during exclusive job acquisition. Retrying job.",lockException.getMessage());
+    }
+    commandExecutor.execute(new Command<Void>(){
+      public Void execute(      CommandContext commandContext){
+        commandContext.getJobEntityManager().retryAsyncJob(job);
+        return null;
+      }
+    }
+);
+    return false;
+  }
+  return true;
+}

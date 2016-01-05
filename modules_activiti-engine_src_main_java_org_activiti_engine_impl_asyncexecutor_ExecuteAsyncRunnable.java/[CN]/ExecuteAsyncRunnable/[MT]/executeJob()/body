@@ -1,0 +1,16 @@
+{
+  try {
+    commandExecutor.execute(new ExecuteAsyncJobCmd(job));
+  }
+ catch (  final ActivitiOptimisticLockingException e) {
+    handleFailedJob(e);
+    if (log.isDebugEnabled()) {
+      log.debug("Optimistic locking exception during job execution. If you have multiple async executors running against the same database, " + "this exception means that this thread tried to acquire an exclusive job, which already was changed by another async executor thread." + "This is expected behavior in a clustered environment. "+ "You can ignore this message if you indeed have multiple job executor threads running against the same database. "+ "Exception message: {}",e.getMessage());
+    }
+  }
+catch (  Throwable exception) {
+    handleFailedJob(exception);
+    String message="Job " + job.getId() + " failed";
+    log.error(message,exception);
+  }
+}
