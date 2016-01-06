@@ -14,6 +14,9 @@
   }
   if (includeVariables) {
     List<HistoricVariableInstance> variables=commandContext.getHistoricVariableInstanceEntityManager().findHistoricVariableInstancesByQueryCriteria(new HistoricVariableInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId),null);
+    for (    HistoricVariableInstance historicVariableInstance : variables) {
+      historicVariableInstance.getValue();
+    }
     processInstanceHistoryLog.addHistoricData(variables);
   }
   if (includeComments) {
