@@ -1,7 +1,20 @@
 {
   QName qname=mapping.getElement();
-  JDefinedClass theClass=(JDefinedClass)mapping.getType().getTypeClass();
-  SimpleStructureDefinition structure=new SimpleStructureDefinition(this.namespace + qname.getLocalPart());
-  this.structures.put(structure.getId(),structure);
-  importFields(theClass,structure);
+  final JType type=mapping.getType().getTypeClass();
+  if (type.isPrimitive()) {
+    final Class<?> primitiveClass=ReflectUtil.loadClass(type.boxify().fullName());
+    final StructureDefinition structure=new PrimitiveStructureDefinition(this.namespace + qname.getLocalPart(),primitiveClass);
+    this.structures.put(structure.getId(),structure);
+  }
+ else   if (type instanceof JDefinedClass) {
+    JDefinedClass theClass=(JDefinedClass)type;
+    SimpleStructureDefinition structure=new SimpleStructureDefinition(this.namespace + qname.getLocalPart());
+    this.structures.put(structure.getId(),structure);
+    importFields(theClass,structure);
+  }
+ else {
+    final Class<?> referencedClass=ReflectUtil.loadClass(type.fullName());
+    final StructureDefinition structure=new PrimitiveStructureDefinition(this.namespace + qname.getLocalPart(),referencedClass);
+    this.structures.put(structure.getId(),structure);
+  }
 }

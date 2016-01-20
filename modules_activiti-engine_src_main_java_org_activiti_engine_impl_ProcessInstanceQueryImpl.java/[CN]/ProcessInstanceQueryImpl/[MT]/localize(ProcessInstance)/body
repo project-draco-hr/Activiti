@@ -1,0 +1,21 @@
+{
+  ExecutionEntity processInstanceExecution=(ExecutionEntity)processInstance;
+  processInstanceExecution.setLocalizedName(null);
+  processInstanceExecution.setLocalizedDescription(null);
+  if (locale != null) {
+    String processDefinitionId=processInstanceExecution.getProcessDefinitionId();
+    if (processDefinitionId != null) {
+      ObjectNode languageNode=Context.getLocalizationElementProperties(locale,processInstanceExecution.getProcessDefinitionKey(),processDefinitionId,withLocalizationFallback);
+      if (languageNode != null) {
+        JsonNode languageNameNode=languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+        if (languageNameNode != null && languageNameNode.isNull() == false) {
+          processInstanceExecution.setLocalizedName(languageNameNode.asText());
+        }
+        JsonNode languageDescriptionNode=languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+        if (languageDescriptionNode != null && languageDescriptionNode.isNull() == false) {
+          processInstanceExecution.setLocalizedDescription(languageDescriptionNode.asText());
+        }
+      }
+    }
+  }
+}

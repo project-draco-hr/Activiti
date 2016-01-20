@@ -1,5 +1,21 @@
 {
   checkQueryOk();
   ensureVariablesInitialized();
-  return (List)commandContext.getExecutionEntityManager().findExecutionsByQueryCriteria(this,page);
+  List<?> executions=commandContext.getExecutionEntityManager().findExecutionsByQueryCriteria(this,page);
+  for (  ExecutionEntity execution : (List<ExecutionEntity>)executions) {
+    String activityId=null;
+    if (execution.getId().equals(execution.getProcessInstanceId())) {
+      if (execution.getProcessDefinitionId() != null) {
+        ProcessDefinitionEntity processDefinition=commandContext.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(execution.getProcessDefinitionId());
+        activityId=processDefinition.getKey();
+      }
+    }
+ else {
+      activityId=execution.getActivityId();
+    }
+    if (activityId != null) {
+      localize(execution,activityId);
+    }
+  }
+  return (List<Execution>)executions;
 }

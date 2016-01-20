@@ -7,6 +7,10 @@
       initialActivity=subProcessInstance.getProcessDefinition().getInitial();
     }
     getDbSqlSession().insert(historicProcessInstance);
+    ProcessEngineConfigurationImpl config=Context.getProcessEngineConfiguration();
+    if (config != null && config.getEventDispatcher().isEnabled()) {
+      config.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.HISTORIC_PROCESS_INSTANCE_CREATED,historicProcessInstance));
+    }
     HistoricActivityInstanceEntity activitiyInstance=findActivityInstance(parentExecution);
     if (activitiyInstance != null) {
       activitiyInstance.setCalledProcessInstanceId(subProcessInstance.getProcessInstanceId());
@@ -23,5 +27,8 @@
     Date now=Context.getProcessEngineConfiguration().getClock().getCurrentTime();
     historicActivityInstance.setStartTime(now);
     getDbSqlSession().insert(historicActivityInstance);
+    if (config != null && config.getEventDispatcher().isEnabled()) {
+      config.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.HISTORIC_ACTIVITY_INSTANCE_CREATED,historicActivityInstance));
+    }
   }
 }

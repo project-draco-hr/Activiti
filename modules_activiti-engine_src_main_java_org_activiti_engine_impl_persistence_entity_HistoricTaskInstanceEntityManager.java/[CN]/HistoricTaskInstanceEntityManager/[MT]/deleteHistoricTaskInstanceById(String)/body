@@ -3,6 +3,10 @@
     HistoricTaskInstanceEntity historicTaskInstance=findHistoricTaskInstanceById(taskId);
     if (historicTaskInstance != null) {
       CommandContext commandContext=Context.getCommandContext();
+      List<HistoricTaskInstance> subTasks=findHistoricTasksByParentTaskId(taskId);
+      for (      HistoricTaskInstance subTask : subTasks) {
+        deleteHistoricTaskInstanceById(subTask.getId());
+      }
       commandContext.getHistoricDetailEntityManager().deleteHistoricDetailsByTaskId(taskId);
       commandContext.getHistoricVariableInstanceEntityManager().deleteHistoricVariableInstancesByTaskId(taskId);
       commandContext.getCommentEntityManager().deleteCommentsByTaskId(taskId);

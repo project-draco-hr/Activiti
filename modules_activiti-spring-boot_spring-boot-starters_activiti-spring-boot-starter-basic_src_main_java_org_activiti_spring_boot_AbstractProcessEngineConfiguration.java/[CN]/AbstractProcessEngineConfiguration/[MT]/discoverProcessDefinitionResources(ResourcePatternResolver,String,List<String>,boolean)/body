@@ -1,0 +1,19 @@
+{
+  if (checkPDs) {
+    List<Resource> result=new ArrayList<Resource>();
+    for (    String suffix : suffixes) {
+      String path=prefix + suffix;
+      Resource[] resources=applicationContext.getResources(path);
+      if (resources != null && resources.length > 0) {
+        for (        Resource resource : resources) {
+          result.add(resource);
+        }
+      }
+    }
+    if (result.isEmpty()) {
+      logger.info(String.format("No process definitions were found for autodeployment"));
+    }
+    return result;
+  }
+  return new ArrayList<Resource>();
+}

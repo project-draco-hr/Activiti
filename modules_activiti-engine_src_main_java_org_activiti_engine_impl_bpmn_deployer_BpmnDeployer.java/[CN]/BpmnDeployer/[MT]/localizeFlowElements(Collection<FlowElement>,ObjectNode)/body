@@ -1,0 +1,44 @@
+{
+  boolean localizationValuesChanged=false;
+  if (flowElements == null)   return localizationValuesChanged;
+  CommandContext commandContext=Context.getCommandContext();
+  DynamicBpmnService dynamicBpmnService=commandContext.getProcessEngineConfiguration().getDynamicBpmnService();
+  for (  FlowElement flowElement : flowElements) {
+    if (flowElement instanceof UserTask || flowElement instanceof SubProcess) {
+      List<ExtensionElement> localizationElements=flowElement.getExtensionElements().get("localization");
+      if (localizationElements != null) {
+        for (        ExtensionElement localizationElement : localizationElements) {
+          if (BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
+            String locale=localizationElement.getAttributeValue(null,"locale");
+            String name=localizationElement.getAttributeValue(null,"name");
+            String documentation=null;
+            List<ExtensionElement> documentationElements=localizationElement.getChildElements().get("documentation");
+            if (documentationElements != null) {
+              for (              ExtensionElement documentationElement : documentationElements) {
+                documentation=StringUtils.trimToNull(documentationElement.getElementText());
+                break;
+              }
+            }
+            String flowElementId=flowElement.getId();
+            if (isEqualToCurrentLocalizationValue(locale,flowElementId,"name",name,infoNode) == false) {
+              dynamicBpmnService.changeLocalizationName(locale,flowElementId,name,infoNode);
+              localizationValuesChanged=true;
+            }
+            if (documentation != null && isEqualToCurrentLocalizationValue(locale,flowElementId,"description",documentation,infoNode) == false) {
+              dynamicBpmnService.changeLocalizationDescription(locale,flowElementId,documentation,infoNode);
+              localizationValuesChanged=true;
+            }
+            break;
+          }
+        }
+      }
+      if (flowElement instanceof SubProcess) {
+        boolean isSubProcessLocalized=localizeFlowElements(((SubProcess)flowElement).getFlowElements(),infoNode);
+        if (isSubProcessLocalized) {
+          localizationValuesChanged=true;
+        }
+      }
+    }
+  }
+  return localizationValuesChanged;
+}

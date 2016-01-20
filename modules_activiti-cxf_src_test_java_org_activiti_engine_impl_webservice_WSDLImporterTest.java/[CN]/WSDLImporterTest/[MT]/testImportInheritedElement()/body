@@ -5,7 +5,7 @@
   List<StructureDefinition> structures=sortStructures();
   assertEquals(1,structures.size());
   final Object structureTypeInst=ReflectUtil.instantiate("org.activiti.webservice.counter.StructureType");
-  final Class structureType=structureTypeInst.getClass();
+  final Class<? extends Object> structureType=structureTypeInst.getClass();
   this.assertStructure(structures.get(0),"inheritedRequest",new String[]{"rootElt","inheritedElt","newSimpleElt","newStructuredElt"},new Class<?>[]{Short.class,Integer.class,String.class,structureType});
   assertEquals(2,structureType.getDeclaredFields().length);
   assertNotNull(structureType.getDeclaredField("booleanElt"));

@@ -1,5 +1,5 @@
 {
-  List<Resource> procDefResources=this.discoverProcessDefinitionResources(this.resourceLoader,this.activitiProperties.getProcessDefinitionLocationPrefix(),this.activitiProperties.getProcessDefinitionLocationSuffix(),this.activitiProperties.isCheckProcessDefinitions());
+  List<Resource> procDefResources=this.discoverProcessDefinitionResources(this.resourceLoader,this.activitiProperties.getProcessDefinitionLocationPrefix(),this.activitiProperties.getProcessDefinitionLocationSuffixes(),this.activitiProperties.isCheckProcessDefinitions());
   SpringProcessEngineConfiguration conf=super.processEngineConfigurationBean(procDefResources.toArray(new Resource[procDefResources.size()]),dataSource,platformTransactionManager,springAsyncExecutor);
   conf.setDeploymentName(defaultText(activitiProperties.getDeploymentName(),conf.getDeploymentName()));
   conf.setDatabaseSchema(defaultText(activitiProperties.getDatabaseSchema(),conf.getDatabaseSchema()));
@@ -14,5 +14,14 @@
   conf.setMailServerDefaultFrom(activitiProperties.getMailServerDefaultFrom());
   conf.setMailServerUseSSL(activitiProperties.isMailServerUseSsl());
   conf.setMailServerUseTLS(activitiProperties.isMailServerUseTls());
+  if (activitiProperties.getCustomMybatisMappers() != null) {
+    conf.setCustomMybatisMappers(getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
+  }
+  if (activitiProperties.getCustomMybatisXMLMappers() != null) {
+    conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
+  }
+  if (processEngineConfigurationConfigurer != null) {
+    processEngineConfigurationConfigurer.configure(conf);
+  }
   return conf;
 }
