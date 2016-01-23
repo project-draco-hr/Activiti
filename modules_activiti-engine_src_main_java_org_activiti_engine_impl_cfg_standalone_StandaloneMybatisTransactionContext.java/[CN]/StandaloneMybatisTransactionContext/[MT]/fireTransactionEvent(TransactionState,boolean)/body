@@ -1,0 +1,23 @@
+{
+  if (stateTransactionListeners == null) {
+    return;
+  }
+  final List<TransactionListener> transactionListeners=stateTransactionListeners.get(transactionState);
+  if (transactionListeners == null) {
+    return;
+  }
+  if (executeInNewContext) {
+    CommandExecutor commandExecutor=commandContext.getProcessEngineConfiguration().getCommandExecutor();
+    CommandConfig commandConfig=new CommandConfig(false,TransactionPropagation.REQUIRES_NEW);
+    commandExecutor.execute(commandConfig,new Command<Void>(){
+      public Void execute(      CommandContext commandContext){
+        executeTransactionListeners(transactionListeners,commandContext);
+        return null;
+      }
+    }
+);
+  }
+ else {
+    executeTransactionListeners(transactionListeners,commandContext);
+  }
+}

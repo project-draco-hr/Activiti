@@ -1,8 +1,8 @@
 {
   log.debug("firing event committing...");
-  fireTransactionEvent(TransactionState.COMMITTING);
+  fireTransactionEvent(TransactionState.COMMITTING,false);
   log.debug("committing the ibatis sql session...");
   getDbSqlSession().commit();
   log.debug("firing event committed...");
-  fireTransactionEvent(TransactionState.COMMITTED);
+  fireTransactionEvent(TransactionState.COMMITTED,true);
 }

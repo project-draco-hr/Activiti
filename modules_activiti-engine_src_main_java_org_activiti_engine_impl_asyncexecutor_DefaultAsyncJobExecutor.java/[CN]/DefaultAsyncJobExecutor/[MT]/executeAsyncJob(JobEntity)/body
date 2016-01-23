@@ -7,7 +7,24 @@
  else {
       runnable=executeAsyncRunnableFactory.createExecuteAsyncRunnable(job,commandExecutor);
     }
-    executorService.execute(runnable);
+    try {
+      executorService.execute(runnable);
+    }
+ catch (    RejectedExecutionException e) {
+      CommandContext commandContext=Context.getCommandContext();
+      if (commandContext != null) {
+        unlockJob(job,commandContext);
+      }
+ else {
+        commandExecutor.execute(new Command<Void>(){
+          public Void execute(          CommandContext commandContext){
+            unlockJob(job,commandContext);
+            return null;
+          }
+        }
+);
+      }
+    }
   }
  else {
     temporaryJobQueue.add(job);
