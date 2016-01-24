@@ -1,12 +1,6 @@
 {
-  Runnable runnable=null;
   if (isActive) {
-    if (executeAsyncRunnableFactory == null) {
-      runnable=new ExecuteAsyncRunnable(job,commandExecutor);
-    }
- else {
-      runnable=executeAsyncRunnableFactory.createExecuteAsyncRunnable(job,commandExecutor);
-    }
+    Runnable runnable=createRunnableForJob(job);
     try {
       executorService.execute(runnable);
     }
@@ -24,9 +18,11 @@
         }
 );
       }
+      return false;
     }
   }
  else {
     temporaryJobQueue.add(job);
   }
+  return true;
 }

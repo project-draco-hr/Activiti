@@ -4,5 +4,7 @@
   }
  catch (  RejectedExecutionException e) {
     rejectedJobsHandler.jobRejected(this,job);
+    return false;
   }
+  return true;
 }

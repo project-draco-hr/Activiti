@@ -4,13 +4,20 @@
   while (!isInterrupted) {
     try {
       AcquiredJobEntities acquiredJobs=commandExecutor.execute(new AcquireTimerJobsCmd(asyncExecutor.getLockOwner(),asyncExecutor.getTimerLockTimeInMillis(),asyncExecutor.getMaxTimerJobsPerAcquisition()));
+      boolean allJobsSuccessfullyOffered=true;
       for (      JobEntity job : acquiredJobs.getJobs()) {
-        asyncExecutor.executeAsyncJob(job);
+        boolean jobSuccessFullyOffered=asyncExecutor.executeAsyncJob(job);
+        if (!jobSuccessFullyOffered) {
+          allJobsSuccessfullyOffered=false;
+        }
       }
       millisToWait=asyncExecutor.getDefaultTimerJobAcquireWaitTimeInMillis();
       int jobsAcquired=acquiredJobs.size();
       if (jobsAcquired >= asyncExecutor.getMaxTimerJobsPerAcquisition()) {
         millisToWait=0;
+      }
+      if (millisToWait == 0 && !allJobsSuccessfullyOffered) {
+        millisToWait=asyncExecutor.getDefaultQueueSizeFullWaitTimeInMillis();
       }
     }
  catch (    ActivitiOptimisticLockingException optimisticLockingException) {
