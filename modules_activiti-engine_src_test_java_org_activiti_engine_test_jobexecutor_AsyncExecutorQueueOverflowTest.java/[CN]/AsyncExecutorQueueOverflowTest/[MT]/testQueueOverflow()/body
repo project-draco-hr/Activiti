@@ -19,6 +19,7 @@
     long count=historyService.createHistoricActivityInstanceQuery().activityId("theServiceTask").unfinished().count();
     allJobsProcessed=count == nrOfProcessInstances;
     if (!allJobsProcessed) {
+      logger.info("Waiting a bit longer, not all jobs have been finished. Current count = " + count);
       Thread.sleep(1000L);
     }
     if (new Date().getTime() - waitTimeStartDate.getTime() > (5L * 60L * 1000L)) {
