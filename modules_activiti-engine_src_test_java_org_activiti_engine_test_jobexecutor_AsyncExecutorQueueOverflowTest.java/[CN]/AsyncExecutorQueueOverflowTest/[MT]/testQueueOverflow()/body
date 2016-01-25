@@ -1,6 +1,8 @@
 {
   ProcessEngine processEngine=initProcessEngineWithJobQueueSize(100);
-  Date startDate=new Date(1453273200000L);
+  org.h2.tools.Server.createWebServer("-web").start();
+  Date startDate=createDate(2016,0,20,7,0,0);
+  logger.info("Test start date = " + startDate);
   processEngine.getProcessEngineConfiguration().getClock().setCurrentTime(startDate);
   final RepositoryService repositoryService=processEngine.getRepositoryService();
   final RuntimeService runtimeService=processEngine.getRuntimeService();
@@ -11,8 +13,9 @@
     runtimeService.startProcessInstanceByKey("testAsyncExecutor");
   }
   Assert.assertEquals(nrOfProcessInstances,runtimeService.createProcessInstanceQuery().count());
-  Date mondayMorningDate=new Date(1453280460000L);
+  Date mondayMorningDate=createDate(2016,0,20,9,1,0);
   processEngine.getProcessEngineConfiguration().getClock().setCurrentTime(mondayMorningDate);
+  logger.info("Changed the process engine clock to " + processEngine.getProcessEngineConfiguration().getClock().getCurrentTime());
   boolean allJobsProcessed=false;
   Date waitTimeStartDate=new Date();
   while (!allJobsProcessed) {
