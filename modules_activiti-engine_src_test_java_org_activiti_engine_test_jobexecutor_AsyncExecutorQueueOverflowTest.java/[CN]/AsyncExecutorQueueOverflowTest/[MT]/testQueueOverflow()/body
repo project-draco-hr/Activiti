@@ -14,12 +14,15 @@
   Date mondayMorningDate=new Date(1453280460000L);
   processEngine.getProcessEngineConfiguration().getClock().setCurrentTime(mondayMorningDate);
   boolean allJobsProcessed=false;
+  Date waitTimeStartDate=new Date();
   while (!allJobsProcessed) {
     long count=historyService.createHistoricActivityInstanceQuery().activityId("theServiceTask").unfinished().count();
-    System.out.println("COUNT = " + count);
     allJobsProcessed=count == nrOfProcessInstances;
     if (!allJobsProcessed) {
       Thread.sleep(1000L);
+    }
+    if (new Date().getTime() - waitTimeStartDate.getTime() > (5L * 60L * 1000L)) {
+      Assert.fail("Wait time for executing jobs expired");
     }
   }
   Assert.assertEquals(nrOfProcessInstances,runtimeService.createProcessInstanceQuery().count());
