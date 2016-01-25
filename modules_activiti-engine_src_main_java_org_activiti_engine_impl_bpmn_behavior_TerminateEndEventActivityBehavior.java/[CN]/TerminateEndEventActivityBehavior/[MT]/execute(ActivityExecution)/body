@@ -6,6 +6,8 @@
   }
  else {
     ActivityExecution scopeExecution=ScopeUtil.findScopeExecution(execution);
-    terminateExecution(execution,terminateEndEventActivity,scopeExecution);
+    if (scopeExecution != null) {
+      terminateExecution(execution,terminateEndEventActivity,scopeExecution);
+    }
   }
 }
