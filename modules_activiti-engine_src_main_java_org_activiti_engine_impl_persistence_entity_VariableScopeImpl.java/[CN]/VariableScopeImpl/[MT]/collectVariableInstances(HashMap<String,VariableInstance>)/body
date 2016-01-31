@@ -1,0 +1,14 @@
+{
+  ensureVariableInstancesInitialized();
+  VariableScopeImpl parentScope=getParentVariableScope();
+  if (parentScope != null) {
+    variables.putAll(parentScope.collectVariableInstances(variables));
+  }
+  for (  VariableInstance variableInstance : variableInstances.values()) {
+    variables.put(variableInstance.getName(),variableInstance);
+  }
+  for (  String variableName : usedVariablesCache.keySet()) {
+    variables.put(variableName,usedVariablesCache.get(variableName));
+  }
+  return variables;
+}

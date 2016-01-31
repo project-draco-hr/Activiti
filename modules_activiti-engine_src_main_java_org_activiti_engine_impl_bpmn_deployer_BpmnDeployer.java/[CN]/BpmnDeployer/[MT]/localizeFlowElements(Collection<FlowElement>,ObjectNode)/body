@@ -33,8 +33,10 @@
         }
       }
       if (flowElement instanceof SubProcess) {
-        boolean isSubProcessLocalized=localizeFlowElements(((SubProcess)flowElement).getFlowElements(),infoNode);
-        if (isSubProcessLocalized) {
+        SubProcess subprocess=(SubProcess)flowElement;
+        boolean isFlowElementLocalizationChanged=localizeFlowElements(subprocess.getFlowElements(),infoNode);
+        boolean isDataObjectLocalizationChanged=localizeDataObjectElements(subprocess.getDataObjects(),infoNode);
+        if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
           localizationValuesChanged=true;
         }
       }

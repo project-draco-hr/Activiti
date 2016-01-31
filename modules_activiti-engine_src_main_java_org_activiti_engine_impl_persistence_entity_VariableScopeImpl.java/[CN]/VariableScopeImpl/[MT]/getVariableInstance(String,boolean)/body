@@ -1,0 +1,35 @@
+{
+  if (fetchAllVariables == true) {
+    if (usedVariablesCache.containsKey(variableName)) {
+      return usedVariablesCache.get(variableName);
+    }
+    ensureVariableInstancesInitialized();
+    VariableInstanceEntity variableInstance=variableInstances.get(variableName);
+    if (variableInstance != null) {
+      return variableInstance;
+    }
+    VariableScope parentScope=getParentVariableScope();
+    if (parentScope != null) {
+      return parentScope.getVariableInstance(variableName,true);
+    }
+    return null;
+  }
+ else {
+    if (usedVariablesCache.containsKey(variableName)) {
+      return usedVariablesCache.get(variableName);
+    }
+    if (variableInstances != null && variableInstances.containsKey(variableName)) {
+      return variableInstances.get(variableName);
+    }
+    VariableInstanceEntity variable=getSpecificVariable(variableName);
+    if (variable != null) {
+      usedVariablesCache.put(variableName,variable);
+      return variable;
+    }
+    VariableScope parentScope=getParentVariableScope();
+    if (parentScope != null) {
+      return parentScope.getVariableInstance(variableName,false);
+    }
+    return null;
+  }
+}

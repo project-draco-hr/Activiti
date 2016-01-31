@@ -1,0 +1,11 @@
+{
+  Map<String,VariableInstance> variables=new HashMap<String,VariableInstance>();
+  ensureVariableInstancesInitialized();
+  for (  VariableInstanceEntity variableInstance : variableInstances.values()) {
+    variables.put(variableInstance.getName(),variableInstance);
+  }
+  for (  String variableName : usedVariablesCache.keySet()) {
+    variables.put(variableName,usedVariablesCache.get(variableName));
+  }
+  return variables;
+}
