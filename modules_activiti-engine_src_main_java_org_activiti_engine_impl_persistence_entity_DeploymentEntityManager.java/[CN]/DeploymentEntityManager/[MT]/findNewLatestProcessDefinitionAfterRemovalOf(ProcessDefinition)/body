@@ -1,0 +1,17 @@
+{
+  ProcessDefinitionQueryImpl query=new ProcessDefinitionQueryImpl();
+  query.processDefinitionKey(processDefinitionToBeRemoved.getKey());
+  if (processDefinitionToBeRemoved.getTenantId() != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinitionToBeRemoved.getTenantId())) {
+    query.processDefinitionTenantId(processDefinitionToBeRemoved.getTenantId());
+  }
+ else {
+    query.processDefinitionWithoutTenantId();
+  }
+  query.processDefinitionVersionLowerThan(processDefinitionToBeRemoved.getVersion());
+  query.orderByProcessDefinitionVersion().desc();
+  List<ProcessDefinition> processDefinitions=getProcessDefinitionManager().findProcessDefinitionsByQueryCriteria(query,new Page(0,1));
+  if (processDefinitions != null && processDefinitions.size() > 0) {
+    return processDefinitions.get(0);
+  }
+  return null;
+}

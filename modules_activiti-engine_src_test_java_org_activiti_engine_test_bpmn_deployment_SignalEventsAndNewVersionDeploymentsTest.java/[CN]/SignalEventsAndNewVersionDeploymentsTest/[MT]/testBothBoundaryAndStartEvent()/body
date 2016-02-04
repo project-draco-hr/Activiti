@@ -1,0 +1,29 @@
+{
+  String deploymentId1=deployProcessWithBothStartAndBoundarySignal();
+  assertEventSubscriptionLatestCount(1);
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+  runtimeService.signalEventReceived("myStartSignal");
+  runtimeService.signalEventReceived("myStartSignal");
+  assertEquals(2,runtimeService.createProcessInstanceQuery().count());
+  assertEquals(3,getAllEventSubscriptions().size());
+  assertEventSubscriptionLatestCount(1);
+  String deploymentId2=deployBoundarySignalTestProcess();
+  runtimeService.signalEventReceived("myStartSignal");
+  assertEquals(2,runtimeService.createProcessInstanceQuery().count());
+  assertEventSubscriptionLatestCount(0);
+  String deploymentId3=deployStartSignalTestProcess();
+  runtimeService.signalEventReceived("myStartSignal");
+  assertEquals(3,runtimeService.createProcessInstanceQuery().count());
+  assertEventSubscriptionLatestCount(1);
+  repositoryService.deleteDeployment(deploymentId3,true);
+  runtimeService.signalEventReceived("myStartSignal");
+  assertEquals(2,runtimeService.createProcessInstanceQuery().count());
+  assertEventSubscriptionLatestCount(0);
+  runtimeService.signalEventReceived("myBoundarySignal");
+  assertEquals(2,taskService.createTaskQuery().taskName("Task after boundary signal").list().size());
+  repositoryService.deleteDeployment(deploymentId2,true);
+  runtimeService.signalEventReceived("myStartSignal");
+  assertEquals(3,runtimeService.createProcessInstanceQuery().count());
+  assertEventSubscriptionLatestCount(1);
+  cleanup(deploymentId1);
+}

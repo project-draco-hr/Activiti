@@ -2,8 +2,15 @@
   CommandContext commandContext=Context.getCommandContext();
   List<EventSubscriptionDeclaration> eventDefinitions=(List<EventSubscriptionDeclaration>)processDefinition.getProperty(BpmnParse.PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION);
   if (eventDefinitions != null) {
+    Set<String> messageNames=new HashSet<String>();
     for (    EventSubscriptionDeclaration eventDefinition : eventDefinitions) {
       if (eventDefinition.getEventType().equals("message") && eventDefinition.isStartEvent()) {
+        if (!messageNames.contains(eventDefinition.getEventName())) {
+          messageNames.add(eventDefinition.getEventName());
+        }
+ else {
+          throw new ActivitiException("Cannot deploy process definition '" + processDefinition.getResourceName() + "': there multiple message event subscriptions for the message with name '"+ eventDefinition.getEventName()+ "'.");
+        }
         List<EventSubscriptionEntity> subscriptionsForSameMessageName=commandContext.getEventSubscriptionEntityManager().findEventSubscriptionsByName(MessageEventHandler.EVENT_HANDLER_TYPE,eventDefinition.getEventName(),processDefinition.getTenantId());
         List<MessageEventSubscriptionEntity> cachedSubscriptions=commandContext.getDbSqlSession().findInCache(MessageEventSubscriptionEntity.class);
         for (        MessageEventSubscriptionEntity cachedSubscription : cachedSubscriptions) {
@@ -13,7 +20,13 @@
         }
         subscriptionsForSameMessageName=commandContext.getDbSqlSession().pruneDeletedEntities(subscriptionsForSameMessageName);
         for (        EventSubscriptionEntity eventSubscriptionEntity : subscriptionsForSameMessageName) {
-          if (eventSubscriptionEntity.getProcessInstanceId() == null || eventSubscriptionEntity.getProcessInstanceId().isEmpty()) {
+          String eventSubscriptionProcessDefinitionId=eventSubscriptionEntity.getConfiguration();
+          String eventSubscriptionPdKey=eventSubscriptionEntity.getProcessDefinitionKey();
+          if (eventSubscriptionPdKey == null) {
+            ProcessDefinitionEntity pd=commandContext.getProcessDefinitionEntityManager().findProcessDefinitionById(eventSubscriptionProcessDefinitionId);
+            eventSubscriptionPdKey=pd.getKey();
+          }
+          if (StringUtils.isEmpty(eventSubscriptionEntity.getProcessInstanceId()) && !processDefinition.getKey().equals(eventSubscriptionPdKey)) {
             throw new ActivitiException("Cannot deploy process definition '" + processDefinition.getResourceName() + "': there already is a message event subscription for the message with name '"+ eventDefinition.getEventName()+ "'.");
           }
         }
@@ -21,6 +34,9 @@
         newSubscription.setEventName(eventDefinition.getEventName());
         newSubscription.setActivityId(eventDefinition.getActivityId());
         newSubscription.setConfiguration(processDefinition.getId());
+        newSubscription.setProcessDefinitionId(processDefinition.getId());
+        newSubscription.setProcessDefinitionKey(processDefinition.getKey());
+        newSubscription.setLatest(true);
         if (processDefinition.getTenantId() != null) {
           newSubscription.setTenantId(processDefinition.getTenantId());
         }

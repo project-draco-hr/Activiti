@@ -1,0 +1,18 @@
+{
+  String deploymentId1=deployProcessWithBothStartAndBoundarySignalSameSignal();
+  assertEventSubscriptionLatestCount(1);
+  assertEquals(0,runtimeService.createExecutionQuery().count());
+  for (int i=0; i < 9; i++) {
+    runtimeService.signalEventReceived("mySignal");
+    assertEquals(2,getAllEventSubscriptions().size());
+  }
+  assertEquals(9,historyService.createHistoricProcessInstanceQuery().count());
+  assertEquals(2,getAllEventSubscriptions().size());
+  assertEventSubscriptionLatestCount(1);
+  runtimeService.signalEventReceived("myStartSignal");
+  String deploymentId2=deployStartSignalTestProcess();
+  runtimeService.signalEventReceived("myStartSignal");
+  assertEquals(2,runtimeService.createProcessInstanceQuery().count());
+  assertEventSubscriptionLatestCount(1);
+  cleanup(deploymentId1,deploymentId2);
+}

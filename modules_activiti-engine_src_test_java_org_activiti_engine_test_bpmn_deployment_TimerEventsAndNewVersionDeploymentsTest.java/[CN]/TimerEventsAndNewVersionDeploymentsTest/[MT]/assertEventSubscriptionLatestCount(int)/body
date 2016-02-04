@@ -1,0 +1,12 @@
+{
+  List<EventSubscriptionEntity> eventSubscriptions=getAllEventSubscriptions();
+  int latestCount=0;
+  for (  EventSubscriptionEntity eventSubscription : eventSubscriptions) {
+    if (eventSubscription.isLatest()) {
+      latestCount++;
+      assertEquals("message",eventSubscription.getEventType());
+      assertTrue(eventSubscription.getExecutionId() == null && eventSubscription.getProcessInstanceId() == null);
+    }
+  }
+  assertEquals(expectedCount,latestCount);
+}
