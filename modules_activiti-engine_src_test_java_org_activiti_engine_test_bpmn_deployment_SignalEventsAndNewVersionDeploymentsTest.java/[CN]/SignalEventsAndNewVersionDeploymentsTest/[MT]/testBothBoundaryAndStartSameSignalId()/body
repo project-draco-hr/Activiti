@@ -6,7 +6,9 @@
     runtimeService.signalEventReceived("mySignal");
     assertEquals(2,getAllEventSubscriptions().size());
   }
-  assertEquals(9,historyService.createHistoricProcessInstanceQuery().count());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    assertEquals(9,historyService.createHistoricProcessInstanceQuery().count());
+  }
   assertEquals(2,getAllEventSubscriptions().size());
   assertEventSubscriptionLatestCount(1);
   runtimeService.signalEventReceived("myStartSignal");

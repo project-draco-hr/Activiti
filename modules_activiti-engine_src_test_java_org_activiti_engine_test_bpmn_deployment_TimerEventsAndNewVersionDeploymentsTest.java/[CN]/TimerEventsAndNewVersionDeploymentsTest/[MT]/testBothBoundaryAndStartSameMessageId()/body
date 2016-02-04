@@ -6,7 +6,9 @@
   for (int i=0; i < 9; i++) {
     runtimeService.startProcessInstanceByMessage("myMessage");
   }
-  assertEquals(9,historyService.createHistoricProcessInstanceQuery().count());
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    assertEquals(9,historyService.createHistoricProcessInstanceQuery().count());
+  }
   assertEquals(10,getAllEventSubscriptions().size());
   assertEventSubscriptionLatestCount(1);
   String deploymentId2=deployStartMessageTestProcess();
