@@ -15,7 +15,22 @@
   for (  ProcessDefinition processDefinition : processDefinitions) {
     String processDefinitionId=processDefinition.getId();
     getIdentityLinkManager().deleteIdentityLinksByProcDef(processDefinitionId);
-    getEventSubscriptionManager().deleteEventSubscriptionsForProcessDefinition(processDefinitionId);
+    List<EventSubscriptionEntity> eventSubscriptionEntities=getEventSubscriptionManager().findEventSubscriptionsByTypeAndProcessDefinitionId(null,processDefinitionId,processDefinition.getTenantId());
+    for (    EventSubscriptionEntity eventSubscriptionEntity : eventSubscriptionEntities) {
+      eventSubscriptionEntity.delete();
+    }
+    ProcessDefinition latestProcessDefinitionWithSameKey=findLatestProcessDefinition(processDefinition);
+    if (processDefinition.getId().equals(latestProcessDefinitionWithSameKey.getId())) {
+      ProcessDefinition newLatestProcessDefinition=findNewLatestProcessDefinitionAfterRemovalOf(processDefinition);
+      if (newLatestProcessDefinition != null) {
+        List<EventSubscriptionEntity> eventSubscriptionsForNewLatestPd=getEventSubscriptionManager().findEventSubscriptionsByTypeAndProcessDefinitionId(null,newLatestProcessDefinition.getId(),newLatestProcessDefinition.getTenantId());
+        if (eventSubscriptionsForNewLatestPd != null) {
+          for (          EventSubscriptionEntity eventSubscriptionForLatestPd : eventSubscriptionsForNewLatestPd) {
+            eventSubscriptionForLatestPd.setLatest(true);
+          }
+        }
+      }
+    }
     getProcessDefinitionInfoManager().deleteProcessDefinitionInfo(processDefinitionId);
   }
   getProcessDefinitionManager().deleteProcessDefinitionsByDeploymentId(deploymentId);
@@ -29,29 +44,11 @@
         ((JobEntity)timerStartJob).delete();
       }
     }
-    ProcessDefinitionEntity latestProcessDefinition=null;
-    if (processDefinition.getTenantId() != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
-      latestProcessDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findLatestProcessDefinitionByKeyAndTenantId(processDefinition.getKey(),processDefinition.getTenantId());
-    }
- else {
-      latestProcessDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findLatestProcessDefinitionByKey(processDefinition.getKey());
-    }
+    ProcessDefinitionEntity latestProcessDefinition=findLatestProcessDefinition(processDefinition);
     if (processDefinition.getId().equals(latestProcessDefinition.getId())) {
-      int previousVersion=processDefinition.getVersion() - 1;
-      ProcessDefinitionEntity previousProcessDefinition=null;
-      while (previousProcessDefinition == null && previousVersion > 0) {
-        ProcessDefinitionQueryImpl previousProcessDefinitionQuery=new ProcessDefinitionQueryImpl(Context.getCommandContext()).processDefinitionVersion(previousVersion).processDefinitionKey(processDefinition.getKey());
-        if (processDefinition.getTenantId() != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
-          previousProcessDefinitionQuery.processDefinitionTenantId(processDefinition.getTenantId());
-        }
- else {
-          previousProcessDefinitionQuery.processDefinitionWithoutTenantId();
-        }
-        previousProcessDefinition=(ProcessDefinitionEntity)previousProcessDefinitionQuery.singleResult();
-        previousVersion--;
-      }
+      ProcessDefinition previousProcessDefinition=findNewLatestProcessDefinitionAfterRemovalOf(processDefinition);
       if (previousProcessDefinition != null) {
-        ProcessDefinitionEntity resolvedProcessDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().resolveProcessDefinition(previousProcessDefinition);
+        ProcessDefinitionEntity resolvedProcessDefinition=Context.getProcessEngineConfiguration().getDeploymentManager().resolveProcessDefinition((ProcessDefinitionEntity)previousProcessDefinition);
         List<TimerDeclarationImpl> timerDeclarations=(List<TimerDeclarationImpl>)resolvedProcessDefinition.getProperty(BpmnParse.PROPERTYNAME_START_TIMER);
         if (timerDeclarations != null) {
           for (          TimerDeclarationImpl timerDeclaration : timerDeclarations) {
@@ -64,10 +61,6 @@
           }
         }
       }
-    }
-    List<EventSubscriptionEntity> findEventSubscriptionsByConfiguration=Context.getCommandContext().getEventSubscriptionEntityManager().findEventSubscriptionsByConfiguration(MessageEventHandler.EVENT_HANDLER_TYPE,processDefinition.getId(),processDefinition.getTenantId());
-    for (    EventSubscriptionEntity eventSubscriptionEntity : findEventSubscriptionsByConfiguration) {
-      eventSubscriptionEntity.delete();
     }
   }
   getResourceManager().deleteResourcesByDeploymentId(deploymentId);

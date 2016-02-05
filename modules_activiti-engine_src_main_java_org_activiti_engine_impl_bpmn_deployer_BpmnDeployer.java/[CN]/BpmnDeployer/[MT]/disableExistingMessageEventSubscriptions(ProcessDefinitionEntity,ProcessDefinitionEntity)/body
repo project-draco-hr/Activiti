@@ -1,0 +1,9 @@
+{
+  if (latestProcessDefinition != null) {
+    CommandContext commandContext=Context.getCommandContext();
+    List<EventSubscriptionEntity> subscriptionsToDisable=commandContext.getEventSubscriptionEntityManager().findEventSubscriptionsByTypeAndProcessDefinitionId(MessageEventHandler.EVENT_HANDLER_TYPE,latestProcessDefinition.getId(),latestProcessDefinition.getTenantId());
+    for (    EventSubscriptionEntity eventSubscriptionEntity : subscriptionsToDisable) {
+      eventSubscriptionEntity.setLatest(false);
+    }
+  }
+}

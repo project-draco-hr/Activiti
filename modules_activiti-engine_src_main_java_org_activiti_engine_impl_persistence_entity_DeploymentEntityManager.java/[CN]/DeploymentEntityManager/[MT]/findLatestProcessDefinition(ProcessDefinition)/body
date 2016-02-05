@@ -1,0 +1,10 @@
+{
+  ProcessDefinitionEntity latestProcessDefinition=null;
+  if (processDefinition.getTenantId() != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
+    latestProcessDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findLatestProcessDefinitionByKeyAndTenantId(processDefinition.getKey(),processDefinition.getTenantId());
+  }
+ else {
+    latestProcessDefinition=Context.getCommandContext().getProcessDefinitionEntityManager().findLatestProcessDefinitionByKey(processDefinition.getKey());
+  }
+  return latestProcessDefinition;
+}
