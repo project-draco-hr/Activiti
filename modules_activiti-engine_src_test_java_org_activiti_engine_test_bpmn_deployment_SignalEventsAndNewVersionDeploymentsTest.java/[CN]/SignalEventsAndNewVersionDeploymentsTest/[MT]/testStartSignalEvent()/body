@@ -7,7 +7,6 @@
   String deploymentId2=deployStartSignalTestProcess();
   runtimeService.signalEventReceived("myStartSignal");
   assertEquals(2,runtimeService.createProcessInstanceQuery().count());
-  assertEquals(2,getAllEventSubscriptions().size());
-  assertEventSubscriptionLatestCount(1);
+  assertEquals(1,getAllEventSubscriptions().size());
   cleanup(deploymentId1,deploymentId2);
 }
