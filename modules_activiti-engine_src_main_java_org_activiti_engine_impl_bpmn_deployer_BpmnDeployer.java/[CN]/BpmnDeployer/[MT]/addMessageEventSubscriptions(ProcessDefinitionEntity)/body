@@ -9,7 +9,7 @@
           messageNames.add(eventDefinition.getEventName());
         }
  else {
-          throw new ActivitiException("Cannot deploy process definition '" + processDefinition.getResourceName() + "': there multiple message event subscriptions for the message with name '"+ eventDefinition.getEventName()+ "'.");
+          throw new ActivitiException("Cannot deploy process definition '" + processDefinition.getResourceName() + "': there are multiple message event subscriptions for the message with name '"+ eventDefinition.getEventName()+ "'.");
         }
         List<EventSubscriptionEntity> subscriptionsForSameMessageName=commandContext.getEventSubscriptionEntityManager().findEventSubscriptionsByName(MessageEventHandler.EVENT_HANDLER_TYPE,eventDefinition.getEventName(),processDefinition.getTenantId());
         List<MessageEventSubscriptionEntity> cachedSubscriptions=commandContext.getDbSqlSession().findInCache(MessageEventSubscriptionEntity.class);
