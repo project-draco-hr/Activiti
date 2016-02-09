@@ -4,9 +4,9 @@
       EventSubscriptionQueryImpl query=new EventSubscriptionQueryImpl(commandContext);
       query.orderByCreated().desc();
       List<EventSubscriptionEntity> eventSubscriptionEntities=query.list();
-      for (      EventSubscriptionEntity eventSubscriptionEntity : eventSubscriptionEntities) {
-        assertEquals("signal",eventSubscriptionEntity.getEventType());
-        assertNotNull(eventSubscriptionEntity.getProcessDefinitionId());
+      for (      EventSubscriptionEntity entity : eventSubscriptionEntities) {
+        assertEquals("message",entity.getEventType());
+        assertNotNull(entity.getProcessDefinitionId());
       }
       return eventSubscriptionEntities;
     }
