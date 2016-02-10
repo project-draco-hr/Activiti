@@ -10,7 +10,15 @@
  else   if (transactionState.equals(TransactionState.COMMITTED)) {
     TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
       @Override public void afterCommit(){
-        transactionListener.execute(commandContext);
+        CommandExecutor commandExecutor=commandContext.getProcessEngineConfiguration().getCommandExecutor();
+        CommandConfig commandConfig=new CommandConfig(false,TransactionPropagation.REQUIRES_NEW);
+        commandExecutor.execute(commandConfig,new Command<Void>(){
+          public Void execute(          CommandContext commandContext){
+            transactionListener.execute(commandContext);
+            return null;
+          }
+        }
+);
       }
     }
 );
@@ -27,7 +35,15 @@
     TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
       @Override public void afterCompletion(      int status){
         if (TransactionSynchronization.STATUS_ROLLED_BACK == status) {
-          transactionListener.execute(commandContext);
+          CommandExecutor commandExecutor=commandContext.getProcessEngineConfiguration().getCommandExecutor();
+          CommandConfig commandConfig=new CommandConfig(false,TransactionPropagation.REQUIRES_NEW);
+          commandExecutor.execute(commandConfig,new Command<Void>(){
+            public Void execute(            CommandContext commandContext){
+              transactionListener.execute(commandContext);
+              return null;
+            }
+          }
+);
         }
       }
     }
