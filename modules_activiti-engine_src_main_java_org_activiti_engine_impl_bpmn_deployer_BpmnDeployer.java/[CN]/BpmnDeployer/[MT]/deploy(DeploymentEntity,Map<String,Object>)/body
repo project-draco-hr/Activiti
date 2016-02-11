@@ -88,9 +88,9 @@
       }
       removeObsoleteTimers(processDefinition);
       addTimerDeclarations(processDefinition,timers);
-      removeObsoleteMessageEventSubscriptions(processDefinition,latestProcessDefinition);
+      removeExistingMessageEventSubscriptions(processDefinition,latestProcessDefinition);
       addMessageEventSubscriptions(processDefinition);
-      removeObsoleteSignalEventSubScription(processDefinition,latestProcessDefinition);
+      removeExistingSignalEventSubScription(processDefinition,latestProcessDefinition);
       addSignalEventSubscriptions(processDefinition);
       dbSqlSession.insert(processDefinition);
       addAuthorizations(processDefinition);

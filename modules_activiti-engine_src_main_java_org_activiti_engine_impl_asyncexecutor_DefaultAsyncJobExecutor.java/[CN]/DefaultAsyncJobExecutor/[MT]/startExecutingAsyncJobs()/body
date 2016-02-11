@@ -5,9 +5,7 @@
   }
   if (executorService == null) {
     log.info("Creating executor service with corePoolSize {}, maxPoolSize {} and keepAliveTime {}",corePoolSize,maxPoolSize,keepAliveTime);
-    ThreadPoolExecutor threadPoolExecutor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,TimeUnit.MILLISECONDS,threadPoolQueue);
-    threadPoolExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-    executorService=threadPoolExecutor;
+    executorService=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,TimeUnit.MILLISECONDS,threadPoolQueue);
   }
   startJobAcquisitionThread();
 }

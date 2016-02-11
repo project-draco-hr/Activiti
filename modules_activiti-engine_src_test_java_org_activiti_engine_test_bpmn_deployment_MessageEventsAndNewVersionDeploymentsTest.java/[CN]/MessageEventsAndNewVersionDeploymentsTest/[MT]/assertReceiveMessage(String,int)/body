@@ -1,0 +1,7 @@
+{
+  List<String> executionIds=getExecutionIdsForMessageEventSubscription(messageName);
+  assertEquals(executionIdsCount,executionIds.size());
+  for (  String executionId : executionIds) {
+    runtimeService.messageEventReceived(messageName,executionId);
+  }
+}

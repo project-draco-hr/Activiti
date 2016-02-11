@@ -1,0 +1,8 @@
+{
+  List<String> deploymentIdList=new ArrayList<String>();
+  for (  String xmlFileName : xmlFileNameList) {
+    String deploymentId=repositoryService.createDeployment().name(XML_FILE_PATH + xmlFileName).addClasspathResource(XML_FILE_PATH + xmlFileName).deploy().getId();
+    deploymentIdList.add(deploymentId);
+  }
+  return deploymentIdList;
+}

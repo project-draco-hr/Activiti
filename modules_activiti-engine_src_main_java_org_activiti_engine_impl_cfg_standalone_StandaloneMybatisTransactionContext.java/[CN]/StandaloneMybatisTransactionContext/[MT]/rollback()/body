@@ -2,7 +2,7 @@
   try {
     try {
       log.debug("firing event rolling back...");
-      fireTransactionEvent(TransactionState.ROLLINGBACK);
+      fireTransactionEvent(TransactionState.ROLLINGBACK,false);
     }
  catch (    Throwable exception) {
       log.info("Exception during transaction: {}",exception.getMessage());
@@ -19,6 +19,6 @@
   }
  finally {
     log.debug("firing event rolled back...");
-    fireTransactionEvent(TransactionState.ROLLED_BACK);
+    fireTransactionEvent(TransactionState.ROLLED_BACK,true);
   }
 }

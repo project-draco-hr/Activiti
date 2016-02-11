@@ -1,15 +1,28 @@
 {
-  Runnable runnable=null;
   if (isActive) {
-    if (executeAsyncRunnableFactory == null) {
-      runnable=new ExecuteAsyncRunnable(job,commandExecutor);
+    Runnable runnable=createRunnableForJob(job);
+    try {
+      executorService.execute(runnable);
     }
+ catch (    RejectedExecutionException e) {
+      CommandContext commandContext=Context.getCommandContext();
+      if (commandContext != null) {
+        unlockJob(job,commandContext);
+      }
  else {
-      runnable=executeAsyncRunnableFactory.createExecuteAsyncRunnable(job,commandExecutor);
+        commandExecutor.execute(new Command<Void>(){
+          public Void execute(          CommandContext commandContext){
+            unlockJob(job,commandContext);
+            return null;
+          }
+        }
+);
+      }
+      return false;
     }
-    executorService.execute(runnable);
   }
  else {
     temporaryJobQueue.add(job);
   }
+  return true;
 }

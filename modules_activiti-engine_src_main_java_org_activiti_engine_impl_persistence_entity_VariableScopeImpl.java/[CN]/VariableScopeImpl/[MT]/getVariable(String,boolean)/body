@@ -1,35 +1,8 @@
 {
-  if (fetchAllVariables == true) {
-    if (usedVariablesCache.containsKey(variableName)) {
-      return usedVariablesCache.get(variableName).getValue();
-    }
-    ensureVariableInstancesInitialized();
-    VariableInstanceEntity variableInstance=variableInstances.get(variableName);
-    if (variableInstance != null) {
-      return variableInstance.getValue();
-    }
-    VariableScope parentScope=getParentVariableScope();
-    if (parentScope != null) {
-      return parentScope.getVariable(variableName,true);
-    }
-    return null;
+  Object value=null;
+  VariableInstance variable=getVariableInstance(variableName,fetchAllVariables);
+  if (variable != null) {
+    value=variable.getValue();
   }
- else {
-    if (usedVariablesCache.containsKey(variableName)) {
-      return usedVariablesCache.get(variableName).getValue();
-    }
-    if (variableInstances != null && variableInstances.containsKey(variableName)) {
-      return variableInstances.get(variableName).getValue();
-    }
-    VariableInstanceEntity variable=getSpecificVariable(variableName);
-    if (variable != null) {
-      usedVariablesCache.put(variableName,variable);
-      return variable.getValue();
-    }
-    VariableScope parentScope=getParentVariableScope();
-    if (parentScope != null) {
-      return parentScope.getVariable(variableName,false);
-    }
-    return null;
-  }
+  return value;
 }

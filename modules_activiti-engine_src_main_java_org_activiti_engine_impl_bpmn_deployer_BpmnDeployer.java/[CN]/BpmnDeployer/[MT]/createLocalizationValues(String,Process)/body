@@ -32,7 +32,8 @@
     }
   }
   boolean isFlowElementLocalizationChanged=localizeFlowElements(process.getFlowElements(),infoNode);
-  if (isFlowElementLocalizationChanged) {
+  boolean isDataObjectLocalizationChanged=localizeDataObjectElements(process.getDataObjects(),infoNode);
+  if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
     localizationValuesChanged=true;
   }
   if (localizationValuesChanged) {
