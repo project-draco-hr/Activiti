@@ -1,0 +1,11 @@
+{
+  CommandExecutor commandExecutor=commandContext.getProcessEngineConfiguration().getCommandExecutor();
+  CommandConfig commandConfig=new CommandConfig(false,TransactionPropagation.REQUIRES_NEW);
+  commandExecutor.execute(commandConfig,new Command<Void>(){
+    public Void execute(    CommandContext commandContext){
+      transactionListener.execute(commandContext);
+      return null;
+    }
+  }
+);
+}
