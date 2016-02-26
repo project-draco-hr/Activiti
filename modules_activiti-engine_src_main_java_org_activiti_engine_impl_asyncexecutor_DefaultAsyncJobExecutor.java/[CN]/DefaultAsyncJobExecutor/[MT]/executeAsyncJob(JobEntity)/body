@@ -1,28 +1,12 @@
 {
   if (isActive) {
     Runnable runnable=createRunnableForJob(job);
-    try {
-      executorService.execute(runnable);
-    }
- catch (    RejectedExecutionException e) {
-      CommandContext commandContext=Context.getCommandContext();
-      if (commandContext != null) {
-        unlockJob(job,commandContext);
-      }
- else {
-        commandExecutor.execute(new Command<Void>(){
-          public Void execute(          CommandContext commandContext){
-            unlockJob(job,commandContext);
-            return null;
-          }
-        }
-);
-      }
-      return false;
-    }
+    boolean result=executeAsyncJob(runnable);
+    if (!result)     doUnlockJob(job);
+    return result;
   }
  else {
     temporaryJobQueue.add(job);
+    return true;
   }
-  return true;
 }
