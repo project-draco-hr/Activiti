@@ -1,5 +1,5 @@
 {
-  if (processDefinition.isSuspended()) {
+  if (repositoryService.isProcessDefinitionSuspended(processDefinition.getId())) {
     throw new ActivitiConflictException("Process definition with id '" + processDefinition.getId() + " ' is already suspended");
   }
   repositoryService.suspendProcessDefinitionById(processDefinition.getId(),suspendInstances,date);

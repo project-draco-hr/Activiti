@@ -1,20 +1,20 @@
 {
-  DeploymentManager deploymentCache=commandContext.getProcessEngineConfiguration().getDeploymentManager();
+  DeploymentManager deploymentManager=commandContext.getProcessEngineConfiguration().getDeploymentManager();
   ProcessDefinitionEntity processDefinition=null;
   if (processDefinitionId != null) {
-    processDefinition=deploymentCache.findDeployedProcessDefinitionById(processDefinitionId);
+    processDefinition=deploymentManager.findDeployedProcessDefinitionById(processDefinitionId);
     if (processDefinition == null) {
       throw new ActivitiObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'",ProcessDefinition.class);
     }
   }
  else   if (processDefinitionKey != null && (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId))) {
-    processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
+    processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
     if (processDefinition == null) {
       throw new ActivitiObjectNotFoundException("No process definition found for key '" + processDefinitionKey + "'",ProcessDefinition.class);
     }
   }
  else   if (processDefinitionKey != null && tenantId != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
-    processDefinition=deploymentCache.findDeployedLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey,tenantId);
+    processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey,tenantId);
     if (processDefinition == null) {
       throw new ActivitiObjectNotFoundException("No process definition found for key '" + processDefinitionKey + "' for tenant identifier "+ tenantId,ProcessDefinition.class);
     }
@@ -22,7 +22,7 @@
  else {
     throw new ActivitiIllegalArgumentException("processDefinitionKey and processDefinitionId are null");
   }
-  if (processDefinition.isSuspended()) {
+  if (deploymentManager.isProcessDefinitionSuspended(processDefinition.getId())) {
     throw new ActivitiException("Cannot start process instance. Process definition " + processDefinition.getName() + " (id = "+ processDefinition.getId()+ ") is suspended");
   }
   ExecutionEntity processInstance=processDefinition.createProcessInstance(businessKey);
