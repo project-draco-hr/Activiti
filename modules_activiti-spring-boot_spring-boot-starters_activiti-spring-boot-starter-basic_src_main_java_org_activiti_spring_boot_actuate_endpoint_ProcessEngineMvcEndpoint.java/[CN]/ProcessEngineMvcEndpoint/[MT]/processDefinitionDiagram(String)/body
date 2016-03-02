@@ -1,5 +1,9 @@
 {
-  ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey).singleResult();
+  List processDefinitions=repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey).orderByProcessDefinitionVersion().desc().list();
+  if (processDefinitions.isEmpty()) {
+    return ResponseEntity.status(NOT_FOUND).body(null);
+  }
+  ProcessDefinition processDefinition=(ProcessDefinition)processDefinitions.get(0);
   ProcessDiagramGenerator processDiagramGenerator=new DefaultProcessDiagramGenerator();
   BpmnModel bpmnModel=repositoryService.getBpmnModel(processDefinition.getId());
   if (bpmnModel.getLocationMap().size() == 0) {
@@ -7,5 +11,5 @@
     autoLayout.execute();
   }
   InputStream is=processDiagramGenerator.generateJpgDiagram(bpmnModel);
-  return new InputStreamResource(is);
+  return ResponseEntity.ok(new InputStreamResource(is));
 }
