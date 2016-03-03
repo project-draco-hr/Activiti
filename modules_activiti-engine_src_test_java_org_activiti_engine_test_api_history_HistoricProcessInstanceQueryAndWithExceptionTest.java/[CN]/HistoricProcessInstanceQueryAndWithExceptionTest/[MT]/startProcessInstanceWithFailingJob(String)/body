@@ -1,0 +1,13 @@
+{
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey(processInstanceByKey);
+  List<Job> jobList=managementService.createJobQuery().processInstanceId(processInstance.getId()).list();
+  for (  Job job : jobList) {
+    try {
+      managementService.executeJob(job.getId());
+      fail("RuntimeException");
+    }
+ catch (    RuntimeException re) {
+    }
+  }
+  return processInstance;
+}
