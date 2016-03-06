@@ -4,7 +4,7 @@
   runtimeService.startProcessInstanceByKey("orderProcess");
   HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processDefinitionKey(processDefinitionKey).singleResult();
   assertNotNull(historicProcessInstance);
-  assertTrue(historicProcessInstance.getProcessDefinitionId().startsWith(processDefinitionKey));
+  assertTrue(historicProcessInstance.getProcessDefinitionKey().equals(processDefinitionKey));
   assertEquals("theStart",historicProcessInstance.getStartActivityId());
   Task task=taskService.createTaskQuery().processDefinitionKey("checkCreditProcess").singleResult();
   Map<String,Object> map=new HashMap<String,Object>();

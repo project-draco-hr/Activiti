@@ -13,6 +13,7 @@
     assertEquals(2,variableMap.size());
     assertEquals("test",variableMap.get("test"));
     assertEquals("test2",variableMap.get("test2"));
+    assertEquals(PROCESS_DEFINITION_KEY,instanceList.get(0).getProcessDefinitionKey());
     processInstance=historyService.createHistoricProcessInstanceQuery().includeProcessVariables().processDefinitionKey(PROCESS_DEFINITION_KEY_2).singleResult();
     variableMap=processInstance.getProcessVariables();
     assertEquals(1,variableMap.size());
