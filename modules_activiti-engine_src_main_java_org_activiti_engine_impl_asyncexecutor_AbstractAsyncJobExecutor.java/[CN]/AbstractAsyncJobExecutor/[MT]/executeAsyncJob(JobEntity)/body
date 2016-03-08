@@ -1,0 +1,12 @@
+{
+  if (isActive) {
+    Runnable runnable=createRunnableForJob(job);
+    boolean result=executeAsyncJob(runnable);
+    if (!result)     doUnlockJob(job);
+    return result;
+  }
+ else {
+    temporaryJobQueue.add(job);
+    return true;
+  }
+}
