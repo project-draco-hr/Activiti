@@ -1,6 +1,9 @@
 {
   if (deploymentIds == null) {
-    throw new ActivitiIllegalArgumentException("ids are null");
+    throw new ActivitiIllegalArgumentException("deploymentIds is null");
+  }
+  if (deploymentIds.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("deploymentIds is empty");
   }
   this.deploymentIds=deploymentIds;
   return this;
