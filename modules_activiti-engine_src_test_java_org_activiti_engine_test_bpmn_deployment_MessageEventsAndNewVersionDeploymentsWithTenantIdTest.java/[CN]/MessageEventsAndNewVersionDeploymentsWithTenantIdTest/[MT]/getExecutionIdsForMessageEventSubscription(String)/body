@@ -1,0 +1,18 @@
+{
+  return managementService.executeCommand(new Command<List<String>>(){
+    public List<String> execute(    CommandContext commandContext){
+      EventSubscriptionQueryImpl query=new EventSubscriptionQueryImpl(commandContext);
+      query.eventType("message");
+      query.eventName(messageName);
+      query.tenantId(TENANT_ID);
+      query.orderByCreated().desc();
+      List<EventSubscriptionEntity> eventSubscriptions=query.list();
+      List<String> executionIds=new ArrayList<String>();
+      for (      EventSubscriptionEntity eventSubscription : eventSubscriptions) {
+        executionIds.add(eventSubscription.getExecutionId());
+      }
+      return executionIds;
+    }
+  }
+);
+}

@@ -1,0 +1,16 @@
+{
+  return managementService.executeCommand(new Command<List<EventSubscriptionEntity>>(){
+    public List<EventSubscriptionEntity> execute(    CommandContext commandContext){
+      EventSubscriptionQueryImpl query=new EventSubscriptionQueryImpl(commandContext);
+      query.tenantId(TENANT_ID);
+      query.orderByCreated().desc();
+      List<EventSubscriptionEntity> eventSubscriptionEntities=query.list();
+      for (      EventSubscriptionEntity entity : eventSubscriptionEntities) {
+        assertEquals("message",entity.getEventType());
+        assertNotNull(entity.getProcessDefinitionId());
+      }
+      return eventSubscriptionEntities;
+    }
+  }
+);
+}
