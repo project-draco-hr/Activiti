@@ -1,0 +1,16 @@
+{
+  timerJobAcquisitionRunnables.get(tenantId).stop();
+  asyncJobAcquisitionRunnables.get(tenantId).stop();
+  try {
+    timerJobAcquisitionThreads.get(tenantId).join();
+  }
+ catch (  InterruptedException e) {
+    logger.warn("Interrupted while waiting for the timer job acquisition thread to terminate",e);
+  }
+  try {
+    asyncJobAcquisitionThreads.get(tenantId).join();
+  }
+ catch (  InterruptedException e) {
+    logger.warn("Interrupted while waiting for the timer job acquisition thread to terminate",e);
+  }
+}
