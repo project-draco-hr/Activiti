@@ -1,4 +1,10 @@
 {
+  if (processDefinitionIds == null) {
+    throw new ActivitiIllegalArgumentException("processDefinitionIds is null");
+  }
+  if (processDefinitionIds.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("processDefinitionIds is empty");
+  }
   this.ids=processDefinitionIds;
   return this;
 }
