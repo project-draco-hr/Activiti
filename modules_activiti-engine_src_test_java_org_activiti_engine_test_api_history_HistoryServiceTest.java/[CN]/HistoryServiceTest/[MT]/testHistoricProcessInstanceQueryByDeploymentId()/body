@@ -7,6 +7,7 @@
   processInstanceIds.add(runtimeService.startProcessInstanceByKey("oneTaskProcess2","1").getId());
   HistoricProcessInstanceQuery processInstanceQuery=historyService.createHistoricProcessInstanceQuery().deploymentId(deployment.getId());
   assertEquals(5,processInstanceQuery.count());
+  assertEquals(deployment.getId(),processInstanceQuery.list().get(0).getDeploymentId());
   List<HistoricProcessInstance> processInstances=processInstanceQuery.list();
   assertNotNull(processInstances);
   assertEquals(5,processInstances.size());
