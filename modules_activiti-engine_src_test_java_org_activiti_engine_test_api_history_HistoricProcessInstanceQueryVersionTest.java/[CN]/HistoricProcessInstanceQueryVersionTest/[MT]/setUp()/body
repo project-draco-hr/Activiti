@@ -1,0 +1,12 @@
+{
+  super.setUp();
+  oldDeployment=repositoryService.createDeployment().addClasspathResource(DEPLOYMENT_FILE_PATH).deploy();
+  processInstanceIds=new ArrayList<String>();
+  Map<String,Object> startMap=new HashMap<String,Object>();
+  startMap.put("test",123);
+  processInstanceIds.add(runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY,startMap).getId());
+  newDeployment=repositoryService.createDeployment().addClasspathResource(DEPLOYMENT_FILE_PATH).deploy();
+  startMap.clear();
+  startMap.put("anothertest",456);
+  processInstanceIds.add(runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY,startMap).getId());
+}

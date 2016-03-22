@@ -1,0 +1,12 @@
+{
+  if (processDefinitionVersion == null) {
+    throw new ActivitiIllegalArgumentException("Process definition version is null");
+  }
+  if (inOrStatement) {
+    this.currentOrQueryObject.processDefinitionVersion=processDefinitionVersion;
+  }
+ else {
+    this.processDefinitionVersion=processDefinitionVersion;
+  }
+  return this;
+}
