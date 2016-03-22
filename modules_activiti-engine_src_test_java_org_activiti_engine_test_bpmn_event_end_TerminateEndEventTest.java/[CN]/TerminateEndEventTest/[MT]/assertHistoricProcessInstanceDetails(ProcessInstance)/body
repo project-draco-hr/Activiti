@@ -1,0 +1,6 @@
+{
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
+    assertHistoricProcessInstance(historicProcessInstance);
+  }
+}

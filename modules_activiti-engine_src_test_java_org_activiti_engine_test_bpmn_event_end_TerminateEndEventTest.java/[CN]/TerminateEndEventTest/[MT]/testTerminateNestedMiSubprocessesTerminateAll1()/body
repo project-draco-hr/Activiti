@@ -3,4 +3,5 @@
   Task task=taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskName("E").list().get(0);
   taskService.complete(task.getId());
   assertProcessEnded(processInstance.getId());
+  assertHistoricProcessInstanceDetails(processInstance);
 }

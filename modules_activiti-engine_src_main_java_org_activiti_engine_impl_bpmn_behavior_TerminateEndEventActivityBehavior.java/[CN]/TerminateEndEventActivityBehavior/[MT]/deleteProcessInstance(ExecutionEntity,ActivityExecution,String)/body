@@ -8,4 +8,5 @@
     executionToDelete.setDeleteRoot(true);
     executionToDelete.remove();
   }
+  Context.getCommandContext().getHistoryManager().recordProcessInstanceEnd(processInstanceExecution.getId(),deleteReason,execution.getActivity().getId());
 }

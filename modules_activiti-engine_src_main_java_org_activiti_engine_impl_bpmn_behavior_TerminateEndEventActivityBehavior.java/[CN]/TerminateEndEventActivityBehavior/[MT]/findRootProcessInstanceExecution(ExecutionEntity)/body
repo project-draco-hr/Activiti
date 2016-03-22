@@ -1,0 +1,13 @@
+{
+  ExecutionEntity currentExecution=execution;
+  while (currentExecution.getParentId() != null || currentExecution.getSuperExecutionId() != null) {
+    ExecutionEntity parentExecution=currentExecution.getParent();
+    if (parentExecution != null) {
+      currentExecution=parentExecution;
+    }
+ else     if (currentExecution.getSuperExecutionId() != null) {
+      currentExecution=currentExecution.getSuperExecution();
+    }
+  }
+  return currentExecution;
+}

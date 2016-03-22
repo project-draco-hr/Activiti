@@ -1,7 +1,7 @@
 {
   ActivityImpl terminateEndEventActivity=(ActivityImpl)execution.getActivity();
   if (terminateAll) {
-    ActivityExecution processInstanceExecution=findProcessInstanceExecution(execution);
+    ActivityExecution processInstanceExecution=findRootProcessInstanceExecution((ExecutionEntity)execution);
     terminateProcessInstanceExecution(execution,terminateEndEventActivity,processInstanceExecution);
   }
  else {
