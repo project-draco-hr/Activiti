@@ -1,0 +1,14 @@
+{
+  if (!entitiesInitialized) {
+    EntityManager manager=entityManagerFactory.createEntityManager();
+    manager.getTransaction().begin();
+    simpleEntityFieldAccess=new FieldAccessJPAEntity();
+    simpleEntityFieldAccess.setId(1L);
+    simpleEntityFieldAccess.setValue("value1");
+    manager.persist(simpleEntityFieldAccess);
+    manager.flush();
+    manager.getTransaction().commit();
+    manager.close();
+    entitiesInitialized=true;
+  }
+}

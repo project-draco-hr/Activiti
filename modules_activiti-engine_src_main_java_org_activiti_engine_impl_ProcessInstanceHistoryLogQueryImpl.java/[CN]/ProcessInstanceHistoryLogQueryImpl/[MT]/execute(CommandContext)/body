@@ -16,6 +16,10 @@
     List<HistoricVariableInstance> variables=commandContext.getHistoricVariableInstanceEntityManager().findHistoricVariableInstancesByQueryCriteria(new HistoricVariableInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId),null);
     for (    HistoricVariableInstance historicVariableInstance : variables) {
       historicVariableInstance.getValue();
+      HistoricVariableInstanceEntity variableEntity=(HistoricVariableInstanceEntity)historicVariableInstance;
+      if (JPAEntityVariableType.TYPE_NAME.equals(variableEntity.getVariableType().getTypeName()) || JPAEntityListVariableType.TYPE_NAME.equals(variableEntity.getVariableType().getTypeName())) {
+        ((CacheableVariable)variableEntity.getVariableType()).setForceCacheable(true);
+      }
     }
     processInstanceHistoryLog.addHistoricData(variables);
   }
