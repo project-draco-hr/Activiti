@@ -1,0 +1,14 @@
+{
+  if (executionIds == null) {
+    throw new ActivitiIllegalArgumentException("executionIds is null");
+  }
+  if (executionIds.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Set of executionIds is empty");
+  }
+  List<VariableInstance> instances=new ArrayList<VariableInstance>();
+  List<VariableInstanceEntity> entities=commandContext.getVariableInstanceEntityManager().findVariableInstancesByExecutionIds(executionIds);
+  for (  VariableInstanceEntity entity : entities) {
+    instances.add(entity);
+  }
+  return instances;
+}
