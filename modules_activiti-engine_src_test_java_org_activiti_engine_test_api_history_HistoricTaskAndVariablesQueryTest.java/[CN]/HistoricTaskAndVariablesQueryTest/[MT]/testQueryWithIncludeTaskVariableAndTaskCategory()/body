@@ -1,0 +1,17 @@
+{
+  List<HistoricTaskInstance> tasks=historyService.createHistoricTaskInstanceQuery().taskAssignee("gonzo").list();
+  for (  HistoricTaskInstance task : tasks) {
+    assertNotNull(task.getCategory());
+    assertEquals("testCategory",task.getCategory());
+  }
+  tasks=historyService.createHistoricTaskInstanceQuery().taskAssignee("gonzo").includeTaskLocalVariables().list();
+  for (  HistoricTaskInstance task : tasks) {
+    assertNotNull(task.getCategory());
+    assertEquals("testCategory",task.getCategory());
+  }
+  tasks=historyService.createHistoricTaskInstanceQuery().taskAssignee("gonzo").includeProcessVariables().list();
+  for (  HistoricTaskInstance task : tasks) {
+    assertNotNull(task.getCategory());
+    assertEquals("testCategory",task.getCategory());
+  }
+}
