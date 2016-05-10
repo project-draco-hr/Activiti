@@ -1,0 +1,13 @@
+{
+  List<StartEvent> noneStartEvents=new ArrayList<StartEvent>();
+  for (  StartEvent startEvent : startEvents) {
+    if (startEvent.getEventDefinitions() == null || startEvent.getEventDefinitions().isEmpty()) {
+      noneStartEvents.add(startEvent);
+    }
+  }
+  if (noneStartEvents.size() > 1) {
+    for (    StartEvent startEvent : noneStartEvents) {
+      addError(errors,Problems.START_EVENT_MULTIPLE_FOUND,process,startEvent,"Multiple none start events are not supported");
+    }
+  }
+}

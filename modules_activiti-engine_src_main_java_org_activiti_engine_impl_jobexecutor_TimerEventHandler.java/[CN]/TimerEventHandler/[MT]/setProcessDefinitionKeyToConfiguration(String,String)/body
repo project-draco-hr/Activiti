@@ -1,0 +1,10 @@
+{
+  try {
+    JSONObject cfgJson=new JSONObject(jobHandlerConfiguration);
+    cfgJson.put(PROPERTYNAME_PROCESS_DEFINITION_KEY,activityId);
+    return cfgJson.toString();
+  }
+ catch (  JSONException ex) {
+    return jobHandlerConfiguration;
+  }
+}

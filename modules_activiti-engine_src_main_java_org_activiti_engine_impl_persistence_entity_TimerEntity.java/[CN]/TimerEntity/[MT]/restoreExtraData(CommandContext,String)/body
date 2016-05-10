@@ -32,10 +32,10 @@
     }
   }
   if (processDefinitionId != null) {
-    ProcessDefinition def=Context.getProcessEngineConfiguration().getRepositoryService().getProcessDefinition(processDefinitionId);
-    maxIterations=checkStartEventDefinitions(def,embededActivityId);
+    ProcessDefinition definition=commandContext.getProcessEngineConfiguration().getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
+    maxIterations=checkStartEventDefinitions(definition,embededActivityId);
     if (maxIterations <= 1) {
-      maxIterations=checkBoundaryEventsDefinitions(def,embededActivityId);
+      maxIterations=checkBoundaryEventsDefinitions(definition,embededActivityId);
     }
   }
  else {
