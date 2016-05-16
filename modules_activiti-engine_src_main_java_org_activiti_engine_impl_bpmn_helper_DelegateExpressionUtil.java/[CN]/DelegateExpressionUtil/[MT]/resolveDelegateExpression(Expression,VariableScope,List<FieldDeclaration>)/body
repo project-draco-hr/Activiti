@@ -1,0 +1,13 @@
+{
+  Object delegate=expression.getValue(variableScope);
+  if (fieldDeclarations != null && fieldDeclarations.size() > 0) {
+    DelegateExpressionFieldInjectionMode injectionMode=Context.getProcessEngineConfiguration().getDelegateExpressionFieldInjectionMode();
+    if (injectionMode.equals(DelegateExpressionFieldInjectionMode.COMPATIBILITY)) {
+      ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate,true);
+    }
+ else     if (injectionMode.equals(DelegateExpressionFieldInjectionMode.MIXED)) {
+      ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate,false);
+    }
+  }
+  return delegate;
+}

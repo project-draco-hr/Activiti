@@ -1,27 +1,3 @@
 {
-  Method setterMethod=ReflectUtil.getSetter(declaration.getName(),target.getClass(),declaration.getValue().getClass());
-  if (setterMethod != null) {
-    try {
-      setterMethod.invoke(target,declaration.getValue());
-    }
- catch (    IllegalArgumentException e) {
-      throw new ActivitiException("Error while invoking '" + declaration.getName() + "' on class "+ target.getClass().getName(),e);
-    }
-catch (    IllegalAccessException e) {
-      throw new ActivitiException("Illegal acces when calling '" + declaration.getName() + "' on class "+ target.getClass().getName(),e);
-    }
-catch (    InvocationTargetException e) {
-      throw new ActivitiException("Exception while invoking '" + declaration.getName() + "' on class "+ target.getClass().getName(),e);
-    }
-  }
- else {
-    Field field=ReflectUtil.getField(declaration.getName(),target);
-    if (field == null) {
-      throw new ActivitiIllegalArgumentException("Field definition uses unexisting field '" + declaration.getName() + "' on class "+ target.getClass().getName());
-    }
-    if (!fieldTypeCompatible(declaration,field)) {
-      throw new ActivitiIllegalArgumentException("Incompatible type set on field declaration '" + declaration.getName() + "' for class "+ target.getClass().getName()+ ". Declared value has type "+ declaration.getValue().getClass().getName()+ ", while expecting "+ field.getType().getName());
-    }
-    ReflectUtil.setField(field,target,declaration.getValue());
-  }
+  applyFieldDeclaration(declaration,target,true);
 }

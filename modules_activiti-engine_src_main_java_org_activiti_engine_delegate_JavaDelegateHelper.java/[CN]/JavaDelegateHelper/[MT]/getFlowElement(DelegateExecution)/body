@@ -1,0 +1,8 @@
+{
+  BpmnModel bpmnModel=getBpmnModel(execution);
+  FlowElement flowElement=bpmnModel.getFlowElement(execution.getCurrentActivityId());
+  if (flowElement == null) {
+    throw new ActivitiException("Could not find a FlowElement for activityId " + execution.getCurrentActivityId());
+  }
+  return flowElement;
+}

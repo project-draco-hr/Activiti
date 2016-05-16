@@ -1,0 +1,6 @@
+{
+  if (execution == null) {
+    throw new ActivitiException("Null execution passed");
+  }
+  return Context.getCommandContext().getProcessEngineConfiguration().getDeploymentManager().getBpmnModelById(execution.getProcessDefinitionId());
+}

@@ -1,7 +1,6 @@
 {
-  Object delegate=expression.getValue(execution);
+  Object delegate=DelegateExpressionUtil.resolveDelegateExpression(expression,execution,fieldDeclarations);
   if (delegate instanceof SignallableActivityBehavior) {
-    ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
     ((SignallableActivityBehavior)delegate).signal(execution,signalName,signalData);
   }
 }

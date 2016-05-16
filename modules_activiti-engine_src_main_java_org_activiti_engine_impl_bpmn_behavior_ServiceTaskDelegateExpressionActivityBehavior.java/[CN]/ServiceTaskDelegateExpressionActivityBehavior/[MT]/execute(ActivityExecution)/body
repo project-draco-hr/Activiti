@@ -11,8 +11,7 @@
           }
         }
       }
-      Object delegate=expression.getValue(execution);
-      ClassDelegate.applyFieldDeclaration(fieldDeclarations,delegate);
+      Object delegate=DelegateExpressionUtil.resolveDelegateExpression(expression,execution,fieldDeclarations);
       if (delegate instanceof ActivityBehavior) {
         if (delegate instanceof AbstractBpmnActivityBehavior) {
           ((AbstractBpmnActivityBehavior)delegate).setMultiInstanceActivityBehavior(getMultiInstanceActivityBehavior());

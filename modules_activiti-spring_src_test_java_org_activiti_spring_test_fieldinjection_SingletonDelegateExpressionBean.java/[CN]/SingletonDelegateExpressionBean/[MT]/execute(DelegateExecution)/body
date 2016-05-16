@@ -1,0 +1,13 @@
+{
+  int nrOfFieldExtensions=JavaDelegateHelper.getFields(execution).size();
+  if (nrOfFieldExtensions != 3) {
+    throw new RuntimeException("Error: 3 field extensions expected, but was " + nrOfFieldExtensions);
+  }
+  Expression fieldAExpression=JavaDelegateHelper.getFieldExpression(execution,"fieldA");
+  Number fieldA=(Number)fieldAExpression.getValue(execution);
+  Expression fieldBExpression=JavaDelegateHelper.getFieldExpression(execution,"fieldB");
+  Number fieldB=(Number)fieldBExpression.getValue(execution);
+  int result=fieldA.intValue() + fieldB.intValue();
+  String resultVariableName=JavaDelegateHelper.getFieldExpression(execution,"resultVariableName").getValue(execution).toString();
+  execution.setVariable(resultVariableName,result);
+}
