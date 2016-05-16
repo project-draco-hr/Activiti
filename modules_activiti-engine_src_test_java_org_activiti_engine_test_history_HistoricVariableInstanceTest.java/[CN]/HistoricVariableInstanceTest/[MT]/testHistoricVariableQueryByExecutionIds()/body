@@ -14,12 +14,12 @@
     processInstanceIds.add(processInstanceId);
     if (i != 1)     testProcessInstanceIds.add(processInstanceId);
   }
-  assertEquals(2,historyService.createHistoricVariableInstanceQuery().processInstanceIds(testProcessInstanceIds).count());
-  assertEquals(2,historyService.createHistoricVariableInstanceQuery().processInstanceIds(testProcessInstanceIds).list().size());
-  List<HistoricVariableInstance> historicVariableInstances=historyService.createHistoricVariableInstanceQuery().processInstanceIds(testProcessInstanceIds).list();
+  assertEquals(2,historyService.createHistoricVariableInstanceQuery().executionIds(testProcessInstanceIds).count());
+  assertEquals(2,historyService.createHistoricVariableInstanceQuery().executionIds(testProcessInstanceIds).list().size());
+  List<HistoricVariableInstance> historicVariableInstances=historyService.createHistoricVariableInstanceQuery().executionIds(testProcessInstanceIds).list();
   assertEquals("startVar",historicVariableInstances.get(0).getVariableName());
   assertEquals("hello",historicVariableInstances.get(0).getValue());
-  historicVariableInstances=historyService.createHistoricVariableInstanceQuery().processInstanceIds(processInstanceIds).list();
+  historicVariableInstances=historyService.createHistoricVariableInstanceQuery().executionIds(processInstanceIds).list();
   assertEquals("startVar",historicVariableInstances.get(0).getVariableName());
   assertEquals("hello",historicVariableInstances.get(0).getValue());
   assertEquals("startVar2",historicVariableInstances.get(1).getVariableName());
