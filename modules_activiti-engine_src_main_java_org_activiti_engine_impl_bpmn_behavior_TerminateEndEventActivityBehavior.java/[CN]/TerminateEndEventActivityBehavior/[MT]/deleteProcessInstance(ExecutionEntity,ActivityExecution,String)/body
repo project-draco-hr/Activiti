@@ -1,6 +1,7 @@
 {
   List<ExecutionEntity> orderedExecutions=orderExecutionsRootToLeaf(processInstanceExecution);
   Collections.reverse(orderedExecutions);
+  endAllHistoricActivities(processInstanceExecution.getId());
   for (  ExecutionEntity executionToDelete : orderedExecutions) {
     executionToDelete.setDeleteReason(deleteReason);
     executionToDelete.setEnded(true);

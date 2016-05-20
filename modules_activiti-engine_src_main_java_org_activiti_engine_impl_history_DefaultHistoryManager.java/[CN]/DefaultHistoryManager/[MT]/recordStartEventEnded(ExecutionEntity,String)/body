@@ -1,6 +1,9 @@
 {
   if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
-    HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(executionEntity);
+    if (activityId == null) {
+      return;
+    }
+    HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(execution,activityId,false);
     if (historicActivityInstance != null) {
       endHistoricActivityInstance(historicActivityInstance);
     }

@@ -1,0 +1,23 @@
+{
+  if (!Context.getProcessEngineConfiguration().getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    return;
+  }
+  Map<String,HistoricActivityInstanceEntity> historicActivityInstancMap=new HashMap<String,HistoricActivityInstanceEntity>();
+  List<HistoricActivityInstance> historicActivityInstances=new HistoricActivityInstanceQueryImpl(Context.getCommandContext()).processInstanceId(processInstanceId).unfinished().list();
+  for (  HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
+    historicActivityInstancMap.put(historicActivityInstance.getId(),(HistoricActivityInstanceEntity)historicActivityInstance);
+  }
+  List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances=Context.getCommandContext().getDbSqlSession().findInCache(HistoricActivityInstanceEntity.class);
+  for (  HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
+    if (processInstanceId.equals(cachedHistoricActivityInstance.getProcessInstanceId()) && (cachedHistoricActivityInstance.getEndTime() == null)) {
+      historicActivityInstancMap.put(cachedHistoricActivityInstance.getId(),cachedHistoricActivityInstance);
+    }
+  }
+  for (  HistoricActivityInstanceEntity historicActivityInstance : historicActivityInstancMap.values()) {
+    historicActivityInstance.markEnded(null);
+    ProcessEngineConfigurationImpl config=Context.getProcessEngineConfiguration();
+    if (config != null && config.getEventDispatcher().isEnabled()) {
+      config.getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED,historicActivityInstance));
+    }
+  }
+}

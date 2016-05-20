@@ -3,4 +3,7 @@
   scopeExecution.destroyScope("terminate end event fired");
   ((InterpretableExecution)scopeExecution).setActivity(terminateEndEventActivity);
   scopeExecution.end();
+  if (scopeExecution.isEnded()) {
+    Context.getCommandContext().getHistoryManager().recordActivityEnd((ExecutionEntity)execution);
+  }
 }
