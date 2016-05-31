@@ -1,5 +1,5 @@
 {
-  String processDefinitionId=deployTwoTasksTestProcess();
+  deployTwoTasksTestProcess();
   String processInstanceId=runtimeService.startProcessInstanceByKey("twoTasksProcess").getId();
   List<Task> tasks=taskService.createTaskQuery().processInstanceId(processInstanceId).list();
   taskService.setVariableLocal(tasks.get(0).getId(),"taskVar1","hello1");
