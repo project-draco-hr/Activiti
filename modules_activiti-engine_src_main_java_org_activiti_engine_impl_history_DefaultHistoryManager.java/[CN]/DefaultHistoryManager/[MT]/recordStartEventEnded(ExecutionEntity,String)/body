@@ -1,0 +1,11 @@
+{
+  if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
+    if (activityId == null) {
+      return;
+    }
+    HistoricActivityInstanceEntity historicActivityInstance=findActivityInstance(execution,activityId,false);
+    if (historicActivityInstance != null) {
+      endHistoricActivityInstance(historicActivityInstance);
+    }
+  }
+}

@@ -2,12 +2,17 @@
   if (log.isDebugEnabled()) {
     log.debug("performing destroy scope behavior for execution {}",this);
   }
+  HistoryManager historyManager=Context.getCommandContext().getHistoryManager();
   List<InterpretableExecution> executions=new ArrayList<InterpretableExecution>(getExecutions());
   for (  InterpretableExecution childExecution : executions) {
     if (childExecution.getSubProcessInstance() != null) {
       childExecution.getSubProcessInstance().deleteCascade(reason);
     }
+    historyManager.recordActivityEnd((ExecutionEntity)childExecution);
     childExecution.deleteCascade(reason);
+  }
+  if (activityId != null) {
+    historyManager.recordActivityEnd(this);
   }
   removeTasks(reason);
   removeJobs();

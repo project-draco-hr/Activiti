@@ -1,0 +1,30 @@
+{
+  String processDefinitionKey=TimerEventHandler.getActivityIdFromConfiguration(configuration);
+  ProcessDefinition processDefinition=null;
+  if (job.getTenantId() == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(job.getTenantId())) {
+    processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKey(processDefinitionKey);
+  }
+ else {
+    processDefinition=deploymentManager.findDeployedLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey,job.getTenantId());
+  }
+  if (processDefinition == null) {
+    throw new ActivitiException("Could not find process definition needed for timer start event");
+  }
+  try {
+    if (!deploymentManager.isProcessDefinitionSuspended(processDefinition.getId())) {
+      dispatchTimerFiredEvent(job,commandContext);
+      new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey,null,null,null,job.getTenantId()).execute(commandContext);
+    }
+ else {
+      log.debug("Ignoring timer of suspended process definition {}",processDefinition.getId());
+    }
+  }
+ catch (  RuntimeException e) {
+    log.error("exception during timer execution",e);
+    throw e;
+  }
+catch (  Exception e) {
+    log.error("exception during timer execution",e);
+    throw new ActivitiException("exception during timer execution: " + e.getMessage(),e);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (taskIds == null) {
+    throw new ActivitiIllegalArgumentException("taskIds is null");
+  }
+  if (taskIds.isEmpty()) {
+    throw new ActivitiIllegalArgumentException("Set of taskIds is empty");
+  }
+  if (excludeTaskRelated) {
+    throw new ActivitiIllegalArgumentException("Cannot use taskIds together with excludeTaskVariables");
+  }
+  this.taskIds=taskIds;
+  return this;
+}

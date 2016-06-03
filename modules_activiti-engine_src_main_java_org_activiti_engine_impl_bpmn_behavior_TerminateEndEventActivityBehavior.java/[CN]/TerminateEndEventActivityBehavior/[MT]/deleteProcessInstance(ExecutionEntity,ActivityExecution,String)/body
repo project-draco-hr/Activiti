@@ -1,0 +1,13 @@
+{
+  List<ExecutionEntity> orderedExecutions=orderExecutionsRootToLeaf(processInstanceExecution);
+  Collections.reverse(orderedExecutions);
+  endAllHistoricActivities(processInstanceExecution.getId());
+  for (  ExecutionEntity executionToDelete : orderedExecutions) {
+    executionToDelete.setDeleteReason(deleteReason);
+    executionToDelete.setEnded(true);
+    executionToDelete.setActive(false);
+    executionToDelete.setDeleteRoot(true);
+    executionToDelete.remove();
+  }
+  Context.getCommandContext().getHistoryManager().recordProcessInstanceEnd(processInstanceExecution.getId(),deleteReason,execution.getActivity().getId());
+}

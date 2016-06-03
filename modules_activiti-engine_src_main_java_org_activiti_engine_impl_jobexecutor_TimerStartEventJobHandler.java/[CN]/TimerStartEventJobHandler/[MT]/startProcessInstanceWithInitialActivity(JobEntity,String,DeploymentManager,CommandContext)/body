@@ -1,0 +1,13 @@
+{
+  ProcessDefinitionEntity processDefinition=deploymentManager.findDeployedProcessDefinitionById(job.getProcessDefinitionId());
+  String activityId=getActivityIdFromConfiguration(configuration);
+  ActivityImpl startActivity=processDefinition.findActivity(activityId);
+  if (!deploymentManager.isProcessDefinitionSuspended(processDefinition.getId())) {
+    dispatchTimerFiredEvent(job,commandContext);
+    ExecutionEntity processInstance=processDefinition.createProcessInstance(null,startActivity);
+    processInstance.start();
+  }
+ else {
+    log.debug("Ignoring timer of suspended process definition {}",processDefinition.getId());
+  }
+}

@@ -28,6 +28,7 @@
     List<ExecutionEntity> recyclableExecutionImpls=(List)recyclableExecutions;
     recyclableExecutions.remove(concurrentRoot);
     for (    ExecutionEntity prunedExecution : recyclableExecutionImpls) {
+      Context.getCommandContext().getHistoryManager().recordActivityEnd(prunedExecution);
       log.debug("pruning execution {}",prunedExecution);
       prunedExecution.remove();
     }

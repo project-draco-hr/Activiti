@@ -2,6 +2,7 @@
   for (  Class<? extends PersistentObject> persistentObjectClass : EntityDependencyOrder.INSERT_ORDER) {
     if (insertedObjects.containsKey(persistentObjectClass)) {
       flushPersistentObjects(persistentObjectClass,insertedObjects.get(persistentObjectClass));
+      insertedObjects.remove(persistentObjectClass);
     }
   }
   if (insertedObjects.size() > 0) {

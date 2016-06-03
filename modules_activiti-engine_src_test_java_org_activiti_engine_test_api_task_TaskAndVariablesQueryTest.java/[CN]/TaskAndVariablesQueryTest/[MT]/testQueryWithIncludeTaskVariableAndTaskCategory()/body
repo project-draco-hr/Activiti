@@ -1,0 +1,17 @@
+{
+  List<Task> tasks=taskService.createTaskQuery().taskAssignee("gonzo").list();
+  for (  Task task : tasks) {
+    assertNotNull(task.getCategory());
+    assertEquals("testCategory",task.getCategory());
+  }
+  tasks=taskService.createTaskQuery().taskAssignee("gonzo").includeTaskLocalVariables().list();
+  for (  Task task : tasks) {
+    assertNotNull(task.getCategory());
+    assertEquals("testCategory",task.getCategory());
+  }
+  tasks=taskService.createTaskQuery().taskAssignee("gonzo").includeProcessVariables().list();
+  for (  Task task : tasks) {
+    assertNotNull(task.getCategory());
+    assertEquals("testCategory",task.getCategory());
+  }
+}

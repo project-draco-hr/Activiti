@@ -1,0 +1,7 @@
+{
+  super.setUp();
+  oldDeployment=repositoryService.createDeployment().addClasspathResource(DEPLOYMENT_FILE_PATH).deploy();
+  runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY).getId();
+  newDeployment=repositoryService.createDeployment().addClasspathResource(DEPLOYMENT_FILE_PATH).deploy();
+  runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY).getId();
+}

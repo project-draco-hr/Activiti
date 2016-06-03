@@ -1,0 +1,12 @@
+{
+  List<FieldExtension> fieldExtensions=getFields(execution);
+  if (fieldExtensions == null || fieldExtensions.size() == 0) {
+    return null;
+  }
+  for (  FieldExtension fieldExtension : fieldExtensions) {
+    if (fieldExtension.getFieldName() != null && fieldExtension.getFieldName().equals(fieldName)) {
+      return fieldExtension;
+    }
+  }
+  return null;
+}

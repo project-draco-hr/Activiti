@@ -3,4 +3,26 @@
   if (processInstance != null) {
     throw new AssertionFailedError("Expected finished process instance '" + processInstanceId + "' but it was still in the db");
   }
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+    HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+    assertEquals(processInstanceId,historicProcessInstance.getId());
+    assertNotNull("Historic process instance has no start time",historicProcessInstance.getStartTime());
+    assertNotNull("Historic process instance has no end time",historicProcessInstance.getEndTime());
+    List<HistoricTaskInstance> historicTaskInstances=historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).list();
+    if (historicTaskInstances != null && historicTaskInstances.size() > 0) {
+      for (      HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
+        assertEquals(processInstanceId,historicTaskInstance.getProcessInstanceId());
+        assertNotNull("Historic task " + historicTaskInstance.getTaskDefinitionKey() + " has no start time",historicTaskInstance.getStartTime());
+        assertNotNull("Historic task " + historicTaskInstance.getTaskDefinitionKey() + " has no end time",historicTaskInstance.getEndTime());
+      }
+    }
+    List<HistoricActivityInstance> historicActivityInstances=historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).list();
+    if (historicActivityInstances != null && historicActivityInstances.size() > 0) {
+      for (      HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
+        assertEquals(processInstanceId,historicActivityInstance.getProcessInstanceId());
+        assertNotNull("Historic activity instance " + historicActivityInstance.getActivityId() + " has no start time",historicActivityInstance.getStartTime());
+        assertNotNull("Historic activity instance " + historicActivityInstance.getActivityId() + " has no end time",historicActivityInstance.getEndTime());
+      }
+    }
+  }
 }

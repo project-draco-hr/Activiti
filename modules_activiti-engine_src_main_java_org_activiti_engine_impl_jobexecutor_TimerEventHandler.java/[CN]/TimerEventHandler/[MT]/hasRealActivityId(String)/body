@@ -1,0 +1,13 @@
+{
+  try {
+    JSONObject cfgJson=new JSONObject(jobHandlerConfiguration);
+    Object processDefinitionKey=cfgJson.get(PROPERTYNAME_PROCESS_DEFINITION_KEY);
+    if (processDefinitionKey != null) {
+      return processDefinitionKey.toString().length() > 0;
+    }
+  }
+ catch (  JSONException ex) {
+    return false;
+  }
+  return false;
+}

@@ -1,0 +1,6 @@
+{
+  super.onEvent(event);
+  if (event instanceof ActivitiEntityEvent && Task.class.isAssignableFrom(((ActivitiEntityEvent)event).getEntity().getClass())) {
+    tasks.add(copy((Task)((ActivitiEntityEvent)event).getEntity()));
+  }
+}

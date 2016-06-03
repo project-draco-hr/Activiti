@@ -1,24 +1,5 @@
 {
   for (  String tenantId : timerJobAcquisitionRunnables.keySet()) {
-    timerJobAcquisitionRunnables.get(tenantId).stop();
-  }
-  for (  String tenantId : asyncJobAcquisitionRunnables.keySet()) {
-    asyncJobAcquisitionRunnables.get(tenantId).stop();
-  }
-  for (  String tenantId : timerJobAcquisitionThreads.keySet()) {
-    try {
-      timerJobAcquisitionThreads.get(tenantId).join();
-    }
- catch (    InterruptedException e) {
-      logger.warn("Interrupted while waiting for the timer job acquisition thread to terminate",e);
-    }
-  }
-  for (  String tenantId : asyncJobAcquisitionThreads.keySet()) {
-    try {
-      asyncJobAcquisitionThreads.get(tenantId).join();
-    }
- catch (    InterruptedException e) {
-      logger.warn("Interrupted while waiting for the timer job acquisition thread to terminate",e);
-    }
+    stopThreadsForTenant(tenantId);
   }
 }
