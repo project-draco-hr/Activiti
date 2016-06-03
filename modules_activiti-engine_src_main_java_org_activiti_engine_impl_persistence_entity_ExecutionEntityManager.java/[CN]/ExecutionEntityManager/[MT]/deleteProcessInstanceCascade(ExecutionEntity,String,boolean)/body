@@ -1,11 +1,17 @@
 {
-  for (  ExecutionEntity subExecutionEntity : execution.getExecutions()) {
-    if (subExecutionEntity.getSubProcessInstance() != null) {
-      deleteProcessInstanceCascade(subExecutionEntity.getSubProcessInstance(),deleteReason,deleteHistory);
-    }
-  }
   CommandContext commandContext=Context.getCommandContext();
+  ProcessInstanceQueryImpl processInstanceQuery=new ProcessInstanceQueryImpl(commandContext);
+  List<ProcessInstance> subProcesses=processInstanceQuery.superProcessInstanceId(execution.getProcessInstanceId()).list();
+  for (  ProcessInstance subProcess : subProcesses) {
+    deleteProcessInstanceCascade((ExecutionEntity)subProcess,deleteReason,deleteHistory);
+  }
   commandContext.getTaskEntityManager().deleteTasksByProcessInstanceId(execution.getId(),deleteReason,deleteHistory);
+  if (deleteReason == null) {
+    deleteReason="ACTIVITY_DELETED";
+  }
+  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled() && execution.isProcessInstanceType()) {
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createCancelledEvent(execution.processInstanceId,execution.processInstanceId,execution.processDefinitionId,deleteReason));
+  }
   execution.deleteCascade(deleteReason);
   if (deleteHistory) {
     commandContext.getHistoricProcessInstanceEntityManager().deleteHistoricProcessInstanceById(execution.getId());
