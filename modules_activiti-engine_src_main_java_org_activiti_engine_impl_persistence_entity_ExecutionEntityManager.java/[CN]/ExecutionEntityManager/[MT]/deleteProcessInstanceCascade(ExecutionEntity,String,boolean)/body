@@ -10,7 +10,7 @@
     deleteReason="ACTIVITY_DELETED";
   }
   if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled() && execution.isProcessInstanceType()) {
-    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createCancelledEvent(execution.processInstanceId,execution.processInstanceId,execution.processDefinitionId,deleteReason));
+    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createCancelledEvent(execution.getProcessInstanceId(),execution.getProcessInstanceId(),execution.getProcessDefinitionId(),deleteReason));
   }
   execution.deleteCascade(deleteReason);
   if (deleteHistory) {
