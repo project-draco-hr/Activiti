@@ -80,7 +80,7 @@
         task.setDueDate((Date)dueDate);
       }
  else       if (dueDate instanceof String) {
-        BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(DueDateBusinessCalendar.NAME);
+        BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(taskDefinition.getBusinessCalendarNameExpression().getValue(execution).toString());
         task.setDueDate(businessCalendar.resolveDuedate((String)dueDate));
       }
  else {

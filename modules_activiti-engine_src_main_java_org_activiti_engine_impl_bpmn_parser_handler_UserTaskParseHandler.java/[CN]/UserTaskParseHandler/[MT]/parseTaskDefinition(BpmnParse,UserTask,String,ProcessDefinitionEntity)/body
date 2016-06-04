@@ -29,6 +29,12 @@
   if (StringUtils.isNotEmpty(userTask.getDueDate())) {
     taskDefinition.setDueDateExpression(expressionManager.createExpression(userTask.getDueDate()));
   }
+  if (StringUtils.isNotEmpty(userTask.getBusinessCalendarName())) {
+    taskDefinition.setBusinessCalendarNameExpression(expressionManager.createExpression(userTask.getBusinessCalendarName()));
+  }
+ else {
+    taskDefinition.setBusinessCalendarNameExpression(expressionManager.createExpression(DueDateBusinessCalendar.NAME));
+  }
   if (StringUtils.isNotEmpty(userTask.getCategory())) {
     taskDefinition.setCategoryExpression(expressionManager.createExpression(userTask.getCategory()));
   }
