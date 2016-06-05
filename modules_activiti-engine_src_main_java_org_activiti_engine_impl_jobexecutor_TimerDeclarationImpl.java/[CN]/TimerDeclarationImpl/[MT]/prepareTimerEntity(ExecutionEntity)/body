@@ -3,11 +3,11 @@
   if (scopeForExpression == null) {
     scopeForExpression=NoExecutionVariableScope.getSharedInstance();
   }
-  String calendarName=type.calendarName;
-  if (this.calendarName != null) {
-    calendarName=(String)this.calendarName.getValue(scopeForExpression);
+  String calendarNameValue=type.calendarName;
+  if (this.calendarNameExpression != null) {
+    calendarNameValue=(String)this.calendarNameExpression.getValue(scopeForExpression);
   }
-  BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(calendarName);
+  BusinessCalendar businessCalendar=Context.getProcessEngineConfiguration().getBusinessCalendarManager().getBusinessCalendar(calendarNameValue);
   if (description == null) {
     throw new ActivitiIllegalArgumentException("Timer '" + executionEntity.getActivityId() + "' was not configured with a valid duration/time");
   }

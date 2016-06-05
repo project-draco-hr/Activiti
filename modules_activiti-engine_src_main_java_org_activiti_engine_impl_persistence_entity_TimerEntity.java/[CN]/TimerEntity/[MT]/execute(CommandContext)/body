@@ -18,8 +18,7 @@
       if (repeatValue > 0) {
         setNewRepeat(repeatValue);
       }
-      String calendarName=TimerEventHandler.geCalendarNameFromConfiguration(jobHandlerConfiguration);
-      Date newTimer=calculateNextTimer(calendarName);
+      Date newTimer=calculateNextTimer();
       if (newTimer != null && isValidTime(newTimer)) {
         TimerEntity te=new TimerEntity(this);
         te.setDuedate(newTimer);
