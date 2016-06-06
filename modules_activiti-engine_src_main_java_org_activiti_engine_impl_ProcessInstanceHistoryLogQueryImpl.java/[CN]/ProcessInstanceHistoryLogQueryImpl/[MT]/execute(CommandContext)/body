@@ -29,6 +29,10 @@
   }
   if (includeVariableUpdates) {
     List<? extends HistoricData> variableUpdates=commandContext.getHistoricDetailEntityManager().findHistoricDetailsByQueryCriteria(new HistoricDetailQueryImpl(commandExecutor).variableUpdates(),null);
+    for (    HistoricData historicData : variableUpdates) {
+      HistoricVariableUpdate variableUpdate=(HistoricVariableUpdate)historicData;
+      variableUpdate.getValue();
+    }
     processInstanceHistoryLog.addHistoricData(variableUpdates);
   }
   if (includeFormProperties) {
