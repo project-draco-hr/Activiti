@@ -1,0 +1,15 @@
+{
+  deployProcessDefinition("test-secure-script-task-listener.bpmn20.xml");
+  runtimeService.startProcessInstanceByKey("secureScripting");
+  Task task=taskService.createTaskQuery().singleResult();
+  Assert.assertNotNull(task);
+  try {
+    taskService.complete(task.getId());
+    Assert.fail();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  task=taskService.createTaskQuery().singleResult();
+  Assert.assertNotNull(task);
+}

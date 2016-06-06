@@ -1,5 +1,5 @@
 {
-  deployProcessDefinition("test-secure-script-class-white-listing.bpmn20.xml");
+  deployProcessDefinition("test-secure-script-execution-listener.bpmn20.xml");
   try {
     runtimeService.startProcessInstanceByKey("secureScripting");
     Assert.fail();
@@ -8,4 +8,5 @@
     e.printStackTrace();
     Assert.assertTrue(e.getMessage().contains("Cannot call property getRuntime in object"));
   }
+  Assert.assertEquals(0,taskService.createTaskQuery().count());
 }

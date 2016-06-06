@@ -3,11 +3,11 @@
   enableSysoutsInScript();
   addWhiteListedClass("java.lang.Thread");
   try {
-    runtimeService.startProcessInstanceByKey("ScriptingTest05");
+    runtimeService.startProcessInstanceByKey("secureScripting");
     Assert.fail();
   }
  catch (  Throwable t) {
     t.printStackTrace();
-    Assert.assertTrue(t.getMessage().contains("Maximum execution time of 3000 ms exceeded"));
+    Assert.assertTrue(t.getMessage().contains("Maximum variableScope time of 3000 ms exceeded"));
   }
 }
