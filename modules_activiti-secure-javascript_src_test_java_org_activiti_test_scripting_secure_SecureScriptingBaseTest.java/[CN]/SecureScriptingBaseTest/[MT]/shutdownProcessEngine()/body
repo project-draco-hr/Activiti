@@ -1,0 +1,10 @@
+{
+  for (  Deployment deployment : repositoryService.createDeploymentQuery().list()) {
+    repositoryService.deleteDeployment(deployment.getId(),true);
+  }
+  this.taskService=null;
+  this.repositoryService=null;
+  this.runtimeService=null;
+  this.processEngine.close();
+  this.processEngine=null;
+}

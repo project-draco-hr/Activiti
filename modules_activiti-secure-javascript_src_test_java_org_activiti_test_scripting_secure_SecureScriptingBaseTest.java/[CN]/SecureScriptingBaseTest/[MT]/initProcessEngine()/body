@@ -1,0 +1,7 @@
+{
+  SecureJavascriptTaskActivityBehaviorConfigurator configurator=new SecureJavascriptTaskActivityBehaviorConfigurator().setWhiteListedClasses(new HashSet<String>(Arrays.asList("java.util.ArrayList"))).setMaxStackDepth(10).setMaxScriptExecutionTime(3000L).setMaxMemoryUsed(3145728L);
+  this.processEngine=new StandaloneInMemProcessEngineConfiguration().addConfigurator(configurator).setDatabaseSchemaUpdate("create-drop").buildProcessEngine();
+  this.runtimeService=processEngine.getRuntimeService();
+  this.repositoryService=processEngine.getRepositoryService();
+  this.taskService=processEngine.getTaskService();
+}

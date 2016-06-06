@@ -1,0 +1,9 @@
+{
+  ActivityBehaviorFactory activityBehaviorFactory=processEngineConfiguration.getActivityBehaviorFactory();
+  if (activityBehaviorFactory != null) {
+    activityBehaviorFactory=new DefaultActivityBehaviorFactory();
+  }
+  SecureJavascriptCapableActivityBehaviorFactory secureSecureJavascriptCapableActivityBehaviorFactory=new SecureJavascriptCapableActivityBehaviorFactory(this,activityBehaviorFactory);
+  processEngineConfiguration.getBpmnParser().setActivityBehaviorFactory(secureSecureJavascriptCapableActivityBehaviorFactory);
+  processEngineConfiguration.setActivityBehaviorFactory(activityBehaviorFactory);
+}

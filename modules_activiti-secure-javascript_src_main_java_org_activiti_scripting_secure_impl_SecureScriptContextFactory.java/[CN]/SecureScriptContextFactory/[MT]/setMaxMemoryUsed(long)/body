@@ -1,0 +1,14 @@
+{
+  this.maxMemoryUsed=maxMemoryUsed;
+  if (maxMemoryUsed > 0) {
+    try {
+      Class clazz=Class.forName("com.sun.management.ThreadMXBean");
+      if (clazz != null) {
+        this.threadMxBeanWrapper=new SecureScriptThreadMxBeanWrapper();
+      }
+    }
+ catch (    ClassNotFoundException cnfe) {
+      LOGGER.warn("com.sun.management.ThreadMXBean was not found on the classpath. " + "This means that the limiting the memory usage for a script will NOT work.");
+    }
+  }
+}

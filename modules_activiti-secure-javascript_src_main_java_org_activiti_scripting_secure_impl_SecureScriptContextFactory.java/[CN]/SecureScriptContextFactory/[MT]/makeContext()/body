@@ -1,0 +1,20 @@
+{
+  SecureScriptContext context=new SecureScriptContext();
+  context.getWrapFactory().setJavaPrimitiveWrap(false);
+  context.setOptimizationLevel(optimizationLevel);
+  if (classShutter != null) {
+    context.setClassShutter(classShutter);
+  }
+  if (maxScriptExecutionTime > 0L || maxMemoryUsed > 0L) {
+    context.setGenerateObserverCount(true);
+    context.setInstructionObserverThreshold(observeInstructionCount);
+  }
+  if (maxMemoryUsed > 0) {
+    context.setThreadId(Thread.currentThread().getId());
+  }
+  if (maxStackDepth > 0) {
+    context.setOptimizationLevel(-1);
+    context.setMaximumInterpreterStackDepth(maxStackDepth);
+  }
+  return context;
+}
