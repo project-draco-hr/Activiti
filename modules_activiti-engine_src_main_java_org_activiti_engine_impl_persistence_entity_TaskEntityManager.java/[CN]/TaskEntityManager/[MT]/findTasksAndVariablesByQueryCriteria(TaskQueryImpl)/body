@@ -5,7 +5,12 @@
   }
   int firstResult=taskQuery.getFirstResult();
   int maxResults=taskQuery.getMaxResults();
-  taskQuery.setMaxResults(20000);
+  if (taskQuery.getTaskVariablesLimit() != null) {
+    taskQuery.setMaxResults(taskQuery.getTaskVariablesLimit());
+  }
+ else {
+    taskQuery.setMaxResults(Context.getProcessEngineConfiguration().getTaskQueryLimit());
+  }
   taskQuery.setFirstResult(0);
   List<Task> instanceList=getDbSqlSession().selectListWithRawParameterWithoutFilter(query,taskQuery,taskQuery.getFirstResult(),taskQuery.getMaxResults());
   if (instanceList != null && !instanceList.isEmpty()) {

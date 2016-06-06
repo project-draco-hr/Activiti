@@ -5,7 +5,12 @@
     }
     int firstResult=historicTaskInstanceQuery.getFirstResult();
     int maxResults=historicTaskInstanceQuery.getMaxResults();
-    historicTaskInstanceQuery.setMaxResults(20000);
+    if (historicTaskInstanceQuery.getTaskVariablesLimit() != null) {
+      historicTaskInstanceQuery.setMaxResults(historicTaskInstanceQuery.getTaskVariablesLimit());
+    }
+ else {
+      historicTaskInstanceQuery.setMaxResults(Context.getProcessEngineConfiguration().getHistoricTaskQueryLimit());
+    }
     historicTaskInstanceQuery.setFirstResult(0);
     List<HistoricTaskInstance> instanceList=getDbSqlSession().selectListWithRawParameterWithoutFilter("selectHistoricTaskInstancesWithVariablesByQueryCriteria",historicTaskInstanceQuery,historicTaskInstanceQuery.getFirstResult(),historicTaskInstanceQuery.getMaxResults());
     if (instanceList != null && !instanceList.isEmpty()) {

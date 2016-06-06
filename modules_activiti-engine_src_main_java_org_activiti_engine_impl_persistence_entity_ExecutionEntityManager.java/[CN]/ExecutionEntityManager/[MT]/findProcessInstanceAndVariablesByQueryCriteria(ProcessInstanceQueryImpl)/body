@@ -4,7 +4,12 @@
   }
   int firstResult=executionQuery.getFirstResult();
   int maxResults=executionQuery.getMaxResults();
-  executionQuery.setMaxResults(20000);
+  if (executionQuery.getProcessInstanceVariablesLimit() != null) {
+    executionQuery.setMaxResults(executionQuery.getProcessInstanceVariablesLimit());
+  }
+ else {
+    executionQuery.setMaxResults(Context.getProcessEngineConfiguration().getExecutionQueryLimit());
+  }
   executionQuery.setFirstResult(0);
   List<ProcessInstance> instanceList=getDbSqlSession().selectListWithRawParameterWithoutFilter("selectProcessInstanceWithVariablesByQueryCriteria",executionQuery,executionQuery.getFirstResult(),executionQuery.getMaxResults());
   if (instanceList != null && !instanceList.isEmpty()) {
