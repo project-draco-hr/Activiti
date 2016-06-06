@@ -2,12 +2,6 @@
   if (processInstanceId == null) {
     throw new ActivitiIllegalArgumentException("processInstanceId is null");
   }
-  if (deleteReason == null) {
-    deleteReason="ACTIVITI_DELETED";
-  }
-  if (commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
-    commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createCancelledEvent(this.processInstanceId,this.processInstanceId,null,deleteReason));
-  }
   commandContext.getExecutionEntityManager().deleteProcessInstance(processInstanceId,deleteReason);
   return null;
 }

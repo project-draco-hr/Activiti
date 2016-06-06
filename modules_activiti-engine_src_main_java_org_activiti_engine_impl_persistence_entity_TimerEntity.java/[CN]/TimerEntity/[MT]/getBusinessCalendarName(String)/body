@@ -1,0 +1,11 @@
+{
+  String businessCalendarName=CycleBusinessCalendar.NAME;
+  if (StringUtils.isNotEmpty(calendarName)) {
+    VariableScope execution=NoExecutionVariableScope.getSharedInstance();
+    if (StringUtils.isNotEmpty(this.executionId)) {
+      execution=Context.getCommandContext().getExecutionEntityManager().findExecutionById(this.executionId);
+    }
+    businessCalendarName=(String)Context.getProcessEngineConfiguration().getExpressionManager().createExpression(calendarName).getValue(execution);
+  }
+  return businessCalendarName;
+}
