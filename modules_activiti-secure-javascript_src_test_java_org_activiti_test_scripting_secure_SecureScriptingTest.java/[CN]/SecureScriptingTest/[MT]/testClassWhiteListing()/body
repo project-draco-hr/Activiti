@@ -1,0 +1,11 @@
+{
+  deployProcessDefinition("test-secure-script-class-white-listing.bpmn20.xml");
+  try {
+    runtimeService.startProcessInstanceByKey("ScriptingTest01");
+    Assert.fail();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    Assert.assertTrue(e.getMessage().contains("Cannot call property getRuntime in object"));
+  }
+}

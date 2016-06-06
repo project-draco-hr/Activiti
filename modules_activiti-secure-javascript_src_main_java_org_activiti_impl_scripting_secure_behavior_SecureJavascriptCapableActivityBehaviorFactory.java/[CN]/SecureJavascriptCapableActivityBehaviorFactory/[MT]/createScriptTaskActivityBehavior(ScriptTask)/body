@@ -1,0 +1,9 @@
+{
+  String language=scriptTask.getScriptFormat();
+  if (LANGUAGE_JAVASCRIPT.equalsIgnoreCase(language)) {
+    return createSecureScriptTaskActivityBehavior(scriptTask,language);
+  }
+ else {
+    return wrappedActivityBehaviorFactory.createScriptTaskActivityBehavior(scriptTask);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  deployProcessDefinition("test-secure-script-max-memory-usage.bpmn20.xml");
+  try {
+    runtimeService.startProcessInstanceByKey("ScriptingTest07");
+    Assert.fail();
+  }
+ catch (  Throwable t) {
+    t.printStackTrace();
+    Assert.assertTrue(t.getMessage().contains("Memory limit of 3145728 bytes reached"));
+  }
+}

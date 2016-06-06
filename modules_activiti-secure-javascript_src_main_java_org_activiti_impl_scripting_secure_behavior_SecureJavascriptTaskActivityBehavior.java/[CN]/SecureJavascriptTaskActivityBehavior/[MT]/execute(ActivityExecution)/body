@@ -1,0 +1,12 @@
+{
+  Context context=Context.enter();
+  try {
+    Scriptable scope=context.initStandardObjects();
+    SecureScriptScope secureScriptScope=new SecureScriptScope(execution);
+    scope.setPrototype(secureScriptScope);
+    context.evaluateString(scope,script,"<script>",0,null);
+  }
+  finally {
+    Context.exit();
+  }
+}
