@@ -1,0 +1,11 @@
+{
+  deployProcessDefinition("test-secure-script-max-stack-depth.bpmn20.xml");
+  try {
+    runtimeService.startProcessInstanceByKey("secureScripting");
+    Assert.fail();
+  }
+ catch (  Throwable t) {
+    t.printStackTrace();
+    Assert.assertTrue(t.getMessage().contains("Exceeded maximum stack depth"));
+  }
+}

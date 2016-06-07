@@ -62,6 +62,10 @@
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().processDefinitionName("unexistingdefinitionname").endOr().count());
   assertEquals(1,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("HistoricTaskQueryTest").endOr().count());
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("unexistingdefinitionkey").endOr().count());
+  Task adhocTask=taskService.newTask();
+  taskService.saveTask(adhocTask);
+  assertEquals(1,historyService.createHistoricTaskInstanceQuery().or().taskId(adhocTask.getId()).processDefinitionKey("unexistingdefinitionkey").endOr().count());
+  taskService.deleteTask(adhocTask.getId(),true);
   List<String> includeIds=new ArrayList<String>();
   assertEquals(0,historyService.createHistoricTaskInstanceQuery().or().processDefinitionKey("unexistingdefinitionkey").processDefinitionKeyIn(includeIds).endOr().count());
   includeIds.add("unexistingProcessDefinition");
