@@ -14,7 +14,7 @@
   graph.getStylesheet().putCellStyle(STYLE_BOUNDARY_SEQUENCEFLOW,boundaryEdgeStyle);
   for (  SequenceFlow sequenceFlow : sequenceFlows.values()) {
     Object sourceVertex=generatedVertices.get(sequenceFlow.getSourceRef());
-    Object targertVertex=generatedVertices.get(sequenceFlow.getTargetRef());
+    Object targetVertex=generatedVertices.get(sequenceFlow.getTargetRef());
     String style=null;
     if (handledFlowElements.get(sequenceFlow.getSourceRef()) instanceof BoundaryEvent) {
       style=STYLE_BOUNDARY_SEQUENCEFLOW;
@@ -22,7 +22,7 @@
  else {
       style=STYLE_SEQUENCEFLOW;
     }
-    Object sequenceFlowEdge=graph.insertEdge(cellParent,sequenceFlow.getId(),"",sourceVertex,targertVertex,style);
+    Object sequenceFlowEdge=graph.insertEdge(cellParent,sequenceFlow.getId(),"",sourceVertex,targetVertex,style);
     generatedSequenceFlowEdges.put(sequenceFlow.getId(),sequenceFlowEdge);
   }
 }
