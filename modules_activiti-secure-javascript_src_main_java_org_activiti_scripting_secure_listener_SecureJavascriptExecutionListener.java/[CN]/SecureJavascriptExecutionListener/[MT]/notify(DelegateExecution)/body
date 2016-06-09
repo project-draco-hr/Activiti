@@ -1,7 +1,7 @@
 {
   validateParameters();
   if (SecureJavascriptTaskParseHandler.LANGUAGE_JAVASCRIPT.equalsIgnoreCase(language.getValue(execution).toString())) {
-    Object result=SecureJavascriptUtil.evaluateScript((ActivityExecution)execution,script.getExpressionText());
+    Object result=SecureJavascriptUtil.evaluateScript(execution,script.getExpressionText());
     if (resultVariable != null) {
       execution.setVariable(resultVariable.getExpressionText(),result);
     }
