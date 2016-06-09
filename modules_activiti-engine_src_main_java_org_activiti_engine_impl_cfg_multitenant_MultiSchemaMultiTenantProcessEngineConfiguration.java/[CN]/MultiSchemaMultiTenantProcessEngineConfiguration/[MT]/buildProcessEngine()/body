@@ -1,6 +1,10 @@
 {
+  if (databaseType == null) {
+    throw new ActivitiException("Setting the databaseType is mandatory when using MultiSchemaMultiTenantProcessEngineConfiguration");
+  }
   String originalDatabaseSchemaUpdate=this.databaseSchemaUpdate;
   this.databaseSchemaUpdate=null;
+  this.processDefinitionCache=new MultiSchemaMultiTenantProcessDefinitionCache(tenantInfoHolder,this.processDefinitionCacheLimit);
   boolean originalIsAutoActivateAsyncExecutor=this.asyncExecutorActivate;
   this.asyncExecutorActivate=false;
   ProcessEngine processEngine=super.buildProcessEngine();

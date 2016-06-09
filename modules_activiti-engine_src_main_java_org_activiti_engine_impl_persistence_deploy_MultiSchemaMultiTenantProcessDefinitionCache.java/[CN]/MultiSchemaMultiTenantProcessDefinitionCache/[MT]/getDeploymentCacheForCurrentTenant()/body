@@ -1,0 +1,8 @@
+{
+  String currentTenantId=tenantInfoHolder.getCurrentTenantId();
+  DeploymentCache<ProcessDefinitionEntity> tenantDeploymentCache=caches.get(currentTenantId);
+  if (tenantDeploymentCache == null) {
+    tenantDeploymentCache=createTenantDeploymentCache(currentTenantId);
+  }
+  return tenantDeploymentCache;
+}
