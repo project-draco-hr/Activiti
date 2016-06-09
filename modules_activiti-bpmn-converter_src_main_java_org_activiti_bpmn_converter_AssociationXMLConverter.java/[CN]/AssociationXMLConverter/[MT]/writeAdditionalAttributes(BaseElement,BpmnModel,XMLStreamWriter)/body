@@ -2,4 +2,8 @@
   Association association=(Association)element;
   writeDefaultAttribute(ATTRIBUTE_FLOW_SOURCE_REF,association.getSourceRef(),xtw);
   writeDefaultAttribute(ATTRIBUTE_FLOW_TARGET_REF,association.getTargetRef(),xtw);
+  AssociationDirection associationDirection=association.getAssociationDirection();
+  if (associationDirection != null) {
+    writeDefaultAttribute(ATTRIBUTE_ASSOCIATION_DIRECTION,associationDirection.getValue(),xtw);
+  }
 }

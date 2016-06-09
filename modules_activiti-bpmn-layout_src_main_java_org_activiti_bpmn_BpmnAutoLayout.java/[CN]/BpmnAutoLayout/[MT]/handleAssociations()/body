@@ -12,17 +12,17 @@
   boundaryEdgeStyle.put(mxConstants.STYLE_ENTRY_Y,1.0);
   boundaryEdgeStyle.put(mxConstants.STYLE_EDGE,mxEdgeStyle.orthConnector);
   graph.getStylesheet().putCellStyle(STYLE_BOUNDARY_SEQUENCEFLOW,boundaryEdgeStyle);
-  for (  SequenceFlow sequenceFlow : sequenceFlows.values()) {
-    Object sourceVertex=generatedVertices.get(sequenceFlow.getSourceRef());
-    Object targertVertex=generatedVertices.get(sequenceFlow.getTargetRef());
+  for (  Association association : associations.values()) {
+    Object sourceVertex=generatedVertices.get(association.getSourceRef());
+    Object targertVertex=generatedVertices.get(association.getTargetRef());
     String style=null;
-    if (handledFlowElements.get(sequenceFlow.getSourceRef()) instanceof BoundaryEvent) {
+    if (handledFlowElements.get(association.getSourceRef()) instanceof BoundaryEvent) {
       style=STYLE_BOUNDARY_SEQUENCEFLOW;
     }
  else {
       style=STYLE_SEQUENCEFLOW;
     }
-    Object sequenceFlowEdge=graph.insertEdge(cellParent,sequenceFlow.getId(),"",sourceVertex,targertVertex,style);
-    generatedSequenceFlowEdges.put(sequenceFlow.getId(),sequenceFlowEdge);
+    Object associationEdge=graph.insertEdge(cellParent,association.getId(),"",sourceVertex,targertVertex,style);
+    generatedAssociationEdges.put(association.getId(),associationEdge);
   }
 }
