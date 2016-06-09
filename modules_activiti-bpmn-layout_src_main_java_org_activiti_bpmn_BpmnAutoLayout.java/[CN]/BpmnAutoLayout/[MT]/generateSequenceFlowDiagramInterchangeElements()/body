@@ -1,6 +1,6 @@
 {
-  for (  String sequenceFlowId : generatedEdges.keySet()) {
-    Object edge=generatedEdges.get(sequenceFlowId);
+  for (  String sequenceFlowId : generatedSequenceFlowEdges.keySet()) {
+    Object edge=generatedSequenceFlowEdges.get(sequenceFlowId);
     List<mxPoint> points=graph.getView().getState(edge).getAbsolutePoints();
     FlowElement sourceElement=handledFlowElements.get(sequenceFlows.get(sequenceFlowId).getSourceRef());
     if (sourceElement instanceof Gateway && ((Gateway)sourceElement).getOutgoingFlows().size() > 1) {
@@ -27,6 +27,6 @@
         nextPoint.setY(closestPoint.getY());
       }
     }
-    createDiagramInterchangeInformation((SequenceFlow)handledFlowElements.get(sequenceFlowId),optimizeEdgePoints(points));
+    createDiagramInterchangeInformation(handledFlowElements.get(sequenceFlowId),optimizeEdgePoints(points));
   }
 }

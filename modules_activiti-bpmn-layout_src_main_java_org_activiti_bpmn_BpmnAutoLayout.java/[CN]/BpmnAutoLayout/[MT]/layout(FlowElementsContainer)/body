@@ -3,8 +3,12 @@
   cellParent=graph.getDefaultParent();
   graph.getModel().beginUpdate();
   handledFlowElements=new HashMap<String,FlowElement>();
+  handledArtifacts=new HashMap<String,Artifact>();
   generatedVertices=new HashMap<String,Object>();
-  generatedEdges=new HashMap<String,Object>();
+  generatedSequenceFlowEdges=new HashMap<String,Object>();
+  generatedAssociationEdges=new HashMap<String,Object>();
+  associations=new HashMap<String,Association>();
+  textAnnotations=new HashMap<String,TextAnnotation>();
   sequenceFlows=new HashMap<String,SequenceFlow>();
   boundaryEvents=new ArrayList<BoundaryEvent>();
   for (  FlowElement flowElement : flowElementsContainer.getFlowElements()) {
@@ -25,8 +29,18 @@
     }
     handledFlowElements.put(flowElement.getId(),flowElement);
   }
+  for (  Artifact artifact : flowElementsContainer.getArtifacts()) {
+    if (artifact instanceof Association) {
+      handleAssociation((Association)artifact);
+    }
+ else     if (artifact instanceof TextAnnotation) {
+      handleTextAnnotation((TextAnnotation)artifact);
+    }
+    handledArtifacts.put(artifact.getId(),artifact);
+  }
   handleBoundaryEvents();
   handleSequenceFlow();
+  handleAssociations();
   CustomLayout layout=new CustomLayout(graph,SwingConstants.WEST);
   layout.setIntraCellSpacing(100.0);
   layout.setResizeParent(true);

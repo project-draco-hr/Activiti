@@ -1,0 +1,7 @@
+{
+  for (  String associationId : generatedAssociationEdges.keySet()) {
+    Object edge=generatedAssociationEdges.get(associationId);
+    List<mxPoint> points=graph.getView().getState(edge).getAbsolutePoints();
+    createDiagramInterchangeInformation(handledArtifacts.get(associationId),optimizeEdgePoints(points));
+  }
+}
