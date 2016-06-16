@@ -4,6 +4,10 @@
   this.setSubProcessInstance(subProcessInstance);
   subProcessInstance.setProcessDefinition((ProcessDefinitionImpl)processDefinition);
   subProcessInstance.setProcessInstance(subProcessInstance);
+  Map<String,Object> dataObjectVars=((ProcessDefinitionEntity)processDefinition).getVariables();
+  if (dataObjectVars != null) {
+    subProcessInstance.setVariables(dataObjectVars);
+  }
   Context.getCommandContext().getHistoryManager().recordSubProcessInstanceStart(this,subProcessInstance);
   if (Context.getProcessEngineConfiguration() != null && Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
     Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,subProcessInstance));
