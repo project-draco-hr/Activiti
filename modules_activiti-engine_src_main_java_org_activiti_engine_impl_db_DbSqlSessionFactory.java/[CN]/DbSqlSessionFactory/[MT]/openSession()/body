@@ -1,20 +1,3 @@
 {
-  DbSqlSession dbSqlSession=new DbSqlSession(this);
-  if (getDatabaseSchema() != null) {
-    try {
-      dbSqlSession.getSqlSession().getConnection().setSchema(getDatabaseSchema());
-    }
- catch (    SQLException e) {
-      throw new ActivitiException("Could not set database schema on connection",e);
-    }
-  }
-  if (getDatabaseCatalog() != null) {
-    try {
-      dbSqlSession.getSqlSession().getConnection().setCatalog(getDatabaseCatalog());
-    }
- catch (    SQLException e) {
-      throw new ActivitiException("Could not set database catalog on connection",e);
-    }
-  }
-  return dbSqlSession;
+  return new DbSqlSession(this);
 }
