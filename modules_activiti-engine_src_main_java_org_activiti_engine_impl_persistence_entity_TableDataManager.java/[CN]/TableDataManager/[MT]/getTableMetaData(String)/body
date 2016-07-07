@@ -7,7 +7,7 @@
       tableName=tableName.toLowerCase();
     }
     String schema=getProcessEngineConfiguration().getDatabaseSchema();
-    ResultSet resultSet=metaData.getColumns(null,null,tableName,null);
+    ResultSet resultSet=metaData.getColumns(getProcessEngineConfiguration().getDatabaseCatalog(),schema,tableName,null);
     while (resultSet.next()) {
       boolean wrongSchema=false;
       if (schema != null && schema.length() > 0) {

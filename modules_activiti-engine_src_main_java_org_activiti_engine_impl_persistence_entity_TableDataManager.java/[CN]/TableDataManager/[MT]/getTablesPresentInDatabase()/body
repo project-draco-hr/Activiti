@@ -15,7 +15,7 @@
       if ("oracle".equals(getDbSqlSession().getDbSqlSessionFactory().getDatabaseType())) {
         tableNameFilter=databaseTablePrefix + "ACT" + databaseMetaData.getSearchStringEscape()+ "_%";
       }
-      tables=databaseMetaData.getTables(null,null,tableNameFilter,getDbSqlSession().JDBC_METADATA_TABLE_TYPES);
+      tables=databaseMetaData.getTables(getProcessEngineConfiguration().getDatabaseCatalog(),getProcessEngineConfiguration().getDatabaseSchema(),tableNameFilter,getDbSqlSession().JDBC_METADATA_TABLE_TYPES);
       while (tables.next()) {
         String tableName=tables.getString("TABLE_NAME");
         tableName=tableName.toUpperCase();
