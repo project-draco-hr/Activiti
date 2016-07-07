@@ -1,0 +1,8 @@
+{
+  DeploymentCache<ProcessDefinitionEntity> tenantDeploymentCache=caches.get(currentTenantId);
+  if (tenantDeploymentCache == null) {
+    tenantDeploymentCache=new DefaultDeploymentCache<ProcessDefinitionEntity>(cacheLimit);
+    caches.put(currentTenantId,tenantDeploymentCache);
+  }
+  return tenantDeploymentCache;
+}

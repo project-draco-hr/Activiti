@@ -1,0 +1,21 @@
+{
+  deployProcessDefinition("test-secure-script-execution-listener2.bpmn20.xml");
+  removeWhiteListedClass("org.activiti.engine.impl.persistence.entity.ExecutionEntity");
+  try {
+    runtimeService.startProcessInstanceByKey("secureScripting");
+    Assert.fail();
+  }
+ catch (  Exception e) {
+  }
+  try {
+    addWhiteListedClass("org.activiti.engine.impl.persistence.entity.ExecutionEntity");
+    ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("secureScripting");
+    Assert.assertEquals("testValue",runtimeService.getVariable(processInstance.getId(),"test"));
+  }
+ catch (  Exception e) {
+    Assert.fail();
+  }
+ finally {
+    removeWhiteListedClass("org.activiti.engine.impl.persistence.entity.ExecutionEntity");
+  }
+}

@@ -1,0 +1,11 @@
+{
+  if (secureScriptContextFactory == null) {
+    initSecureScriptContextFactory();
+  }
+  List<BpmnParseHandler> customDefaultBpmnParseHandlers=processEngineConfiguration.getCustomDefaultBpmnParseHandlers();
+  if (customDefaultBpmnParseHandlers == null) {
+    customDefaultBpmnParseHandlers=new ArrayList<BpmnParseHandler>();
+    processEngineConfiguration.setCustomDefaultBpmnParseHandlers(customDefaultBpmnParseHandlers);
+  }
+  customDefaultBpmnParseHandlers.add(new SecureJavascriptTaskParseHandler());
+}

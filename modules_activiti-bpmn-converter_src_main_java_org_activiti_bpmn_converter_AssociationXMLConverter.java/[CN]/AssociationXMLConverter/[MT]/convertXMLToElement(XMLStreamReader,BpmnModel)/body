@@ -4,6 +4,11 @@
   association.setSourceRef(xtr.getAttributeValue(null,ATTRIBUTE_FLOW_SOURCE_REF));
   association.setTargetRef(xtr.getAttributeValue(null,ATTRIBUTE_FLOW_TARGET_REF));
   association.setId(xtr.getAttributeValue(null,ATTRIBUTE_ID));
+  String asociationDirectionString=xtr.getAttributeValue(null,ATTRIBUTE_ASSOCIATION_DIRECTION);
+  if (StringUtils.isNotEmpty(asociationDirectionString)) {
+    AssociationDirection associationDirection=AssociationDirection.valueOf(asociationDirectionString.toUpperCase());
+    association.setAssociationDirection(associationDirection);
+  }
   parseChildElements(getXMLElementName(),association,model,xtr);
   return association;
 }

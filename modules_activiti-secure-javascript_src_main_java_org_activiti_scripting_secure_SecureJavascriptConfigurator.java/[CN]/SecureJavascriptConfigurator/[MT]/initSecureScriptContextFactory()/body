@@ -1,0 +1,26 @@
+{
+  if (secureScriptContextFactory == null) {
+    secureScriptContextFactory=new SecureScriptContextFactory();
+    secureScriptContextFactory.setOptimizationLevel(getScriptOptimizationLevel());
+    if (isEnableClassWhiteListing() || getWhiteListedClasses() != null) {
+      secureScriptClassShutter=new SecureScriptClassShutter();
+      if (getWhiteListedClasses() != null && getWhiteListedClasses().size() > 0) {
+        secureScriptClassShutter.setWhiteListedClasses(getWhiteListedClasses());
+      }
+      secureScriptContextFactory.setClassShutter(secureScriptClassShutter);
+    }
+    if (getMaxScriptExecutionTime() > 0L) {
+      secureScriptContextFactory.setMaxScriptExecutionTime(getMaxScriptExecutionTime());
+    }
+    if (getMaxMemoryUsed() > 0L) {
+      secureScriptContextFactory.setMaxMemoryUsed(getMaxMemoryUsed());
+    }
+    if (getMaxStackDepth() > 0) {
+      secureScriptContextFactory.setMaxStackDepth(getMaxStackDepth());
+    }
+    if (getMaxScriptExecutionTime() > 0L || getMaxMemoryUsed() > 0L) {
+      secureScriptContextFactory.setObserveInstructionCount(getNrOfInstructionsBeforeStateCheckCallback());
+    }
+    ContextFactory.initGlobal(secureScriptContextFactory);
+  }
+}
