@@ -6,8 +6,15 @@
     if ("postgres".equals(getDbSqlSession().getDbSqlSessionFactory().getDatabaseType())) {
       tableName=tableName.toLowerCase();
     }
-    String schema=getProcessEngineConfiguration().getDatabaseSchema();
-    ResultSet resultSet=metaData.getColumns(getProcessEngineConfiguration().getDatabaseCatalog(),schema,tableName,null);
+    String catalog=null;
+    if (getProcessEngineConfiguration().getDatabaseCatalog() != null && getProcessEngineConfiguration().getDatabaseCatalog().length() > 0) {
+      catalog=getProcessEngineConfiguration().getDatabaseCatalog();
+    }
+    String schema=null;
+    if (getProcessEngineConfiguration().getDatabaseSchema() != null && getProcessEngineConfiguration().getDatabaseSchema().length() > 0) {
+      schema=getProcessEngineConfiguration().getDatabaseSchema();
+    }
+    ResultSet resultSet=metaData.getColumns(catalog,schema,tableName,null);
     while (resultSet.next()) {
       boolean wrongSchema=false;
       if (schema != null && schema.length() > 0) {
