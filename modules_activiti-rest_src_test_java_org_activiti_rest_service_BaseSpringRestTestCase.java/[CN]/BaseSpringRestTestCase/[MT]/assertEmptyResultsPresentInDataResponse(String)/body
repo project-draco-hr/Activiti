@@ -1,0 +1,6 @@
+{
+  CloseableHttpResponse response=executeRequest(new HttpGet(SERVER_URL_PREFIX + url),HttpStatus.SC_OK);
+  JsonNode dataNode=objectMapper.readTree(response.getEntity().getContent()).get("data");
+  closeResponse(response);
+  assertEquals(0,dataNode.size());
+}
