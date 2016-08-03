@@ -43,11 +43,14 @@
       byte[] variableBytes=IOUtils.toByteArray(file.getInputStream());
       setVariable(task,variableName,variableBytes,scope,isNew);
     }
- else {
+ else     if (isSerializableVariableAllowed) {
       ObjectInputStream stream=new ObjectInputStream(file.getInputStream());
       Object value=stream.readObject();
       setVariable(task,variableName,value,scope,isNew);
       stream.close();
+    }
+ else {
+      throw new ActivitiContentNotSupportedException("Serialized objects are not allowed");
     }
     return restResponseFactory.createBinaryRestVariable(variableName,scope,variableType,task.getId(),null,null);
   }
