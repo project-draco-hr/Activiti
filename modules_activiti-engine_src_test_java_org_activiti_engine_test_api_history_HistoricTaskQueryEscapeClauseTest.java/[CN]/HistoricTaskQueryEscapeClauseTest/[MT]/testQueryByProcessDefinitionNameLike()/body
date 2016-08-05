@@ -1,0 +1,16 @@
+{
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    List<HistoricTaskInstance> list=historyService.createHistoricTaskInstanceQuery().processDefinitionNameLike("%\\%%").orderByHistoricTaskInstanceStartTime().asc().list();
+    assertEquals(4,list.size());
+    assertEquals(task1.getId(),list.get(0).getId());
+    assertEquals(task3.getId(),list.get(1).getId());
+    assertEquals(task2.getId(),list.get(2).getId());
+    assertEquals(task4.getId(),list.get(3).getId());
+    list=historyService.createHistoricTaskInstanceQuery().or().processDefinitionNameLike("%\\%%").processDefinitionId("undefined").orderByHistoricTaskInstanceStartTime().asc().list();
+    assertEquals(4,list.size());
+    assertEquals(task1.getId(),list.get(0).getId());
+    assertEquals(task3.getId(),list.get(1).getId());
+    assertEquals(task2.getId(),list.get(2).getId());
+    assertEquals(task4.getId(),list.get(3).getId());
+  }
+}
