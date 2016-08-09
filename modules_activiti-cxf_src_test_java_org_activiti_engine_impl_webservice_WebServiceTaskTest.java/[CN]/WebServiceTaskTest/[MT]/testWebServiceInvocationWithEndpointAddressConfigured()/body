@@ -1,0 +1,8 @@
+{
+  assertEquals(-1,webServiceMock.getCount());
+  processEngine.getProcessEngineConfiguration().addWsEndpointAddress(new QName("http://webservice.impl.engine.activiti.org/","CounterImplPort"),new URL("http://localhost:63081/webservicemock"));
+  ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("webServiceInvocation");
+  waitForJobExecutorToProcessAllJobs(10000L,250L);
+  assertEquals(0,webServiceMock.getCount());
+  assertTrue(processInstance.isEnded());
+}

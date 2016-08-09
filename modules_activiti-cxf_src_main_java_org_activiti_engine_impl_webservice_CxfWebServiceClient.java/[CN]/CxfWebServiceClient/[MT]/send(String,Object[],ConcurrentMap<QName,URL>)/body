@@ -1,0 +1,7 @@
+{
+  final URL newEndpointAddress=overridenEndpointAddresses.get(this.client.getEndpoint().getEndpointInfo().getName());
+  if (newEndpointAddress != null) {
+    this.client.getRequestContext().put(Message.ENDPOINT_ADDRESS,newEndpointAddress.toExternalForm());
+  }
+  return client.invoke(methodName,arguments);
+}
