@@ -8,4 +8,6 @@
   assertEquals("rule2",CustomBusinessRuleTask.ruleIds.get(1).getExpressionText());
   assertTrue(CustomBusinessRuleTask.exclude);
   assertEquals("rulesOutput",CustomBusinessRuleTask.resultVariableName);
+  runtimeService.signal(runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).singleResult().getId());
+  assertProcessEnded(processInstance.getId());
 }
