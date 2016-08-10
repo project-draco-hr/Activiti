@@ -1,12 +1,12 @@
 {
-  BusinessRuleTaskActivityBehavior ruleActivity=null;
+  BusinessRuleTaskDelegate ruleActivity=null;
   if (StringUtils.isNotEmpty(businessRuleTask.getClassName())) {
     try {
       Class<?> clazz=Class.forName(businessRuleTask.getClassName());
-      ruleActivity=(BusinessRuleTaskActivityBehavior)clazz.newInstance();
+      ruleActivity=(BusinessRuleTaskDelegate)clazz.newInstance();
     }
  catch (    Exception e) {
-      throw new ActivitiException("Could not instiate businessRuleTask class: ",e);
+      throw new ActivitiException("Could not instiate business rule task class: " + businessRuleTask.getClassName(),e);
     }
   }
  else {

@@ -1,5 +1,6 @@
 {
-  PvmProcessDefinition processDefinition=execution.getActivity().getProcessDefinition();
+  ProcessEngineConfigurationImpl processEngineConfiguration=(ProcessEngineConfigurationImpl)execution.getEngineServices().getProcessEngineConfiguration();
+  ProcessDefinition processDefinition=processEngineConfiguration.getDeploymentManager().findDeployedProcessDefinitionById(execution.getProcessDefinitionId());
   String deploymentId=processDefinition.getDeploymentId();
   KnowledgeBase knowledgeBase=RulesHelper.findKnowledgeBaseByDeploymentId(deploymentId);
   StatefulKnowledgeSession ksession=knowledgeBase.newStatefulKnowledgeSession();
