@@ -13,6 +13,9 @@
   if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
     HistoricProcessInstance historicPI=historyService.createHistoricProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
     assertEquals(newProcessDefinition.getId(),historicPI.getProcessDefinitionId());
+    List<HistoricActivityInstance> historicActivities=historyService.createHistoricActivityInstanceQuery().processInstanceId(pi.getId()).unfinished().list();
+    assertEquals(1,historicActivities.size());
+    assertEquals(newProcessDefinition.getId(),historicActivities.get(0).getProcessDefinitionId());
   }
   repositoryService.deleteDeployment(deployment.getId(),true);
 }
