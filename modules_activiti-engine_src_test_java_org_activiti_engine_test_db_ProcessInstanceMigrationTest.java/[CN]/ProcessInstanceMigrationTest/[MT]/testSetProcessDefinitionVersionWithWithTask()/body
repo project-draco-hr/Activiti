@@ -9,9 +9,11 @@
     Task task=taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
     assertEquals(newProcessDefinition.getId(),task.getProcessDefinitionId());
     assertEquals("testFormKey",formService.getTaskFormData(task.getId()).getFormKey());
-    HistoricTaskInstance historicTask=historyService.createHistoricTaskInstanceQuery().processInstanceId(pi.getId()).singleResult();
-    assertEquals(newProcessDefinition.getId(),historicTask.getProcessDefinitionId());
-    assertEquals("testFormKey",formService.getTaskFormData(historicTask.getId()).getFormKey());
+    if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+      HistoricTaskInstance historicTask=historyService.createHistoricTaskInstanceQuery().processInstanceId(pi.getId()).singleResult();
+      assertEquals(newProcessDefinition.getId(),historicTask.getProcessDefinitionId());
+      assertEquals("testFormKey",formService.getTaskFormData(historicTask.getId()).getFormKey());
+    }
     taskService.complete(task.getId());
     assertProcessEnded(pi.getId());
     repositoryService.deleteDeployment(deployment.getId(),true);
