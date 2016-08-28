@@ -97,6 +97,10 @@
     assertResultsPresentInDataResponse(url,adhocTask.getId());
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?withoutTenantId=true";
     assertResultsPresentInDataResponse(url,adhocTask.getId(),processTask.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?processDefinitionKey=" + processInstance.getProcessDefinitionKey();
+    assertResultsPresentInDataResponse(url,processTask.getId());
+    url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?processDefinitionId=" + processInstance.getProcessDefinitionId();
+    assertResultsPresentInDataResponse(url,processTask.getId());
     managementService.executeCommand(new ChangeDeploymentTenantIdCmd(deploymentId,"myTenant"));
     url=RestUrls.createRelativeResourceUrl(RestUrls.URL_TASK_COLLECTION) + "?withoutTenantId=true";
     assertResultsPresentInDataResponse(url,adhocTask.getId());
