@@ -21,17 +21,15 @@
       subProcessInstance.setVariable(entry.getKey(),entry.getValue());
     }
   }
- else {
-    for (    AbstractDataAssociation dataInputAssociation : dataInputAssociations) {
-      Object value=null;
-      if (dataInputAssociation.getSourceExpression() != null) {
-        value=dataInputAssociation.getSourceExpression().getValue(execution);
-      }
- else {
-        value=execution.getVariable(dataInputAssociation.getSource());
-      }
-      subProcessInstance.setVariable(dataInputAssociation.getTarget(),value);
+  for (  AbstractDataAssociation dataInputAssociation : dataInputAssociations) {
+    Object value=null;
+    if (dataInputAssociation.getSourceExpression() != null) {
+      value=dataInputAssociation.getSourceExpression().getValue(execution);
     }
+ else {
+      value=execution.getVariable(dataInputAssociation.getSource());
+    }
+    subProcessInstance.setVariable(dataInputAssociation.getTarget(),value);
   }
   try {
     subProcessInstance.start();

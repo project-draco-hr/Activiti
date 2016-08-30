@@ -3,7 +3,7 @@
   BpmnModel childBpmnModel=loadBPMNModel(INHERIT_VARIABLES_CHILD_PROCESS_RESOURCE);
   processEngine.getRepositoryService().createDeployment().name("mainProcessDeployment").addBpmnModel("mainProcess.bpmn20.xml",mainBpmnModel).deploy();
   processEngine.getRepositoryService().createDeployment().name("childProcessDeployment").addBpmnModel("childProcess.bpmn20.xml",childBpmnModel).deploy();
-  Map<String,Object> variables=new HashMap<>();
+  Map<String,Object> variables=new HashMap<String,Object>();
   variables.put("var1","String test value");
   variables.put("var2",true);
   variables.put("var3",12345);
