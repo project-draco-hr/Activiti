@@ -15,6 +15,12 @@
     throw new ActivitiException("Cannot start process instance. Process definition " + processDefinition.getName() + " (id = "+ processDefinition.getId()+ ") is suspended");
   }
   PvmProcessInstance subProcessInstance=execution.createSubProcessInstance(processDefinition);
+  if (inheritVariables) {
+    Map<String,Object> variables=execution.getVariables();
+    for (    Map.Entry<String,Object> entry : variables.entrySet()) {
+      subProcessInstance.setVariable(entry.getKey(),entry.getValue());
+    }
+  }
   for (  AbstractDataAssociation dataInputAssociation : dataInputAssociations) {
     Object value=null;
     if (dataInputAssociation.getSourceExpression() != null) {
