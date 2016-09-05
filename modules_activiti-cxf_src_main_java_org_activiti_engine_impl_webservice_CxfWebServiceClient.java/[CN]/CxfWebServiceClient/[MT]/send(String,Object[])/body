@@ -1,3 +1,13 @@
 {
-  return client.invoke(methodName,arguments);
+  try {
+    return client.invoke(methodName,arguments);
+  }
+ catch (  Fault e) {
+    LOGGER.debug("Technical error calling WS",e);
+    throw new ActivitiException(e.getMessage(),e);
+  }
+catch (  Exception e) {
+    LOGGER.debug("Business error calling WS",e);
+    throw new BpmnError(e.getClass().getName(),e.getMessage());
+  }
 }

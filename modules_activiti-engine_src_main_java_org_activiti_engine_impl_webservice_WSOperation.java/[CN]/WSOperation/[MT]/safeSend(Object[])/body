@@ -4,7 +4,7 @@
     results=this.service.getClient().send(this.name,arguments);
   }
  catch (  Exception e) {
-    LOGGER.warn("Error calling WS {}",this.service.getName(),e);
+    throw e;
   }
   if (results == null) {
     results=new Object[]{};

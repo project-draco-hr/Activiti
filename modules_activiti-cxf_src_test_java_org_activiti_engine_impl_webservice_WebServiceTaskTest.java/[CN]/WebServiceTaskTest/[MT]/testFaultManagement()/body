@@ -1,0 +1,27 @@
+{
+  assertEquals(-1,webServiceMock.getCount());
+  webServiceMock.setTo(Integer.MAX_VALUE);
+  ProcessInstance processInstanceWithExpectedFault=runtimeService.startProcessInstanceByKey("webServiceInvocation");
+  waitForJobExecutorToProcessAllJobs(10000L,250L);
+  assertTrue(processInstanceWithExpectedFault.isEnded());
+  final List<HistoricProcessInstance> historicProcessInstanceWithExpectedFault=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceWithExpectedFault.getId()).list();
+  assertEquals(1,historicProcessInstanceWithExpectedFault.size());
+  assertEquals("theEndWithError",historicProcessInstanceWithExpectedFault.get(0).getEndActivityId());
+  webServiceMock.setTo(123456);
+  try {
+    runtimeService.startProcessInstanceByKey("webServiceInvocation");
+  }
+ catch (  ActivitiException e) {
+    assertTrue(e.getCause() instanceof SoapFault);
+  }
+  server.stop();
+  try {
+    runtimeService.startProcessInstanceByKey("webServiceInvocation");
+  }
+ catch (  ActivitiException e) {
+    assertTrue(e.getCause() instanceof Fault);
+  }
+ finally {
+    server.start();
+  }
+}
