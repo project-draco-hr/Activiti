@@ -1,25 +1,44 @@
 {
   MessageInstance message;
-  if (ioSpecification != null) {
-    this.ioSpecification.initialize(execution);
-    ItemInstance inputItem=(ItemInstance)execution.getVariable(this.ioSpecification.getFirstDataInputName());
-    message=new MessageInstance(this.operation.getInMessage(),inputItem);
-  }
+  try {
+    if (ioSpecification != null) {
+      this.ioSpecification.initialize(execution);
+      ItemInstance inputItem=(ItemInstance)execution.getVariable(this.ioSpecification.getFirstDataInputName());
+      message=new MessageInstance(this.operation.getInMessage(),inputItem);
+    }
  else {
-    message=this.operation.getInMessage().createInstance();
+      message=this.operation.getInMessage().createInstance();
+    }
+    execution.setVariable(CURRENT_MESSAGE,message);
+    this.fillMessage(message,execution);
+    MessageInstance receivedMessage=this.operation.sendMessage(message);
+    execution.setVariable(CURRENT_MESSAGE,receivedMessage);
+    if (ioSpecification != null) {
+      String firstDataOutputName=this.ioSpecification.getFirstDataOutputName();
+      if (firstDataOutputName != null) {
+        ItemInstance outputItem=(ItemInstance)execution.getVariable(firstDataOutputName);
+        outputItem.getStructureInstance().loadFrom(receivedMessage.getStructureInstance().toArray());
+      }
+    }
+    this.returnMessage(receivedMessage,execution);
+    execution.setVariable(CURRENT_MESSAGE,null);
+    leave(execution);
   }
-  execution.setVariable(CURRENT_MESSAGE,message);
-  this.fillMessage(message,execution);
-  MessageInstance receivedMessage=this.operation.sendMessage(message);
-  execution.setVariable(CURRENT_MESSAGE,receivedMessage);
-  if (ioSpecification != null) {
-    String firstDataOutputName=this.ioSpecification.getFirstDataOutputName();
-    if (firstDataOutputName != null) {
-      ItemInstance outputItem=(ItemInstance)execution.getVariable(firstDataOutputName);
-      outputItem.getStructureInstance().loadFrom(receivedMessage.getStructureInstance().toArray());
+ catch (  Exception exc) {
+    Throwable cause=exc;
+    BpmnError error=null;
+    while (cause != null) {
+      if (cause instanceof BpmnError) {
+        error=(BpmnError)cause;
+        break;
+      }
+      cause=cause.getCause();
+    }
+    if (error != null) {
+      ErrorPropagation.propagateError(error,execution);
+    }
+ else {
+      throw exc;
     }
   }
-  this.returnMessage(receivedMessage,execution);
-  execution.setVariable(CURRENT_MESSAGE,null);
-  leave(execution);
 }
