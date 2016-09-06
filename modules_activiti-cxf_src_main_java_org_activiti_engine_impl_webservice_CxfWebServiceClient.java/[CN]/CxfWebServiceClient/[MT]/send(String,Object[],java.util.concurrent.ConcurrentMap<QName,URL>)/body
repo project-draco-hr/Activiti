@@ -1,0 +1,20 @@
+{
+  try {
+    URL newEndpointAddress=null;
+    if (overridenEndpointAddresses != null) {
+      newEndpointAddress=overridenEndpointAddresses.get(this.client.getEndpoint().getEndpointInfo().getName());
+    }
+    if (newEndpointAddress != null) {
+      this.client.getRequestContext().put(Message.ENDPOINT_ADDRESS,newEndpointAddress.toExternalForm());
+    }
+    return client.invoke(methodName,arguments);
+  }
+ catch (  Fault e) {
+    LOGGER.debug("Technical error calling WS",e);
+    throw new ActivitiException(e.getMessage(),e);
+  }
+catch (  Exception e) {
+    LOGGER.debug("Business error calling WS",e);
+    throw new BpmnError(e.getClass().getName(),e.getMessage());
+  }
+}

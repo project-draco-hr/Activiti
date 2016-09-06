@@ -11,7 +11,8 @@
     }
     execution.setVariable(CURRENT_MESSAGE,message);
     this.fillMessage(message,execution);
-    MessageInstance receivedMessage=this.operation.sendMessage(message);
+    ProcessEngineConfigurationImpl processEngineConfig=Context.getProcessEngineConfiguration();
+    MessageInstance receivedMessage=this.operation.sendMessage(message,processEngineConfig.getWsOverridenEndpointAddresses());
     execution.setVariable(CURRENT_MESSAGE,receivedMessage);
     if (ioSpecification != null) {
       String firstDataOutputName=this.ioSpecification.getFirstDataOutputName();
