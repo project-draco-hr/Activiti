@@ -1,0 +1,20 @@
+{
+  deploymentOneId=repositoryService.createDeployment().tenantId("One%").addClasspathResource("org/activiti/engine/test/history/oneTaskProcessEscapeClauseTest.bpmn20.xml").deploy().getId();
+  deploymentTwoId=repositoryService.createDeployment().tenantId("Two_").addClasspathResource("org/activiti/engine/test/history/oneTaskProcessEscapeClauseTest.bpmn20.xml").deploy().getId();
+  processInstance1=runtimeService.startProcessInstanceByKeyAndTenantId("oneTaskProcess","One%","One%");
+  runtimeService.setProcessInstanceName(processInstance1.getId(),"One%");
+  processInstance2=runtimeService.startProcessInstanceByKeyAndTenantId("oneTaskProcess","Two_","Two_");
+  runtimeService.setProcessInstanceName(processInstance2.getId(),"Two_");
+  task1=taskService.createTaskQuery().processInstanceId(processInstance1.getId()).singleResult();
+  taskService.setAssignee(task1.getId(),"assignee%");
+  taskService.setOwner(task1.getId(),"owner%");
+  taskService.setVariableLocal(task1.getId(),"var1","One%");
+  task2=taskService.createTaskQuery().processInstanceId(processInstance2.getId()).singleResult();
+  task2.setName("my task_");
+  task2.setDescription("documentation_");
+  taskService.saveTask(task2);
+  taskService.setAssignee(task2.getId(),"assignee_");
+  taskService.setOwner(task2.getId(),"owner_");
+  taskService.setVariableLocal(task2.getId(),"var1","Two_");
+  super.setUp();
+}

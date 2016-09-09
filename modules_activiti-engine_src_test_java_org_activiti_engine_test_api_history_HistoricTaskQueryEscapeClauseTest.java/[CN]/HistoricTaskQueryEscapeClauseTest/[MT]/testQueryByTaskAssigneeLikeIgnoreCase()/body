@@ -1,0 +1,20 @@
+{
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    List<HistoricTaskInstance> list=historyService.createHistoricTaskInstanceQuery().taskAssigneeLikeIgnoreCase("%\\%%").orderByHistoricTaskInstanceStartTime().asc().list();
+    assertEquals(2,list.size());
+    assertEquals(task1.getId(),list.get(0).getId());
+    assertEquals(task3.getId(),list.get(1).getId());
+    list=historyService.createHistoricTaskInstanceQuery().taskAssigneeLikeIgnoreCase("%\\_%").orderByHistoricTaskInstanceStartTime().asc().list();
+    assertEquals(2,list.size());
+    assertEquals(task2.getId(),list.get(0).getId());
+    assertEquals(task4.getId(),list.get(1).getId());
+    list=historyService.createHistoricTaskInstanceQuery().or().taskAssigneeLikeIgnoreCase("%\\%%").processDefinitionId("undefined").orderByHistoricTaskInstanceStartTime().asc().list();
+    assertEquals(2,list.size());
+    assertEquals(task1.getId(),list.get(0).getId());
+    assertEquals(task3.getId(),list.get(1).getId());
+    list=historyService.createHistoricTaskInstanceQuery().or().taskAssigneeLikeIgnoreCase("%\\_%").processDefinitionId("undefined").orderByHistoricTaskInstanceStartTime().asc().list();
+    assertEquals(2,list.size());
+    assertEquals(task2.getId(),list.get(0).getId());
+    assertEquals(task4.getId(),list.get(1).getId());
+  }
+}
