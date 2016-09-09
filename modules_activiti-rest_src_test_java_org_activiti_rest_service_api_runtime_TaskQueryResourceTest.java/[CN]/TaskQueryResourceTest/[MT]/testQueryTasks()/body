@@ -17,6 +17,7 @@
     adhocTask.setDueDate(adhocTaskCreate.getTime());
     adhocTask.setPriority(100);
     adhocTask.setFormKey("myForm.json");
+    adhocTask.setCategory("some-category");
     taskService.saveTask(adhocTask);
     taskService.addUserIdentityLink(adhocTask.getId(),"misspiggy",IdentityLinkType.PARTICIPANT);
     processEngineConfiguration.getClock().setCurrentTime(processTaskCreate.getTime());
@@ -140,6 +141,9 @@
     assertResultsPresentInPostDataResponse(url,requestNode,processTask.getId());
     requestNode.removeAll();
     requestNode.put("active",true);
+    assertResultsPresentInPostDataResponse(url,requestNode,adhocTask.getId());
+    requestNode.removeAll();
+    requestNode.put("category","some-category");
     assertResultsPresentInPostDataResponse(url,requestNode,adhocTask.getId());
     requestNode.removeAll();
     requestNode.put("withoutDueDate",true);
