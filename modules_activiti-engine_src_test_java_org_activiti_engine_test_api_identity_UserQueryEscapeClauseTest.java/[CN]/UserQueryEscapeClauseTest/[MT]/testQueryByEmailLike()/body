@@ -1,0 +1,10 @@
+{
+  UserQuery query=identityService.createUserQuery().userEmailLike("%\\%%");
+  assertEquals(1,query.list().size());
+  assertEquals(1,query.count());
+  assertEquals("kermit",query.singleResult().getId());
+  query=identityService.createUserQuery().userEmailLike("%\\_%");
+  assertEquals(1,query.list().size());
+  assertEquals(1,query.count());
+  assertEquals("fozzie",query.singleResult().getId());
+}

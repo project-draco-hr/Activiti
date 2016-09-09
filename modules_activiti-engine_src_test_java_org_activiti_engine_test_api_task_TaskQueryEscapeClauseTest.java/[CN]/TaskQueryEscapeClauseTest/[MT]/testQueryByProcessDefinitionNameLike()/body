@@ -1,0 +1,12 @@
+{
+  if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.ACTIVITY)) {
+    List<Task> list=taskService.createTaskQuery().processDefinitionNameLike("%\\%%").orderByTaskCreateTime().asc().list();
+    assertEquals(2,list.size());
+    assertEquals(task1.getId(),list.get(0).getId());
+    assertEquals(task2.getId(),list.get(1).getId());
+    list=taskService.createTaskQuery().or().processDefinitionNameLike("%\\%%").processDefinitionId("undefined").orderByTaskCreateTime().asc().list();
+    assertEquals(2,list.size());
+    assertEquals(task1.getId(),list.get(0).getId());
+    assertEquals(task2.getId(),list.get(1).getId());
+  }
+}

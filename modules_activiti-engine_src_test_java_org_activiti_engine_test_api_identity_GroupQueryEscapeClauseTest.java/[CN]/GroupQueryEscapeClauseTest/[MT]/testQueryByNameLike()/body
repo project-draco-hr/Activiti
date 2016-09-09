@@ -1,0 +1,10 @@
+{
+  GroupQuery query=identityService.createGroupQuery().groupNameLike("%\\%%");
+  assertEquals(1,query.list().size());
+  assertEquals(1,query.count());
+  assertEquals("muppets",query.singleResult().getId());
+  query=identityService.createGroupQuery().groupNameLike("%\\_%");
+  assertEquals(1,query.list().size());
+  assertEquals(1,query.count());
+  assertEquals("frogs",query.singleResult().getId());
+}
